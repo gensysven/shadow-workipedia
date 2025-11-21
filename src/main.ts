@@ -2,7 +2,7 @@ import './style.css';
 import type { GraphData } from './types';
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
-import { ZoomPanHandler, HoverHandler, ClickHandler } from './interactions';
+import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
 
 function renderDetailPanel(node: SimNode, data: GraphData): string {
   if (node.type === 'issue') {
@@ -147,6 +147,16 @@ async function main() {
   const tooltip = document.getElementById('tooltip') as HTMLDivElement;
   let hoveredNode: SimNode | null = null;
 
+  // Initialize drag handler (must be before hover to handle mousedown first)
+  const dragHandler = new DragHandler(
+    canvas,
+    graph.getNodes(),
+    render,
+    {
+      onReheatSimulation: () => graph.restart()
+    }
+  );
+
   // Initialize hover handler
   const hoverHandler = new HoverHandler(
     canvas,
@@ -195,8 +205,7 @@ async function main() {
   // Filter state
   const activeCategories = new Set<string>([
     'Economic', 'Social', 'Political', 'Environmental',
-    'Security', 'Technological', 'Cultural', 'Infrastructure',
-    'System'
+    'Security', 'Technological', 'Cultural', 'Infrastructure'
   ]);
 
   // Search state
@@ -255,15 +264,14 @@ async function main() {
     { name: 'Technological', color: '#06b6d4' },
     { name: 'Cultural', color: '#ec4899' },
     { name: 'Infrastructure', color: '#6366f1' },
-    { name: 'System', color: '#64748b' },
   ];
 
   for (const cat of categories) {
     const btn = document.createElement('button');
     btn.className = 'category-filter-btn active';
     btn.textContent = cat.name;
+    btn.style.setProperty('--category-color', cat.color);
     btn.style.borderColor = cat.color;
-    btn.style.color = cat.color;
 
     btn.addEventListener('click', () => {
       if (activeCategories.has(cat.name)) {
@@ -315,8 +323,12 @@ async function main() {
     currentTransform = transform;
     hoverHandler.updateTransform(transform);
     clickHandler.updateTransform(transform);
+    dragHandler.updateTransform(transform);
     render();
   });
+
+  // Connect drag handler to zoom handler (so drag can disable pan)
+  dragHandler.setZoomHandler(zoomHandler);
 
   // Render loop
   function render() {
@@ -332,11 +344,8 @@ async function main() {
 
     // Draw edges
     for (const link of graph.getLinks()) {
-      const sourceCat = link.source.type === 'issue' ? link.source.category : 'System';
-      const targetCat = link.target.type === 'issue' ? link.target.category : 'System';
-
-      const isSourceFiltered = !activeCategories.has(sourceCat || '');
-      const isTargetFiltered = !activeCategories.has(targetCat || '');
+      const isSourceFiltered = !activeCategories.has(link.source.category || '');
+      const isTargetFiltered = !activeCategories.has(link.target.category || '');
 
       if (isSourceFiltered || isTargetFiltered) continue;
 
@@ -356,8 +365,7 @@ async function main() {
 
     // Draw nodes
     for (const node of graph.getNodes()) {
-      const categoryKey = node.type === 'issue' ? node.category : 'System';
-      const isFiltered = !activeCategories.has(categoryKey || '');
+      const isFiltered = !activeCategories.has(node.category || '');
 
       if (isFiltered) continue;
 

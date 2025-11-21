@@ -255,12 +255,13 @@ body {
 }
 
 .category-filter-btn.active {
-  background: currentColor;
+  background: var(--category-color);
   color: #0f172a !important;
 }
 
 .category-filter-btn:not(.active) {
-  opacity: 0.4;
+  opacity: 0.6;
+  color: #e2e8f0 !important;
 }
 
 .category-filter-btn:hover {

@@ -311,36 +311,81 @@ function extractIssueEdges(issues: RawIssue[]): GraphEdge[] {
 }
 
 function extractIssueSystemEdges(
-  issues: RawIssue[]
+  issues: RawIssue[],
+  systems: ConnectivitySystem[]
 ): GraphEdge[] {
   const edges: GraphEdge[] = [];
+  const systemNames = new Set(systems.map(s => s.name.toLowerCase()));
 
-  // Map categories to systems
-  const categoryToSystem: Record<string, string> = {
-    Economic: 'Economy',
-    Social: 'Population',
-    Political: 'Politics',
-    Environmental: 'Climate',
-    Security: 'Military',
-    Technological: 'Technology',
-    Cultural: 'Culture',
-    Infrastructure: 'Infrastructure',
+  // Keyword-based system inference
+  const systemKeywords: Record<string, string[]> = {
+    'economy': ['economic', 'economy', 'financial', 'trade', 'market', 'wealth', 'inequality', 'job', 'employment', 'income', 'debt', 'gdp'],
+    'climate': ['climate', 'environmental', 'carbon', 'emission', 'warming', 'weather', 'ecosystem', 'biodiversity', 'pollution'],
+    'politics': ['political', 'politics', 'democratic', 'governance', 'election', 'policy', 'regulation', 'government', 'institutional'],
+    'healthcare': ['health', 'healthcare', 'medical', 'medicine', 'disease', 'pandemic', 'mental', 'public health'],
+    'technology': ['tech', 'ai', 'artificial intelligence', 'cyber', 'digital', 'internet', 'social media', 'automation', 'deepfake', 'algorithm'],
+    'education': ['education', 'learning', 'school', 'university', 'literacy', 'knowledge'],
+    'military': ['military', 'defense', 'warfare', 'conflict', 'arms', 'security', 'geopolitical', 'war'],
+    'trade': ['trade', 'export', 'import', 'tariff', 'supply chain', 'globalization'],
+    'population': ['population', 'demographic', 'migration', 'aging', 'birth', 'refugee', 'urbanization', 'social'],
+    'culture': ['cultural', 'culture', 'identity', 'religious', 'values', 'tradition', 'polarization'],
+    'infrastructure': ['infrastructure', 'grid', 'energy', 'transportation', 'housing', 'urban', 'rural'],
   };
 
   for (const issue of issues) {
-    const systemName = categoryToSystem[issue.category];
-    if (!systemName) continue;
+    const issueText = `${issue.name} ${issue.description}`.toLowerCase();
+    const affectedSystems = new Set<string>();
 
-    const systemId = `system-${systemName.toLowerCase()}`;
+    // Match keywords to infer affected systems
+    for (const [systemKey, keywords] of Object.entries(systemKeywords)) {
+      // Check if system exists in actual data
+      if (!systemNames.has(systemKey)) continue;
 
-    edges.push({
-      source: issue.id,
-      target: systemId,
-      type: 'issue-system',
-      strength: 0.6,
-      label: `Affects ${systemName}`,
-      bidirectional: false,
-    });
+      for (const keyword of keywords) {
+        if (issueText.includes(keyword)) {
+          affectedSystems.add(systemKey);
+          break; // One match per system is enough
+        }
+      }
+    }
+
+    // Fallback: use category mapping if no semantic matches
+    if (affectedSystems.size === 0) {
+      const categoryMap: Record<IssueCategory, string[]> = {
+        Economic: ['economy', 'trade'],
+        Social: ['population', 'culture'],
+        Political: ['politics'],
+        Environmental: ['climate'],
+        Security: ['military'],
+        Technological: ['technology'],
+        Cultural: ['culture'],
+        Infrastructure: ['infrastructure'],
+      };
+
+      const fallbackSystems = categoryMap[issue.category] || [];
+      fallbackSystems.forEach(s => {
+        if (systemNames.has(s)) affectedSystems.add(s);
+      });
+    }
+
+    // Create edges with varying strength based on relevance
+    for (const systemKey of affectedSystems) {
+      const systemId = `system-${systemKey}`;
+
+      // Higher strength for primary category match
+      const isPrimaryCategory = issue.category.toLowerCase().includes(systemKey) ||
+                                systemKey.includes(issue.category.toLowerCase());
+      const strength = isPrimaryCategory ? 0.7 : 0.4;
+
+      edges.push({
+        source: issue.id,
+        target: systemId,
+        type: 'issue-system',
+        strength,
+        label: `Impacts ${systemKey}`,
+        bidirectional: false,
+      });
+    }
   }
 
   return edges;
@@ -397,27 +442,16 @@ async function main() {
   const issueNodes = rawIssues.map(issueToNode);
   nodes.push(...issueNodes);
 
-  // Extract systems
+  // Extract systems (for metadata only, not as nodes)
   const systems = parseSystemsFromConnectivity();
-  console.log(`🎯 Found ${systems.length} systems`);
+  console.log(`🎯 Found ${systems.length} systems (metadata only, not rendered as nodes)`);
 
-  const systemNodes = systems.map(systemToNode);
-  nodes.push(...systemNodes);
-
-  // Extract edges
-  console.log('🔗 Extracting connections...');
+  // Extract edges (issue-to-issue only)
+  console.log('🔗 Extracting issue connections...');
 
   const issueEdges = extractIssueEdges(rawIssues);
   console.log(`  - ${issueEdges.length} issue-issue edges`);
   edges.push(...issueEdges);
-
-  const issueSystemEdges = extractIssueSystemEdges(rawIssues);
-  console.log(`  - ${issueSystemEdges.length} issue-system edges`);
-  edges.push(...issueSystemEdges);
-
-  const systemEdges = extractSystemEdges();
-  console.log(`  - ${systemEdges.length} system-system edges`);
-  edges.push(...systemEdges);
 
   const data: GraphData = {
     nodes,
