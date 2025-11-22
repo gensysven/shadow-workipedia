@@ -26,8 +26,17 @@ export class ZoomPanHandler {
       .filter((event) => {
         // Disable zoom/pan during node dragging
         if (this.isDraggingNode) return false;
-        // Allow wheel zoom and left-button drag for pan
-        return event.type === 'wheel' || event.button === 0;
+
+        // Allow touch events (touchstart, touchmove, touchend)
+        if (event.type.startsWith('touch')) return true;
+
+        // Allow wheel zoom
+        if (event.type === 'wheel') return true;
+
+        // Allow left-button mouse drag for pan
+        if (event.button === 0) return true;
+
+        return false;
       })
       .on('zoom', (event: D3ZoomEvent<HTMLCanvasElement, unknown>) => {
         this.transform = {
