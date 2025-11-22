@@ -4,7 +4,7 @@
     "curatedIssues": 296,
     "coveragePercentage": "100.4",
     "generatedAt": "2025-11-22T02:36:21.490Z",
-    "totalConnections": 1216,
+    "totalConnections": 1217,
     "averageConnectionsPerIssue": "4.1",
     "lastUpdated": "2025-11-22T05:40:36.257Z"
   },
@@ -7826,34 +7826,40 @@
       "issueName": "South China Sea Militarization",
       "connectedTo": [
         {
-          "targetId": "taiwan-invasion-risk",
-          "targetName": "Taiwan Invasion Risk",
+          "targetId": "taiwan-invasion-crisis",
+          "targetName": "Taiwan Invasion Crisis",
           "relationshipType": "sequential",
           "reasoning": "South China Sea control provides staging area and naval dominance for Taiwan blockade or invasion operations"
         },
         {
-          "targetId": "us-china-decoupling",
-          "targetName": "US-China Decoupling",
+          "targetId": "southeast-asia-authoritarian-entrenchment",
+          "targetName": "Southeast Asia Authoritarian Entrenchment",
           "relationshipType": "reinforcing",
-          "reasoning": "Military tensions over South China Sea drive economic decoupling as both sides prepare for potential conflict"
+          "reasoning": "China uses South China Sea disputes to pressure ASEAN states into alignment, enabling authoritarian consolidation"
         },
         {
-          "targetId": "asean-fracturing",
-          "targetName": "ASEAN Fracturing",
-          "relationshipType": "causal",
-          "reasoning": "China pressures ASEAN members to choose sides on South China Sea claims, splitting the bloc"
+          "targetId": "semiconductor-sovereignty-wars",
+          "targetName": "Semiconductor Sovereignty Wars",
+          "relationshipType": "thematic",
+          "reasoning": "Both involve great power competition over critical chokepoints (sea lanes vs chip supply chains)"
         },
         {
           "targetId": "rare-earth-monopoly-weaponization",
           "targetName": "Rare-Earth Monopoly Weaponization",
           "relationshipType": "thematic",
-          "reasoning": "Both involve China leveraging geographic control of critical resources for geopolitical advantage"
+          "reasoning": "China leverages geographic control of critical resources (rare earths/sea lanes) for geopolitical advantage"
         },
         {
           "targetId": "space-warfare-normalization",
           "targetName": "Space Warfare Normalization",
           "relationshipType": "thematic",
-          "reasoning": "Both represent great power competition for strategic domains (maritime/space) critical to modern warfare"
+          "reasoning": "Both represent great power competition for strategic domains critical to modern warfare"
+        },
+        {
+          "targetId": "hypersonic-weapons-race",
+          "targetName": "Hypersonic Weapons Race",
+          "relationshipType": "reinforcing",
+          "reasoning": "Hypersonic missiles deployed to counter carrier groups in South China Sea, accelerating arms race"
         }
       ]
     },
