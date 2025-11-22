@@ -20,7 +20,7 @@ const CATEGORY_COLORS: Record<IssueCategory, string> = {
 interface RawIssue {
   id: string;
   name: string;
-  category: IssueCategory;
+  categories: IssueCategory[]; // Multi-category support
   urgency: IssueUrgency;
   description: string;
   tags: string[];
@@ -30,7 +30,7 @@ interface RawIssue {
   evolutionPaths?: string[];
 }
 
-function parseIssueCatalog(): RawIssue[] {
+function parseIssueCatalog(multiCategoryData: Map<string, IssueCategory[]>): RawIssue[] {
   const catalogPath = join(PARENT_REPO, 'docs/technical/simulation-systems/ISSUE-CATALOG.md');
 
   if (!existsSync(catalogPath)) {
@@ -43,7 +43,7 @@ function parseIssueCatalog(): RawIssue[] {
 
   // Split by ##### to find issues
   const lines = content.split('\n');
-  let currentCategory: IssueCategory = 'Technological'; // Default fallback
+  let currentCategory: IssueCategory = 'Technological'; // Default fallback (used if no multi-category data)
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -160,10 +160,13 @@ function parseIssueCatalog(): RawIssue[] {
         .filter(word => word.length > 4)
         .slice(0, 3);
 
+      // Use multi-category data if available, otherwise fall back to single category
+      const categories = multiCategoryData.get(id) || [currentCategory];
+
       issues.push({
         id,
         name,
-        category: currentCategory,
+        categories,
         urgency,
         description: description || name,
         tags,
@@ -184,7 +187,7 @@ function getMockIssues(): RawIssue[] {
     {
       id: 'climate-change-crisis',
       name: 'Climate Change Crisis',
-      category: 'Environmental',
+      categories: ['Environmental', 'Political'],
       urgency: 'Critical',
       description: 'Accelerating global warming causing extreme weather and ecosystem collapse.',
       tags: ['climate', 'environment', 'crisis'],
@@ -192,7 +195,7 @@ function getMockIssues(): RawIssue[] {
     {
       id: 'ai-job-displacement',
       name: 'AI Job Displacement Tsunami',
-      category: 'Technological',
+      categories: ['Technological', 'Economic', 'Social'],
       urgency: 'High',
       description: 'Rapid automation eliminating millions of jobs across multiple sectors.',
       tags: ['ai', 'employment', 'automation'],
@@ -200,7 +203,7 @@ function getMockIssues(): RawIssue[] {
     {
       id: 'wealth-inequality',
       name: 'Extreme Wealth Inequality',
-      category: 'Economic',
+      categories: ['Economic', 'Social'],
       urgency: 'Critical',
       description: 'Growing gap between rich and poor destabilizing economies.',
       tags: ['inequality', 'economics', 'social'],
@@ -208,7 +211,7 @@ function getMockIssues(): RawIssue[] {
     {
       id: 'democratic-backsliding',
       name: 'Democratic Backsliding',
-      category: 'Political',
+      categories: ['Political', 'Social'],
       urgency: 'High',
       description: 'Erosion of democratic institutions and norms worldwide.',
       tags: ['democracy', 'politics', 'governance'],
@@ -216,7 +219,7 @@ function getMockIssues(): RawIssue[] {
     {
       id: 'cyber-warfare',
       name: 'Cyber Warfare Escalation',
-      category: 'Security',
+      categories: ['Security', 'Technological'],
       urgency: 'High',
       description: 'State-sponsored cyber attacks threatening critical infrastructure.',
       tags: ['security', 'cyber', 'warfare'],
@@ -233,11 +236,14 @@ function issueToNode(issue: RawIssue, curatedMappings: Map<string, string[]>): G
     Latent: 4,
   };
 
+  // Use first category as primary color (will draw border rings for others)
+  const primaryCategory = issue.categories[0];
+
   return {
     id: issue.id,
     type: 'issue',
     label: issue.name,
-    category: issue.category,
+    categories: issue.categories,
     urgency: issue.urgency,
     description: issue.description,
     publicConcern: Math.floor(Math.random() * 40) + 60, // Mock: 60-100
@@ -248,7 +254,7 @@ function issueToNode(issue: RawIssue, curatedMappings: Map<string, string[]>): G
     peakYears: issue.peakYears,
     crisisExamples: issue.crisisExamples,
     evolutionPaths: issue.evolutionPaths,
-    color: CATEGORY_COLORS[issue.category],
+    color: CATEGORY_COLORS[primaryCategory],
     size: urgencySizes[issue.urgency],
   };
 }
@@ -395,18 +401,44 @@ function loadCuratedMappings(): Map<string, string[]> {
   return mappingMap;
 }
 
+function loadMultiCategoryData(): Map<string, IssueCategory[]> {
+  const multiCategoryPath = join(process.cwd(), 'multi-category-all-issues.json');
+
+  if (!existsSync(multiCategoryPath)) {
+    console.warn('⚠️  Multi-category data not found, returning empty map');
+    return new Map();
+  }
+
+  const content = readFileSync(multiCategoryPath, 'utf-8');
+  const data = JSON.parse(content);
+
+  const categoryMap = new Map<string, IssueCategory[]>();
+
+  if (data.recategorizations && Array.isArray(data.recategorizations)) {
+    for (const recat of data.recategorizations) {
+      categoryMap.set(recat.issueId, recat.categories);
+    }
+  }
+
+  return categoryMap;
+}
+
 async function main() {
   console.log('🔍 Extracting data from Shadow Work...');
 
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
 
+  // Load multi-category data
+  const multiCategoryData = loadMultiCategoryData();
+  console.log(`🏷️  Loaded ${multiCategoryData.size} multi-category assignments`);
+
   // Load curated mappings
   const curatedMappings = loadCuratedMappings();
   console.log(`📋 Loaded ${curatedMappings.size} curated issue-system mappings`);
 
   // Extract issues
-  const rawIssues = parseIssueCatalog();
+  const rawIssues = parseIssueCatalog(multiCategoryData);
   console.log(`📋 Found ${rawIssues.length} issues in catalog`);
 
   const issueNodes = rawIssues.map(issue => issueToNode(issue, curatedMappings));

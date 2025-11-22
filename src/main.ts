@@ -1,15 +1,31 @@
 import './style.css';
-import type { GraphData } from './types';
+import type { GraphData, IssueCategory } from './types';
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
+
+// Category color mapping (must match extract-data.ts)
+const CATEGORY_COLORS: Record<IssueCategory, string> = {
+  Economic: '#3b82f6',
+  Social: '#8b5cf6',
+  Political: '#ef4444',
+  Environmental: '#10b981',
+  Security: '#f59e0b',
+  Technological: '#06b6d4',
+  Cultural: '#ec4899',
+  Infrastructure: '#6366f1',
+};
+
+function getCategoryColor(category: IssueCategory): string {
+  return CATEGORY_COLORS[category];
+}
 
 function renderDetailPanel(node: SimNode, data: GraphData): string {
   if (node.type === 'issue') {
     return `
       <h2>${node.label}</h2>
       <div class="node-badges">
-        <span class="badge" style="background: ${node.color}">${node.category}</span>
+        ${node.categories?.map(cat => `<span class="badge category-badge" style="background: ${getCategoryColor(cat)}">${cat}</span>`).join('') || ''}
         <span class="badge urgency-${node.urgency?.toLowerCase()}">${node.urgency}</span>
       </div>
       <p class="description">${node.description || 'No description available.'}</p>
@@ -184,7 +200,7 @@ async function main() {
           <div class="node-name">${node.label}</div>
           <div class="node-meta">
             ${node.type === 'issue'
-              ? `${node.category} • ${node.urgency}`
+              ? `${node.categories?.join(', ') || 'No category'} • ${node.urgency}`
               : `System • ${node.connectionCount} connections`
             }
           </div>
@@ -387,7 +403,7 @@ async function main() {
     for (const node of graph.getNodes()) {
       const matchesName = node.label.toLowerCase().includes(searchTerm);
       const matchesDesc = node.description?.toLowerCase().includes(searchTerm);
-      const matchesCat = node.category?.toLowerCase().includes(searchTerm);
+      const matchesCat = node.categories?.some(cat => cat.toLowerCase().includes(searchTerm));
 
       if (matchesName || matchesDesc || matchesCat) {
         searchResults.add(node.id);
@@ -428,10 +444,11 @@ async function main() {
 
     // Draw edges
     for (const link of graph.getLinks()) {
-      const isSourceFiltered = !activeCategories.has(link.source.category || '');
-      const isTargetFiltered = !activeCategories.has(link.target.category || '');
+      // Show edge if ANY category of source/target matches active filters (OR logic)
+      const sourceHasActiveCategory = link.source.categories?.some(cat => activeCategories.has(cat)) ?? false;
+      const targetHasActiveCategory = link.target.categories?.some(cat => activeCategories.has(cat)) ?? false;
 
-      if (isSourceFiltered || isTargetFiltered) continue;
+      if (!sourceHasActiveCategory || !targetHasActiveCategory) continue;
 
       const isConnected = selectedNode &&
         (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
@@ -449,9 +466,10 @@ async function main() {
 
     // Draw nodes
     for (const node of graph.getNodes()) {
-      const isFiltered = !activeCategories.has(node.category || '');
+      // Show node if ANY of its categories match active filters (OR logic)
+      const hasActiveCategory = node.categories?.some(cat => activeCategories.has(cat)) ?? false;
 
-      if (isFiltered) continue;
+      if (!hasActiveCategory) continue;
 
       const isHovered = hoveredNode && node.id === hoveredNode.id;
       const isSelected = selectedNode && node.id === selectedNode.id;
@@ -476,14 +494,36 @@ async function main() {
 
       const size = (isHovered || isSelected) ? node.size * 1.2 : node.size;
 
+      // Draw main circle (primary category color)
       ctx.beginPath();
       ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
       ctx.fill();
 
-      // Highlight ring for search matches
+      // Draw border rings for additional categories (if multi-category)
+      if (node.categories && node.categories.length > 1) {
+        const ringWidth = 2 / currentTransform.k;
+        let currentRadius = size;
+
+        // Skip first category (already used for main fill), draw rings for rest
+        for (let i = 1; i < node.categories.length; i++) {
+          const cat = node.categories[i];
+          ctx.strokeStyle = getCategoryColor(cat);
+          ctx.lineWidth = ringWidth;
+
+          currentRadius += ringWidth;
+          ctx.beginPath();
+          ctx.arc(node.x!, node.y!, currentRadius, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+      }
+
+      // Highlight ring for search matches (outside all category rings)
       if (isSearchMatch && !isSelected) {
+        const searchRingRadius = size + (node.categories ? (node.categories.length - 1) * (2 / currentTransform.k) : 0) + (3 / currentTransform.k);
         ctx.strokeStyle = '#3b82f6';
         ctx.lineWidth = 2 / currentTransform.k;
+        ctx.beginPath();
+        ctx.arc(node.x!, node.y!, searchRingRadius, 0, 2 * Math.PI);
         ctx.stroke();
       }
 

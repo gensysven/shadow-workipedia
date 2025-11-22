@@ -18,7 +18,7 @@ export interface GraphNode {
   label: string;
 
   // Issue-specific
-  category?: IssueCategory;
+  categories?: IssueCategory[]; // Multi-category support
   urgency?: IssueUrgency;
   description?: string;
   publicConcern?: number;

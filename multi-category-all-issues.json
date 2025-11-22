@@ -1,0 +1,2525 @@
+{
+  "metadata": {
+    "totalIssues": 255,
+    "generatedAt": "2025-11-22T06:34:57.208Z",
+    "batches": 4,
+    "categoryDistribution": {
+      "Political": 164,
+      "Social": 146,
+      "Infrastructure": 25,
+      "Environmental": 59,
+      "Technological": 64,
+      "Security": 98,
+      "Economic": 138,
+      "Cultural": 27
+    }
+  },
+  "recategorizations": [
+    {
+      "issueId": "abortion-access-crisis",
+      "issueName": "Abortion Access Crisis",
+      "categories": [
+        "Political",
+        "Social",
+        "Infrastructure"
+      ],
+      "reasoning": "Political battles over legislation, social/cultural divisions, healthcare infrastructure access gaps"
+    },
+    {
+      "issueId": "aerosol-geoengineering-proxy-war",
+      "issueName": "Aerosol Geoengineering Proxy War",
+      "categories": [
+        "Environmental",
+        "Technological",
+        "Security"
+      ],
+      "reasoning": "Climate intervention technology, environmental consequences, military/diplomatic conflicts over unilateral deployment"
+    },
+    {
+      "issueId": "afghanistan-taliban-takeover",
+      "issueName": "Afghanistan Taliban Takeover",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "Regime change, military conflict, humanitarian crisis and cultural repression"
+    },
+    {
+      "issueId": "african-climate-refugee-crisis",
+      "issueName": "African Climate Refugee Crisis",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Climate-driven displacement, humanitarian emergency, border security conflicts, international policy tensions"
+    },
+    {
+      "issueId": "agi-containment-failure",
+      "issueName": "AGI Containment Failure",
+      "categories": [
+        "Technological",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "AI safety failure, existential risk, economic disruption from uncontrolled AGI"
+    },
+    {
+      "issueId": "ai-alignment-crisis",
+      "issueName": "AI Alignment Crisis",
+      "categories": [
+        "Technological",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "AI safety challenges, existential risk, governance/policy responses to alignment failures"
+    },
+    {
+      "issueId": "ai-clinical-automation-catastrophe",
+      "issueName": "AI Clinical Automation Catastrophe",
+      "categories": [
+        "Technological",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Healthcare automation failures, social harm from medical AI errors, economic disruption in healthcare sector"
+    },
+    {
+      "issueId": "ai-compute-resource-wars",
+      "issueName": "AI Compute Resource Wars",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Environmental",
+        "Security"
+      ],
+      "reasoning": "GPU/chip competition, trade wars, water/energy resource depletion, geopolitical conflicts over AI infrastructure"
+    },
+    {
+      "issueId": "ai-controlled-factory-kill-switch-sabotage",
+      "issueName": "AI-Controlled Factory Kill Switch Sabotage",
+      "categories": [
+        "Technological",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "Industrial automation vulnerabilities, cyber warfare/sabotage risks, economic disruption from supply chain attacks"
+    },
+    {
+      "issueId": "ai-cult-states",
+      "issueName": "AI Cult States",
+      "categories": [
+        "Technological",
+        "Cultural",
+        "Political"
+      ],
+      "reasoning": "AI worship/belief systems, cultural transformation around AI, governance by algorithmic entities"
+    },
+    {
+      "issueId": "ai-deepfake-diplomatic-mutinies",
+      "issueName": "AI Deepfake Diplomatic Mutinies",
+      "categories": [
+        "Technological",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Deepfake technology, military/diplomatic crises from false information, political instability"
+    },
+    {
+      "issueId": "ai-generated-synthetic-biolab-leaks",
+      "issueName": "AI-Generated Synthetic Biolab Leaks",
+      "categories": [
+        "Technological",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "AI-designed bioweapons, biosecurity failures, public health emergencies"
+    },
+    {
+      "issueId": "ai-grief-tech-and-digital-resurrection-ethics",
+      "issueName": "AI Grief Tech and Digital Resurrection Ethics",
+      "categories": [
+        "Technological",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "AI bereavement tools, social impacts on grieving process, cultural ethics around death/memory"
+    },
+    {
+      "issueId": "ai-job-displacement-tsunami",
+      "issueName": "AI Job Displacement Tsunami",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Automation technology, mass unemployment, social upheaval from workforce disruption"
+    },
+    {
+      "issueId": "ai-moderation-sweatshop-revolts",
+      "issueName": "AI Moderation Sweatshop Revolts",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Content moderation platforms, labor exploitation, mental health consequences for workers"
+    },
+    {
+      "issueId": "ai-voice-clone-fraud-meltdowns",
+      "issueName": "AI Voice Clone Fraud Meltdowns",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Voice synthesis technology, financial fraud at scale, cybercrime/identity theft"
+    },
+    {
+      "issueId": "algorithmic-eviction-and-debt-courts",
+      "issueName": "Algorithmic Eviction and Debt Courts",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Automated legal systems, housing/debt crises, social inequality and injustice"
+    },
+    {
+      "issueId": "algorithmic-food-delivery-collapse",
+      "issueName": "Algorithmic Food Delivery Collapse",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Infrastructure"
+      ],
+      "reasoning": "Platform algorithms, gig economy failures, food access infrastructure breakdown"
+    },
+    {
+      "issueId": "algorithmic-governance-proliferation",
+      "issueName": "Algorithmic Governance Proliferation",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "AI-driven policy decisions, democratic accountability erosion, social control through algorithms"
+    },
+    {
+      "issueId": "amazon-rainforest-dieback",
+      "issueName": "Amazon Rainforest Dieback",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Ecosystem collapse, economic impacts from deforestation/carbon release, political conflicts over preservation"
+    },
+    {
+      "issueId": "antarctic-cyanide-mining-rush",
+      "issueName": "Antarctic Cyanide Mining Rush",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Polar resource extraction, environmental destruction, territorial sovereignty disputes"
+    },
+    {
+      "issueId": "antibiotic-resistance-crisis",
+      "issueName": "Antibiotic Resistance Crisis",
+      "categories": [
+        "Social",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Public health emergency, healthcare costs/pharmaceutical economics, potential for pandemic-level mortality"
+    },
+    {
+      "issueId": "antifungal-superbug-era",
+      "issueName": "Antifungal Superbug Era",
+      "categories": [
+        "Social",
+        "Environmental",
+        "Security"
+      ],
+      "reasoning": "Health crisis from drug-resistant fungi, climate change enabling spread, biosecurity threat"
+    },
+    {
+      "issueId": "arab-spring-aftermath-and-counter-revolution",
+      "issueName": "Arab Spring Aftermath and Counter-Revolution",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "Regime changes and repression, civil wars and violence, humanitarian crises"
+    },
+    {
+      "issueId": "arctic-blue-ocean-event-and-jet-stream-breakdown",
+      "issueName": "Arctic Blue Ocean Event and Jet Stream Breakdown",
+      "categories": [
+        "Environmental",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "Climate tipping point, weather pattern disruptions affecting food security, geopolitical impacts"
+    },
+    {
+      "issueId": "arctic-sovereignty-conflicts",
+      "issueName": "Arctic Sovereignty Conflicts",
+      "categories": [
+        "Political",
+        "Security",
+        "Environmental"
+      ],
+      "reasoning": "Territorial disputes, military buildups, resource extraction in fragile ecosystems"
+    },
+    {
+      "issueId": "argentina-hyperinflation-cycles",
+      "issueName": "Argentina Hyperinflation Cycles",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Currency collapse, political instability from economic failure, social hardship and inequality"
+    },
+    {
+      "issueId": "asteroid-mining-rights-wars",
+      "issueName": "Asteroid Mining Rights Wars",
+      "categories": [
+        "Technological",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Space technology, international law/sovereignty disputes, commercial resource extraction"
+    },
+    {
+      "issueId": "asylum-system-breakdown",
+      "issueName": "Asylum System Breakdown",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Immigration policy failures, humanitarian crisis, border security pressures"
+    },
+    {
+      "issueId": "atlantic-overturning-collapse-risk-amoc",
+      "issueName": "Atlantic Overturning Collapse Risk (AMOC)",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Climate tipping point, agricultural/fisheries collapse, geopolitical instability from weather shifts"
+    },
+    {
+      "issueId": "automated-companion-replacements",
+      "issueName": "Automated Companion Replacements",
+      "categories": [
+        "Technological",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "AI/robotics technology, relationship dynamics and loneliness, cultural norms around intimacy"
+    },
+    {
+      "issueId": "autonomous-vehicle-liability-wars-and-urban-bans",
+      "issueName": "Autonomous Vehicle Liability Wars and Urban Bans",
+      "categories": [
+        "Technological",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Self-driving technology, regulatory/legal battles, economic disruption to transportation sector"
+    },
+    {
+      "issueId": "autonomous-weapons-proliferation",
+      "issueName": "Autonomous Weapons Proliferation",
+      "categories": [
+        "Technological",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Military AI/robotics, arms race and warfare risks, international governance failures"
+    },
+    {
+      "issueId": "balkans-instability-and-fragmentation-risk",
+      "issueName": "Balkans Instability and Fragmentation Risk",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "Ethnic tensions and nationalism, military conflicts, humanitarian concerns"
+    },
+    {
+      "issueId": "battery-waste-megafires",
+      "issueName": "Battery Waste Megafires",
+      "categories": [
+        "Environmental",
+        "Infrastructure",
+        "Economic"
+      ],
+      "reasoning": "Toxic waste disasters, recycling/storage infrastructure failures, economic costs of cleanup"
+    },
+    {
+      "issueId": "billionaire-abolition-movement",
+      "issueName": "Billionaire Abolition Movement",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Wealth inequality debates, tax/regulatory policy, social movements against extreme wealth"
+    },
+    {
+      "issueId": "billionaire-media-ownership",
+      "issueName": "Billionaire Media Ownership",
+      "categories": [
+        "Economic",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Media monopolization, political influence/propaganda, cultural narratives shaped by wealth"
+    },
+    {
+      "issueId": "biometric-microchip-migration-control",
+      "issueName": "Biometric Microchip Migration Control",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Surveillance technology, immigration enforcement, human rights and civil liberties erosion"
+    },
+    {
+      "issueId": "bioweapon-proliferation",
+      "issueName": "Bioweapon Proliferation",
+      "categories": [
+        "Security",
+        "Technological",
+        "Political"
+      ],
+      "reasoning": "Military/terrorist threats, biotechnology advances, international arms control failures"
+    },
+    {
+      "issueId": "border-wall-politics",
+      "issueName": "Border Wall Politics",
+      "categories": [
+        "Political",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Immigration policy, fiscal costs and economic impacts, cultural/racial divisions"
+    },
+    {
+      "issueId": "boreal-permafrost-carbon-pulse",
+      "issueName": "Boreal Permafrost Carbon Pulse",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Climate tipping point, economic impacts from accelerated warming, potential for climate conflicts"
+    },
+    {
+      "issueId": "brazil-bolsonaro-and-amazon-destruction",
+      "issueName": "Brazil Bolsonaro and Amazon Destruction",
+      "categories": [
+        "Political",
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Political leadership driving deforestation, ecological collapse, economic development vs preservation"
+    },
+    {
+      "issueId": "brexit-and-eu-disintegration",
+      "issueName": "Brexit and EU Disintegration",
+      "categories": [
+        "Political",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Political fragmentation, trade/economic disruption, social divisions and identity politics"
+    },
+    {
+      "issueId": "canada-indigenous-reconciliation-crisis",
+      "issueName": "Canada Indigenous Reconciliation Crisis",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Land rights and sovereignty, historical injustice and social inequality, cultural preservation struggles"
+    },
+    {
+      "issueId": "canadian-housing-affordability-collapse",
+      "issueName": "Canadian Housing Affordability Collapse",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Real estate bubble, inequality and homelessness, political pressure for policy intervention"
+    },
+    {
+      "issueId": "canadian-political-polarization",
+      "issueName": "Canadian Political Polarization",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Democratic dysfunction, social divisions, cultural identity battles"
+    },
+    {
+      "issueId": "cancel-culture-tribunal",
+      "issueName": "Cancel Culture Tribunal",
+      "categories": [
+        "Cultural",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Cultural norms enforcement, social punishment mechanisms, political weaponization of social pressure"
+    },
+    {
+      "issueId": "caribbean-climate-and-colonial-vulnerability",
+      "issueName": "Caribbean Climate and Colonial Vulnerability",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Climate disasters, post-colonial inequality and dependency, political instability from crises"
+    },
+    {
+      "issueId": "carrington-class-solar-storm",
+      "issueName": "Carrington-Class Solar Storm",
+      "categories": [
+        "Infrastructure",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Electrical grid collapse, economic catastrophe from infrastructure loss, national security breakdown"
+    },
+    {
+      "issueId": "caucasus-wars-and-frozen-conflicts",
+      "issueName": "Caucasus Wars and Frozen Conflicts",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "Territorial disputes, military conflicts, ethnic/humanitarian crises"
+    },
+    {
+      "issueId": "central-america-migration-caravans",
+      "issueName": "Central America Migration Caravans",
+      "categories": [
+        "Social",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Humanitarian migration, political responses/border enforcement, security concerns at borders"
+    },
+    {
+      "issueId": "central-asia-autocracies-and-resource-conflicts",
+      "issueName": "Central Asia Autocracies and Resource Conflicts",
+      "categories": [
+        "Political",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Authoritarian regimes, resource extraction/water conflicts, geopolitical tensions"
+    },
+    {
+      "issueId": "chile-social-explosion-and-constitution",
+      "issueName": "Chile Social Explosion and Constitution",
+      "categories": [
+        "Political",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Constitutional crisis, protests over inequality, economic grievances fueling unrest"
+    },
+    {
+      "issueId": "china-demographic-collapse",
+      "issueName": "China Demographic Collapse",
+      "categories": [
+        "Social",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Population aging crisis, economic growth impacts, political stability risks from demographics"
+    },
+    {
+      "issueId": "city-scale-climate-lockdowns",
+      "issueName": "City-Scale Climate Lockdowns",
+      "categories": [
+        "Environmental",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Climate emergency responses, authoritarian policy measures, social disruption and inequality"
+    },
+    {
+      "issueId": "civil-asset-forfeiture",
+      "issueName": "Civil Asset Forfeiture",
+      "categories": [
+        "Political",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Legal/policy abuse, economic predation by state, social injustice and inequality"
+    },
+    {
+      "issueId": "climate-insurance-collapse-and-managed-retreat-wars",
+      "issueName": "Climate Insurance Collapse and Managed Retreat Wars",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Climate risk uninsurability, economic losses and market failures, political conflicts over relocation"
+    },
+    {
+      "issueId": "climate-loss-damage-sovereign-debt-spiral",
+      "issueName": "Climate Loss Damage Sovereign Debt Spiral",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Climate disasters, debt crises in vulnerable nations, international finance and sovereignty struggles"
+    },
+    {
+      "issueId": "climate-refugee-floods",
+      "issueName": "Climate Refugee Floods",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Climate displacement, humanitarian emergency, border conflicts, international policy failures"
+    },
+    {
+      "issueId": "climate-risk-insurance-blacklists-and-redlined-zip-codes",
+      "issueName": "Climate Risk Insurance Blacklists and Redlined Zip Codes",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Climate vulnerability, insurance market failures creating inequality, social stratification by climate risk"
+    },
+    {
+      "issueId": "coal-country-collapse",
+      "issueName": "Coal Country Collapse",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Industry decline, unemployment and community devastation, political backlash and energy transition resistance"
+    },
+    {
+      "issueId": "commercial-real-estate-doom-loop-and-downtown-collapse",
+      "issueName": "Commercial Real Estate Doom Loop and Downtown Collapse",
+      "categories": [
+        "Economic",
+        "Infrastructure",
+        "Social"
+      ],
+      "reasoning": "Market crash, urban infrastructure decay, social impacts of urban abandonment"
+    },
+    {
+      "issueId": "commodity-clearinghouse-margin-spiral",
+      "issueName": "Commodity Clearinghouse Margin Spiral",
+      "categories": [
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Financial system instability, economic crisis from commodity market failure, potential for systemic collapse"
+    },
+    {
+      "issueId": "commodity-currency-fragmentation-and-de-dollarization",
+      "issueName": "Commodity Currency Fragmentation and De-Dollarization",
+      "categories": [
+        "Economic",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "International monetary system shift, geopolitical realignment, trade and sanctions warfare"
+    },
+    {
+      "issueId": "comprehensive-refugee-system-collapse",
+      "issueName": "Comprehensive Refugee System Collapse",
+      "categories": [
+        "Social",
+        "Political",
+        "Security",
+        "Environmental"
+      ],
+      "reasoning": "Climate/war refugees (Environmental/Security), asylum systems (Political), humanitarian crisis (Social)"
+    },
+    {
+      "issueId": "congo-endless-war-and-resource-curse",
+      "issueName": "Congo Endless War and Resource Curse",
+      "categories": [
+        "Security",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Armed conflict and militias (Security), resource extraction (Economic), mass violence against civilians (Social)"
+    },
+    {
+      "issueId": "consciousness-merger-phenomenon",
+      "issueName": "Consciousness Merger Phenomenon",
+      "categories": [
+        "Technological",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Hive mind technology (Technological), individual identity crisis (Social/Cultural)"
+    },
+    {
+      "issueId": "consciousness-property-battles",
+      "issueName": "Consciousness Property Battles",
+      "categories": [
+        "Technological",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Digital consciousness ownership (Technological), legal property rights (Political), markets for consciousness (Economic)"
+    },
+    {
+      "issueId": "coral-reef-death-and-ocean-ecosystem-collapse",
+      "issueName": "Coral Reef Death and Ocean Ecosystem Collapse",
+      "categories": [
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Marine ecosystem collapse (Environmental), fisheries and coastal economies (Economic)"
+    },
+    {
+      "issueId": "corporate-personhood-battles",
+      "issueName": "Corporate Personhood Battles",
+      "categories": [
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Legal status of corporations (Political), corporate power and regulation (Economic)"
+    },
+    {
+      "issueId": "corruption-normalization",
+      "issueName": "Corruption Normalization",
+      "categories": [
+        "Political",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Government corruption (Political), erosion of norms (Social), bribery and economic distortion (Economic)"
+    },
+    {
+      "issueId": "court-packing-crisis",
+      "issueName": "Court Packing Crisis",
+      "categories": [
+        "Political"
+      ],
+      "reasoning": "Judicial independence and democratic institutions (Political)"
+    },
+    {
+      "issueId": "crimea-annexation-and-black-sea-control",
+      "issueName": "Crimea Annexation and Black Sea Control",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Military annexation (Security), sovereignty disputes (Political)"
+    },
+    {
+      "issueId": "crisis-pregnancy-center-deception",
+      "issueName": "Crisis Pregnancy Center Deception",
+      "categories": [
+        "Social",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Reproductive healthcare access (Social), policy battles (Political), religious activism (Cultural)"
+    },
+    {
+      "issueId": "crispr-regulation-wars",
+      "issueName": "CRISPR Regulation Wars",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Gene editing technology (Technological), regulatory frameworks (Political), ethical concerns (Social)"
+    },
+    {
+      "issueId": "critical-generic-drug-and-antibiotic-rationing-regimes",
+      "issueName": "Critical Generic Drug and Antibiotic Rationing Regimes",
+      "categories": [
+        "Social",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Public health crisis (Social), pharmaceutical supply chains (Economic), rationing policy (Political)"
+    },
+    {
+      "issueId": "critical-infrastructure-attacks",
+      "issueName": "Critical Infrastructure Attacks",
+      "categories": [
+        "Security",
+        "Technological",
+        "Infrastructure"
+      ],
+      "reasoning": "Cyberattacks (Security/Technological), grid/water/transport systems (Infrastructure)"
+    },
+    {
+      "issueId": "cybernetic-rejection-syndrome",
+      "issueName": "Cybernetic Rejection Syndrome",
+      "categories": [
+        "Technological",
+        "Social"
+      ],
+      "reasoning": "Implant technology failures (Technological), medical/social consequences (Social)"
+    },
+    {
+      "issueId": "dark-money-politics",
+      "issueName": "Dark Money Politics",
+      "categories": [
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Campaign finance and lobbying (Political), wealth influence (Economic)"
+    },
+    {
+      "issueId": "death-penalty-abolition-wars",
+      "issueName": "Death Penalty Abolition Wars",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Criminal justice policy (Political), human rights (Social), moral/religious values (Cultural)"
+    },
+    {
+      "issueId": "deep-sea-mining-rush-and-pacific-sovereignty-fight",
+      "issueName": "Deep-Sea Mining Rush and Pacific Sovereignty Fight",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Ocean ecosystem damage (Environmental), rare earth extraction (Economic), territorial disputes (Security/Political)"
+    },
+    {
+      "issueId": "deepfake-reality-crisis",
+      "issueName": "Deepfake Reality Crisis",
+      "categories": [
+        "Technological",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "AI-generated media (Technological), trust collapse (Social), disinformation (Political)"
+    },
+    {
+      "issueId": "democratic-backsliding",
+      "issueName": "Democratic Backsliding",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Erosion of democratic institutions (Political), authoritarian trends (Social)"
+    },
+    {
+      "issueId": "democratic-backsliding-in-hungarypoland",
+      "issueName": "Democratic Backsliding in Hungary/Poland",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "EU member states authoritarianism (Political), civil society suppression (Social)"
+    },
+    {
+      "issueId": "digital-brain-property-rights",
+      "issueName": "Digital Brain Property Rights",
+      "categories": [
+        "Technological",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Brain uploads/scans (Technological), ownership law (Political), consciousness markets (Economic)"
+    },
+    {
+      "issueId": "disinformation-plague",
+      "issueName": "Disinformation Plague",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Digital platforms (Technological), information warfare (Political), trust collapse (Social)"
+    },
+    {
+      "issueId": "distant-water-fleet-wars-and-fishery-collapse",
+      "issueName": "Distant-Water Fleet Wars and Fishery Collapse",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Overfishing collapse (Environmental), fishing industry (Economic), maritime conflicts (Security)"
+    },
+    {
+      "issueId": "dont-say-gay-school-censorship",
+      "issueName": "Don't Say Gay / School Censorship",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Education policy (Political), LGBTQ+ rights (Social), cultural battles (Cultural)"
+    },
+    {
+      "issueId": "drone-warfare-normalization",
+      "issueName": "Drone Warfare Normalization",
+      "categories": [
+        "Security",
+        "Technological",
+        "Political"
+      ],
+      "reasoning": "Military drones (Security/Technological), targeted killing policy (Political)"
+    },
+    {
+      "issueId": "drug-resistant-mosquitoparasite-arms-race",
+      "issueName": "Drug-Resistant Mosquito/Parasite Arms Race",
+      "categories": [
+        "Environmental",
+        "Social"
+      ],
+      "reasoning": "Vector evolution (Environmental), disease burden (Social)"
+    },
+    {
+      "issueId": "economic-immigration-conflicts",
+      "issueName": "Economic Immigration Conflicts",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Labor markets (Economic), migration flows (Social), immigration policy (Political)"
+    },
+    {
+      "issueId": "election-denialism",
+      "issueName": "Election Denialism",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Electoral legitimacy (Political), democratic trust collapse (Social)"
+    },
+    {
+      "issueId": "electoral-college-crisis",
+      "issueName": "Electoral College Crisis",
+      "categories": [
+        "Political"
+      ],
+      "reasoning": "US electoral system disputes (Political)"
+    },
+    {
+      "issueId": "endless-war-authorization",
+      "issueName": "Endless War Authorization",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Perpetual military operations (Security), constitutional war powers (Political)"
+    },
+    {
+      "issueId": "ethiopia-tigray-genocide",
+      "issueName": "Ethiopia Tigray Genocide",
+      "categories": [
+        "Security",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Mass atrocities (Security/Social), ethnic conflict (Political)"
+    },
+    {
+      "issueId": "european-energy-shock-and-heating-crisis",
+      "issueName": "European Energy Shock and Heating Crisis",
+      "categories": [
+        "Economic",
+        "Environmental",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Energy prices (Economic), gas dependence (Environmental), winter deaths (Social), Russia leverage (Security)"
+    },
+    {
+      "issueId": "european-migration-crisis",
+      "issueName": "European Migration Crisis",
+      "categories": [
+        "Social",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Refugee flows (Social), EU asylum policy (Political), border security (Security)"
+    },
+    {
+      "issueId": "eurozone-debt-crises",
+      "issueName": "Eurozone Debt Crises",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Sovereign debt and banking (Economic), EU institutional tensions (Political)"
+    },
+    {
+      "issueId": "farmer-protests-and-agricultural-crisis",
+      "issueName": "Farmer Protests and Agricultural Crisis",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Agricultural economics (Economic), rural movements (Social), subsidy policies (Political)"
+    },
+    {
+      "issueId": "felon-disenfranchisement",
+      "issueName": "Felon Disenfranchisement",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Voting rights (Political), criminal justice inequality (Social)"
+    },
+    {
+      "issueId": "fertility-tracking-surveillance-markets",
+      "issueName": "Fertility Tracking Surveillance Markets",
+      "categories": [
+        "Technological",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Reproductive apps (Technological), privacy invasion (Social), law enforcement access (Political)"
+    },
+    {
+      "issueId": "food-export-weaponization",
+      "issueName": "Food Export Weaponization",
+      "categories": [
+        "Economic",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Agricultural trade (Economic), food security threats (Security), geopolitical leverage (Political)"
+    },
+    {
+      "issueId": "forced-birth-enforcement",
+      "issueName": "Forced Birth Enforcement",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Abortion bans (Political), reproductive rights (Social), religious values (Cultural)"
+    },
+    {
+      "issueId": "forever-chemical-contamination-crisis",
+      "issueName": "Forever Chemical Contamination Crisis",
+      "categories": [
+        "Environmental",
+        "Social"
+      ],
+      "reasoning": "PFAS pollution (Environmental), public health (Social)"
+    },
+    {
+      "issueId": "fungal-crop-switch-coffeecocoa-extinction",
+      "issueName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
+      "categories": [
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Crop disease (Environmental), agricultural industry collapse (Economic)"
+    },
+    {
+      "issueId": "gain-of-function-research-battles",
+      "issueName": "Gain-of-Function Research Battles",
+      "categories": [
+        "Technological",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Virology research (Technological), bioweapon risks (Security), regulation debates (Political)"
+    },
+    {
+      "issueId": "gender-medicine-youth-controversy",
+      "issueName": "Gender Medicine Youth Controversy",
+      "categories": [
+        "Social",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Transgender healthcare (Social), policy battles (Political), identity conflicts (Cultural)"
+    },
+    {
+      "issueId": "general-strike-movements",
+      "issueName": "General Strike Movements",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Labor organizing (Economic), worker power (Social), political demands (Political)"
+    },
+    {
+      "issueId": "genetic-caste-formation",
+      "issueName": "Genetic Caste Formation",
+      "categories": [
+        "Technological",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Gene editing (Technological), hereditary inequality (Social), enhancement markets (Economic)"
+    },
+    {
+      "issueId": "gentrification-displacement",
+      "issueName": "Gentrification Displacement",
+      "categories": [
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Housing markets (Economic), community destruction (Social)"
+    },
+    {
+      "issueId": "geoengineering-deployment",
+      "issueName": "Geoengineering Deployment",
+      "categories": [
+        "Environmental",
+        "Technological",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Climate intervention (Environmental/Technological), governance battles (Political), unilateral risks (Security)"
+    },
+    {
+      "issueId": "gerrymandering-extremism",
+      "issueName": "Gerrymandering Extremism",
+      "categories": [
+        "Political"
+      ],
+      "reasoning": "Electoral manipulation and representation (Political)"
+    },
+    {
+      "issueId": "gig-economy-serfdom",
+      "issueName": "Gig Economy Serfdom",
+      "categories": [
+        "Economic",
+        "Social",
+        "Technological"
+      ],
+      "reasoning": "Platform labor (Economic), precarity (Social), app-based work (Technological)"
+    },
+    {
+      "issueId": "global-cold-chain-failure-and-vaccine-spoilage",
+      "issueName": "Global Cold-Chain Failure and Vaccine Spoilage",
+      "categories": [
+        "Infrastructure",
+        "Social",
+        "Technological"
+      ],
+      "reasoning": "Refrigeration systems (Infrastructure), public health collapse (Social), logistics tech (Technological)"
+    },
+    {
+      "issueId": "global-container-chokepoint-labor-revolts",
+      "issueName": "Global Container Chokepoint Labor Revolts",
+      "categories": [
+        "Economic",
+        "Social",
+        "Infrastructure"
+      ],
+      "reasoning": "Trade disruption (Economic), port worker strikes (Social), shipping infrastructure (Infrastructure)"
+    },
+    {
+      "issueId": "global-fertilizer-shock-and-food-riots",
+      "issueName": "Global Fertilizer Shock and Food Riots",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Agricultural inputs (Environmental/Economic), hunger crises (Social), violent unrest (Security)"
+    },
+    {
+      "issueId": "global-healthcare-workforce-exodus",
+      "issueName": "Global Healthcare Workforce Exodus",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Healthcare worker shortages (Social), labor markets (Economic)"
+    },
+    {
+      "issueId": "global-open-source-weapon-swarms",
+      "issueName": "Global Open-Source Weapon Swarms",
+      "categories": [
+        "Technological",
+        "Security"
+      ],
+      "reasoning": "Drone technology proliferation (Technological), asymmetric warfare (Security)"
+    },
+    {
+      "issueId": "global-pollinator-extinction-pulse",
+      "issueName": "Global Pollinator Extinction Pulse",
+      "categories": [
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Bee/insect collapse (Environmental), crop pollination crisis (Economic)"
+    },
+    {
+      "issueId": "global-sand-wars-and-concrete-scarcity",
+      "issueName": "Global Sand Wars and Concrete Scarcity",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Infrastructure"
+      ],
+      "reasoning": "Sand mining depletion (Environmental), construction materials (Economic), building capacity (Infrastructure)"
+    },
+    {
+      "issueId": "global-shipping-corridor-disruptions",
+      "issueName": "Global Shipping Corridor Disruptions",
+      "categories": [
+        "Economic",
+        "Security",
+        "Infrastructure"
+      ],
+      "reasoning": "Trade routes (Economic), piracy/conflict (Security), maritime infrastructure (Infrastructure)"
+    },
+    {
+      "issueId": "global-trade-finance-gridlock",
+      "issueName": "Global Trade Finance Gridlock",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Trade credit collapse (Economic), sanctions/deglobalization (Political)"
+    },
+    {
+      "issueId": "gnss-spoofing-and-positioning-trust-collapse",
+      "issueName": "GNSS Spoofing and Positioning Trust Collapse",
+      "categories": [
+        "Technological",
+        "Security",
+        "Infrastructure"
+      ],
+      "reasoning": "GPS/navigation systems (Technological), cyberattacks (Security), critical infrastructure (Infrastructure)"
+    },
+    {
+      "issueId": "green-burial-vs-carbon-cemetery-wars",
+      "issueName": "Green Burial vs Carbon Cemetery Wars",
+      "categories": [
+        "Environmental",
+        "Cultural",
+        "Economic"
+      ],
+      "reasoning": "Sustainable death practices (Environmental), burial traditions (Cultural), funeral industry (Economic)"
+    },
+    {
+      "issueId": "grid-level-copper-theft-and-critical-mineral-looting",
+      "issueName": "Grid-Level Copper Theft and Critical Mineral Looting",
+      "categories": [
+        "Economic",
+        "Infrastructure",
+        "Security"
+      ],
+      "reasoning": "Resource theft (Economic), power grid damage (Infrastructure), organized crime (Security)"
+    },
+    {
+      "issueId": "gun-rights-absolutism",
+      "issueName": "Gun Rights Absolutism",
+      "categories": [
+        "Political",
+        "Security",
+        "Cultural"
+      ],
+      "reasoning": "Gun policy (Political), violence epidemic (Security), Second Amendment culture (Cultural)"
+    },
+    {
+      "issueId": "haiti-perpetual-catastrophe",
+      "issueName": "Haiti Perpetual Catastrophe",
+      "categories": [
+        "Political",
+        "Social",
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "State collapse (Political), humanitarian crisis (Social), extreme poverty (Economic), gang violence (Security)"
+    },
+    {
+      "issueId": "helium-scarcity-and-cryogenic-shutdown-cascades",
+      "issueName": "Helium Scarcity and Cryogenic Shutdown Cascades",
+      "categories": [
+        "Infrastructure",
+        "Economic",
+        "Technological"
+      ],
+      "reasoning": "Critical industrial gas (Infrastructure/Economic), medical/scientific equipment (Technological)"
+    },
+    {
+      "issueId": "stablecoin-eurodollar-liquidity-shock",
+      "issueName": "Stablecoin and Eurodollar Liquidity Shock",
+      "categories": [
+        "Economic",
+        "Technological"
+      ],
+      "reasoning": "Financial crisis driven by offshore dollar markets + crypto stablecoin failures. Economic (liquidity crisis, defaults, remittances) + Technological (crypto platforms, digital finance)"
+    },
+    {
+      "issueId": "algorithmic-food-delivery-collapse",
+      "issueName": "Algorithmic Food Delivery Collapse",
+      "categories": [
+        "Economic",
+        "Technological",
+        "Social"
+      ],
+      "reasoning": "Platform monopolies exploit gig workers while algorithmic rationing starves low-rated neighborhoods. Economic (labor exploitation) + Technological (app algorithms) + Social (food access inequality)"
+    },
+    {
+      "issueId": "distant-water-fleet-wars-fishery-collapse",
+      "issueName": "Distant-Water Fleet Wars and Fishery Collapse",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Overfishing/ecosystem collapse triggers economic loss, territorial disputes, and naval conflicts. Environmental (biomass <30%) + Economic (fishing livelihoods) + Political (sovereignty) + Security (EEZ conflicts)"
+    },
+    {
+      "issueId": "global-sand-wars-concrete-scarcity",
+      "issueName": "Global Sand Wars and Concrete Scarcity",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Infrastructure"
+      ],
+      "reasoning": "Resource depletion for construction drives ecosystem damage, organized crime, and infrastructure crises. Environmental (river destruction) + Economic (mafia control) + Infrastructure (building material scarcity)"
+    },
+    {
+      "issueId": "urban-groundwater-subsidence-emergencies",
+      "issueName": "Urban Groundwater Subsidence Emergencies",
+      "categories": [
+        "Environmental",
+        "Infrastructure",
+        "Economic"
+      ],
+      "reasoning": "Over-extraction causes cities to sink, damaging infrastructure and economies. Environmental (aquifer depletion) + Infrastructure (buildings/subways collapse) + Economic (property devaluation, relocation costs)"
+    },
+    {
+      "issueId": "grid-copper-theft-critical-mineral-looting",
+      "issueName": "Grid-Level Copper Theft and Critical Mineral Looting",
+      "categories": [
+        "Economic",
+        "Infrastructure",
+        "Security"
+      ],
+      "reasoning": "Commodity price spikes drive organized crime theft of grid infrastructure causing blackouts. Economic (commodity markets) + Infrastructure (grid failures) + Security (organized crime)"
+    },
+    {
+      "issueId": "helium-scarcity-cryogenic-shutdown-cascades",
+      "issueName": "Helium Scarcity and Cryogenic Shutdown Cascades",
+      "categories": [
+        "Economic",
+        "Technological",
+        "Infrastructure"
+      ],
+      "reasoning": "Resource scarcity affects hospitals (MRI), aerospace (launches), and semiconductors. Economic (supply/demand) + Technological (advanced systems dependent) + Infrastructure (healthcare/research capacity)"
+    },
+    {
+      "issueId": "autonomous-vehicle-liability-wars-urban-bans",
+      "issueName": "Autonomous Vehicle Liability Wars and Urban Bans",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "AV deployment creates legal battles, insurance crises, and city-state conflicts. Technological (autonomy) + Economic (liability/insurance) + Political (regulatory conflicts)"
+    },
+    {
+      "issueId": "undersea-cable-powerline-sabotage",
+      "issueName": "Undersea Cable and Powerline Sabotage",
+      "categories": [
+        "Infrastructure",
+        "Security",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Gray-zone attacks on critical infrastructure disrupt communications, power, and economies. Infrastructure (cables/pipelines) + Security (sabotage) + Political (attribution/diplomacy) + Economic (trade disruption)"
+    },
+    {
+      "issueId": "quantum-sensor-total-recall",
+      "issueName": "Quantum Sensor Total Recall",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Surveillance technology enables authoritarianism and erodes civil liberties. Technological (quantum sensors) + Political (state control) + Social (privacy destruction, discrimination)"
+    },
+    {
+      "issueId": "ai-voice-clone-fraud-meltdowns",
+      "issueName": "AI Voice Clone Fraud Meltdowns",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "AI-powered scams target banking systems and vulnerable elderly populations. Technological (deepfake AI) + Economic (financial fraud) + Social (elder victimization, trust collapse)"
+    },
+    {
+      "issueId": "brexit-eu-disintegration",
+      "issueName": "Brexit and EU Disintegration",
+      "categories": [
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Political fragmentation with massive economic consequences. Political (sovereignty, nationalism) + Economic (trade disruption, recession)"
+    },
+    {
+      "issueId": "european-migration-crisis",
+      "issueName": "European Migration Crisis",
+      "categories": [
+        "Social",
+        "Political",
+        "Environmental"
+      ],
+      "reasoning": "Refugee flows driven by war/climate fuel political backlash and humanitarian crises. Social (integration, xenophobia) + Political (far-right rise, border conflicts) + Environmental (climate refugees)"
+    },
+    {
+      "issueId": "democratic-backsliding-hungary-poland",
+      "issueName": "Democratic Backsliding in Hungary/Poland",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Authoritarian drift erodes democracy and targets minorities. Political (judicial capture, autocracy) + Social (LGBTQ+ persecution, civil liberties)"
+    },
+    {
+      "issueId": "eurozone-debt-crises",
+      "issueName": "Eurozone Debt Crises",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Sovereign debt crises trigger austerity, political instability, and potential euro collapse. Economic (defaults, austerity) + Political (sovereignty vs EU control)"
+    },
+    {
+      "issueId": "southern-europe-demographic-collapse",
+      "issueName": "Southern Europe Demographic Collapse",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Ultra-low fertility creates economic stagnation and social crisis. Social (fertility <1.3, youth emigration) + Economic (pension crisis, brain drain)"
+    },
+    {
+      "issueId": "uyghur-genocide",
+      "issueName": "Uyghur Genocide",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "State-sponsored ethnic/cultural genocide via detention and surveillance. Political (authoritarian repression) + Social (cultural erasure, forced labor) + Security (mass detention)"
+    },
+    {
+      "issueId": "hong-kong-suppression",
+      "issueName": "Hong Kong Suppression",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Democracy crushed, autonomy eliminated, mass arrests. Political (one-party takeover) + Social (civil liberties destroyed, exodus)"
+    },
+    {
+      "issueId": "taiwan-invasion-crisis",
+      "issueName": "Taiwan Invasion Crisis",
+      "categories": [
+        "Security",
+        "Political",
+        "Economic",
+        "Technological"
+      ],
+      "reasoning": "Military conflict risk with global semiconductor supply chain implications. Security (invasion threat) + Political (sovereignty) + Economic (trade disruption) + Technological (chip manufacturing collapse)"
+    },
+    {
+      "issueId": "social-credit-system-expansion",
+      "issueName": "Social Credit System Expansion",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "AI-powered surveillance enables total behavioral control and export of authoritarianism. Technological (AI/surveillance) + Political (state control) + Social (civil liberties obliterated)"
+    },
+    {
+      "issueId": "china-demographic-collapse",
+      "issueName": "China Demographic Collapse",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "One-child policy consequences create elder care crisis and economic stagnation. Social (4-2-1 crisis, gender imbalance) + Economic (pension insolvency, growth model collapse)"
+    },
+    {
+      "issueId": "ukraine-invasion-forever-war",
+      "issueName": "Ukraine Invasion and Forever War",
+      "categories": [
+        "Security",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Major war with regional/global implications. Security (military conflict, nuclear risk) + Political (NATO-Russia confrontation) + Economic (sanctions, energy crisis)"
+    },
+    {
+      "issueId": "crimea-annexation-black-sea-control",
+      "issueName": "Crimea Annexation and Black Sea Control",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Territorial seizure and hybrid warfare precedent. Security (military occupation, naval control) + Political (sovereignty violation, ethnic displacement)"
+    },
+    {
+      "issueId": "oligarch-kleptocracy-system",
+      "issueName": "Oligarch Kleptocracy System",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "State capture and wealth theft through corruption. Economic (extreme inequality, money laundering) + Political (corruption, regime maintenance)"
+    },
+    {
+      "issueId": "political-opposition-assassination",
+      "issueName": "Political Opposition Assassination",
+      "categories": [
+        "Political",
+        "Security"
+      ],
+      "reasoning": "State violence to eliminate democratic opposition. Political (authoritarianism, democracy destruction) + Security (targeted killings, chemical weapons)"
+    },
+    {
+      "issueId": "modi-hindu-nationalism-bjp-dominance",
+      "issueName": "Modi Hindu Nationalism and BJP Dominance",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Religious nationalism drives institutional capture and minority persecution. Political (electoral autocracy, media/judiciary capture) + Social (communal violence) + Cultural (Hindu Rashtra project)"
+    },
+    {
+      "issueId": "kashmir-occupation-insurgency",
+      "issueName": "Kashmir Occupation and Insurgency",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Military occupation, insurgency, and human rights abuses. Security (armed conflict, war risk) + Political (autonomy revoked) + Social (communication blackout, mass suffering)"
+    },
+    {
+      "issueId": "farmer-protests-agricultural-crisis",
+      "issueName": "Farmer Protests and Agricultural Crisis",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Neoliberal agriculture reforms trigger rural revolt. Economic (debt crisis, corporate takeover) + Political (mass protests) + Social (suicide epidemic)"
+    },
+    {
+      "issueId": "muslim-persecution-communal-violence",
+      "issueName": "Muslim Persecution and Communal Violence",
+      "categories": [
+        "Social",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Majority communalism drives minority persecution and pogroms. Social (lynch mobs, exclusion) + Political (state-backed violence) + Cultural (religious conflict)"
+    },
+    {
+      "issueId": "arab-spring-aftermath-counter-revolution",
+      "issueName": "Arab Spring Aftermath and Counter-Revolution",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Democratic uprisings crushed by autocratic restoration. Political (coups, dictatorship return) + Social (youth betrayal, civil society destroyed)"
+    },
+    {
+      "issueId": "syria-civil-war-assad-survival",
+      "issueName": "Syria Civil War and Assad Survival",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Brutal civil war with chemical weapons, foreign intervention, mass displacement. Security (violence, chemical weapons) + Political (dictatorship vs rebels) + Social (500K dead, 6M refugees)"
+    },
+    {
+      "issueId": "yemen-civil-war-famine",
+      "issueName": "Yemen Civil War and Famine",
+      "categories": [
+        "Security",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Proxy war creates worst humanitarian crisis. Security (Saudi bombing, proxy conflict) + Social (famine, cholera) + Political (state collapse)"
+    },
+    {
+      "issueId": "iran-nuclear-program-revolution-cycles",
+      "issueName": "Iran Nuclear Program and Revolution Cycles",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Nuclear proliferation intersects with regime instability. Security (nuclear threat, regional tensions) + Political (sanctions, protests, regime survival)"
+    },
+    {
+      "issueId": "saudi-mbs-reforms-repression",
+      "issueName": "Saudi MBS Reforms and Repression",
+      "categories": [
+        "Political",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Authoritarian modernization with brutal repression. Political (dictatorship, dissent crushed) + Social (selective reforms, Yemen war) + Economic (Vision 2030, oil transition)"
+    },
+    {
+      "issueId": "israel-palestine-conflict-gaza-wars",
+      "issueName": "Israel-Palestine Conflict and Gaza Wars",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Decades-long occupation and cyclical violence. Security (repeated wars, armed conflict) + Political (peace process dead, annexation) + Social (humanitarian crisis, displacement)"
+    },
+    {
+      "issueId": "iraq-invasion-aftermath-sectarian-collapse",
+      "issueName": "Iraq Invasion Aftermath and Sectarian Collapse",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "War consequences create sectarian violence and state failure. Security (ISIS, militias, occupation) + Political (Iranian control, weak state) + Social (sectarian civil war, genocide)"
+    },
+    {
+      "issueId": "lebanon-sectarian-collapse",
+      "issueName": "Lebanon Sectarian Collapse",
+      "categories": [
+        "Political",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "State failure from sectarian paralysis and economic meltdown. Political (Hezbollah quasi-state, dysfunction) + Economic (hyperinflation, banking collapse) + Social (brain drain, protests)"
+    },
+    {
+      "issueId": "libya-failed-state-slave-markets",
+      "issueName": "Libya Failed State and Slave Markets",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Post-intervention collapse creates warlordism and human trafficking. Security (militia chaos, civil war) + Political (rival governments, failed state) + Social (migrant slavery, torture camps)"
+    },
+    {
+      "issueId": "north-korea-nuclear-crisis",
+      "issueName": "North Korea Nuclear Crisis",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Nuclear weapons as regime survival strategy. Security (nuclear threat, ICBM capability) + Political (authoritarian survival, regional tensions)"
+    },
+    {
+      "issueId": "japan-demographic-collapse",
+      "issueName": "Japan Demographic Collapse",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Ultra-low fertility creates aging crisis and economic stagnation. Social (fertility <1.3, elder care crisis) + Economic (debt crisis, stagnation)"
+    },
+    {
+      "issueId": "south-korea-demographic-death-spiral",
+      "issueName": "South Korea Demographic Death Spiral",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "World's lowest fertility (0.7) from economic hopelessness. Social (sampo generation, gender conflict) + Economic (housing crisis, work culture)"
+    },
+    {
+      "issueId": "myanmar-coup-rohingya-genocide",
+      "issueName": "Myanmar Coup and Rohingya Genocide",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Military coup and ethnic cleansing. Political (democracy crushed) + Social (genocide, ethnic persecution) + Security (mass atrocities, armed resistance)"
+    },
+    {
+      "issueId": "south-china-sea-militarization",
+      "issueName": "South China Sea Militarization",
+      "categories": [
+        "Security",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Territorial disputes drive military buildup and resource conflicts. Security (naval standoffs, island fortification) + Political (sovereignty claims) + Economic (resource competition)"
+    },
+    {
+      "issueId": "philippines-duterte-drug-war",
+      "issueName": "Philippines Duterte Drug War",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "State-sponsored extrajudicial killings. Political (authoritarianism, impunity) + Security (death squads, police violence) + Social (poor communities targeted)"
+    },
+    {
+      "issueId": "pacific-island-nations-disappearing",
+      "issueName": "Pacific Island Nations Disappearing",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Climate-driven existential crisis for island states. Environmental (sea level rise) + Social (planned exodus, statelessness) + Political (sovereignty loss, reparations demands)"
+    },
+    {
+      "issueId": "southeast-asia-authoritarian-entrenchment",
+      "issueName": "Southeast Asia Authoritarian Entrenchment",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Regional democratic backsliding and dynastic rule. Political (coups, one-party states) + Social (protests crushed, surveillance expansion)"
+    },
+    {
+      "issueId": "japan-korea-historical-resentment-cycles",
+      "issueName": "Japan-Korea Historical Resentment Cycles",
+      "categories": [
+        "Political",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Historical grievances create diplomatic crises and nationalism. Political (alliance tensions, trade wars) + Social (comfort women, forced labor justice) + Cultural (identity conflicts)"
+    },
+    {
+      "issueId": "pakistan-instability-nuclear-risk",
+      "issueName": "Pakistan Instability and Nuclear Risk",
+      "categories": [
+        "Security",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "State fragility with nuclear weapons. Security (loose nukes, terrorism) + Political (military dominance, coups) + Economic (IMF dependency, collapse cycles)"
+    },
+    {
+      "issueId": "afghanistan-taliban-takeover",
+      "issueName": "Afghanistan Taliban Takeover",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Islamist regime return with humanitarian catastrophe. Political (Islamic Emirate) + Social (women's rights erased, starvation) + Security (terrorist haven)"
+    },
+    {
+      "issueId": "nigeria-boko-haram-banditry",
+      "issueName": "Nigeria Boko Haram and Banditry",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Jihadist insurgency and state failure. Security (terrorism, mass kidnappings) + Political (governance collapse) + Social (schools targeted, displacement)"
+    },
+    {
+      "issueId": "south-africa-state-failure",
+      "issueName": "South Africa State Failure",
+      "categories": [
+        "Political",
+        "Economic",
+        "Infrastructure"
+      ],
+      "reasoning": "Corruption-driven collapse of services. Political (state capture, corruption) + Economic (inequality, capital flight) + Infrastructure (load shedding, service breakdown)"
+    },
+    {
+      "issueId": "argentina-hyperinflation-cycles",
+      "issueName": "Argentina Hyperinflation Cycles",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Recurring economic crises and defaults. Economic (inflation >100%, defaults) + Political (policy chaos, IMF conflicts)"
+    },
+    {
+      "issueId": "chile-social-explosion-constitution",
+      "issueName": "Chile Social Explosion and Constitution",
+      "categories": [
+        "Political",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Inequality-driven uprising challenging neoliberal model. Political (constitution battles) + Social (protests, police violence) + Economic (pension crisis, inequality)"
+    },
+    {
+      "issueId": "haiti-perpetual-catastrophe",
+      "issueName": "Haiti Perpetual Catastrophe",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Complete state failure with gang rule. Political (governance vacuum, assassinations) + Social (poverty, disease) + Security (gang control, violence)"
+    },
+    {
+      "issueId": "caribbean-climate-colonial-vulnerability",
+      "issueName": "Caribbean Climate and Colonial Vulnerability",
+      "categories": [
+        "Environmental",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Climate disasters compounded by colonial neglect. Environmental (hurricanes, climate) + Political (colonial status, abandonment) + Social (exodus, economic collapse)"
+    },
+    {
+      "issueId": "canada-indigenous-reconciliation-crisis",
+      "issueName": "Canada Indigenous Reconciliation Crisis",
+      "categories": [
+        "Social",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Ongoing colonial injustice and land rights conflicts. Social (missing/murdered women, residential schools) + Political (sovereignty demands, pipeline conflicts) + Cultural (cultural genocide, land back)"
+    },
+    {
+      "issueId": "canadian-housing-affordability-collapse",
+      "issueName": "Canadian Housing Affordability Collapse",
+      "categories": [
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Financialization and speculation create housing crisis. Economic (money laundering, speculation) + Social (homelessness, generational exclusion)"
+    },
+    {
+      "issueId": "canadian-political-polarization",
+      "issueName": "Canadian Political Polarization",
+      "categories": [
+        "Political",
+        "Social"
+      ],
+      "reasoning": "US-style culture wars imported. Political (convoy protests, Emergencies Act) + Social (cultural divisions, imported polarization)"
+    },
+    {
+      "issueId": "turkey-erdogan-authoritarianism",
+      "issueName": "Turkey Erdogan Authoritarianism",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Democratic erosion and regional conflicts. Political (failed coup, purges, dictatorship) + Social (Kurdish repression, refugees) + Security (military operations, regional instability)"
+    },
+    {
+      "issueId": "balkans-instability-fragmentation-risk",
+      "issueName": "Balkans Instability and Fragmentation Risk",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "Ethnic tensions threaten renewed conflict. Political (nationalism, Russian influence) + Security (partition risks, violence) + Social (ethnic divisions)"
+    },
+    {
+      "issueId": "caucasus-wars-frozen-conflicts",
+      "issueName": "Caucasus Wars and Frozen Conflicts",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Ethnic conflicts and great power competition. Security (Nagorno-Karabakh war, frozen conflicts) + Political (Russian/Turkish influence) + Social (ethnic cleansing, refugees)"
+    },
+    {
+      "issueId": "central-asia-autocracies-resource-conflicts",
+      "issueName": "Central Asia Autocracies and Resource Conflicts",
+      "categories": [
+        "Political",
+        "Economic",
+        "Environmental"
+      ],
+      "reasoning": "Authoritarian rule with resource/environmental crises. Political (dictatorships, succession crises) + Economic (debt traps, Chinese influence) + Environmental (Aral Sea, water wars)"
+    },
+    {
+      "issueId": "international-river-water-wars",
+      "issueName": "International River Water Wars",
+      "categories": [
+        "Environmental",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Transboundary water scarcity drives conflicts. Environmental (water scarcity, dams) + Security (war risk, military tensions) + Political (sovereignty vs downstream rights)"
+    },
+    {
+      "issueId": "insect-apocalypse-pollinator-collapse",
+      "issueName": "Insect Apocalypse and Pollinator Collapse",
+      "categories": [
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Ecosystem collapse threatens agriculture. Environmental (biodiversity loss, pesticides) + Economic (crop failure, food system crisis)"
+    },
+    {
+      "issueId": "ai-clinical-automation-catastrophe",
+      "issueName": "AI Clinical Automation Catastrophe",
+      "categories": [
+        "Technological",
+        "Social"
+      ],
+      "reasoning": "AI automation in healthcare (tech) affects patient safety and care quality (social impacts)"
+    },
+    {
+      "issueId": "ai-controlled-factory-kill-switch-sabotage",
+      "issueName": "AI-Controlled Factory Kill Switch Sabotage",
+      "categories": [
+        "Technological",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "Industrial IoT vulnerabilities (tech) enable cyber attacks (security) disrupting production and supply chains (economic)"
+    },
+    {
+      "issueId": "ai-generated-synthetic-biolab-leaks",
+      "issueName": "AI-Generated Synthetic Biolab Leaks",
+      "categories": [
+        "Technological",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "AI-designed pathogens (tech) pose biosecurity threats (security) with public health consequences (social)"
+    },
+    {
+      "issueId": "ai-grief-tech-and-digital-resurrection-ethics",
+      "issueName": "AI Grief Tech and Digital Resurrection Ethics",
+      "categories": [
+        "Technological",
+        "Cultural",
+        "Social"
+      ],
+      "reasoning": "AI posthumous simulations (tech) challenge death rituals and ethics (cultural) affecting grieving families (social)"
+    },
+    {
+      "issueId": "algorithmic-eviction-and-debt-courts",
+      "issueName": "Algorithmic Eviction and Debt Courts",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "AI-driven legal automation (tech) enables mass evictions (economic/housing) harming vulnerable populations (social)"
+    },
+    {
+      "issueId": "algorithmic-governance-proliferation",
+      "issueName": "Algorithmic Governance Proliferation",
+      "categories": [
+        "Technological",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "AI decision systems (tech) reshape governance and control (political) with civil liberties impacts (social)"
+    },
+    {
+      "issueId": "amazon-rainforest-dieback",
+      "issueName": "Amazon Rainforest Dieback",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Deforestation tipping point (environmental) affects agriculture and carbon goals (economic) amid governance conflicts (political)"
+    },
+    {
+      "issueId": "antarctic-cyanide-mining-rush",
+      "issueName": "Antarctic Cyanide Mining Rush",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Ice-sheet mining (environmental destruction) for minerals (economic) violates treaties (political sovereignty)"
+    },
+    {
+      "issueId": "antifungal-superbug-era",
+      "issueName": "Antifungal Superbug Era",
+      "categories": [
+        "Social",
+        "Environmental"
+      ],
+      "reasoning": "Drug-resistant fungi (public health/social) driven by agricultural overuse (environmental practices)"
+    },
+    {
+      "issueId": "arctic-sovereignty-conflicts",
+      "issueName": "Arctic Sovereignty Conflicts",
+      "categories": [
+        "Political",
+        "Security",
+        "Environmental"
+      ],
+      "reasoning": "Resource claims and military buildup (political/security) enabled by ice-free Arctic (environmental change)"
+    },
+    {
+      "issueId": "asylum-system-breakdown",
+      "issueName": "Asylum System Breakdown",
+      "categories": [
+        "Political",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Immigration policy collapse (political) affects refugees (social/humanitarian) with border militarization (security)"
+    },
+    {
+      "issueId": "automated-companion-replacements",
+      "issueName": "Automated Companion Replacements",
+      "categories": [
+        "Technological",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "AI/robot substitutes (tech) for human relationships (social isolation) challenge intimacy norms (cultural)"
+    },
+    {
+      "issueId": "battery-waste-megafires",
+      "issueName": "Battery Waste Megafires",
+      "categories": [
+        "Environmental",
+        "Technological",
+        "Economic"
+      ],
+      "reasoning": "Lithium-ion disposal hazards (environmental) from green tech adoption (tech/economic transition)"
+    },
+    {
+      "issueId": "brazil-bolsonaro-and-amazon-destruction",
+      "issueName": "Brazil Bolsonaro and Amazon Destruction",
+      "categories": [
+        "Political",
+        "Environmental",
+        "Social"
+      ],
+      "reasoning": "Authoritarian governance (political) enables deforestation (environmental) with indigenous genocide (social violence)"
+    },
+    {
+      "issueId": "central-america-migration-caravans",
+      "issueName": "Central America Migration Caravans",
+      "categories": [
+        "Social",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Displacement by violence/poverty (social) drives border conflicts (political) linked to economic collapse"
+    },
+    {
+      "issueId": "city-scale-climate-lockdowns",
+      "issueName": "City-Scale Climate Lockdowns",
+      "categories": [
+        "Environmental",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Extreme heat/pollution (environmental) triggers movement restrictions (political control) affecting urban life (social)"
+    },
+    {
+      "issueId": "commodity-clearinghouse-margin-spiral",
+      "issueName": "Commodity Clearinghouse Margin Spiral",
+      "categories": [
+        "Economic",
+        "Security"
+      ],
+      "reasoning": "Financial derivatives crises (economic) threaten commodity supply chains (security/strategic resources)"
+    },
+    {
+      "issueId": "commodity-currency-fragmentation-and-de-dollarization",
+      "issueName": "Commodity Currency Fragmentation and De-Dollarization",
+      "categories": [
+        "Economic",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Currency diversification (economic) challenges US hegemony (political) reshaping alliances (security architecture)"
+    },
+    {
+      "issueId": "comprehensive-refugee-system-collapse",
+      "issueName": "Comprehensive Refugee System Collapse",
+      "categories": [
+        "Social",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Mass displacement (social/humanitarian) overwhelms asylum systems (political) amid fortress borders (security militarization)"
+    },
+    {
+      "issueId": "congo-endless-war-and-resource-curse",
+      "issueName": "Congo Endless War and Resource Curse",
+      "categories": [
+        "Security",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Militia conflicts (security) over minerals (economic extraction) causing mass atrocities (social violence)"
+    },
+    {
+      "issueId": "coral-reef-death-and-ocean-ecosystem-collapse",
+      "issueName": "Coral Reef Death and Ocean Ecosystem Collapse",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Social"
+      ],
+      "reasoning": "Ocean warming/acidification (environmental) destroys fisheries (economic livelihoods) affecting coastal communities (social)"
+    },
+    {
+      "issueId": "critical-generic-drug-and-antibiotic-rationing-regimes",
+      "issueName": "Critical Generic Drug and Antibiotic Rationing Regimes",
+      "categories": [
+        "Social",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Medicine shortages (public health/social) from supply chain failures (economic) requiring allocation policies (political)"
+    },
+    {
+      "issueId": "deep-sea-mining-rush-and-pacific-sovereignty-fight",
+      "issueName": "Deep-Sea Mining Rush and Pacific Sovereignty Fight",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Abyssal extraction (environmental damage) for battery minerals (economic) amid sovereignty disputes (political)"
+    },
+    {
+      "issueId": "digital-brain-property-rights",
+      "issueName": "Digital Brain Property Rights",
+      "categories": [
+        "Technological",
+        "Political",
+        "Cultural"
+      ],
+      "reasoning": "Brain-computer data ownership (tech/legal) raises governance questions (political) about identity and autonomy (cultural)"
+    },
+    {
+      "issueId": "drug-resistant-mosquito-parasite-arms-race",
+      "issueName": "Drug-Resistant Mosquito/Parasite Arms Race",
+      "categories": [
+        "Social",
+        "Environmental",
+        "Technological"
+      ],
+      "reasoning": "Disease resurgence (public health/social) from climate-driven vector expansion (environmental) requiring biotech solutions (tech)"
+    },
+    {
+      "issueId": "ethiopia-tigray-genocide",
+      "issueName": "Ethiopia Tigray Genocide",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Armed conflict and atrocities (security/violence) driven by ethnic politics (political) with mass civilian harm (social)"
+    },
+    {
+      "issueId": "european-energy-shock-and-heating-crisis",
+      "issueName": "European Energy Shock and Heating Crisis",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Energy supply disruption (economic crisis) from geopolitics (political dependencies) causing household hardship (social)"
+    },
+    {
+      "issueId": "food-export-weaponization",
+      "issueName": "Food Export Weaponization",
+      "categories": [
+        "Economic",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Grain embargoes (economic coercion) as diplomatic leverage (political) threatening food security (security/strategic)"
+    },
+    {
+      "issueId": "forever-chemical-contamination-crisis",
+      "issueName": "Forever Chemical Contamination Crisis",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "PFAS/microplastics pollution (environmental) causes health crises (social) with cleanup costs (economic liability)"
+    },
+    {
+      "issueId": "fungal-crop-switch",
+      "issueName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Cultural"
+      ],
+      "reasoning": "Plant disease outbreaks (environmental) threaten crops (economic agriculture) with cultural ritual impacts (cultural traditions)"
+    },
+    {
+      "issueId": "global-cold-chain-failure-and-vaccine-spoilage",
+      "issueName": "Global Cold-Chain Failure and Vaccine Spoilage",
+      "categories": [
+        "Infrastructure",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Refrigeration system collapse (infrastructure failure) ruins vaccines (public health/social) with economic losses"
+    },
+    {
+      "issueId": "global-container-chokepoint-labor-revolts",
+      "issueName": "Global Container Chokepoint Labor Revolts",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Port worker strikes (labor/economic) against automation (social displacement) with government intervention (political)"
+    },
+    {
+      "issueId": "global-fertilizer-shock-and-food-riots",
+      "issueName": "Global Fertilizer Shock and Food Riots",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Fertilizer supply crisis (economic/agriculture) causes food shortages (political instability) triggering protests (social unrest)"
+    },
+    {
+      "issueId": "global-healthcare-workforce-exodus",
+      "issueName": "Global Healthcare Workforce Exodus",
+      "categories": [
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Medical brain drain (workforce migration/social) driven by burnout and pay (economic conditions)"
+    },
+    {
+      "issueId": "global-pollinator-extinction-pulse",
+      "issueName": "Global Pollinator Extinction Pulse",
+      "categories": [
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Bee/insect collapse (environmental/biodiversity) threatens crop yields (economic/food security)"
+    },
+    {
+      "issueId": "global-shipping-corridor-disruptions",
+      "issueName": "Global Shipping Corridor Disruptions",
+      "categories": [
+        "Economic",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Chokepoint blockages (economic/trade) from conflicts or climate (security) affecting sovereignty (political)"
+    },
+    {
+      "issueId": "global-trade-finance-gridlock",
+      "issueName": "Global Trade Finance Gridlock",
+      "categories": [
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Credit system failures (economic/financial) freeze international commerce (political/trade relations)"
+    },
+    {
+      "issueId": "gnss-spoofing-and-positioning-trust-collapse",
+      "issueName": "GNSS Spoofing and Positioning Trust Collapse",
+      "categories": [
+        "Technological",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "GPS jamming/spoofing (tech warfare) enables attacks (security) disrupting logistics and finance (economic)"
+    },
+    {
+      "issueId": "green-burial-vs-carbon-cemetery-wars",
+      "issueName": "Green Burial vs Carbon Cemetery Wars",
+      "categories": [
+        "Cultural",
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Death industry conflicts (cultural practices) over environmental impacts (sustainability) and costs (economic)"
+    },
+    {
+      "issueId": "human-smuggling-networks",
+      "issueName": "Human Smuggling Networks",
+      "categories": [
+        "Security",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Organized crime trafficking (security/crime) exploits migrants (social/humanitarian) for profit (economic)"
+    },
+    {
+      "issueId": "just-in-time-supply-chain-collapse",
+      "issueName": "Just-in-Time Supply Chain Collapse",
+      "categories": [
+        "Economic",
+        "Infrastructure"
+      ],
+      "reasoning": "Lean inventory failures (economic/business model) expose infrastructure fragility (critical dependencies)"
+    },
+    {
+      "issueId": "lithium-refinery-air-toxics-rebellion",
+      "issueName": "Lithium Refinery Air-Toxics Rebellion",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Mining pollution (environmental) harms communities (social/health) driven by green tech demand (economic)"
+    },
+    {
+      "issueId": "longevity-wealth-divorce-wars",
+      "issueName": "Longevity Wealth Divorce Wars",
+      "categories": [
+        "Social",
+        "Economic",
+        "Cultural"
+      ],
+      "reasoning": "Extended lifespans (social/demographic) create inheritance conflicts (economic/wealth) challenging family norms (cultural)"
+    },
+    {
+      "issueId": "mass-casualty-backlog-and-body-storage-collapse",
+      "issueName": "Mass-Casualty Backlog and Body Storage Collapse",
+      "categories": [
+        "Infrastructure",
+        "Social",
+        "Cultural"
+      ],
+      "reasoning": "Morgue capacity crisis (infrastructure) during disasters (social/public health) violates death dignity (cultural)"
+    },
+    {
+      "issueId": "medical-debt-vigilantism-and-refusal-networks",
+      "issueName": "Medical Debt Vigilantism and Refusal Networks",
+      "categories": [
+        "Economic",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Healthcare costs (economic burden) spark organized resistance (social movement) challenging payment systems (political)"
+    },
+    {
+      "issueId": "mega-project-cost-overrun-sovereign-defaults",
+      "issueName": "Mega-Project Cost Overrun Sovereign Defaults",
+      "categories": [
+        "Economic",
+        "Political",
+        "Infrastructure"
+      ],
+      "reasoning": "PPP debt crises (economic/financial) trigger government collapse (political) from infrastructure failures"
+    },
+    {
+      "issueId": "mexican-cartel-violence-and-state-failure",
+      "issueName": "Mexican Cartel Violence and State Failure",
+      "categories": [
+        "Security",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Drug war violence (security/crime) erodes governance (political/state failure) with civilian casualties (social)"
+    },
+    {
+      "issueId": "oceanic-dead-zone-refugees",
+      "issueName": "Oceanic Dead-Zone Refugees",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Economic"
+      ],
+      "reasoning": "Ocean hypoxia (environmental) destroys fisheries (economic livelihoods) displacing coastal communities (social)"
+    },
+    {
+      "issueId": "opioid-settlement-fallout-and-fentanyl-wave",
+      "issueName": "Opioid Settlement Fallout and Fentanyl Wave",
+      "categories": [
+        "Social",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Addiction epidemic (public health/social) from pharma liability (economic/legal) requiring policy response (political)"
+    },
+    {
+      "issueId": "orphaned-oil-wells-and-methane-super-leak-crisis",
+      "issueName": "Orphaned Oil Wells and Methane Super-Leak Crisis",
+      "categories": [
+        "Environmental",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Abandoned well emissions (environmental/climate) from industry bankruptcy (economic) requiring cleanup mandates (political)"
+    },
+    {
+      "issueId": "permafrost-methane-release",
+      "issueName": "Permafrost Methane Release",
+      "categories": [
+        "Environmental",
+        "Security"
+      ],
+      "reasoning": "Arctic thaw feedback loop (environmental/climate tipping point) poses civilization-level threat (existential security)"
+    },
+    {
+      "issueId": "pharmaceutical-ingredient-dependency-crisis",
+      "issueName": "Pharmaceutical Ingredient Dependency Crisis",
+      "categories": [
+        "Economic",
+        "Social",
+        "Security"
+      ],
+      "reasoning": "Drug supply concentration (economic/trade) threatens health systems (social) creating strategic vulnerabilities (security)"
+    },
+    {
+      "issueId": "quantum-assisted-insider-trading-cartels",
+      "issueName": "Quantum-Assisted Insider Trading Cartels",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Political"
+      ],
+      "reasoning": "Quantum computing advantages (tech) enable market manipulation (economic/financial crime) requiring regulation (political)"
+    },
+    {
+      "issueId": "quantum-computing-encryption-collapse",
+      "issueName": "Quantum Computing Encryption Collapse",
+      "categories": [
+        "Technological",
+        "Security",
+        "Economic"
+      ],
+      "reasoning": "RSA-breaking capability (tech breakthrough) exposes secrets (security/intelligence) threatening finance (economic systems)"
+    },
+    {
+      "issueId": "african-climate-refugee-crisis",
+      "issueName": "African Climate Refugee Crisis",
+      "categories": [
+        "Environmental",
+        "Social",
+        "Political"
+      ],
+      "reasoning": "Sahara expansion/droughts (environmental) displace millions (social/humanitarian) challenging borders (political/migration)"
+    },
+    {
+      "issueId": "sahel-jihadist-insurgency",
+      "issueName": "Sahel Jihadist Insurgency",
+      "categories": [
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Terrorist control of territory (security/armed conflict) amid state collapse (political/governance failure)"
+    },
+    {
+      "issueId": "seafloor-data-cable-nationalization-wars",
+      "issueName": "Seafloor Data Cable Nationalization Wars",
+      "categories": [
+        "Infrastructure",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Undersea internet infrastructure (critical infrastructure) becomes sovereignty battleground (political) with sabotage risks (security)"
+    },
+    {
+      "issueId": "space-weaponization-and-orbital-conflict",
+      "issueName": "Space Weaponization and Orbital Conflict",
+      "categories": [
+        "Security",
+        "Technological",
+        "Political"
+      ],
+      "reasoning": "Anti-satellite weapons (security/military tech) create debris (tech/Kessler syndrome) amid treaty collapse (political)"
+    },
+    {
+      "issueId": "spyware-for-hire-export-wars",
+      "issueName": "Spyware-for-Hire Export Wars",
+      "categories": [
+        "Technological",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Zero-day exploit markets (tech/cyber) enable authoritarian repression (security/surveillance) challenging export controls (political)"
+    },
+    {
+      "issueId": "suez-canal-blockage-and-chokepoint-accidents",
+      "issueName": "Suez Canal Blockage and Chokepoint Accidents",
+      "categories": [
+        "Infrastructure",
+        "Economic"
+      ],
+      "reasoning": "Critical waterway failures (infrastructure) halt global trade (economic/supply chains)"
+    },
+    {
+      "issueId": "synthetic-food-ecosystem-monopolies",
+      "issueName": "Synthetic Food Ecosystem Monopolies",
+      "categories": [
+        "Technological",
+        "Economic",
+        "Cultural"
+      ],
+      "reasoning": "Lab-grown food tech (technology) creates corporate control (economic monopolies) threatening traditions (cultural food sovereignty)"
+    },
+    {
+      "issueId": "venezuela-hyperinflation-and-collapse",
+      "issueName": "Venezuela Hyperinflation and Collapse",
+      "categories": [
+        "Economic",
+        "Political",
+        "Social"
+      ],
+      "reasoning": "Currency crisis (economic/monetary) from governance failure (political/Maduro regime) causing humanitarian disaster (social)"
+    },
+    {
+      "issueId": "weaponsized-migration-pushbacks",
+      "issueName": "Weaponsized Migration Pushbacks",
+      "categories": [
+        "Political",
+        "Security",
+        "Social"
+      ],
+      "reasoning": "States weaponize refugees (political/hybrid warfare) with militarized borders (security) harming asylum seekers (social/humanitarian)"
+    }
+  ]
+}
