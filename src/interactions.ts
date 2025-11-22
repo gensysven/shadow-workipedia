@@ -22,7 +22,7 @@ export class ZoomPanHandler {
     this.onTransform = onTransform;
 
     this.zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
-      .scaleExtent([0.1, 5])
+      .scaleExtent([0.05, 5]) // 0.05 = 20x zoom out, 5 = 5x zoom in
       .filter((event) => {
         // Disable zoom/pan during node dragging
         if (this.isDraggingNode) return false;
