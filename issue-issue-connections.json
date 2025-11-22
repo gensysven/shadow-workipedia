@@ -1,12 +1,12 @@
 {
   "metadata": {
     "totalIssues": 255,
-    "curatedIssues": 295,
+    "curatedIssues": 296,
     "coveragePercentage": "100.4",
     "generatedAt": "2025-11-22T02:36:21.490Z",
-    "totalConnections": 1182,
-    "averageConnectionsPerIssue": "4.0",
-    "lastUpdated": "2025-11-22T05:22:45.680Z"
+    "totalConnections": 1216,
+    "averageConnectionsPerIssue": "4.1",
+    "lastUpdated": "2025-11-22T05:40:36.257Z"
   },
   "connections": [
     {
@@ -1178,10 +1178,40 @@
       "issueName": "Billionaire Abolition Movement",
       "connectedTo": [
         {
-          "targetId": "universal-basic-income-battles",
-          "targetName": "Universal Basic Income Battles",
+          "targetId": "universal-basic-income-trials",
+          "targetName": "Universal Basic Income Trials",
           "relationshipType": "sequential",
-          "reasoning": "Both propose radical wealth redistribution; billionaire abolition funds UBI through confiscatory taxation of extreme wealth."
+          "reasoning": "Billionaire wealth abolition provides funding mechanism for UBI experiments; both challenge extreme wealth concentration"
+        },
+        {
+          "targetId": "dark-money-politics",
+          "targetName": "Dark Money Politics",
+          "relationshipType": "causal",
+          "reasoning": "Billionaire political influence drives movement to abolish extreme wealth; democratic corruption fuels abolition sentiment"
+        },
+        {
+          "targetId": "housing-impossibility-crisis",
+          "targetName": "Housing Impossibility Crisis",
+          "relationshipType": "causal",
+          "reasoning": "Billionaire real estate speculation drives housing unaffordability; abolition movement targets wealth extracted from housing"
+        },
+        {
+          "targetId": "student-debt-slavery",
+          "targetName": "Student Debt Slavery",
+          "relationshipType": "thematic",
+          "reasoning": "Both address wealth extraction from young people; billionaire abolition could fund debt jubilee"
+        },
+        {
+          "targetId": "billionaire-media-ownership",
+          "targetName": "Billionaire Media Ownership",
+          "relationshipType": "reinforcing",
+          "reasoning": "Media billionaires shape public opinion against wealth redistribution; abolition movement targets media ownership concentration"
+        },
+        {
+          "targetId": "reparations-movement-acceleration",
+          "targetName": "Reparations Movement Acceleration",
+          "relationshipType": "thematic",
+          "reasoning": "Both demand radical wealth redistribution to address historical injustices and current inequality"
         }
       ]
     },
@@ -2024,34 +2054,40 @@
       "issueName": "Commercial Real Estate Doom Loop and Downtown Collapse",
       "connectedTo": [
         {
-          "targetId": "remote-work-revolution",
-          "targetName": "Remote Work Revolution",
+          "targetId": "gig-economy-serfdom",
+          "targetName": "Gig Economy Serfdom",
           "relationshipType": "causal",
-          "reasoning": "Permanent work-from-home destroys office demand; downtown real estate becomes stranded asset"
+          "reasoning": "Remote work revolution creates gig work ecosystem; downtown office demand collapses as workers go freelance"
         },
         {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
+          "targetId": "local-news-collapse",
+          "targetName": "Local News Collapse",
           "relationshipType": "causal",
-          "reasoning": "Downtown collapse crashes property tax revenue; cities cannot service bonds, defaults cascade"
+          "reasoning": "Downtown collapse kills local business advertising; newspapers lose revenue as city centers empty"
         },
         {
-          "targetId": "transit-death-spirals",
-          "targetName": "Transit Death Spirals",
+          "targetId": "public-transit-death-spiral",
+          "targetName": "Public Transit Death Spiral",
           "relationshipType": "reinforcing",
-          "reasoning": "Empty offices mean no commuters; transit loses revenue; service cuts; more people avoid transit"
+          "reasoning": "Empty offices mean no commuters; transit loses revenue; service cuts drive more remote work"
         },
         {
-          "targetId": "homelessness-genocide",
-          "targetName": "Homelessness Genocide",
+          "targetId": "homelessness-criminalization",
+          "targetName": "Homelessness Criminalization",
           "relationshipType": "causal",
-          "reasoning": "Vacant towers sit empty while homelessness explodes; occupations and clearances turn violent"
+          "reasoning": "Vacant commercial towers sit empty while homelessness surges; occupations and brutal clearances"
         },
         {
-          "targetId": "pension-fund-collapse",
-          "targetName": "Pension Fund Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Public pension funds hold commercial real estate; value collapse bankrupts retirement systems"
+          "targetId": "housing-bubble-and-foreclosure-crisis",
+          "targetName": "Housing Bubble and Foreclosure Crisis",
+          "relationshipType": "thematic",
+          "reasoning": "Commercial real estate collapse parallels residential crisis; both show broken property markets and overleveraged assets"
+        },
+        {
+          "targetId": "climate-insurance-collapse-and-managed-retreat-wars",
+          "targetName": "Climate Insurance Collapse and Managed Retreat Wars",
+          "relationshipType": "reinforcing",
+          "reasoning": "Downtown properties become uninsurable as climate risks compound abandonment; insurers flee collapsing markets"
         }
       ]
     },
@@ -4040,10 +4076,40 @@
       "issueName": "Gender Medicine Youth Controversy",
       "connectedTo": [
         {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
+          "targetId": "abortion-access-crisis",
+          "targetName": "Abortion Access Crisis",
+          "relationshipType": "thematic",
+          "reasoning": "Both involve state control over bodily autonomy and medical decisions; same legislative coalitions"
+        },
+        {
+          "targetId": "religious-freedom-battles",
+          "targetName": "Religious Freedom Battles",
+          "relationshipType": "causal",
+          "reasoning": "Religious conservatives invoke faith-based values to restrict gender-affirming care"
+        },
+        {
+          "targetId": "school-shooting-epidemic",
+          "targetName": "School Shooting Epidemic",
+          "relationshipType": "thematic",
+          "reasoning": "Both center on youth safety rhetoric; trans bathroom bans mirror school security theater"
+        },
+        {
+          "targetId": "social-media-addiction-crisis",
+          "targetName": "Social Media Addiction Crisis",
           "relationshipType": "reinforcing",
-          "reasoning": "Trans youth denied care face elevated suicide risk; controversy itself traumatizes LGBTQ teens"
+          "reasoning": "Social media amplifies both gender identity exploration and anti-trans panic"
+        },
+        {
+          "targetId": "mental-health-apocalypse",
+          "targetName": "Mental Health Apocalypse",
+          "relationshipType": "causal",
+          "reasoning": "Denial of gender-affirming care drives youth depression and suicide rates"
+        },
+        {
+          "targetId": "medical-bankruptcy-epidemic",
+          "targetName": "Medical Bankruptcy Epidemic",
+          "relationshipType": "causal",
+          "reasoning": "Insurance denials for gender-affirming care create financial devastation for families"
         }
       ]
     },
@@ -4508,10 +4574,34 @@
       "issueName": "Global Pollinator Extinction Pulse",
       "connectedTo": [
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
+          "targetId": "global-fertilizer-shock-and-food-riots",
+          "targetName": "Global Fertilizer Shock and Food Riots",
           "relationshipType": "causal",
-          "reasoning": "Bee/butterfly collapse crashes crop yields; food scarcity drives riots"
+          "reasoning": "Pollinator collapse devastates crop yields; food production systems fail without bees, butterflies, moths; riots follow"
+        },
+        {
+          "targetId": "insect-apocalypse-and-pollinator-collapse",
+          "targetName": "Insect Apocalypse and Pollinator Collapse",
+          "relationshipType": "thematic",
+          "reasoning": "Both describe same underlying crisis from different angles; insect die-off includes pollinators"
+        },
+        {
+          "targetId": "forever-chemical-contamination-crisis",
+          "targetName": "Forever Chemical Contamination Crisis",
+          "relationshipType": "causal",
+          "reasoning": "PFAS and pesticide chemicals kill pollinators; toxic contamination drives bee colony collapse"
+        },
+        {
+          "targetId": "fungal-crop-switch-coffeecocoa-extinction",
+          "targetName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
+          "relationshipType": "causal",
+          "reasoning": "Pollinator loss compounds fungal crop failures; coffee and cocoa require both insects and disease resistance"
+        },
+        {
+          "targetId": "climate-refugee-floods",
+          "targetName": "Climate Refugee Floods",
+          "relationshipType": "sequential",
+          "reasoning": "Pollinator collapse triggers food system failure; agricultural collapse drives mass migration"
         }
       ]
     },
@@ -5222,10 +5312,40 @@
       "issueName": "Insect Apocalypse and Pollinator Collapse",
       "connectedTo": [
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
+          "targetId": "global-fertilizer-shock-and-food-riots",
+          "targetName": "Global Fertilizer Shock and Food Riots",
           "relationshipType": "causal",
-          "reasoning": "75% of crops require pollination; bee/butterfly collapse crashes yields, triggering food scarcity and riots"
+          "reasoning": "Insect population crash devastates ecosystems and crop pollination; food production collapses; famine and riots"
+        },
+        {
+          "targetId": "global-pollinator-extinction-pulse",
+          "targetName": "Global Pollinator Extinction Pulse",
+          "relationshipType": "thematic",
+          "reasoning": "Both describe overlapping ecological collapse; pollinator crisis is subset of broader insect die-off"
+        },
+        {
+          "targetId": "forever-chemical-contamination-crisis",
+          "targetName": "Forever Chemical Contamination Crisis",
+          "relationshipType": "causal",
+          "reasoning": "PFAS, neonicotinoid pesticides drive insect extinction; toxic contamination in soil and water"
+        },
+        {
+          "targetId": "fungal-crop-switch-coffeecocoa-extinction",
+          "targetName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
+          "relationshipType": "reinforcing",
+          "reasoning": "Insect loss enables fungal outbreaks; ecosystem collapse compounds crop failures"
+        },
+        {
+          "targetId": "amazon-rainforest-dieback",
+          "targetName": "Amazon Rainforest Dieback",
+          "relationshipType": "reinforcing",
+          "reasoning": "Forest loss kills insects; insect loss impairs forest regeneration; cascade feedback"
+        },
+        {
+          "targetId": "coral-reef-death-and-ocean-ecosystem-collapse",
+          "targetName": "Coral Reef Death and Ocean Ecosystem Collapse",
+          "relationshipType": "thematic",
+          "reasoning": "Both show mass extinction of foundational species; terrestrial insects mirror marine ecosystem collapse"
         }
       ]
     },
@@ -7214,10 +7334,40 @@
       "issueName": "Renewable Energy Intermittency Crisis",
       "connectedTo": [
         {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
+          "targetId": "carrington-class-solar-storm",
+          "targetName": "Carrington-Class Solar Storm",
           "relationshipType": "causal",
-          "reasoning": "High renewable penetration without storage creates grid instability; blackouts"
+          "reasoning": "Solar/wind variability creates grid instability; geomagnetic storms compound renewable grid fragility"
+        },
+        {
+          "targetId": "renewable-energy-nimbyism",
+          "targetName": "Renewable Energy NIMBYism",
+          "relationshipType": "reinforcing",
+          "reasoning": "Intermittency requires massive overbuilding; community opposition blocks necessary scale"
+        },
+        {
+          "targetId": "nuclear-plant-crisis-cascade",
+          "targetName": "Nuclear Plant Crisis Cascade",
+          "relationshipType": "sequential",
+          "reasoning": "Renewable intermittency failures drive baseload energy crisis; nuclear plant aging compounds problem"
+        },
+        {
+          "targetId": "coal-country-collapse",
+          "targetName": "Coal Country Collapse",
+          "relationshipType": "thematic",
+          "reasoning": "Coal retirement creates baseload gap; renewable intermittency cannot fill 24/7 demand; just transition fails"
+        },
+        {
+          "targetId": "lithium-refinery-air-toxics-rebellion",
+          "targetName": "Lithium Refinery Air-Toxics Rebellion",
+          "relationshipType": "causal",
+          "reasoning": "Grid-scale battery storage requires massive lithium refining; extraction and processing conflicts limit intermittency solutions"
+        },
+        {
+          "targetId": "battery-waste-megafires",
+          "targetName": "Battery Waste Megafires",
+          "relationshipType": "reinforcing",
+          "reasoning": "Battery storage for intermittency creates fire hazards; grid-scale battery failures cause catastrophic fires"
         }
       ]
     },
@@ -7672,6 +7822,42 @@
       ]
     },
     {
+      "issueId": "south-china-sea-militarization",
+      "issueName": "South China Sea Militarization",
+      "connectedTo": [
+        {
+          "targetId": "taiwan-invasion-risk",
+          "targetName": "Taiwan Invasion Risk",
+          "relationshipType": "sequential",
+          "reasoning": "South China Sea control provides staging area and naval dominance for Taiwan blockade or invasion operations"
+        },
+        {
+          "targetId": "us-china-decoupling",
+          "targetName": "US-China Decoupling",
+          "relationshipType": "reinforcing",
+          "reasoning": "Military tensions over South China Sea drive economic decoupling as both sides prepare for potential conflict"
+        },
+        {
+          "targetId": "asean-fracturing",
+          "targetName": "ASEAN Fracturing",
+          "relationshipType": "causal",
+          "reasoning": "China pressures ASEAN members to choose sides on South China Sea claims, splitting the bloc"
+        },
+        {
+          "targetId": "rare-earth-monopoly-weaponization",
+          "targetName": "Rare-Earth Monopoly Weaponization",
+          "relationshipType": "thematic",
+          "reasoning": "Both involve China leveraging geographic control of critical resources for geopolitical advantage"
+        },
+        {
+          "targetId": "space-warfare-normalization",
+          "targetName": "Space Warfare Normalization",
+          "relationshipType": "thematic",
+          "reasoning": "Both represent great power competition for strategic domains (maritime/space) critical to modern warfare"
+        }
+      ]
+    },
+    {
       "issueId": "south-korea-demographic-death-spiral",
       "issueName": "South Korea Demographic Death Spiral",
       "connectedTo": [
@@ -7856,10 +8042,34 @@
       "issueName": "Stablecoin and Eurodollar Liquidity Shock",
       "connectedTo": [
         {
-          "targetId": "cryptocurrency-crime-economy",
-          "targetName": "Cryptocurrency Crime Economy",
+          "targetId": "ransomware-pandemic",
+          "targetName": "Ransomware Pandemic",
           "relationshipType": "causal",
-          "reasoning": "Stablecoin collapse destabilizes crypto crime funding; criminal networks lose payment infrastructure"
+          "reasoning": "Stablecoin de-pegging disrupts ransomware payment infrastructure; crypto-based crime economy collapses with stablecoins"
+        },
+        {
+          "targetId": "commodity-clearinghouse-margin-spiral",
+          "targetName": "Commodity Clearinghouse Margin Spiral",
+          "relationshipType": "thematic",
+          "reasoning": "Both involve financial system plumbing failures creating contagion; dollar liquidity shocks cascade"
+        },
+        {
+          "targetId": "global-trade-finance-gridlock",
+          "targetName": "Global Trade Finance Gridlock",
+          "relationshipType": "causal",
+          "reasoning": "Eurodollar market disruption freezes international trade finance; stablecoin failures compound dollar shortage"
+        },
+        {
+          "targetId": "commodity-currency-fragmentation-and-de-dollarization",
+          "targetName": "Commodity Currency Fragmentation and De-Dollarization",
+          "relationshipType": "sequential",
+          "reasoning": "Dollar liquidity crisis accelerates shift to commodity-backed currencies; stablecoin failures undermine digital dollar dominance"
+        },
+        {
+          "targetId": "housing-bubble-and-foreclosure-crisis",
+          "targetName": "Housing Bubble and Foreclosure Crisis",
+          "relationshipType": "reinforcing",
+          "reasoning": "Financial market contagion from stablecoin runs triggers broader asset price collapse; crypto-collateralized loans default"
         }
       ]
     },
