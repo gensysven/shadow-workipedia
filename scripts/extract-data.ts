@@ -17,8 +17,6 @@ const CATEGORY_COLORS: Record<IssueCategory, string> = {
   Infrastructure: '#6366f1',
 };
 
-const SYSTEM_COLOR = '#64748b'; // Used for system nodes
-
 interface RawIssue {
   id: string;
   name: string;
@@ -307,22 +305,6 @@ function getMockSystems(): ConnectivitySystem[] {
   ];
 }
 
-function systemToNode(system: ConnectivitySystem): GraphNode {
-  // Size scales logarithmically with connections (10-20px)
-  const size = 10 + Math.log(system.connections + 1) * 2;
-
-  return {
-    id: `system-${system.name.toLowerCase().replace(/\s+/g, '-')}`,
-    type: 'system',
-    label: system.name,
-    domain: system.name,
-    connectionCount: system.connections,
-    description: `${system.name} simulation system`,
-    color: SYSTEM_COLOR,
-    size: Math.min(20, Math.max(10, size)),
-  };
-}
-
 function extractIssueEdges(issues: RawIssue[]): GraphEdge[] {
   const edges: GraphEdge[] = [];
 
@@ -386,116 +368,6 @@ function loadCuratedMappings(): Map<string, string[]> {
   }
 
   return mappingMap;
-}
-
-function extractIssueSystemEdges(
-  issues: RawIssue[],
-  systems: ConnectivitySystem[]
-): GraphEdge[] {
-  const edges: GraphEdge[] = [];
-  const systemNames = new Set(systems.map(s => s.name.toLowerCase()));
-
-  // Load curated human-reviewed mappings
-  const curatedMappings = loadCuratedMappings();
-  console.log(`📋 Loaded ${curatedMappings.size} curated issue-system mappings`);
-
-  for (const issue of issues) {
-    // Use curated mappings if available
-    const curatedSystems = curatedMappings.get(issue.id);
-
-    if (curatedSystems && curatedSystems.length > 0) {
-      // Use human-reviewed mappings
-      for (const systemName of curatedSystems) {
-        const systemKey = systemName.toLowerCase();
-
-        // Check if system exists in actual data
-        if (!systemNames.has(systemKey)) {
-          console.warn(`⚠️  System "${systemName}" from mapping not found in connectivity data`);
-          continue;
-        }
-
-        const systemId = `system-${systemKey}`;
-
-        // All curated mappings get same strength (manually reviewed)
-        edges.push({
-          source: issue.id,
-          target: systemId,
-          type: 'issue-system',
-          strength: 0.6,
-          label: `Affects ${systemName}`,
-          bidirectional: false,
-        });
-      }
-    } else {
-      // Fallback to category-based mapping if no curated data
-      console.warn(`⚠️  No curated mapping for "${issue.name}", using category fallback`);
-
-      const categoryMap: Record<IssueCategory, string[]> = {
-        Economic: ['economy', 'trade'],
-        Social: ['population', 'culture'],
-        Political: ['politics'],
-        Environmental: ['climate'],
-        Security: ['military'],
-        Technological: ['technology'],
-        Cultural: ['culture'],
-        Infrastructure: ['infrastructure'],
-      };
-
-      const fallbackSystems = categoryMap[issue.category] || [];
-      fallbackSystems.forEach(s => {
-        if (systemNames.has(s)) {
-          edges.push({
-            source: issue.id,
-            target: `system-${s}`,
-            type: 'issue-system',
-            strength: 0.4,
-            label: `Category: ${s}`,
-            bidirectional: false,
-          });
-        }
-      });
-    }
-  }
-
-  return edges;
-}
-
-function extractSystemEdges(): GraphEdge[] {
-  const connectivityPath = join(PARENT_REPO, 'docs/technical/simulation-systems/CONNECTIVITY-INDEX.json');
-
-  if (!existsSync(connectivityPath)) {
-    console.warn('⚠️  No connectivity data, skipping system-system edges');
-    return [];
-  }
-
-  const data = JSON.parse(readFileSync(connectivityPath, 'utf-8'));
-  const edges: GraphEdge[] = [];
-
-  if (data.connections && Array.isArray(data.connections)) {
-    for (const edge of data.connections) {
-      const source = edge.source;
-      const target = edge.target;
-      const status = edge.implementation || 'Planned';
-
-      // Strength based on implementation status
-      const strengthMap: Record<string, number> = {
-        Live: 0.8,
-        Partial: 0.5,
-        Planned: 0.3,
-      };
-
-      edges.push({
-        source: `system-${source.toLowerCase().replace(/\s+/g, '-')}`,
-        target: `system-${target.toLowerCase().replace(/\s+/g, '-')}`,
-        type: 'system-system',
-        strength: strengthMap[status] || 0.5,
-        label: edge.forwardMechanic?.description || '',
-        bidirectional: false,
-      });
-    }
-  }
-
-  return edges;
 }
 
 async function main() {

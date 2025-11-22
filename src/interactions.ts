@@ -14,11 +14,9 @@ export class ZoomPanHandler {
   private zoomBehavior: ZoomBehavior<HTMLCanvasElement, unknown>;
   private transform: Transform = { x: 0, y: 0, k: 1 };
   private onTransform: (transform: Transform) => void;
-  private canvas: HTMLCanvasElement;
   private isDraggingNode = false;
 
   constructor(canvas: HTMLCanvasElement, onTransform: (t: Transform) => void) {
-    this.canvas = canvas;
     this.onTransform = onTransform;
 
     this.zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
@@ -154,8 +152,6 @@ export class DragHandler {
   private nodes: SimNode[];
   private transform: Transform;
   private draggedNode: SimNode | null = null;
-  private dragStartX = 0;
-  private dragStartY = 0;
   private onDragStart: (() => void) | null = null;
   private onDragEnd: (() => void) | null = null;
   private onRender: () => void;
@@ -215,8 +211,6 @@ export class DragHandler {
 
     if (node) {
       this.draggedNode = node;
-      this.dragStartX = graphX;
-      this.dragStartY = graphY;
 
       // Fix node position (stop simulation forces)
       node.fx = node.x;
