@@ -51,29 +51,6 @@ function renderDetailPanel(node: SimNode, data: GraphData): string {
         </ul>
       ` : ''}
 
-      <h3>Impact Metrics</h3>
-      <div class="metric">
-        <span>Public Concern:</span>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${node.publicConcern}%; background: #3b82f6"></div>
-        </div>
-        <span>${node.publicConcern}%</span>
-      </div>
-      <div class="metric">
-        <span>Economic Impact:</span>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${node.economicImpact}%; background: #f59e0b"></div>
-        </div>
-        <span>${node.economicImpact}%</span>
-      </div>
-      <div class="metric">
-        <span>Social Impact:</span>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${node.socialImpact}%; background: #8b5cf6"></div>
-        </div>
-        <span>${node.socialImpact}%</span>
-      </div>
-
       <h3>Connected Nodes</h3>
       <div class="connections">
         ${getConnections(node, data).map(conn => `
@@ -256,23 +233,93 @@ async function main() {
     (node) => {
       selectedNode = node;
 
-      if (node) {
+      if (node && node.x !== undefined && node.y !== undefined) {
         // Show detail panel
         panelContent.innerHTML = renderDetailPanel(node, data);
         detailPanel.classList.remove('hidden');
 
+        // Pan to center the clicked node
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const newX = centerX - node.x * currentTransform.k;
+        const newY = centerY - node.y * currentTransform.k;
+
+        // Smooth transition
+        const startX = currentTransform.x;
+        const startY = currentTransform.y;
+        const duration = 500;
+        const startTime = Date.now();
+
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+
+          currentTransform.x = startX + (newX - startX) * eased;
+          currentTransform.y = startY + (newY - startY) * eased;
+
+          hoverHandler.updateTransform(currentTransform);
+          clickHandler.updateTransform(currentTransform);
+          dragHandler.updateTransform(currentTransform);
+          render();
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
+        };
+
+        animate();
+
         // Add click handlers to connection items
-        const connectionItems = panelContent.querySelectorAll('.connection-item');
-        connectionItems.forEach(item => {
-          item.addEventListener('click', () => {
-            const nodeId = item.getAttribute('data-node-id');
-            const targetNode = graph.getNodes().find(n => n.id === nodeId);
-            if (targetNode) {
-              selectedNode = targetNode;
-              panelContent.innerHTML = renderDetailPanel(targetNode, data);
-            }
+        const attachConnectionHandlers = () => {
+          const connectionItems = panelContent.querySelectorAll('.connection-item');
+          connectionItems.forEach(item => {
+            item.addEventListener('click', () => {
+              const nodeId = item.getAttribute('data-node-id');
+              const targetNode = graph.getNodes().find(n => n.id === nodeId);
+              if (targetNode && targetNode.x !== undefined && targetNode.y !== undefined) {
+                selectedNode = targetNode;
+                panelContent.innerHTML = renderDetailPanel(targetNode, data);
+                attachConnectionHandlers(); // Re-attach handlers for new connections
+
+                // Pan to center the selected node in the viewport
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const newX = centerX - targetNode.x * currentTransform.k;
+                const newY = centerY - targetNode.y * currentTransform.k;
+
+                // Smooth transition to new position
+                const startX = currentTransform.x;
+                const startY = currentTransform.y;
+                const duration = 500; // ms
+                const startTime = Date.now();
+
+                const animate = () => {
+                  const elapsed = Date.now() - startTime;
+                  const progress = Math.min(elapsed / duration, 1);
+                  // Ease-out curve
+                  const eased = 1 - Math.pow(1 - progress, 3);
+
+                  currentTransform.x = startX + (newX - startX) * eased;
+                  currentTransform.y = startY + (newY - startY) * eased;
+
+                  hoverHandler.updateTransform(currentTransform);
+                  clickHandler.updateTransform(currentTransform);
+                  dragHandler.updateTransform(currentTransform);
+                  render();
+
+                  if (progress < 1) {
+                    requestAnimationFrame(animate);
+                  }
+                };
+
+                animate();
+              }
+            });
           });
-        });
+        };
+
+        attachConnectionHandlers();
       } else {
         detailPanel.classList.add('hidden');
       }
