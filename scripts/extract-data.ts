@@ -38,6 +38,16 @@ function parseIssueCatalog(multiCategoryData: Map<string, IssueCategory[]>): Raw
     return getMockIssues();
   }
 
+  // Load enhanced descriptions (v3-remapped with catalog IDs, 100% coverage)
+  const enhancedDescPath = '/tmp/enhanced-descriptions-v3-remapped.json';
+  let enhancedDescriptions: Record<string, { description: string }> = {};
+  if (existsSync(enhancedDescPath)) {
+    enhancedDescriptions = JSON.parse(readFileSync(enhancedDescPath, 'utf-8'));
+    console.log(`✅ Loaded ${Object.keys(enhancedDescriptions).length} enhanced descriptions (v3-remapped, 100% catalog coverage)`);
+  } else {
+    console.warn('⚠️  Enhanced descriptions not found, using crisis examples as fallback');
+  }
+
   const content = readFileSync(catalogPath, 'utf-8');
   const issues: RawIssue[] = [];
 
@@ -148,7 +158,20 @@ function parseIssueCatalog(multiCategoryData: Map<string, IssueCategory[]>): Raw
         }
 
         // First non-metadata paragraph is description (simplified)
-        if (!description && nextLine.length > 20 && !nextLine.startsWith('**') && !nextLine.startsWith('-')) {
+        // Skip internal references (numbered lists, architecture files, line counts, etc.)
+        const isInternalReference =
+          /^\d+\.\s+\*\*/.test(nextLine) || // Numbered lists like "1. **46a. 1033 Program"
+          /Architecture file:/.test(nextLine) || // Architecture references
+          /See architecture:/.test(nextLine) || // Architecture links
+          /\.md\]/.test(nextLine) || // Markdown file links
+          /~\d+ lines/.test(nextLine) || // Line counts (any variant)
+          /\*\*\d+ sub-systems?\*\*/.test(nextLine) || // "**N sub-systems**" or "**N sub-system**"
+          /This issue requires/.test(nextLine) || // "This issue requires..."
+          /Complete System Walk/.test(nextLine) || // "Complete System Walk with..."
+          /^###?\s+/.test(nextLine) || // Markdown headers (### or ##)
+          nextLine === name; // Skip if description is just the issue name
+
+        if (!description && nextLine.length > 20 && !nextLine.startsWith('**') && !nextLine.startsWith('-') && !isInternalReference) {
           description = nextLine;
         }
       }
@@ -163,12 +186,25 @@ function parseIssueCatalog(multiCategoryData: Map<string, IssueCategory[]>): Raw
       // Use multi-category data if available, otherwise fall back to single category
       const categories = multiCategoryData.get(id) || [currentCategory];
 
+      // Priority: enhanced description > prose description > crisis example > issue name
+      let finalDescription = enhancedDescriptions[id]?.description || description;
+
+      if (!finalDescription && crisisExamples.length > 0) {
+        // Use first crisis example, clean up the format
+        finalDescription = crisisExamples[0]
+          .replace(/^[^:]+:\s*/, '') // Remove "Example Name: " prefix
+          .trim();
+      }
+      if (!finalDescription) {
+        finalDescription = name; // Last resort: use the issue name
+      }
+
       issues.push({
         id,
         name,
         categories,
         urgency,
-        description: description || name,
+        description: finalDescription,
         tags,
         triggerConditions,
         peakYears,

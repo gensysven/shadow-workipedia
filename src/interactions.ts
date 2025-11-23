@@ -95,9 +95,18 @@ export class HoverHandler {
   }
 
   private handleMouseMove = (event: MouseEvent): void => {
+    // Get canvas display size and position
     const rect = this.canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+
+    // Calculate mouse position in canvas display coordinates
+    const displayX = event.clientX - rect.left;
+    const displayY = event.clientY - rect.top;
+
+    // Scale to canvas buffer coordinates (handles CSS scaling)
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    const mouseX = displayX * scaleX;
+    const mouseY = displayY * scaleY;
 
     // Transform mouse coordinates to graph space
     const graphX = (mouseX - this.transform.x) / this.transform.k;
@@ -143,9 +152,18 @@ export class ClickHandler {
   }
 
   private handleClick = (event: MouseEvent): void => {
+    // Get canvas display size and position
     const rect = this.canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+
+    // Calculate mouse position in canvas display coordinates
+    const displayX = event.clientX - rect.left;
+    const displayY = event.clientY - rect.top;
+
+    // Scale to canvas buffer coordinates (handles CSS scaling)
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    const mouseX = displayX * scaleX;
+    const mouseY = displayY * scaleY;
 
     const graphX = (mouseX - this.transform.x) / this.transform.k;
     const graphY = (mouseY - this.transform.y) / this.transform.k;
@@ -218,9 +236,18 @@ export class DragHandler {
   }
 
   private handleMouseDown = (event: MouseEvent): void => {
+    // Get canvas display size and position
     const rect = this.canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+
+    // Calculate mouse position in canvas display coordinates
+    const displayX = event.clientX - rect.left;
+    const displayY = event.clientY - rect.top;
+
+    // Scale to canvas buffer coordinates (handles CSS scaling)
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    const mouseX = displayX * scaleX;
+    const mouseY = displayY * scaleY;
 
     const graphX = (mouseX - this.transform.x) / this.transform.k;
     const graphY = (mouseY - this.transform.y) / this.transform.k;
@@ -249,9 +276,18 @@ export class DragHandler {
   private handleMouseMove = (event: MouseEvent): void => {
     if (!this.draggedNode) return;
 
+    // Get canvas display size and position
     const rect = this.canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+
+    // Calculate mouse position in canvas display coordinates
+    const displayX = event.clientX - rect.left;
+    const displayY = event.clientY - rect.top;
+
+    // Scale to canvas buffer coordinates (handles CSS scaling)
+    const scaleX = this.canvas.width / rect.width;
+    const scaleY = this.canvas.height / rect.height;
+    const mouseX = displayX * scaleX;
+    const mouseY = displayY * scaleY;
 
     const graphX = (mouseX - this.transform.x) / this.transform.k;
     const graphY = (mouseY - this.transform.y) / this.transform.k;
