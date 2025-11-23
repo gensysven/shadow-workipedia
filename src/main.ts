@@ -152,12 +152,14 @@ async function main() {
   // Size canvas to window (function defined early, called later after all dependencies are ready)
   function resizeCanvas() {
     canvas.width = window.innerWidth;
-    // Calculate header + filter bar height dynamically
+    // Calculate header + tab nav + filter bar height dynamically
     const header = document.getElementById('header');
+    const tabNav = document.getElementById('tab-nav');
     const filterBar = document.getElementById('filter-bar');
     const headerHeight = header?.offsetHeight || 0;
+    const tabNavHeight = tabNav?.offsetHeight || 0;
     const filterHeight = filterBar?.offsetHeight || 0;
-    canvas.height = window.innerHeight - headerHeight - filterHeight;
+    canvas.height = window.innerHeight - headerHeight - tabNavHeight - filterHeight;
 
     // Restart simulation with new dimensions
     graph.restart();
@@ -232,6 +234,14 @@ async function main() {
   // Search state
   let searchTerm = '';
   let searchResults = new Set<string>();
+
+  // View state (needed early for category filter handlers)
+  let currentView: 'graph' | 'table' = 'graph';
+  let tableSortColumn: string | null = null;
+  let tableSortDirection: 'asc' | 'desc' = 'asc';
+
+  // Forward declare renderTable function (implemented later)
+  let renderTable: () => void;
 
   // Initialize click handler
   const clickHandler = new ClickHandler(
@@ -384,6 +394,10 @@ async function main() {
         btn.classList.add('active');
       }
       render();
+      // Also update table if in table view
+      if (currentView === 'table') {
+        renderTable();
+      }
     });
 
     categoryFilters.appendChild(btn);
@@ -398,6 +412,9 @@ async function main() {
 
     if (!searchTerm) {
       render();
+      if (currentView === 'table') {
+        renderTable();
+      }
       return;
     }
 
@@ -414,6 +431,9 @@ async function main() {
 
     console.log(`Found ${searchResults.size} matches for "${term}"`);
     render();
+    if (currentView === 'table') {
+      renderTable();
+    }
   }
 
   searchInput.addEventListener('input', (e) => {
@@ -446,11 +466,11 @@ async function main() {
 
     // Draw edges
     for (const link of graph.getLinks()) {
-      // Show edge if ANY category of source/target matches active filters (OR logic)
-      const sourceHasActiveCategory = link.source.categories?.some(cat => activeCategories.has(cat)) ?? false;
-      const targetHasActiveCategory = link.target.categories?.some(cat => activeCategories.has(cat)) ?? false;
+      // Show edge only if ALL categories of both source and target are active
+      const sourceAllCategoriesActive = link.source.categories?.every(cat => activeCategories.has(cat)) ?? true;
+      const targetAllCategoriesActive = link.target.categories?.every(cat => activeCategories.has(cat)) ?? true;
 
-      if (!sourceHasActiveCategory || !targetHasActiveCategory) continue;
+      if (!sourceAllCategoriesActive || !targetAllCategoriesActive) continue;
 
       const isConnected = selectedNode &&
         (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
@@ -468,10 +488,10 @@ async function main() {
 
     // Draw nodes
     for (const node of graph.getNodes()) {
-      // Show node if ANY of its categories match active filters (OR logic)
-      const hasActiveCategory = node.categories?.some(cat => activeCategories.has(cat)) ?? false;
+      // Show node only if ALL of its categories are active (hide if ANY category is disabled)
+      const allCategoriesActive = node.categories?.every(cat => activeCategories.has(cat)) ?? true;
 
-      if (!hasActiveCategory) continue;
+      if (!allCategoriesActive) continue;
 
       const isHovered = hoveredNode && node.id === hoveredNode.id;
       const isSelected = selectedNode && node.id === selectedNode.id;
@@ -571,6 +591,174 @@ async function main() {
       detailPanel.classList.add('hidden');
 
       render();
+    });
+  }
+
+  // Set up tab navigation
+  const tabGraph = document.getElementById('tab-graph') as HTMLButtonElement;
+  const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
+  const graphView = document.getElementById('graph-view') as HTMLDivElement;
+  const tableView = document.getElementById('table-view') as HTMLDivElement;
+  const tableContainer = document.getElementById('table-container') as HTMLDivElement;
+
+  function switchToView(view: 'graph' | 'table') {
+    currentView = view;
+
+    if (view === 'graph') {
+      tabGraph.classList.add('active');
+      tabTable.classList.remove('active');
+      graphView.classList.remove('hidden');
+      tableView.classList.add('hidden');
+    } else {
+      tabGraph.classList.remove('active');
+      tabTable.classList.add('active');
+      graphView.classList.add('hidden');
+      tableView.classList.remove('hidden');
+      renderTable();
+    }
+  }
+
+  tabGraph.addEventListener('click', () => switchToView('graph'));
+  tabTable.addEventListener('click', () => switchToView('table'));
+
+  // Table rendering (assign to forward-declared function)
+  renderTable = function() {
+    // Get filtered nodes
+    const nodes = graph.getNodes().filter(node => {
+      // Apply category filter - show only if ALL categories are active
+      const allCategoriesActive = node.categories?.every(cat => activeCategories.has(cat)) ?? true;
+      if (!allCategoriesActive) return false;
+
+      // Apply search filter
+      if (searchTerm !== '') {
+        return searchResults.has(node.id);
+      }
+
+      return true;
+    });
+
+    // Sort nodes
+    let sortedNodes = [...nodes];
+    if (tableSortColumn) {
+      sortedNodes.sort((a, b) => {
+        let aVal: string | number | undefined;
+        let bVal: string | number | undefined;
+
+        switch (tableSortColumn) {
+          case 'name':
+            aVal = a.label;
+            bVal = b.label;
+            break;
+          case 'categories':
+            aVal = a.categories?.join(', ') || '';
+            bVal = b.categories?.join(', ') || '';
+            break;
+          case 'urgency':
+            const urgencyOrder = { critical: 4, high: 3, medium: 2, low: 1, latent: 0 };
+            aVal = urgencyOrder[a.urgency || 'latent'];
+            bVal = urgencyOrder[b.urgency || 'latent'];
+            break;
+          case 'connections':
+            aVal = data.edges.filter(e => e.source === a.id || e.target === a.id).length;
+            bVal = data.edges.filter(e => e.source === b.id || e.target === b.id).length;
+            break;
+        }
+
+        if (aVal === undefined || bVal === undefined) return 0;
+
+        if (typeof aVal === 'string' && typeof bVal === 'string') {
+          return tableSortDirection === 'asc'
+            ? aVal.localeCompare(bVal)
+            : bVal.localeCompare(aVal);
+        } else {
+          return tableSortDirection === 'asc'
+            ? (aVal as number) - (bVal as number)
+            : (bVal as number) - (aVal as number);
+        }
+      });
+    }
+
+    // Build table HTML
+    const html = `
+      <table>
+        <thead>
+          <tr>
+            <th data-column="name">Issue ${tableSortColumn === 'name' ? (tableSortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+            <th data-column="categories">Categories ${tableSortColumn === 'categories' ? (tableSortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+            <th data-column="urgency">Urgency ${tableSortColumn === 'urgency' ? (tableSortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+            <th data-column="connections">Connections ${tableSortColumn === 'connections' ? (tableSortDirection === 'asc' ? '▲' : '▼') : ''}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sortedNodes.map(node => {
+            const connectionCount = data.edges.filter(e => e.source === node.id || e.target === node.id).length;
+            return `
+              <tr data-node-id="${node.id}">
+                <td>${node.label}</td>
+                <td>
+                  <div class="table-categories">
+                    ${node.categories?.map(cat => {
+                      const color = getCategoryColor(cat);
+                      return `<span class="table-category-badge" style="background: ${color}; color: #0f172a;">${cat}</span>`;
+                    }).join('') || ''}
+                  </div>
+                </td>
+                <td>
+                  <span class="badge urgency-${node.urgency || 'latent'}">${node.urgency || 'latent'}</span>
+                </td>
+                <td>${connectionCount}</td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
+
+    tableContainer.innerHTML = html;
+
+    // Add column header click handlers for sorting
+    tableContainer.querySelectorAll('th[data-column]').forEach(th => {
+      th.addEventListener('click', () => {
+        const column = th.getAttribute('data-column');
+        if (column === tableSortColumn) {
+          tableSortDirection = tableSortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+          tableSortColumn = column;
+          tableSortDirection = 'asc';
+        }
+        renderTable();
+      });
+    });
+
+    // Add row click handlers to open detail panel
+    tableContainer.querySelectorAll('tbody tr').forEach(tr => {
+      tr.addEventListener('click', () => {
+        const nodeId = tr.getAttribute('data-node-id');
+        const node = graph.getNodes().find(n => n.id === nodeId);
+        if (node) {
+          selectedNode = node;
+          panelContent.innerHTML = renderDetailPanel(node, data);
+          detailPanel.classList.remove('hidden');
+
+          // Attach connection handlers for navigation within table view
+          const attachConnectionHandlers = () => {
+            const connectionItems = panelContent.querySelectorAll('.connection-item');
+            connectionItems.forEach(item => {
+              item.addEventListener('click', () => {
+                const targetNodeId = item.getAttribute('data-node-id');
+                const targetNode = graph.getNodes().find(n => n.id === targetNodeId);
+                if (targetNode) {
+                  selectedNode = targetNode;
+                  panelContent.innerHTML = renderDetailPanel(targetNode, data);
+                  attachConnectionHandlers(); // Re-attach for new connections
+                }
+              });
+            });
+          };
+
+          attachConnectionHandlers();
+        }
+      });
     });
   }
 }

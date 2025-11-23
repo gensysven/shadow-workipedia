@@ -30,6 +30,12 @@
       <h1>Shadow Workipedia</h1>
     </header>
 
+    <!-- Tab navigation -->
+    <div id="tab-nav">
+      <button id="tab-graph" class="tab-btn active">Graph</button>
+      <button id="tab-table" class="tab-btn">Table</button>
+    </div>
+
     <!-- Filter bar -->
     <div id="filter-bar">
       <div id="category-filters"></div>
@@ -37,8 +43,15 @@
       <button id="reset-btn">Reset</button>
     </div>
 
-    <!-- Canvas for visualization -->
-    <canvas id="graph-canvas"></canvas>
+    <!-- Graph view (default) -->
+    <div id="graph-view">
+      <canvas id="graph-canvas"></canvas>
+    </div>
+
+    <!-- Table view (hidden by default) -->
+    <div id="table-view" class="hidden">
+      <div id="table-container"></div>
+    </div>
 
     <!-- Detail panel (hidden by default) -->
     <aside id="detail-panel" class="hidden">
