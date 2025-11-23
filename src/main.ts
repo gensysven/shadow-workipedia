@@ -654,9 +654,9 @@ async function main() {
             bVal = b.categories?.join(', ') || '';
             break;
           case 'urgency':
-            const urgencyOrder = { critical: 4, high: 3, medium: 2, low: 1, latent: 0 };
-            aVal = urgencyOrder[a.urgency || 'latent'];
-            bVal = urgencyOrder[b.urgency || 'latent'];
+            const urgencyOrder = { Critical: 4, High: 3, Medium: 2, Low: 1, Latent: 0 };
+            aVal = urgencyOrder[a.urgency || 'Latent'];
+            bVal = urgencyOrder[b.urgency || 'Latent'];
             break;
           case 'connections':
             aVal = data.edges.filter(e => e.source === a.id || e.target === a.id).length;
