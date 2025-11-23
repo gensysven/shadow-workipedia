@@ -65,13 +65,7 @@ function renderDetailPanel(node: SimNode, data: GraphData): string {
         </ul>
       ` : ''}
 
-      <h3>Connections</h3>
-      <div class="stat-item">
-        <span>Total connections:</span>
-        <strong>${getConnections(node, data).length}</strong>
-      </div>
-
-      <h4>Connected Nodes</h4>
+      <h3>Connected Nodes (${getConnections(node, data).length})</h3>
       <div class="connections">
         ${getConnections(node, data).map(conn => `
           <div class="connection-item" data-node-id="${conn.id}">
