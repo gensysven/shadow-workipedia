@@ -260,6 +260,16 @@ body {
   letter-spacing: 0.05em;
 }
 
+#detail-panel h4 {
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
 .node-badges {
   display: flex;
   gap: 0.5rem;
@@ -278,6 +288,43 @@ body {
 .urgency-high { background: #f59e0b; }
 .urgency-medium { background: #3b82f6; }
 .urgency-low { background: #64748b; }
+
+.affected-systems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.system-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #c4b5fd;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.stat-item span {
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.stat-item strong {
+  color: #e2e8f0;
+  font-size: 1rem;
+}
 
 .description {
   line-height: 1.6;

@@ -30,6 +30,13 @@ function renderDetailPanel(node: SimNode, data: GraphData): string {
       </div>
       <p class="description">${node.description || 'No description available.'}</p>
 
+      ${node.affectedSystems && node.affectedSystems.length > 0 ? `
+        <h3>Affected Systems</h3>
+        <div class="affected-systems">
+          ${node.affectedSystems.map(system => `<span class="badge system-badge">${system}</span>`).join('')}
+        </div>
+      ` : ''}
+
       ${node.triggerConditions ? `
         <h3>Trigger Conditions</h3>
         <p class="metadata-text">${node.triggerConditions}</p>
@@ -58,7 +65,13 @@ function renderDetailPanel(node: SimNode, data: GraphData): string {
         </ul>
       ` : ''}
 
-      <h3>Connected Nodes</h3>
+      <h3>Connections</h3>
+      <div class="stat-item">
+        <span>Total connections:</span>
+        <strong>${getConnections(node, data).length}</strong>
+      </div>
+
+      <h4>Connected Nodes</h4>
       <div class="connections">
         ${getConnections(node, data).map(conn => `
           <div class="connection-item" data-node-id="${conn.id}">
