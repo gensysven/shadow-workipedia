@@ -244,14 +244,12 @@ async function main() {
   // Size canvas to window (function defined early, called later after all dependencies are ready)
   function resizeCanvas() {
     canvas.width = window.innerWidth;
-    // Calculate header + tab nav + filter bar height dynamically
+    // Calculate header (includes tabs) + filter bar height dynamically
     const header = document.getElementById('header');
-    const tabNav = document.getElementById('tab-nav');
     const filterBar = document.getElementById('filter-bar');
     const headerHeight = header?.offsetHeight || 0;
-    const tabNavHeight = tabNav?.offsetHeight || 0;
     const filterHeight = filterBar?.offsetHeight || 0;
-    canvas.height = window.innerHeight - headerHeight - tabNavHeight - filterHeight;
+    canvas.height = window.innerHeight - headerHeight - filterHeight;
 
     // Restart simulation with new dimensions
     graph.restart();
