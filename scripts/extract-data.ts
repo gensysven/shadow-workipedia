@@ -1,7 +1,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency } from '../src/types';
-import { parseSystemWalkTracker, getSystemWalkData, type SystemWalkData } from './parse-system-walks';
+import { parseSystemWalkTracker, getSystemWalkData } from './parse-system-walks';
 
 const PARENT_REPO = join(process.cwd(), '..');
 const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');

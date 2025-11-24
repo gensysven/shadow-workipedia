@@ -28,7 +28,7 @@ export function parseSystemWalkTracker(parentRepoPath: string): Map<string, { is
 
   let match;
   while ((match = regex.exec(content)) !== null) {
-    const [, issueNum, issueName, archFile, subsysCount, lines] = match;
+    const [, issueNum, , archFile, subsysCount, lines] = match;
     const issueNumber = parseInt(issueNum);
     const subsystemCount = parseInt(subsysCount);
     const totalLines = parseInt(lines.replace(/,/g, ''));
