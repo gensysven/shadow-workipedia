@@ -278,22 +278,35 @@ async function main() {
     if (tabNav) tabNav.classList.remove('hidden');
     if (filterBar) filterBar.classList.remove('hidden');
 
+    // View mode selector and category filters are only relevant for graph view
+    const viewModeSelector = document.getElementById('view-mode-selector');
+    const categoryFilters = document.getElementById('category-filters');
+
     if (view === 'graph') {
       tabGraph?.classList.add('active');
       graphView?.classList.remove('hidden');
       tableView?.classList.add('hidden');
       wikiView?.classList.add('hidden');
+      // Show view mode selector and category filters for graph
+      if (viewModeSelector) viewModeSelector.style.display = '';
+      if (categoryFilters) categoryFilters.style.display = '';
     } else if (view === 'table') {
       tabTable?.classList.add('active');
       graphView?.classList.add('hidden');
       tableView?.classList.remove('hidden');
       wikiView?.classList.add('hidden');
+      // Hide view mode selector for table, but keep category filters
+      if (viewModeSelector) viewModeSelector.style.display = 'none';
+      if (categoryFilters) categoryFilters.style.display = '';
       renderTable();
     } else if (view === 'wiki') {
       tabWiki?.classList.add('active');
       graphView?.classList.add('hidden');
       tableView?.classList.add('hidden');
       wikiView?.classList.remove('hidden');
+      // Hide both view mode selector and category filters for wiki
+      if (viewModeSelector) viewModeSelector.style.display = 'none';
+      if (categoryFilters) categoryFilters.style.display = 'none';
       if (renderWikiList) renderWikiList();
     }
   }
