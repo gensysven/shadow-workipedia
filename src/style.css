@@ -1361,6 +1361,11 @@ body {
   padding: 1rem;
 }
 
+/* Mobile expand button - hidden by default, only shown on mobile when collapsed */
+.wiki-sidebar-expand {
+  display: none;
+}
+
 #wiki-main {
   flex: 1;
   overflow-y: auto;
