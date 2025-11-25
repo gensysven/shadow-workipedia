@@ -1108,6 +1108,8 @@ async function main() {
   }
 
   // Wiki sidebar and article rendering
+  const wikiSidebar = document.getElementById('wiki-sidebar');
+
   renderWikiList = function() {
     if (!data.articles || Object.keys(data.articles).length === 0) {
       wikiSidebarContent.innerHTML = `<div class="wiki-empty-sidebar">No articles yet</div>`;
@@ -1131,6 +1133,15 @@ async function main() {
     const issueArticles = articles.filter(a => a.type === 'issue');
     const systemArticles = articles.filter(a => a.type === 'system');
 
+    // Mobile: collapse sidebar when an article is selected
+    if (wikiSidebar) {
+      if (selectedWikiArticle) {
+        wikiSidebar.classList.add('collapsed');
+      } else {
+        wikiSidebar.classList.remove('collapsed');
+      }
+    }
+
     // Render sidebar
     const renderSidebarItem = (article: typeof articles[0]) => `
       <div class="wiki-sidebar-item${selectedWikiArticle === article.id ? ' active' : ''}" data-article-id="${article.id}">
@@ -1138,7 +1149,13 @@ async function main() {
       </div>
     `;
 
+    // Mobile expand button (shown only when collapsed)
+    const expandButton = selectedWikiArticle
+      ? `<button class="wiki-sidebar-expand" id="wiki-sidebar-expand-btn">Browse all articles</button>`
+      : '';
+
     const sidebarHtml = `
+      ${expandButton}
       ${issueArticles.length > 0 ? `
         <div class="wiki-sidebar-section">
           <h3>Issues (${issueArticles.length})</h3>
@@ -1185,6 +1202,14 @@ async function main() {
         }
       });
     });
+
+    // Attach click handler to expand button (mobile: expand collapsed sidebar)
+    const expandBtn = document.getElementById('wiki-sidebar-expand-btn');
+    if (expandBtn && wikiSidebar) {
+      expandBtn.addEventListener('click', () => {
+        wikiSidebar.classList.remove('collapsed');
+      });
+    }
 
     // Attach click handler to back button (navigate to graph and show issue card)
     const backBtn = wikiArticleContent.querySelector('.back-btn[data-back-to-graph]');
