@@ -294,7 +294,7 @@ async function main() {
       graphView?.classList.add('hidden');
       tableView?.classList.add('hidden');
       wikiView?.classList.remove('hidden');
-      renderWikiList();
+      if (renderWikiList) renderWikiList();
     }
   }
 
@@ -323,7 +323,7 @@ async function main() {
         selectedWikiArticle = route.slug;
         showView('wiki');
         // Re-render to update selection and article content
-        renderWikiList();
+        if (renderWikiList) renderWikiList();
       } else {
         // System articles still use full-page view for now
         graphView.classList.add('hidden');
@@ -1283,6 +1283,14 @@ async function main() {
         }
       });
     });
+  }
+
+  // Re-trigger initial route handling now that all functions are defined
+  const currentRoute = router.getCurrentRoute();
+  if (currentRoute?.kind === 'article' && currentRoute.type === 'issue') {
+    renderWikiList();
+  } else if (currentRoute?.kind === 'view' && currentRoute.view === 'wiki') {
+    renderWikiList();
   }
 }
 
