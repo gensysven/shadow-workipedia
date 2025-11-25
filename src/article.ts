@@ -79,10 +79,9 @@ export class ArticleRouter {
     this.navigateToView('graph');
   }
 
-  navigateToArticle(type: 'issue' | 'system', slug: string) {
-    // Use #/wiki/slug for issues, #/system/slug for systems
-    const prefix = type === 'issue' ? 'wiki' : 'system';
-    window.location.hash = `#/${prefix}/${slug}`;
+  navigateToArticle(_type: 'issue' | 'system', slug: string) {
+    // Use #/wiki/slug for both issues and systems (wiki view with sidebar)
+    window.location.hash = `#/wiki/${slug}`;
   }
 
   navigateToView(view: ViewType) {
@@ -211,7 +210,7 @@ function renderRelatedContent(node: any, data: GraphData): string {
           <div class="related-links">
             ${connectedIssues.slice(0, INITIAL_SHOW).map(n => `
               <a
-                href="#/${n.type}/${n.id}"
+                href="#/wiki/${n.id}"
                 class="related-link ${n.hasArticle ? 'has-article' : ''}"
               >
                 ${n.label}
@@ -222,7 +221,7 @@ function renderRelatedContent(node: any, data: GraphData): string {
               <div class="related-links-overflow" data-expanded="false">
                 ${connectedIssues.slice(INITIAL_SHOW).map(n => `
                   <a
-                    href="#/${n.type}/${n.id}"
+                    href="#/wiki/${n.id}"
                     class="related-link ${n.hasArticle ? 'has-article' : ''}"
                   >
                     ${n.label}
@@ -245,7 +244,7 @@ function renderRelatedContent(node: any, data: GraphData): string {
           <div class="related-links">
             ${connectedSystems.map(n => `
               <a
-                href="#/${n.type}/${n.id}"
+                href="#/wiki/${n.id}"
                 class="related-link ${n.hasArticle ? 'has-article' : ''}"
               >
                 ${n.label}

@@ -3,7 +3,7 @@ import type { GraphData, IssueCategory } from './types';
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
-import { ArticleRouter, renderArticleView, renderArticleNotFound, renderWikiArticleContent, type RouteType, type ViewType } from './article';
+import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType } from './article';
 
 // Category color mapping (must match extract-data.ts)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
@@ -250,9 +250,6 @@ async function main() {
   let renderTable: () => void;
   let renderWikiList: () => void;
 
-  // Get detail panel (needed for router)
-  const detailPanelElement = document.getElementById('detail-panel') as HTMLDivElement;
-
   // Store router reference for navigation
   let router: ArticleRouter;
 
@@ -331,33 +328,11 @@ async function main() {
       }
       showView(route.view);
     } else if (route.kind === 'article') {
-      // Issue articles show in wiki view with sidebar
-      if (route.type === 'issue') {
-        selectedWikiArticle = route.slug;
-        showView('wiki');
-        // Re-render to update selection and article content
-        if (renderWikiList) renderWikiList();
-      } else {
-        // System articles still use full-page view for now
-        graphView.classList.add('hidden');
-        tableView.classList.add('hidden');
-        wikiView.classList.add('hidden');
-        articleView.classList.remove('hidden');
-        if (header) header.classList.add('hidden');
-        if (tabNav) tabNav.classList.add('hidden');
-        if (filterBar) filterBar.classList.add('hidden');
-        if (detailPanelElement) detailPanelElement.classList.add('hidden');
-
-        const { type, slug } = route;
-        if (data.articles) {
-          const article = data.articles[slug];
-          if (article) {
-            articleContainer.innerHTML = renderArticleView(article, data);
-          } else {
-            articleContainer.innerHTML = renderArticleNotFound(type, slug);
-          }
-        }
-      }
+      // Both issue and system articles show in wiki view with sidebar
+      selectedWikiArticle = route.slug;
+      showView('wiki');
+      // Re-render to update selection and article content
+      if (renderWikiList) renderWikiList();
     }
   });
 
