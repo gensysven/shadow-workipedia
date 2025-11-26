@@ -1245,7 +1245,7 @@ async function main() {
       wikiArticleContent.innerHTML = `
         <div class="wiki-welcome">
           <h2>Shadow Workipedia</h2>
-          <p class="wiki-welcome-subtitle">${articles.length} articles documenting global issues and systems</p>
+          <p class="wiki-welcome-subtitle">${articles.length} articles</p>
           <p>Select an article from the sidebar to start reading.</p>
         </div>
       `;
