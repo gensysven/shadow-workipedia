@@ -292,8 +292,8 @@ async function main() {
       graphView?.classList.add('hidden');
       tableView?.classList.remove('hidden');
       wikiView?.classList.add('hidden');
-      // Hide view mode selector for table, but keep category filters
-      if (viewModeSelector) viewModeSelector.style.display = 'none';
+      // Show view mode selector and category filters for table
+      if (viewModeSelector) viewModeSelector.style.display = '';
       if (categoryFilters) categoryFilters.style.display = '';
       renderTable();
     } else if (view === 'wiki') {
