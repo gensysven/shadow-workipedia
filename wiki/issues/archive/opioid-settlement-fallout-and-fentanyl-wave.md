@@ -11,10 +11,13 @@ socialImpact: 92
 affectedSystems: [Healthcare, Criminal Justice, Pharma Industry, Communities, Labor Markets]
 connections: [fentanyl-crisis, healthcare-system-collapse, mexican-cartel-violence-and-state-failure]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-24
+lastUpdated: 2025-11-27
+consolidatedInto: opioid-policy-settlement-crisis
 ---
 
 # Opioid Settlement Fallout and Fentanyl Wave
+
+> **Note**: This issue is part of the **Opioid Policy & Settlement Crisis** consolidation in the parent Shadow Work simulation.
 
 ## Overview
 

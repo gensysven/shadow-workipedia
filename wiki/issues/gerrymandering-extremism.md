@@ -9,7 +9,7 @@ publicConcern: 67
 economicImpact: 48
 socialImpact: 79
 affectedSystems: [Electoral Systems, Democratic Institutions, Political Systems, Legal Systems]
-connections: [democratic-backsliding, political-polarization, voter-suppression, minority-rule]
+connections: [democratic-backsliding, canadian-political-polarization, voter-suppression, minority-rule]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

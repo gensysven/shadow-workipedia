@@ -683,22 +683,34 @@ body {
   /* Header - More compact on mobile */
   #header {
     flex-wrap: nowrap;
+    justify-content: space-between;
     padding: 0.5rem 0.75rem;
     height: auto;
     gap: 0.5rem;
   }
 
   #header h1 {
+    position: static;
+    transform: none;
     font-size: 1rem;
+    order: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: auto;
   }
 
   #header .tagline {
     display: none; /* Hide tagline on mobile to save space */
   }
 
-  /* Tab navigation - Compact, stays inline with title */
+  /* Tab navigation - Move to right side on mobile */
   #tab-nav {
     padding: 0;
+    order: 2;
+    flex-shrink: 0;
   }
 
   .tab-btn {
@@ -857,7 +869,12 @@ body {
 @media (max-width: 480px) {
   /* Extra small screens - Further optimizations */
   #header h1 {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .tab-btn {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.7rem;
   }
 
   .category-filter-btn {

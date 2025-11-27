@@ -11,10 +11,13 @@ socialImpact: 88
 affectedSystems: [Financial Systems, Real Estate Markets, Income Distribution, Housing Supply, Urban Development]
 connections: [urban-housing-crisis, wealth-inequality-explosion, banking-sector-instability, employment-volatility, homelessness-epidemic]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-24
+lastUpdated: 2025-11-27
+consolidatedInto: housing-affordability-crisis
 ---
 
 # Housing Bubble and Foreclosure Crisis
+
+> **Note**: This issue has been consolidated into **Housing Affordability Crisis** in the parent Shadow Work simulation. See also [Housing Impossibility Crisis](housing-impossibility-crisis.md).
 
 ## Overview
 

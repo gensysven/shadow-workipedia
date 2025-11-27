@@ -9,7 +9,7 @@ publicConcern: 78
 economicImpact: 65
 socialImpact: 82
 affectedSystems: [Government, Judiciary, Media, Civil Society, International Relations]
-connections: [authoritarianism-rise, erosion-democratic-norms, judicial-capture, media-polarization, european-integration-crisis]
+connections: [algorithmic-authoritarianism, erosion-democratic-norms, judicial-capture, media-polarization, european-integration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

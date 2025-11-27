@@ -9,7 +9,7 @@ publicConcern: 62
 economicImpact: 48
 socialImpact: 88
 affectedSystems: [Criminal Justice, Human Rights, Government, Communities, International Relations]
-connections: [authoritarianism-rise, extrajudicial-killings, war-on-drugs-failure, police-violence-normalization, judicial-impunity-cycles]
+connections: [algorithmic-authoritarianism, extrajudicial-killings, war-on-drugs-failure, police-violence-normalization, judicial-impunity-cycles]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

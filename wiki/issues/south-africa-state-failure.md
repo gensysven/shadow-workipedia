@@ -9,7 +9,7 @@ publicConcern: 55
 economicImpact: 72
 socialImpact: 85
 affectedSystems: [Government, Economy, Infrastructure, Society, Energy]
-connections: [infrastructure-decay, corruption-normalization, inequality-crisis]
+connections: [infrastructure-decay, corruption-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -9,7 +9,7 @@ publicConcern: 84
 economicImpact: 62
 socialImpact: 89
 affectedSystems: [Population, Diplomacy, International Orgs, Politics, Law]
-connections: [climate-refugee-floods, border-wall-politics, xenophobia-rise, political-polarization-feedback-loop]
+connections: [climate-refugee-floods, border-wall-politics, xenophobia-rise, canadian-political-polarization-feedback-loop]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

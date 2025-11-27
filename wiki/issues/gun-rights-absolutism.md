@@ -9,7 +9,7 @@ publicConcern: 76
 economicImpact: 54
 socialImpact: 87
 affectedSystems: [Political Systems, Legal Systems, Public Safety, Cultural Systems]
-connections: [mass-shooting-epidemic, political-polarization, constitutional-crisis, militia-movement-rise]
+connections: [mass-shooting-epidemic, canadian-political-polarization, constitutional-crisis, militia-movement-rise]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

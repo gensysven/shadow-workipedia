@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 52
 socialImpact: 84
 affectedSystems: [Criminal Justice, Housing, Social Services, Urban Systems]
-connections: [housing-affordability-crisis, mass-incarceration, mental-health-crisis, opioid-epidemic]
+connections: [housing-affordability-crisis, mass-incarceration-crisis, mental-health-apocalypse, opioid-epidemic]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

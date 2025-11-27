@@ -9,7 +9,7 @@ publicConcern: 45
 economicImpact: 60
 socialImpact: 75
 affectedSystems: [Civil Society, Politics, Technology]
-connections: [ai-alignment-crisis, democratic-backsliding, disinformation-plague, wealth-inequality, existential-risk-culture]
+connections: [ai-alignment-crisis, democratic-backsliding, disinformation-plague, existential-risk-culture]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

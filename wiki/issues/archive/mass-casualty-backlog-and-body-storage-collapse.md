@@ -11,10 +11,13 @@ socialImpact: 76
 affectedSystems: [Healthcare Systems, Emergency Services, Public Health, Death Care Industry]
 connections: [pandemic-response-wars, healthcare-workforce-exodus, infrastructure-decay]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-24
+lastUpdated: 2025-11-27
+consolidatedInto: death-infrastructure-collapse
 ---
 
 # Mass-Casualty Backlog and Body Storage Collapse
+
+> **Note**: This issue has been consolidated into **Death Infrastructure Collapse** in the parent Shadow Work simulation.
 
 ## Overview
 

@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 88
 socialImpact: 92
 affectedSystems: [Economy, Labor Markets, Healthcare, Pensions, Military, Real Estate, Education]
-connections: [japan-demographic-crisis, global-fertility-collapse, aging-population-crisis, gender-inequality, cost-of-living-crisis]
+connections: [japan-demographic-crisis, global-fertility-collapse, aging-population-crisis, cost-of-living-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

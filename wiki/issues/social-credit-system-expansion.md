@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 62
 socialImpact: 88
 affectedSystems: [Government, Civil Liberties, Technology, Society, Economy]
-connections: [surveillance-state-expansion, authoritarianism-rise, algorithmic-governance-proliferation]
+connections: [surveillance-state-expansion, algorithmic-authoritarianism, algorithmic-governance-proliferation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -11,10 +11,13 @@ socialImpact: 59
 affectedSystems: [Economy, Infrastructure, Politics (Policy), Population]
 connections: [tent-city-proliferation, homelessness-criminalization, gentrification-displacement, housing-bubble-and-foreclosure-crisis]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-24
+lastUpdated: 2025-11-27
+consolidatedInto: housing-affordability-crisis
 ---
 
 # Housing Impossibility Crisis
+
+> **Note**: This issue has been consolidated into **Housing Affordability Crisis** in the parent Shadow Work simulation. See also [Housing Bubble and Foreclosure Crisis](housing-bubble-and-foreclosure-crisis.md).
 
 ## Overview
 

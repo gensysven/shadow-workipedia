@@ -11,10 +11,13 @@ socialImpact: 62
 affectedSystems: [Cultural Systems, Land Use, Environmental Systems, Religious Institutions]
 connections: [land-scarcity, environmental-regulation, cultural-conflict, funeral-industry-disruption]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-24
+lastUpdated: 2025-11-27
+consolidatedInto: death-technology-ethics
 ---
 
 # Green Burial vs Carbon Cemetery Wars
+
+> **Note**: This issue has been consolidated into **Death Technology Ethics** in the parent Shadow Work simulation. See also [AI Grief Tech and Digital Resurrection Ethics](ai-grief-tech-and-digital-resurrection-ethics.md).
 
 ## Overview
 

@@ -11,10 +11,13 @@ socialImpact: 70
 affectedSystems: [Civil Society, Technology, Health]
 connections: [mental-health-apocalypse, ai-alignment-crisis, loneliness-epidemic]
 editedBy: Shadow Work Team
-lastUpdated: 2025-11-25
+lastUpdated: 2025-11-27
+consolidatedInto: death-technology-ethics
 ---
 
 # AI Grief Tech and Digital Resurrection Ethics
+
+> **Note**: This issue has been consolidated into **Death Technology Ethics** in the parent Shadow Work simulation. See also [Green Burial vs Carbon Cemetery Wars](green-burial-vs-carbon-cemetery-wars.md).
 
 ## Overview
 

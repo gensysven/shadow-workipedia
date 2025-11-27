@@ -9,7 +9,7 @@ publicConcern: 55
 economicImpact: 72
 socialImpact: 68
 affectedSystems: [Labor Markets, Politics, Economy, Inequality]
-connections: [union-decline, wage-stagnation, gig-economy-serfdom, wealth-inequality]
+connections: [union-decline, gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -9,7 +9,7 @@ publicConcern: 58
 economicImpact: 68
 socialImpact: 82
 affectedSystems: [Government, NATO, Media, Judiciary, Economy]
-connections: [authoritarianism-rise, nato-instability, media-capture, judicial-capture]
+connections: [algorithmic-authoritarianism, nato-instability, media-capture, judicial-capture]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

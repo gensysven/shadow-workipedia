@@ -9,7 +9,7 @@ publicConcern: 82
 economicImpact: 95
 socialImpact: 88
 affectedSystems: [Economy, Real Estate, Insurance, Climate, Politics, Infrastructure]
-connections: [climate-refugee-floods, farmland-value-collapse, coastal-property-abandonment, infrastructure-stranding-cascades, wealth-inequality-spiral, financial-system-instability, political-fragmentation]
+connections: [climate-refugee-floods, farmland-value-collapse, coastal-property-abandonment, infrastructure-stranding-cascades, financial-system-instability, political-fragmentation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

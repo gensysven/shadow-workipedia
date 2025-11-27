@@ -9,7 +9,7 @@ publicConcern: 45
 economicImpact: 58
 socialImpact: 72
 affectedSystems: [Society, Economy, Mental Health, Labor Markets, Education, Consumer Behavior]
-connections: [social-media-addiction-crisis, mental-health-apocalypse, ai-companionship, remote-work-permanent-transition, economic-inequality-widening]
+connections: [social-media-addiction-crisis, mental-health-apocalypse, ai-companionship, remote-work-permanent-transition]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

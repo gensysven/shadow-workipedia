@@ -9,7 +9,7 @@ publicConcern: 52
 economicImpact: 58
 socialImpact: 78
 affectedSystems: [Government, Civil Society, Media, International Relations]
-connections: [authoritarianism-rise, china-influence, democratic-backsliding]
+connections: [algorithmic-authoritarianism, china-influence, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

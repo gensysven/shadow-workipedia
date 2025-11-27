@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 42
 socialImpact: 85
 affectedSystems: [Democracy, International Relations, Civil Society, Media, Human Rights]
-connections: [authoritarianism-rise, russian-aggression, journalist-murder, democratic-backsliding]
+connections: [algorithmic-authoritarianism, russian-aggression, journalist-murder, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---
