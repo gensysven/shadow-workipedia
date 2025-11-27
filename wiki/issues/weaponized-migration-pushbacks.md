@@ -1,6 +1,6 @@
 ---
-id: weaponsized-migration-pushbacks
-title: Weaponsized Migration Pushbacks
+id: weaponized-migration-pushbacks
+title: Weaponized Migration Pushbacks
 number: 253
 category: Security
 urgency: High
