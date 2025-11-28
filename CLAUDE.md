@@ -37,28 +37,48 @@ When making CSS or code changes, use `pnpm dev` to see changes instantly without
 
 ### Data Pipeline
 
+**New Architecture (YAML as Source of Truth):**
 ```
-Parent Repo                     Shadow Workipedia
-├─ ISSUE-CATALOG.md       →    ├─ scripts/extract-data.ts
-├─ CONNECTIVITY-INDEX.json →    ├─ public/data.json (generated)
-                                └─ src/main.ts (loads data)
+Parent Repo                          Shadow Workipedia
+├─ data/issues/*.yaml        →      ├─ scripts/extract-data.ts
+│  (structured game data)           │  (reads YAML + wiki articles)
+├─ CONNECTIVITY-INDEX.json   →      ├─ public/data.json (generated)
+└─ wiki/issues/*.md          →      └─ src/main.ts (loads data)
+   (generated from YAML)
 ```
 
-**Data Extraction Flow:**
-1. `pnpm extract-data` runs `scripts/extract-data.ts`
-2. Parses `ISSUE-CATALOG.md` (255 global issues with categories/urgency)
-3. Parses `CONNECTIVITY-INDEX.json` (system interconnections)
-4. Generates `public/data.json` with graph nodes and edges
-5. Web app loads `data.json` at runtime for visualization
+**Data Flow:**
+1. **Source of truth**: `../data/issues/*.yaml` - structured issue data
+2. **Wiki generation**: `pnpm data:generate-wiki` (in parent repo) → `wiki/issues/*.md`
+3. **Graph extraction**: `pnpm extract-data` reads wiki + catalog → `public/data.json`
+4. **Visualization**: Web app loads `data.json` at runtime
 
-**Important:** Data extraction expects parent repo at `../` relative to this directory. Falls back to mock data if parent repo files are not found.
+**Commands:**
+```bash
+# In parent repo (shadow-work/)
+pnpm data:migrate-wiki    # One-time: convert wiki → YAML
+pnpm data:generate-wiki   # Generate wiki from YAML (after editing YAML)
+pnpm data:validate        # Validate YAML against schema
+
+# In this repo (shadow-workipedia/)
+pnpm extract-data         # Generate data.json from wiki articles
+```
+
+**Key Points:**
+- Edit `../data/issues/*.yaml` for game balance or content changes
+- Run `pnpm data:generate-wiki` after YAML changes to update wiki
+- Don't edit `wiki/issues/*.md` directly (generated files)
+- 329 issue articles, 34 system articles
+- 9 categories: Existential, Economic, Social, Political, Environmental, Security, Technological, Cultural, Infrastructure
+
+**Legacy Note:** `ISSUE-CATALOG.md` is being phased out. The YAML files in `data/issues/` are the canonical source.
 
 ### Core Modules
 
 - **`src/types.ts`** - TypeScript interfaces for graph data structure
-  - `GraphNode`: Issues (255) and systems (34) with metadata
+  - `GraphNode`: Issues (329) and systems (34) with metadata
   - `GraphEdge`: Connections between nodes (issue-issue, issue-system, system-system)
-  - `IssueCategory`: 8 categories (Economic, Social, Political, Environmental, Security, Technological, Cultural, Infrastructure)
+  - `IssueCategory`: 9 categories (Existential, Economic, Social, Political, Environmental, Security, Technological, Cultural, Infrastructure)
   - `IssueUrgency`: Critical, High, Medium, Low, Latent
 
 - **`src/graph.ts`** - D3 force simulation wrapper
