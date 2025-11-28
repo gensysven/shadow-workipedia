@@ -2,14 +2,14 @@
 id: gender-medicine-youth-controversy
 title: Gender Medicine Youth Controversy
 number: 95
-category: Social
+category: [Social, Political, Cultural]
 urgency: High
 tags: [transgender, youth, healthcare, puberty-blockers, gender-affirming-care, medicine, medical-ethics]
 publicConcern: 74
 economicImpact: 41
 socialImpact: 86
 affectedSystems: [Healthcare, Youth Services, Legal Systems, Cultural Systems]
-connections: [lgbtq-rights-rollback, youth-mental-health-crisis, healthcare-politicization, medical-ethics-debates, parent-child-autonomy-conflicts]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

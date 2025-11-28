@@ -2,14 +2,14 @@
 id: death-penalty-abolition-wars
 title: Death Penalty Abolition Wars
 number: 74
-category: Political
+category: [Political, Social, Cultural]
 urgency: Medium
 tags: [death-penalty, criminal-justice, human-rights, abolition, capital-punishment]
 publicConcern: 58
 economicImpact: 42
 socialImpact: 71
 affectedSystems: [Criminal Justice, Legal Systems, Human Rights, Political Systems]
-connections: [mass-incarceration-crisis, racial-justice-reckoning, criminal-justice-reform, international-human-rights]
+connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

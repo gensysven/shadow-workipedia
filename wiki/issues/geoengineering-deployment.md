@@ -2,14 +2,14 @@
 id: geoengineering-deployment
 title: Geoengineering Deployment
 number: 99
-category: Environmental
+category: [Environmental, Technological, Political, Security]
 urgency: Critical
 tags: [geoengineering, climate, SAI, solar-radiation, governance, termination-shock]
 publicConcern: 56
 economicImpact: 78
 socialImpact: 84
 affectedSystems: [Climate Systems, International Relations, Agriculture, Governance]
-connections: [climate-emergency, aerosol-geoengineering-proxy-war, climate-governance-failure, termination-shock-risk]
+connections: [aerosol-geoengineering-proxy-war]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

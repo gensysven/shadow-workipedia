@@ -9,7 +9,7 @@ publicConcern: 61
 economicImpact: 56
 socialImpact: 88
 affectedSystems: [Regional Security, Human Rights, International Relations, Governance]
-connections: [india-pakistan-tensions, nuclear-flashpoint, human-rights-violations, separatist-movements, counter-terrorism-overreach]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

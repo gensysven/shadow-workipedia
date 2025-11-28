@@ -2,14 +2,14 @@
 id: congo-endless-war-and-resource-curse
 title: Congo Endless War and Resource Curse
 number: 60
-category: Security
+category: [Security, Economic, Social, Infrastructure]
 urgency: Critical
 tags: [conflict, DRC, resources, cobalt, minerals, humanitarian, africa]
 publicConcern: 52
 economicImpact: 73
 socialImpact: 91
 affectedSystems: [Regional Security, Resource Extraction, Humanitarian Systems, Supply Chains]
-connections: [rare-earth-element-squeeze, conflict-minerals, child-labor-exploitation, ev-battery-supply-chain]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

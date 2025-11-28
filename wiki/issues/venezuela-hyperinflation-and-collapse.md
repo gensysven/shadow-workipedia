@@ -2,14 +2,14 @@
 id: venezuela-hyperinflation-and-collapse
 title: Venezuela Hyperinflation and Collapse
 number: 380
-category: Economic
+category: [Economic, Political, Social]
 urgency: Critical
 tags: [venezuela, hyperinflation, collapse, refugees, oil, socialism]
 publicConcern: 62
 economicImpact: 85
 socialImpact: 92
 affectedSystems: [Economy, Government, Healthcare, Migration]
-connections: [petrostate-collapse, refugee-crisis, authoritarian-entrenchment]
+connections: [comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

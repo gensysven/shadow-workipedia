@@ -2,7 +2,7 @@
 id: opioid-policy-settlement-crisis
 title: Opioid Policy & Settlement Crisis
 number: 405
-category: Social
+category: [Social, Political, Economic]
 urgency: Critical
 tags:
   - opioids

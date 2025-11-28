@@ -2,7 +2,7 @@
 id: endocrine-disruptors-and-environmental-hormones
 title: Endocrine Disruptors and Environmental Hormones
 number: 429
-category: health
+category: [Social, Environmental]
 urgency: high
 tags:
   - health
@@ -20,7 +20,7 @@ affectedSystems:
 connections:
   - fertility-decline
   - chemical-contamination
-  - regulatory-capture
+  - corporate-regulatory-capture
   - environmental-health
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27

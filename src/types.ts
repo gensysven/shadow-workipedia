@@ -1,6 +1,7 @@
 export type NodeType = 'issue' | 'system';
 
 export type IssueCategory =
+  | 'Existential'
   | 'Economic'
   | 'Social'
   | 'Political'

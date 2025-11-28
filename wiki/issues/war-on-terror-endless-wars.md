@@ -2,7 +2,7 @@
 id: war-on-terror-endless-wars
 title: War on Terror Endless Wars
 number: 479
-category: Military
+category: [Security, Political, Economic]
 urgency: High
 tags:
   - forever-war

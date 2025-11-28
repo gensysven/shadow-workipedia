@@ -2,14 +2,14 @@
 id: corporate-personhood-battles
 title: Corporate Personhood Battles
 number: 64
-category: Political
+category: [Political, Economic]
 urgency: High
 tags: [corporations, legal, democracy, citizens-united, money-in-politics, rights]
 publicConcern: 65
 economicImpact: 72
 socialImpact: 78
 affectedSystems: [Legal Systems, Political Systems, Economic Systems, Democratic Institutions]
-connections: [citizens-united-aftermath, money-in-politics, corporate-capture, democratic-erosion]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

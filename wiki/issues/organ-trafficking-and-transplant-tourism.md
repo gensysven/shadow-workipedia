@@ -2,14 +2,14 @@
 id: organ-trafficking-and-transplant-tourism
 title: Organ Trafficking and Transplant Tourism
 number: 441
-category: Human Rights
+category: [Social, Security, Economic]
 urgency: high
 tags: [organ-trafficking, human-exploitation, medical-ethics, black-market, transplant-tourism, corruption]
 publicConcern: 8
 economicImpact: 6
 socialImpact: 9
 affectedSystems: [healthcare, criminal-justice, international-law, ethics]
-connections: [human-trafficking, medical-tourism, corruption-normalization]
+connections: [corruption-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

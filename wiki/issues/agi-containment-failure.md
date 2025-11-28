@@ -2,14 +2,14 @@
 id: agi-containment-failure
 title: AGI Containment Failure
 number: SW#105
-category: Technological
+category: [Existential, Technological, Security, Economic, Infrastructure]
 urgency: High
 tags: [agi, ai-safety, existential-risk, alignment, containment, recursive-self-improvement, instrumental-convergence]
 publicConcern: 60
 economicImpact: 95
 socialImpact: 95
 affectedSystems: [Technology, Security, Economy, Governance]
-connections: [ai-alignment-crisis, autonomous-weapons-proliferation, state-sponsored-hacking-epidemic, global-digital-infrastructure-collapse]
+connections: [ai-alignment-crisis, autonomous-weapons-proliferation, state-sponsored-hacking-epidemic]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

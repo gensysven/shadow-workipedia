@@ -2,14 +2,14 @@
 id: pyrocumulonimbus-warfare
 title: Pyrocumulonimbus Warfare
 number: 331
-category: Security
+category: [Security, Infrastructure]
 urgency: Medium
 tags: [climate, warfare, fire, weather, military, environment, wildfires]
 publicConcern: 32
 economicImpact: 55
 socialImpact: 62
 affectedSystems: [Military, Environment, Agriculture, Public Health, Infrastructure]
-connections: [climate-warfare, wildfire-catastrophe, weather-manipulation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

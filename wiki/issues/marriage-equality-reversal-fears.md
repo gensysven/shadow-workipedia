@@ -2,7 +2,7 @@
 id: marriage-equality-reversal-fears
 title: Marriage Equality Reversal Fears
 number: SW#301
-category: Social
+category: [Social, Political]
 urgency: Medium
 tags: [lgbtq, marriage, supreme-court, rights, legal, civil-rights]
 publicConcern: 72

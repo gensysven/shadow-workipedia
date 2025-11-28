@@ -2,7 +2,7 @@
 id: credential-inflation-crisis
 title: Credential Inflation Crisis
 number: 425
-category: education
+category: [Social, Economic]
 urgency: medium
 tags:
   - education

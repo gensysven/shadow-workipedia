@@ -9,7 +9,7 @@ publicConcern: 6/10
 economicImpact: 5/10
 socialImpact: 8/10
 affectedSystems: [Relationships, Demographics, Mental-Health, Technology, Culture]
-connections: [loneliness-epidemic, declining-birth-rates, ai-alignment-crisis]
+connections: [ai-alignment-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

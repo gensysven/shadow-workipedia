@@ -2,14 +2,14 @@
 id: nuclear-waste-storage-failure
 title: Nuclear Waste Storage Failure
 number: 438
-category: Environmental
+category: [Existential, Environmental, Political, Infrastructure]
 urgency: critical
 tags: [nuclear-waste, radioactive-storage, Yucca-Mountain, spent-fuel, long-term-hazard, energy-policy]
 publicConcern: 9
 economicImpact: 8
 socialImpact: 8
 affectedSystems: [energy, environment, public-safety, infrastructure]
-connections: [climate-crisis, energy-transition, environmental-regulation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

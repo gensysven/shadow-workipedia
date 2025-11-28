@@ -2,7 +2,7 @@
 id: supreme-court-legitimacy-crisis
 title: Supreme Court Legitimacy Crisis
 number: 466
-category: Governance
+category: [Political]
 urgency: High
 tags:
   - judiciary

@@ -2,14 +2,14 @@
 id: public-defender-system-collapse
 title: Public Defender System Collapse
 number: 453
-category: Justice
+category: [Political, Social]
 urgency: High
 tags: [legal-aid, criminal-justice, poverty, constitutional-rights, mass-incarceration]
 publicConcern: 6/10
 economicImpact: 4/10
 socialImpact: 9/10
 affectedSystems: [Justice, Civil-Rights, Economic-Inequality]
-connections: [mass-incarceration-crisis, poverty-trap, bail-reform-crisis]
+connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

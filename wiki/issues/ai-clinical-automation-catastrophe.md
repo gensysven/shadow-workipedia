@@ -2,14 +2,14 @@
 id: ai-clinical-automation-catastrophe
 title: AI Clinical Automation Catastrophe
 number: SW#107
-category: Social
+category: [Technological, Social, Infrastructure]
 urgency: High
 tags: [healthcare, ai, automation, medical-errors, liability, diagnostics]
 publicConcern: 72
 economicImpact: 80
 socialImpact: 85
 affectedSystems: [Health, Technology, Economy]
-connections: [ai-alignment-crisis, healthcare-system-collapse, insurance-death-panels]
+connections: [ai-alignment-crisis, global-healthcare-workforce-exodus, insurance-death-panels]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

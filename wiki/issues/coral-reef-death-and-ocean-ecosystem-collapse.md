@@ -2,14 +2,14 @@
 id: coral-reef-death-and-ocean-ecosystem-collapse
 title: Coral Reef Death and Ocean Ecosystem Collapse
 number: 63
-category: Environmental
+category: [Existential, Environmental, Economic, Social]
 urgency: Critical
 tags: [oceans, coral, climate, biodiversity, fisheries, marine-ecosystems]
 publicConcern: 69
 economicImpact: 81
 socialImpact: 84
 affectedSystems: [Ocean Systems, Biodiversity, Food Production, Coastal Communities, Tourism]
-connections: [ocean-acidification, biodiversity-collapse, fishery-collapse, climate-migration, coastal-economy-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

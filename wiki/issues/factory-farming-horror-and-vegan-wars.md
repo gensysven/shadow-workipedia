@@ -2,7 +2,7 @@
 id: factory-farming-horror-and-vegan-wars
 title: Factory Farming Horror and Vegan Wars
 number: 432
-category: agriculture
+category: [Economic, Environmental, Cultural]
 urgency: high
 tags:
   - agriculture

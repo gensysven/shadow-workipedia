@@ -7,6 +7,7 @@ import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType 
 
 // Category color mapping (must match extract-data.ts)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
+  Existential: '#dc2626',   // Red-600 - civilization-threatening risks
   Economic: '#3b82f6',
   Social: '#8b5cf6',
   Political: '#ef4444',
@@ -425,7 +426,7 @@ async function main() {
 
   // Filter state
   const activeCategories = new Set<string>([
-    'Economic', 'Social', 'Political', 'Environmental',
+    'Existential', 'Economic', 'Social', 'Political', 'Environmental',
     'Security', 'Technological', 'Cultural', 'Infrastructure'
   ]);
 
@@ -675,6 +676,7 @@ async function main() {
   // Create category filter buttons
   const categoryFilters = document.getElementById('category-filters') as HTMLDivElement;
   const categories = [
+    { name: 'Existential', color: '#dc2626' },
     { name: 'Economic', color: '#3b82f6' },
     { name: 'Social', color: '#8b5cf6' },
     { name: 'Political', color: '#ef4444' },
@@ -814,9 +816,28 @@ async function main() {
     render();
   }
 
+  // Helper to calculate visible nodes based on current filters
+  function getVisibleNodes(): SimNode[] {
+    return graph.getNodes().filter(node => {
+      // View mode filtering
+      if (viewMode === 'issues' && node.type === 'system') return false;
+      if (viewMode === 'systems' && node.type === 'issue') return false;
+
+      // Category filtering - show node only if ALL of its categories are active
+      const allCategoriesActive = node.categories?.every(cat => activeCategories.has(cat)) ?? true;
+      return allCategoriesActive;
+    });
+  }
+
   // Render loop
   function render() {
     if (!ctx) return;
+
+    // Update visible nodes for interaction handlers
+    const visibleNodes = getVisibleNodes();
+    hoverHandler.setVisibleNodes(visibleNodes);
+    clickHandler.setVisibleNodes(visibleNodes);
+    dragHandler.setVisibleNodes(visibleNodes);
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);

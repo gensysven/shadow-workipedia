@@ -2,14 +2,14 @@
 id: african-climate-refugee-crisis
 title: African Climate Refugee Crisis
 number: SW#104
-category: Political
+category: [Environmental, Social, Political]
 urgency: Critical
 tags: [climate, refugees, africa, drought, desertification, migration, sahel, climate-induced-displacement]
 publicConcern: 70
 economicImpact: 75
 socialImpact: 90
 affectedSystems: [Environment, Geopolitics, Civil Society, Agriculture]
-connections: [climate-refugee-floods, sahel-jihadist-insurgency, comprehensive-refugee-system-collapse, water-scarcity-conflicts]
+connections: [climate-refugee-floods, sahel-jihadist-insurgency, comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

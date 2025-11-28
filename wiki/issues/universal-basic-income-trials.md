@@ -2,14 +2,14 @@
 id: universal-basic-income-trials
 title: Universal Basic Income Trials
 number: 118
-category: Economic
+category: [Economic, Social, Political]
 urgency: High
 tags: [UBI, automation, welfare, basic-income, economic-security, pilot-programs]
 publicConcern: 65
 economicImpact: 56
 socialImpact: 68
 affectedSystems: [Economy, Politics (Policy), Public Finance, Technology]
-connections: [ai-job-displacement-tsunami, billionaire-abolition-movement, automation-tax-wars, social-credit-capitalism]
+connections: [ai-job-displacement-tsunami,billionaire-abolition-movement]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

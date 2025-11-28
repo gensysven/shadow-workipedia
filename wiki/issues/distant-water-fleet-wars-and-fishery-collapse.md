@@ -2,14 +2,14 @@
 id: distant-water-fleet-wars-and-fishery-collapse
 title: Distant-Water Fleet Wars and Fishery Collapse
 number: 298
-category: Environmental
+category: [Environmental, Economic, Security]
 urgency: High
 tags: [fisheries, china, oceans, food-security, sovereignty, illegal-fishing]
 publicConcern: 62
 economicImpact: 76
 socialImpact: 81
 affectedSystems: [Ocean Systems, Food Production, Marine Biodiversity, International Relations, Coastal Communities]
-connections: [food-system-fragility, biodiversity-collapse, climate-driven-migration, maritime-border-conflicts]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

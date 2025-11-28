@@ -9,7 +9,7 @@ publicConcern: 45
 economicImpact: 88
 socialImpact: 65
 affectedSystems: [Financial Markets, Banking, International Trade, Monetary Policy]
-connections: [cryptocurrency-chaos, banking-system-fragility, dollar-hegemony-challenge]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

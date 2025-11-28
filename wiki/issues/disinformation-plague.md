@@ -2,7 +2,7 @@
 id: disinformation-plague
 title: Disinformation Plague
 number: 43
-category: Political
+category: [Technological, Political, Social]
 urgency: Medium
 tags: [information-warfare, media-trust, polarization, deepfakes, social-media, election-interference]
 publicConcern: 64

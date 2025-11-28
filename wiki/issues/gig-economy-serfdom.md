@@ -2,14 +2,14 @@
 id: gig-economy-serfdom
 title: Gig Economy Serfdom
 number: 15
-category: Economic
+category: [Economic, Social, Technological]
 urgency: High
 tags: [labor, platform-capitalism, worker-rights, precarity, algorithmic-management, misclassification]
 publicConcern: 82
 economicImpact: 85
 socialImpact: 88
 affectedSystems: [Economy, Labor, Law, Technology]
-connections: [ai-job-displacement-tsunami, housing-impossibility-crisis, healthcare-system-collapse, student-debt-slavery]
+connections: [ai-job-displacement-tsunami, global-healthcare-workforce-exodus, student-debt-slavery]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: insurance-death-panels
 title: Insurance Death Panels
 number: 122
-category: Economic
+category: [Economic, Social]
 urgency: High
 tags: [insurance, healthcare, denial, rationing, corporate, profit, mortality]
 publicConcern: 71
 economicImpact: 68
 socialImpact: 86
 affectedSystems: [Healthcare, Insurance, Legal Systems, Economic Systems]
-connections: [healthcare-system-collapse, corporate-capture, medical-bankruptcy, mortality-inequality]
+connections: [global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -50,7 +50,7 @@ Corporate health insurers have systematized coverage denial through nested autho
 
 **Cascading Effects:**
 
-- Triggers **healthcare-system-collapse** when denial rates exceed 25% + appeal success rates fall below 3%, causing physician shortages and patient flight to alternative systems
+- Triggers **global-healthcare-workforce-exodus** when denial rates exceed 25% + appeal success rates fall below 3%, causing physician shortages and patient flight to alternative systems
 - Amplifies **corporate-capture** by 20-30% as insurance companies consolidate market power and capture regulatory agencies responsible for denial oversight
 - Directly amplifies **medical-bankruptcy** by 15-25% when denied patients must self-pay for treatment, creating secondary financial catastrophe beyond health impact
 - Triggers **mortality-inequality** escalation as wealth-based survival disparities exceed 35% gap between insured and uninsured/underinsured populations

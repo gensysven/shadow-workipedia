@@ -2,14 +2,14 @@
 id: arctic-sovereignty-conflicts
 title: Arctic Sovereignty Conflicts
 number: SW#124
-category: Political
+category: [Political, Security, Environmental]
 urgency: High
 tags: [arctic, russia, nato, shipping, resources, military]
 publicConcern: 55
 economicImpact: 75
 socialImpact: 60
 affectedSystems: [Geopolitics, Security, Economy]
-connections: [arctic-blue-ocean-event, russia-nato-tensions, resource-extraction-conflicts]
+connections: [resource-extraction-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: ocean-acidification-food-quality-crisis
 title: Ocean Acidification Food Quality Crisis
 number: 440
-category: Environmental
+category: [Environmental, Economic]
 urgency: critical
 tags: [ocean-acidification, marine-ecology, food-security, climate-change, shellfish, coral-reefs]
 publicConcern: 7
 economicImpact: 8
 socialImpact: 8
 affectedSystems: [marine-ecosystems, food-supply, fishing-industry, coastal-economies]
-connections: [climate-crisis, fisheries-collapse, food-system-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

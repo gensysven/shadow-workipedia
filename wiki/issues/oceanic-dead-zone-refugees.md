@@ -2,14 +2,14 @@
 id: oceanic-dead-zone-refugees
 title: Oceanic Dead-Zone Refugees
 number: 316
-category: Environmental
+category: [Environmental, Social, Economic]
 urgency: High
 tags: [oceans, pollution, fisheries, climate, migration, hypoxia, food-security]
 publicConcern: 55
 economicImpact: 72
 socialImpact: 78
 affectedSystems: [Marine Ecosystems, Fishing Industry, Coastal Communities, Food Systems]
-connections: [distant-water-fleet-wars-and-fishery-collapse, climate-driven-migration, agricultural-runoff-pollution]
+connections: [distant-water-fleet-wars-and-fishery-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

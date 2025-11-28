@@ -2,14 +2,14 @@
 id: global-cold-chain-failure-and-vaccine-spoilage
 title: Global Cold-Chain Failure and Vaccine Spoilage
 number: 298
-category: Infrastructure
+category: [Infrastructure, Social, Economic]
 urgency: High
 tags: [infrastructure, health, logistics, vaccines, food, climate, supply-chain, developing-world]
 publicConcern: 72
 economicImpact: 78
 socialImpact: 85
 affectedSystems: [Healthcare Distribution, Food Systems, Logistics Networks, Climate Infrastructure]
-connections: [vaccine-hesitancy-wars, supply-chain-fragility, tropical-disease-resurgence, agricultural-collapse, infrastructure-decay]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

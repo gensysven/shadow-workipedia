@@ -2,14 +2,14 @@
 id: mass-incarceration-crisis
 title: Mass Incarceration Crisis
 number: 457
-category: Social
+category: [Social, Political]
 urgency: High
 tags: [criminal-justice, prisons, inequality, race, reform, recidivism]
 publicConcern: 68
 economicImpact: 72
 socialImpact: 89
 affectedSystems: [criminal-justice, inequality, healthcare, labor-market, political-institutions]
-connections: [police-legitimacy-crisis, wealth-inequality-explosion, racial-discrimination-systemic, opioid-epidemic, gang-violence-surge]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: global-pollinator-extinction-pulse
 title: Global Pollinator Extinction Pulse
 number: 105
-category: Environmental
+category: [Existential, Environmental, Economic]
 urgency: Critical
 tags: [bees, pollinators, extinction, agriculture, pesticides, ecosystem-collapse]
 publicConcern: 68
 economicImpact: 86
 socialImpact: 82
 affectedSystems: [Agriculture, Biodiversity, Food Production, Ecosystem Services]
-connections: [biodiversity-collapse, agricultural-collapse, food-system-fragility, pesticide-regulation-failure]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

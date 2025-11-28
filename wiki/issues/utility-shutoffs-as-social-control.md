@@ -2,7 +2,7 @@
 id: utility-shutoffs-as-social-control
 title: Utility Shutoffs as Social Control
 number: 475
-category: Economic
+category: [Economic, Infrastructure]
 urgency: High
 tags:
   - poverty

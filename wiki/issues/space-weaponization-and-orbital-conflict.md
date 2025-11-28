@@ -2,14 +2,14 @@
 id: space-weaponization-and-orbital-conflict
 title: Space Weaponization and Orbital Conflict
 number: 358
-category: Security
+category: [Security, Technological, Political, Infrastructure]
 urgency: Critical
 tags: [space, weapons, conflict, satellites, asat, debris, warfare]
 publicConcern: 52
 economicImpact: 78
 socialImpact: 72
 affectedSystems: [Military, Communications, GPS, Economy, Infrastructure]
-connections: [space-militarization, kessler-syndrome-risk, critical-infrastructure-vulnerability]
+connections: [space-militarization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

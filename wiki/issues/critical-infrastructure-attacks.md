@@ -2,14 +2,14 @@
 id: critical-infrastructure-attacks
 title: Critical Infrastructure Attacks
 number: 71
-category: Security
+category: [Security, Technological, Infrastructure]
 urgency: Critical
 tags: [cybersecurity, infrastructure, energy, water, attacks, state-actors]
 publicConcern: 79
 economicImpact: 91
 socialImpact: 86
 affectedSystems: [Critical Infrastructure, Cybersecurity, Energy Systems, Public Safety]
-connections: [ransomware-pandemic, state-sponsored-hacking, grid-vulnerability, water-system-attacks]
+connections: [ransomware-pandemic]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

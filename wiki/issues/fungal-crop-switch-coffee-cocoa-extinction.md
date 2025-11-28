@@ -2,14 +2,14 @@
 id: fungal-crop-switch-coffee-cocoa-extinction
 title: "Fungal Crop Switch: Coffee/Cocoa Extinction"
 number: 93
-category: Environmental
+category: [Existential, Environmental]
 urgency: High
 tags: [agriculture, coffee, cocoa, fungal-disease, climate, food-security, crop-failure]
 publicConcern: 58
 economicImpact: 79
 socialImpact: 74
 affectedSystems: [Agriculture, Food Production, Economic Systems, Biodiversity]
-connections: [agricultural-collapse, climate-crop-failure, tropical-disease-spread, commodity-price-volatility]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

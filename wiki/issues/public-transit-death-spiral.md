@@ -9,7 +9,7 @@ publicConcern: 65
 economicImpact: 70
 socialImpact: 75
 affectedSystems: [Infrastructure, Environment, Economy, Civil Society]
-connections: [remote-work-revolution, aging-infrastructure-cascade, climate-goals-failure, urban-heat-island-deaths]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

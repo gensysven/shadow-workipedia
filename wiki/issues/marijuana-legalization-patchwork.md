@@ -9,7 +9,7 @@ publicConcern: 65
 economicImpact: 58
 socialImpact: 71
 affectedSystems: [Criminal Justice, State Governance, Healthcare, Commerce]
-connections: [mass-incarceration-crisis, felon-disenfranchisement, states-rights-nullification]
+connections: [mass-incarceration-crisis, felon-disenfranchisement]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

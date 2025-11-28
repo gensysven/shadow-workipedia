@@ -2,14 +2,14 @@
 id: mexican-cartel-violence-and-state-failure
 title: Mexican Cartel Violence and State Failure
 number: 308
-category: Security
+category: [Security, Political, Social]
 urgency: Critical
 tags: [drugs, cartels, mexico, violence, organized-crime, border, corruption]
 publicConcern: 78
 economicImpact: 75
 socialImpact: 88
 affectedSystems: [Law Enforcement, Government, Border Security, Economy, Healthcare]
-connections: [fentanyl-crisis, border-wall-politics, latin-america-instability, human-trafficking-networks]
+connections: [border-wall-politics, human-trafficking-networks]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

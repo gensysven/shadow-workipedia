@@ -2,14 +2,14 @@
 id: eurozone-debt-crises
 title: Eurozone Debt Crises
 number: 86
-category: Economic
+category: [Economic, Political]
 urgency: High
 tags: [debt, eurozone, austerity, banking, sovereign-debt, ecb, greece]
 publicConcern: 71
 economicImpact: 91
 socialImpact: 78
 affectedSystems: [Financial Markets, EU Institutions, Banking Sector, Social Welfare]
-connections: [banking-crisis, austerity-backlash, eu-integration-crisis, sovereign-debt-spiral]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

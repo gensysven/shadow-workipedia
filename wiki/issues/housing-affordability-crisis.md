@@ -2,7 +2,7 @@
 id: housing-affordability-crisis
 title: Housing Affordability Crisis
 number: 404
-category: Economic
+category: [Economic, Social, Political]
 urgency: Critical
 tags:
   - housing

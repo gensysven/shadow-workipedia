@@ -2,14 +2,14 @@
 id: ai-cult-states
 title: AI Cult States
 number: SW#109
-category: Economic
+category: [Technological, Cultural, Political]
 urgency: Medium
 tags: [ai, religion, governance, techno-utopianism, cults, ideology, transhumanism, longtermism]
 publicConcern: 45
 economicImpact: 60
 socialImpact: 75
 affectedSystems: [Civil Society, Politics, Technology]
-connections: [ai-alignment-crisis, democratic-backsliding, disinformation-plague, existential-risk-culture]
+connections: [ai-alignment-crisis, democratic-backsliding, disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

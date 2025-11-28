@@ -2,7 +2,7 @@
 id: mental-health-apocalypse
 title: Mental Health Apocalypse
 number: 28
-category: Social
+category: [Social, Infrastructure]
 urgency: Critical
 tags: [healthcare, mental-health, labor, suicide, social-isolation, burnout]
 publicConcern: 60

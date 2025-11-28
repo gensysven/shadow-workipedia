@@ -2,14 +2,14 @@
 id: global-shipping-corridor-disruptions
 title: Global Shipping Corridor Disruptions
 number: 107
-category: Economic
+category: [Economic, Security, Political, Infrastructure]
 urgency: Critical
 tags: [shipping, suez, panama, trade, chokepoints, supply-chain, red-sea]
 publicConcern: 67
 economicImpact: 89
 socialImpact: 74
 affectedSystems: [Global Trade, Supply Chain, Maritime Systems, Energy]
-connections: [supply-chain-fragility, red-sea-crisis, geopolitical-conflict, inflation-crisis]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---
@@ -52,7 +52,7 @@ As of 2025, the systemic risk is amplified by structural vulnerability: the conc
 
 **Cascading Effects:**
 
-- Triggers **supply-chain-fragility** intensification when >2 chokepoints experience disruption simultaneously or shipping costs exceed $8,000/container
+- Triggers **just-in-time-supply-chain-collapse** intensification when >2 chokepoints experience disruption simultaneously or shipping costs exceed $8,000/container
 - Amplifies **inflation-crisis** by 8-25% through increased shipping costs, energy price spikes (if petroleum-corridor affected), and reduced supply availability
 - Amplifies **geopolitical-conflict** by 10-20% as corridor control becomes strategic flashpoint; state actors increasingly target shipping to coerce adversaries
 - Triggers **energy-security-crisis** by 20-40% when Strait of Hormuz or Suez disruption reduces petroleum supply >40% to dependent regions

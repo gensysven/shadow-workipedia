@@ -2,14 +2,14 @@
 id: commodity-currency-fragmentation-and-de-dollarization
 title: Commodity Currency Fragmentation and De-Dollarization
 number: 58
-category: Economic
+category: [Economic, Political, Security]
 urgency: High
 tags: [currency, dollar, geopolitics, trade, BRICS, financial-system]
 publicConcern: 58
 economicImpact: 88
 socialImpact: 65
 affectedSystems: [Global Trade, Financial Markets, Monetary Systems, Geopolitics]
-connections: [brics-expansion, sanctions-weaponization, petrodollar-decline, reserve-currency-competition]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

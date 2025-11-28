@@ -2,14 +2,14 @@
 id: haiti-perpetual-catastrophe
 title: Haiti Perpetual Catastrophe
 number: SW#113
-category: Security
+category: [Political, Social, Security, Infrastructure]
 urgency: Critical
 tags: [haiti, gangs, humanitarian, failed-state, caribbean, intervention, governance]
 publicConcern: 58
 economicImpact: 61
 socialImpact: 94
 affectedSystems: [State Governance, Humanitarian Systems, Regional Security, Migration]
-connections: [gang-state-capture, humanitarian-crisis-cascade, intervention-failure, caribbean-instability]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

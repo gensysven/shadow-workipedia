@@ -2,7 +2,7 @@
 id: trans-rights-battlegrounds
 title: Trans Rights Battlegrounds
 number: 472
-category: Social
+category: [Social, Political, Cultural]
 urgency: High
 tags:
   - lgbtq-rights

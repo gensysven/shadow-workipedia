@@ -9,7 +9,7 @@ publicConcern: 62
 economicImpact: 68
 socialImpact: 72
 affectedSystems: [Internet Infrastructure, Telecommunications, Small Business, Media]
-connections: [billionaire-media-ownership, digital-divide, platform-monopoly]
+connections: [billionaire-media-ownership]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: rural-hospital-collapse
 title: Rural Hospital Collapse
 number: 342
-category: Infrastructure
+category: [Social, Infrastructure]
 urgency: Critical
 tags: [healthcare, rural, hospitals, access, inequality, closure]
 publicConcern: 72
 economicImpact: 68
 socialImpact: 85
 affectedSystems: [Healthcare, Rural Communities, Economy, Emergency Services]
-connections: [healthcare-workforce-exodus, healthcare-system-collapse, rural-decline]
+connections: [global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

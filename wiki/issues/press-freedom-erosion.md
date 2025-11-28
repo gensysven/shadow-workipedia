@@ -2,14 +2,14 @@
 id: press-freedom-erosion
 title: Press Freedom Erosion
 number: 452
-category: Media
+category: [Political, Cultural]
 urgency: High
 tags: [journalism, media-suppression, authoritarianism, free-speech, democracy]
 publicConcern: 8/10
 economicImpact: 5/10
 socialImpact: 9/10
 affectedSystems: [Media, Governance, Civil-Society, Information]
-connections: [misinformation-warfare, surveillance-capitalism, digital-authoritarianism]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

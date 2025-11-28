@@ -2,14 +2,14 @@
 id: human-smuggling-networks
 title: Human Smuggling Networks
 number: 119
-category: Security
+category: [Security, Social, Economic]
 urgency: High
 tags: [smuggling, migration, organized-crime, borders, refugees, cartels]
 publicConcern: 67
 economicImpact: 62
 socialImpact: 81
 affectedSystems: [Migration Systems, Criminal Networks, Border Security, Humanitarian]
-connections: [migration-crisis, organized-crime-expansion, border-militarization, asylum-system-breakdown]
+connections: [asylum-system-breakdown]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

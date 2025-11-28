@@ -2,14 +2,14 @@
 id: civil-asset-forfeiture
 title: Civil Asset Forfeiture Crisis
 number: SW#156
-category: Political
+category: [Political, Economic, Social]
 urgency: High
 tags: [police-funding, civil-rights, due-process, racial-justice, reform, justice-system]
 publicConcern: 72
 economicImpact: 65
 socialImpact: 78
 affectedSystems: [Law Enforcement, Justice System, Economy, Civil Society]
-connections: [mass-incarceration-crisis, police-militarization-acceleration, racial-wealth-gap-acceleration, distrust-in-institutions, judicial-system-capture]
+connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

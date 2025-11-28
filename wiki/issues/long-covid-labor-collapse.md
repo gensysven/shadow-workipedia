@@ -2,14 +2,14 @@
 id: long-covid-labor-collapse
 title: Long COVID Labor Collapse
 number: 136
-category: Infrastructure
+category: [Social, Economic]
 urgency: High
 tags: [long-covid, labor, disability, healthcare, pandemic, workforce]
 publicConcern: 64
 economicImpact: 78
 socialImpact: 82
 affectedSystems: [Labor Markets, Healthcare, Disability Systems, Economic Systems]
-connections: [pandemic-aftermath, healthcare-system-strain, disability-crisis, workforce-shortage]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: sahel-jihadist-insurgency
 title: Sahel Jihadist Insurgency
 number: 344
-category: Security
+category: [Security, Political]
 urgency: Critical
 tags: [terrorism, sahel, africa, jihadism, france, mali, burkina-faso, niger, insurgency]
 publicConcern: 52
 economicImpact: 58
 socialImpact: 85
 affectedSystems: [Security, Government, Migration, Economy, International Relations]
-connections: [terrorism-networks, climate-driven-migration, african-instability, french-colonial-legacy, weapons-trafficking]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

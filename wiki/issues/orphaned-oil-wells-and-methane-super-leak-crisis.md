@@ -2,14 +2,14 @@
 id: orphaned-oil-wells-and-methane-super-leak-crisis
 title: Orphaned Oil Wells and Methane Super-Leak Crisis
 number: 320
-category: Environmental
+category: [Environmental, Economic, Political]
 urgency: High
 tags: [oil, methane, pollution, climate, infrastructure, abandoned, wells]
 publicConcern: 48
 economicImpact: 65
 socialImpact: 58
 affectedSystems: [Environment, Public Health, Climate, Government Finance, Energy Industry]
-connections: [climate-acceleration, infrastructure-decay, oil-industry-death-throes, groundwater-contamination]
+connections: [oil-industry-death-throes]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

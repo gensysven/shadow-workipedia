@@ -2,14 +2,14 @@
 id: pharmaceutical-ingredient-dependency-crisis
 title: Pharmaceutical Ingredient Dependency Crisis
 number: 323
-category: Infrastructure
+category: [Economic, Social, Security]
 urgency: High
 tags: [pharma, supply-chain, china, india, healthcare, national-security, manufacturing]
 publicConcern: 58
 economicImpact: 82
 socialImpact: 78
 affectedSystems: [Healthcare, Manufacturing, Trade, National Security, Pharmaceuticals]
-connections: [supply-chain-fragility, china-us-tensions, healthcare-system-collapse, pandemic-response-wars]
+connections: [just-in-time-supply-chain-collapse,global-healthcare-workforce-exodus,pandemic-response-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

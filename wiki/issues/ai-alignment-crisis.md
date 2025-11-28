@@ -2,14 +2,14 @@
 id: ai-alignment-crisis
 title: AI Alignment Crisis
 number: SW#106
-category: Technological
+category: [Existential, Technological, Security, Political]
 urgency: High
 tags: [ai, alignment, safety, values, existential-risk, agi, ai-safety]
 publicConcern: 55
 economicImpact: 85
 socialImpact: 90
 affectedSystems: [Technology, Security, Civil Society]
-connections: [agi-containment-failure, autonomous-weapons-proliferation, ai-job-displacement-tsunami, surveillance-infrastructure-proliferation]
+connections: [agi-containment-failure, autonomous-weapons-proliferation, ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

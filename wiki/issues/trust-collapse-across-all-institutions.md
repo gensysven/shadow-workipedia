@@ -2,7 +2,7 @@
 id: trust-collapse-across-all-institutions
 title: Trust Collapse Across All Institutions
 number: 473
-category: Governance
+category: [Political, Social]
 urgency: Critical
 tags:
   - institutional-trust

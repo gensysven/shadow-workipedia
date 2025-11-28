@@ -9,7 +9,7 @@ publicConcern: 82
 economicImpact: 72
 socialImpact: 92
 affectedSystems: [Healthcare, Criminal Justice, Pharma Industry, Communities, Labor Markets]
-connections: [fentanyl-crisis, healthcare-system-collapse, mexican-cartel-violence-and-state-failure]
+connections: [fentanyl-crisis, global-healthcare-workforce-exodus, mexican-cartel-violence-and-state-failure]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 consolidatedInto: opioid-policy-settlement-crisis

@@ -2,14 +2,14 @@
 id: renewable-energy-nimbyism
 title: Renewable Energy NIMBYism
 number: 338
-category: Environmental
+category: [Environmental, Infrastructure, Political]
 urgency: High
 tags: [energy, solar, wind, nimby, climate, infrastructure, siting]
 publicConcern: 58
 economicImpact: 72
 socialImpact: 62
 affectedSystems: [Energy Grid, Land Use, Climate Policy, Local Government]
-connections: [climate-inaction, grid-instability, energy-transition-failure]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

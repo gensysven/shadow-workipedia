@@ -2,7 +2,7 @@
 id: surveillance-state-expansion
 title: Surveillance State Expansion
 number: 467
-category: Civil Liberties
+category: [Political, Security, Technological]
 urgency: Critical
 tags:
   - privacy

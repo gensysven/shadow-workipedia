@@ -2,14 +2,14 @@
 id: drug-resistant-mosquito-parasite-arms-race
 title: Drug-Resistant Mosquito/Parasite Arms Race
 number: 78
-category: Infrastructure
+category: [Existential, Social, Environmental, Technological]
 urgency: Critical
 tags: [malaria, mosquitoes, drug-resistance, public-health, tropics, infectious-disease]
 publicConcern: 61
 economicImpact: 74
 socialImpact: 86
 affectedSystems: [Healthcare, Public Health, Biodiversity, Economic Systems]
-connections: [antibiotic-resistance-crisis, tropical-disease-resurgence, climate-disease-spread, pharmaceutical-market-failure]
+connections: [antibiotic-resistance-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

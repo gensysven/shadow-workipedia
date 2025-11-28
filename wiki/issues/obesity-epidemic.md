@@ -2,14 +2,14 @@
 id: obesity-epidemic
 title: Obesity Epidemic
 number: 439
-category: Public Health
+category: [Social, Economic]
 urgency: critical
 tags: [obesity, metabolic-disease, food-environment, public-health, diabetes, chronic-disease]
 publicConcern: 9
 economicImpact: 9
 socialImpact: 9
 affectedSystems: [health, food, economic, social]
-connections: [food-system-crisis, healthcare-costs, metabolic-syndrome]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

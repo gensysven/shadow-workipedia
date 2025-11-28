@@ -2,14 +2,14 @@
 id: global-container-chokepoint-labor-revolts
 title: Global Container Chokepoint Labor Revolts
 number: 101
-category: Economic
+category: [Economic, Social, Political, Infrastructure]
 urgency: High
 tags: [ports, labor, supply-chain, shipping, strikes, chokepoints, logistics]
 publicConcern: 58
 economicImpact: 86
 socialImpact: 71
 affectedSystems: [Supply Chain, Labor Markets, Global Trade, Manufacturing]
-connections: [supply-chain-fragility, labor-power-resurgence, port-congestion-crisis, just-in-time-collapse]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---
@@ -54,7 +54,7 @@ The fundamental dynamic is one of distributional conflict: workers demand wage i
 
 **Cascading Effects:**
 
-- Triggers **supply-chain-fragility** when 3+ coordinated port labor actions cause 8+ week recovery periods and companies shift 10%+ cargo to alternate routes, reducing network redundancy by 15-25%
+- Triggers **just-in-time-supply-chain-collapse** when 3+ coordinated port labor actions cause 8+ week recovery periods and companies shift 10%+ cargo to alternate routes, reducing network redundancy by 15-25%
 
 - Amplifies **labor-power-resurgence** by 25-40% when successful port labor contracts establish union precedent for wage gains that other sectors cite, strengthening labor negotiating position across supply chain (trucking, rail, warehousing)
 

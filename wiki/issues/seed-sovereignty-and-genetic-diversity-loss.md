@@ -2,14 +2,14 @@
 id: seed-sovereignty-and-genetic-diversity-loss
 title: Seed Sovereignty and Genetic Diversity Loss
 number: 460
-category: Agriculture
+category: [Environmental, Economic]
 urgency: Critical
 tags: [biodiversity, food-security, genetic-diversity, climate-adaptation, agriculture]
 publicConcern: 5/10
 economicImpact: 8/10
 socialImpact: 9/10
 affectedSystems: [Agriculture, Biodiversity, Food-Security, Climate-Adaptation]
-connections: [seed-monopolies, food-system-fragility, climate-change-agriculture]
+connections: [seed-monopolies]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,14 +2,14 @@
 id: hong-kong-suppression
 title: Hong Kong Suppression
 number: 117
-category: Political
+category: [Political, Social]
 urgency: High
 tags: [hong-kong, china, democracy, authoritarianism, national-security-law, protests]
 publicConcern: 71
 economicImpact: 68
 socialImpact: 86
 affectedSystems: [Democratic Institutions, International Relations, Financial Systems, Civil Liberties]
-connections: [china-authoritarianism, taiwan-tensions, democratic-backsliding, financial-hub-decline]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

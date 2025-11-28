@@ -2,14 +2,14 @@
 id: quantum-computing-encryption-collapse
 title: Quantum Computing Encryption Collapse
 number: 334
-category: Technological
+category: [Existential, Technological, Security, Infrastructure]
 urgency: Critical
 tags: [quantum, encryption, security, technology, cryptography, infrastructure]
 publicConcern: 55
 economicImpact: 92
 socialImpact: 85
 affectedSystems: [Cybersecurity, Financial Systems, Communications, Government, Military]
-connections: [critical-infrastructure-vulnerability, cybersecurity-collapse, banking-system-fragility]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

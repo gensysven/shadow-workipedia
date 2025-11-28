@@ -2,14 +2,14 @@
 id: reparations-movement-acceleration
 title: Reparations Movement Acceleration
 number: 339
-category: Political
+category: [Political, Social, Economic]
 urgency: Medium
 tags: [reparations, race, slavery, justice, wealth, policy]
 publicConcern: 62
 economicImpact: 75
 socialImpact: 82
 affectedSystems: [Government Finance, Racial Justice, Politics, Economy]
-connections: [racial-wealth-gap, racial-reckoning-cycles, slavery-legacy]
+connections: [racial-reckoning-cycles]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: economic-immigration-conflicts
 title: Economic Immigration Conflicts
 number: 79
-category: Economic
+category: [Economic, Social, Political]
 urgency: High
 tags: [immigration, labor, economy, wages, demographics, politics]
 publicConcern: 76
 economicImpact: 74
 socialImpact: 81
 affectedSystems: [Labor Markets, Immigration Systems, Political Systems, Economic Systems]
-connections: [labor-shortage-crisis, wage-stagnation, demographic-collapse, immigration-enforcement-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

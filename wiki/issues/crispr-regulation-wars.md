@@ -2,14 +2,14 @@
 id: crispr-regulation-wars
 title: CRISPR Regulation Wars
 number: 69
-category: Technological
+category: [Technological, Political, Social]
 urgency: High
 tags: [crispr, gene-editing, biotech, regulation, ethics, designer-babies, germline-editing, inequality]
 publicConcern: 67
 economicImpact: 74
 socialImpact: 82
 affectedSystems: [Healthcare, Biotechnology, Legal Systems, Ethics Systems, International Relations, Politics]
-connections: [designer-baby-arms-race, genetic-discrimination, biotech-nationalism, scientific-ethics-breakdown, healthcare-inequality-widening, enhancement-inequality-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

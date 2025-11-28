@@ -9,7 +9,7 @@ publicConcern: 58
 economicImpact: 65
 socialImpact: 88
 affectedSystems: [Government, Education, Agriculture, Security Forces, Displacement]
-connections: [climate-driven-migration, african-instability, terrorism-networks, sahel-militarization, humanitarian-crisis-cascade]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: soil-death-and-home-growing-impossibility
 title: Soil Death and Home Growing Impossibility
 number: 463
-category: Environment
+category: [Environmental, Social]
 urgency: Medium
 tags: [soil-health, urban-agriculture, environmental-toxins, food-security, self-sufficiency]
 publicConcern: 5/10
 economicImpact: 4/10
 socialImpact: 7/10
 affectedSystems: [Agriculture, Environment, Food-Security, Urban-Planning, Public-Health]
-connections: [soil-degradation, environmental-toxins, food-system-fragility]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

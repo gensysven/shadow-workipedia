@@ -2,7 +2,7 @@
 id: school-shooting-epidemic
 title: School Shooting Epidemic
 number: 346
-category: Security
+category: [Security, Social]
 urgency: Critical
 tags: [guns, schools, violence, children, safety, trauma, education]
 publicConcern: 92

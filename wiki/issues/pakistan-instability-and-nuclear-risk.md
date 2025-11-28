@@ -2,14 +2,14 @@
 id: pakistan-instability-and-nuclear-risk
 title: Pakistan Instability and Nuclear Risk
 number: 322
-category: Security
+category: [Existential, Security, Political]
 urgency: Critical
 tags: [pakistan, nuclear, terrorism, instability, india, military, asia]
 publicConcern: 75
 economicImpact: 68
 socialImpact: 85
 affectedSystems: [Nuclear Security, Regional Stability, Government, Military, Economy]
-connections: [nuclear-proliferation-cascade, india-pakistan-tensions, terrorism-networks, kashmir-conflict]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

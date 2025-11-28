@@ -2,14 +2,14 @@
 id: climate-refugee-floods
 title: Climate Refugee Floods
 number: 18
-category: Environmental
+category: [Environmental, Social, Security, Political]
 urgency: Medium
 tags: [climate, migration, refugees, sea-level-rise, border-security]
 publicConcern: 96
 economicImpact: 65
 socialImpact: 61
 affectedSystems: [Climate, Population, Diplomacy, International Orgs]
-connections: [asylum-system-breakdown, border-wall-politics, climate-insurance-collapse, atlantic-overturning-collapse-risk-amoc]
+connections: [asylum-system-breakdown, border-wall-politics, atlantic-overturning-collapse-risk-amoc]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

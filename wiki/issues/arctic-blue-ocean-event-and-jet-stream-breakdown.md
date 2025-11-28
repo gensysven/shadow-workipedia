@@ -2,7 +2,7 @@
 id: arctic-blue-ocean-event-and-jet-stream-breakdown
 title: Arctic Blue Ocean Event and Jet Stream Breakdown
 number: SW#123
-category: Environmental
+category: [Existential, Environmental, Security, Economic, Infrastructure]
 urgency: Critical
 tags: [arctic, ice-free, jet-stream, climate, extreme-weather, tipping-point]
 publicConcern: 60

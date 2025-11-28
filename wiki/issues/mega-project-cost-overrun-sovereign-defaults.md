@@ -2,14 +2,14 @@
 id: mega-project-cost-overrun-sovereign-defaults
 title: Mega-Project Cost Overrun Sovereign Defaults
 number: SW#307
-category: Economic
+category: [Economic, Political, Infrastructure]
 urgency: High
 tags: [infrastructure, debt, corruption, development, china, belt-and-road, sovereign-debt, strategic-assets, financial-colonialism]
 publicConcern: 52
 economicImpact: 85
 socialImpact: 72
 affectedSystems: [Government Finance, International Development, Infrastructure, Sovereignty]
-connections: [china-belt-and-road-debt-trap, infrastructure-decay, sovereign-debt-crisis, corruption-megaproject-embezzlement]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

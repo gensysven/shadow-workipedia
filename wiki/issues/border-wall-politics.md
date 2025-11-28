@@ -2,14 +2,14 @@
 id: border-wall-politics
 title: Border Wall Politics
 number: 47
-category: Political
+category: [Political, Economic, Social]
 urgency: High
 tags: [immigration, national-security, border-control, geopolitics, infrastructure]
 publicConcern: 82
 economicImpact: 65
 socialImpact: 88
 affectedSystems: [Politics, Diplomacy, Economy, Population]
-connections: [climate-refugee-floods, asylum-system-breakdown, human-trafficking-surge, drug-trafficking-evolution]
+connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Claude Code
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: canadian-housing-affordability-collapse
 title: Canadian Housing Affordability Collapse
 number: 127
-category: Economic
+category: [Economic, Social]
 urgency: Critical
 tags: [housing, canada, real-estate, immigration, foreign-investment, generational-divide, policy-failure, wealth-inequality]
 publicConcern: 88
 economicImpact: 92
 socialImpact: 90
 affectedSystems: [Economy, Politics, Social, Demographics]
-connections: [gig-economy-serfdom, student-debt-slavery, housing-impossibility-crisis, democratic-backsliding, mass-migration-displacement]
+connections: [gig-economy-serfdom, student-debt-slavery, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

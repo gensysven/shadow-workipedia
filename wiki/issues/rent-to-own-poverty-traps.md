@@ -2,14 +2,14 @@
 id: rent-to-own-poverty-traps
 title: Rent-to-Own Poverty Traps
 number: 456
-category: Economic
+category: [Economic, Social]
 urgency: Medium
 tags: [predatory-lending, poverty-trap, consumer-debt, financial-exploitation, housing-instability]
 publicConcern: 6/10
 economicImpact: 5/10
 socialImpact: 7/10
 affectedSystems: [Housing, Consumer-Finance, Economic-Inequality, Credit-Systems]
-connections: [payday-lending, housing-affordability-crisis, debt-trap-economics]
+connections: [housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

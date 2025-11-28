@@ -2,14 +2,14 @@
 id: housing-first-vs-treatment-first
 title: Housing First vs. Treatment First
 number: 118
-category: Social
+category: [Social, Political, Infrastructure]
 urgency: High
 tags: [homelessness, housing, treatment, addiction, mental-health, policy, evidence-based]
 publicConcern: 62
 economicImpact: 58
 socialImpact: 79
 affectedSystems: [Housing, Healthcare, Social Services, Urban Systems]
-connections: [homelessness-criminalization, opioid-epidemic, mental-health-crisis, housing-affordability-crisis]
+connections: [homelessness-criminalization, mental-health-apocalypse, housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

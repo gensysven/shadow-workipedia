@@ -2,14 +2,14 @@
 id: accessibility-compliance-failure
 title: Accessibility Compliance Failure
 number: 407
-category: Social
+category: [Social, Infrastructure, Political]
 urgency: Medium
 tags: [disability-rights, ada, accessibility, discrimination, enforcement, infrastructure]
 publicConcern: 40
 economicImpact: 35
 socialImpact: 75
 affectedSystems: [Infrastructure, Employment, Education, Technology]
-connections: [disability-benefits-cliff, healthcare-access-deserts, digital-divide-deepening]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

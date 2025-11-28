@@ -2,7 +2,7 @@
 id: worker-cooperatives-movement
 title: Worker Cooperatives Movement
 number: 480
-category: Economic
+category: [Economic, Political, Social]
 urgency: Low
 tags:
   - alternative-economics

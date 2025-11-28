@@ -2,14 +2,14 @@
 id: south-korea-demographic-death-spiral
 title: South Korea Demographic Death Spiral
 number: 353
-category: Social
+category: [Social, Economic]
 urgency: Critical
 tags: [demographics, south-korea, fertility, aging, economy, population, gender-inequality, work-culture]
 publicConcern: 68
 economicImpact: 88
 socialImpact: 92
 affectedSystems: [Economy, Labor Markets, Healthcare, Pensions, Military, Real Estate, Education]
-connections: [japan-demographic-crisis, global-fertility-collapse, aging-population-crisis, cost-of-living-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

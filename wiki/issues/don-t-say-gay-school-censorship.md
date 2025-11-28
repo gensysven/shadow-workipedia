@@ -1,15 +1,15 @@
 ---
-id: dont-say-gay-school-censorship
+id: don-t-say-gay-school-censorship
 title: Don't Say Gay / School Censorship
 number: 76
-category: Social
+category: [Political, Social, Cultural]
 urgency: High
 tags: [lgbtq, education, censorship, free-speech, schools, culture-wars]
 publicConcern: 71
 economicImpact: 38
 socialImpact: 84
 affectedSystems: [Education, LGBTQ Rights, Legal Systems, Cultural Systems]
-connections: [book-banning-crisis, lgbtq-rights-rollback, education-politicization, youth-mental-health-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

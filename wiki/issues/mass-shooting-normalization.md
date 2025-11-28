@@ -2,14 +2,14 @@
 id: mass-shooting-normalization
 title: Mass Shooting Normalization
 number: 304
-category: Security
+category: [Security, Social, Cultural]
 urgency: Critical
 tags: [guns, violence, schools, mental-health, media, trauma]
 publicConcern: 85
 economicImpact: 52
 socialImpact: 91
 affectedSystems: [Public Safety, Education, Mental Health, Media, Gun Industry]
-connections: [gun-rights-absolutism, mental-health-apocalypse, school-militarization, media-polarization]
+connections: [gun-rights-absolutism, mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

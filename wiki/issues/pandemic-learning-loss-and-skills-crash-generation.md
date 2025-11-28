@@ -2,14 +2,14 @@
 id: pandemic-learning-loss-and-skills-crash-generation
 title: Pandemic Learning Loss and Skills Crash Generation
 number: 442
-category: Education
+category: [Social, Economic]
 urgency: high
 tags: [COVID-19, learning-loss, education-crisis, remote-learning, skills-gap, generational-impact]
 publicConcern: 9
 economicImpact: 8
 socialImpact: 9
 affectedSystems: [education, economy, workforce, social-mobility]
-connections: [education-crisis, youth-mental-health]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

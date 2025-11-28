@@ -2,14 +2,14 @@
 id: dark-money-politics
 title: Dark Money Politics
 number: 73
-category: Political
+category: [Political, Economic]
 urgency: High
 tags: [money-in-politics, campaign-finance, democracy, lobbying, transparency, corruption]
 publicConcern: 72
 economicImpact: 68
 socialImpact: 79
 affectedSystems: [Political Systems, Democratic Institutions, Legal Systems, Media]
-connections: [corporate-personhood-battles, corruption-normalization, billionaire-media-ownership, regulatory-capture]
+connections: [corporate-personhood-battles, corruption-normalization, billionaire-media-ownership]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

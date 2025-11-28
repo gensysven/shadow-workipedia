@@ -9,7 +9,7 @@ publicConcern: 92
 economicImpact: 85
 socialImpact: 95
 affectedSystems: [Economy, Politics, Resources, Population]
-connections: [climate-refugee-crisis, aquifer-depletion, corporate-water-monopolies]
+connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

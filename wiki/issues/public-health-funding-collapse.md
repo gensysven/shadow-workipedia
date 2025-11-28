@@ -2,14 +2,14 @@
 id: public-health-funding-collapse
 title: Public Health Funding Collapse
 number: 454
-category: Health
+category: [Social, Political]
 urgency: Critical
 tags: [public-health, disease-prevention, health-infrastructure, pandemic-preparedness, preventive-care]
 publicConcern: 8/10
 economicImpact: 7/10
 socialImpact: 9/10
 affectedSystems: [Health, Emergency-Response, Disease-Surveillance, Community-Services]
-connections: [pandemic-preparedness-erosion, healthcare-access-crisis, vaccine-hesitancy]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

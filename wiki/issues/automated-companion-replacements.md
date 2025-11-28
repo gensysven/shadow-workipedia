@@ -2,7 +2,7 @@
 id: automated-companion-replacements
 title: Automated Companion Replacements
 number: 045
-category: Social
+category: [Technological, Social, Cultural]
 urgency: High
 tags: [loneliness, ai-companions, robot-pets, parasocial-relationships, elderly-care, human-displacement, attachment-disorder]
 publicConcern: 58

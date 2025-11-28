@@ -2,14 +2,14 @@
 id: bankruptcy-criminalization
 title: Bankruptcy Criminalization
 number: 411
-category: Economic
+category: [Economic, Political, Social]
 urgency: High
 tags: [debt, criminal-justice, poverty, legal-system, debtors-prison, inequality]
 publicConcern: 55
 economicImpact: 40
 socialImpact: 70
 affectedSystems: [Legal System, Criminal Justice, Economic Opportunity, Civil Rights]
-connections: [cash-bail-as-debtors-prison, medical-debt-crisis, student-loan-debt-crisis]
+connections: [cash-bail-as-debtors-prison]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

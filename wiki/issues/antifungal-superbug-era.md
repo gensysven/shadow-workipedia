@@ -2,14 +2,14 @@
 id: antifungal-superbug-era
 title: Antifungal Superbug Era
 number: SW#121
-category: Social
+category: [Existential, Social, Environmental]
 urgency: High
 tags: [fungi, antimicrobial-resistance, candida-auris, healthcare, agriculture]
 publicConcern: 50
 economicImpact: 75
 socialImpact: 80
 affectedSystems: [Health, Agriculture, Economy]
-connections: [antibiotic-resistance-crisis, pandemic-response-wars, healthcare-system-collapse]
+connections: [antibiotic-resistance-crisis, pandemic-response-wars, global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

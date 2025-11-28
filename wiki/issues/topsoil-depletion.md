@@ -2,7 +2,7 @@
 id: topsoil-depletion
 title: Topsoil Depletion
 number: 470
-category: Environmental
+category: [Environmental, Economic]
 urgency: Critical
 tags:
   - agriculture

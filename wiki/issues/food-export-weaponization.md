@@ -2,14 +2,14 @@
 id: food-export-weaponization
 title: Food Export Weaponization
 number: 90
-category: Economic
+category: [Economic, Political, Security]
 urgency: Critical
 tags: [food-security, exports, sanctions, geopolitics, hunger, grain, ukraine]
 publicConcern: 73
 economicImpact: 84
 socialImpact: 89
 affectedSystems: [Food Production, Global Trade, International Relations, Humanitarian Systems]
-connections: [ukraine-war, global-hunger-crisis, food-price-volatility, sanctions-regime]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: sports-betting-gambling-addiction
 title: Sports Betting Gambling Addiction
 number: 464
-category: Social
+category: [Social, Economic]
 urgency: High
 tags: [addiction, gambling, mental-health, predatory-business, youth-vulnerability]
 publicConcern: 7/10
 economicImpact: 5/10
 socialImpact: 8/10
 affectedSystems: [Mental-Health, Consumer-Finance, Sports, Addiction-Services, Youth-Wellbeing]
-connections: [addiction-as-business-model, predatory-lending, mental-health-crisis]
+connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

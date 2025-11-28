@@ -2,14 +2,14 @@
 id: ai-generated-synthetic-biolab-leaks
 title: AI-Generated Synthetic Biolab Leaks
 number: SW#115
-category: Security
+category: [Existential, Technological, Security, Social]
 urgency: Critical
 tags: [ai, biosecurity, synthetic-biology, pathogens, lab-safety, bioweapons, DNA-synthesis, protein-folding, gain-of-function]
 publicConcern: 65
 economicImpact: 90
 socialImpact: 95
 affectedSystems: [Health, Security, Technology, Economy]
-connections: [bioweapon-proliferation, gain-of-function-research-battles, pandemic-response-wars, agi-alignment-crisis, ai-compute-resource-wars]
+connections: [bioweapon-proliferation, gain-of-function-research-battles, pandemic-response-wars, ai-compute-resource-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

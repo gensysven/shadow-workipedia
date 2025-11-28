@@ -2,14 +2,14 @@
 id: drone-warfare-normalization
 title: Drone Warfare Normalization
 number: 77
-category: Security
+category: [Security, Technological, Political]
 urgency: High
 tags: [drones, warfare, military, autonomous-weapons, terrorism, sovereignty]
 publicConcern: 64
 economicImpact: 71
 socialImpact: 78
 affectedSystems: [Military Systems, International Law, Security, Technology]
-connections: [autonomous-weapons-proliferation, targeted-assassination-normalization, civilian-casualties, sovereignty-erosion]
+connections: [autonomous-weapons-proliferation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

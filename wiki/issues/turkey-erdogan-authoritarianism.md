@@ -2,14 +2,14 @@
 id: turkey-erdogan-authoritarianism
 title: Turkey Erdogan Authoritarianism
 number: 371
-category: Political
+category: [Political, Social, Security]
 urgency: High
 tags: [turkey, authoritarianism, erdogan, democracy, nato, middle-east]
 publicConcern: 58
 economicImpact: 68
 socialImpact: 82
 affectedSystems: [Government, NATO, Media, Judiciary, Economy]
-connections: [algorithmic-authoritarianism, nato-instability, media-capture, judicial-capture]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

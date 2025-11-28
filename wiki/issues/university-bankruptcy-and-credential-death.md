@@ -2,7 +2,7 @@
 id: university-bankruptcy-and-credential-death
 title: University Bankruptcy and Credential Death
 number: 474
-category: Education
+category: [Social, Economic]
 urgency: High
 tags:
   - higher-education

@@ -9,7 +9,7 @@ publicConcern: 54
 economicImpact: 62
 socialImpact: 74
 affectedSystems: [Land Use, Indigenous Rights, Legal Systems, Natural Resources]
-connections: [indigenous-sovereignty, resource-extraction-conflicts, treaty-rights, environmental-justice]
+connections: [resource-extraction-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

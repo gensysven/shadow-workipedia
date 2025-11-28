@@ -9,7 +9,7 @@ publicConcern: 35
 economicImpact: 72
 socialImpact: 55
 affectedSystems: [Energy, Space Industry, International Relations, Economy]
-connections: [energy-transition, space-militarization, renewable-energy-competition]
+connections: [space-militarization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

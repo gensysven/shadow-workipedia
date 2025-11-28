@@ -9,7 +9,7 @@ publicConcern: 72
 economicImpact: 35
 socialImpact: 85
 affectedSystems: [Civil Rights, Public Safety, LGBTQ+ Communities, Law Enforcement]
-connections: [hate-crime-surge, extremism-rise, marriage-equality-reversal-fears]
+connections: [marriage-equality-reversal-fears]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

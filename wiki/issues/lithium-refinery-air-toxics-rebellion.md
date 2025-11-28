@@ -2,14 +2,14 @@
 id: lithium-refinery-air-toxics-rebellion
 title: Lithium Refinery Air-Toxics Rebellion
 number: 134
-category: Environmental
+category: [Environmental, Social, Economic, Infrastructure]
 urgency: High
 tags: [lithium, pollution, ev, batteries, air-quality, nimby, green-energy]
 publicConcern: 51
 economicImpact: 71
 socialImpact: 74
 affectedSystems: [Manufacturing, Environmental, Public Health, Energy Transition]
-connections: [rare-earth-squeeze, environmental-justice, ev-supply-chain, community-resistance]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

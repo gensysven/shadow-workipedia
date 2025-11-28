@@ -2,14 +2,14 @@
 id: election-denialism
 title: Election Denialism
 number: 80
-category: Political
+category: [Political, Social]
 urgency: Critical
 tags: [elections, democracy, disinformation, conspiracy, january-6, trust]
 publicConcern: 82
 economicImpact: 58
 socialImpact: 91
 affectedSystems: [Democratic Institutions, Electoral Systems, Media, Social Cohesion]
-connections: [democratic-backsliding, disinformation-plague, january-6-aftermath, voter-suppression]
+connections: [democratic-backsliding, disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

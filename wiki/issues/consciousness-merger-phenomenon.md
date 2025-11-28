@@ -2,14 +2,14 @@
 id: consciousness-merger-phenomenon
 title: Consciousness Merger Phenomenon
 number: 61
-category: Technological
+category: [Technological, Social, Cultural]
 urgency: Medium
 tags: [consciousness, AI, neuroscience, identity, philosophy, brain-computer-interface]
 publicConcern: 41
 economicImpact: 52
 socialImpact: 78
 affectedSystems: [Technology Systems, Identity Systems, Legal Systems, Healthcare]
-connections: [brain-computer-interface-revolution, ai-personhood-debates, digital-resurrection-ethics, identity-fragmentation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

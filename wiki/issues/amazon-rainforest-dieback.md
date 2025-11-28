@@ -2,14 +2,14 @@
 id: amazon-rainforest-dieback
 title: Amazon Rainforest Dieback
 number: SW#119
-category: Environmental
+category: [Existential, Environmental, Economic, Political]
 urgency: Critical
 tags: [amazon, deforestation, climate, tipping-point, biodiversity, carbon]
 publicConcern: 75
 economicImpact: 85
 socialImpact: 80
 affectedSystems: [Environment, Economy, Geopolitics]
-connections: [climate-refugee-floods, biodiversity-collapse, brazil-bolsonaro-destruction]
+connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

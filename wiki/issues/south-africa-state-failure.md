@@ -2,14 +2,14 @@
 id: south-africa-state-failure
 title: South Africa State Failure
 number: 351
-category: Political
+category: [Political, Economic, Infrastructure]
 urgency: High
 tags: [south-africa, corruption, inequality, infrastructure, anc, state-capture]
 publicConcern: 55
 economicImpact: 72
 socialImpact: 85
 affectedSystems: [Government, Economy, Infrastructure, Society, Energy]
-connections: [infrastructure-decay, corruption-normalization]
+connections: [corruption-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

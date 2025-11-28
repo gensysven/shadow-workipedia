@@ -2,14 +2,14 @@
 id: taiwan-invasion-crisis
 title: Taiwan Invasion Crisis
 number: 367
-category: Security
+category: [Existential, Security, Political, Economic, Technological, Infrastructure]
 urgency: Critical
 tags: [taiwan, china, war, semiconductors, us, military, asia]
 publicConcern: 78
 economicImpact: 98
 socialImpact: 92
 affectedSystems: [International Security, Technology, Trade, Military, Economy]
-connections: [semiconductor-sovereignty-wars, china-us-tensions, south-china-sea-militarization]
+connections: [semiconductor-sovereignty-wars,south-china-sea-militarization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

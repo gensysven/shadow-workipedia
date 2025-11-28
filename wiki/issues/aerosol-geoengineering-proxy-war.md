@@ -2,14 +2,14 @@
 id: aerosol-geoengineering-proxy-war
 title: Aerosol Geoengineering Proxy War
 number: SW#102
-category: Technological
+category: [Environmental, Technological, Security]
 urgency: High
 tags: [geoengineering, climate, geopolitics, stratospheric-aerosols, solar-radiation, unilateral-deployment]
 publicConcern: 55
 economicImpact: 75
 socialImpact: 70
 affectedSystems: [Environment, Geopolitics, Technology, Economy]
-connections: [climate-refugee-floods, water-scarcity-wars, arctic-sovereignty-conflicts, agricultural-collapse, international-governance-failure]
+connections: [climate-refugee-floods, water-scarcity-wars, arctic-sovereignty-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

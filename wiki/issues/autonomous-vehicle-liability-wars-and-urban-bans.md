@@ -2,14 +2,14 @@
 id: autonomous-vehicle-liability-wars-and-urban-bans
 title: Autonomous Vehicle Liability Wars and Urban Bans
 number: SW#247
-category: Technological
+category: [Technological, Political, Economic]
 urgency: High
 tags: [autonomous-vehicles, liability, insurance, urban-policy, transportation, safety]
 publicConcern: 78
 economicImpact: 82
 socialImpact: 75
 affectedSystems: [Transportation, Insurance, Urban Planning, Legal System]
-connections: [urban-congestion-collapse, transportation-infrastructure-decay, insurance-system-failure, employment-disruption-automation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -50,7 +50,7 @@ By 2025, approximately 15 major U.S. cities have implemented partial or full aut
 
 **Cascading Effects:**
 
-- Triggers **transportation-infrastructure-decay** when AV fleet density exceeds 15% of street traffic + cumulative damage costs exceed municipal maintenance budgets
+- Triggers **transportation-aging-infrastructure-crisis** when AV fleet density exceeds 15% of street traffic + cumulative damage costs exceed municipal maintenance budgets
 - Amplifies **urban-congestion-collapse** by 8-15% through increased deadheading, empty vehicle repositioning, and congestion externalities
 - Triggers **insurance-system-failure** when >2 regional insurers exit markets AND average premium increases exceed 8% annually
 - Amplifies **employment-disruption-automation** by 12-18% when commercial delivery/rideshare AVs displace human drivers in deployed cities

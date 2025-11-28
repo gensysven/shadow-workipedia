@@ -2,14 +2,14 @@
 id: right-to-work-law-battles
 title: Right-to-Work Law Battles
 number: 341
-category: Economic
+category: [Economic, Political]
 urgency: Medium
 tags: [labor, unions, wages, politics, workers, legislation]
 publicConcern: 55
 economicImpact: 72
 socialImpact: 68
 affectedSystems: [Labor Markets, Politics, Economy, Inequality]
-connections: [union-decline, gig-economy-serfdom]
+connections: [gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

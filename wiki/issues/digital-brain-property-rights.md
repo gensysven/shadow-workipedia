@@ -2,14 +2,14 @@
 id: digital-brain-property-rights
 title: Digital Brain Property Rights
 number: 75
-category: Technological
+category: [Technological, Political, Cultural]
 urgency: Medium
 tags: [neurotechnology, brain-data, property-rights, privacy, cognitive-liberty, legal]
 publicConcern: 45
 economicImpact: 63
 socialImpact: 72
 affectedSystems: [Legal Systems, Technology Systems, Privacy Systems, Economic Systems]
-connections: [brain-computer-interface-revolution, consciousness-property-battles, neural-data-exploitation, cognitive-liberty]
+connections: [consciousness-property-battles]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

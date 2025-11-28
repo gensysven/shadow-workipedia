@@ -2,14 +2,14 @@
 id: cash-bail-as-debtors-prison
 title: Cash Bail as Debtors' Prison
 number: 416
-category: Political
+category: [Political, Economic, Social]
 urgency: High
 tags: [criminal-justice, inequality, pretrial-detention, bail-reform, civil-rights, poverty]
 publicConcern: 60
 economicImpact: 45
 socialImpact: 75
 affectedSystems: [Criminal Justice, Legal System, Economic Opportunity, Civil Rights]
-connections: [bankruptcy-criminalization, mass-incarceration-crisis, racial-justice-protests]
+connections: [bankruptcy-criminalization, mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

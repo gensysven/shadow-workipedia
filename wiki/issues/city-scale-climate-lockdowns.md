@@ -2,14 +2,14 @@
 id: city-scale-climate-lockdowns
 title: City-Scale Climate Lockdowns
 number: SW#256
-category: Environmental
+category: [Environmental, Political, Social, Infrastructure]
 urgency: High
 tags: [climate, extreme-heat, air-quality, lockdowns, heat-waves, public-health, urban, economic-disruption, civil-liberties, mandatory-indoor-orders]
 publicConcern: 78
 economicImpact: 85
 socialImpact: 88
 affectedSystems: [Environment, Health, Economy, Politics, Civil Society, Infrastructure]
-connections: [extreme-heat-driven-mortality, air-quality-emergencies, urban-heat-islands, pandemic-precedent-normalization, infrastructure-grid-collapse, civil-liberties-erosion, labor-economy-collapse, mental-health-crisis-epidemic, urban-displacement-slums]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

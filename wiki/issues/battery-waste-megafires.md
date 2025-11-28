@@ -2,14 +2,14 @@
 id: battery-waste-megafires
 title: Battery Waste Megafires
 number: 1
-category: Environmental
+category: [Environmental, Technological, Economic, Infrastructure]
 urgency: High
 tags: [lithium-mining, ev-batteries, toxic-emissions, recycling-gaps, thermal-runaway, energy-transition, electronic-waste]
 publicConcern: 72
 economicImpact: 81
 socialImpact: 76
 affectedSystems: [Climate, Economy, Health, Technology, Infrastructure]
-connections: [lithium-mining-water-depletion, ev-supply-chain-collapse, chemical-contamination-hotspots, energy-grid-instability, environmental-justice-sacrifice-zones]
+connections: []
 editedBy: Shadow Work Contributors
 lastUpdated: 2025-11-25
 ---

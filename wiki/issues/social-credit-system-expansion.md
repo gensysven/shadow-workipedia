@@ -2,14 +2,14 @@
 id: social-credit-system-expansion
 title: Social Credit System Expansion
 number: 350
-category: Political
+category: [Technological, Political, Social]
 urgency: High
 tags: [china, surveillance, social-credit, authoritarianism, technology, control]
 publicConcern: 68
 economicImpact: 62
 socialImpact: 88
 affectedSystems: [Government, Civil Liberties, Technology, Society, Economy]
-connections: [surveillance-state-expansion, algorithmic-authoritarianism, algorithmic-governance-proliferation]
+connections: [surveillance-state-expansion,algorithmic-governance-proliferation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

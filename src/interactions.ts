@@ -73,7 +73,7 @@ export class ZoomPanHandler {
 
 export class HoverHandler {
   private canvas: HTMLCanvasElement;
-  private nodes: SimNode[];
+  private visibleNodes: SimNode[];
   private transform: Transform;
   private onHover: (node: SimNode | null) => void;
 
@@ -83,7 +83,7 @@ export class HoverHandler {
     onHover: (node: SimNode | null) => void
   ) {
     this.canvas = canvas;
-    this.nodes = nodes;
+    this.visibleNodes = nodes; // Default to all nodes
     this.transform = { x: 0, y: 0, k: 1 };
     this.onHover = onHover;
 
@@ -92,6 +92,10 @@ export class HoverHandler {
 
   updateTransform(transform: Transform): void {
     this.transform = transform;
+  }
+
+  setVisibleNodes(nodes: SimNode[]): void {
+    this.visibleNodes = nodes;
   }
 
   private handleMouseMove = (event: MouseEvent): void => {
@@ -112,11 +116,11 @@ export class HoverHandler {
     const graphX = (mouseX - this.transform.x) / this.transform.k;
     const graphY = (mouseY - this.transform.y) / this.transform.k;
 
-    // Use quadtree for efficient spatial search
+    // Use quadtree for efficient spatial search - only search visible nodes
     const tree = quadtree<SimNode>()
       .x(d => d.x!)
       .y(d => d.y!)
-      .addAll(this.nodes);
+      .addAll(this.visibleNodes);
 
     const found = tree.find(graphX, graphY, 20 / this.transform.k);
 
@@ -130,7 +134,7 @@ export class HoverHandler {
 
 export class ClickHandler {
   private canvas: HTMLCanvasElement;
-  private nodes: SimNode[];
+  private visibleNodes: SimNode[];
   private transform: Transform;
   private onClick: (node: SimNode | null) => void;
 
@@ -140,7 +144,7 @@ export class ClickHandler {
     onClick: (node: SimNode | null) => void
   ) {
     this.canvas = canvas;
-    this.nodes = nodes;
+    this.visibleNodes = nodes; // Default to all nodes
     this.transform = { x: 0, y: 0, k: 1 };
     this.onClick = onClick;
 
@@ -149,6 +153,10 @@ export class ClickHandler {
 
   updateTransform(transform: Transform): void {
     this.transform = transform;
+  }
+
+  setVisibleNodes(nodes: SimNode[]): void {
+    this.visibleNodes = nodes;
   }
 
   private handleClick = (event: MouseEvent): void => {
@@ -168,10 +176,11 @@ export class ClickHandler {
     const graphX = (mouseX - this.transform.x) / this.transform.k;
     const graphY = (mouseY - this.transform.y) / this.transform.k;
 
+    // Only search visible nodes
     const tree = quadtree<SimNode>()
       .x(d => d.x!)
       .y(d => d.y!)
-      .addAll(this.nodes);
+      .addAll(this.visibleNodes);
 
     const found = tree.find(graphX, graphY, 20 / this.transform.k);
 
@@ -185,7 +194,7 @@ export class ClickHandler {
 
 export class DragHandler {
   private canvas: HTMLCanvasElement;
-  private nodes: SimNode[];
+  private visibleNodes: SimNode[];
   private transform: Transform;
   private draggedNode: SimNode | null = null;
   private onDragStart: (() => void) | null = null;
@@ -205,7 +214,7 @@ export class DragHandler {
     }
   ) {
     this.canvas = canvas;
-    this.nodes = nodes;
+    this.visibleNodes = nodes; // Default to all nodes
     this.transform = { x: 0, y: 0, k: 1 };
     this.onRender = onRender;
     this.onDragStart = callbacks?.onDragStart || null;
@@ -226,11 +235,16 @@ export class DragHandler {
     this.transform = transform;
   }
 
+  setVisibleNodes(nodes: SimNode[]): void {
+    this.visibleNodes = nodes;
+  }
+
   private findNodeAtPosition(x: number, y: number): SimNode | null {
+    // Only search visible nodes
     const tree = quadtree<SimNode>()
       .x(d => d.x!)
       .y(d => d.y!)
-      .addAll(this.nodes);
+      .addAll(this.visibleNodes);
 
     return tree.find(x, y, 20 / this.transform.k) || null;
   }

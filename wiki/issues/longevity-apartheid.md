@@ -2,14 +2,14 @@
 id: longevity-apartheid
 title: Longevity Apartheid
 number: 137
-category: Social
+category: [Social, Economic, Technological, Infrastructure]
 urgency: Medium
 tags: [longevity, inequality, healthcare, aging, biotech, class, lifespan]
 publicConcern: 48
 economicImpact: 67
 socialImpact: 81
 affectedSystems: [Healthcare, Social Systems, Economic Systems, Political Systems]
-connections: [wealth-inequality, healthcare-access-gap, genetic-caste-formation, class-stratification]
+connections: [genetic-caste-formation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

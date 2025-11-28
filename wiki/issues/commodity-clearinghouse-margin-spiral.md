@@ -2,14 +2,14 @@
 id: commodity-clearinghouse-margin-spiral
 title: Commodity Clearinghouse Margin Spiral
 number: 57
-category: Economic
+category: [Economic, Security]
 urgency: High
 tags: [finance, commodities, derivatives, margin-calls, systemic-risk, clearinghouses]
 publicConcern: 45
 economicImpact: 91
 socialImpact: 62
 affectedSystems: [Financial Markets, Commodity Markets, Banking Sector, Global Trade]
-connections: [derivatives-market-instability, commodity-price-volatility, financial-contagion, energy-market-disruption]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

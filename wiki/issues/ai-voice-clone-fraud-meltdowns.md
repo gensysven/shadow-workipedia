@@ -2,7 +2,7 @@
 id: ai-voice-clone-fraud-meltdowns
 title: AI Voice Clone Fraud Meltdowns
 number: SW#113
-category: Security
+category: [Technological, Economic, Social]
 urgency: High
 tags: [ai, fraud, voice-cloning, scams, identity, cybercrime]
 publicConcern: 70

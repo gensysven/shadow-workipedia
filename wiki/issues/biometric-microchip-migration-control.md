@@ -2,14 +2,14 @@
 id: biometric-microchip-migration-control
 title: Biometric Microchip Migration Control
 number: SW#186
-category: Political
+category: [Technological, Political, Social]
 urgency: High
 tags: [surveillance, bodily-autonomy, refugee-crisis, digital-borders, human-rights, technology, governance]
 publicConcern: 76
 economicImpact: 42
 socialImpact: 88
 affectedSystems: [Politics, Technology, International Relations, Healthcare]
-connections: [digital-surveillance-state-expansion, refugee-crisis-cascade, national-identity-system-weaponization, ai-border-control-militarization, biometric-data-commercialization]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

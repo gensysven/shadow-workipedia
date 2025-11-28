@@ -2,14 +2,14 @@
 id: synthetic-food-ecosystem-monopolies
 title: Synthetic Food Ecosystem Monopolies
 number: 365
-category: Economic
+category: [Technological, Economic, Cultural]
 urgency: Medium
 tags: [food, technology, monopoly, agriculture, lab-meat, patents]
 publicConcern: 42
 economicImpact: 72
 socialImpact: 68
 affectedSystems: [Agriculture, Food Systems, Economy, Technology]
-connections: [food-system-fragility, corporate-consolidation, agricultural-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

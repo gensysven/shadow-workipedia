@@ -2,7 +2,7 @@
 id: death-infrastructure-collapse
 title: Death Infrastructure Collapse
 number: 401
-category: Infrastructure
+category: [Infrastructure, Social]
 urgency: High
 tags:
   - infrastructure

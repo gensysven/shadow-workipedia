@@ -9,7 +9,7 @@ publicConcern: 84
 economicImpact: 67
 socialImpact: 96
 affectedSystems: [Regional Security, Humanitarian, International Relations, Human Rights]
-connections: [humanitarian-catastrophe, international-law-erosion, middle-east-instability, refugee-crisis]
+connections: [comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

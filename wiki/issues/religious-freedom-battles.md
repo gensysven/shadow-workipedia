@@ -2,7 +2,7 @@
 id: religious-freedom-battles
 title: Religious Freedom Battles
 number: 337
-category: Cultural
+category: [Cultural, Political, Social, Infrastructure]
 urgency: High
 tags: [religion, lgbtq, discrimination, courts, culture-war, christianity]
 publicConcern: 72

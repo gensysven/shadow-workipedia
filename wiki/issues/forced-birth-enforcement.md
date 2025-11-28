@@ -2,14 +2,14 @@
 id: forced-birth-enforcement
 title: Forced Birth Enforcement
 number: 91
-category: Social
+category: [Political, Social, Cultural]
 urgency: Critical
 tags: [abortion, reproductive-rights, enforcement, criminalization, surveillance, women]
 publicConcern: 78
 economicImpact: 54
 socialImpact: 92
 affectedSystems: [Healthcare, Women's Rights, Legal Systems, Surveillance]
-connections: [abortion-access-crisis, reproductive-surveillance, fertility-tracking-surveillance-markets, maternal-mortality-crisis]
+connections: [abortion-access-crisis, fertility-tracking-surveillance-markets]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

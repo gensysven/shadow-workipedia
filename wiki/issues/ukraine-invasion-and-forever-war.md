@@ -2,14 +2,14 @@
 id: ukraine-invasion-and-forever-war
 title: Ukraine Invasion and Forever War
 number: 372
-category: Security
+category: [Existential, Security, Political, Economic, Infrastructure]
 urgency: Critical
 tags: [ukraine, russia, war, nato, europe, invasion, putin]
 publicConcern: 88
 economicImpact: 85
 socialImpact: 92
 affectedSystems: [International Security, Energy, Economy, NATO, Nuclear Risk]
-connections: [russian-aggression, energy-crisis, nuclear-proliferation-cascade, european-security]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

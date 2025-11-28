@@ -2,7 +2,7 @@
 id: designer-baby-class-divide
 title: Designer Baby Class Divide
 number: 427
-category: bioethics
+category: [Technological, Economic, Social]
 urgency: medium
 tags:
   - genetics

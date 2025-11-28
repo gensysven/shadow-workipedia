@@ -2,14 +2,14 @@
 id: lebanon-sectarian-collapse
 title: Lebanon Sectarian Collapse
 number: 132
-category: Security
+category: [Political, Economic, Social, Infrastructure]
 urgency: Critical
 tags: [lebanon, sectarian, hezbollah, economic-collapse, beirut, middle-east, failed-state]
 publicConcern: 64
 economicImpact: 78
 socialImpact: 91
 affectedSystems: [State Governance, Financial Systems, Humanitarian, Regional Security]
-connections: [hezbollah-power, economic-collapse, beirut-explosion, middle-east-instability]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

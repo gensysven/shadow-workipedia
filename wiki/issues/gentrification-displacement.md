@@ -2,14 +2,14 @@
 id: gentrification-displacement
 title: Gentrification Displacement
 number: 98
-category: Economic
+category: [Economic, Social]
 urgency: High
 tags: [housing, gentrification, displacement, urban, inequality, community]
 publicConcern: 72
 economicImpact: 74
 socialImpact: 83
 affectedSystems: [Housing Systems, Urban Communities, Economic Systems, Cultural Systems]
-connections: [housing-affordability-crisis, wealth-inequality, racial-displacement, community-destruction]
+connections: [housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

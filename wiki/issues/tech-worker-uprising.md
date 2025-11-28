@@ -2,14 +2,14 @@
 id: tech-worker-uprising
 title: Tech Worker Uprising
 number: 368
-category: Economic
+category: [Economic, Political]
 urgency: Medium
 tags: [tech, labor, unions, activism, silicon-valley, workers, organizing, ethics]
 publicConcern: 48
 economicImpact: 62
 socialImpact: 68
 affectedSystems: [Technology Industry, Labor Relations, Politics, Economy]
-connections: [union-resurgence, gig-economy-serfdom, ai-job-displacement-tsunami]
+connections: [gig-economy-serfdom,ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

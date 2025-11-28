@@ -2,14 +2,14 @@
 id: pest-infestations-as-class-marker
 title: Pest Infestations as Class Marker
 number: 444
-category: Social Justice
+category: [Social, Environmental]
 urgency: medium
 tags: [housing-quality, bedbugs, pest-control, poverty-indicator, public-health, inequality]
 publicConcern: 7
 economicImpact: 5
 socialImpact: 8
 affectedSystems: [housing, public-health, social-class, urban-environment]
-connections: [housing-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

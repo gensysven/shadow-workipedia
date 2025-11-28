@@ -2,14 +2,14 @@
 id: chile-social-explosion-and-constitution
 title: Chile Social Explosion and Constitutional Crisis
 number: 459
-category: Political
+category: [Political, Social, Economic, Infrastructure]
 urgency: High
 tags: [inequality, pension-system, constitution, neoliberalism, political-polarization, institutional-reform, protest-movements, inequality-crisis]
 publicConcern: 88
 economicImpact: 76
 socialImpact: 92
 affectedSystems: [Politics, Economy, Institutions, Society]
-connections: [democratic-backsliding, income-inequality-wage-stagnation, institutional-trust-collapse, mass-protest-movements, generational-wealth-gap]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

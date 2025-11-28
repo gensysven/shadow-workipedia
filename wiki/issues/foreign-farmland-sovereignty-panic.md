@@ -2,7 +2,7 @@
 id: foreign-farmland-sovereignty-panic
 title: Foreign Farmland Sovereignty Panic
 number: 433
-category: agriculture
+category: [Economic, Political, Security]
 urgency: medium
 tags:
   - agriculture

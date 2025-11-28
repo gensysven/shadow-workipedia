@@ -2,14 +2,14 @@
 id: crisis-pregnancy-center-deception
 title: Crisis Pregnancy Center Deception
 number: 68
-category: Social
+category: [Social, Political, Cultural]
 urgency: High
 tags: [reproductive-rights, healthcare, deception, abortion, pregnancy, women]
 publicConcern: 62
 economicImpact: 41
 socialImpact: 75
 affectedSystems: [Healthcare, Women's Rights, Information Systems, Legal Systems]
-connections: [abortion-access-crisis, reproductive-rights-erosion, healthcare-misinformation, faith-based-policy]
+connections: [abortion-access-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

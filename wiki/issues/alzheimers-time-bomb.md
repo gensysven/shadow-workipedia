@@ -2,14 +2,14 @@
 id: alzheimers-time-bomb
 title: Alzheimer's Time Bomb
 number: 409
-category: Social
+category: [Social, Economic]
 urgency: Critical
 tags: [healthcare, aging, dementia, caregiving, long-term-care, public-health]
 publicConcern: 70
 economicImpact: 85
 socialImpact: 90
 affectedSystems: [Healthcare, Social Services, Economy, Family Structure]
-connections: [aging-population-crisis, global-healthcare-workforce-exodus, long-term-care-crisis]
+connections: [global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,14 +2,14 @@
 id: abortion-access-crisis
 title: Abortion Access Crisis
 number: SW#101
-category: Social
+category: [Political, Social, Infrastructure]
 urgency: High
 tags: [reproductive-rights, healthcare, politics, womens-rights, supreme-court]
 publicConcern: 85
 economicImpact: 45
 socialImpact: 90
 affectedSystems: [Health, Politics, Civil Society]
-connections: [democratic-backsliding, healthcare-system-collapse, voter-suppression-acceleration]
+connections: [democratic-backsliding, global-healthcare-workforce-exodus, voter-suppression-acceleration]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -48,7 +48,7 @@ The crisis disproportionately affects low-income women and women of color, who h
 
 **Cascading Effects:**
 
-- Triggers **healthcare-system-collapse** when provider shortages exceed 40% in region + patients delayed >3 months
+- Triggers **global-healthcare-workforce-exodus** when provider shortages exceed 40% in region + patients delayed >3 months
 - Amplifies **democratic-backsliding** by 15-25% through weaponization of abortion access as electoral issue and judicial appointments
 - Amplifies **voter-suppression-acceleration** by 8-12% as polarization increases, driving state-level voting restriction efforts
 - Triggers **gender-equality-decline** when female workforce participation drops >1.5% regionally

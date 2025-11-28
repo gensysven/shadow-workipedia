@@ -2,7 +2,7 @@
 id: pandemic-response-wars
 title: Pandemic Response Wars
 number: 27
-category: Environmental
+category: [Existential, Environmental]
 urgency: High
 tags: [pandemic, public-health, political-polarization, vaccines, misinformation, civil-liberties]
 publicConcern: 86

@@ -2,14 +2,14 @@
 id: biometric-identity-breach-and-digital-id-collapse
 title: Biometric Identity Breach and Digital ID Collapse
 number: 412
-category: Security
+category: [Security, Technological]
 urgency: Critical
 tags: [cybersecurity, identity-theft, biometrics, privacy, surveillance, authentication]
 publicConcern: 75
 economicImpact: 70
 socialImpact: 65
 affectedSystems: [Financial, Security, Technology, Legal, Civil Liberties]
-connections: [facial-recognition-overreach, digital-divide-deepening, cryptocurrency-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

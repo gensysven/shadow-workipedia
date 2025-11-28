@@ -2,14 +2,14 @@
 id: asteroid-mining-rights-wars
 title: Asteroid Mining Rights Wars
 number: SW#203
-category: Technological
+category: [Existential, Technological, Political, Economic]
 urgency: High
 tags: [space-resources, outer-space-treaty, property-rights, corporate-mining, great-power-competition, rare-earth-metals, space-law]
 publicConcern: 52
 economicImpact: 85
 socialImpact: 40
 affectedSystems: [Technology, Economy, Geopolitics, Infrastructure]
-connections: [rare-earth-monopoly-collapse, supply-chain-fragmentation, orbital-debris-catastrophe, corporate-power-consolidation, great-power-space-militarization]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

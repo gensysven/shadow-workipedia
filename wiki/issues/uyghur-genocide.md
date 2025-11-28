@@ -2,14 +2,14 @@
 id: uyghur-genocide
 title: Uyghur Genocide
 number: 378
-category: Political
+category: [Political, Social, Security]
 urgency: Critical
 tags: [china, uyghur, genocide, xinjiang, human-rights, camps, surveillance]
 publicConcern: 72
 economicImpact: 55
 socialImpact: 95
 affectedSystems: [Human Rights, International Relations, Trade, Technology]
-connections: [china-authoritarianism, surveillance-state-expansion, forced-labor]
+connections: [surveillance-state-expansion]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

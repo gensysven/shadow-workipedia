@@ -2,14 +2,14 @@
 id: climate-loss-damage-sovereign-debt-spiral
 title: Climate Loss & Damage Sovereign Debt Spiral
 number: SW#156
-category: Economic
+category: [Environmental, Economic, Political]
 urgency: Critical
 tags: [climate-finance, sovereign-debt, loss-and-damage, climate-resilience, developing-nations, debt-trap, reconstruction, climate-justice, international-finance, debt-distress]
 publicConcern: 72
 economicImpact: 95
 socialImpact: 85
 affectedSystems: [Global Economy, Climate Systems, International Finance, Development]
-connections: [climate-refugee-crisis-financing-gap, global-debt-overhang, climate-disaster-insurance-collapse, infrastructure-cascade-failure]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

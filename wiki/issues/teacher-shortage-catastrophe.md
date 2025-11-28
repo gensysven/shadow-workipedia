@@ -2,7 +2,7 @@
 id: teacher-shortage-catastrophe
 title: Teacher Shortage Catastrophe
 number: 469
-category: Education
+category: [Social, Economic]
 urgency: Critical
 tags:
   - education-crisis

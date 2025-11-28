@@ -2,14 +2,14 @@
 id: farmer-protests-and-agricultural-crisis
 title: Farmer Protests and Agricultural Crisis
 number: 87
-category: Economic
+category: [Economic, Social, Political]
 urgency: High
 tags: [agriculture, farmers, protests, subsidies, climate, food-security, rural]
 publicConcern: 68
 economicImpact: 74
 socialImpact: 79
 affectedSystems: [Agriculture, Food Production, Rural Communities, Political Systems]
-connections: [agricultural-collapse, climate-adaptation-failure, rural-populism, supply-chain-disruption]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

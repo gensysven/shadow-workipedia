@@ -9,7 +9,7 @@ publicConcern: 74
 economicImpact: 72
 socialImpact: 81
 affectedSystems: [Regional Security, Nuclear Proliferation, International Relations, Energy]
-connections: [nuclear-proliferation-cascade, middle-east-instability, sanctions-regime, regime-change-risk]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

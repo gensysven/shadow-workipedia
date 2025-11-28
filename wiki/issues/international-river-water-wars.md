@@ -2,14 +2,14 @@
 id: international-river-water-wars
 title: International River Water Wars
 number: 123
-category: Security
+category: [Environmental, Security, Political, Infrastructure]
 urgency: Critical
 tags: [water, rivers, conflict, transboundary, dams, scarcity, geopolitics]
 publicConcern: 62
 economicImpact: 79
 socialImpact: 87
 affectedSystems: [Water Systems, Agriculture, Regional Security, International Relations]
-connections: [water-scarcity-wars, himalayan-glacier-collapse, nile-basin-conflict, euphrates-conflict]
+connections: [water-scarcity-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

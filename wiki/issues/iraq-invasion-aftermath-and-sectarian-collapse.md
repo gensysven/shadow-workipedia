@@ -9,7 +9,7 @@ publicConcern: 61
 economicImpact: 68
 socialImpact: 89
 affectedSystems: [Regional Security, State Governance, Humanitarian, International Relations]
-connections: [isis-emergence, iran-regional-expansion, intervention-failure, refugee-crisis, sectarian-nationalism-resurgence]
+connections: [comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

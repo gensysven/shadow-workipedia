@@ -2,14 +2,14 @@
 id: just-in-time-supply-chain-collapse
 title: Just-in-Time Supply Chain Collapse
 number: 129
-category: Economic
+category: [Economic, Infrastructure]
 urgency: High
 tags: [supply-chain, just-in-time, manufacturing, logistics, inventory, resilience]
 publicConcern: 69
 economicImpact: 88
 socialImpact: 76
 affectedSystems: [Supply Chain, Manufacturing, Global Trade, Consumer Markets]
-connections: [supply-chain-fragility, pandemic-disruption, semiconductor-shortage, reshoring-movement]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

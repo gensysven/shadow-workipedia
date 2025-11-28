@@ -2,14 +2,14 @@
 id: childcare-affordability-catastrophe
 title: Childcare Affordability Catastrophe
 number: 419
-category: Economic
+category: [Economic, Social]
 urgency: Critical
 tags: [childcare, family-policy, gender-inequality, employment, poverty, early-education]
 publicConcern: 75
 economicImpact: 70
 socialImpact: 80
 affectedSystems: [Labor Market, Education, Family Structure, Gender Equality, Economy]
-connections: [gender-pay-gap, early-childhood-education-gaps, poverty-trap-mechanisms]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

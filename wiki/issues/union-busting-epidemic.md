@@ -2,14 +2,14 @@
 id: union-busting-epidemic
 title: Union Busting Epidemic
 number: 374
-category: Economic
+category: [Economic, Political]
 urgency: High
 tags: [labor, unions, corporations, workers, amazon, starbucks, organizing, worker-rights]
 publicConcern: 55
 economicImpact: 72
 socialImpact: 78
 affectedSystems: [Labor Markets, Corporate Power, Politics, Economy, Institutions (Labor)]
-connections: [gig-economy-serfdom, wage-stagnation, corporate-consolidation, automation-displacement, regulatory-capture]
+connections: [gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

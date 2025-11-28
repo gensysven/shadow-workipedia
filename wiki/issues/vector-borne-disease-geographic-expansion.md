@@ -2,7 +2,7 @@
 id: vector-borne-disease-geographic-expansion
 title: Vector-Borne Disease Geographic Expansion
 number: 476
-category: Health
+category: [Environmental, Social]
 urgency: High
 tags:
   - climate-change
@@ -19,7 +19,7 @@ affectedSystems:
   - Economic
 connections:
   - climate-change
-  - pandemic-preparedness
+  - pandemic-preparedness-failures
   - public-health-infrastructure
   - tropical-disease-resurgence
   - ecosystem-disruption

@@ -2,14 +2,14 @@
 id: global-sand-wars-and-concrete-scarcity
 title: Global Sand Wars and Concrete Scarcity
 number: SW#106
-category: Environmental
+category: [Environmental, Economic, Infrastructure]
 urgency: High
 tags: [sand, concrete, construction, resources, mining, infrastructure, marine-ecosystems]
 publicConcern: 42
 economicImpact: 78
 socialImpact: 69
 affectedSystems: [Construction, Resource Extraction, Infrastructure, Coastal Systems, Trade]
-connections: [infrastructure-decay, resource-wars, environmental-degradation, housing-crisis, water-wars, island-nations-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -40,13 +40,13 @@ By 2025, 24 nations face critical sand shortages affecting construction capacity
 
 **Event Types:**
 
-1. **Major Sand Deposit Depletion**: A significant regional sand source becomes commercially exhausted (extraction costs exceed market prices). Construction halts or severely restricts, forcing alternative material sourcing. If alternative materials unavailable, triggers infrastructure-decay cascade and 12-24 month construction delays. Nations dependent on this deposit experience 15-35% reduction in construction capacity until alternatives established.
+1. **Major Sand Deposit Depletion**: A significant regional sand source becomes commercially exhausted (extraction costs exceed market prices). Construction halts or severely restricts, forcing alternative material sourcing. If alternative materials unavailable, triggers aging-infrastructure-crisis cascade and 12-24 month construction delays. Nations dependent on this deposit experience 15-35% reduction in construction capacity until alternatives established.
 
 2. **Organized Crime Escalation**: Criminal networks consolidate control over sand supply chains in weak-governance zones. Mining mafias initiate violent territorial disputes, government enforcement efforts fail, and illegal extraction accelerates environmental damage by 40-60%. Triggers resource-wars within same region and increases corruption index by 20-30% within 2 years.
 
-3. **Coastal Erosion Crisis**: Accelerated sand mining triggers catastrophic coastal erosion event, threatening 50,000+ people in vulnerable zones (low-lying deltas, island nations, megacity coastal slums). Triggers housing-crisis if population must relocate; triggers infrastructure-decay if critical infrastructure threatened; intensifies island-nations-collapse for vulnerable small island states.
+3. **Coastal Erosion Crisis**: Accelerated sand mining triggers catastrophic coastal erosion event, threatening 50,000+ people in vulnerable zones (low-lying deltas, island nations, megacity coastal slums). Triggers housing-crisis if population must relocate; triggers aging-infrastructure-crisis if critical infrastructure threatened; intensifies island-nations-collapse for vulnerable small island states.
 
-4. **Sand Trade Cartel Formation**: Leading sand-exporting nations (Vietnam, India, Indonesia, Morocco) coordinate export restrictions or price manipulation. Creates 25-45% price spikes globally, severe supply shortages in sand-deficit nations, and retaliatory trade measures. Amplifies infrastructure-decay and housing-crisis cascades by restricting material access.
+4. **Sand Trade Cartel Formation**: Leading sand-exporting nations (Vietnam, India, Indonesia, Morocco) coordinate export restrictions or price manipulation. Creates 25-45% price spikes globally, severe supply shortages in sand-deficit nations, and retaliatory trade measures. Amplifies aging-infrastructure-crisis and housing-crisis cascades by restricting material access.
 
 5. **Cross-Border Mining Conflict**: Nations dispute underwater sand deposits or river extraction rights. Creates 8-15% increases in military tensions, potential naval confrontations in contested zones, and escalates to armed resource-wars if competing claims not resolved through international arbitration. Particularly acute in Southeast Asia, Eastern Africa, and Mediterranean.
 
@@ -54,7 +54,7 @@ By 2025, 24 nations face critical sand shortages affecting construction capacity
 
 **Cascading Effects:**
 
-- Triggers **infrastructure-decay** when sand scarcity reduces construction capacity >20% + construction material costs exceed budget allocation
+- Triggers **aging-infrastructure-crisis** when sand scarcity reduces construction capacity >20% + construction material costs exceed budget allocation
 - Amplifies **housing-crisis** by 18-35% when concrete becomes unaffordable or unavailable, reducing housing production by 15-30% in sand-scarce regions
 - Triggers **resource-wars** when sand mining crosses territorial boundaries or nation-states dispute underwater mineral rights
 - Amplifies **water-wars** by 12-25% when sand mining contaminates aquifers or alters river hydrology, reducing freshwater availability
@@ -66,7 +66,7 @@ By 2025, 24 nations face critical sand shortages affecting construction capacity
 
 **Early Indicators of Sand Crisis Escalation:**
 
-- **Rapid Urbanization + Limited Sand Reserves** = Construction boom in regions with <30 years of sand reserves at current extraction rates; domestic reserves deplete within 18 months, forcing 40-60% increase in imports and creating supply chain vulnerabilities. If import capacity insufficient, triggers infrastructure-decay within 12-18 months.
+- **Rapid Urbanization + Limited Sand Reserves** = Construction boom in regions with <30 years of sand reserves at current extraction rates; domestic reserves deplete within 18 months, forcing 40-60% increase in imports and creating supply chain vulnerabilities. If import capacity insufficient, triggers aging-infrastructure-crisis within 12-18 months.
 
 - **Price Spike + Criminal Involvement** = Concrete prices increase >30% within 12 months + organized crime networks detected controlling extraction operations; signals shift from state-regulated to criminal supply chains. Expect violence escalation, environmental damage acceleration, and corruption spread affecting government oversight.
 

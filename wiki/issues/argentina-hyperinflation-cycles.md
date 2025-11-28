@@ -2,14 +2,14 @@
 id: argentina-hyperinflation-cycles
 title: Argentina Hyperinflation Cycles
 number: SW#156
-category: Economic
+category: [Economic, Political]
 urgency: Critical
 tags: [hyperinflation, currency-collapse, IMF, argentina, peso, dollarization, political-instability]
 publicConcern: 88
 economicImpact: 95
 socialImpact: 85
 affectedSystems: [Economy, Politics, Trade]
-connections: [emerging-market-debt-crises, currency-devaluation-spirals, political-instability-contagion, central-bank-credibility-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

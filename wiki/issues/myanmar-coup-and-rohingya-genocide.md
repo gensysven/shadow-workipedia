@@ -2,14 +2,14 @@
 id: myanmar-coup-and-rohingya-genocide
 title: Myanmar Coup and Rohingya Genocide
 number: 311
-category: Security
+category: [Security, Infrastructure]
 urgency: Critical
 tags: [myanmar, genocide, military, refugees, rohingya, democracy, asia]
 publicConcern: 68
 economicImpact: 55
 socialImpact: 95
 affectedSystems: [Government, Military, Refugees, International Relations, Human Rights]
-connections: [muslim-persecution-and-communal-violence, climate-driven-migration, authoritarian-rise]
+connections: [muslim-persecution-and-communal-violence]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

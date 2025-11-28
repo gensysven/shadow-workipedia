@@ -2,14 +2,14 @@
 id: gnss-spoofing-and-positioning-trust-collapse
 title: GNSS Spoofing and Positioning Trust Collapse
 number: 109
-category: Technological
+category: [Technological, Security, Economic, Infrastructure]
 urgency: High
 tags: [gps, navigation, spoofing, infrastructure, aviation, shipping, warfare]
 publicConcern: 48
 economicImpact: 79
 socialImpact: 72
 affectedSystems: [Transportation, Aviation, Maritime, Financial Systems, Military]
-connections: [critical-infrastructure-attacks, electronic-warfare, supply-chain-fragility, aviation-safety-crisis]
+connections: [critical-infrastructure-attacks, just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

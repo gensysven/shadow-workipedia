@@ -2,14 +2,14 @@
 id: permafrost-methane-release
 title: Permafrost Methane Release
 number: 186
-category: Environmental
+category: [Existential, Environmental, Infrastructure]
 urgency: Critical
 tags: [climate-change, tipping-points, arctic, greenhouse-gases, feedback-loops, infrastructure]
 publicConcern: 58
 economicImpact: 78
 socialImpact: 82
 affectedSystems: [Environment, Infrastructure, Economy, Health]
-connections: [climate-tipping-points, arctic-resource-rush, infrastructure-subsidence-collapse, climate-refugee-crisis]
+connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

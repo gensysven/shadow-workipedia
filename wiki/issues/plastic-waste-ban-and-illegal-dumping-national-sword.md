@@ -9,7 +9,7 @@ publicConcern: 7
 economicImpact: 8
 socialImpact: 7
 affectedSystems: [waste-management, international-trade, environment, recycling]
-connections: [plastic-pollution, recycling-collapse, environmental-justice, global-trade]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,14 +2,14 @@
 id: urban-groundwater-subsidence-emergencies
 title: Urban Groundwater Subsidence Emergencies
 number: 377
-category: Infrastructure
+category: [Environmental, Infrastructure, Economic]
 urgency: High
 tags: [water, cities, infrastructure, subsidence, climate, groundwater]
 publicConcern: 48
 economicImpact: 78
 socialImpact: 72
 affectedSystems: [Infrastructure, Water Systems, Cities, Economy]
-connections: [water-scarcity-wars, infrastructure-decay, climate-driven-migration]
+connections: [water-scarcity-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

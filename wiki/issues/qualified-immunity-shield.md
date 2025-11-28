@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 42
 socialImpact: 82
 affectedSystems: [Judiciary, Law Enforcement, Civil Rights, Government]
-connections: [police-militarization-escalation, mass-incarceration-crisis, racial-justice-conflicts]
+connections: [police-militarization-escalation,mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

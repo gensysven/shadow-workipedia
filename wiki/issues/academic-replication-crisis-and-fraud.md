@@ -2,14 +2,14 @@
 id: academic-replication-crisis-and-fraud
 title: Academic Replication Crisis and Fraud
 number: 406
-category: Technological
+category: [Social, Technological]
 urgency: High
 tags: [science, research, academia, fraud, methodology, peer-review]
 publicConcern: 45
 economicImpact: 60
 socialImpact: 70
 affectedSystems: [Education, Healthcare, Technology, Policy]
-connections: [misinformation-ecosystem, pharmaceutical-pricing-crisis, ai-research-safety-failures]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

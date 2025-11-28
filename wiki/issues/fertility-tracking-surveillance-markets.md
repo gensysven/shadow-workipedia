@@ -2,14 +2,14 @@
 id: fertility-tracking-surveillance-markets
 title: Fertility Tracking Surveillance Markets
 number: 89
-category: Technological
+category: [Technological, Social, Political]
 urgency: High
 tags: [surveillance, fertility, data, privacy, reproductive-rights, women, health-data]
 publicConcern: 64
 economicImpact: 52
 socialImpact: 78
 affectedSystems: [Privacy Systems, Healthcare, Women's Rights, Data Markets]
-connections: [abortion-access-crisis, reproductive-surveillance, data-broker-exploitation, health-data-monetization]
+connections: [abortion-access-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

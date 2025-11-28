@@ -2,14 +2,14 @@
 id: noise-pollution-and-sonic-environment-collapse
 title: Noise Pollution and Sonic Environment Collapse
 number: 437
-category: Environmental
+category: [Environmental, Social]
 urgency: medium
 tags: [noise-pollution, hearing-damage, urban-environment, public-health, sensory-overload, acoustic-ecology]
 publicConcern: 6
 economicImpact: 5
 socialImpact: 7
 affectedSystems: [health, urban-planning, transportation, industrial]
-connections: [urban-planning-crisis, environmental-degradation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

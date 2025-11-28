@@ -2,14 +2,14 @@
 id: billionaire-abolition-movement
 title: Billionaire Abolition Movement
 number: SW#156
-category: Economic
+category: [Economic, Political, Social]
 urgency: High
 tags: [wealth-inequality, wealth-caps, tax-activism, political-influence, class-conflict, democratization]
 publicConcern: 72
 economicImpact: 85
 socialImpact: 78
 affectedSystems: [Economy, Politics, Civil Society]
-connections: [extreme-wealth-inequality, campaign-finance-corruption, democratic-backsliding, oligarchic-control, wealth-concentration-crisis]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

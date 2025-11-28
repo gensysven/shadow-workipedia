@@ -2,7 +2,7 @@
 id: ransomware-pandemic
 title: Ransomware Pandemic
 number: SW#52
-category: Infrastructure
+category: [Security, Technological, Infrastructure]
 urgency: High
 tags: [cybersecurity, healthcare, cryptocurrency, critical-infrastructure, state-actors]
 publicConcern: 89

@@ -2,7 +2,7 @@
 id: homelessness-crisis
 title: Homelessness Crisis
 number: 403
-category: Social
+category: [Social, Infrastructure]
 urgency: Critical
 tags:
   - homelessness

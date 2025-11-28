@@ -2,14 +2,14 @@
 id: planned-obsolescence-as-environmental-crime
 title: Planned Obsolescence as Environmental Crime
 number: 447
-category: Environmental
+category: [Environmental, Economic]
 urgency: high
 tags: [planned-obsolescence, e-waste, consumerism, product-lifespan, right-to-repair, sustainability]
 publicConcern: 7
 economicImpact: 7
 socialImpact: 7
 affectedSystems: [manufacturing, environment, consumer-rights, economy]
-connections: [e-waste-crisis, climate-crisis, right-to-repair, circular-economy]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

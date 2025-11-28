@@ -2,7 +2,7 @@
 id: tax-haven-networks
 title: Tax Haven Networks
 number: 468
-category: Economic
+category: [Economic, Political]
 urgency: High
 tags:
   - tax-evasion

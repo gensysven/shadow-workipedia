@@ -2,7 +2,7 @@
 id: war-on-drugs-continuation
 title: War on Drugs Continuation
 number: 250
-category: Political
+category: [Political, Social, Security]
 urgency: High
 tags:
   - Drug Policy

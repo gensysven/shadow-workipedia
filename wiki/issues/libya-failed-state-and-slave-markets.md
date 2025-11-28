@@ -9,7 +9,7 @@ publicConcern: 58
 economicImpact: 64
 socialImpact: 92
 affectedSystems: [State Governance, Human Rights, Migration Systems, Regional Security]
-connections: [intervention-failure, human-trafficking-networks, european-migration-crisis, african-instability]
+connections: [human-trafficking-networks, european-migration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

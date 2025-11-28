@@ -2,14 +2,14 @@
 id: caucasus-wars-and-frozen-conflicts
 title: Caucasus Wars and Frozen Conflicts
 number: SW#201
-category: Political
+category: [Political, Security, Social]
 urgency: High
 tags: [caucasus, armenia, azerbaijan, nagorno-karabakh, south-ossetia, abkhazia, georgia, russia, ethnic-conflict, frozen-conflict, regional-war, russian-influence, geopolitics]
 publicConcern: 68
 economicImpact: 72
 socialImpact: 91
 affectedSystems: [Geopolitics, Security, Institutions]
-connections: [balkans-instability-and-fragmentation-risk, democratic-backsliding, refugee-crises, ethnic-nationalism-resurgence]
+connections: [balkans-instability-and-fragmentation-risk, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

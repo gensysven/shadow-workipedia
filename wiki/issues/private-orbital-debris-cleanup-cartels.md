@@ -2,14 +2,14 @@
 id: private-orbital-debris-cleanup-cartels
 title: Private Orbital Debris Cleanup Cartels
 number: 330
-category: Technological
+category: [Technological, Infrastructure]
 urgency: Medium
 tags: [space, debris, monopoly, satellites, privatization, kessler-syndrome]
 publicConcern: 38
 economicImpact: 65
 socialImpact: 48
 affectedSystems: [Space Industry, Telecommunications, Military, Global Trade]
-connections: [satellite-constellation-wars, space-militarization, kessler-syndrome-risk]
+connections: [space-militarization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

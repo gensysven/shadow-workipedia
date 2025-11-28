@@ -9,7 +9,7 @@ publicConcern: 58
 economicImpact: 54
 socialImpact: 79
 affectedSystems: [Media, Democratic Institutions, Information Systems, Community]
-connections: [disinformation-plague, media-consolidation, democratic-erosion, civic-engagement-decline]
+connections: [disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,7 +2,7 @@
 id: west-antarctic-ice-cliff-collapse
 title: West Antarctic Ice Cliff Collapse
 number: 254
-category: Environmental
+category: [Existential, Environmental]
 urgency: Critical
 tags:
   - Climate Change

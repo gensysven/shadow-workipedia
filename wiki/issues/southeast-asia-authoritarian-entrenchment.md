@@ -2,14 +2,14 @@
 id: southeast-asia-authoritarian-entrenchment
 title: Southeast Asia Authoritarian Entrenchment
 number: 354
-category: Political
+category: [Political, Social]
 urgency: High
 tags: [authoritarianism, southeast-asia, democracy, repression, china, asean]
 publicConcern: 52
 economicImpact: 58
 socialImpact: 78
 affectedSystems: [Government, Civil Society, Media, International Relations]
-connections: [algorithmic-authoritarianism, china-influence, democratic-backsliding]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

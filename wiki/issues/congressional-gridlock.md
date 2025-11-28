@@ -2,7 +2,7 @@
 id: congressional-gridlock
 title: Congressional Gridlock
 number: 423
-category: governance
+category: [Political]
 urgency: high
 tags:
   - governance

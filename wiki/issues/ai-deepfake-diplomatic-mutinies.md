@@ -2,14 +2,14 @@
 id: ai-deepfake-diplomatic-mutinies
 title: AI Deepfake Diplomatic Mutinies
 number: SW#110
-category: Security
+category: [Technological, Security, Political]
 urgency: High
 tags: [deepfakes, diplomacy, disinformation, ai, international-relations, crisis, synthetic-media]
 publicConcern: 60
 economicImpact: 70
 socialImpact: 80
 affectedSystems: [Geopolitics, Security, Technology, Institutions]
-connections: [deepfake-reality-crisis, disinformation-plague, state-sponsored-hacking-epidemic, ai-arms-race, trust-deficit-cascade]
+connections: [deepfake-reality-crisis, disinformation-plague, state-sponsored-hacking-epidemic]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

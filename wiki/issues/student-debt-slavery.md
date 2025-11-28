@@ -2,14 +2,14 @@
 id: student-debt-slavery
 title: Student Debt Slavery
 number: 312
-category: Economic
+category: [Economic, Social]
 urgency: High
 tags: [education, debt, inequality, youth, labor, finance, bankruptcy, homeownership, generational-inequality, economic-mobility, mental-health]
 publicConcern: 78
 economicImpact: 85
 socialImpact: 82
 affectedSystems: [financial-system, education-system, labor-market, housing-market, consumer-spending, public-finance, population-dynamics]
-connections: [ai-job-displacement-tsunami, housing-impossibility-crisis, gig-economy-serfdom, billionaire-abolition-movement, intergenerational-wealth-war, wage-stagnation, education-system-obsolescence]
+connections: [ai-job-displacement-tsunami,gig-economy-serfdom,billionaire-abolition-movement]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

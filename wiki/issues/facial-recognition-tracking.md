@@ -2,7 +2,7 @@
 id: facial-recognition-tracking
 title: Facial Recognition Tracking
 number: 431
-category: surveillance
+category: [Security, Technological, Political]
 urgency: high
 tags:
   - surveillance

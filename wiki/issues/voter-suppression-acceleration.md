@@ -9,7 +9,7 @@ publicConcern: 75
 economicImpact: 42
 socialImpact: 88
 affectedSystems: [Democracy, Elections, Civil Rights, Government]
-connections: [democratic-backsliding, gerrymandering-crisis, election-denialism]
+connections: [democratic-backsliding,election-denialism]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

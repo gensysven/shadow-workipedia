@@ -9,6 +9,7 @@ const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');
 
 // Color palette for categories (will be used in future extraction logic)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
+  Existential: '#dc2626',   // Red-600 - civilization-threatening risks
   Economic: '#3b82f6',
   Social: '#8b5cf6',
   Political: '#ef4444',
@@ -306,6 +307,78 @@ function issueToNode(
   };
 }
 
+/**
+ * Create a GraphNode from a wiki article (for wiki-only issues not in catalog)
+ */
+function wikiArticleToNode(
+  article: WikiArticle,
+  issueNumber: number,
+  curatedMappings: Map<string, string[]>,
+  systemWalkMap: Map<string, { issueNumber: number; subsystemCount: number; totalLines: number }>,
+  multiCategoryData: Map<string, IssueCategory[]>
+): GraphNode {
+  const fm = article.frontmatter;
+
+  const urgencySizes: Record<IssueUrgency, number> = {
+    Critical: 16,
+    High: 12,
+    Medium: 8,
+    Low: 6,
+    Latent: 4,
+  };
+
+  // Normalize urgency (frontmatter may have lowercase)
+  const rawUrgency = (fm.urgency || 'Medium') as string;
+  const urgency: IssueUrgency = (rawUrgency.charAt(0).toUpperCase() + rawUrgency.slice(1).toLowerCase()) as IssueUrgency;
+
+  // Get categories from multi-category data first, then fallback to frontmatter
+  let categories: IssueCategory[] = multiCategoryData.get(article.id) || [];
+  if (categories.length === 0 && fm.category) {
+    // Frontmatter category can be string or array
+    const fmCategories = Array.isArray(fm.category) ? fm.category : [fm.category];
+    categories = fmCategories.filter((c: string) =>
+      ['Existential', 'Economic', 'Social', 'Political', 'Environmental', 'Security', 'Technological', 'Cultural', 'Infrastructure'].includes(c)
+    ) as IssueCategory[];
+  }
+  if (categories.length === 0) {
+    categories = ['Technological']; // Default fallback
+  }
+
+  const primaryCategory = categories[0];
+
+  // Get system walk data
+  const systemWalk = getSystemWalkData(article.id, issueNumber, PARENT_REPO, systemWalkMap);
+
+  // Get affected systems from curated mappings first, then frontmatter
+  let affectedSystems = curatedMappings.get(article.id) || [];
+  if (affectedSystems.length === 0 && fm.affectedSystems) {
+    affectedSystems = Array.isArray(fm.affectedSystems) ? fm.affectedSystems : [fm.affectedSystems];
+  }
+
+  // Convert 0-10 scale to 0-100 if needed
+  const publicConcern = fm.publicConcern ? (fm.publicConcern <= 10 ? fm.publicConcern * 10 : fm.publicConcern) : 70;
+  const economicImpact = fm.economicImpact ? (fm.economicImpact <= 10 ? fm.economicImpact * 10 : fm.economicImpact) : 60;
+  const socialImpact = fm.socialImpact ? (fm.socialImpact <= 10 ? fm.socialImpact * 10 : fm.socialImpact) : 60;
+
+  return {
+    id: article.id,
+    type: 'issue',
+    label: article.title,
+    categories,
+    urgency,
+    description: article.content.substring(0, 500), // First 500 chars as description
+    publicConcern,
+    economicImpact,
+    socialImpact,
+    affectedSystems,
+    systemWalk,
+    hasArticle: true,
+    wordCount: article.wordCount,
+    color: CATEGORY_COLORS[primaryCategory],
+    size: urgencySizes[urgency] || 8,
+  };
+}
+
 interface ConnectivitySystem {
   name: string;
   connections: number;
@@ -417,14 +490,16 @@ function loadCuratedConnections(): Map<string, Array<{targetId: string, relation
   return connectionMap;
 }
 
-function extractIssueEdges(issues: RawIssue[]): GraphEdge[] {
+function extractIssueEdges(issues: RawIssue[], wikiSlugs?: Set<string>): GraphEdge[] {
   const edges: GraphEdge[] = [];
 
   // Load curated human-reviewed connections
   const curatedConnections = loadCuratedConnections();
   console.log(`📋 Loaded ${curatedConnections.size} issues with curated connections`);
 
-  const issueIds = new Set(issues.map(i => i.id));
+  // Use wiki slugs for validation if provided, otherwise fall back to catalog IDs
+  const catalogIds = new Set(issues.map(i => i.id));
+  const validTargets = wikiSlugs || catalogIds;
 
   // Create edges from curated connections
   for (const issue of issues) {
@@ -435,8 +510,8 @@ function extractIssueEdges(issues: RawIssue[]): GraphEdge[] {
     }
 
     for (const conn of connections) {
-      // Verify target exists
-      if (!issueIds.has(conn.targetId)) {
+      // Verify target exists in wiki articles (or catalog as fallback)
+      if (!validTargets.has(conn.targetId)) {
         console.warn(`⚠️  Target issue "${conn.targetId}" not found for "${issue.id}"`);
         continue;
       }
@@ -524,12 +599,42 @@ async function main() {
   // Parse system walk tracker
   const systemWalkMap = parseSystemWalkTracker(PARENT_REPO);
 
+  // Load wiki content early to get valid slugs for connection validation
+  const wikiContent = loadWikiContent();
+  const wikiIssueSlugs = new Set(wikiContent.issues.keys());
+  console.log(`📚 Loaded ${wikiIssueSlugs.size} wiki issue slugs for connection validation`);
+
   // Extract issues
-  const rawIssues = parseIssueCatalog(multiCategoryData);
-  console.log(`📋 Found ${rawIssues.length} issues in catalog`);
+  const allRawIssues = parseIssueCatalog(multiCategoryData);
+  console.log(`📋 Found ${allRawIssues.length} issues in catalog`);
+
+  // Filter out archived issues (those that don't have active wiki articles)
+  const rawIssues = allRawIssues.filter(issue => wikiIssueSlugs.has(issue.id));
+  const archivedCount = allRawIssues.length - rawIssues.length;
+  if (archivedCount > 0) {
+    console.log(`📦 Skipping ${archivedCount} archived issues (wiki articles in archive)`);
+  }
 
   const issueNodes = rawIssues.map((issue, index) => issueToNode(issue, index + 1, curatedMappings, systemWalkMap));
   nodes.push(...issueNodes);
+
+  // Create nodes from wiki-only articles (not in catalog)
+  const catalogIds = new Set(rawIssues.map(i => i.id));
+  const wikiOnlyArticles: WikiArticle[] = [];
+  for (const [id, article] of wikiContent.issues) {
+    if (!catalogIds.has(id)) {
+      wikiOnlyArticles.push(article);
+    }
+  }
+
+  if (wikiOnlyArticles.length > 0) {
+    console.log(`📰 Found ${wikiOnlyArticles.length} wiki-only issues (no catalog entry)`);
+    const wikiOnlyNodes = wikiOnlyArticles.map((article, index) =>
+      wikiArticleToNode(article, 300 + index, curatedMappings, systemWalkMap, multiCategoryData)
+    );
+    nodes.push(...wikiOnlyNodes);
+    issueNodes.push(...wikiOnlyNodes); // Also add to issueNodes for edge processing
+  }
 
   // Extract systems as nodes
   const connectivityData = parseSystemsFromConnectivity();
@@ -544,10 +649,34 @@ async function main() {
   // Extract edges
   console.log('🔗 Extracting connections...');
 
-  // 1. Issue-to-issue edges
-  const issueEdges = extractIssueEdges(rawIssues);
+  // 1. Issue-to-issue edges (validate against wiki slugs)
+  const issueEdges = extractIssueEdges(rawIssues, wikiIssueSlugs);
   console.log(`  - ${issueEdges.length} issue-issue edges`);
   edges.push(...issueEdges);
+
+  // 1b. Issue-to-issue edges from wiki-only articles (from frontmatter connections)
+  let wikiOnlyEdgeCount = 0;
+  for (const article of wikiOnlyArticles) {
+    const connections = article.frontmatter.connections;
+    if (Array.isArray(connections)) {
+      for (const targetId of connections) {
+        // Only add edge if target exists (in wiki slugs)
+        if (typeof targetId === 'string' && wikiIssueSlugs.has(targetId) && targetId !== article.id) {
+          edges.push({
+            source: article.id,
+            target: targetId,
+            type: 'issue-issue',
+            strength: 0.5,
+            bidirectional: true,
+          });
+          wikiOnlyEdgeCount++;
+        }
+      }
+    }
+  }
+  if (wikiOnlyEdgeCount > 0) {
+    console.log(`  - ${wikiOnlyEdgeCount} issue-issue edges from wiki-only articles`);
+  }
 
   // 2. System-to-system edges
   for (const edge of connectivityData.edges) {
@@ -589,9 +718,8 @@ async function main() {
   }
   console.log(`  - ${issueSystemEdgeCount} issue-system edges`);
 
-  // Load wiki articles
-  console.log('📚 Loading wiki articles...');
-  const wikiContent = loadWikiContent();
+  // Process wiki articles (already loaded earlier for connection validation)
+  console.log('📚 Processing wiki articles...');
 
   // Create wiki articles map for output - include ALL wiki articles
   const wikiArticles: Record<string, WikiArticle> = {};

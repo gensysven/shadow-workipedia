@@ -2,14 +2,14 @@
 id: consciousness-property-battles
 title: Consciousness Property Battles
 number: SW#62
-category: Political
+category: [Technological, Political, Economic]
 urgency: Medium
 tags: [consciousness, property-rights, neuroscience, brain-data, privacy, legal, neural-patterns, cognitive-liberty]
 publicConcern: 48
 economicImpact: 67
 socialImpact: 74
 affectedSystems: [Legal Systems, Technology Systems, Privacy Systems, Economic Systems]
-connections: [brain-computer-interface-revolution, neural-data-exploitation, digital-property-rights, cognitive-liberty, neurorights-movement]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

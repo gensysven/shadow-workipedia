@@ -2,14 +2,14 @@
 id: balkans-instability-and-fragmentation-risk
 title: Balkans Instability and Fragmentation Risk
 number: SW#156
-category: Political
+category: [Political, Security, Social]
 urgency: High
 tags: [balkans, serbia, kosovo, bosnia, ethnic-nationalism, eu-integration, russian-influence, geopolitics, fragmentation, regional-conflict]
 publicConcern: 72
 economicImpact: 65
 socialImpact: 88
 affectedSystems: [Geopolitics, Security, Civil Society]
-connections: [democratic-backsliding, refugee-crises, ethnic-nationalism-resurgence]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

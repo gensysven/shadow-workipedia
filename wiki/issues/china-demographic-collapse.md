@@ -2,14 +2,14 @@
 id: china-demographic-collapse
 title: China Demographic Collapse
 number: 73
-category: Political
+category: [Social, Economic]
 urgency: Critical
 tags: [demographics, aging-population, population-decline, labor-shortage, pension-crisis, one-child-policy, economic-growth, workforce, gender-imbalance, china]
 publicConcern: 72
 economicImpact: 88
 socialImpact: 84
 affectedSystems: [Population, Economy, Politics, Healthcare, Social Stability]
-connections: [global-trade-system-fragmentation, advanced-market-stagnation, regional-economic-collapse, mass-automation-necessity, pension-system-collapse, labor-shortage-crisis, social-safety-net-breakdown]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

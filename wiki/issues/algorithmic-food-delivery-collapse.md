@@ -2,14 +2,14 @@
 id: algorithmic-food-delivery-collapse
 title: Algorithmic Food Delivery Collapse
 number: SW#117
-category: Economic
+category: [Economic, Technological, Social]
 urgency: Medium
 tags: [gig-economy, food-delivery, algorithms, restaurants, labor, urbanism]
 publicConcern: 45
 economicImpact: 65
 socialImpact: 55
 affectedSystems: [Economy, Infrastructure, Civil Society]
-connections: [gig-economy-serfdom, restaurant-industry-collapse, urban-food-deserts]
+connections: [gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

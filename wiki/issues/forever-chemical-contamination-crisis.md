@@ -2,14 +2,14 @@
 id: forever-chemical-contamination-crisis
 title: Forever Chemical Contamination Crisis
 number: 92
-category: Environmental
+category: [Environmental, Social, Economic, Infrastructure]
 urgency: High
 tags: [pfas, chemicals, contamination, water, health, pollution, corporate-liability]
 publicConcern: 71
 economicImpact: 76
 socialImpact: 82
 affectedSystems: [Water Systems, Healthcare, Legal Systems, Manufacturing]
-connections: [water-contamination-crisis, corporate-accountability-failure, environmental-justice, cancer-cluster-discovery]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

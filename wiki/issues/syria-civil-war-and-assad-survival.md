@@ -9,7 +9,7 @@ publicConcern: 55
 economicImpact: 58
 socialImpact: 92
 affectedSystems: [Regional Stability, Refugees, International Relations, Human Rights]
-connections: [refugee-crisis, russian-aggression, iran-regional-ambitions, isis-remnants]
+connections: [comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

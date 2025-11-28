@@ -9,7 +9,7 @@ publicConcern: 7
 economicImpact: 6
 socialImpact: 8
 affectedSystems: [mental-health, beauty-industry, social-media, culture]
-connections: [social-media-mental-health, beauty-standards, youth-mental-health, consumerism]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

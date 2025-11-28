@@ -2,14 +2,14 @@
 id: cybernetic-rejection-syndrome
 title: Cybernetic Rejection Syndrome
 number: 72
-category: Technological
+category: [Technological, Social]
 urgency: Medium
 tags: [cybernetics, implants, biotech, health, rejection, transhumanism]
 publicConcern: 44
 economicImpact: 58
 socialImpact: 69
 affectedSystems: [Healthcare, Technology Systems, Insurance Systems, Labor Markets]
-connections: [brain-computer-interface-revolution, medical-device-failures, transhumanism-backlash, augmentation-inequality]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

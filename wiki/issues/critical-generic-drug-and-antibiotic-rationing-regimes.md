@@ -2,14 +2,14 @@
 id: critical-generic-drug-and-antibiotic-rationing-regimes
 title: Critical Generic Drug and Antibiotic Rationing Regimes
 number: 70
-category: Infrastructure
+category: [Social, Economic, Political]
 urgency: Critical
 tags: [pharmaceuticals, antibiotics, supply-chain, healthcare, rationing, shortages]
 publicConcern: 76
 economicImpact: 79
 socialImpact: 88
 affectedSystems: [Healthcare, Pharmaceutical Supply Chain, Public Health, Economic Systems]
-connections: [antibiotic-resistance-crisis, pharmaceutical-supply-concentration, healthcare-system-strain, pandemic-preparedness]
+connections: [antibiotic-resistance-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

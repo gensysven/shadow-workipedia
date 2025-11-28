@@ -2,14 +2,14 @@
 id: post-putin-succession-crisis
 title: Post-Putin Succession Crisis
 number: 451
-category: Geopolitical
+category: [Political, Security]
 urgency: High
 tags: [russia, leadership-transition, political-stability, nuclear-weapons, authoritarian-regimes]
 publicConcern: 7/10
 economicImpact: 8/10
 socialImpact: 9/10
 affectedSystems: [Governance, Military, Energy, International-Relations]
-connections: [russia-demographic-winter, nuclear-proliferation, energy-security]
+connections: [russia-demographic-winter]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

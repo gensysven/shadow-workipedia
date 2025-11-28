@@ -2,14 +2,14 @@
 id: christian-nationalism-achieves-power
 title: Christian Nationalism Achieves Power
 number: 420
-category: Political
+category: [Political, Cultural, Social]
 urgency: Critical
 tags: [religious-nationalism, theocracy, democracy, civil-rights, separation-of-church-and-state, authoritarianism]
 publicConcern: 80
 economicImpact: 60
 socialImpact: 90
 affectedSystems: [Democracy, Civil Liberties, Legal System, Education, Social Cohesion]
-connections: [abortion-access-restrictions, book-banning-campaigns, lgbtq-rights-rollback]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

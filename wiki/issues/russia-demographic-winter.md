@@ -2,14 +2,14 @@
 id: russia-demographic-winter
 title: Russia Demographic Winter
 number: 458
-category: Demographics
+category: [Social, Economic, Security]
 urgency: High
 tags: [population-decline, aging-society, russia, economic-collapse, military-weakness]
 publicConcern: 5/10
 economicImpact: 8/10
 socialImpact: 9/10
 affectedSystems: [Demographics, Economics, Military, Healthcare, Labor-Markets]
-connections: [post-putin-succession-crisis, aging-population-crisis, labor-shortage]
+connections: [post-putin-succession-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

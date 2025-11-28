@@ -1,5 +1,5 @@
 ---
-id: post-911-security-tradeoffs
+id: post-9-11-security-tradeoffs
 title: Post-9/11 Security Tradeoffs
 number: 328
 category: Security
@@ -9,7 +9,7 @@ publicConcern: 62
 economicImpact: 55
 socialImpact: 78
 affectedSystems: [Civil Liberties, Intelligence, Government, Privacy, International Relations]
-connections: [surveillance-state-expansion, civil-liberties-erosion, endless-war-syndrome]
+connections: [surveillance-state-expansion]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

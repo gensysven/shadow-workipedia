@@ -2,14 +2,14 @@
 id: cancel-culture-tribunal
 title: Cancel Culture Tribunal
 number: 002
-category: Cultural
+category: [Cultural, Social, Political]
 urgency: High
 tags: [cancel-culture, social-justice, free-speech, mob-justice, institutional-response, career-destruction, social-media, reputational-risk]
 publicConcern: 78
 economicImpact: 72
 socialImpact: 86
 affectedSystems: [culture, politics, technology, media, civil-society]
-connections: [social-media-addiction-crisis, disinformation-plague, polarization-spiral, institutional-trust-collapse, wealth-inequality-cascade]
+connections: [social-media-addiction-crisis, disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

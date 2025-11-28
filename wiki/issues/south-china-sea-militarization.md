@@ -2,14 +2,14 @@
 id: south-china-sea-militarization
 title: South China Sea Militarization
 number: 352
-category: Security
+category: [Existential, Security, Political, Economic]
 urgency: Critical
 tags: [china, military, south-china-sea, philippines, vietnam, territory, shipping]
 publicConcern: 68
 economicImpact: 78
 socialImpact: 72
 affectedSystems: [International Security, Trade Routes, Regional Stability, Military]
-connections: [taiwan-crisis, china-us-tensions, maritime-border-conflicts]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

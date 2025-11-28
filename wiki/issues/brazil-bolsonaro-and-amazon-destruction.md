@@ -2,14 +2,14 @@
 id: brazil-bolsonaro-and-amazon-destruction
 title: Brazil Bolsonaro and Amazon Destruction
 number: SW#137
-category: Political
+category: [Political, Environmental, Social]
 urgency: Critical
 tags: [brazil, bolsonaro, amazon-rainforest, deforestation, indigenous-rights, agribusiness, environmental-rollback, democratic-erosion, climate-change, biodiversity-loss]
 publicConcern: 82
 economicImpact: 78
 socialImpact: 89
 affectedSystems: [Environment, Politics, Economy, Civil Society, Geopolitics]
-connections: [comprehensive-climate-cascade-failure, indigenous-land-rights-extinction, biodiversity-collapse, democratic-backsliding, agribusiness-monoculture-dominance]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

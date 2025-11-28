@@ -2,14 +2,14 @@
 id: canadian-political-polarization
 title: Canadian Political Polarization
 number: 156
-category: Political
+category: [Political, Social]
 urgency: High
 tags: [polarization, canadian-politics, convoy, media-fragmentation, regional-divisions, democratic-norms, foreign-interference]
 publicConcern: 78
 economicImpact: 72
 socialImpact: 85
 affectedSystems: [Politics, Media, Culture, Civil Society, International Relations]
-connections: [democratic-backsliding, social-media-algorithmic-radicalization, us-canada-relations, misinformation-epidemics, institutional-distrust]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: payday-lending-and-predatory-finance-normalization
 title: Payday Lending and Predatory Finance Normalization
 number: 443
-category: Economic Justice
+category: [Economic, Social]
 urgency: high
 tags: [payday-lending, predatory-finance, debt-trap, financial-exploitation, usury, inequality]
 publicConcern: 8
 economicImpact: 7
 socialImpact: 9
 affectedSystems: [finance, legal, poverty, consumer-protection]
-connections: [debt-crisis, financial-regulation, poverty-trap]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

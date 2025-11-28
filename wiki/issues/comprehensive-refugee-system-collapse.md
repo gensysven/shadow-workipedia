@@ -2,14 +2,14 @@
 id: comprehensive-refugee-system-collapse
 title: Comprehensive Refugee System Collapse
 number: 59
-category: Political
+category: [Social, Political, Security]
 urgency: Critical
 tags: [refugees, migration, humanitarian, borders, asylum, international-law, UNHCR, protection-gap]
 publicConcern: 74
 economicImpact: 71
 socialImpact: 89
 affectedSystems: [Migration Systems, International Relations, Humanitarian Aid, Border Security, Population]
-connections: [climate-refugee-crisis, asylum-system-breakdown, unhcr-underfunding, border-militarization]
+connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

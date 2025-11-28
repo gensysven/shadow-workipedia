@@ -2,7 +2,7 @@
 id: algorithmic-governance-proliferation
 title: Algorithmic Governance Proliferation
 number: SW#118
-category: Technological
+category: [Technological, Political, Social]
 urgency: High
 tags: [algorithms, governance, automation, policy, ai, democracy]
 publicConcern: 50

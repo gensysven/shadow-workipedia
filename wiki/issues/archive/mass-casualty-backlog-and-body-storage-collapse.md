@@ -9,7 +9,7 @@ publicConcern: 55
 economicImpact: 48
 socialImpact: 76
 affectedSystems: [Healthcare Systems, Emergency Services, Public Health, Death Care Industry]
-connections: [pandemic-response-wars, healthcare-workforce-exodus, infrastructure-decay]
+connections: [pandemic-response-wars, healthcare-workforce-exodus, aging-infrastructure-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 consolidatedInto: death-infrastructure-collapse

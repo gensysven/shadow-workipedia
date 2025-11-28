@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 62
 socialImpact: 85
 affectedSystems: [Government, Religious Institutions, Media, Civil Society, Minorities]
-connections: [muslim-persecution-and-communal-violence, democratic-backsliding, media-capture]
+connections: [muslim-persecution-and-communal-violence, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

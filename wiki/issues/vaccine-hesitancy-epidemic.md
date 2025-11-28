@@ -2,14 +2,14 @@
 id: vaccine-hesitancy-epidemic
 title: Vaccine Hesitancy Epidemic
 number: 379
-category: Social
+category: [Social, Political, Cultural]
 urgency: Critical
 tags: [vaccines, health, misinformation, anti-vax, public-health, trust]
 publicConcern: 78
 economicImpact: 65
 socialImpact: 88
 affectedSystems: [Public Health, Healthcare, Media, Politics]
-connections: [disinformation-plague, pandemic-response-wars, trust-collapse]
+connections: [disinformation-plague, pandemic-response-wars, trust-collapse-across-all-institutions]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

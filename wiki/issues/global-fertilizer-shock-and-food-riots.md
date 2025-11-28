@@ -2,14 +2,14 @@
 id: global-fertilizer-shock-and-food-riots
 title: Global Fertilizer Shock and Food Riots
 number: SW#102
-category: Economic
+category: [Economic, Political, Social]
 urgency: Critical
 tags: [fertilizer, food-security, riots, agriculture, supply-chain, hunger]
 publicConcern: 74
 economicImpact: 87
 socialImpact: 91
 affectedSystems: [Agriculture, Food Production, Social Stability, Global Trade]
-connections: [food-export-weaponization, global-hunger-crisis, sanctions-regime, agricultural-collapse]
+connections: [food-export-weaponization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

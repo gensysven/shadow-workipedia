@@ -2,14 +2,14 @@
 id: remote-work-geography-wars
 title: Remote Work Geography Wars
 number: 455
-category: Economic
+category: [Economic, Social]
 urgency: Medium
 tags: [remote-work, location-arbitrage, tax-competition, urban-decline, housing-markets]
 publicConcern: 5/10
 economicImpact: 7/10
 socialImpact: 6/10
 affectedSystems: [Labor-Markets, Housing, Urban-Planning, Tax-Revenue, Real-Estate]
-connections: [housing-affordability-crisis, commercial-real-estate-collapse, digital-nomad-taxation]
+connections: [housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

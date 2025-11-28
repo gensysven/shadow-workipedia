@@ -2,14 +2,14 @@
 id: sleep-deprivation-normalized
 title: Sleep Deprivation Normalized
 number: 462
-category: Health
+category: [Social]
 urgency: Medium
 tags: [public-health, productivity-culture, mental-health, chronic-disease, workplace-culture]
 publicConcern: 7/10
 economicImpact: 6/10
 socialImpact: 8/10
 affectedSystems: [Health, Workplace, Education, Mental-Health, Productivity]
-connections: [burnout-epidemic, chronic-disease-crisis, productivity-maximization]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

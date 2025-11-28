@@ -2,14 +2,14 @@
 id: corruption-normalization
 title: Corruption Normalization
 number: 65
-category: Political
+category: [Political, Social, Economic]
 urgency: High
 tags: [corruption, governance, institutions, accountability, rule-of-law, kleptocracy]
 publicConcern: 71
 economicImpact: 76
 socialImpact: 81
 affectedSystems: [Government, Legal Systems, Economic Systems, Democratic Institutions]
-connections: [institutional-decay, kleptocracy-spread, regulatory-capture, public-trust-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

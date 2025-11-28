@@ -2,14 +2,14 @@
 id: nuclear-plant-crisis-cascade
 title: Nuclear Plant Crisis Cascade
 number: 315
-category: Infrastructure
+category: [Existential, Infrastructure, Environmental, Security]
 urgency: High
 tags: [nuclear, energy, safety, infrastructure, climate, aging, regulation]
 publicConcern: 72
 economicImpact: 78
 socialImpact: 82
 affectedSystems: [Energy Grid, Public Health, Environment, Emergency Services, Economy]
-connections: [infrastructure-decay, climate-stress-on-energy, nuclear-waste-storage-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

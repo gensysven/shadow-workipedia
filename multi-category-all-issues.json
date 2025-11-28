@@ -11,8 +11,10 @@
       "Technological": 64,
       "Security": 98,
       "Economic": 138,
-      "Cultural": 27
-    }
+      "Cultural": 27,
+      "Existential": 36
+    },
+    "curatedIssues": 263
   },
   "recategorizations": [
     {
@@ -60,6 +62,7 @@
       "issueId": "agi-containment-failure",
       "issueName": "AGI Containment Failure",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Economic"
@@ -70,6 +73,7 @@
       "issueId": "ai-alignment-crisis",
       "issueName": "AI Alignment Crisis",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Political"
@@ -101,6 +105,7 @@
       "issueId": "ai-controlled-factory-kill-switch-sabotage",
       "issueName": "AI-Controlled Factory Kill Switch Sabotage",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Economic"
@@ -131,6 +136,7 @@
       "issueId": "ai-generated-synthetic-biolab-leaks",
       "issueName": "AI-Generated Synthetic Biolab Leaks",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Social"
@@ -211,6 +217,7 @@
       "issueId": "amazon-rainforest-dieback",
       "issueName": "Amazon Rainforest Dieback",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic",
         "Political"
@@ -231,6 +238,7 @@
       "issueId": "antibiotic-resistance-crisis",
       "issueName": "Antibiotic Resistance Crisis",
       "categories": [
+        "Existential",
         "Social",
         "Economic",
         "Security"
@@ -241,6 +249,7 @@
       "issueId": "antifungal-superbug-era",
       "issueName": "Antifungal Superbug Era",
       "categories": [
+        "Existential",
         "Social",
         "Environmental",
         "Security"
@@ -261,6 +270,7 @@
       "issueId": "arctic-blue-ocean-event-and-jet-stream-breakdown",
       "issueName": "Arctic Blue Ocean Event and Jet Stream Breakdown",
       "categories": [
+        "Existential",
         "Environmental",
         "Security",
         "Economic"
@@ -291,6 +301,7 @@
       "issueId": "asteroid-mining-rights-wars",
       "issueName": "Asteroid Mining Rights Wars",
       "categories": [
+        "Existential",
         "Technological",
         "Political",
         "Economic"
@@ -311,6 +322,7 @@
       "issueId": "atlantic-overturning-collapse-risk-amoc",
       "issueName": "Atlantic Overturning Collapse Risk (AMOC)",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic",
         "Security"
@@ -401,6 +413,7 @@
       "issueId": "bioweapon-proliferation",
       "issueName": "Bioweapon Proliferation",
       "categories": [
+        "Existential",
         "Security",
         "Technological",
         "Political"
@@ -421,6 +434,7 @@
       "issueId": "boreal-permafrost-carbon-pulse",
       "issueName": "Boreal Permafrost Carbon Pulse",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic",
         "Security"
@@ -501,6 +515,7 @@
       "issueId": "carrington-class-solar-storm",
       "issueName": "Carrington-Class Solar Storm",
       "categories": [
+        "Existential",
         "Infrastructure",
         "Economic",
         "Security"
@@ -702,6 +717,7 @@
       "issueId": "coral-reef-death-and-ocean-ecosystem-collapse",
       "issueName": "Coral Reef Death and Ocean Ecosystem Collapse",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic"
       ],
@@ -1056,6 +1072,7 @@
       "issueId": "gain-of-function-research-battles",
       "issueName": "Gain-of-Function Research Battles",
       "categories": [
+        "Existential",
         "Technological",
         "Political",
         "Security"
@@ -1183,6 +1200,7 @@
       "issueId": "global-pollinator-extinction-pulse",
       "issueName": "Global Pollinator Extinction Pulse",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic"
       ],
@@ -1458,6 +1476,7 @@
       "issueId": "taiwan-invasion-crisis",
       "issueName": "Taiwan Invasion Crisis",
       "categories": [
+        "Existential",
         "Security",
         "Political",
         "Economic",
@@ -1653,6 +1672,7 @@
       "issueId": "north-korea-nuclear-crisis",
       "issueName": "North Korea Nuclear Crisis",
       "categories": [
+        "Existential",
         "Security",
         "Political"
       ],
@@ -1690,6 +1710,7 @@
       "issueId": "south-china-sea-militarization",
       "issueName": "South China Sea Militarization",
       "categories": [
+        "Existential",
         "Security",
         "Political",
         "Economic"
@@ -1914,6 +1935,7 @@
       "issueId": "ai-controlled-factory-kill-switch-sabotage",
       "issueName": "AI-Controlled Factory Kill Switch Sabotage",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Economic"
@@ -1924,6 +1946,7 @@
       "issueId": "ai-generated-synthetic-biolab-leaks",
       "issueName": "AI-Generated Synthetic Biolab Leaks",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Social"
@@ -1964,6 +1987,7 @@
       "issueId": "amazon-rainforest-dieback",
       "issueName": "Amazon Rainforest Dieback",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic",
         "Political"
@@ -1984,6 +2008,7 @@
       "issueId": "antifungal-superbug-era",
       "issueName": "Antifungal Superbug Era",
       "categories": [
+        "Existential",
         "Social",
         "Environmental"
       ],
@@ -2102,6 +2127,7 @@
       "issueId": "coral-reef-death-and-ocean-ecosystem-collapse",
       "issueName": "Coral Reef Death and Ocean Ecosystem Collapse",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic",
         "Social"
@@ -2142,6 +2168,7 @@
       "issueId": "drug-resistant-mosquito-parasite-arms-race",
       "issueName": "Drug-Resistant Mosquito/Parasite Arms Race",
       "categories": [
+        "Existential",
         "Social",
         "Environmental",
         "Technological"
@@ -2241,6 +2268,7 @@
       "issueId": "global-pollinator-extinction-pulse",
       "issueName": "Global Pollinator Extinction Pulse",
       "categories": [
+        "Existential",
         "Environmental",
         "Economic"
       ],
@@ -2398,6 +2426,7 @@
       "issueId": "permafrost-methane-release",
       "issueName": "Permafrost Methane Release",
       "categories": [
+        "Existential",
         "Environmental",
         "Security"
       ],
@@ -2427,6 +2456,7 @@
       "issueId": "quantum-computing-encryption-collapse",
       "issueName": "Quantum Computing Encryption Collapse",
       "categories": [
+        "Existential",
         "Technological",
         "Security",
         "Economic"
@@ -2520,6 +2550,88 @@
         "Social"
       ],
       "reasoning": "States weaponize refugees (political/hybrid warfare) with militarized borders (security) harming asylum seekers (social/humanitarian)"
+    },
+    {
+      "issueId": "fungal-crop-switch-coffee-cocoa-extinction",
+      "issueName": "Fungal Crop Switch Coffee Cocoa Extinction",
+      "categories": [
+        "Existential",
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Global crop extinction threatening food security"
+    },
+    {
+      "issueId": "himalayan-third-pole-glacier-collapse",
+      "issueName": "Himalayan Third Pole Glacier Collapse",
+      "categories": [
+        "Existential",
+        "Environmental",
+        "Security"
+      ],
+      "reasoning": "Climate tipping point affecting billions"
+    },
+    {
+      "issueId": "insect-apocalypse-and-pollinator-collapse",
+      "issueName": "Insect Apocalypse and Pollinator Collapse",
+      "categories": [
+        "Existential",
+        "Environmental",
+        "Economic"
+      ],
+      "reasoning": "Ecosystem collapse threatening food production"
+    },
+    {
+      "issueId": "nuclear-plant-crisis-cascade",
+      "issueName": "Nuclear Plant Crisis Cascade",
+      "categories": [
+        "Existential",
+        "Infrastructure",
+        "Environmental",
+        "Security"
+      ],
+      "reasoning": "Nuclear infrastructure failure risks"
+    },
+    {
+      "issueId": "pakistan-instability-and-nuclear-risk",
+      "issueName": "Pakistan Instability and Nuclear Risk",
+      "categories": [
+        "Existential",
+        "Security",
+        "Political"
+      ],
+      "reasoning": "Nuclear state instability"
+    },
+    {
+      "issueId": "pandemic-response-wars",
+      "issueName": "Pandemic Response Wars",
+      "categories": [
+        "Existential",
+        "Social",
+        "Political",
+        "Security"
+      ],
+      "reasoning": "Pandemic preparedness breakdown"
+    },
+    {
+      "issueId": "ukraine-invasion-and-forever-war",
+      "issueName": "Ukraine Invasion and Forever War",
+      "categories": [
+        "Existential",
+        "Security",
+        "Political",
+        "Economic"
+      ],
+      "reasoning": "Nuclear escalation risk"
+    },
+    {
+      "issueId": "west-antarctic-ice-cliff-collapse",
+      "issueName": "West Antarctic Ice Cliff Collapse",
+      "categories": [
+        "Existential",
+        "Environmental"
+      ],
+      "reasoning": "Climate tipping point with catastrophic sea level rise"
     }
   ]
 }

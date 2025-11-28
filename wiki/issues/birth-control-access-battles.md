@@ -2,14 +2,14 @@
 id: birth-control-access-battles
 title: Birth Control Access Battles
 number: 413
-category: Social
+category: [Social, Political, Cultural]
 urgency: High
 tags: [reproductive-rights, contraception, healthcare, religion, pharmacy, access]
 publicConcern: 65
 economicImpact: 40
 socialImpact: 75
 affectedSystems: [Healthcare, Civil Liberties, Religious Freedom, Gender Equality]
-connections: [abortion-access-restrictions, ivf-and-fertility-treatment-costs, healthcare-access-deserts]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

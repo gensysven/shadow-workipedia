@@ -9,7 +9,7 @@ publicConcern: 52
 economicImpact: 78
 socialImpact: 72
 affectedSystems: [Communications, Energy, Critical Infrastructure, National Security]
-connections: [critical-infrastructure-vulnerability, russian-aggression, hybrid-warfare]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

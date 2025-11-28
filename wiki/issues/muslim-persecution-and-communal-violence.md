@@ -9,7 +9,7 @@ publicConcern: 72
 economicImpact: 55
 socialImpact: 92
 affectedSystems: [Religious Communities, Government, International Relations, Human Rights]
-connections: [modi-hindu-nationalism-and-bjp-dominance, myanmar-coup-and-rohingya-genocide, china-uyghur-genocide, rising-global-islamophobia, refugee-crises, displacement-driven-conflict]
+connections: [modi-hindu-nationalism-and-bjp-dominance, myanmar-coup-and-rohingya-genocide]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

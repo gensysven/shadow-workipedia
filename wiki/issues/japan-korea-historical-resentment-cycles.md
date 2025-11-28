@@ -2,14 +2,14 @@
 id: japan-korea-historical-resentment-cycles
 title: Japan-Korea Historical Resentment Cycles
 number: 128
-category: Political
+category: [Political, Social, Cultural]
 urgency: Medium
 tags: [japan, korea, history, colonialism, nationalism, trade, comfort-women]
 publicConcern: 52
 economicImpact: 58
 socialImpact: 69
 affectedSystems: [International Relations, Trade, Cultural Systems, Regional Security]
-connections: [historical-grievance-politics, trade-disputes, regional-security-tensions, nationalism-rise]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

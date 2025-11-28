@@ -2,7 +2,7 @@
 id: e-waste-and-toxic-tech-graveyards
 title: E-Waste and Toxic Tech Graveyards
 number: 428
-category: environment
+category: [Environmental, Social, Economic]
 urgency: high
 tags:
   - environment

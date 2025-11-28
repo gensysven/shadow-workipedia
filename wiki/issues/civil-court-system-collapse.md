@@ -2,7 +2,7 @@
 id: civil-court-system-collapse
 title: Civil Court System Collapse
 number: 421
-category: justice
+category: [Political, Economic, Social]
 urgency: high
 tags:
   - justice

@@ -2,7 +2,7 @@
 id: touch-deprivation-and-physical-contact-crisis
 title: Touch Deprivation and Physical Contact Crisis
 number: 471
-category: Social
+category: [Social]
 urgency: Medium
 tags:
   - social-isolation

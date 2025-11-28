@@ -2,7 +2,7 @@
 id: ai-job-displacement-tsunami
 title: AI Job Displacement Tsunami
 number: 36
-category: Economic
+category: [Technological, Economic, Social]
 urgency: Critical
 tags: [automation, labor, unemployment, AI, economic-inequality]
 publicConcern: 88

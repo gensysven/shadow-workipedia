@@ -2,14 +2,14 @@
 id: state-sponsored-hacking-epidemic
 title: State-Sponsored Hacking Epidemic
 number: 363
-category: Security
+category: [Security, Infrastructure]
 urgency: Critical
 tags: [cybersecurity, hacking, china, russia, north-korea, iran, espionage, infrastructure, ransomware]
 publicConcern: 68
 economicImpact: 82
 socialImpact: 75
 affectedSystems: [Critical Infrastructure, Government, Business, Defense, Healthcare]
-connections: [ransomware-pandemic, critical-infrastructure-vulnerability, china-us-tensions, supply-chain-attacks]
+connections: [ransomware-pandemic]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

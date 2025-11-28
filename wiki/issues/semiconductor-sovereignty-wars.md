@@ -2,14 +2,14 @@
 id: semiconductor-sovereignty-wars
 title: Semiconductor Sovereignty Wars
 number: 349
-category: Economic
+category: [Economic, Infrastructure]
 urgency: Critical
 tags: [semiconductors, chips, taiwan, china, manufacturing, technology, trade]
 publicConcern: 62
 economicImpact: 95
 socialImpact: 72
 affectedSystems: [Technology Industry, Trade, National Security, Manufacturing]
-connections: [taiwan-crisis, china-us-tensions, supply-chain-fragility, rare-earth-element-squeeze]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

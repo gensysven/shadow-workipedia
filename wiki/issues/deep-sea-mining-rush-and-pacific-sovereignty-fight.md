@@ -2,14 +2,14 @@
 id: deep-sea-mining-rush-and-pacific-sovereignty-fight
 title: Deep-Sea Mining Rush and Pacific Sovereignty Fight
 number: 287
-category: Environmental
+category: [Environmental, Economic, Political]
 urgency: High
 tags: [mining, oceans, resources, sovereignty, biodiversity, technology, geopolitics]
 publicConcern: 62
 economicImpact: 78
 socialImpact: 71
 affectedSystems: [Global Trade, Biodiversity Systems, Technology Innovation, Governance & Institutions, Resource Extraction]
-connections: [rare-earth-element-squeeze, biodiversity-collapse, ocean-acidification, geopolitical-resource-competition, small-island-state-vulnerability]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

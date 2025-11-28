@@ -2,14 +2,14 @@
 id: pharmaceutical-pricing-wars
 title: Pharmaceutical Pricing Wars
 number: 446
-category: Economic Justice
+category: [Economic, Social, Political]
 urgency: high
 tags: [drug-pricing, pharmaceutical-industry, healthcare-costs, price-gouging, insulin-crisis, monopoly]
 publicConcern: 9
 economicImpact: 9
 socialImpact: 9
 affectedSystems: [healthcare, economy, regulation, insurance]
-connections: [healthcare-costs, pharmaceutical-dependency, monopoly-power, regulatory-capture]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

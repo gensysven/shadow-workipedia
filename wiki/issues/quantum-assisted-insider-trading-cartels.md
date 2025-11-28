@@ -2,14 +2,14 @@
 id: quantum-assisted-insider-trading-cartels
 title: Quantum-Assisted Insider Trading Cartels
 number: 333
-category: Economic
+category: [Technological, Economic, Political]
 urgency: Medium
 tags: [quantum, finance, crime, technology, markets, inequality, trading]
 publicConcern: 35
 economicImpact: 72
 socialImpact: 55
 affectedSystems: [Financial Markets, Technology, Regulation, Wealth Distribution]
-connections: [quantum-computing-encryption-collapse, high-frequency-trading, wealth-concentration]
+connections: [quantum-computing-encryption-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

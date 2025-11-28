@@ -2,14 +2,14 @@
 id: seafloor-data-cable-nationalization-wars
 title: Seafloor Data Cable Nationalization Wars
 number: 347
-category: Technological
+category: [Infrastructure, Political, Security]
 urgency: High
 tags: [infrastructure, internet, cables, sovereignty, geopolitics, china, data]
 publicConcern: 42
 economicImpact: 82
 socialImpact: 68
 affectedSystems: [Internet Infrastructure, International Relations, Trade, Intelligence]
-connections: [china-us-tensions, critical-infrastructure-vulnerability, internet-fragmentation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

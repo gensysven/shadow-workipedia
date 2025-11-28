@@ -2,14 +2,14 @@
 id: canada-indigenous-reconciliation-crisis
 title: Canada Indigenous Reconciliation Crisis
 number: 256
-category: Political
+category: [Social, Political, Cultural]
 urgency: High
 tags: [indigenous-rights, residential-schools, land-rights, mmiw, reconciliation, colonial-legacy, cultural-genocide, resource-conflicts]
 publicConcern: 76
 economicImpact: 68
 socialImpact: 89
 affectedSystems: [Politics, Justice, Culture, Economy, Health]
-connections: [land-rights-conflicts, resource-extraction-wars, aboriginal-healthcare-collapse, police-brutality-epidemic, mass-incarceration-crisis, historical-injustice-reckoning]
+connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

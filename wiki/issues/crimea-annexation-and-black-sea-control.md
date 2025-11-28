@@ -2,14 +2,14 @@
 id: crimea-annexation-and-black-sea-control
 title: Crimea Annexation and Black Sea Control
 number: 67
-category: Security
+category: [Security, Political]
 urgency: Critical
 tags: [russia, ukraine, crimea, black-sea, sovereignty, military, nato, energy-security, trade-routes]
 publicConcern: 74
 economicImpact: 71
 socialImpact: 78
 affectedSystems: [Regional Security, International Law, Maritime Systems, Energy Infrastructure, Trade & Logistics]
-connections: [ukraine-war, nato-expansion, sanctions-regime, energy-security-europe, european-instability]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

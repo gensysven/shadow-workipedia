@@ -2,7 +2,7 @@
 id: content-moderation-wars
 title: Content Moderation Wars
 number: 424
-category: technology
+category: [Technological, Political, Cultural]
 urgency: high
 tags:
   - technology

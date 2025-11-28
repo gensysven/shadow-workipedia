@@ -9,7 +9,7 @@ publicConcern: 55
 economicImpact: 72
 socialImpact: 78
 affectedSystems: [Government, Human Rights, Economy, International Relations, Energy]
-connections: [algorithmic-authoritarianism, khashoggi-murder, oil-industry-death-throes, yemen-war]
+connections: [oil-industry-death-throes]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

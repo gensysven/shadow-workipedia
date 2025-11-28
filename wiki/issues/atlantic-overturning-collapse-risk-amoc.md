@@ -2,14 +2,14 @@
 id: atlantic-overturning-collapse-risk-amoc
 title: Atlantic Overturning Collapse Risk (AMOC)
 number: SW#45
-category: Environmental
+category: [Existential, Environmental, Economic, Security, Infrastructure]
 urgency: Critical
 tags: [climate, ocean-circulation, gulf-stream, greenland, tipping-point, european-climate, agricultural-impacts, thermohaline-circulation]
 publicConcern: 78
 economicImpact: 85
 socialImpact: 82
 affectedSystems: [Environment, Agriculture, Economy, Geopolitics, Infrastructure]
-connections: [european-climate-destabilization, agricultural-collapse, climate-refugee-floods, north-atlantic-fisheries-collapse, global-supply-chain-disruption, water-scarcity-wars]
+connections: [climate-refugee-floods, water-scarcity-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

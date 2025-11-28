@@ -9,7 +9,7 @@ publicConcern: 38
 economicImpact: 55
 socialImpact: 62
 affectedSystems: [Ecosystems, Agriculture, Conservation, Scientific Research]
-connections: [biodiversity-collapse, habitat-fragmentation, climate-driven-migration]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

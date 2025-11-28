@@ -2,14 +2,14 @@
 id: arab-spring-aftermath-and-counter-revolution
 title: Arab Spring Aftermath and Counter-Revolution
 number: SW#122
-category: Political
+category: [Political, Security, Social]
 urgency: High
 tags: [middle-east, democracy, authoritarianism, revolution, geopolitics]
 publicConcern: 55
 economicImpact: 65
 socialImpact: 80
 affectedSystems: [Geopolitics, Civil Society, Security]
-connections: [democratic-backsliding, syria-civil-war, libya-failed-state]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

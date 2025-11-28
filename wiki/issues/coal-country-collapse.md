@@ -2,14 +2,14 @@
 id: coal-country-collapse
 title: Coal Country Collapse
 number: 55
-category: Economic
+category: [Economic, Social, Political, Infrastructure]
 urgency: High
 tags: [energy, coal, employment, rural, transition, economic-decline]
 publicConcern: 68
 economicImpact: 79
 socialImpact: 82
 affectedSystems: [Energy Production, Employment Systems, Rural Communities, Economic Development]
-connections: [fossil-fuel-stranded-assets, rural-brain-drain, opioid-epidemic, energy-transition-chaos]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,14 +2,14 @@
 id: himalayan-third-pole-glacier-collapse
 title: Himalayan Third Pole Glacier Collapse
 number: 115
-category: Environmental
+category: [Existential, Environmental, Security, Infrastructure]
 urgency: Critical
 tags: [glaciers, himalayas, water, asia, climate, rivers, flooding, third-pole, ice-melt, water-security]
 publicConcern: 64
 economicImpact: 87
 socialImpact: 93
 affectedSystems: [Water Systems, Agriculture, Energy, Regional Security]
-connections: [water-scarcity-wars, climate-migration, agricultural-collapse, india-pakistan-tensions]
+connections: [water-scarcity-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

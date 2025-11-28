@@ -2,14 +2,14 @@
 id: helium-scarcity-and-cryogenic-shutdown-cascades
 title: Helium Scarcity and Cryogenic Shutdown Cascades
 number: 114
-category: Infrastructure
+category: [Infrastructure, Economic, Technological]
 urgency: High
 tags: [helium, cryogenics, mri, semiconductors, supply-chain, rare-resources]
 publicConcern: 31
 economicImpact: 76
 socialImpact: 68
 affectedSystems: [Healthcare, Technology, Manufacturing, Scientific Research]
-connections: [rare-resource-squeeze, healthcare-equipment-crisis, semiconductor-shortage, scientific-research-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

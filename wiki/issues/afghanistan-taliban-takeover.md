@@ -2,14 +2,14 @@
 id: afghanistan-taliban-takeover
 title: Afghanistan Taliban Takeover
 number: SW#103
-category: Political
+category: [Political, Social, Security]
 urgency: High
 tags: [afghanistan, taliban, us-withdrawal, terrorism, womens-rights, refugees, geopolitics, humanitarian-crisis]
 publicConcern: 75
 economicImpact: 60
 socialImpact: 95
 affectedSystems: [Geopolitics, Security, Civil Society]
-connections: [comprehensive-refugee-system-collapse, terrorism-resurgence, democratic-backsliding]
+connections: [comprehensive-refugee-system-collapse, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

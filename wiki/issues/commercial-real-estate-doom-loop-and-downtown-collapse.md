@@ -2,14 +2,14 @@
 id: commercial-real-estate-doom-loop-and-downtown-collapse
 title: Commercial Real Estate Doom Loop and Downtown Collapse
 number: 56
-category: Economic
+category: [Economic, Infrastructure, Social]
 urgency: High
 tags: [real-estate, urban, banking, remote-work, office-vacancy, municipal-finance]
 publicConcern: 71
 economicImpact: 84
 socialImpact: 73
 affectedSystems: [Financial Markets, Urban Systems, Banking Sector, Municipal Government]
-connections: [remote-work-revolution, municipal-fiscal-crisis, bank-commercial-loan-exposure, urban-retail-death-spiral]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

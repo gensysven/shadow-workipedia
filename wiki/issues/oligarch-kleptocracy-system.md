@@ -2,14 +2,14 @@
 id: oligarch-kleptocracy-system
 title: Oligarch Kleptocracy System
 number: 318
-category: Political
+category: [Economic, Political, Infrastructure]
 urgency: High
 tags: [corruption, oligarchy, russia, wealth, democracy, sanctions, money-laundering]
 publicConcern: 68
 economicImpact: 75
 socialImpact: 82
 affectedSystems: [Government, Financial Systems, Real Estate, Democracy, Media]
-connections: [dark-money-politics, corruption-normalization, russian-aggression, sanctions-evasion]
+connections: [dark-money-politics,corruption-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

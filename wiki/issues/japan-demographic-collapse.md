@@ -2,14 +2,14 @@
 id: japan-demographic-collapse
 title: Japan Demographic Collapse
 number: 127
-category: Social
+category: [Social, Economic]
 urgency: Critical
 tags: [demographics, japan, aging, fertility, population, economy, immigration, workforce-shortage]
 publicConcern: 68
 economicImpact: 89
 socialImpact: 86
 affectedSystems: [Demographics, Labor Markets, Healthcare, Economic Systems]
-connections: [aging-population-crisis, workforce-shortage, healthcare-system-strain, pension-crisis, regional-economic-collapse]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

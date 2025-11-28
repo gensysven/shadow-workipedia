@@ -9,7 +9,7 @@ publicConcern: 52
 economicImpact: 78
 socialImpact: 72
 affectedSystems: [Internet, Trade, Technology Industry, Government, Privacy]
-connections: [internet-fragmentation, china-us-tensions, data-privacy-wars, digital-colonialism, tech-nationalism]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

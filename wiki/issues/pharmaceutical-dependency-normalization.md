@@ -2,14 +2,14 @@
 id: pharmaceutical-dependency-normalization
 title: Pharmaceutical Dependency Normalization
 number: 445
-category: Public Health
+category: [Social, Economic]
 urgency: high
 tags: [pharmaceuticals, medication-culture, polypharmacy, overprescription, health-medicalization, chronic-disease]
 publicConcern: 8
 economicImpact: 8
 socialImpact: 8
 affectedSystems: [healthcare, pharmaceutical-industry, culture, mental-health]
-connections: [opioid-crisis, healthcare-costs, mental-health-crisis, chronic-disease]
+connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,7 +2,7 @@
 id: dating-apps-destroying-pair-bonding
 title: Dating Apps Destroying Pair Bonding
 number: 426
-category: social
+category: [Social, Technological, Cultural]
 urgency: medium
 tags:
   - relationships

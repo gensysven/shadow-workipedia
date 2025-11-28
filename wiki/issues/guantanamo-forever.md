@@ -2,7 +2,7 @@
 id: guantanamo-forever
 title: Guantanamo Forever
 number: 435
-category: justice
+category: [Political, Security]
 urgency: high
 tags:
   - justice

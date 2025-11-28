@@ -2,14 +2,14 @@
 id: asylum-system-breakdown
 title: Asylum System Breakdown
 number: 8
-category: Social
+category: [Political, Social, Security]
 urgency: High
 tags: [migration, refugees, legal-systems, humanitarian, borders, processing]
 publicConcern: 84
 economicImpact: 62
 socialImpact: 89
 affectedSystems: [Population, Diplomacy, International Orgs, Politics, Law]
-connections: [climate-refugee-floods, border-wall-politics, xenophobia-rise, canadian-political-polarization-feedback-loop]
+connections: [climate-refugee-floods, border-wall-politics]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

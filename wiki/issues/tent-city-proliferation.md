@@ -2,14 +2,14 @@
 id: tent-city-proliferation
 title: Tent City Proliferation
 number: 369
-category: Social
+category: [Social, Economic, Infrastructure]
 urgency: Critical
 tags: [homelessness, housing, mental-health, drugs, cities, poverty, inequality]
 publicConcern: 78
 economicImpact: 55
 socialImpact: 88
 affectedSystems: [Housing, Cities, Healthcare, Criminal Justice, Economy]
-connections: [housing-impossibility-crisis, mental-health-apocalypse, opioid-crisis]
+connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

@@ -2,7 +2,7 @@
 id: essential-care-services-class-divide
 title: Essential Care Services Class Divide
 number: 430
-category: healthcare
+category: [Social, Economic]
 urgency: high
 tags:
   - healthcare

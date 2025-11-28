@@ -2,14 +2,14 @@
 id: oil-industry-death-throes
 title: Oil Industry Death Throes
 number: SW#203
-category: Economic
+category: [Economic, Environmental, Political, Infrastructure]
 urgency: High
 tags: [oil, energy, transition, stranded-assets, lobbying, climate, fossil-fuels, energy-security]
 publicConcern: 65
 economicImpact: 88
 socialImpact: 75
 affectedSystems: [Energy Markets, Labor Markets, Government Policy, Financial Markets, Infrastructure]
-connections: [stranded-assets-crisis, petrostate-collapse, just-transition-failure, climate-inaction, energy-grid-fragmentation, worker-displacement-cascade]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

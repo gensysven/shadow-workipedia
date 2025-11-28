@@ -9,7 +9,7 @@ publicConcern: 42
 economicImpact: 55
 socialImpact: 48
 affectedSystems: [Space Industry, International Relations, Resource Extraction, Governance]
-connections: [asteroid-mining-rights-wars, billionaire-media-ownership, rare-earth-element-squeeze]
+connections: [asteroid-mining-rights-wars, billionaire-media-ownership]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

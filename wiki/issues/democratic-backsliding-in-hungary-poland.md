@@ -2,14 +2,14 @@
 id: democratic-backsliding-in-hungary-poland
 title: Democratic Backsliding in Hungary/Poland
 number: 267
-category: Political
+category: [Political, Cultural]
 urgency: High
 tags: [democracy, authoritarianism, eu, judiciary, media, populism]
 publicConcern: 78
 economicImpact: 65
 socialImpact: 82
 affectedSystems: [Government, Judiciary, Media, Civil Society, International Relations]
-connections: [algorithmic-authoritarianism, erosion-democratic-norms, judicial-capture, media-polarization, european-integration-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

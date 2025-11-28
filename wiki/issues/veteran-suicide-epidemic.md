@@ -2,14 +2,14 @@
 id: veteran-suicide-epidemic
 title: Veteran Suicide Epidemic
 number: 201
-category: Health
+category: [Social, Security, Infrastructure]
 urgency: Critical
 tags: [mental-health, veterans, military, healthcare, trauma, suicide]
 publicConcern: 78
 economicImpact: 52
 socialImpact: 85
 affectedSystems: [Health, Security, Civil Society, Governance]
-connections: [mental-health-apocalypse, military-veteran-crisis, healthcare-system-collapse, loneliness-epidemic]
+connections: [mental-health-apocalypse,global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

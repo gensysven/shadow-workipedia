@@ -9,7 +9,7 @@ publicConcern: 64
 economicImpact: 45
 socialImpact: 76
 affectedSystems: [Electoral Systems, Democratic Institutions, Constitutional Order, Political Systems]
-connections: [election-denialism, democratic-legitimacy-crisis, constitutional-reform-deadlock, swing-state-politics]
+connections: [election-denialism]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

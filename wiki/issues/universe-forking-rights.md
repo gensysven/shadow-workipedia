@@ -9,7 +9,7 @@ publicConcern: 22
 economicImpact: 45
 socialImpact: 52
 affectedSystems: [Technology, Ethics, Legal Systems, Philosophy]
-connections: [ai-alignment-crisis, digital-resurrection-ethics, consciousness-rights]
+connections: [ai-alignment-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

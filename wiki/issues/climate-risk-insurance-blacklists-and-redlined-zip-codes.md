@@ -2,14 +2,14 @@
 id: climate-risk-insurance-blacklists-and-redlined-zip-codes
 title: Climate Risk Insurance Blacklists and Redlined ZIP Codes
 number: SW#147
-category: Economic
+category: [Environmental, Economic, Social, Infrastructure]
 urgency: High
 tags: [climate-adaptation, insurance, property, geographic-discrimination, environmental-justice, real-estate, housing-crisis, systemic-inequality]
 publicConcern: 72
 economicImpact: 85
 socialImpact: 78
 affectedSystems: [Economy, Climate, Infrastructure, Civil Society]
-connections: [property-value-collapse-in-climate-zones, climate-migration-displacement, housing-affordability-crisis, urban-decay-and-infrastructure-abandonment, wealth-inequality-acceleration]
+connections: [housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: longevity-wealth-divorce-wars
 title: Longevity Wealth Divorce Wars
 number: 138
-category: Social
+category: [Social, Economic, Cultural]
 urgency: Medium
 tags: [longevity, divorce, wealth, inheritance, legal, family, aging]
 publicConcern: 38
 economicImpact: 62
 socialImpact: 68
 affectedSystems: [Legal Systems, Family Systems, Wealth Transfer, Economic Systems]
-connections: [longevity-apartheid, wealth-inequality, inheritance-crisis, family-dissolution]
+connections: [longevity-apartheid]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

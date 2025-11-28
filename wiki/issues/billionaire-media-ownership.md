@@ -2,14 +2,14 @@
 id: billionaire-media-ownership
 title: Billionaire Media Ownership
 number: 254
-category: Cultural
+category: [Economic, Political, Cultural]
 urgency: High
 tags: [media, oligarchy, journalism, editorial-independence, propaganda, democratic-discourse, misinformation]
 publicConcern: 79
 economicImpact: 62
 socialImpact: 85
 affectedSystems: [Politics, Culture, Information, Economy, Institutions]
-connections: [democratic-backsliding, election-denialism, ai-deepfake-diplomatic-mutinies, deepfake-reality-crisis, disinformation-cascade]
+connections: [democratic-backsliding, election-denialism, ai-deepfake-diplomatic-mutinies, deepfake-reality-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

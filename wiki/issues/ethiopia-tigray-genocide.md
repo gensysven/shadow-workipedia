@@ -2,14 +2,14 @@
 id: ethiopia-tigray-genocide
 title: Ethiopia Tigray Genocide
 number: 83
-category: Security
+category: [Security, Political, Social]
 urgency: Critical
 tags: [ethiopia, tigray, genocide, humanitarian, africa, conflict, atrocities]
 publicConcern: 56
 economicImpact: 62
 socialImpact: 94
 affectedSystems: [Regional Security, Humanitarian Systems, International Law, African Union]
-connections: [humanitarian-crisis-cascade, ethnic-conflict-escalation, international-intervention-failure, african-instability]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

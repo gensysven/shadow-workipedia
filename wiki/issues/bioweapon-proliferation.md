@@ -2,14 +2,14 @@
 id: bioweapon-proliferation
 title: Bioweapon Proliferation
 number: SW#047
-category: Security
+category: [Existential, Security, Technological, Political]
 urgency: Critical
 tags: [weapons-of-mass-destruction, biosecurity, dual-use-research, synthetic-biology, non-state-actors, international-treaties]
 publicConcern: 72
 economicImpact: 65
 socialImpact: 95
 affectedSystems: [Security, Health, Economy, Science, Politics]
-connections: [pandemic-preparedness-failure, gain-of-function-research-militarization, biolab-accident-risk, state-collapse-cascade]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

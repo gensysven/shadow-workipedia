@@ -2,14 +2,14 @@
 id: medical-bankruptcy-epidemic
 title: Medical Bankruptcy Epidemic
 number: 305
-category: Economic
+category: [Economic, Social]
 urgency: Critical
 tags: [healthcare, debt, bankruptcy, insurance, inequality, poverty]
 publicConcern: 82
 economicImpact: 88
 socialImpact: 85
 affectedSystems: [Healthcare Systems, Financial Systems, Labor Markets, Family Stability]
-connections: [healthcare-workforce-exodus, insurance-death-panels, medical-debt-vigilantism-and-refusal-networks]
+connections: [insurance-death-panels, medical-debt-vigilantism-and-refusal-networks]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

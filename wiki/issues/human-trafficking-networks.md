@@ -2,14 +2,14 @@
 id: human-trafficking-networks
 title: Human Trafficking Networks
 number: 120
-category: Security
+category: [Security, Social, Economic, Infrastructure]
 urgency: Critical
 tags: [trafficking, slavery, organized-crime, exploitation, labor, sex-trafficking]
 publicConcern: 74
 economicImpact: 68
 socialImpact: 94
 affectedSystems: [Criminal Networks, Labor Markets, Human Rights, International Law]
-connections: [modern-slavery, organized-crime-expansion, supply-chain-exploitation, child-labor-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

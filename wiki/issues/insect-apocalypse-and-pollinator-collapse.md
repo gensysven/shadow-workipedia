@@ -2,14 +2,14 @@
 id: insect-apocalypse-and-pollinator-collapse
 title: Insect Apocalypse and Pollinator Collapse
 number: 121
-category: Environmental
+category: [Existential, Environmental, Economic]
 urgency: Critical
 tags: [insects, pollinators, biodiversity, agriculture, pesticides, ecosystem-collapse]
 publicConcern: 58
 economicImpact: 84
 socialImpact: 81
 affectedSystems: [Agriculture, Biodiversity, Food Production, Ecosystem Services]
-connections: [global-pollinator-extinction-pulse, biodiversity-collapse, agricultural-collapse, pesticide-regulation-failure]
+connections: [global-pollinator-extinction-pulse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

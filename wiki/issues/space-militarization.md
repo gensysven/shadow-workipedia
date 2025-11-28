@@ -9,7 +9,7 @@ publicConcern: 58
 economicImpact: 72
 socialImpact: 68
 affectedSystems: [Military, Space Industry, International Security, Communications]
-connections: [space-weaponization-and-orbital-conflict, satellite-constellation-wars, kessler-syndrome-risk]
+connections: [space-weaponization-and-orbital-conflict]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

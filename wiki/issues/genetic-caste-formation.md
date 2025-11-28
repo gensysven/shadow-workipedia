@@ -2,14 +2,14 @@
 id: genetic-caste-formation
 title: Genetic Caste Formation
 number: 97
-category: Social
+category: [Technological, Social, Economic]
 urgency: High
 tags: [genetics, inequality, caste, enhancement, discrimination, eugenics]
 publicConcern: 54
 economicImpact: 71
 socialImpact: 89
 affectedSystems: [Social Systems, Healthcare, Legal Systems, Economic Systems]
-connections: [crispr-regulation-wars, designer-baby-arms-race, genetic-discrimination, wealth-inequality]
+connections: [crispr-regulation-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

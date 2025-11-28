@@ -2,7 +2,7 @@
 id: social-media-addiction-crisis
 title: Social Media Addiction Crisis
 number: 001
-category: Technological
+category: [Technological, Social]
 urgency: Medium
 tags: [addiction, mental-health, technology, dopamine-hijacking, algorithmic-manipulation, teen-crisis]
 publicConcern: 62

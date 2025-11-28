@@ -2,14 +2,14 @@
 id: felon-disenfranchisement
 title: Felon Disenfranchisement
 number: 88
-category: Political
+category: [Political, Social]
 urgency: Medium
 tags: [voting-rights, criminal-justice, democracy, incarceration, civil-rights, race]
 publicConcern: 56
 economicImpact: 38
 socialImpact: 74
 affectedSystems: [Electoral Systems, Criminal Justice, Democratic Institutions, Civil Rights]
-connections: [mass-incarceration-crisis, voter-suppression, racial-justice-reckoning, democratic-erosion]
+connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

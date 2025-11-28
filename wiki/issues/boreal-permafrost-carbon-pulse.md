@@ -2,14 +2,14 @@
 id: boreal-permafrost-carbon-pulse
 title: Boreal Permafrost Carbon Pulse
 number: 458
-category: Environmental
+category: [Existential, Environmental, Economic, Security, Infrastructure]
 urgency: Critical
 tags: [climate-change, permafrost, carbon-cycle, tipping-points, methane, infrastructure-collapse, arctic, feedback-loops]
 publicConcern: 64
 economicImpact: 82
 socialImpact: 79
 affectedSystems: [Environment, Infrastructure, Economy, Health, Transportation]
-connections: [permafrost-methane-release, climate-tipping-points, arctic-resource-rush, infrastructure-subsidence-collapse, climate-refugee-crisis, arctic-blue-ocean-event-and-jet-stream-breakdown]
+connections: [permafrost-methane-release, climate-refugee-floods, arctic-blue-ocean-event-and-jet-stream-breakdown]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

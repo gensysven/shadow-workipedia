@@ -2,14 +2,14 @@
 id: spyware-for-hire-export-wars
 title: Spyware-for-Hire Export Wars
 number: 361
-category: Security
+category: [Technological, Security, Political]
 urgency: High
 tags: [surveillance, spyware, pegasus, nso-group, export, human-rights]
 publicConcern: 58
 economicImpact: 48
 socialImpact: 82
 affectedSystems: [Civil Liberties, International Relations, Technology Industry, Human Rights]
-connections: [surveillance-state-expansion, journalist-murder, political-opposition-assassination]
+connections: [surveillance-state-expansion,political-opposition-assassination]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

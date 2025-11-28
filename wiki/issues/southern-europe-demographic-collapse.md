@@ -2,14 +2,14 @@
 id: southern-europe-demographic-collapse
 title: Southern Europe Demographic Collapse
 number: 355
-category: Social
+category: [Social, Economic]
 urgency: High
 tags: [demographics, europe, italy, spain, greece, fertility, migration, aging-population, emigration, pensions]
 publicConcern: 58
 economicImpact: 82
 socialImpact: 85
 affectedSystems: [Economy, Pensions, Healthcare, Labor Markets, Politics]
-connections: [european-integration-crisis, immigration-crisis, pension-crisis, aging-population-crisis, labor-shortage-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

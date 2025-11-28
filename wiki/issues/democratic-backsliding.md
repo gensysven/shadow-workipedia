@@ -2,7 +2,7 @@
 id: democratic-backsliding
 title: Democratic Backsliding
 number: 107
-category: Political
+category: [Political, Social]
 urgency: Medium
 tags: [authoritarianism, institutions, norms, elections, media, judiciary, rule-of-law]
 publicConcern: 82

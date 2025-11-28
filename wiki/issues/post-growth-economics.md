@@ -2,14 +2,14 @@
 id: post-growth-economics
 title: Post-Growth Economics
 number: 450
-category: Economic Systems
+category: [Economic, Environmental, Political]
 urgency: medium
 tags: [degrowth, steady-state-economics, post-growth, sustainability, economic-paradigm, limits-to-growth]
 publicConcern: 5
 economicImpact: 10
 socialImpact: 9
 affectedSystems: [economy, environment, politics, culture]
-connections: [climate-crisis, resource-depletion]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

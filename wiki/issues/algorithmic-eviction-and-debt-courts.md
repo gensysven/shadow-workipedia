@@ -2,14 +2,14 @@
 id: algorithmic-eviction-and-debt-courts
 title: Algorithmic Eviction and Debt Courts
 number: SW#116
-category: Social
+category: [Technological, Economic, Social]
 urgency: High
 tags: [housing, algorithms, courts, eviction, debt, legal-system, automation]
 publicConcern: 60
 economicImpact: 70
 socialImpact: 85
 affectedSystems: [Civil Society, Economy, Politics]
-connections: [housing-impossibility-crisis, homelessness-criminalization, algorithmic-discrimination]
+connections: [homelessness-criminalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

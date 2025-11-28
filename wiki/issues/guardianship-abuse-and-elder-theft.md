@@ -2,14 +2,14 @@
 id: guardianship-abuse-and-elder-theft
 title: Guardianship Abuse and Elder Theft
 number: 436
-category: Social Justice
+category: [Social, Economic, Political]
 urgency: high
 tags: [elder-abuse, conservatorship, financial-exploitation, legal-system, aging, corruption]
 publicConcern: 8
 economicImpact: 7
 socialImpact: 9
 affectedSystems: [legal, finance, healthcare, family]
-connections: [elder-care-crisis, predatory-lending, financial-regulation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,14 +2,14 @@
 id: philippines-duterte-drug-war
 title: Philippines Duterte Drug War
 number: 324
-category: Security
+category: [Political, Security, Social]
 urgency: High
 tags: [philippines, drugs, extrajudicial-killing, human-rights, authoritarianism, asia]
 publicConcern: 62
 economicImpact: 48
 socialImpact: 88
 affectedSystems: [Criminal Justice, Human Rights, Government, Communities, International Relations]
-connections: [algorithmic-authoritarianism, extrajudicial-killings, war-on-drugs-failure, police-violence-normalization, judicial-impunity-cycles]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

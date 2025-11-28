@@ -2,14 +2,14 @@
 id: alternative-medicine-legitimacy-wars
 title: Alternative Medicine Legitimacy Wars
 number: 408
-category: Social
+category: [Social, Political]
 urgency: Medium
 tags: [healthcare, regulation, alternative-medicine, naturopathy, tcm, evidence-based-medicine]
 publicConcern: 55
 economicImpact: 40
 socialImpact: 50
 affectedSystems: [Healthcare, Regulatory, Education, Consumer Protection]
-connections: [pharmaceutical-pricing-crisis, healthcare-access-deserts, misinformation-ecosystem]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

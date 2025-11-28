@@ -2,7 +2,7 @@
 id: deepfake-reality-crisis
 title: Deepfake Reality Crisis
 number: 34
-category: Technological
+category: [Technological, Social, Political]
 urgency: Critical
 tags: [AI, deepfakes, disinformation, media-integrity, digital-forensics, authentication]
 publicConcern: 68

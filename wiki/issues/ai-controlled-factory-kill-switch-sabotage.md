@@ -2,14 +2,14 @@
 id: ai-controlled-factory-kill-switch-sabotage
 title: AI-Controlled Factory Kill Switch Sabotage
 number: SW#114
-category: Security
+category: [Existential, Technological, Security, Economic, Infrastructure]
 urgency: High
 tags: [ai, manufacturing, sabotage, industrial-control, cybersecurity, supply-chain, critical-infrastructure]
 publicConcern: 55
 economicImpact: 85
 socialImpact: 60
 affectedSystems: [Economy, Security, Infrastructure]
-connections: [critical-infrastructure-attacks, state-sponsored-hacking-epidemic, supply-chain-fragility]
+connections: [critical-infrastructure-attacks, state-sponsored-hacking-epidemic, just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

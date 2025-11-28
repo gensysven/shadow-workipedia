@@ -2,14 +2,14 @@
 id: central-america-migration-caravans
 title: Central America Migration Caravans
 number: 256
-category: Political
+category: [Social, Political, Economic]
 urgency: High
 tags: [migration, violence, Northern Triangle, climate, asylum, gang-violence, US-border, economic-collapse]
 publicConcern: 82
 economicImpact: 71
 socialImpact: 88
 affectedSystems: [Population, Politics, Diplomacy, Crime, Climate, Economy]
-connections: [asylum-system-breakdown, border-wall-politics, gang-violence-and-cartel-expansion, climate-refugee-floods, xenophobia-rise, democratic-backsliding]
+connections: [asylum-system-breakdown, border-wall-politics, climate-refugee-floods, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

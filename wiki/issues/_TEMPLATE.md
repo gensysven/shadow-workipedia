@@ -9,7 +9,7 @@ publicConcern: 85
 economicImpact: 90
 socialImpact: 80
 affectedSystems: [Economy, Politics, Climate]
-connections: [related-issue-1, related-issue-2]
+connections: []
 editedBy: Author Name
 lastUpdated: 2025-11-24
 ---

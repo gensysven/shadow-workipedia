@@ -2,14 +2,14 @@
 id: antibiotic-resistance-crisis
 title: Antibiotic Resistance Crisis
 number: 1
-category: Social
+category: [Existential, Social, Economic, Security]
 urgency: Critical
 tags: [public-health, pandemic-risk, pharmaceutical-economics, agriculture, antimicrobial-resistance]
 publicConcern: 78
 economicImpact: 87
 socialImpact: 92
 affectedSystems: [Health, Economy, Agriculture, Technology]
-connections: [pandemic-response-wars, healthcare-system-collapse, pharmaceutical-price-gouging, factory-farming-fallout]
+connections: [pandemic-response-wars, global-healthcare-workforce-exodus]
 editedBy: Shadow Work Contributors
 lastUpdated: 2025-11-24
 ---

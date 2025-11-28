@@ -2,14 +2,14 @@
 id: autonomous-weapons-proliferation
 title: Autonomous Weapons Proliferation
 number: 47
-category: Security
+category: [Technological, Security, Political]
 urgency: Critical
 tags: [autonomous-weapons, ai-weapons, military-technology, arms-race, international-law, accountability]
 publicConcern: 88
 economicImpact: 75
 socialImpact: 92
 affectedSystems: [Security, Technology, Diplomacy, Law]
-connections: [ai-job-displacement-tsunami, great-power-rivalry-redux, cyber-warfare-escalation, nuclear-proliferation-cascade]
+connections: [ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

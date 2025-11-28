@@ -2,14 +2,14 @@
 id: antarctic-cyanide-mining-rush
 title: Antarctic Cyanide Mining Rush
 number: SW#120
-category: Environmental
+category: [Environmental, Economic, Political]
 urgency: Medium
 tags: [antarctica, mining, treaty, geopolitics, resources, environment]
 publicConcern: 45
 economicImpact: 70
 socialImpact: 55
 affectedSystems: [Environment, Geopolitics, Economy]
-connections: [arctic-sovereignty-conflicts, deep-sea-mining-rush, resource-extraction-conflicts]
+connections: [arctic-sovereignty-conflicts, resource-extraction-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

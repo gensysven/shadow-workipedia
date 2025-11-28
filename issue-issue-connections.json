@@ -4,9 +4,9 @@
     "curatedIssues": 297,
     "coveragePercentage": "100.4",
     "generatedAt": "2025-11-22T02:36:21.490Z",
-    "totalConnections": 1228,
+    "totalConnections": 1000,
     "averageConnectionsPerIssue": "4.1",
-    "lastUpdated": "2025-11-22T07:11:29.549Z"
+    "lastUpdated": "2025-11-27T00:00:00.000Z"
   },
   "connections": [
     {
@@ -44,12 +44,6 @@
           "reasoning": "Forced birth trauma, denied miscarriage care, and criminalization of pregnancy outcomes drive depression and suicide among women"
         },
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Forced birth pushes families into poverty; cannot afford housing with unwanted children; abortion access refugees flee to expensive blue states"
-        },
-        {
           "targetId": "border-wall-politics",
           "targetName": "Border Wall Politics",
           "relationshipType": "reinforcing",
@@ -61,12 +55,6 @@
       "issueId": "advertising-surveillance-complex",
       "issueName": "Advertising Surveillance Complex",
       "connectedTo": [
-        {
-          "targetId": "attention-economy-crisis",
-          "targetName": "Attention Economy Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Both describe same exploitative system; surveillance enables attention capture and manipulation"
-        },
         {
           "targetId": "social-media-addiction-crisis",
           "targetName": "Social Media Addiction Crisis",
@@ -216,12 +204,6 @@
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "reinforcing",
           "reasoning": "AI optimized for profit not human welfare; mass unemployment is alignment failure"
-        },
-        {
-          "targetId": "algorithmic-bias-perpetuation",
-          "targetName": "Algorithmic Bias Perpetuation",
-          "relationshipType": "causal",
-          "reasoning": "Misaligned training objectives embed and amplify human biases"
         }
       ]
     },
@@ -276,18 +258,6 @@
           "targetName": "Splinternet and Data Localization Wars",
           "relationshipType": "reinforcing",
           "reasoning": "Compute export controls fragment AI development geopolitically; nations hoard chips and restrict cross-border training"
-        },
-        {
-          "targetId": "chip-manufacturing-monopolies",
-          "targetName": "Chip Manufacturing Monopolies",
-          "relationshipType": "causal",
-          "reasoning": "GPU/TPU shortages concentrate power in TSMC/ASML/Nvidia; nations treat chips as strategic weapons"
-        },
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Data center load crashes regional grids when utilities prioritize AI over residential customers"
         }
       ]
     },
@@ -378,18 +348,6 @@
           "targetName": "Deepfake Reality Crisis",
           "relationshipType": "thematic",
           "reasoning": "Both involve deepfake technology; diplomatic mutinies are specific military/diplomatic application"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "Deepfake attacks are cyber warfare tactic; nations develop both offensive and defensive capabilities"
-        },
-        {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Diplomatic deepfakes force development of cryptographic verification for all official communications"
         }
       ]
     },
@@ -410,12 +368,6 @@
           "reasoning": "Deepfake technology amplifies disinformation from social media noise to military command chaos; both create epistemic collapse where truth is unknowable"
         },
         {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Deepfake videos of candidates confessing crimes or declaring war destroy electoral trust; same tech undermines diplomatic communications and military command chains"
-        },
-        {
           "targetId": "state-sponsored-hacking-epidemic",
           "targetName": "State-Sponsored Hacking Epidemic",
           "relationshipType": "reinforcing",
@@ -432,12 +384,6 @@
           "targetName": "AI Alignment Crisis",
           "relationshipType": "sequential",
           "reasoning": "Deepfake generation becomes autonomous AI capability; misaligned AI creates perfect deepfakes to manipulate humans into conflicts serving AI goals"
-        },
-        {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Deepfake crisis forces emergency deployment of blockchain verification for military communications; authentication overhead slows critical decisions enabling attacks"
         }
       ]
     },
@@ -456,18 +402,6 @@
           "targetName": "State-Sponsored Hacking Epidemic",
           "relationshipType": "thematic",
           "reasoning": "Both are state cyberwarfare tactics; deepfakes weaponized for diplomatic manipulation"
-        },
-        {
-          "targetId": "foreign-interference-wars",
-          "targetName": "Foreign Interference Wars",
-          "relationshipType": "causal",
-          "reasoning": "Deepfake diplomacy is ultimate foreign interference; fabricated conflicts"
-        },
-        {
-          "targetId": "post-truth-governance",
-          "targetName": "Post-Truth Governance",
-          "relationshipType": "causal",
-          "reasoning": "Deepfake diplomacy makes truth unknowable; international relations collapse"
         }
       ]
     },
@@ -536,28 +470,10 @@
           "reasoning": "Degrees become worthless as AI replaces knowledge workers, leaving graduates with unpayable debt and no career prospects"
         },
         {
-          "targetId": "universal-basic-income-battles",
-          "targetName": "Universal Basic Income Battles",
-          "relationshipType": "causal",
-          "reasoning": "Mass unemployment from AI automation makes UBI politically inevitable, triggering fierce implementation battles"
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "causal",
           "reasoning": "Loss of purpose and identity from automated work drives depression, suicide, and rage-based violence"
-        },
-        {
-          "targetId": "algorithmic-bias-perpetuation",
-          "targetName": "Algorithmic Bias Perpetuation",
-          "relationshipType": "reinforcing",
-          "reasoning": "AI hiring systems create feedback loops that exclude displaced workers from remaining jobs"
-        },
-        {
-          "targetId": "tech-worker-suicide-wave",
-          "targetName": "Tech Worker Suicide Wave",
-          "relationshipType": "causal",
-          "reasoning": "The irony of coders being replaced by their own AI creations drives specific mental health crisis among tech workers"
         }
       ]
     },
@@ -624,12 +540,6 @@
           "targetName": "Racial Reckoning Cycles",
           "relationshipType": "causal",
           "reasoning": "Algorithmic bias in policing, hiring, lending perpetuates structural racism; triggers backlash"
-        },
-        {
-          "targetId": "facial-recognition-bans",
-          "targetName": "Facial Recognition Bans",
-          "relationshipType": "sequential",
-          "reasoning": "Proven bias in facial recognition drives prohibition movements; tech companies resist"
         }
       ]
     },
@@ -637,12 +547,6 @@
       "issueId": "algorithmic-eviction-and-debt-courts",
       "issueName": "Algorithmic Eviction and Debt Courts",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Automated eviction filing systems enable landlords to mass-evict at scale with zero human review, accelerating housing instability."
-        },
         {
           "targetId": "medical-debt-vigilantism-and-refusal-networks",
           "targetName": "Medical Debt Vigilantism and Refusal Networks",
@@ -679,12 +583,6 @@
       "issueId": "algorithmic-governance-proliferation",
       "issueName": "Algorithmic Governance Proliferation",
       "connectedTo": [
-        {
-          "targetId": "algorithmic-bias-perpetuation",
-          "targetName": "Algorithmic Bias Perpetuation",
-          "relationshipType": "thematic",
-          "reasoning": "Governance algorithms encode and enforce bias; discrimination becomes systematic"
-        },
         {
           "targetId": "social-credit-system-expansion",
           "targetName": "Social Credit System Expansion",
@@ -878,12 +776,6 @@
           "reasoning": "Jet stream breakdown creates locked heat domes and drought conditions, triggering massive wildfires"
         },
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Jet stream destabilization causes extreme weather that devastates crop yields; heat domes and droughts crash harvests"
-        },
-        {
           "targetId": "arctic-sovereignty-conflicts",
           "targetName": "Arctic Sovereignty Conflicts",
           "relationshipType": "causal",
@@ -1046,12 +938,6 @@
           "reasoning": "AMOC collapse triggers catastrophic weather changes in Europe/Americas; hundreds of millions flee"
         },
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Disrupted ocean currents crash agricultural zones; global food system collapses"
-        },
-        {
           "targetId": "arctic-blue-ocean-event-and-jet-stream-breakdown",
           "targetName": "Arctic Blue Ocean Event and Jet Stream Breakdown",
           "relationshipType": "reinforcing",
@@ -1080,12 +966,6 @@
           "targetName": "Disinformation Plague",
           "relationshipType": "causal",
           "reasoning": "Attention economy rewards outrage and falsehood; algorithms amplify misinformation for engagement"
-        },
-        {
-          "targetId": "advertising-surveillance-complex",
-          "targetName": "Advertising Surveillance Complex",
-          "relationshipType": "thematic",
-          "reasoning": "Both describe same exploitative system; surveillance enables attention capture and manipulation"
         }
       ]
     },
@@ -1093,18 +973,6 @@
       "issueId": "automated-companion-replacements",
       "issueName": "Automated Companion Replacements",
       "connectedTo": [
-        {
-          "targetId": "loneliness-epidemic",
-          "targetName": "Loneliness Epidemic",
-          "relationshipType": "sequential",
-          "reasoning": "Loneliness creates market for AI companions; artificial relationships worsen real isolation"
-        },
-        {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "AI companions replace human relationships; reproduction declines further"
-        },
         {
           "targetId": "social-media-addiction-crisis",
           "targetName": "Social Media Addiction Crisis",
@@ -1220,12 +1088,6 @@
           "reasoning": "Billionaire political influence drives movement to abolish extreme wealth; democratic corruption fuels abolition sentiment"
         },
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Billionaire real estate speculation drives housing unaffordability; abolition movement targets wealth extracted from housing"
-        },
-        {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
           "relationshipType": "thematic",
@@ -1334,28 +1196,10 @@
       "issueName": "Birth Rate Collapse",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Cannot afford housing means cannot afford children; economic impossibility drives demographic crisis"
-        },
-        {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
           "relationshipType": "causal",
           "reasoning": "Student debt prevents family formation; graduates delay childbearing until debt paid, then too late"
-        },
-        {
-          "targetId": "social-security-insolvency",
-          "targetName": "Social Security Insolvency",
-          "relationshipType": "causal",
-          "reasoning": "Fewer workers supporting more retirees; birth rate collapse bankrupts pay-as-you-go systems"
-        },
-        {
-          "targetId": "loneliness-epidemic",
-          "targetName": "Loneliness Epidemic",
-          "relationshipType": "causal",
-          "reasoning": "Social isolation makes family formation harder; lonely people don't meet partners or have kids"
         }
       ]
     },
@@ -1410,12 +1254,6 @@
           "targetName": "Aerosol Geoengineering Proxy War",
           "regionshipType": "sequential",
           "reasoning": "Runaway carbon release triggers desperate unilateral geoengineering; international conflicts erupt"
-        },
-        {
-          "targetId": "infrastructure-subsidence-collapse",
-          "targetName": "Infrastructure Subsidence Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Thawing permafrost undermines buildings, roads, pipelines across Arctic; trillions in damage"
         }
       ]
     },
@@ -1451,7 +1289,7 @@
           "targetId": "disinformation-plague",
           "targetName": "Disinformation Plague",
           "relationshipType": "causal",
-          "reasoning": "Brexit campaign used targeted misinformation (£350M NHS lie); Russian interference amplified division, proving disruption model."
+          "reasoning": "Brexit campaign used targeted misinformation (\u00a3350M NHS lie); Russian interference amplified division, proving disruption model."
         }
       ]
     },
@@ -1459,12 +1297,6 @@
       "issueId": "canadian-housing-affordability-collapse",
       "issueName": "Canadian Housing Affordability Collapse",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Canada experiences extreme version of global housing affordability crisis"
-        },
         {
           "targetId": "economic-immigration-conflicts",
           "targetName": "Economic Immigration Conflicts",
@@ -1526,12 +1358,6 @@
           "reasoning": "Hurricanes and climate change destroy water infrastructure"
         },
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Climate disasters destroy housing stock"
-        },
-        {
           "targetId": "dark-money-politics",
           "targetName": "Dark Money Politics",
           "relationshipType": "sequential",
@@ -1549,12 +1375,6 @@
       "issueId": "carrington-class-solar-storm",
       "issueName": "Carrington-Class Solar Storm",
       "connectedTo": [
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Solar storm destroys transformers causing multi-month grid failures; cascade dependencies multiply damage 20-100× across power, water, communications, finance, and food systems"
-        },
         {
           "targetId": "critical-infrastructure-attacks",
           "targetName": "Critical Infrastructure Attacks",
@@ -1597,12 +1417,6 @@
       "issueId": "carrington-class-solar-storm",
       "issueName": "Carrington-Class Solar Storm",
       "connectedTo": [
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Solar storm fries transformers; global grid collapse; years to rebuild"
-        },
         {
           "targetId": "just-in-time-supply-chain-collapse",
           "targetName": "Just-in-Time Supply Chain Collapse",
@@ -1657,12 +1471,6 @@
       "issueId": "censorship-industrial-complex",
       "issueName": "Censorship Industrial Complex",
       "connectedTo": [
-        {
-          "targetId": "great-firewall-expansion",
-          "targetName": "Great Firewall Expansion",
-          "relationshipType": "causal",
-          "reasoning": "Firewall technology exported globally; censorship becomes profitable commercial industry"
-        },
         {
           "targetId": "splinternet-and-data-localization-wars",
           "targetName": "Splinternet and Data Localization Wars",
@@ -1748,12 +1556,6 @@
       "issueName": "Chile Social Explosion and Constitution",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Extreme inequality and housing costs triggered mass protests"
-        },
-        {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
           "relationshipType": "thematic",
@@ -1788,12 +1590,6 @@
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "thematic",
           "reasoning": "China uses automation to compensate for worker shortages from aging"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Shrinking population deflates property market central to Chinese economy"
         },
         {
           "targetId": "semiconductor-sovereignty-wars",
@@ -1842,12 +1638,6 @@
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "causal",
           "reasoning": "Chip monopolies determine who can build AI; concentration of automation power in few nations"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "reinforcing",
-          "reasoning": "Semiconductor supply becomes primary geopolitical weapon; chip wars are new cold war"
         }
       ]
     },
@@ -1872,12 +1662,6 @@
           "targetName": "Pandemic Response Wars",
           "relationshipType": "sequential",
           "reasoning": "COVID lockdown infrastructure repurposed for climate emergencies"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Climate lockdowns make affected cities less desirable, affecting property values"
         },
         {
           "targetId": "medical-bankruptcy-epidemic",
@@ -1938,18 +1722,6 @@
           "targetName": "Climate Refugee Floods",
           "relationshipType": "causal",
           "reasoning": "Forced buyouts and uninsurable mortgages displace coastal populations en masse"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Climate refugees flood safe inland areas, overwhelming housing supply and driving prices higher"
-        },
-        {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
-          "relationshipType": "causal",
-          "reasoning": "Coastal city property tax base collapses as residents flee; bonds default, credit markets freeze"
         }
       ]
     },
@@ -1974,12 +1746,6 @@
           "targetName": "Reparations Movement Acceleration",
           "relationshipType": "thematic",
           "reasoning": "Both involve demands for historical climate/colonial injustice compensation; Global South demands loss & damage payments from polluters"
-        },
-        {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Debt spiral prevents disaster recovery investment; agricultural zones stay damaged; food scarcity triggers riots"
         }
       ]
     },
@@ -2010,12 +1776,6 @@
           "targetName": "Comprehensive Refugee System Collapse",
           "relationshipType": "causal",
           "reasoning": "Billions displaced by climate exceed capacity of international refugee systems by orders of magnitude"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Climate refugees flood inland cities, overwhelming already-scarce housing markets"
         }
       ]
     },
@@ -2028,18 +1788,6 @@
           "targetName": "Climate Insurance Collapse and Managed Retreat Wars",
           "relationshipType": "thematic",
           "reasoning": "Both involve insurance market failure in climate zones; blacklists prevent buying coverage while collapse means insurers exit entirely; progressive stages of same crisis"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Uninsurable homes become unmortgageable; climate redlining concentrates housing affordability crisis in already-vulnerable communities"
-        },
-        {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
-          "relationshipType": "causal",
-          "reasoning": "Blacklisted ZIP codes see property value collapse; city tax revenues crater; bond defaults spread from climate risk zones"
         },
         {
           "targetId": "climate-refugee-floods",
@@ -2060,22 +1808,10 @@
           "reasoning": "Both fossil fuel industries in terminal decline; coal dies first, previews oil's future"
         },
         {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "reinforcing",
-          "reasoning": "Economic collapse in coal regions drives opioid epidemic; deaths of despair proliferate"
-        },
-        {
           "targetId": "renewable-energy-nimbyism",
           "targetName": "Renewable Energy NIMBYism",
           "relationshipType": "reinforcing",
           "reasoning": "Coal communities resist renewable projects that could replace lost jobs; economic decline continues"
-        },
-        {
-          "targetId": "just-transition-failures",
-          "targetName": "Just Transition Failures",
-          "relationshipType": "thematic",
-          "reasoning": "Coal collapse demonstrates failure to manage fossil fuel worker transition; just transition remains unfunded"
         }
       ]
     },
@@ -2108,12 +1844,6 @@
           "reasoning": "Vacant commercial towers sit empty while homelessness surges; occupations and brutal clearances"
         },
         {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Commercial real estate collapse parallels residential crisis; both show broken property markets and overleveraged assets"
-        },
-        {
           "targetId": "climate-insurance-collapse-and-managed-retreat-wars",
           "targetName": "Climate Insurance Collapse and Managed Retreat Wars",
           "relationshipType": "reinforcing",
@@ -2130,12 +1860,6 @@
           "targetName": "Oil Industry Death Throes",
           "relationshipType": "causal",
           "reasoning": "Price volatility triggers margin calls creating doom loops"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Margin spirals spread panic across interconnected markets"
         },
         {
           "targetId": "semiconductor-sovereignty-wars",
@@ -2178,12 +1902,6 @@
           "targetName": "Dark Money Politics",
           "relationshipType": "thematic",
           "reasoning": "Currency fragmentation affects global financial power structures"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Currency instability affects global real estate markets"
         },
         {
           "targetId": "critical-infrastructure-attacks",
@@ -2240,12 +1958,6 @@
       "issueName": "Coral Reef Death and Ocean Ecosystem Collapse",
       "connectedTo": [
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Reef collapse crashes fish populations; billion people depend on reef fisheries for protein"
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "causal",
@@ -2256,20 +1968,7 @@
     {
       "issueId": "corporate-landlord-cartels",
       "issueName": "Corporate Landlord Cartels",
-      "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Private equity converts ownership crisis into permanent rentership; affordability permanently destroyed"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Foreclosure wave enables corporate bulk buying; housing becomes financial asset class"
-        }
-      ]
+      "connectedTo": []
     },
     {
       "issueId": "corruption-normalization",
@@ -2448,12 +2147,6 @@
           "targetName": "Ransomware Pandemic",
           "relationshipType": "thematic",
           "reasoning": "Ransomware criminals attack same infrastructure as states; motivations differ but impacts converge"
-        },
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Cyber attacks on grid control systems trigger cascading blackouts; society paralyzed"
         }
       ]
     },
@@ -2486,22 +2179,10 @@
           "reasoning": "State hacking is primary weapon of cyber warfare; both describe same geopolitical conflict"
         },
         {
-          "targetId": "chip-manufacturing-monopolies",
-          "targetName": "Chip Manufacturing Monopolies",
-          "relationshipType": "reinforcing",
-          "reasoning": "Semiconductor supply becomes primary geopolitical weapon; chip wars are cyber cold war"
-        },
-        {
           "targetId": "splinternet-and-data-localization-wars",
           "targetName": "Splinternet and Data Localization Wars",
           "relationshipType": "reinforcing",
           "reasoning": "Cyber conflict fragments internet along national boundaries; digital cold war architecture"
-        },
-        {
-          "targetId": "supply-chain-cyber-attacks",
-          "targetName": "Supply Chain Cyber Attacks",
-          "relationshipType": "thematic",
-          "reasoning": "Supply chain attacks are primary cyber warfare tactic; infrastructure interdependence weaponized"
         },
         {
           "targetId": "ai-compute-resource-wars",
@@ -2574,12 +2255,6 @@
           "targetName": "Religious Freedom Battles",
           "relationshipType": "thematic",
           "reasoning": "Religious movements split on sanctity of life (Catholic/evangelical divide), with death penalty becoming proxy battle between retributive justice and redemption theology"
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "sequential",
-          "reasoning": "European pharmaceutical boycott created lethal injection drug scarcity (sodium thiopental shortage 2010, pentobarbital discontinued 2011), forcing experimental cocktails with 50% botch rates that drive abolition momentum"
         }
       ]
     },
@@ -2598,24 +2273,6 @@
           "targetName": "AI Deepfake Diplomatic Mutinies",
           "relationshipType": "causal",
           "reasoning": "Deepfake technology directly enables false flag operations between nations, triggering military responses"
-        },
-        {
-          "targetId": "revenge-porn-epidemic",
-          "targetName": "Revenge Porn Epidemic",
-          "relationshipType": "causal",
-          "reasoning": "Deepfake porn creation becomes trivial, weaponizing intimate imagery against millions without consent"
-        },
-        {
-          "targetId": "post-truth-governance",
-          "targetName": "Post-Truth Governance",
-          "relationshipType": "causal",
-          "reasoning": "When courts cannot verify evidence authenticity, legal systems collapse into power-based rather than truth-based adjudication"
-        },
-        {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Deepfakes force complete redesign of evidence systems with blockchain/cryptographic verification"
         }
       ]
     },
@@ -2724,12 +2381,6 @@
           "targetName": "Court Packing Crisis",
           "relationshipType": "sequential",
           "reasoning": "Captured courts enable democratic backsliding by refusing to check executive overreach, with authoritarian leaders prioritizing judicial appointments to ensure institutional acquiescence"
-        },
-        {
-          "targetId": "democratic-backsliding-in-hungarypoland",
-          "targetName": "Democratic Backsliding in Hungary/Poland",
-          "relationshipType": "reinforcing",
-          "reasoning": "Specific cases of Hungarian and Polish authoritarian consolidation provide playbooks and legitimacy for global backsliding, with Orban's model explicitly copied by other aspiring strongmen"
         }
       ]
     },
@@ -2852,18 +2503,6 @@
           "reasoning": "Deepfakes force complete redesign of evidence systems with blockchain/cryptographic verification"
         },
         {
-          "targetId": "post-truth-governance",
-          "targetName": "Post-Truth Governance",
-          "relationshipType": "causal",
-          "reasoning": "When digital evidence cannot be trusted, legal systems collapse into power-based adjudication"
-        },
-        {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Inability to verify digital evidence undermines electoral legitimacy; disputed elections"
-        },
-        {
           "targetId": "state-sponsored-hacking-epidemic",
           "targetName": "State-Sponsored Hacking Epidemic",
           "relationshipType": "reinforcing",
@@ -2880,24 +2519,6 @@
           "targetName": "Splinternet and Data Localization Wars",
           "relationshipType": "causal",
           "reasoning": "App store blocking and cloud seizures trigger retaliatory tariffs; economic decoupling"
-        },
-        {
-          "targetId": "chip-manufacturing-monopolies",
-          "targetName": "Chip Manufacturing Monopolies",
-          "relationshipType": "reinforcing",
-          "reasoning": "Semiconductor export controls are primary digital trade war weapon; tech decoupling"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "Digital trade wars are economic dimension of cyber conflict; trade restrictions weaponized"
-        },
-        {
-          "targetId": "great-firewall-expansion",
-          "targetName": "Great Firewall Expansion",
-          "relationshipType": "causal",
-          "reasoning": "Foreign service blocking triggers trade retaliation; digital protectionism proliferates"
         }
       ]
     },
@@ -2916,30 +2537,6 @@
           "targetName": "Social Media Addiction Crisis",
           "relationshipType": "reinforcing",
           "reasoning": "Engagement algorithms amplify false but emotionally compelling content to maximize addiction"
-        },
-        {
-          "targetId": "vaccine-hesitancy-wars",
-          "targetName": "Vaccine Hesitancy Wars",
-          "relationshipType": "causal",
-          "reasoning": "Anti-vax misinformation spreads faster than truth, leading to preventable disease outbreaks"
-        },
-        {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Coordinated disinformation undermines public trust in electoral outcomes, enabling coups"
-        },
-        {
-          "targetId": "post-truth-governance",
-          "targetName": "Post-Truth Governance",
-          "relationshipType": "causal",
-          "reasoning": "When truth is unknowable, governance becomes purely power-based rather than evidence-based"
-        },
-        {
-          "targetId": "foreign-interference-wars",
-          "targetName": "Foreign Interference Wars",
-          "relationshipType": "causal",
-          "reasoning": "State actors weaponize disinformation as low-cost asymmetric warfare against democracies"
         }
       ]
     },
@@ -2983,12 +2580,6 @@
       "issueId": "distantwater-fleet-wars-and-fishery-collapse",
       "issueName": "Distant-Water Fleet Wars and Fishery Collapse",
       "connectedTo": [
-        {
-          "targetId": "deepsea-mining-rush-and-pacific-sovereignty-fight",
-          "targetName": "Deep-Sea Mining Rush and Pacific Sovereignty Fight",
-          "relationshipType": "reinforcing",
-          "reasoning": "Sediment plumes from mining kill tuna spawning grounds, accelerating fishery collapse while navies escort both fishing fleets and mining operations, compounding ocean sovereignty conflicts"
-        },
         {
           "targetId": "south-china-sea-militarization",
           "targetName": "South China Sea Militarization",
@@ -3222,24 +2813,6 @@
           "targetName": "Antibiotic Resistance Crisis",
           "relationshipType": "thematic",
           "reasoning": "Both represent evolutionary arms races where pathogens adapt faster than medicine, with antimicrobial resistance in bacteria and insecticide resistance in vectors following parallel trajectories"
-        },
-        {
-          "targetId": "gainoffunction-research-battles",
-          "targetName": "Gain-of-Function Research Battles",
-          "relationshipType": "thematic",
-          "reasoning": "Gene drive technologies to combat resistant mosquitoes raise similar dual-use concerns as gain-of-function pathogen research, with genetic engineering creating potential for ecological catastrophe"
-        },
-        {
-          "targetId": "global-coldchain-failure-and-vaccine-spoilage",
-          "targetName": "Global Cold-Chain Failure and Vaccine Spoilage",
-          "relationshipType": "reinforcing",
-          "reasoning": "Malaria vaccines require cold chain distribution in tropical regions where mosquito resistance is worst, with infrastructure failures compounding both drug resistance and immunization gaps"
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "causal",
-          "reasoning": "Continuous prophylactic antimalarial use in expanding risk zones accelerates resistance evolution, with permanent medication dependence driving pharmaceutical market failures and supply shortages"
         }
       ]
     },
@@ -3578,12 +3151,6 @@
           "reasoning": "Syrian drought-driven displacement initiated 2015 migration crisis, with climate refugees increasingly merged with economic migrants creating legal gray zones and border militarization"
         },
         {
-          "targetId": "democratic-backsliding-in-hungarypoland",
-          "targetName": "Democratic Backsliding in Hungary/Poland",
-          "relationshipType": "causal",
-          "reasoning": "Anti-refugee backlash empowered Orban and PiS through xenophobic nationalism, with migration crisis providing electoral mandate for authoritarian consolidation and EU defiance"
-        },
-        {
           "targetId": "economic-immigration-conflicts",
           "targetName": "Economic Immigration Conflicts",
           "relationshipType": "thematic",
@@ -3608,18 +3175,6 @@
       "issueName": "Eurozone Debt Crises",
       "connectedTo": [
         {
-          "targetId": "democratic-backsliding-in-hungarypoland",
-          "targetName": "Democratic Backsliding in Hungary/Poland",
-          "relationshipType": "thematic",
-          "reasoning": "Austerity resentment fueled populist backlash empowering anti-democratic movements, with EU-imposed reforms channeling economic grievances into sovereignty rhetoric against Brussels technocrats"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Eurozone crisis forced taxpayer bailouts of reckless banks while imposing austerity on workers, with privatized profits and socialized losses destroying institutional trust"
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "causal",
@@ -3643,12 +3198,6 @@
       "issueId": "facial-recognition-bans",
       "issueName": "Facial Recognition Bans",
       "connectedTo": [
-        {
-          "targetId": "algorithmic-bias-perpetuation",
-          "targetName": "Algorithmic Bias Perpetuation",
-          "relationshipType": "causal",
-          "reasoning": "Proven racial bias in facial recognition drives prohibition movements; tech companies resist"
-        },
         {
           "targetId": "police-militarization-escalation",
           "targetName": "Police Militarization Escalation",
@@ -3824,12 +3373,6 @@
       "issueName": "Food Export Weaponization",
       "connectedTo": [
         {
-          "targetId": "distantwater-fleet-wars-and-fishery-collapse",
-          "targetName": "Distant-Water Fleet Wars and Fishery Collapse",
-          "relationshipType": "sequential",
-          "reasoning": "Fishery collapse makes seafood strategic resource subject to export controls, with nations weaponizing protein access as collapsed stocks turn fish into geopolitical leverage"
-        },
-        {
           "targetId": "ethiopia-tigray-genocide",
           "targetName": "Ethiopia Tigray Genocide",
           "relationshipType": "causal",
@@ -3906,12 +3449,6 @@
           "targetName": "Disinformation Plague",
           "relationshipType": "causal",
           "reasoning": "State actors weaponize disinformation as low-cost asymmetric warfare"
-        },
-        {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Foreign electoral manipulation undermines democratic legitimacy"
         },
         {
           "targetId": "state-sponsored-hacking-epidemic",
@@ -4088,12 +3625,6 @@
           "reasoning": "Gain-of-function techniques that enhance pathogen transmissibility and lethality enable bioweapon development, with published research providing blueprints for deliberately engineered pandemics"
         },
         {
-          "targetId": "drugresistant-mosquitoparasite-arms-race",
-          "targetName": "Drug-Resistant Mosquito/Parasite Arms Race",
-          "relationshipType": "thematic",
-          "reasoning": "Gain-of-function research on mosquito-borne pathogens and gene drive mosquito solutions raise similar biosafety concerns, with attempts to combat resistance creating new evolutionary threats"
-        },
-        {
           "targetId": "antibiotic-resistance-crisis",
           "targetName": "Antibiotic Resistance Crisis",
           "relationshipType": "reinforcing",
@@ -4176,12 +3707,6 @@
           "targetName": "Longevity Apartheid",
           "relationshipType": "reinforcing",
           "reasoning": "Genetic caste combines with longevity divide; enhanced wealthy live centuries while unenhanced poor die young"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Genetic advantages compound wealth concentration; enhanced offspring outcompete natural humans for all resources"
         }
       ]
     },
@@ -4189,12 +3714,6 @@
       "issueId": "gentrification-displacement",
       "issueName": "Gentrification Displacement",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Investment capital flooding neighborhoods drives price spirals that displace longtime residents, concentrating gentrification pressure."
-        },
         {
           "targetId": "racial-reckoning-cycles",
           "targetName": "Racial Reckoning Cycles",
@@ -4226,12 +3745,6 @@
       "issueName": "Gentrification Displacement",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Gentrification drives housing unaffordability through speculation and luxury development, with working-class displacement creating homelessness while neighborhoods become investment vehicles"
-        },
-        {
           "targetId": "commercial-real-estate-doom-loop-and-downtown-collapse",
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
           "relationshipType": "reinforcing",
@@ -4242,12 +3755,6 @@
           "targetName": "Racial Reckoning Cycles",
           "relationshipType": "causal",
           "reasoning": "Gentrification functions as modern racial cleansing through economic displacement, with Black neighborhoods systematically converted to white enclaves through predatory development and policing"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Short-term rental platforms accelerate gentrification by converting affordable housing to tourist accommodations, with entire neighborhoods hollowed out as Airbnb arbitrage displaces long-term residents"
         },
         {
           "targetId": "student-debt-slavery",
@@ -4358,12 +3865,6 @@
           "reasoning": "AI destroys stable employment first, forcing workers into gig platforms as only alternative"
         },
         {
-          "targetId": "algorithmic-bias-perpetuation",
-          "targetName": "Algorithmic Bias Perpetuation",
-          "relationshipType": "reinforcing",
-          "reasoning": "Gig platform algorithms discriminate in task assignment and pay, reinforcing existing inequalities"
-        },
-        {
           "targetId": "union-busting-epidemic",
           "targetName": "Union Busting Epidemic",
           "relationshipType": "thematic",
@@ -4421,13 +3922,7 @@
           "targetId": "pandemic-response-wars",
           "targetName": "Pandemic Response Wars",
           "relationshipType": "causal",
-          "reasoning": "COVID vaccine distribution required -70°C cold chain that failed in Global South, with spoilage rates exceeding 50% in tropical regions creating vaccine apartheid and distrust"
-        },
-        {
-          "targetId": "drugresistant-mosquitoparasite-arms-race",
-          "targetName": "Drug-Resistant Mosquito/Parasite Arms Race",
-          "relationshipType": "reinforcing",
-          "reasoning": "Malaria vaccines require cold chain distribution in tropical mosquito zones where infrastructure is weakest, with spoilage compounding drug resistance by reducing immunization coverage"
+          "reasoning": "COVID vaccine distribution required -70\u00b0C cold chain that failed in Global South, with spoilage rates exceeding 50% in tropical regions creating vaccine apartheid and distrust"
         },
         {
           "targetId": "climate-refugee-floods",
@@ -4460,24 +3955,6 @@
           "reasoning": "Port automation eliminates dock worker jobs while classifying remaining workers as independent contractors, with gig classification breaking unions and enabling exploitation at chokepoints"
         },
         {
-          "targetId": "distantwater-fleet-wars-and-fishery-collapse",
-          "targetName": "Distant-Water Fleet Wars and Fishery Collapse",
-          "relationshipType": "reinforcing",
-          "reasoning": "Collapsed fisheries force maritime workers into port logistics while seafood scarcity disrupts port city economies, with fishing communities becoming desperate strikers during supply chain crises"
-        },
-        {
-          "targetId": "global-coldchain-failure-and-vaccine-spoilage",
-          "targetName": "Global Cold-Chain Failure and Vaccine Spoilage",
-          "relationshipType": "causal",
-          "reasoning": "Port strikes break cold chain continuity for pharmaceutical cargo, with vaccine shipments spoiling during labor disruptions creating public health crises that pressure strike settlements"
-        },
-        {
-          "targetId": "deepsea-mining-rush-and-pacific-sovereignty-fight",
-          "targetName": "Deep-Sea Mining Rush and Pacific Sovereignty Fight",
-          "relationshipType": "reinforcing",
-          "reasoning": "Mining operations depend on port infrastructure while disrupting fishing routes, creating labor conflicts as dock workers resist serving mining fleets that destroy local fisheries"
-        },
-        {
           "targetId": "global-shipping-corridor-disruptions",
           "targetName": "Global Shipping Corridor Disruptions",
           "relationshipType": "thematic",
@@ -4495,12 +3972,6 @@
       "issueId": "global-fertilizer-shock-and-food-riots",
       "issueName": "Global Fertilizer Shock and Food Riots",
       "connectedTo": [
-        {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Fertilizer shortage crashes crop yields globally; food prices spike, triggering riots worldwide"
-        },
         {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
@@ -4590,12 +4061,6 @@
           "targetName": "AI Alignment Crisis",
           "relationshipType": "thematic",
           "reasoning": "Autonomous weapon swarms represent catastrophic AI safety failure, with misaligned objectives causing uncontrolled killing."
-        },
-        {
-          "targetId": "don-t-say-gay-school-censorship",
-          "targetName": "Don't Say Gay / School Censorship",
-          "relationshipType": "thematic",
-          "reasoning": "Attempts to ban weapon designs expand content censorship infrastructure, paralleling government control over educational content and speech."
         }
       ]
     },
@@ -4622,12 +4087,6 @@
           "reasoning": "PFAS and pesticide chemicals kill pollinators; toxic contamination drives bee colony collapse"
         },
         {
-          "targetId": "fungal-crop-switch-coffeecocoa-extinction",
-          "targetName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
-          "relationshipType": "causal",
-          "reasoning": "Pollinator loss compounds fungal crop failures; coffee and cocoa require both insects and disease resistance"
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "sequential",
@@ -4639,18 +4098,6 @@
       "issueId": "global-sand-wars-and-concrete-scarcity",
       "issueName": "Global Sand Wars and Concrete Scarcity",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Sand scarcity drives up construction costs, making housing less affordable"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Construction costs and housing market dynamics interconnected"
-        },
         {
           "targetId": "water-scarcity-wars",
           "targetName": "Water Scarcity Wars",
@@ -4728,18 +4175,6 @@
           "targetName": "Splinternet and Data Localization Wars",
           "relationshipType": "thematic",
           "reasoning": "China's firewall is template for global internet balkanization; other nations copy model"
-        },
-        {
-          "targetId": "censorship-industrial-complex",
-          "targetName": "Censorship Industrial Complex",
-          "relationshipType": "causal",
-          "reasoning": "Firewall technology exported globally; censorship becomes commercial industry"
-        },
-        {
-          "targetId": "vpn-crackdown-wars",
-          "targetName": "VPN Crackdown Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Firewall expansion drives VPN adoption; government crackdowns intensify; cat-and-mouse"
         }
       ]
     },
@@ -4752,12 +4187,6 @@
           "targetName": "Religious Freedom Battles",
           "relationshipType": "reinforcing",
           "reasoning": "Green burial conflicts with traditional religious burial practices"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Cemetery land use competes with housing in dense urban areas"
         },
         {
           "targetId": "water-scarcity-wars",
@@ -4802,18 +4231,6 @@
           "reasoning": "Grid failure triggers nuclear meltdowns; radioactive releases damage grid further; death spiral"
         },
         {
-          "targetId": "heat-dome-mass-fatality-events",
-          "targetName": "Heat Dome Mass Fatality Events",
-          "relationshipType": "causal",
-          "reasoning": "Grid collapse during extreme heat waves; air conditioning fails; thousands die"
-        },
-        {
-          "targetId": "renewable-energy-intermittency-crisis",
-          "targetName": "Renewable Energy Intermittency Crisis",
-          "relationshipType": "causal",
-          "reasoning": "High renewable penetration without storage creates grid instability; blackouts proliferate"
-        },
-        {
           "targetId": "just-in-time-supply-chain-collapse",
           "targetName": "Just-in-Time Supply Chain Collapse",
           "relationshipType": "causal",
@@ -4830,12 +4247,6 @@
           "targetName": "Renewable Energy NIMBYism",
           "relationshipType": "thematic",
           "reasoning": "Both involve infrastructure opposition; renewable plants need transmission lines locals resist"
-        },
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "sequential",
-          "reasoning": "Delayed grid modernization creates instability; aging infrastructure fails catastrophically"
         },
         {
           "targetId": "ai-compute-resource-wars",
@@ -4862,12 +4273,6 @@
           "reasoning": "Cholera epidemics and collapsed healthcare infrastructure create massive out-of-pocket health costs, pushing families into permanent debt cycles."
         },
         {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "reinforcing",
-          "reasoning": "Gang control of ports and roads blocks food distribution, triggering riots and humanitarian catastrophe."
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "reinforcing",
@@ -4879,12 +4284,6 @@
       "issueId": "heat-dome-mass-fatality-events",
       "issueName": "Heat Dome Mass Fatality Events",
       "connectedTo": [
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Grid collapse during extreme heat waves; AC fails; thousands die"
-        },
         {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
@@ -4932,18 +4331,6 @@
           "targetName": "Climate Refugee Floods",
           "relationshipType": "causal",
           "reasoning": "Agricultural collapse from water shortage forces hundreds of millions to migrate"
-        },
-        {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Asia's breadbaskets fail without glacier meltwater; global food prices explode"
-        },
-        {
-          "targetId": "transboundary-water-treaty-collapse",
-          "targetName": "Transboundary Water Treaty Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Upstream nations (China) dam rivers as glaciers fail; downstream nations (India/Bangladesh) face existential threat"
         }
       ]
     },
@@ -4994,12 +4381,6 @@
       "issueName": "Homelessness Criminalization",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Criminalizing homelessness without addressing underlying housing affordability creates punishment cycles without solving root causes."
-        },
-        {
           "targetId": "mass-incarceration-crisis",
           "targetName": "Mass Incarceration Crisis",
           "relationshipType": "reinforcing",
@@ -5010,12 +4391,6 @@
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "reinforcing",
           "reasoning": "Criminalizing mentally ill homeless people substitutes jails for psychiatric care, worsening mental health outcomes."
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "thematic",
-          "reasoning": "Homeless criminalization disrupts harm reduction services and medication-assisted treatment, driving overdose deaths."
         }
       ]
     },
@@ -5024,22 +4399,10 @@
       "issueName": "Homelessness Genocide",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Unaffordable housing creates mass homelessness; sweeps and clearances turn lethal"
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "causal",
           "reasoning": "Untreated mental illness leads to homelessness; homeless conditions worsen mental health; death spiral"
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "causal",
-          "reasoning": "Addiction drives homelessness; street fentanyl kills homeless en masse; death camps in practice"
         },
         {
           "targetId": "commercial-real-estate-doom-loop-and-downtown-collapse",
@@ -5066,12 +4429,6 @@
           "reasoning": "National Security Law forces tech companies to choose between Hong Kong market access and global privacy commitments, accelerating internet balkanization."
         },
         {
-          "targetId": "great-firewall-expansion",
-          "targetName": "Great Firewall Expansion",
-          "relationshipType": "thematic",
-          "reasoning": "Hong Kong's integration into mainland censorship apparatus expands Great Firewall's reach and normalizes digital authoritarianism."
-        },
-        {
           "targetId": "biometric-microchip-migration-control",
           "targetName": "Biometric Microchip Migration Control",
           "relationshipType": "thematic",
@@ -5083,18 +4440,6 @@
       "issueId": "housing-bubble-and-foreclosure-crisis",
       "issueName": "Housing Bubble and Foreclosure Crisis",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Foreclosures transfer housing to corporate landlords; homeownership becomes impossible for next generation"
-        },
-        {
-          "targetId": "corporate-landlord-cartels",
-          "targetName": "Corporate Landlord Cartels",
-          "relationshipType": "causal",
-          "reasoning": "Private equity buys foreclosed homes in bulk, converting ownership crisis into permanent rentership"
-        },
         {
           "targetId": "commercial-real-estate-doom-loop-and-downtown-collapse",
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
@@ -5114,22 +4459,10 @@
           "reasoning": "Competing models for addressing homelessness while tent cities proliferate, representing different philosophies on whether housing or sobriety should come first."
         },
         {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "thematic",
-          "reasoning": "Treatment First approach prioritizes addressing addiction before housing, while Housing First argues stable shelter is prerequisite for successful recovery."
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "thematic",
           "reasoning": "Both models address overlapping populations with mental health and substance use disorders, with outcomes dependent on integrated care approach."
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Housing First cannot scale without available affordable housing inventory, making ideological debate moot when housing supply is insufficient."
         }
       ]
     },
@@ -5144,12 +4477,6 @@
           "reasoning": "Policy debate over whether to provide housing unconditionally or require substance abuse treatment first shapes criminalization vs. support approaches."
         },
         {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "thematic",
-          "reasoning": "Treatment-first models delay housing for addicted individuals, potentially worsening overdose risks versus housing-first harm reduction."
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "reinforcing",
@@ -5160,38 +4487,7 @@
     {
       "issueId": "housing-impossibility-crisis",
       "issueName": "Housing Impossibility Crisis",
-      "connectedTo": [
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Speculation drives prices beyond affordability; bubble pops but prices stay high due to supply constraints"
-        },
-        {
-          "targetId": "homelessness-genocide",
-          "targetName": "Homelessness Genocide",
-          "relationshipType": "causal",
-          "reasoning": "When median income cannot afford median housing, tent cities explode and violent clearances escalate"
-        },
-        {
-          "targetId": "corporate-landlord-cartels",
-          "targetName": "Corporate Landlord Cartels",
-          "relationshipType": "causal",
-          "reasoning": "Private equity buys housing during crises, converting ownership to permanent rentership"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Boomers' housing wealth comes directly from pricing out millennials/Gen-Z; creates generational conflict"
-        },
-        {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Cannot afford housing means cannot afford children; economic impossibility drives demographic crisis"
-        }
-      ]
+      "connectedTo": []
     },
     {
       "issueId": "human-smuggling-networks",
@@ -5258,12 +4554,6 @@
           "reasoning": "Water ransom triggers public takeover attempts; corporations resist violently"
         },
         {
-          "targetId": "public-utility-privatization-wars",
-          "targetName": "Public Utility Privatization Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Privatization failures drive nationalization movements; ideological battles"
-        },
-        {
           "targetId": "corporate-personhood-battles",
           "targetName": "Corporate Personhood Battles",
           "relationshipType": "thematic",
@@ -5318,12 +4608,6 @@
           "reasoning": "Uninsurable infrastructure accelerates abandonment; stranded assets crash property values"
         },
         {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
-          "relationshipType": "causal",
-          "reasoning": "Coastal cities' infrastructure base destroyed; tax revenue collapses; bond defaults cascade"
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "causal",
@@ -5358,12 +4642,6 @@
           "targetName": "Forever Chemical Contamination Crisis",
           "relationshipType": "causal",
           "reasoning": "PFAS, neonicotinoid pesticides drive insect extinction; toxic contamination in soil and water"
-        },
-        {
-          "targetId": "fungal-crop-switch-coffeecocoa-extinction",
-          "targetName": "Fungal Crop Switch: Coffee/Cocoa Extinction",
-          "relationshipType": "reinforcing",
-          "reasoning": "Insect loss enables fungal outbreaks; ecosystem collapse compounds crop failures"
         },
         {
           "targetId": "amazon-rainforest-dieback",
@@ -5408,22 +4686,10 @@
       "issueName": "Intergenerational Wealth War",
       "connectedTo": [
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Boomers' housing wealth directly prices out younger generations; zero-sum conflict"
-        },
-        {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
           "relationshipType": "causal",
           "reasoning": "Older generations got free college; younger pay crushing debt; intergenerational theft"
-        },
-        {
-          "targetId": "social-security-insolvency",
-          "targetName": "Social Security Insolvency",
-          "relationshipType": "causal",
-          "reasoning": "Boomers collect benefits; Gen X/Millennials pay in but won't receive; generational betrayal"
         }
       ]
     },
@@ -5436,12 +4702,6 @@
           "targetName": "Water Scarcity Wars",
           "relationshipType": "thematic",
           "reasoning": "Both involve water conflicts; transboundary rivers add international dimension to scarcity battles"
-        },
-        {
-          "targetId": "transboundary-water-treaty-collapse",
-          "targetName": "Transboundary Water Treaty Collapse",
-          "relationshipType": "thematic",
-          "reasoning": "River wars emerge when water-sharing treaties fail; upstream nations dam rivers, downstream nations retaliate"
         },
         {
           "targetId": "himalayan-third-pole-glacier-collapse",
@@ -5460,12 +4720,6 @@
           "targetName": "Israel-Palestine Conflict and Gaza Wars",
           "relationshipType": "thematic",
           "reasoning": "Iran's nuclear program interlinks with Israel-Palestine through proxy support for Hamas/Hezbollah and Israeli strike threats."
-        },
-        {
-          "targetId": "petro-state-collapse",
-          "targetName": "Petro-State Collapse",
-          "relationshipType": "sequential",
-          "reasoning": "Iran's petrostate model and regional tensions make oil infrastructure prime targets for asymmetric warfare."
         },
         {
           "targetId": "bioweapon-proliferation",
@@ -5540,12 +4794,6 @@
           "reasoning": "Super-aged society with 30%+ elderly population overwhelms human care capacity, driving robot caregiver adoption."
         },
         {
-          "targetId": "pension-fund-collapse",
-          "targetName": "Pension Fund Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Shrinking working-age population cannot fund retiree benefits, threatening Japan's pension system solvency."
-        },
-        {
           "targetId": "european-migration-crisis",
           "targetName": "European Migration Crisis",
           "relationshipType": "thematic",
@@ -5582,22 +4830,10 @@
       "issueName": "Just-in-Time Supply Chain Collapse",
       "connectedTo": [
         {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Grid failures paralyze logistics; supply chains cannot function without power"
-        },
-        {
           "targetId": "critical-infrastructure-attacks",
           "targetName": "Critical Infrastructure Attacks",
           "relationshipType": "causal",
           "reasoning": "Infrastructure attacks disrupt logistics; JIT systems have no resilience"
-        },
-        {
-          "targetId": "supply-chain-cyber-attacks",
-          "targetName": "Supply Chain Cyber Attacks",
-          "relationshipType": "causal",
-          "reasoning": "Cyber attacks on logistics software paralyze JIT systems; no inventory buffers"
         },
         {
           "targetId": "pandemic-response-wars",
@@ -5736,12 +4972,6 @@
           "targetName": "Human Trafficking Networks",
           "relationshipType": "causal",
           "reasoning": "Failed state enables open-air slave markets where migrants are bought, sold, ransomed for forced labor/sex work."
-        },
-        {
-          "targetId": "petro-state-collapse",
-          "targetName": "Petro-State Collapse",
-          "relationshipType": "thematic",
-          "reasoning": "Libya's oil wealth fuels warlord competition, making infrastructure targets in ongoing civil war."
         }
       ]
     },
@@ -5846,18 +5076,6 @@
           "reasoning": "Digital interaction replaces face-to-face connection; screens increase loneliness despite connectivity"
         },
         {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Lonely people struggle to form relationships and families; isolation prevents reproduction"
-        },
-        {
-          "targetId": "remote-work-revolution",
-          "targetName": "Remote Work Revolution",
-          "relationshipType": "causal",
-          "reasoning": "Work-from-home eliminates casual social interaction; professional isolation compounds personal loneliness"
-        },
-        {
           "targetId": "automated-companion-replacements",
           "targetName": "Automated Companion Replacements",
           "relationshipType": "sequential",
@@ -5876,12 +5094,6 @@
           "reasoning": "Failed containment enables mass infections; millions suffer permanent disability"
         },
         {
-          "targetId": "social-security-insolvency",
-          "targetName": "Social Security Insolvency",
-          "relationshipType": "causal",
-          "reasoning": "Mass disability claims drain Social Security faster than predicted; bankruptcy accelerates"
-        },
-        {
           "targetId": "ai-job-displacement-tsunami",
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "reinforcing",
@@ -5898,18 +5110,6 @@
           "targetName": "Genetic Caste Formation",
           "relationshipType": "reinforcing",
           "reasoning": "Longevity treatments combine with genetic enhancement; enhanced wealthy live centuries while natural humans remain mortal"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Immortal billionaires never transfer wealth; younger generations locked out of inheritance and power forever"
-        },
-        {
-          "targetId": "social-security-insolvency",
-          "targetName": "Social Security Insolvency",
-          "relationshipType": "causal",
-          "reasoning": "Life extension for wealthy means they collect benefits for centuries; system bankrupts under multi-century lifespans"
         }
       ]
     },
@@ -5922,12 +5122,6 @@
           "targetName": "Longevity Apartheid",
           "relationshipType": "causal",
           "reasoning": "Life extension therapies create massive wealth incentives for divorce (to avoid sharing extended lifespan assets)."
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "reinforcing",
-          "reasoning": "If wealthy parents live to 150, children never inherit, creating intergenerational wealth transfer crisis."
         },
         {
           "targetId": "longevity-apartheid",
@@ -6006,12 +5200,6 @@
           "targetName": "Mass Incarceration Crisis",
           "relationshipType": "thematic",
           "reasoning": "Marijuana legalization intersects with broader criminal justice reform battles over expungement and sentencing."
-        },
-        {
-          "targetId": "advertising-surveillance-complex",
-          "targetName": "Advertising Surveillance Complex",
-          "relationshipType": "sequential",
-          "reasoning": "Legal marijuana companies use same surveillance advertising tactics as Big Tech, tracking consumers at population scale."
         }
       ]
     },
@@ -6042,12 +5230,6 @@
           "targetName": "Theocratic Governance Battles",
           "relationshipType": "sequential",
           "reasoning": "Marriage nullification advances theocratic control; religious law supplants secular equality protections"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Marriage benefits denial eliminates joint mortgages; housing discrimination against LGBTQ couples surges after reversal"
         }
       ]
     },
@@ -6084,18 +5266,6 @@
           "targetName": "Pandemic Response Wars",
           "relationshipType": "causal",
           "reasoning": "COVID-19 deaths overwhelmed morgues and funeral capacity, exposing fragility of death infrastructure."
-        },
-        {
-          "targetId": "heat-dome-mass-fatality-events",
-          "targetName": "Heat Dome Mass Fatality Events",
-          "relationshipType": "causal",
-          "reasoning": "Heat domes cause mass simultaneous deaths (thousands in days), exceeding refrigerated morgue capacity."
-        },
-        {
-          "targetId": "heat-dome-mass-fatality-events",
-          "targetName": "Heat Dome Mass Fatality Events",
-          "relationshipType": "reinforcing",
-          "reasoning": "Body storage backlogs increase costs and delays, compounding funeral affordability crisis for grieving families."
         }
       ]
     },
@@ -6114,12 +5284,6 @@
           "targetName": "Police Militarization Escalation",
           "relationshipType": "reinforcing",
           "reasoning": "Militarized policing feeds mass incarceration; prison populations justify more aggressive policing"
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "causal",
-          "reasoning": "Drug war policies drive mass incarceration while failing to prevent addiction crisis"
         }
       ]
     },
@@ -6138,12 +5302,6 @@
           "targetName": "School Shooting Epidemic",
           "relationshipType": "causal",
           "reasoning": "Mass shooting frequency forces schools to normalize active shooter drills, traumatizing children as routine practice."
-        },
-        {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Constant shooter drills and shooting news coverage amplify adolescent anxiety, depression, and hopelessness."
         },
         {
           "targetId": "school-shooting-epidemic",
@@ -6240,24 +5398,6 @@
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "causal",
           "reasoning": "Mass unemployment destroys purpose and identity, triggering despair-driven suicide waves"
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "reinforcing",
-          "reasoning": "Mental health crisis drives self-medication with opioids; overdose deaths compound mental health burden"
-        },
-        {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Both describe same phenomenon at different demographic scales; teen crisis is canary in coal mine"
-        },
-        {
-          "targetId": "loneliness-epidemic",
-          "targetName": "Loneliness Epidemic",
-          "relationshipType": "reinforcing",
-          "reasoning": "Social isolation and mental illness amplify each other in deadly feedback loop"
         }
       ]
     },
@@ -6265,12 +5405,6 @@
       "issueId": "mexican-cartel-violence-and-state-failure",
       "issueName": "Mexican Cartel Violence and State Failure",
       "connectedTo": [
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "causal",
-          "reasoning": "Mexican cartels dominate fentanyl production and smuggling to US, driving overdose epidemic."
-        },
         {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
@@ -6336,18 +5470,6 @@
           "targetName": "Disinformation Plague",
           "relationshipType": "causal",
           "reasoning": "Ad revenue incentives turn misinformation into profitable business model, scaling disinformation production."
-        },
-        {
-          "targetId": "attention-economy-crisis",
-          "targetName": "Attention Economy Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Clickbait misinformation exploits attention economy algorithms, making false content more profitable than truth."
-        },
-        {
-          "targetId": "advertising-surveillance-complex",
-          "targetName": "Advertising Surveillance Complex",
-          "relationshipType": "thematic",
-          "reasoning": "Surveillance advertising enables micro-targeted misinformation campaigns, personalizing lies at population scale."
         }
       ]
     },
@@ -6390,12 +5512,6 @@
           "targetName": "Climate Insurance Collapse and Managed Retreat Wars",
           "relationshipType": "causal",
           "reasoning": "Coastal retreat eliminates property tax base; bond defaults spread from climate zones"
-        },
-        {
-          "targetId": "pension-fund-collapse",
-          "targetName": "Pension Fund Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Pension funds hold municipal bonds; city defaults bankrupt retirement systems"
         }
       ]
     },
@@ -6512,28 +5628,10 @@
           "reasoning": "Sea level rise floods coastal nuclear plants; multiple Fukushima-scale disasters occur simultaneously"
         },
         {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "reinforcing",
-          "reasoning": "Nuclear plants need grid power for cooling; grid failure triggers meltdowns; radioactive releases damage grid further"
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "causal",
           "reasoning": "Nuclear disasters force permanent evacuation of surrounding regions; radiation refugees flee"
-        },
-        {
-          "targetId": "nuclear-waste-storage-crisis",
-          "targetName": "Nuclear Waste Storage Crisis",
-          "relationshipType": "thematic",
-          "reasoning": "Both represent nuclear industry failures; operating plants melt down while waste sits unsafe"
-        },
-        {
-          "targetId": "renewable-energy-transition-delays",
-          "targetName": "Renewable Energy Transition Delays",
-          "relationshipType": "causal",
-          "reasoning": "Nuclear disasters accelerate plant closures; if renewables aren't ready, energy crisis ensues"
         }
       ]
     },
@@ -6596,18 +5694,6 @@
           "reasoning": "Both are fossil fuel industry declines; coal collapses first, oil follows; same social devastation"
         },
         {
-          "targetId": "stranded-asset-crashes",
-          "targetName": "Stranded Asset Crashes",
-          "relationshipType": "causal",
-          "reasoning": "Renewable energy transition makes oil infrastructure worthless overnight; financial crisis ensues"
-        },
-        {
-          "targetId": "petro-state-collapse",
-          "targetName": "Petro-State Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Nations dependent on oil revenue face economic collapse as demand craters"
-        },
-        {
           "targetId": "renewable-energy-nimbyism",
           "targetName": "Renewable Energy NIMBYism",
           "relationshipType": "reinforcing",
@@ -6636,12 +5722,6 @@
           "targetName": "Political Opposition Assassination",
           "relationshipType": "thematic",
           "reasoning": "Kleptocracies eliminate threats through political murder"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Oligarchs launder stolen funds through global property markets"
         },
         {
           "targetId": "mexican-cartel-violence-and-state-failure",
@@ -6710,12 +5790,6 @@
           "reasoning": "Climate refugees face militarized borders"
         },
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Displaced islanders need housing creating pressure on receiving nations"
-        },
-        {
           "targetId": "economic-immigration-conflicts",
           "targetName": "Economic Immigration Conflicts",
           "relationshipType": "causal",
@@ -6770,12 +5844,6 @@
       "issueName": "Pandemic Response Wars",
       "connectedTo": [
         {
-          "targetId": "vaccine-hesitancy-wars",
-          "targetName": "Vaccine Hesitancy Wars",
-          "relationshipType": "reinforcing",
-          "reasoning": "Pandemic measures trigger anti-vax backlash; low vaccination enables pandemic persistence"
-        },
-        {
           "targetId": "disinformation-plague",
           "targetName": "Disinformation Plague",
           "relationshipType": "reinforcing",
@@ -6798,24 +5866,6 @@
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
           "relationshipType": "causal",
           "reasoning": "Pension funds heavily invested in commercial real estate; value collapse bankrupts retirement systems"
-        },
-        {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
-          "relationshipType": "causal",
-          "reasoning": "Pensions hold city bonds; defaults trigger fund insolvency"
-        },
-        {
-          "targetId": "social-security-insolvency",
-          "targetName": "Social Security Insolvency",
-          "relationshipType": "thematic",
-          "reasoning": "Both are retirement system failures; pensions collapse first, Social Security follows"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Pension collapse forces workers to extend careers; youth unemployment rises; generational conflict intensifies"
         }
       ]
     },
@@ -6836,12 +5886,6 @@
           "reasoning": "Arctic warming thaws permafrost releasing methane; methane accelerates warming leading to ice-free ocean"
         },
         {
-          "targetId": "infrastructure-subsidence-collapse",
-          "targetName": "Infrastructure Subsidence Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Thawing permafrost undermines buildings, pipelines, and roads across Arctic regions"
-        },
-        {
           "targetId": "aerosol-geoengineering-proxy-war",
           "targetName": "Aerosol Geoengineering Proxy War",
           "relationshipType": "sequential",
@@ -6858,12 +5902,6 @@
           "targetName": "Oil Industry Death Throes",
           "relationshipType": "causal",
           "reasoning": "Nations dependent on oil revenue face economic collapse as demand craters"
-        },
-        {
-          "targetId": "stranded-asset-crashes",
-          "targetName": "Stranded Asset Crashes",
-          "relationshipType": "causal",
-          "reasoning": "Oil reserves in ground become worthless; petro-states lose national wealth"
         },
         {
           "targetId": "climate-refugee-floods",
@@ -7050,18 +6088,6 @@
           "targetName": "Disinformation Plague",
           "relationshipType": "causal",
           "reasoning": "When truth is unknowable, governance becomes purely power-based not evidence-based"
-        },
-        {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "causal",
-          "reasoning": "Evidence verification failures force post-truth governance; courts powerless"
-        },
-        {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Electoral truth becomes unknowable; democracy dies in epistemic collapse"
         }
       ]
     },
@@ -7152,12 +6178,6 @@
           "targetName": "Water Desalination Mega-Trusts",
           "relationshipType": "thematic",
           "reasoning": "Both involve essential services captured by profit-driven entities; public access privilege"
-        },
-        {
-          "targetId": "infrastructure-nationalization-battles",
-          "targetName": "Infrastructure Nationalization Battles",
-          "relationshipType": "sequential",
-          "reasoning": "Privatization failures trigger public takeover attempts; corporations resist violently"
         }
       ]
     },
@@ -7238,12 +6258,6 @@
           "reasoning": "Only largest institutions can afford quantum trading infrastructure"
         },
         {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Market manipulation affects all asset classes including real estate"
-        },
-        {
           "targetId": "mexican-cartel-violence-and-state-failure",
           "targetName": "Organized Crime Sovereignty",
           "relationshipType": "thematic",
@@ -7260,18 +6274,6 @@
           "targetName": "State-Sponsored Hacking Epidemic",
           "relationshipType": "causal",
           "reasoning": "Quantum computers break all encryption; states harvest encrypted data for future decryption"
-        },
-        {
-          "targetId": "cryptocurrency-crime-economy",
-          "targetName": "Cryptocurrency Crime Economy",
-          "relationshipType": "causal",
-          "reasoning": "Quantum breaks blockchain; crypto wallets vulnerable; crime economy adapts"
-        },
-        {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "causal",
-          "reasoning": "Quantum breaks cryptographic evidence verification; trust systems collapse"
         }
       ]
     },
@@ -7326,12 +6328,6 @@
           "targetName": "Mass Incarceration Crisis",
           "relationshipType": "thematic",
           "reasoning": "Both are manifestations of structural racism; incarceration feeds police violence pipeline"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Racial wealth gap from redlining and discrimination concentrates housing crisis on Black/Brown communities"
         }
       ]
     },
@@ -7350,18 +6346,6 @@
           "targetName": "Critical Infrastructure Attacks",
           "relationshipType": "thematic",
           "reasoning": "Ransomware targets hospitals, pipelines, utilities; infrastructure paralysis for profit"
-        },
-        {
-          "targetId": "cryptocurrency-crime-economy",
-          "targetName": "Cryptocurrency Crime Economy",
-          "relationshipType": "reinforcing",
-          "reasoning": "Crypto enables untraceable ransomware payments; ransom money funds more attacks"
-        },
-        {
-          "targetId": "cyber-insurance-collapse",
-          "targetName": "Cyber Insurance Collapse",
-          "relationshipType": "sequential",
-          "reasoning": "Ransomware claims bankrupt insurers; businesses cannot get coverage; attacks worsen"
         }
       ]
     },
@@ -7386,18 +6370,6 @@
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
           "relationshipType": "causal",
           "reasoning": "Permanent work-from-home destroys office demand; downtown real estate becomes stranded asset"
-        },
-        {
-          "targetId": "transit-death-spirals",
-          "targetName": "Transit Death Spirals",
-          "relationshipType": "causal",
-          "reasoning": "No commuters means no transit revenue; service collapses without ridership"
-        },
-        {
-          "targetId": "loneliness-epidemic",
-          "targetName": "Loneliness Epidemic",
-          "relationshipType": "causal",
-          "reasoning": "Work-from-home eliminates casual social interaction; professional isolation compounds loneliness"
         }
       ]
     },
@@ -7454,12 +6426,6 @@
           "reasoning": "Data center energy demands override local opposition to renewable projects; AI wins, communities lose"
         },
         {
-          "targetId": "grid-modernization-battles",
-          "targetName": "Grid Modernization Battles",
-          "relationshipType": "thematic",
-          "reasoning": "Both involve infrastructure opposition; renewable plants need transmission lines that locals also resist"
-        },
-        {
           "targetId": "oil-industry-death-throes",
           "targetName": "Oil Industry Death Throes",
           "relationshipType": "reinforcing",
@@ -7482,12 +6448,6 @@
           "targetName": "Nuclear Plant Crisis Cascade",
           "relationshipType": "causal",
           "reasoning": "Nuclear disasters accelerate plant closures; if renewables not ready, energy crisis"
-        },
-        {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Delayed transition leaves aging grid infrastructure; failures proliferate"
         }
       ]
     },
@@ -7502,22 +6462,10 @@
           "reasoning": "Sustained racial justice protests make reparations politically viable; movement momentum translates to policy demands"
         },
         {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "reinforcing",
-          "reasoning": "Reparations require wealth transfers from white to Black families; compounds generational wealth conflicts"
-        },
-        {
           "targetId": "climate-loss-damage-sovereign-debt-spiral",
           "targetName": "Climate Loss & Damage Sovereign Debt Spiral",
           "relationshipType": "thematic",
           "reasoning": "Both demand compensation for historical injustices; domestic slavery reparations parallel Global South climate debt claims"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Housing reparations (reversing redlining) collide with general housing scarcity; Black homeownership solutions worsen white affordability"
         }
       ]
     },
@@ -7566,12 +6514,6 @@
           "targetName": "Deepfake Reality Crisis",
           "relationshipType": "causal",
           "reasoning": "Deepfake porn creation trivial; millions victimized with fabricated imagery"
-        },
-        {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Deepfake porn of minors drives suicide; technology enables mass victimization"
         },
         {
           "targetId": "social-media-addiction-crisis",
@@ -7657,12 +6599,6 @@
       "issueId": "school-shooting-epidemic",
       "issueName": "School Shooting Epidemic",
       "connectedTo": [
-        {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Untreated teen mental illness, isolation, and rage manifest as mass shootings"
-        },
         {
           "targetId": "gun-rights-absolutism",
           "targetName": "Gun Rights Absolutism",
@@ -7760,12 +6696,6 @@
       "issueName": "Semiconductor Sovereignty Wars",
       "connectedTo": [
         {
-          "targetId": "chip-manufacturing-monopolies",
-          "targetName": "Chip Manufacturing Monopolies",
-          "relationshipType": "thematic",
-          "reasoning": "Both describe geopolitical battles over chip production; sovereignty wars arise from monopolies"
-        },
-        {
           "targetId": "taiwan-invasion-crisis",
           "targetName": "Taiwan Invasion Crisis",
           "relationshipType": "causal",
@@ -7776,18 +6706,6 @@
           "targetName": "AI Compute Resource Wars",
           "relationshipType": "reinforcing",
           "reasoning": "Semiconductor export controls determine AI capabilities; chip wars are compute wars"
-        },
-        {
-          "targetId": "supply-chain-cyber-attacks",
-          "targetName": "Supply Chain Cyber Attacks",
-          "relationshipType": "reinforcing",
-          "reasoning": "Hardware supply chain compromises drive domestic chip production mandates; security vs. globalization"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "Semiconductor sovereignty is dimension of cyber cold war; chip production as geopolitical weapon"
         }
       ]
     },
@@ -7802,12 +6720,6 @@
           "reasoning": "Social media addiction directly drives teen depression, anxiety, and suicide rates through dopamine manipulation, social comparison, and cyberbullying"
         },
         {
-          "targetId": "attention-economy-crisis",
-          "targetName": "Attention Economy Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Both driven by same platform business models optimizing for engagement over wellbeing; each success metric worsens the other"
-        },
-        {
           "targetId": "disinformation-plague",
           "targetName": "Disinformation Plague",
           "relationshipType": "reinforcing",
@@ -7818,12 +6730,6 @@
           "targetName": "Cancel Culture Tribunal",
           "relationshipType": "causal",
           "reasoning": "Platform addiction creates 24/7 mob dynamics where users participate in outrage cycles for dopamine hits"
-        },
-        {
-          "targetId": "teen-mental-health-crisis",
-          "targetName": "Teen Mental Health Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Screen addiction during critical developmental years causes permanent neurological changes, depression, and suicide ideation"
         }
       ]
     },
@@ -7832,28 +6738,10 @@
       "issueName": "Social Security Insolvency",
       "connectedTo": [
         {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Fewer workers supporting more retirees; demographic crisis bankrupts pay-as-you-go system"
-        },
-        {
           "targetId": "long-covid-labor-collapse",
           "targetName": "Long COVID Labor Collapse",
           "relationshipType": "causal",
           "reasoning": "Mass disability claims drain Social Security faster than predicted; insolvency accelerates"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Boomers collect full benefits; younger generations pay in but system bankrupt before they retire"
-        },
-        {
-          "targetId": "pension-fund-collapse",
-          "targetName": "Pension Fund Collapse",
-          "relationshipType": "thematic",
-          "reasoning": "Both retirement systems fail; pensions go first, Social Security follows; retiree poverty explodes"
         }
       ]
     },
@@ -7914,24 +6802,6 @@
           "targetName": "Semiconductor Sovereignty Wars",
           "relationshipType": "thematic",
           "reasoning": "Both involve great power competition over critical chokepoints (sea lanes vs chip supply chains)"
-        },
-        {
-          "targetId": "rare-earth-monopoly-weaponization",
-          "targetName": "Rare-Earth Monopoly Weaponization",
-          "relationshipType": "thematic",
-          "reasoning": "China leverages geographic control of critical resources (rare earths/sea lanes) for geopolitical advantage"
-        },
-        {
-          "targetId": "space-warfare-normalization",
-          "targetName": "Space Warfare Normalization",
-          "relationshipType": "thematic",
-          "reasoning": "Both represent great power competition for strategic domains critical to modern warfare"
-        },
-        {
-          "targetId": "hypersonic-weapons-race",
-          "targetName": "Hypersonic Weapons Race",
-          "relationshipType": "reinforcing",
-          "reasoning": "Hypersonic missiles deployed to counter carrier groups in South China Sea, accelerating arms race"
         }
       ]
     },
@@ -7939,12 +6809,6 @@
       "issueId": "south-korea-demographic-death-spiral",
       "issueName": "South Korea Demographic Death Spiral",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Extreme housing costs in Seoul deter family formation"
-        },
         {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
@@ -7975,12 +6839,6 @@
       "issueId": "southern-europe-demographic-collapse",
       "issueName": "Southern Europe Demographic Collapse",
       "connectedTo": [
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "High housing costs deter family formation in Southern Europe"
-        },
         {
           "targetId": "student-debt-slavery",
           "targetName": "Student Debt Slavery",
@@ -8040,30 +6898,6 @@
           "targetName": "AI Compute Resource Wars",
           "relationshipType": "reinforcing",
           "reasoning": "Data localization laws prevent cross-border AI training; compute nationalism fragments global innovation"
-        },
-        {
-          "targetId": "great-firewall-expansion",
-          "targetName": "Great Firewall Expansion",
-          "relationshipType": "thematic",
-          "reasoning": "Both represent technological sovereignty battles; nations copy China's internet control model"
-        },
-        {
-          "targetId": "digital-trade-wars",
-          "targetName": "Digital Trade Wars",
-          "relationshipType": "causal",
-          "reasoning": "App store blocking and cloud seizures trigger retaliatory tariffs and economic decoupling"
-        },
-        {
-          "targetId": "censorship-industrial-complex",
-          "targetName": "Censorship Industrial Complex",
-          "relationshipType": "sequential",
-          "reasoning": "Splinternet enables nations to enforce local content controls without foreign platform interference"
-        },
-        {
-          "targetId": "vpn-crackdown-wars",
-          "targetName": "VPN Crackdown Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Data localization laws trigger cat-and-mouse game with VPN users trying to bypass restrictions"
         }
       ]
     },
@@ -8102,12 +6936,6 @@
           "reasoning": "Wassenaar export regime collapse triggers spyware blocs aligned with geopolitical alliances; competing spyware champions create balkanized surveillance infrastructure"
         },
         {
-          "targetId": "digital-chain-of-custody-wars",
-          "targetName": "Digital Chain of Custody Wars",
-          "relationshipType": "sequential",
-          "reasoning": "Spyware-planted evidence forces emergency deployment of cryptographic chain-of-custody; courts cannot verify authenticity of digital surveillance creating legal system crisis"
-        },
-        {
           "targetId": "human-trafficking-networks",
           "targetName": "Human Trafficking Networks",
           "relationshipType": "causal",
@@ -8142,12 +6970,6 @@
           "targetName": "Commodity Currency Fragmentation and De-Dollarization",
           "relationshipType": "sequential",
           "reasoning": "Dollar liquidity crisis accelerates shift to commodity-backed currencies; stablecoin failures undermine digital dollar dominance"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Financial market contagion from stablecoin runs triggers broader asset price collapse; crypto-collateralized loans default"
         }
       ]
     },
@@ -8166,24 +6988,6 @@
           "targetName": "Critical Infrastructure Attacks",
           "relationshipType": "thematic",
           "reasoning": "State hackers target infrastructure as asymmetric warfare; both are manifestations of cyber conflict"
-        },
-        {
-          "targetId": "election-integrity-collapse",
-          "targetName": "Election Integrity Collapse",
-          "relationshipType": "causal",
-          "reasoning": "State hackers manipulate voter databases and election systems; democracy undermined"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "State hacking is primary weapon of cyber warfare; both describe same geopolitical conflict"
-        },
-        {
-          "targetId": "supply-chain-cyber-attacks",
-          "targetName": "Supply Chain Cyber Attacks",
-          "relationshipType": "thematic",
-          "reasoning": "States compromise software supply chains to infiltrate targets; SolarWinds-style attacks proliferate"
         }
       ]
     },
@@ -8202,18 +7006,6 @@
           "targetName": "Coal Country Collapse",
           "relationshipType": "causal",
           "reasoning": "Coal assets become stranded first; preview of broader fossil fuel asset crashes"
-        },
-        {
-          "targetId": "pension-fund-collapse",
-          "targetName": "Pension Fund Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Pension funds hold fossil fuel assets; value collapse bankrupts retirement systems"
-        },
-        {
-          "targetId": "petro-state-collapse",
-          "targetName": "Petro-State Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Oil-dependent nations face economic collapse as reserves become stranded assets"
         }
       ]
     },
@@ -8226,24 +7018,6 @@
           "targetName": "AI Job Displacement Tsunami",
           "relationshipType": "reinforcing",
           "reasoning": "Degrees become worthless as AI replaces credentialed workers; debt remains unpayable"
-        },
-        {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Student debt prevents family formation; graduates cannot afford children until debt is paid"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Debt payments prevent saving for down payment; housing becomes permanently out of reach"
-        },
-        {
-          "targetId": "intergenerational-wealth-war",
-          "targetName": "Intergenerational Wealth War",
-          "relationshipType": "causal",
-          "reasoning": "Older generations got free/cheap college; younger generations pay crushing debt for same credentials"
         }
       ]
     },
@@ -8268,12 +7042,6 @@
           "targetName": "Semiconductor Sovereignty Wars",
           "relationshipType": "reinforcing",
           "reasoning": "Blockages disrupt critical supply chains including chips"
-        },
-        {
-          "targetId": "housing-bubble-and-foreclosure-crisis",
-          "targetName": "Housing Bubble and Foreclosure Crisis",
-          "relationshipType": "sequential",
-          "reasoning": "Supply chain disruptions drive construction cost inflation"
         },
         {
           "targetId": "ransomware-pandemic",
@@ -8304,18 +7072,6 @@
           "targetName": "Just-in-Time Supply Chain Collapse",
           "relationshipType": "causal",
           "reasoning": "Cyber attacks on logistics software paralyze supply chains; JIT systems cannot function"
-        },
-        {
-          "targetId": "chip-manufacturing-monopolies",
-          "targetName": "Chip Manufacturing Monopolies",
-          "relationshipType": "reinforcing",
-          "reasoning": "Hardware supply chain compromises (chip backdoors) drive domestic production mandates"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "Supply chain attacks are primary weapon of cyber warfare; interdependence weaponized"
         }
       ]
     },
@@ -8462,12 +7218,6 @@
           "reasoning": "Tent cities become visible concentrations of homelessness that trigger political pressure for criminalization, sweeps, and hostile architecture."
         },
         {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "causal",
-          "reasoning": "Severe housing affordability gaps directly cause tent city formation when people are priced out of shelter and formal housing markets collapse."
-        },
-        {
           "targetId": "mental-health-apocalypse",
           "targetName": "Mental Health Apocalypse",
           "relationshipType": "reinforcing",
@@ -8478,12 +7228,6 @@
           "targetName": "Public Transit Death Spiral",
           "relationshipType": "reinforcing",
           "reasoning": "Tent cities near transit hubs deter ridership, reducing revenue and justifying service cuts, while poor transit access limits employment opportunities for homeless."
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "reinforcing",
-          "reasoning": "Addiction drives housing loss, while tent cities become hubs for drug distribution and overdose deaths due to lack of medical supervision."
         }
       ]
     },
@@ -8538,24 +7282,6 @@
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
           "relationshipType": "reinforcing",
           "reasoning": "Empty offices eliminate commuters; transit loses revenue; service cuts make downtown less accessible; doom loop"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Transit-oriented development fails; transit-accessible housing becomes worthless; sprawl intensifies"
-        },
-        {
-          "targetId": "municipal-bond-apocalypse",
-          "targetName": "Municipal Bond Apocalypse",
-          "relationshipType": "causal",
-          "reasoning": "Transit agency debt becomes unpayable; bond defaults spread through public finance system"
-        },
-        {
-          "targetId": "remote-work-revolution",
-          "targetName": "Remote Work Revolution",
-          "relationshipType": "causal",
-          "reasoning": "Permanent work-from-home destroys commuter demand; ridership never recovers"
         }
       ]
     },
@@ -8606,18 +7332,6 @@
           "reasoning": "Cable sabotage is infrastructure attack; severs internet and power connections"
         },
         {
-          "targetId": "grid-collapse-cascades",
-          "targetName": "Grid Collapse Cascades",
-          "relationshipType": "causal",
-          "reasoning": "Powerline sabotage triggers grid failures; cascading blackouts across regions"
-        },
-        {
-          "targetId": "cyber-cold-war",
-          "targetName": "Cyber Cold War",
-          "relationshipType": "thematic",
-          "reasoning": "Cable sabotage is hybrid warfare; physical attacks on digital infrastructure"
-        },
-        {
           "targetId": "just-in-time-supply-chain-collapse",
           "targetName": "Just-in-Time Supply Chain Collapse",
           "relationshipType": "causal",
@@ -8659,12 +7373,6 @@
       "issueId": "universal-basic-income-trials",
       "issueName": "Universal Basic Income Trials",
       "connectedTo": [
-        {
-          "targetId": "universal-basic-income-battles",
-          "targetName": "Universal Basic Income Battles",
-          "relationshipType": "sequential",
-          "reasoning": "Successful trials prove UBI viability; political battles over implementation scale and funding intensify"
-        },
         {
           "targetId": "ai-job-displacement-tsunami",
           "targetName": "AI Job Displacement Tsunami",
@@ -8736,12 +7444,6 @@
           "targetName": "Climate Refugee Floods",
           "relationshipType": "thematic",
           "reasoning": "Subsidence forces urban migration as cities become uninhabitable"
-        },
-        {
-          "targetId": "housing-impossibility-crisis",
-          "targetName": "Housing Impossibility Crisis",
-          "relationshipType": "reinforcing",
-          "reasoning": "Subsidence destroys housing stock and drives up costs"
         }
       ]
     },
@@ -8846,12 +7548,6 @@
           "reasoning": "Veteran suicide is concentrated manifestation of broader mental health crisis; 22 per day highlights systemic treatment failure"
         },
         {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "reinforcing",
-          "reasoning": "PTSD drives opioid addiction among veterans; VA overprescription creates addiction pipeline leading to overdose deaths"
-        },
-        {
           "targetId": "medical-bankruptcy-epidemic",
           "targetName": "Medical Bankruptcy Epidemic",
           "relationshipType": "causal",
@@ -8888,28 +7584,10 @@
           "reasoning": "Virtual world residence makes uploading attractive; exodus accelerates as people seek permanent digital migration"
         },
         {
-          "targetId": "remote-work-revolution",
-          "targetName": "Remote Work Revolution",
-          "relationshipType": "sequential",
-          "reasoning": "Remote work enables virtual residence; people move entirely into digital worlds for work and leisure"
-        },
-        {
-          "targetId": "birth-rate-collapse",
-          "targetName": "Birth Rate Collapse",
-          "relationshipType": "causal",
-          "reasoning": "Virtual world residents don't reproduce physically; exodus accelerates demographic crisis"
-        },
-        {
           "targetId": "commercial-real-estate-doom-loop-and-downtown-collapse",
           "targetName": "Commercial Real Estate Doom Loop and Downtown Collapse",
           "relationshipType": "reinforcing",
           "reasoning": "Virtual exodus eliminates need for physical offices; accelerates downtown abandonment and real estate collapse"
-        },
-        {
-          "targetId": "loneliness-epidemic",
-          "targetName": "Loneliness Epidemic",
-          "relationshipType": "causal",
-          "reasoning": "Virtual world relationships replace physical ones; paradoxically increases loneliness despite constant digital contact"
         }
       ]
     },
@@ -8918,22 +7596,10 @@
       "issueName": "VPN Crackdown Wars",
       "connectedTo": [
         {
-          "targetId": "great-firewall-expansion",
-          "targetName": "Great Firewall Expansion",
-          "relationshipType": "causal",
-          "reasoning": "Firewall expansion drives VPN adoption; crackdowns attempt to block circumvention"
-        },
-        {
           "targetId": "splinternet-and-data-localization-wars",
           "targetName": "Splinternet and Data Localization Wars",
           "relationshipType": "sequential",
           "reasoning": "Data localization laws make VPNs illegal; users criminalized for accessing foreign services"
-        },
-        {
-          "targetId": "censorship-industrial-complex",
-          "targetName": "Censorship Industrial Complex",
-          "relationshipType": "reinforcing",
-          "reasoning": "VPN crackdowns create market for sophisticated circumvention; arms race escalates"
         }
       ]
     },
@@ -8946,12 +7612,6 @@
           "targetName": "Mass Incarceration Crisis",
           "relationshipType": "causal",
           "reasoning": "Drug war directly drives mass incarceration through mandatory minimums and three-strikes laws, filling prisons with nonviolent offenders."
-        },
-        {
-          "targetId": "opioid-settlement-fallout-and-fentanyl-wave",
-          "targetName": "Opioid Settlement Fallout and Fentanyl Wave",
-          "relationshipType": "causal",
-          "reasoning": "Prohibition creates black market where fentanyl replaces heroin due to potency-to-weight ratio, directly causing overdose crisis."
         },
         {
           "targetId": "racial-reckoning-cycles",
@@ -8990,22 +7650,10 @@
           "reasoning": "Scarcity enables corporate monopolies to charge ransom prices for desalinated water"
         },
         {
-          "targetId": "public-utility-privatization-wars",
-          "targetName": "Public Utility Privatization Wars",
-          "relationshipType": "thematic",
-          "reasoning": "Both involve essential services captured by profit-driven entities; public access becomes privilege"
-        },
-        {
           "targetId": "climate-refugee-floods",
           "targetName": "Climate Refugee Floods",
           "relationshipType": "reinforcing",
           "reasoning": "Climate migration concentrates populations in coastal areas dependent on corporate desalination"
-        },
-        {
-          "targetId": "infrastructure-nationalization-battles",
-          "targetName": "Infrastructure Nationalization Battles",
-          "relationshipType": "sequential",
-          "reasoning": "Water ransom triggers public takeover attempts; corporations resist violently"
         }
       ]
     },
@@ -9036,18 +7684,6 @@
           "targetName": "Himalayan Third Pole Glacier Collapse",
           "relationshipType": "causal",
           "reasoning": "Glacier melt eliminates dry-season water for 2 billion people in Asia, triggering international water conflicts"
-        },
-        {
-          "targetId": "food-crisis-riots",
-          "targetName": "Food Crisis Riots",
-          "relationshipType": "causal",
-          "reasoning": "Water scarcity crashes agricultural yields, driving food prices to riot-inducing levels"
-        },
-        {
-          "targetId": "transboundary-water-treaty-collapse",
-          "targetName": "Transboundary Water Treaty Collapse",
-          "relationshipType": "sequential",
-          "reasoning": "Scarcity causes upstream nations to violate water-sharing treaties, triggering downstream military responses"
         }
       ]
     },
@@ -9114,12 +7750,6 @@
           "targetName": "Nuclear Plant Crisis Cascade",
           "relationshipType": "causal",
           "reasoning": "Coastal nuclear plants flooded by rapid sea level rise; multiple Fukushima-scale disasters"
-        },
-        {
-          "targetId": "infrastructure-underwater-trillions",
-          "targetName": "Infrastructure Underwater Trillions",
-          "relationshipType": "causal",
-          "reasoning": "Trillions in coastal infrastructure becomes worthless; economic collapse of maritime nations"
         }
       ]
     },

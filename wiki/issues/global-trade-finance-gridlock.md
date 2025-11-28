@@ -2,14 +2,14 @@
 id: global-trade-finance-gridlock
 title: Global Trade Finance Gridlock
 number: 108
-category: Economic
+category: [Economic, Political]
 urgency: High
 tags: [trade-finance, letters-of-credit, banking, trade, supply-chain, liquidity, geopolitical-risk]
 publicConcern: 38
 economicImpact: 88
 socialImpact: 71
 affectedSystems: [Financial Markets, Global Trade, Banking Sector, Supply Chain, Emerging Markets]
-connections: [banking-crisis, supply-chain-fragility, sanctions-regime, de-dollarization]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

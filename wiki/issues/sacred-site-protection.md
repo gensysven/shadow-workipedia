@@ -2,14 +2,14 @@
 id: sacred-site-protection
 title: Sacred Site Protection
 number: 343
-category: Cultural
+category: [Cultural, Infrastructure]
 urgency: Medium
 tags: [indigenous, sacred-sites, religion, land, development, heritage, indigenous-rights, sovereignty]
 publicConcern: 48
 economicImpact: 55
 socialImpact: 72
 affectedSystems: [Indigenous Rights, Land Use, Cultural Heritage, Development, Government Relations]
-connections: [indigenous-land-rights, resource-extraction-conflicts, cultural-preservation, colonial-legacy, state-corporate-relations]
+connections: [resource-extraction-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

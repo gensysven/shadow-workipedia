@@ -2,14 +2,14 @@
 id: endless-war-authorization
 title: Endless War Authorization
 number: 82
-category: Security
+category: [Security, Political]
 urgency: High
 tags: [aumf, war-powers, congress, military, executive-power, terrorism]
 publicConcern: 54
 economicImpact: 68
 socialImpact: 72
 affectedSystems: [Military Systems, Constitutional Order, Congressional Authority, Executive Power]
-connections: [drone-warfare-normalization, executive-overreach, congressional-dysfunction, perpetual-war-state]
+connections: [drone-warfare-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

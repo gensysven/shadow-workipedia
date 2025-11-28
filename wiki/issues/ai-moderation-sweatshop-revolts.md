@@ -2,7 +2,7 @@
 id: ai-moderation-sweatshop-revolts
 title: AI Moderation Sweatshop Revolts
 number: SW#112
-category: Economic
+category: [Technological, Economic, Social]
 urgency: High
 tags: [labor, ai, content-moderation, global-south, mental-health, exploitation, organizing]
 publicConcern: 55

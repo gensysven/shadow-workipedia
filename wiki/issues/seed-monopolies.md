@@ -2,14 +2,14 @@
 id: seed-monopolies
 title: Seed Monopolies
 number: 459
-category: Agriculture
+category: [Economic, Environmental]
 urgency: High
 tags: [agriculture, monopoly-power, food-security, intellectual-property, corporate-consolidation]
 publicConcern: 6/10
 economicImpact: 7/10
 socialImpact: 8/10
 affectedSystems: [Agriculture, Food-Security, Biodiversity, Intellectual-Property]
-connections: [seed-sovereignty-and-genetic-diversity-loss, food-system-fragility, monopoly-consolidation]
+connections: [seed-sovereignty-and-genetic-diversity-loss]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

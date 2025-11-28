@@ -2,14 +2,14 @@
 id: european-energy-shock-and-heating-crisis
 title: European Energy Shock and Heating Crisis
 number: 84
-category: Economic
+category: [Economic, Political, Social, Infrastructure]
 urgency: Critical
 tags: [energy, europe, russia, gas, heating, inflation, sanctions, geopolitics, energy-security]
 publicConcern: 81
 economicImpact: 89
 socialImpact: 84
 affectedSystems: [Energy Systems, Economic Systems, Social Welfare, Industry]
-connections: [ukraine-war, sanctions-regime, energy-transition-chaos, industrial-deindustrialization, inflation-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

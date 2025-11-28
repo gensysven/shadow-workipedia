@@ -9,7 +9,7 @@ publicConcern: 65
 economicImpact: 72
 socialImpact: 78
 affectedSystems: [Internet Platforms, Media, Legal System, Democracy]
-connections: [platform-power-abuse, disinformation-plague, free-speech-absolutism]
+connections: [platform-power-abuse,disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

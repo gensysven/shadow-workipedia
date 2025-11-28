@@ -2,14 +2,14 @@
 id: quantum-sensor-total-recall
 title: Quantum Sensor Total Recall
 number: 335
-category: Technological
+category: [Technological, Political, Social]
 urgency: Medium
 tags: [quantum, surveillance, privacy, sensors, tracking, technology]
 publicConcern: 45
 economicImpact: 62
 socialImpact: 78
 affectedSystems: [Privacy, Surveillance, Military, Intelligence, Civil Liberties]
-connections: [surveillance-state-expansion, privacy-erosion, quantum-computing-encryption-collapse]
+connections: [surveillance-state-expansion,quantum-computing-encryption-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

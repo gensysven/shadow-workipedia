@@ -2,14 +2,14 @@
 id: global-open-source-weapon-swarms
 title: Global Open-Source Weapon Swarms
 number: 104
-category: Security
+category: [Technological, Security, Infrastructure]
 urgency: Critical
 tags: [drones, weapons, open-source, swarms, terrorism, proliferation, 3d-printing]
 publicConcern: 61
 economicImpact: 72
 socialImpact: 86
 affectedSystems: [Security, Technology, International Relations, Defense]
-connections: [autonomous-weapons-proliferation, drone-warfare-normalization, terrorism-evolution, defense-industry-disruption]
+connections: [autonomous-weapons-proliferation, drone-warfare-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

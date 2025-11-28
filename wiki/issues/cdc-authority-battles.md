@@ -2,14 +2,14 @@
 id: cdc-authority-battles
 title: CDC Authority Battles
 number: 418
-category: Political
+category: [Political, Social]
 urgency: High
 tags: [public-health, regulation, pandemic-response, federal-authority, states-rights, expertise]
 publicConcern: 70
 economicImpact: 55
 socialImpact: 65
 affectedSystems: [Public Health, Federal Governance, Scientific Authority, State Relations]
-connections: [pandemic-response-failures, vaccine-hesitancy-resurgence, public-health-funding-collapse]
+connections: [public-health-funding-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

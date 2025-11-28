@@ -2,14 +2,14 @@
 id: grid-level-copper-theft-and-critical-mineral-looting
 title: Grid-Level Copper Theft and Critical Mineral Looting
 number: 111
-category: Infrastructure
+category: [Economic, Infrastructure, Security]
 urgency: High
 tags: [copper, theft, infrastructure, grid, crime, energy, minerals, organized-crime, supply-chain]
 publicConcern: 52
 economicImpact: 74
 socialImpact: 71
 affectedSystems: [Energy Infrastructure, Criminal Systems, Economic Systems, Supply Chain]
-connections: [critical-infrastructure-attacks, organized-crime-expansion, energy-grid-vulnerability, rare-earth-squeeze]
+connections: [critical-infrastructure-attacks]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

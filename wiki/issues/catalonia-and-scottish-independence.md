@@ -2,14 +2,14 @@
 id: catalonia-and-scottish-independence
 title: Catalonia and Scottish Independence
 number: 417
-category: Political
+category: [Political, Cultural, Economic]
 urgency: Medium
 tags: [separatism, sovereignty, nationalism, regional-politics, self-determination, eu]
 publicConcern: 55
 economicImpact: 60
 socialImpact: 70
 affectedSystems: [Political Stability, Economic Integration, National Identity, EU Relations]
-connections: [brexit-economic-damage, kurdish-independence-suppression, basque-nationalism]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -9,7 +9,7 @@ publicConcern: 68
 economicImpact: 54
 socialImpact: 79
 affectedSystems: [Judicial System, Political System, Constitutional Order, Democratic Institutions]
-connections: [judicial-capture, supreme-court-legitimacy-crisis, democratic-backsliding, constitutional-hardball]
+connections: [supreme-court-legitimacy-crisis, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

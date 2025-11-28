@@ -9,7 +9,7 @@ publicConcern: 8/10
 economicImpact: 5/10
 socialImpact: 6/10
 affectedSystems: [Consumer-Finance, Digital-Economy, Mental-Health, Software-Industry]
-connections: [subscription-fatigue, dark-patterns, consumer-exploitation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

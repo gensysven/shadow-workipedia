@@ -9,7 +9,7 @@ publicConcern: 62
 economicImpact: 71
 socialImpact: 78
 affectedSystems: [Water Systems, Energy Infrastructure, Corporate Power, Geopolitics, Climate Systems]
-connections: [freshwater-crisis, corporate-power-consolidation, energy-scarcity, global-inequality, environmental-degradation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

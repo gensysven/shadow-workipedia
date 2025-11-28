@@ -2,7 +2,7 @@
 id: four-day-week-movements
 title: Four-Day Week Movements
 number: 434
-category: labor
+category: [Economic, Social, Cultural]
 urgency: medium
 tags:
   - labor

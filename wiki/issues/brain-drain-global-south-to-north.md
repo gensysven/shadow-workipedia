@@ -2,14 +2,14 @@
 id: brain-drain-global-south-to-north
 title: Brain Drain Global South to North
 number: 415
-category: Economic
+category: [Economic, Social]
 urgency: High
 tags: [migration, development, inequality, education, labor, global-economy]
 publicConcern: 50
 economicImpact: 70
 socialImpact: 65
 affectedSystems: [Global Economy, Education, Healthcare, Innovation, Development]
-connections: [skilled-immigration-restrictions, global-inequality, healthcare-worker-shortages]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

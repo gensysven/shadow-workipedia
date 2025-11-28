@@ -2,14 +2,14 @@
 id: brexit-and-eu-disintegration
 title: Brexit and EU Disintegration
 number: SW#248
-category: Political
+category: [Political, Economic, Social]
 urgency: High
 tags: [brexit, european-union, political-fragmentation, populism, trade, regional-stability, northern-ireland, sovereignty]
 publicConcern: 78
 economicImpact: 85
 socialImpact: 72
 affectedSystems: [Politics, Economy, Trade, Civil Society]
-connections: [nationalist-movements-surge, populist-authoritarianism-rise, supply-chain-disruption, trade-war-escalation, democratic-backsliding, austerity-resentment]
+connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

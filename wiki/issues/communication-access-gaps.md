@@ -2,7 +2,7 @@
 id: communication-access-gaps
 title: Communication Access Gaps
 number: 422
-category: accessibility
+category: [Social, Infrastructure]
 urgency: medium
 tags:
   - accessibility

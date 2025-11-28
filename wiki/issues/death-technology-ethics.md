@@ -2,7 +2,7 @@
 id: death-technology-ethics
 title: Death Technology Ethics Crisis
 number: 402
-category: Social
+category: [Social, Technological, Environmental]
 urgency: Medium
 tags:
   - technology

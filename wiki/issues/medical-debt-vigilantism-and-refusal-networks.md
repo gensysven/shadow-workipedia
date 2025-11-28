@@ -2,14 +2,14 @@
 id: medical-debt-vigilantism-and-refusal-networks
 title: Medical Debt Vigilantism and Refusal Networks
 number: 306
-category: Social
+category: [Economic, Social, Political]
 urgency: High
 tags: [healthcare, debt, activism, mutual-aid, resistance, crowdfunding, civil-disobedience, debt-abolition]
 publicConcern: 58
 economicImpact: 45
 socialImpact: 68
 affectedSystems: [Healthcare Systems, Financial Systems, Civil Society, Legal Systems]
-connections: [medical-bankruptcy-epidemic, mutual-aid-movement, healthcare-workforce-exodus, healthcare-system-collapse, income-inequality-explosion]
+connections: [medical-bankruptcy-epidemic, global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -50,7 +50,7 @@ The movement encompasses diverse tactics: coordinated refusal to pay (similar to
 
 **Cascading Effects:**
 
-- Triggers **healthcare-system-collapse** when refusal participation exceeds 20% regionally + combined with staffing shortages, forcing hospitals into working capital crisis within 18-36 months
+- Triggers **global-healthcare-workforce-exodus** when refusal participation exceeds 20% regionally + combined with staffing shortages, forcing hospitals into working capital crisis within 18-36 months
 - Amplifies **income-inequality-explosion** by preventing debt collection mechanisms from concentrating wealth toward creditors; reduces wealth extraction from low-income populations by 8-12%
 - Amplifies **mutual-aid-movement** by 15-25% as debt cancellation creates visible proof of collective power and recruitment pathway for mutual aid participation
 - Amplifies **democratic-backsliding** by 5-8% when governments pass legislation to strengthen collection mechanisms in response to refusal networks

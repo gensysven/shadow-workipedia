@@ -2,14 +2,14 @@
 id: gain-of-function-research-battles
 title: Gain-of-Function Research Battles
 number: 94
-category: Technological
+category: [Existential, Technological, Political, Security]
 urgency: Critical
 tags: [biosecurity, gain-of-function, virology, pandemic, research, regulation]
 publicConcern: 68
 economicImpact: 72
 socialImpact: 85
 affectedSystems: [Healthcare, Scientific Research, Biosecurity, International Relations]
-connections: [pandemic-preparedness, lab-leak-controversy, bioweapon-proliferation, scientific-ethics-breakdown]
+connections: [bioweapon-proliferation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

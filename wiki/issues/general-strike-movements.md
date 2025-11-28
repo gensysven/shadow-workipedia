@@ -2,14 +2,14 @@
 id: general-strike-movements
 title: General Strike Movements
 number: 96
-category: Economic
+category: [Economic, Social, Political, Infrastructure]
 urgency: High
 tags: [labor, strikes, unions, workers, organizing, economic-disruption]
 publicConcern: 63
 economicImpact: 81
 socialImpact: 77
 affectedSystems: [Labor Markets, Economic Systems, Political Systems, Social Movements]
-connections: [labor-power-resurgence, gig-economy-exploitation, wealth-inequality, union-decline]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

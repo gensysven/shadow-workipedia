@@ -2,14 +2,14 @@
 id: carrington-class-solar-storm
 title: Carrington-Class Solar Storm
 number: SW#142
-category: Technological
+category: [Existential, Infrastructure, Economic, Security]
 urgency: Critical
 tags: [solar-storm, cme, grid-collapse, satellites, gps, infrastructure, geomagnetic-storm]
 publicConcern: 72
 economicImpact: 98
 socialImpact: 85
 affectedSystems: [Technology, Economy, Infrastructure, Energy, Security, Communications]
-connections: [global-energy-crisis, supply-chain-fragility, cascading-infrastructure-failures, digital-dependency-vulnerability]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: global-healthcare-workforce-exodus
 title: Global Healthcare Workforce Exodus
 number: 103
-category: Infrastructure
+category: [Social, Economic, Infrastructure]
 urgency: Critical
 tags: [healthcare, workforce, burnout, brain-drain, nurses, doctors, pandemic, migration]
 publicConcern: 79
 economicImpact: 82
 socialImpact: 91
 affectedSystems: [Healthcare, Labor Markets, Public Health, Economic Systems]
-connections: [pandemic-aftermath, mental-health-crisis, aging-population-crisis, global-inequality-surge]
+connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---
@@ -58,7 +58,7 @@ This creates a catastrophic feedback loop: provider shortage → increased workl
 
 - Amplifies **mental-health-crisis** by 25-40% as healthcare workers with trauma exit, reducing available mental health services precisely when burnout-driven depression/suicide peaks. Psychiatric capacity falls further; untreated mental illness increases suicide rates by 10-18%.
 
-- Triggers **aging-population-crisis** when healthcare exodus coincides with age wave (2025-2040). Elderly care capacity collapses: assisted living, nursing homes, geriatric surgery cannot operate. Mortality in elderly populations rises 15-25% above baseline due to preventable complications.
+- Triggers **elder-care-collapse** when healthcare exodus coincides with age wave (2025-2040). Elderly care capacity collapses: assisted living, nursing homes, geriatric surgery cannot operate. Mortality in elderly populations rises 15-25% above baseline due to preventable complications.
 
 - Amplifies **global-inequality-surge** by 20-30% through brain drain mechanism. Wealthy nations capture talent from developing countries, concentrating healthcare quality in high-income regions while leaving 4+ billion people with degraded care. Health outcomes diverge 3-4x between wealthy and low-resource countries.
 

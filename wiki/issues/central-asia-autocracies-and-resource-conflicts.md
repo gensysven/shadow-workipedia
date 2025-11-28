@@ -2,14 +2,14 @@
 id: central-asia-autocracies-and-resource-conflicts
 title: Central Asia Autocracies and Resource Conflicts
 number: SW#115
-category: Political
+category: [Political, Economic, Security, Infrastructure]
 urgency: High
 tags: [autocracy, resource-conflicts, geopolitics, water-disputes, rare-earths, succession-crisis, regional-stability, authoritarian-governance]
 publicConcern: 72
 economicImpact: 68
 socialImpact: 65
 affectedSystems: [Politics, Economics, Environment, Institutions (International Relations)]
-connections: [great-power-competition-2-0, climate-refugee-cascades, state-capacity-collapse, authoritarian-tech-surveillance, resource-scarcity-conflicts]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

@@ -2,14 +2,14 @@
 id: north-korea-nuclear-crisis
 title: North Korea Nuclear Crisis
 number: 314
-category: Security
+category: [Existential, Security, Political]
 urgency: Critical
 tags: [nuclear, north-korea, missiles, sanctions, asia, deterrence, proliferation]
 publicConcern: 82
 economicImpact: 58
 socialImpact: 75
 affectedSystems: [International Security, Nuclear Proliferation, Regional Stability, Sanctions Regimes]
-connections: [nuclear-proliferation-cascade, china-us-tensions, korean-peninsula-crisis]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

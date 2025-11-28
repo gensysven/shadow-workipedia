@@ -2,14 +2,14 @@
 id: homelessness-criminalization
 title: Homelessness Criminalization
 number: 116
-category: Social
+category: [Social, Political]
 urgency: High
 tags: [homelessness, criminalization, housing, poverty, urban, police, civil-rights]
 publicConcern: 68
 economicImpact: 52
 socialImpact: 84
 affectedSystems: [Criminal Justice, Housing, Social Services, Urban Systems]
-connections: [housing-affordability-crisis, mass-incarceration-crisis, mental-health-apocalypse, opioid-epidemic]
+connections: [housing-affordability-crisis, mass-incarceration-crisis, mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

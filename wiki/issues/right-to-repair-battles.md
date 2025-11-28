@@ -2,14 +2,14 @@
 id: right-to-repair-battles
 title: Right to Repair Battles
 number: 457
-category: Technology
+category: [Technological, Economic, Environmental]
 urgency: Medium
 tags: [consumer-rights, planned-obsolescence, electronic-waste, monopoly-power, sustainability]
 publicConcern: 7/10
 economicImpact: 6/10
 socialImpact: 5/10
 affectedSystems: [Consumer-Rights, Manufacturing, E-Waste, Intellectual-Property]
-connections: [planned-obsolescence, e-waste-crisis, monopoly-consolidation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

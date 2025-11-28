@@ -2,14 +2,14 @@
 id: ai-compute-resource-wars
 title: AI Compute Resource Wars
 number: SW#108
-category: Technological
+category: [Technological, Economic, Environmental, Security]
 urgency: High
 tags: [ai, computing, gpus, chips, data-centers, geopolitics, energy, semiconductors, nvidia, supply-chain]
 publicConcern: 55
 economicImpact: 90
 socialImpact: 65
 affectedSystems: [Technology, Economy, Geopolitics, Energy, Security]
-connections: [semiconductor-sovereignty-wars, ai-alignment-crisis, state-sponsored-hacking-epidemic, global-energy-crisis, supply-chain-fragility]
+connections: [semiconductor-sovereignty-wars, ai-alignment-crisis, state-sponsored-hacking-epidemic, just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 ---

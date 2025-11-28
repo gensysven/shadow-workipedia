@@ -2,14 +2,14 @@
 id: brain-computer-interface-disasters
 title: Brain-Computer Interface Disasters
 number: 414
-category: Technological
+category: [Technological, Social, Security]
 urgency: High
 tags: [neurotechnology, cybersecurity, medical-devices, ethics, disability, enhancement]
 publicConcern: 65
 economicImpact: 50
 socialImpact: 70
 affectedSystems: [Healthcare, Technology, Security, Ethics, Regulation]
-connections: [medical-device-cybersecurity, ai-alignment-failures, genetic-enhancement-inequality]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

@@ -2,14 +2,14 @@
 id: artificial-wombs-and-gestation-outsourcing
 title: Artificial Wombs and Gestation Outsourcing
 number: 410
-category: Technological
+category: [Technological, Social, Economic]
 urgency: Medium
 tags: [biotechnology, reproduction, ethics, inequality, maternal-health, regulation]
 publicConcern: 60
 economicImpact: 45
 socialImpact: 75
 affectedSystems: [Healthcare, Social Structure, Labor, Ethics, Regulation]
-connections: [ivf-and-fertility-treatment-costs, surrogacy-exploitation, genetic-enhancement-inequality]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 ---

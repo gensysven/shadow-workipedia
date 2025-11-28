@@ -2,14 +2,14 @@
 id: european-migration-crisis
 title: European Migration Crisis
 number: 85
-category: Political
+category: [Social, Political, Environmental]
 urgency: High
 tags: [migration, europe, refugees, borders, asylum, xenophobia, eu]
 publicConcern: 79
 economicImpact: 68
 socialImpact: 86
 affectedSystems: [Migration Systems, EU Institutions, Social Cohesion, Border Security]
-connections: [climate-refugee-crisis, asylum-system-breakdown, far-right-rise, eu-integration-crisis]
+connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

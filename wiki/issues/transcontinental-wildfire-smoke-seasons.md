@@ -2,14 +2,14 @@
 id: transcontinental-wildfire-smoke-seasons
 title: Transcontinental Wildfire Smoke Seasons
 number: 370
-category: Environmental
+category: [Environmental, Social, Infrastructure]
 urgency: High
 tags: [wildfires, climate, health, air-quality, smoke, seasons, transboundary]
 publicConcern: 72
 economicImpact: 65
 socialImpact: 78
 affectedSystems: [Public Health, Climate, Economy, Agriculture, Cities, Infrastructure]
-connections: [climate-acceleration, wildfire-catastrophe, air-pollution-crisis, respiratory-pandemic, agricultural-collapse, supply-chain-fragmentation]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

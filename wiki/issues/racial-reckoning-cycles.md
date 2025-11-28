@@ -2,14 +2,14 @@
 id: racial-reckoning-cycles
 title: Racial Reckoning Cycles
 number: 336
-category: Social
+category: [Social, Political, Cultural]
 urgency: High
 tags: [race, justice, protests, cycles, reform, backlash, blm]
 publicConcern: 78
 economicImpact: 55
 socialImpact: 88
 affectedSystems: [Criminal Justice, Politics, Media, Civil Society, Economy]
-connections: [mass-incarceration-crisis, police-militarization-escalation, racial-wealth-gap]
+connections: [mass-incarceration-crisis,police-militarization-escalation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

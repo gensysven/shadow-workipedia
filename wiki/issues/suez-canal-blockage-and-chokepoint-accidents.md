@@ -2,14 +2,14 @@
 id: suez-canal-blockage-and-chokepoint-accidents
 title: Suez Canal Blockage and Chokepoint Accidents
 number: 364
-category: Economic
+category: [Infrastructure, Economic]
 urgency: High
 tags: [shipping, trade, chokepoints, suez, supply-chain, infrastructure, geopolitics]
 publicConcern: 58
 economicImpact: 85
 socialImpact: 62
 affectedSystems: [Global Trade, Supply Chain, Energy, Manufacturing]
-connections: [supply-chain-fragility, red-sea-shipping-crisis, global-trade-disruption, container-ship-overcapacity, just-in-time-manufacturing-collapse]
+connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

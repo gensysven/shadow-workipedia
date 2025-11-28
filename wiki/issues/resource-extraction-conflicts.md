@@ -2,14 +2,14 @@
 id: resource-extraction-conflicts
 title: Resource Extraction Conflicts
 number: 340
-category: Economic
+category: [Environmental, Economic, Security, Infrastructure]
 urgency: High
 tags: [mining, resources, indigenous, conflict, environment, colonialism]
 publicConcern: 58
 economicImpact: 78
 socialImpact: 82
 affectedSystems: [Indigenous Communities, Environment, Economy, Government, Industry]
-connections: [indigenous-land-rights, environmental-justice, rare-earth-element-squeeze]
+connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---

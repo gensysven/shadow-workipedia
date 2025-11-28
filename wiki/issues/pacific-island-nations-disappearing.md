@@ -2,14 +2,14 @@
 id: pacific-island-nations-disappearing
 title: Pacific Island Nations Disappearing
 number: 321
-category: Environmental
+category: [Environmental, Social, Political]
 urgency: Critical
 tags: [climate, sea-level, pacific, islands, migration, sovereignty, loss]
 publicConcern: 72
 economicImpact: 55
 socialImpact: 88
 affectedSystems: [Climate, Sovereignty, Culture, International Law, Migration]
-connections: [climate-refugee-floods, sea-level-rise-acceleration, deep-sea-mining-rush-and-pacific-sovereignty-fight]
+connections: [climate-refugee-floods,deep-sea-mining-rush-and-pacific-sovereignty-fight]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 ---
