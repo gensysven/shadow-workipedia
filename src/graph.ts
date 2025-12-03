@@ -1,4 +1,4 @@
-import { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide } from 'd3-force';
+import { forceSimulation, forceLink, forceManyBody, forceCenter, forceCollide, forceX, forceY } from 'd3-force';
 import type { Simulation, SimulationNodeDatum, SimulationLinkDatum } from 'd3-force';
 import type { GraphData, GraphNode, GraphEdge, EdgeType } from './types';
 
@@ -14,6 +14,28 @@ export interface SimLink extends SimulationLinkDatum<SimNode> {
   target: SimNode;
   strength: number;
   type: EdgeType;
+}
+
+// Calculate community centroids from node positions
+function calculateCommunityCentroids(nodes: SimNode[]): Map<number, { x: number; y: number }> {
+  const sums = new Map<number, { x: number; y: number; count: number }>();
+  for (const node of nodes) {
+    if (node.communityId !== undefined && node.x !== undefined && node.y !== undefined) {
+      if (!sums.has(node.communityId)) {
+        sums.set(node.communityId, { x: 0, y: 0, count: 0 });
+      }
+      const s = sums.get(node.communityId)!;
+      s.x += node.x;
+      s.y += node.y;
+      s.count++;
+    }
+  }
+
+  const centroids = new Map<number, { x: number; y: number }>();
+  for (const [id, { x, y, count }] of sums) {
+    centroids.set(id, { x: x / count, y: y / count });
+  }
+  return centroids;
 }
 
 export class GraphSimulation {
@@ -86,5 +108,26 @@ export class GraphSimulation {
   updateSize(width: number, height: number): void {
     this.simulation.force('center', forceCenter(width / 2, height / 2));
     this.restart();
+  }
+
+  enableClustering(enabled: boolean, strength: number = 0.1): void {
+    if (enabled) {
+      const centroids = calculateCommunityCentroids(this.nodes);
+
+      this.simulation
+        .force('clusterX', forceX<SimNode>()
+          .x(d => centroids.get(d.communityId!)?.x || 0)
+          .strength(d => d.communityId !== undefined ? strength : 0)
+        )
+        .force('clusterY', forceY<SimNode>()
+          .y(d => centroids.get(d.communityId!)?.y || 0)
+          .strength(d => d.communityId !== undefined ? strength : 0)
+        );
+    } else {
+      this.simulation.force('clusterX', null);
+      this.simulation.force('clusterY', null);
+    }
+
+    this.simulation.alpha(0.3).restart();
   }
 }

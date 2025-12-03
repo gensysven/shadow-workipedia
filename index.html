@@ -32,16 +32,22 @@
         <button id="tab-graph" class="tab-btn active">Graph</button>
         <button id="tab-table" class="tab-btn">Table</button>
         <button id="tab-wiki" class="tab-btn">Wiki</button>
+        <button id="tab-communities" class="tab-btn">Communities</button>
       </div>
       <h1>Shadow Workipedia</h1>
     </header>
 
     <!-- Filter bar -->
     <div id="filter-bar">
-      <div id="view-mode-selector">
-        <button class="view-mode-btn active" data-mode="issues">Issues</button>
-        <button class="view-mode-btn" data-mode="systems">Systems</button>
-        <button class="view-mode-btn" data-mode="full">Full Network</button>
+      <div id="view-mode-toggles">
+        <button class="view-toggle-btn active" id="show-issues-btn">Issues</button>
+        <button class="view-toggle-btn" id="show-systems-btn">Systems</button>
+      </div>
+      <div id="cluster-toggle">
+        <label class="cluster-toggle-label">
+          <input type="checkbox" id="show-clusters" />
+          <span>Show Clusters</span>
+        </label>
       </div>
       <div id="category-filters"></div>
       <div id="search-reset-group">
@@ -67,6 +73,16 @@
       </aside>
       <main id="wiki-main">
         <div id="wiki-article-content"></div>
+      </main>
+    </div>
+
+    <!-- Communities view (hidden by default) -->
+    <div id="communities-view" class="hidden">
+      <aside id="communities-sidebar">
+        <div id="communities-sidebar-content"></div>
+      </aside>
+      <main id="communities-main">
+        <div id="communities-article-content"></div>
       </main>
     </div>
 

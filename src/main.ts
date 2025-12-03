@@ -1,9 +1,10 @@
 import './style.css';
-import type { GraphData, IssueCategory } from './types';
+import type { GraphData, IssueCategory, CommunityInfo } from './types';
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
 import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType } from './article';
+import { polygonHull, polygonCentroid } from 'd3-polygon';
 
 // Category color mapping (must match extract-data.ts)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
@@ -18,8 +19,49 @@ const CATEGORY_COLORS: Record<IssueCategory, string> = {
   Infrastructure: '#6366f1',
 };
 
+// Community color palette (23 distinct colors for 23 communities)
+const COMMUNITY_COLORS: Record<number, string> = {
+  0: '#3b82f6',   // Blue
+  1: '#10b981',   // Green
+  2: '#ef4444',   // Red
+  3: '#8b5cf6',   // Purple
+  4: '#f59e0b',   // Orange
+  5: '#06b6d4',   // Cyan
+  6: '#ec4899',   // Pink
+  7: '#6366f1',   // Indigo
+  8: '#14b8a6',   // Teal
+  9: '#f97316',   // Deep Orange
+  10: '#a855f7',  // Violet
+  11: '#22c55e',  // Lime
+  12: '#eab308',  // Yellow
+  13: '#e11d48',  // Rose
+  14: '#0ea5e9',  // Sky
+  15: '#84cc16',  // Lime Green
+  16: '#f43f5e',  // Red-Pink
+  17: '#06b6d4',  // Cyan2
+  18: '#d946ef',  // Fuchsia
+  19: '#64748b',  // Slate
+  20: '#0891b2',  // Cyan3
+  21: '#dc2626',  // Red2
+  22: '#7c3aed',  // Violet2
+};
+
 function getCategoryColor(category: IssueCategory): string {
   return CATEGORY_COLORS[category];
+}
+
+function getCommunityColor(communityId: number): string {
+  return COMMUNITY_COLORS[communityId] || '#64748b'; // Fallback to gray
+}
+
+/**
+ * Convert hex color to rgba with specified alpha
+ */
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function renderDetailPanel(node: SimNode, data: GraphData): string {
@@ -231,25 +273,30 @@ async function main() {
   const wikiView = document.getElementById('wiki-view');
   const wikiSidebarContent = document.getElementById('wiki-sidebar-content');
   const wikiArticleContent = document.getElementById('wiki-article-content');
+  const communitiesView = document.getElementById('communities-view');
+  const communitiesSidebarContent = document.getElementById('communities-sidebar-content');
+  const communitiesArticleContent = document.getElementById('communities-article-content');
   const articleView = document.getElementById('article-view');
   const articleContainer = document.getElementById('article-container');
   const header = document.getElementById('header');
   const tabNav = document.getElementById('tab-nav');
   const filterBar = document.getElementById('filter-bar');
 
-  if (!graphView || !tableView || !wikiView || !wikiSidebarContent || !wikiArticleContent || !articleView || !articleContainer) {
+  if (!graphView || !tableView || !wikiView || !wikiSidebarContent || !wikiArticleContent || !communitiesView || !communitiesSidebarContent || !communitiesArticleContent || !articleView || !articleContainer) {
     throw new Error('Required view elements not found');
   }
 
   // Track selected wiki article
   let selectedWikiArticle: string | null = null;
+  let selectedCommunity: string | null = null;
 
   // View state (needed early for router initialization)
-  let currentView: 'graph' | 'table' | 'wiki' = 'graph';
+  let currentView: 'graph' | 'table' | 'wiki' | 'communities' = 'graph';
 
   // Forward declare render functions (implemented later)
   let renderTable: () => void;
   let renderWikiList: () => void;
+  let renderCommunitiesList: () => void;
 
   // Store router reference for navigation
   let router: ArticleRouter;
@@ -266,18 +313,20 @@ async function main() {
     const tabGraph = document.getElementById('tab-graph');
     const tabTable = document.getElementById('tab-table');
     const tabWiki = document.getElementById('tab-wiki');
+    const tabCommunities = document.getElementById('tab-communities');
 
     tabGraph?.classList.remove('active');
     tabTable?.classList.remove('active');
     tabWiki?.classList.remove('active');
+    tabCommunities?.classList.remove('active');
 
     articleView?.classList.add('hidden');
     if (header) header.classList.remove('hidden');
     if (tabNav) tabNav.classList.remove('hidden');
     if (filterBar) filterBar.classList.remove('hidden');
 
-    // View mode selector and category filters are only relevant for graph view
-    const viewModeSelector = document.getElementById('view-mode-selector');
+    // View toggles and category filters are only relevant for graph view
+    const viewModeToggles = document.getElementById('view-mode-toggles');
     const categoryFilters = document.getElementById('category-filters');
 
     if (view === 'graph') {
@@ -285,16 +334,18 @@ async function main() {
       graphView?.classList.remove('hidden');
       tableView?.classList.add('hidden');
       wikiView?.classList.add('hidden');
-      // Show view mode selector and category filters for graph
-      if (viewModeSelector) viewModeSelector.style.display = '';
+      communitiesView?.classList.add('hidden');
+      // Show view toggles and category filters for graph
+      if (viewModeToggles) viewModeToggles.style.display = '';
       if (categoryFilters) categoryFilters.style.display = '';
     } else if (view === 'table') {
       tabTable?.classList.add('active');
       graphView?.classList.add('hidden');
       tableView?.classList.remove('hidden');
       wikiView?.classList.add('hidden');
-      // Show view mode selector and category filters for table
-      if (viewModeSelector) viewModeSelector.style.display = '';
+      communitiesView?.classList.add('hidden');
+      // Show view toggles and category filters for table
+      if (viewModeToggles) viewModeToggles.style.display = '';
       if (categoryFilters) categoryFilters.style.display = '';
       renderTable();
     } else if (view === 'wiki') {
@@ -302,10 +353,21 @@ async function main() {
       graphView?.classList.add('hidden');
       tableView?.classList.add('hidden');
       wikiView?.classList.remove('hidden');
-      // Hide both view mode selector and category filters for wiki
-      if (viewModeSelector) viewModeSelector.style.display = 'none';
+      communitiesView?.classList.add('hidden');
+      // Hide all filters for wiki
+      if (viewModeToggles) viewModeToggles.style.display = 'none';
       if (categoryFilters) categoryFilters.style.display = 'none';
       if (renderWikiList) renderWikiList();
+    } else if (view === 'communities') {
+      tabCommunities?.classList.add('active');
+      graphView?.classList.add('hidden');
+      tableView?.classList.add('hidden');
+      wikiView?.classList.add('hidden');
+      communitiesView?.classList.remove('hidden');
+      // Hide all filters for communities
+      if (viewModeToggles) viewModeToggles.style.display = 'none';
+      if (categoryFilters) categoryFilters.style.display = 'none';
+      if (renderCommunitiesList) renderCommunitiesList();
     }
   }
 
@@ -327,6 +389,10 @@ async function main() {
       if (route.view === 'wiki') {
         selectedWikiArticle = null;
       }
+      // Clear selected community when navigating to communities list
+      if (route.view === 'communities') {
+        selectedCommunity = null;
+      }
       showView(route.view);
     } else if (route.kind === 'article') {
       // Both issue and system articles show in wiki view with sidebar
@@ -334,6 +400,12 @@ async function main() {
       showView('wiki');
       // Re-render to update selection and article content
       if (renderWikiList) renderWikiList();
+    } else if (route.kind === 'community') {
+      // Community articles show in communities view with sidebar
+      selectedCommunity = route.slug;
+      showView('communities');
+      // Re-render to update selection and article content
+      if (renderCommunitiesList) renderCommunitiesList();
     }
   });
 
@@ -430,8 +502,12 @@ async function main() {
     'Security', 'Technological', 'Cultural', 'Infrastructure'
   ]);
 
-  // View mode state ('issues', 'systems', 'full')
-  let viewMode: 'issues' | 'systems' | 'full' = 'issues';
+  // View toggles state
+  let showIssues = true;
+  let showSystems = false;
+
+  // Cluster visualization state
+  let showClusters = false;
 
   // Search state
   let searchTerm = '';
@@ -514,17 +590,11 @@ async function main() {
         const targetNode = graph.getNodes().find(n => n.id === systemId && n.type === 'system');
 
         if (targetNode && targetNode.x !== undefined && targetNode.y !== undefined) {
-          // Switch to Full Network mode to show systems
-          if (viewMode !== 'full' && viewMode !== 'systems') {
-            viewMode = 'full';
-            const viewModeBtns = document.querySelectorAll('.view-mode-btn');
-            viewModeBtns.forEach(btn => {
-              if ((btn as HTMLElement).dataset.mode === 'full') {
-                btn.classList.add('active');
-              } else {
-                btn.classList.remove('active');
-              }
-            });
+          // Enable systems toggle if clicking on a system
+          if (!showSystems) {
+            showSystems = true;
+            const showSystemsBtn = document.getElementById('show-systems-btn') as HTMLButtonElement;
+            if (showSystemsBtn) showSystemsBtn.classList.add('active');
           }
 
           selectedNode = targetNode;
@@ -639,39 +709,57 @@ async function main() {
     render();
   });
 
-  // View mode selector
-  const viewModeBtns = document.querySelectorAll('.view-mode-btn');
-  viewModeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = (btn as HTMLElement).dataset.mode as 'issues' | 'systems' | 'full';
-      viewMode = mode;
+  // View toggle button handlers
+  const showIssuesBtn = document.getElementById('show-issues-btn') as HTMLButtonElement;
+  const showSystemsBtn = document.getElementById('show-systems-btn') as HTMLButtonElement;
 
-      // Update active button
-      viewModeBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      // Update visibility of category filters based on mode
-      const categoryFilters = document.getElementById('category-filters') as HTMLDivElement;
-      const searchInput = document.getElementById('search') as HTMLInputElement;
-
-      if (mode === 'systems') {
-        // Hide category filters and search for systems-only view
-        categoryFilters.style.display = 'none';
-        searchInput.placeholder = 'Search systems...';
-      } else if (mode === 'full') {
-        categoryFilters.style.display = 'flex';
-        searchInput.placeholder = 'Search issues & systems...';
-      } else {
-        categoryFilters.style.display = 'flex';
-        searchInput.placeholder = 'Search issues...';
-      }
-
+  if (showIssuesBtn) {
+    showIssuesBtn.addEventListener('click', () => {
+      showIssues = !showIssues;
+      showIssuesBtn.classList.toggle('active', showIssues);
+      updateSearchPlaceholder();
       render();
       if (currentView === 'table') {
         renderTable();
       }
     });
-  });
+  }
+
+  if (showSystemsBtn) {
+    showSystemsBtn.addEventListener('click', () => {
+      showSystems = !showSystems;
+      showSystemsBtn.classList.toggle('active', showSystems);
+      updateSearchPlaceholder();
+      render();
+      if (currentView === 'table') {
+        renderTable();
+      }
+    });
+  }
+
+  // Update search placeholder based on what's visible
+  function updateSearchPlaceholder() {
+    const searchInput = document.getElementById('search') as HTMLInputElement;
+    if (!searchInput) return;
+
+    if (showIssues && showSystems) {
+      searchInput.placeholder = 'Search issues & systems...';
+    } else if (showSystems) {
+      searchInput.placeholder = 'Search systems...';
+    } else {
+      searchInput.placeholder = 'Search issues...';
+    }
+  }
+
+  // Show Clusters toggle
+  const showClustersToggle = document.getElementById('show-clusters') as HTMLInputElement;
+  if (showClustersToggle) {
+    showClustersToggle.addEventListener('change', (e) => {
+      showClusters = (e.target as HTMLInputElement).checked;
+      graph.enableClustering(showClusters, 0.08);
+      render();
+    });
+  }
 
   // Create category filter buttons
   const categoryFilters = document.getElementById('category-filters') as HTMLDivElement;
@@ -819,9 +907,9 @@ async function main() {
   // Helper to calculate visible nodes based on current filters
   function getVisibleNodes(): SimNode[] {
     return graph.getNodes().filter(node => {
-      // View mode filtering
-      if (viewMode === 'issues' && node.type === 'system') return false;
-      if (viewMode === 'systems' && node.type === 'issue') return false;
+      // View toggle filtering
+      if (node.type === 'issue' && !showIssues) return false;
+      if (node.type === 'system' && !showSystems) return false;
 
       // Category filtering - show node if ANY of its categories are active (additive filtering)
       // Systems don't have categories, so always show them based on view mode
@@ -829,6 +917,114 @@ async function main() {
       const anyCategoryActive = node.categories.some(cat => activeCategories.has(cat));
       return anyCategoryActive;
     });
+  }
+
+  /**
+   * Render convex hulls around community clusters
+   */
+  function renderCommunityHulls(
+    ctx: CanvasRenderingContext2D,
+    nodes: SimNode[],
+    communities: Record<number, CommunityInfo> | undefined,
+    transform: { x: number; y: number; k: number }
+  ) {
+    if (!communities) return;
+
+    // Group nodes by community
+    const communityNodes = new Map<number, Array<[number, number]>>();
+    for (const node of nodes) {
+      if (node.communityId !== undefined && node.x !== undefined && node.y !== undefined) {
+        if (!communityNodes.has(node.communityId)) {
+          communityNodes.set(node.communityId, []);
+        }
+        communityNodes.get(node.communityId)!.push([node.x, node.y]);
+      }
+    }
+
+    // Draw hull for each community
+    for (const [communityId, points] of communityNodes) {
+      if (points.length < 3) continue; // Need 3+ points for hull
+
+      const hull = polygonHull(points);
+      if (!hull) continue;
+
+      // Expand hull with padding
+      const centroid = polygonCentroid(hull);
+      const expandedHull = hull.map(([x, y]: [number, number]) => {
+        const dx = x - centroid[0];
+        const dy = y - centroid[1];
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const padding = 30; // pixels of padding
+        return [x + (dx / len) * padding, y + (dy / len) * padding] as [number, number];
+      });
+
+      // Draw filled region
+      ctx.beginPath();
+      const [first, ...rest] = expandedHull;
+      ctx.moveTo(
+        first[0] * transform.k + transform.x,
+        first[1] * transform.k + transform.y
+      );
+      for (const [x, y] of rest) {
+        ctx.lineTo(x * transform.k + transform.x, y * transform.k + transform.y);
+      }
+      ctx.closePath();
+
+      const color = getCommunityColor(communityId);
+      ctx.fillStyle = hexToRgba(color, 0.08);
+      ctx.fill();
+      ctx.strokeStyle = hexToRgba(color, 0.3);
+      ctx.lineWidth = 2 / transform.k;
+      ctx.stroke();
+    }
+  }
+
+  /**
+   * Render labels at community centroids
+   */
+  function renderCommunityLabels(
+    ctx: CanvasRenderingContext2D,
+    nodes: SimNode[],
+    communities: Record<number, CommunityInfo> | undefined,
+    transform: { x: number; y: number; k: number }
+  ) {
+    if (!communities) return;
+
+    // Calculate centroids
+    const centroids = new Map<number, { x: number; y: number; count: number }>();
+    for (const node of nodes) {
+      if (node.communityId !== undefined && node.x !== undefined && node.y !== undefined) {
+        if (!centroids.has(node.communityId)) {
+          centroids.set(node.communityId, { x: 0, y: 0, count: 0 });
+        }
+        const c = centroids.get(node.communityId)!;
+        c.x += node.x;
+        c.y += node.y;
+        c.count++;
+      }
+    }
+
+    // Draw labels at centroids
+    for (const [communityId, { x, y, count }] of centroids) {
+      const community = communities[communityId];
+      if (!community) continue;
+
+      const cx = (x / count) * transform.k + transform.x;
+      const cy = (y / count) * transform.k + transform.y;
+
+      // Scale-aware font size (larger when zoomed out)
+      const fontSize = Math.max(10, Math.min(16, 14 / transform.k));
+      ctx.font = `bold ${fontSize}px Inter, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Text with shadow for readability
+      const label = community.topCategory;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+      ctx.fillText(label, cx + 1, cy + 1);
+      ctx.fillStyle = getCommunityColor(communityId);
+      ctx.fillText(label, cx, cy);
+    }
   }
 
   // Render loop
@@ -849,18 +1045,27 @@ async function main() {
     ctx.translate(currentTransform.x, currentTransform.y);
     ctx.scale(currentTransform.k, currentTransform.k);
 
+    // Draw community hulls and labels if enabled (before edges for proper layering)
+    if (showClusters) {
+      ctx.restore(); // Reset transform for screen-space rendering
+      renderCommunityHulls(ctx, visibleNodes, data.communities, currentTransform);
+      renderCommunityLabels(ctx, visibleNodes, data.communities, currentTransform);
+      ctx.save(); // Reapply transform for edges/nodes
+      ctx.translate(currentTransform.x, currentTransform.y);
+      ctx.scale(currentTransform.k, currentTransform.k);
+    }
+
     // Draw edges
     for (const link of graph.getLinks()) {
       // View mode filtering
       const sourceType = link.source.type;
       const targetType = link.target.type;
 
-      if (viewMode === 'issues' && (sourceType === 'system' || targetType === 'system')) {
-        continue; // Skip edges connected to systems in issues-only mode
-      }
-      if (viewMode === 'systems' && (sourceType === 'issue' || targetType === 'issue')) {
-        continue; // Skip edges connected to issues in systems-only mode
-      }
+      // Skip edges based on view toggles
+      if (sourceType === 'issue' && !showIssues) continue;
+      if (sourceType === 'system' && !showSystems) continue;
+      if (targetType === 'issue' && !showIssues) continue;
+      if (targetType === 'system' && !showSystems) continue;
 
       // Show edge if ANY category of both source and target are active (additive filtering)
       const sourceAnyCategoryActive = !link.source.categories?.length || link.source.categories.some(cat => activeCategories.has(cat));
@@ -884,13 +1089,9 @@ async function main() {
 
     // Draw nodes
     for (const node of graph.getNodes()) {
-      // View mode filtering
-      if (viewMode === 'issues' && node.type === 'system') {
-        continue; // Skip systems in issues-only mode
-      }
-      if (viewMode === 'systems' && node.type === 'issue') {
-        continue; // Skip issues in systems-only mode
-      }
+      // View toggle filtering
+      if (node.type === 'issue' && !showIssues) continue;
+      if (node.type === 'system' && !showSystems) continue;
 
       // Show node if ANY of its categories are active (additive filtering)
       const anyCategoryActive = !node.categories?.length || node.categories.some(cat => activeCategories.has(cat));
@@ -915,12 +1116,13 @@ async function main() {
         isRelevant = isSelected || isConnected;
       }
 
+      // Use category color for nodes
       ctx.fillStyle = node.color;
       ctx.globalAlpha = isRelevant ? (isHovered ? 1.0 : 0.9) : 0.1;
 
       const size = (isHovered || isSelected) ? node.size * 1.2 : node.size;
 
-      // Draw main circle (primary category color)
+      // Draw main circle (primary category/community color)
       ctx.beginPath();
       ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
       ctx.fill();
@@ -1033,6 +1235,7 @@ async function main() {
   const tabGraph = document.getElementById('tab-graph') as HTMLButtonElement;
   const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
   const tabWiki = document.getElementById('tab-wiki') as HTMLButtonElement;
+  const tabCommunities = document.getElementById('tab-communities') as HTMLButtonElement;
   const tableContainer = document.getElementById('table-container') as HTMLDivElement;
 
   // Tab clicks navigate via router (which updates URL and calls showView)
@@ -1054,13 +1257,15 @@ async function main() {
     }
   });
 
+  tabCommunities.addEventListener('click', () => router.navigateToView('communities'));
+
   // Table rendering (assign to forward-declared function)
   renderTable = function() {
     // Get filtered nodes
     const nodes = graph.getNodes().filter(node => {
-      // Apply view mode filter
-      if (viewMode === 'issues' && node.type === 'system') return false;
-      if (viewMode === 'systems' && node.type === 'issue') return false;
+      // Apply view toggle filter
+      if (node.type === 'issue' && !showIssues) return false;
+      if (node.type === 'system' && !showSystems) return false;
 
       // Apply category filter - show if ANY category is active (additive filtering)
       const anyCategoryActive = !node.categories?.length || node.categories.some(cat => activeCategories.has(cat));
@@ -1393,12 +1598,149 @@ async function main() {
     });
   }
 
+  // Communities sidebar and article rendering
+  const communitiesSidebar = document.getElementById('communities-sidebar');
+
+  renderCommunitiesList = function() {
+    if (!data.communities || Object.keys(data.communities).length === 0) {
+      communitiesSidebarContent.innerHTML = `<div class="wiki-empty-sidebar">No communities detected</div>`;
+      communitiesArticleContent.innerHTML = `
+        <div class="wiki-welcome">
+          <h2>Community Detection</h2>
+          <p>Community data will appear here after analysis.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Convert communities to array and sort by size (descending)
+    const communities = Object.values(data.communities).sort((a, b) => b.size - a.size);
+
+    // Mobile: collapse sidebar when a community is selected
+    if (communitiesSidebar) {
+      if (selectedCommunity) {
+        communitiesSidebar.classList.add('collapsed');
+      } else {
+        communitiesSidebar.classList.remove('collapsed');
+      }
+    }
+
+    // Render sidebar
+    const renderSidebarItem = (community: typeof communities[0]) => {
+      const communitySlug = `community-${community.id}`;
+      return `
+        <div class="wiki-sidebar-item${selectedCommunity === communitySlug ? ' active' : ''}" data-community-slug="${communitySlug}">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 12px; height: 12px; border-radius: 50%; background: ${getCommunityColor(community.id)}; flex-shrink: 0;"></div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-weight: 600; font-size: 0.85rem; line-height: 1.3;">${community.label}</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">${community.size} issues</div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    // Mobile expand button (shown only when collapsed)
+    const expandButton = selectedCommunity
+      ? `<button class="wiki-sidebar-expand" id="communities-sidebar-expand-btn">Browse all communities</button>`
+      : '';
+
+    const sidebarHtml = `
+      ${expandButton}
+      <div class="wiki-sidebar-section">
+        <h3>Communities (${communities.length})</h3>
+        <div class="wiki-sidebar-list">
+          ${communities.map(renderSidebarItem).join('')}
+        </div>
+      </div>
+    `;
+
+    communitiesSidebarContent.innerHTML = sidebarHtml;
+
+    // Render community article content or welcome message
+    if (selectedCommunity && data.articles && data.articles[selectedCommunity]) {
+      const article = data.articles[selectedCommunity];
+      communitiesArticleContent.innerHTML = renderWikiArticleContent(article, data);
+    } else {
+      communitiesArticleContent.innerHTML = `
+        <div class="wiki-welcome">
+          <h2>Issue Communities</h2>
+          <p class="wiki-welcome-subtitle">${communities.length} communities detected via Louvain algorithm</p>
+          <p>Select a community from the sidebar to explore its issues and shared mechanics.</p>
+        </div>
+      `;
+    }
+
+    // Attach click handlers to sidebar items
+    communitiesSidebarContent.querySelectorAll('.wiki-sidebar-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const communitySlug = item.getAttribute('data-community-slug');
+        if (communitySlug) {
+          // Navigate via router to update URL
+          router.navigateToCommunity(communitySlug);
+        }
+      });
+    });
+
+    // Attach click handler to expand button (mobile: expand collapsed sidebar)
+    const expandBtn = document.getElementById('communities-sidebar-expand-btn');
+    if (expandBtn && communitiesSidebar) {
+      expandBtn.addEventListener('click', () => {
+        communitiesSidebar.classList.remove('collapsed');
+      });
+    }
+
+    // Attach click handlers to related content links (navigate within communities or to wiki)
+    communitiesArticleContent.querySelectorAll('.related-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        // Community links: #/communities/community-N
+        const communityMatch = href.match(/^#\/communities\/(community-\d+)$/);
+        if (communityMatch) {
+          router.navigateToCommunity(communityMatch[1]);
+          return;
+        }
+
+        // Wiki links: #/wiki/slug
+        const wikiMatch = href.match(/^#\/wiki\/([a-z0-9-]+)$/);
+        if (wikiMatch) {
+          const articleId = wikiMatch[1];
+          if (data.articles && data.articles[articleId]) {
+            const article = data.articles[articleId];
+            router.navigateToArticle(article.type as 'issue' | 'system', articleId);
+          }
+        }
+      });
+    });
+
+    // Attach click handlers to expand toggle buttons
+    communitiesArticleContent.querySelectorAll('.expand-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const isExpanded = button.getAttribute('data-expanded') === 'true';
+        const overflow = button.previousElementSibling as HTMLElement;
+
+        if (overflow && overflow.classList.contains('related-links-overflow')) {
+          overflow.setAttribute('data-expanded', String(!isExpanded));
+          button.setAttribute('data-expanded', String(!isExpanded));
+        }
+      });
+    });
+  }
+
   // Re-trigger initial route handling now that all functions are defined
   const currentRoute = router.getCurrentRoute();
   if (currentRoute?.kind === 'article' && currentRoute.type === 'issue') {
     renderWikiList();
   } else if (currentRoute?.kind === 'view' && currentRoute.view === 'wiki') {
     renderWikiList();
+  } else if (currentRoute?.kind === 'community') {
+    renderCommunitiesList();
+  } else if (currentRoute?.kind === 'view' && currentRoute.view === 'communities') {
+    renderCommunitiesList();
   }
 }
 

@@ -12,10 +12,11 @@ function formatDate(dateStr: string): string {
   }
 }
 
-export type ViewType = 'graph' | 'table' | 'wiki';
+export type ViewType = 'graph' | 'table' | 'wiki' | 'communities';
 export type RouteType =
   | { kind: 'view'; view: ViewType }
   | { kind: 'article'; type: 'issue' | 'system'; slug: string }
+  | { kind: 'community'; slug: string }
   | null;
 
 /**
@@ -51,7 +52,7 @@ export class ArticleRouter {
       return;
     }
 
-    // View routes: #/table, #/wiki
+    // View routes: #/table, #/wiki, #/communities
     if (hash === '#/table') {
       this.currentRoute = { kind: 'view', view: 'table' };
       this.onRouteChange(this.currentRoute);
@@ -60,6 +61,21 @@ export class ArticleRouter {
 
     if (hash === '#/wiki') {
       this.currentRoute = { kind: 'view', view: 'wiki' };
+      this.onRouteChange(this.currentRoute);
+      return;
+    }
+
+    if (hash === '#/communities') {
+      this.currentRoute = { kind: 'view', view: 'communities' };
+      this.onRouteChange(this.currentRoute);
+      return;
+    }
+
+    // Community routes: #/communities/community-N
+    const communityMatch = hash.match(/^#\/communities\/(community-\d+)$/);
+    if (communityMatch) {
+      const [, slug] = communityMatch;
+      this.currentRoute = { kind: 'community', slug };
       this.onRouteChange(this.currentRoute);
       return;
     }
@@ -82,6 +98,10 @@ export class ArticleRouter {
   navigateToArticle(_type: 'issue' | 'system', slug: string) {
     // Use #/wiki/slug for both issues and systems (wiki view with sidebar)
     window.location.hash = `#/wiki/${slug}`;
+  }
+
+  navigateToCommunity(slug: string) {
+    window.location.hash = `#/communities/${slug}`;
   }
 
   navigateToView(view: ViewType) {

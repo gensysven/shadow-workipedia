@@ -45,6 +45,11 @@ export interface GraphNode {
   hasArticle?: boolean;
   wordCount?: number;
 
+  // Community assignment (from Louvain detection)
+  communityId?: number;
+  communityLabel?: string;
+  isBridgeNode?: boolean;
+
   // Visualization
   color: string;
   size: number;
@@ -72,15 +77,26 @@ export interface WikiArticle {
   lastUpdated: string;
 }
 
+export interface CommunityInfo {
+  id: number;
+  size: number;
+  label: string;
+  topCategory: string;
+  mechanicScore: number;
+  sharedMechanics: string[];
+}
+
 export interface GraphData {
   nodes: GraphNode[];
   edges: GraphEdge[];
   articles?: Record<string, WikiArticle>;
+  communities?: Record<number, CommunityInfo>;
   metadata: {
     generatedAt: string;
     issueCount: number;
     systemCount: number;
     edgeCount: number;
     articleCount?: number;
+    communityCount?: number;
   };
 }

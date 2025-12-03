@@ -1,13 +1,14 @@
 import { writeFileSync, readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import * as yaml from 'yaml';
-import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency } from '../src/types';
+import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency, CommunityInfo } from '../src/types';
 import { parseSystemWalkTracker, getSystemWalkData } from './parse-system-walks';
 import { loadWikiContent, getWikiArticle, type WikiArticle } from './parse-wiki';
 
 const PARENT_REPO = join(process.cwd(), '..');
 const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');
 const YAML_DATA_DIR = join(PARENT_REPO, 'data/issues');
+const COMMUNITIES_DATA_FILE = join(PARENT_REPO, 'data/generated/analysis/communities-with-mechanics.json');
 
 // Color palette for categories (will be used in future extraction logic)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
@@ -586,6 +587,84 @@ function loadMultiCategoryData(): Map<string, IssueCategory[]> {
   return categoryMap;
 }
 
+interface CommunityMember {
+  id: string;
+  title: string;
+  number: string;
+  isBridge: boolean;
+  betweenness: number;
+}
+
+interface SharedMechanic {
+  pattern: string;
+  mechanic: string;
+  count: number;
+  percentage: number;
+  issues: string[];
+}
+
+interface CommunityData {
+  id: number;
+  originalId: number;
+  splitReason?: string;
+  mergedFrom?: number[];
+  size: number;
+  members: CommunityMember[];
+  stats: {
+    avgStrength: number;
+    topCategories: Array<{ category: string; count: number }>;
+    topTags: Array<{ tag: string; count: number }>;
+  };
+  sharedMechanics: SharedMechanic[];
+  mechanicScore: number;
+}
+
+function loadCommunityData(): {
+  communityMap: Map<string, { communityId: number; label: string; isBridge: boolean }>;
+  communities: Record<number, CommunityInfo>;
+} {
+  if (!existsSync(COMMUNITIES_DATA_FILE)) {
+    console.warn('⚠️  Community data not found, returning empty map');
+    return { communityMap: new Map(), communities: {} };
+  }
+
+  const content = readFileSync(COMMUNITIES_DATA_FILE, 'utf-8');
+  const data = JSON.parse(content);
+
+  const communityMap = new Map<string, { communityId: number; label: string; isBridge: boolean }>();
+  const communities: Record<number, CommunityInfo> = {};
+
+  if (data.communities && Array.isArray(data.communities)) {
+    for (const community of data.communities as CommunityData[]) {
+      // Generate community label
+      const topCategory = community.stats.topCategories[0]?.category || 'Mixed';
+      const topTags = community.stats.topTags.slice(0, 2).map(t => t.tag).join(', ');
+      const label = `${topCategory} (${topTags})`;
+
+      // Store community info
+      communities[community.id] = {
+        id: community.id,
+        size: community.size,
+        label,
+        topCategory,
+        mechanicScore: community.mechanicScore,
+        sharedMechanics: community.sharedMechanics.map(m => m.pattern),
+      };
+
+      // Map each member to their community
+      for (const member of community.members) {
+        communityMap.set(member.id, {
+          communityId: community.id,
+          label,
+          isBridge: member.isBridge,
+        });
+      }
+    }
+  }
+
+  return { communityMap, communities };
+}
+
 async function main() {
   console.log('🔍 Extracting data from Shadow Work...');
 
@@ -599,6 +678,10 @@ async function main() {
   // Load curated mappings
   const curatedMappings = loadCuratedMappings();
   console.log(`📋 Loaded ${curatedMappings.size} curated issue-system mappings`);
+
+  // Load community data
+  const { communityMap, communities } = loadCommunityData();
+  console.log(`🎨 Loaded ${Object.keys(communities).length} communities with ${communityMap.size} member assignments`);
 
   // Parse system walk tracker
   const systemWalkMap = parseSystemWalkTracker(PARENT_REPO);
@@ -763,6 +846,16 @@ async function main() {
       node.hasArticle = true;
       node.wordCount = article.wordCount;
     }
+
+    // Attach community data for issue nodes
+    if (node.type === 'issue') {
+      const communityInfo = communityMap.get(node.id);
+      if (communityInfo) {
+        node.communityId = communityInfo.communityId;
+        node.communityLabel = communityInfo.label;
+        node.isBridgeNode = communityInfo.isBridge;
+      }
+    }
   }
 
   console.log(`  - ${wikiContent.issues.size} issue articles`);
@@ -772,17 +865,19 @@ async function main() {
     nodes,
     edges,
     articles: wikiArticles, // Include full articles
+    communities, // Include community metadata
     metadata: {
       generatedAt: new Date().toISOString(),
       issueCount: nodes.filter(n => n.type === 'issue').length,
       systemCount: nodes.filter(n => n.type === 'system').length,
       edgeCount: edges.length,
       articleCount: Object.keys(wikiArticles).length,
+      communityCount: Object.keys(communities).length,
     },
   };
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2));
-  console.log(`✅ Extracted ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems, ${data.metadata.edgeCount} edges, ${data.metadata.articleCount} articles`);
+  console.log(`✅ Extracted ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems, ${data.metadata.edgeCount} edges, ${data.metadata.articleCount} articles, ${data.metadata.communityCount} communities`);
   console.log(`📦 Wrote to ${OUTPUT_PATH}`);
 }
 
