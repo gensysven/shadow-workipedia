@@ -885,10 +885,9 @@ async function main() {
   const systemNodes = connectivityData.systems.map(system => systemToNode(system));
   nodes.push(...systemNodes);
 
-  // Add principle nodes (optional, controlled by flag)
+  // Add principle nodes
   // Only add principles that have valid edges to avoid disconnected clusters
-  const includePrinciples = process.argv.includes('--include-principles');
-  if (includePrinciples && principleNodes.length > 0) {
+  if (principleNodes.length > 0) {
     // Get all valid target IDs (issues + systems) before adding principle nodes
     const validTargetIds = new Set(nodes.map(n => n.id));
 
@@ -1003,6 +1002,15 @@ async function main() {
   }
   console.log(`  - ${issueSystemEdgeCount} issue-system edges`);
 
+  // 4. Data flow edges (system-to-system directed flows)
+  // Only add data flows between valid system nodes
+  const validSystemIds = new Set(systemNodes.map(n => n.id));
+  const validDataFlowEdges = dataFlowEdges.filter(
+    e => validSystemIds.has(e.source) && validSystemIds.has(e.target)
+  );
+  edges.push(...validDataFlowEdges);
+  console.log(`  - ${validDataFlowEdges.length} data-flow edges (${dataFlowEdges.length - validDataFlowEdges.length} skipped - invalid system)`);
+
   // Process wiki articles (already loaded earlier for connection validation)
   console.log('📚 Processing wiki articles...');
 
@@ -1051,7 +1059,7 @@ async function main() {
     edges,
     articles: wikiArticles, // Include full articles
     communities, // Include community metadata
-    principles: includePrinciples ? principles : undefined,
+    principles: principles.length > 0 ? principles : undefined,
     dataFlows: dataFlows.length > 0 ? dataFlows : undefined,
     metadata: {
       generatedAt: new Date().toISOString(),
@@ -1060,7 +1068,7 @@ async function main() {
       edgeCount: edges.length,
       articleCount: Object.keys(wikiArticles).length,
       communityCount: Object.keys(communities).length,
-      principleCount: includePrinciples ? principleCount : undefined,
+      principleCount: principleCount > 0 ? principleCount : undefined,
       dataFlowCount: dataFlows.length > 0 ? dataFlows.length : undefined,
     },
   };
