@@ -231,7 +231,7 @@ async function main() {
     const entries = readdirSync(dir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = join(dir, entry.name);
-      if (entry.isDirectory() && entry.name !== 'archive') {
+      if (entry.isDirectory() && entry.name !== 'archive' && entry.name !== 'archived') {
         scanDir(fullPath);
       } else if (entry.name.endsWith('-ARCHITECTURE.md')) {
         archFiles.push(fullPath);
