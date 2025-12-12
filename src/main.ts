@@ -1,5 +1,5 @@
 import './style.css';
-import type { GraphData, IssueCategory, CommunityInfo } from './types';
+import type { GraphData, IssueCategory, CommunityInfo, PrimitiveName } from './types';
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
@@ -46,12 +46,38 @@ const COMMUNITY_COLORS: Record<number, string> = {
   22: '#7c3aed',  // Violet2
 };
 
+// Primitive colors for hull overlays (matching simulation primitives)
+const PRIMITIVE_COLORS: Record<string, { color: string; label: string }> = {
+  TrustErosion: { color: '#ef4444', label: 'Trust Erosion' },
+  DeathSpiral: { color: '#dc2626', label: 'Death Spiral' },
+  ThresholdCascade: { color: '#f97316', label: 'Threshold Cascade' },
+  CapacityStress: { color: '#eab308', label: 'Capacity Stress' },
+  ContagionPropagation: { color: '#84cc16', label: 'Contagion' },
+  LegitimacyDynamics: { color: '#22c55e', label: 'Legitimacy' },
+  FeedbackLoop: { color: '#14b8a6', label: 'Feedback Loop' },
+  PolicyContagion: { color: '#06b6d4', label: 'Policy Contagion' },
+  ResourceDepletion: { color: '#0ea5e9', label: 'Resource Depletion' },
+  ExodusMigration: { color: '#3b82f6', label: 'Exodus Migration' },
+  CaptureConcentration: { color: '#6366f1', label: 'Capture' },
+  ResistanceBacklash: { color: '#8b5cf6', label: 'Resistance' },
+  QueueBacklog: { color: '#a855f7', label: 'Queue Backlog' },
+  AdaptiveResistance: { color: '#d946ef', label: 'Adaptive Resistance' },
+};
+
 function getCategoryColor(category: IssueCategory): string {
   return CATEGORY_COLORS[category];
 }
 
 function getCommunityColor(communityId: number): string {
   return COMMUNITY_COLORS[communityId] || '#64748b'; // Fallback to gray
+}
+
+function getPrimitiveColor(primitive: PrimitiveName): string {
+  return PRIMITIVE_COLORS[primitive]?.color || '#64748b';
+}
+
+function getPrimitiveLabel(primitive: PrimitiveName): string {
+  return PRIMITIVE_COLORS[primitive]?.label || primitive;
 }
 
 /**
@@ -506,7 +532,11 @@ async function main() {
   let showIssues = true;
   let showSystems = false;
   let showPrinciples = false;
+  let showPrimitives = false;
   let showDataFlows = false; // Show directed data flow arrows
+
+  // Primitive selection state
+  let selectedPrimitive: PrimitiveName | null = null;
 
   // Cluster visualization state
   let showClusters = false;
@@ -758,6 +788,145 @@ async function main() {
         renderTable();
       }
     });
+  }
+
+  // Primitives toggle button
+  const showPrimitivesBtn = document.getElementById('show-primitives-btn') as HTMLButtonElement;
+  if (showPrimitivesBtn) {
+    showPrimitivesBtn.addEventListener('click', () => {
+      showPrimitives = !showPrimitives;
+      showPrimitivesBtn.classList.toggle('active', showPrimitives);
+      updateSearchPlaceholder();
+      // Show/hide primitive legend panel
+      updatePrimitiveLegend();
+      render();
+      if (currentView === 'table') {
+        renderTable();
+      }
+    });
+  }
+
+  // Create or update the primitive legend panel
+  function updatePrimitiveLegend() {
+    let legend = document.getElementById('primitive-legend');
+
+    if (!showPrimitives) {
+      if (legend) legend.remove();
+      selectedPrimitive = null;
+      return;
+    }
+
+    if (!legend) {
+      legend = document.createElement('div');
+      legend.id = 'primitive-legend';
+      legend.style.cssText = `
+        position: fixed;
+        top: 120px;
+        right: 20px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px;
+        z-index: 100;
+        max-height: 60vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      `;
+      document.body.appendChild(legend);
+    }
+
+    // Count issues per primitive
+    const primitiveCounts = new Map<PrimitiveName, number>();
+    for (const node of data.nodes) {
+      if (node.primitives) {
+        for (const p of node.primitives) {
+          primitiveCounts.set(p, (primitiveCounts.get(p) || 0) + 1);
+        }
+      }
+    }
+
+    // Sort by count
+    const sortedPrimitives = Array.from(primitiveCounts.entries())
+      .sort((a, b) => b[1] - a[1]);
+
+    legend.innerHTML = `
+      <div style="font-weight: 600; margin-bottom: 8px; color: #e2e8f0; font-size: 13px;">
+        Simulation Primitives
+      </div>
+      <div style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">
+        Click to highlight issues
+      </div>
+      ${sortedPrimitives.map(([primitive, count]) => `
+        <div class="primitive-item" data-primitive="${primitive}" style="
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 8px;
+          margin: 2px 0;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.15s;
+          ${selectedPrimitive === primitive ? 'background: rgba(255, 255, 255, 0.15);' : ''}
+        ">
+          <div style="
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            background: ${getPrimitiveColor(primitive)};
+            flex-shrink: 0;
+          "></div>
+          <span style="color: #e2e8f0; font-size: 12px; flex: 1;">${getPrimitiveLabel(primitive)}</span>
+          <span style="color: #64748b; font-size: 11px;">${count}</span>
+        </div>
+      `).join('')}
+      ${selectedPrimitive ? `
+        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+          <button id="clear-primitive-selection" style="
+            width: 100%;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: #94a3b8;
+            font-size: 11px;
+            cursor: pointer;
+          ">Clear selection</button>
+        </div>
+      ` : ''}
+    `;
+
+    // Add hover effects
+    legend.querySelectorAll('.primitive-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        (item as HTMLElement).style.background = 'rgba(255, 255, 255, 0.1)';
+      });
+      item.addEventListener('mouseleave', () => {
+        const p = item.getAttribute('data-primitive') as PrimitiveName | null;
+        (item as HTMLElement).style.background = selectedPrimitive === p ? 'rgba(255, 255, 255, 0.15)' : '';
+      });
+      item.addEventListener('click', () => {
+        const p = item.getAttribute('data-primitive') as PrimitiveName | null;
+        selectedPrimitive = selectedPrimitive === p ? null : p;
+        updatePrimitiveLegend();
+        render();
+        if (currentView === 'table') {
+          renderTable();
+        }
+      });
+    });
+
+    // Clear button
+    const clearBtn = document.getElementById('clear-primitive-selection');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        selectedPrimitive = null;
+        updatePrimitiveLegend();
+        render();
+        if (currentView === 'table') {
+          renderTable();
+        }
+      });
+    }
   }
 
   // Data Flows toggle button
@@ -1239,10 +1408,16 @@ async function main() {
         isRelevant = isSearchMatch;
       } else if (selectedNode) {
         isRelevant = isSelected || isConnected;
+      } else if (selectedPrimitive) {
+        // Highlight nodes that use the selected primitive
+        isRelevant = node.primitives?.includes(selectedPrimitive) ?? false;
       }
 
-      // Use category color for nodes
-      ctx.fillStyle = node.color;
+      // Use category color for nodes, or primitive color if selected
+      const useColor = selectedPrimitive && node.primitives?.includes(selectedPrimitive)
+        ? getPrimitiveColor(selectedPrimitive)
+        : node.color;
+      ctx.fillStyle = useColor;
       ctx.globalAlpha = isRelevant ? (isHovered ? 1.0 : 0.9) : 0.1;
 
       const size = (isHovered || isSelected) ? node.size * 1.2 : node.size;
@@ -1412,6 +1587,11 @@ async function main() {
       const anyCategoryActive = !node.categories?.length || node.categories.some(cat => activeCategories.has(cat));
       if (!anyCategoryActive) return false;
 
+      // Apply primitive filter
+      if (selectedPrimitive) {
+        if (!node.primitives?.includes(selectedPrimitive)) return false;
+      }
+
       // Apply search filter
       if (searchTerm !== '') {
         return searchResults.has(node.id);
@@ -1564,6 +1744,7 @@ async function main() {
     // Filter out subsystems (those with parentheses) to show only main systems
     const systemArticles = articles.filter(a => a.type === 'system' && !a.title.includes('('));
     const principleArticles = articles.filter(a => a.type === 'principle');
+    const primitiveArticles = articles.filter(a => a.type === 'primitive');
 
     // Mobile: collapse sidebar when an article is selected
     if (wikiSidebar) {
@@ -1614,6 +1795,15 @@ async function main() {
           </div>
         </div>
       ` : ''}
+
+      ${primitiveArticles.length > 0 ? `
+        <div class="wiki-sidebar-section">
+          <h3>Primitives (${primitiveArticles.length})</h3>
+          <div class="wiki-sidebar-list">
+            ${primitiveArticles.map(renderSidebarItem).join('')}
+          </div>
+        </div>
+      ` : ''}
     `;
 
     wikiSidebarContent.innerHTML = sidebarHtml;
@@ -1622,6 +1812,8 @@ async function main() {
     if (selectedWikiArticle && data.articles[selectedWikiArticle]) {
       const article = data.articles[selectedWikiArticle];
       wikiArticleContent.innerHTML = renderWikiArticleContent(article, data);
+      // Reset scroll position when switching articles
+      wikiArticleContent.scrollTop = 0;
     } else {
       // Render collapsible sections for the main wiki page
       const renderCollapsibleSection = (title: string, items: typeof articles, typeClass: string) => {
@@ -1652,6 +1844,7 @@ async function main() {
             ${renderCollapsibleSection('Issues', issueArticles, 'issues-section')}
             ${renderCollapsibleSection('Systems', systemArticles, 'systems-section')}
             ${renderCollapsibleSection('Principles', principleArticles, 'principles-section')}
+            ${renderCollapsibleSection('Primitives', primitiveArticles, 'primitives-section')}
           </div>
         </div>
       `;
@@ -1842,6 +2035,8 @@ async function main() {
     if (selectedCommunity && data.articles && data.articles[selectedCommunity]) {
       const article = data.articles[selectedCommunity];
       communitiesArticleContent.innerHTML = renderWikiArticleContent(article, data);
+      // Reset scroll position when switching articles
+      communitiesArticleContent.scrollTop = 0;
     } else {
       communitiesArticleContent.innerHTML = `
         <div class="wiki-welcome">

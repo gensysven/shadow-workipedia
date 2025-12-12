@@ -921,6 +921,89 @@ function loadPrimitivesMapping(): Map<string, PrimitiveName[]> {
   return mapping;
 }
 
+// Primitive display info
+const PRIMITIVE_INFO: Record<PrimitiveName, { label: string; color: string; pattern: string }> = {
+  TrustErosion: { label: 'Trust Erosion', color: '#ef4444', pattern: 'harm → fear → avoidance → worse' },
+  DeathSpiral: { label: 'Death Spiral', color: '#dc2626', pattern: 'A↓ → B↓ → collapse' },
+  ThresholdCascade: { label: 'Threshold Cascade', color: '#f97316', pattern: 'accumulation → threshold → phase transition' },
+  CapacityStress: { label: 'Capacity Stress', color: '#eab308', pattern: 'utilization↑ → degradation → overflow' },
+  ContagionPropagation: { label: 'Contagion', color: '#84cc16', pattern: 'shock → channel spread → amplification' },
+  LegitimacyDynamics: { label: 'Legitimacy', color: '#22c55e', pattern: 'performance → legitimacy → compliance' },
+  FeedbackLoop: { label: 'Feedback Loop', color: '#14b8a6', pattern: 'A → B → A (reinforcing/balancing)' },
+  PolicyContagion: { label: 'Policy Contagion', color: '#06b6d4', pattern: 'adopt → neighbor pressure → spread' },
+  ResourceDepletion: { label: 'Resource Depletion', color: '#0ea5e9', pattern: 'extraction > renewal → scarcity' },
+  ExodusMigration: { label: 'Exodus Migration', color: '#3b82f6', pattern: 'push factors → threshold → mass movement' },
+  CaptureConcentration: { label: 'Capture', color: '#6366f1', pattern: 'advantage → accumulation → lock-in' },
+  ResistanceBacklash: { label: 'Resistance', color: '#8b5cf6', pattern: 'grievance → mobilization → counter-reaction' },
+  QueueBacklog: { label: 'Queue Backlog', color: '#a855f7', pattern: 'arrival > service → backlog → delay' },
+  AdaptiveResistance: { label: 'Adaptive Resistance', color: '#d946ef', pattern: 'intervention → selection → resistance' },
+};
+
+/**
+ * Create primitive nodes and issue-primitive edges from the primitives mapping
+ */
+function createPrimitiveGraphData(
+  primitivesMapping: Map<string, PrimitiveName[]>,
+  slugToNumberMap: Map<string, number>,
+  issueNodes: GraphNode[]
+): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  const nodes: GraphNode[] = [];
+  const edges: GraphEdge[] = [];
+
+  // Build reverse map: number -> slug
+  const numberToSlug = new Map<number, string>();
+  for (const [slug, num] of slugToNumberMap) {
+    numberToSlug.set(num, slug);
+  }
+
+  // Track which primitives are actually used
+  const usedPrimitives = new Set<PrimitiveName>();
+  const primitiveUsageCount = new Map<PrimitiveName, number>();
+
+  // Create edges from issues to primitives
+  for (const [issueNum, primitives] of primitivesMapping) {
+    const slug = numberToSlug.get(parseInt(issueNum, 10));
+    if (!slug) continue;
+
+    // Check if this issue exists in our nodes
+    const issueNode = issueNodes.find(n => n.id === slug);
+    if (!issueNode) continue;
+
+    for (const primitive of primitives) {
+      usedPrimitives.add(primitive);
+      primitiveUsageCount.set(primitive, (primitiveUsageCount.get(primitive) || 0) + 1);
+
+      // Create edge from issue to primitive
+      const primitiveId = primitive.replace(/([A-Z])/g, '-$1').toLowerCase().slice(1); // TrustErosion -> trust-erosion
+      edges.push({
+        source: slug,
+        target: primitiveId,
+        type: 'issue-primitive',
+        strength: 0.3,
+      });
+    }
+  }
+
+  // Create primitive nodes for each used primitive
+  for (const primitive of usedPrimitives) {
+    const info = PRIMITIVE_INFO[primitive];
+    const primitiveId = primitive.replace(/([A-Z])/g, '-$1').toLowerCase().slice(1);
+    const usageCount = primitiveUsageCount.get(primitive) || 0;
+
+    nodes.push({
+      id: primitiveId,
+      type: 'primitive',
+      label: info.label,
+      description: info.pattern,
+      color: info.color,
+      size: 10 + Math.min(usageCount / 5, 8), // Size based on usage
+      usageCount,
+    });
+  }
+
+  return { nodes, edges };
+}
+
 /**
  * Build a mapping from issue slug to issue number by parsing ARCHITECTURE filenames
  */
@@ -1054,6 +1137,9 @@ async function main() {
     console.log(`🔗 Added ${validPrincipleEdges.length} principle edges (${skippedEdges} skipped - invalid target)`);
   }
 
+  // Note: Primitives are rendered as overlays/hulls, not as separate nodes
+  // The primitives field on issue nodes is used by the UI for grouping
+
   // Create system ID map for edge creation
   const systemIdMap = new Map(systemNodes.map(s => [s.label, s.id]));
 
@@ -1173,10 +1259,13 @@ async function main() {
   for (const [id, article] of wikiContent.principles) {
     wikiArticles[id] = article;
   }
+  for (const [id, article] of wikiContent.primitives) {
+    wikiArticles[id] = article;
+  }
 
   // Then, attach wiki article metadata to matching nodes
   for (const node of nodes) {
-    const article = getWikiArticle(node.id, node.type as 'issue' | 'system' | 'principle', wikiContent);
+    const article = getWikiArticle(node.id, node.type as 'issue' | 'system' | 'principle' | 'primitive', wikiContent);
     if (article) {
       // Add hasArticle flag to node
       node.hasArticle = true;
@@ -1197,6 +1286,7 @@ async function main() {
   console.log(`  - ${wikiContent.issues.size} issue articles`);
   console.log(`  - ${wikiContent.systems.size} system articles`);
   console.log(`  - ${wikiContent.principles.size} principle articles`);
+  console.log(`  - ${wikiContent.primitives.size} primitive articles`);
 
   const principleCount = nodes.filter(n => n.type === 'principle').length;
 

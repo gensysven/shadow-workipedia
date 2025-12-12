@@ -87,6 +87,7 @@ export interface GraphNode {
 export type EdgeType =
   | 'issue-issue'
   | 'issue-system'
+  | 'issue-primitive'     // Issue uses a simulation primitive
   | 'system-system'
   | 'principle-system'    // Principle governs a system
   | 'principle-issue'     // Principle affects an issue
@@ -107,7 +108,7 @@ export interface GraphEdge {
 export interface WikiArticle {
   id: string;
   title: string;
-  type: 'issue' | 'system' | 'principle';
+  type: 'issue' | 'system' | 'principle' | 'primitive';
   frontmatter: Record<string, any>;
   content: string;
   html: string;
