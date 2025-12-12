@@ -11,6 +11,7 @@ socialImpact: 84
 affectedSystems: [Population, Economy, Politics, Healthcare, Social Stability]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

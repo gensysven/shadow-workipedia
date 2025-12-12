@@ -11,6 +11,7 @@ socialImpact: 62
 affectedSystems: [Financial Markets, Commodity Markets, Banking Sector, Global Trade]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

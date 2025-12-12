@@ -11,6 +11,7 @@ socialImpact: 71
 affectedSystems: [Financial Markets, Global Trade, Banking Sector, Supply Chain, Emerging Markets]
 connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
 ---
 

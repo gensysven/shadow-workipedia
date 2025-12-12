@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Political Systems, Democratic Institutions, Legal Systems, Media]
 connections: [corporate-personhood-battles, corruption-normalization, billionaire-media-ownership]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

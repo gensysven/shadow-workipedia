@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [culture, politics, technology, media, civil-society]
 connections: [social-media-addiction-crisis, disinformation-plague]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 76
 affectedSystems: [Electoral Systems, Democratic Institutions, Constitutional Order, Political Systems]
 connections: [election-denialism]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

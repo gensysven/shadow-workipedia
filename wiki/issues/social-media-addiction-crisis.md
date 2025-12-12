@@ -11,6 +11,7 @@ socialImpact: 71
 affectedSystems: [technology, healthcare, culture, population-cohorts]
 connections: [mental-health-apocalypse, disinformation-plague, cancel-culture-tribunal, gender-medicine-youth-controversy]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

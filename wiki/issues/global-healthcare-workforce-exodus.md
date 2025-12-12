@@ -11,6 +11,7 @@ socialImpact: 91
 affectedSystems: [Healthcare, Labor Markets, Public Health, Economic Systems]
 connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

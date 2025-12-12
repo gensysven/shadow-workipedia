@@ -21,6 +21,7 @@ connections:
   - climate-refugee-floods
   - comprehensive-refugee-system-collapse
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

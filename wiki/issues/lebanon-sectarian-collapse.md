@@ -11,6 +11,7 @@ socialImpact: 91
 affectedSystems: [State Governance, Financial Systems, Humanitarian, Regional Security]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 97
 affectedSystems: [Technology, Media, Politics, Diplomacy]
 connections: [disinformation-plague, ai-deepfake-diplomatic-mutinies, ai-voice-clone-fraud-meltdowns, section-230-wars]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
 ---
 

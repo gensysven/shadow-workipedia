@@ -1,7 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import * as yaml from 'yaml';
-import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency, CommunityInfo, PrincipleInfo, DataFlowInfo } from '../src/types';
+import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency, CommunityInfo, PrincipleInfo, DataFlowInfo, PrimitiveName } from '../src/types';
 import { parseSystemWalkTracker, getSystemWalkData } from './parse-system-walks';
 import { loadWikiContent, getWikiArticle, type WikiArticle } from './parse-wiki';
 
@@ -11,6 +11,7 @@ const YAML_DATA_DIR = join(PARENT_REPO, 'data/issues');
 const COMMUNITIES_DATA_FILE = join(PARENT_REPO, 'data/generated/analysis/communities-with-mechanics.json');
 const PRINCIPLES_INDEX_FILE = join(process.cwd(), 'data/principles-index.json');
 const DATA_FLOWS_FILE = join(process.cwd(), 'data/system-data-flows.json');
+const PRIMITIVES_MAPPING_FILE = join(PARENT_REPO, 'docs/technical/simulation-primitives-mapping.json');
 
 // Color palette for categories (will be used in future extraction logic)
 const CATEGORY_COLORS: Record<IssueCategory, string> = {
@@ -275,7 +276,9 @@ function issueToNode(
   issue: RawIssue,
   issueNumber: number,
   curatedMappings: Map<string, string[]>,
-  systemWalkMap: Map<string, { issueNumber: number; subsystemCount: number; totalLines: number }>
+  systemWalkMap: Map<string, { issueNumber: number; subsystemCount: number; totalLines: number }>,
+  primitivesMapping: Map<string, PrimitiveName[]>,
+  slugToNumberMap: Map<string, number>
 ): GraphNode {
   const urgencySizes = {
     Critical: 16,
@@ -291,6 +294,12 @@ function issueToNode(
   // Get system walk data for this issue
   const systemWalk = getSystemWalkData(issue.id, issueNumber, PARENT_REPO, systemWalkMap);
 
+  // Get actual issue number from slug-to-number map (built from ARCHITECTURE filenames)
+  const realIssueNumber = slugToNumberMap.get(issue.id) ?? issueNumber;
+
+  // Get primitives for this issue number
+  const primitives = primitivesMapping.get(String(realIssueNumber));
+
   return {
     id: issue.id,
     type: 'issue',
@@ -302,6 +311,7 @@ function issueToNode(
     economicImpact: Math.floor(Math.random() * 50) + 50, // Mock: 50-100
     socialImpact: Math.floor(Math.random() * 50) + 50,   // Mock: 50-100
     affectedSystems: curatedMappings.get(issue.id) || [],
+    primitives,
     triggerConditions: issue.triggerConditions,
     peakYears: issue.peakYears,
     crisisExamples: issue.crisisExamples,
@@ -320,7 +330,9 @@ function wikiArticleToNode(
   issueNumber: number,
   curatedMappings: Map<string, string[]>,
   systemWalkMap: Map<string, { issueNumber: number; subsystemCount: number; totalLines: number }>,
-  multiCategoryData: Map<string, IssueCategory[]>
+  multiCategoryData: Map<string, IssueCategory[]>,
+  primitivesMapping: Map<string, PrimitiveName[]>,
+  slugToNumberMap: Map<string, number>
 ): GraphNode {
   const fm = article.frontmatter;
 
@@ -360,6 +372,15 @@ function wikiArticleToNode(
     affectedSystems = Array.isArray(fm.affectedSystems) ? fm.affectedSystems : [fm.affectedSystems];
   }
 
+  // Get actual issue number from slug-to-number map, fallback to frontmatter number
+  const realIssueNumber = slugToNumberMap.get(article.id) ?? (fm.number ? parseInt(fm.number, 10) : null);
+
+  // Get primitives from frontmatter (if added) or mapping
+  let primitives: PrimitiveName[] | undefined = fm.primitives as PrimitiveName[] | undefined;
+  if (!primitives && realIssueNumber) {
+    primitives = primitivesMapping.get(String(realIssueNumber));
+  }
+
   // Convert 0-10 scale to 0-100 if needed
   const publicConcern = fm.publicConcern ? (fm.publicConcern <= 10 ? fm.publicConcern * 10 : fm.publicConcern) : 70;
   const economicImpact = fm.economicImpact ? (fm.economicImpact <= 10 ? fm.economicImpact * 10 : fm.economicImpact) : 60;
@@ -376,6 +397,7 @@ function wikiArticleToNode(
     economicImpact,
     socialImpact,
     affectedSystems,
+    primitives,
     systemWalk,
     hasArticle: true,
     wordCount: article.wordCount,
@@ -872,6 +894,62 @@ function loadDataFlows(): { dataFlows: DataFlowInfo[]; edges: GraphEdge[] } {
   return { dataFlows, edges };
 }
 
+/**
+ * Load primitives mapping from simulation-primitives-mapping.json
+ * Returns a map from issue number (as string) to array of primitive names
+ */
+function loadPrimitivesMapping(): Map<string, PrimitiveName[]> {
+  const mapping = new Map<string, PrimitiveName[]>();
+
+  if (!existsSync(PRIMITIVES_MAPPING_FILE)) {
+    console.warn('⚠️  Primitives mapping file not found');
+    return mapping;
+  }
+
+  try {
+    const data = JSON.parse(readFileSync(PRIMITIVES_MAPPING_FILE, 'utf-8'));
+    for (const [swKey, info] of Object.entries(data)) {
+      // Extract number from SW#123 format
+      const num = swKey.replace('SW#', '').replace(/^0+/, '') || '0';
+      const primitives = (info as { primitives: string[] }).primitives as PrimitiveName[];
+      mapping.set(num, primitives);
+    }
+  } catch (e) {
+    console.warn('⚠️  Error loading primitives mapping:', e);
+  }
+
+  return mapping;
+}
+
+/**
+ * Build a mapping from issue slug to issue number by parsing ARCHITECTURE filenames
+ */
+function buildSlugToIssueNumberMap(): Map<string, number> {
+  const mapping = new Map<string, number>();
+  const systemsDir = join(PARENT_REPO, 'docs/technical/simulation-systems');
+
+  if (!existsSync(systemsDir)) {
+    return mapping;
+  }
+
+  try {
+    const files = readdirSync(systemsDir);
+    for (const file of files) {
+      // Match pattern: NN-slug-ARCHITECTURE.md
+      const match = file.match(/^(\d+)-(.+)-ARCHITECTURE\.md$/);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        const slug = match[2];
+        mapping.set(slug, num);
+      }
+    }
+  } catch (e) {
+    console.warn('⚠️  Error building slug-to-number map:', e);
+  }
+
+  return mapping;
+}
+
 async function main() {
   console.log('🔍 Extracting data from Shadow Work...');
 
@@ -898,6 +976,14 @@ async function main() {
   const { dataFlows, edges: dataFlowEdges } = loadDataFlows();
   console.log(`🔗 Loaded ${dataFlows.length} data flow connections`);
 
+  // Load primitives mapping
+  const primitivesMapping = loadPrimitivesMapping();
+  console.log(`🧩 Loaded ${primitivesMapping.size} issue-primitive mappings`);
+
+  // Build slug-to-issue-number map from ARCHITECTURE filenames
+  const slugToNumberMap = buildSlugToIssueNumberMap();
+  console.log(`📌 Built slug-to-number map with ${slugToNumberMap.size} entries`);
+
   // Parse system walk tracker
   const systemWalkMap = parseSystemWalkTracker(PARENT_REPO);
 
@@ -917,7 +1003,7 @@ async function main() {
     console.log(`📦 Skipping ${archivedCount} archived issues (wiki articles in archive)`);
   }
 
-  const issueNodes = rawIssues.map((issue, index) => issueToNode(issue, index + 1, curatedMappings, systemWalkMap));
+  const issueNodes = rawIssues.map((issue, index) => issueToNode(issue, index + 1, curatedMappings, systemWalkMap, primitivesMapping, slugToNumberMap));
   nodes.push(...issueNodes);
 
   // Create nodes from wiki-only articles (not in catalog)
@@ -932,7 +1018,7 @@ async function main() {
   if (wikiOnlyArticles.length > 0) {
     console.log(`📰 Found ${wikiOnlyArticles.length} wiki-only issues (no catalog entry)`);
     const wikiOnlyNodes = wikiOnlyArticles.map((article, index) =>
-      wikiArticleToNode(article, 300 + index, curatedMappings, systemWalkMap, multiCategoryData)
+      wikiArticleToNode(article, 300 + index, curatedMappings, systemWalkMap, multiCategoryData, primitivesMapping, slugToNumberMap)
     );
     nodes.push(...wikiOnlyNodes);
     issueNodes.push(...wikiOnlyNodes); // Also add to issueNodes for edge processing

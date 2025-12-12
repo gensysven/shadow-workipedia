@@ -11,6 +11,7 @@ socialImpact: 88
 affectedSystems: [Economy, Labor, Law, Technology]
 connections: [ai-job-displacement-tsunami, global-healthcare-workforce-exodus, student-debt-slavery]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
 ---
 

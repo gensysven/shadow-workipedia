@@ -11,6 +11,7 @@ socialImpact: 78
 affectedSystems: [Regional Security, International Law, Maritime Systems, Energy Infrastructure, Trade & Logistics]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

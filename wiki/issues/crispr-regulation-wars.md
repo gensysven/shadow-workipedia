@@ -11,6 +11,7 @@ socialImpact: 82
 affectedSystems: [Healthcare, Biotechnology, Legal Systems, Ethics Systems, International Relations, Politics]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 81
 affectedSystems: [Healthcare, Social Systems, Economic Systems, Political Systems]
 connections: [genetic-caste-formation]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

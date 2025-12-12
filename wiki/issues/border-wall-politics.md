@@ -11,6 +11,7 @@ socialImpact: 88
 affectedSystems: [Politics, Diplomacy, Economy, Population]
 connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Claude Code
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 89
 affectedSystems: [Social Systems, Healthcare, Legal Systems, Economic Systems]
 connections: [crispr-regulation-wars]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

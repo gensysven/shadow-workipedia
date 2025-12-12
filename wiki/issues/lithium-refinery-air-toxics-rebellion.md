@@ -11,6 +11,7 @@ socialImpact: 74
 affectedSystems: [Manufacturing, Environmental, Public Health, Energy Transition]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'LegitimacyDynamics', 'ResourceDepletion', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

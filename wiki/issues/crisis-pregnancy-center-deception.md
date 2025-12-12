@@ -11,6 +11,7 @@ socialImpact: 75
 affectedSystems: [Healthcare, Women's Rights, Information Systems, Legal Systems]
 connections: [abortion-access-crisis]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

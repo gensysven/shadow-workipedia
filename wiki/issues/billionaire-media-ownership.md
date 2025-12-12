@@ -11,6 +11,7 @@ socialImpact: 85
 affectedSystems: [Politics, Culture, Information, Economy, Institutions]
 connections: [democratic-backsliding, election-denialism, ai-deepfake-diplomatic-mutinies, deepfake-reality-crisis]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ContagionPropagation', 'LegitimacyDynamics', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

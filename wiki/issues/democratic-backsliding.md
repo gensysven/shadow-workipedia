@@ -11,6 +11,7 @@ socialImpact: 58
 affectedSystems: [Politics, Institutions, Culture, International Orgs]
 connections: [gerrymandering-extremism, election-denialism, electoral-college-crisis, billionaire-media-ownership]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

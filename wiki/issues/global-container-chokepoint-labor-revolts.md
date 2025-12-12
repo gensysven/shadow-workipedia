@@ -11,6 +11,7 @@ socialImpact: 71
 affectedSystems: [Supply Chain, Labor Markets, Global Trade, Manufacturing]
 connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

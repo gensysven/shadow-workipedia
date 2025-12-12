@@ -21,6 +21,7 @@ connections:
   - pacific-island-nations-disappearing
   - climate-insurance-collapse-and-managed-retreat-wars
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ContagionPropagation', 'LegitimacyDynamics', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

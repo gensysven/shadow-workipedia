@@ -11,6 +11,7 @@ socialImpact: 92
 affectedSystems: [Economy, Technology, Politics, Education, Population]
 connections: [gig-economy-serfdom, student-debt-slavery, mental-health-apocalypse, universal-basic-income-trials]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 85
 affectedSystems: [Politics, Media, Culture, Civil Society, International Relations]
 connections: [democratic-backsliding]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

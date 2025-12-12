@@ -11,6 +11,7 @@ socialImpact: 85
 affectedSystems: [Healthcare, Scientific Research, Biosecurity, International Relations]
 connections: [bioweapon-proliferation]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'AdaptiveResistance']
 lastUpdated: 2025-11-25
 ---
 

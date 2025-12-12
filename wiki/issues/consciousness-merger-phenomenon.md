@@ -11,6 +11,7 @@ socialImpact: 78
 affectedSystems: [Technology Systems, Identity Systems, Legal Systems, Healthcare]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

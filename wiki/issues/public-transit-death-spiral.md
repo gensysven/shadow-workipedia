@@ -11,6 +11,7 @@ socialImpact: 75
 affectedSystems: [Infrastructure, Environment, Economy, Civil Society]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['CapacityStress', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

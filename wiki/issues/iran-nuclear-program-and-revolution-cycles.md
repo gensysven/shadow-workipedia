@@ -11,6 +11,7 @@ socialImpact: 81
 affectedSystems: [Regional Security, Nuclear Proliferation, International Relations, Energy]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

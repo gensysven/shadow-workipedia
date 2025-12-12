@@ -11,6 +11,7 @@ socialImpact: 94
 affectedSystems: [Regional Security, Humanitarian Systems, International Law, African Union]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'AdaptiveResistance']
 lastUpdated: 2025-11-25
 ---
 

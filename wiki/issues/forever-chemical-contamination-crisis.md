@@ -11,6 +11,7 @@ socialImpact: 82
 affectedSystems: [Water Systems, Healthcare, Legal Systems, Manufacturing]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

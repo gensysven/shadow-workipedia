@@ -1664,7 +1664,7 @@ async function main() {
         if (articleId && data.articles && data.articles[articleId]) {
           const article = data.articles[articleId];
           // Navigate via router to update URL
-          router.navigateToArticle(article.type as 'issue' | 'system', articleId);
+          router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive', articleId);
         }
       });
     });
@@ -1891,7 +1891,7 @@ async function main() {
           const articleId = wikiMatch[1];
           if (data.articles && data.articles[articleId]) {
             const article = data.articles[articleId];
-            router.navigateToArticle(article.type as 'issue' | 'system', articleId);
+            router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive', articleId);
           }
         }
       });

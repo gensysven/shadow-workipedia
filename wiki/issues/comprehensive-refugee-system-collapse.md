@@ -11,6 +11,7 @@ socialImpact: 89
 affectedSystems: [Migration Systems, International Relations, Humanitarian Aid, Border Security, Population]
 connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

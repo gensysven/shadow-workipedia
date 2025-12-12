@@ -11,6 +11,7 @@ socialImpact: 89
 affectedSystems: [Food Production, Global Trade, International Relations, Humanitarian Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

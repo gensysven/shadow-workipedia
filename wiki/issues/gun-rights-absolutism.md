@@ -11,6 +11,7 @@ socialImpact: 87
 affectedSystems: [Political Systems, Legal Systems, Public Safety, Cultural Systems]
 connections: [canadian-political-polarization]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

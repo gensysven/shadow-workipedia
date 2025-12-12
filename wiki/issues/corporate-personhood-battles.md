@@ -11,6 +11,7 @@ socialImpact: 78
 affectedSystems: [Legal Systems, Political Systems, Economic Systems, Democratic Institutions]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

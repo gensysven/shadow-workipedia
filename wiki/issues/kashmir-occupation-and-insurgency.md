@@ -11,6 +11,7 @@ socialImpact: 88
 affectedSystems: [Regional Security, Human Rights, International Relations, Governance]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

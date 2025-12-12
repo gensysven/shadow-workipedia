@@ -11,6 +11,7 @@ socialImpact: 84
 affectedSystems: [Ocean Systems, Biodiversity, Food Production, Coastal Communities, Tourism]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'CapacityStress', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

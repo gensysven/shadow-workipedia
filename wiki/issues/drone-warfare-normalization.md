@@ -11,6 +11,7 @@ socialImpact: 78
 affectedSystems: [Military Systems, International Law, Security, Technology]
 connections: [autonomous-weapons-proliferation]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

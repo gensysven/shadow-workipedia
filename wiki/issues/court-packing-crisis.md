@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Judicial System, Political System, Constitutional Order, Democratic Institutions]
 connections: [supreme-court-legitimacy-crisis, democratic-backsliding]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-24
 ---
 

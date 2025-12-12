@@ -11,6 +11,7 @@ socialImpact: 78
 affectedSystems: [Financial Markets, EU Institutions, Banking Sector, Social Welfare]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

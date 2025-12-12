@@ -96,7 +96,7 @@ export class ArticleRouter {
     this.navigateToView('graph');
   }
 
-  navigateToArticle(_type: 'issue' | 'system' | 'principle', slug: string) {
+  navigateToArticle(_type: 'issue' | 'system' | 'principle' | 'primitive', slug: string) {
     // Use #/wiki/slug for issues, systems, and principles (wiki view with sidebar)
     window.location.hash = `#/wiki/${slug}`;
   }

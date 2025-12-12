@@ -11,6 +11,7 @@ socialImpact: 90
 affectedSystems: [Economy, Politics, Social, Demographics]
 connections: [gig-economy-serfdom, student-debt-slavery, democratic-backsliding]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

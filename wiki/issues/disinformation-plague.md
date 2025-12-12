@@ -11,6 +11,7 @@ socialImpact: 64
 affectedSystems: [Media, Technology, Politics, Culture]
 connections: [deepfake-reality-crisis, social-media-addiction-crisis, pandemic-response-wars, election-denialism]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

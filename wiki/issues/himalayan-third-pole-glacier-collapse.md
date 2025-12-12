@@ -11,6 +11,7 @@ socialImpact: 93
 affectedSystems: [Water Systems, Agriculture, Energy, Regional Security]
 connections: [water-scarcity-wars]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

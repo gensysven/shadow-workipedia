@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Security, Technology, International Relations, Defense]
 connections: [autonomous-weapons-proliferation, drone-warfare-normalization]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

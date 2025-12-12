@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Healthcare, Public Health, Biodiversity, Economic Systems]
 connections: [antibiotic-resistance-crisis]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-24
 ---
 

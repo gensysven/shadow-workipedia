@@ -11,6 +11,7 @@ socialImpact: 88
 affectedSystems: [Population, Politics, Diplomacy, Crime, Climate, Economy]
 connections: [asylum-system-breakdown, border-wall-politics, climate-refugee-floods, democratic-backsliding]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

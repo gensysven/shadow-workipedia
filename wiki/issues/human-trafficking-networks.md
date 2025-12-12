@@ -11,6 +11,7 @@ socialImpact: 94
 affectedSystems: [Criminal Networks, Labor Markets, Human Rights, International Law]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

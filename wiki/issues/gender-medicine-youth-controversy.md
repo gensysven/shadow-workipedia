@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Healthcare, Youth Services, Legal Systems, Cultural Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration']
 lastUpdated: 2025-11-25
 ---
 

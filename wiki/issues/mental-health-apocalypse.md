@@ -11,6 +11,7 @@ socialImpact: 97
 affectedSystems: [Healthcare, Economy, Culture, Population (Cohorts)]
 connections: [social-media-addiction-crisis, ai-job-displacement-tsunami, cancel-culture-tribunal, ai-moderation-sweatshop-revolts]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

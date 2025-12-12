@@ -11,6 +11,7 @@ socialImpact: 92
 affectedSystems: [State Governance, Human Rights, Migration Systems, Regional Security]
 connections: [human-trafficking-networks, european-migration-crisis]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

@@ -1,4 +1,21 @@
-export type NodeType = 'issue' | 'system' | 'principle';
+export type NodeType = 'issue' | 'system' | 'principle' | 'primitive';
+
+// Simulation primitives from Rust engine
+export type PrimitiveName =
+  | 'TrustErosion'
+  | 'DeathSpiral'
+  | 'ThresholdCascade'
+  | 'CapacityStress'
+  | 'ContagionPropagation'
+  | 'LegitimacyDynamics'
+  | 'FeedbackLoop'
+  | 'PolicyContagion'
+  | 'ResourceDepletion'
+  | 'ExodusMigration'
+  | 'CaptureConcentration'
+  | 'ResistanceBacklash'
+  | 'QueueBacklog'
+  | 'AdaptiveResistance';
 
 export type IssueCategory =
   | 'Existential'
@@ -26,6 +43,7 @@ export interface GraphNode {
   economicImpact?: number;
   socialImpact?: number;
   affectedSystems?: string[]; // System tags from curated mappings
+  primitives?: PrimitiveName[]; // Simulation primitives from mapping
   triggerConditions?: string;
   peakYears?: string;
   crisisExamples?: string[];
@@ -55,6 +73,11 @@ export interface GraphNode {
   relatedPrinciples?: string[]; // IDs of related principles
   sourceSystem?: string;        // Source System Walk
   sourceFile?: string;          // Source ARCHITECTURE file
+
+  // Primitive-specific
+  pattern?: string;             // Pattern formula (e.g., "A↓ → B↓ → collapse")
+  usageCount?: number;          // Number of ARCHITECTURE files using this primitive
+  relatedPrimitives?: string[]; // Related primitive IDs
 
   // Visualization
   color: string;

@@ -11,6 +11,7 @@ socialImpact: 82
 affectedSystems: [Environment, Infrastructure, Economy, Health]
 connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'CapacityStress', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

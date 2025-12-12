@@ -11,6 +11,7 @@ socialImpact: 72
 affectedSystems: [Military Systems, Constitutional Order, Congressional Authority, Executive Power]
 connections: [drone-warfare-normalization]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

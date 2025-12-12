@@ -21,6 +21,7 @@ connections:
   - opioid-settlement-fallout-and-fentanyl-wave
   - mexican-cartel-violence-and-state-failure
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

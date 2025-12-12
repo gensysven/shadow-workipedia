@@ -11,6 +11,7 @@ socialImpact: 72
 affectedSystems: [Transportation, Aviation, Maritime, Financial Systems, Military]
 connections: [critical-infrastructure-attacks, just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'LegitimacyDynamics', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

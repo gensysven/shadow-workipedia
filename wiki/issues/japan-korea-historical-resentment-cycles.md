@@ -11,6 +11,7 @@ socialImpact: 69
 affectedSystems: [International Relations, Trade, Cultural Systems, Regional Security]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 72
 affectedSystems: [Legal Systems, Technology Systems, Privacy Systems, Economic Systems]
 connections: [consciousness-property-battles]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

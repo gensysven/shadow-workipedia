@@ -11,6 +11,7 @@ socialImpact: 68
 affectedSystems: [Economy, Politics (Policy), Public Finance, Technology]
 connections: [ai-job-displacement-tsunami,billionaire-abolition-movement]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration']
 lastUpdated: 2025-11-24
 ---
 

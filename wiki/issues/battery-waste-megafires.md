@@ -11,6 +11,7 @@ socialImpact: 76
 affectedSystems: [Climate, Economy, Health, Technology, Infrastructure]
 connections: []
 editedBy: Shadow Work Contributors
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

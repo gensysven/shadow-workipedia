@@ -11,6 +11,7 @@ socialImpact: 71
 affectedSystems: [Energy Infrastructure, Criminal Systems, Economic Systems, Supply Chain]
 connections: [critical-infrastructure-attacks]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-25
 ---
 

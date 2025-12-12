@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Housing, Healthcare, Social Services, Urban Systems]
 connections: [homelessness-criminalization, mental-health-apocalypse, housing-affordability-crisis]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration']
 lastUpdated: 2025-11-24
 ---
 

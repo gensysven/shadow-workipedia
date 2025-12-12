@@ -11,6 +11,7 @@ socialImpact: 84
 affectedSystems: [Education, LGBTQ Rights, Legal Systems, Cultural Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

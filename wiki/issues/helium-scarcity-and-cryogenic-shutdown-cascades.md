@@ -11,6 +11,7 @@ socialImpact: 68
 affectedSystems: [Healthcare, Technology, Manufacturing, Scientific Research]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

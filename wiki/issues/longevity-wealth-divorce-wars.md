@@ -11,6 +11,7 @@ socialImpact: 68
 affectedSystems: [Legal Systems, Family Systems, Wealth Transfer, Economic Systems]
 connections: [longevity-apartheid]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

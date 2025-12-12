@@ -21,6 +21,7 @@ connections:
   - iran-nuclear-program-and-revolution-cycles
   - global-shipping-corridor-disruptions
 editedBy: Shadow Work Team
+primitives: ['ContagionPropagation', 'LegitimacyDynamics', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
 ---
 

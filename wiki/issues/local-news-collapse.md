@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Media, Democratic Institutions, Information Systems, Community]
 connections: [disinformation-plague]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
 ---
 

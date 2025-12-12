@@ -11,6 +11,7 @@ socialImpact: 89
 affectedSystems: [Politics, Justice, Culture, Economy, Health]
 connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
 ---
 

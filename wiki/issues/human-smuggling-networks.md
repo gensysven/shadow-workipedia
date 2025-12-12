@@ -11,6 +11,7 @@ socialImpact: 81
 affectedSystems: [Migration Systems, Criminal Networks, Border Security, Humanitarian]
 connections: [asylum-system-breakdown]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

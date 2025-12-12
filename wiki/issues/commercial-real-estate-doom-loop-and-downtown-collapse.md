@@ -11,6 +11,7 @@ socialImpact: 73
 affectedSystems: [Financial Markets, Urban Systems, Banking Sector, Municipal Government]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

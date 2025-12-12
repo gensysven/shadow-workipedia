@@ -11,6 +11,7 @@ socialImpact: 87
 affectedSystems: [Pandemic, Politics, Healthcare, International Orgs]
 connections: [disinformation-plague, long-covid-labor-collapse, vaccine-hesitancy-epidemic, gain-of-function-research-battles]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'FeedbackLoop', 'PolicyContagion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 92
 affectedSystems: [Security, Technology, Diplomacy, Law]
 connections: [ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

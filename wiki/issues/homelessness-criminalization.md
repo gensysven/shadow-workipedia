@@ -11,6 +11,7 @@ socialImpact: 84
 affectedSystems: [Criminal Justice, Housing, Social Services, Urban Systems]
 connections: [housing-affordability-crisis, mass-incarceration-crisis, mental-health-apocalypse]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

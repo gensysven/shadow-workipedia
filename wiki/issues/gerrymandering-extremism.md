@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Electoral Systems, Democratic Institutions, Political Systems, Legal Systems]
 connections: [democratic-backsliding, canadian-political-polarization]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 ---
 

@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Migration Systems, EU Institutions, Social Cohesion, Border Security]
 connections: [climate-refugee-floods, asylum-system-breakdown]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-24
 ---
 

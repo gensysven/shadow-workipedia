@@ -11,6 +11,7 @@ socialImpact: 79
 affectedSystems: [Agriculture, Food Production, Rural Communities, Political Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

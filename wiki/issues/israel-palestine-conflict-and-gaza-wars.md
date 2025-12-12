@@ -11,6 +11,7 @@ socialImpact: 96
 affectedSystems: [Regional Security, Humanitarian, International Relations, Human Rights]
 connections: [comprehensive-refugee-system-collapse]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'CapacityStress', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

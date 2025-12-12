@@ -11,6 +11,7 @@ socialImpact: 77
 affectedSystems: [Labor Markets, Economic Systems, Political Systems, Social Movements]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

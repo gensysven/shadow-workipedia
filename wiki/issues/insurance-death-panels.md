@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Healthcare, Insurance, Legal Systems, Economic Systems]
 connections: [global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
+primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-25
 ---
 

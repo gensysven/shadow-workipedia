@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Democratic Institutions, International Relations, Financial Systems, Civil Liberties]
 connections: [democratic-backsliding]
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

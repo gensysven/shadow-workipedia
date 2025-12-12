@@ -11,6 +11,7 @@ socialImpact: 81
 affectedSystems: [Labor Markets, Immigration Systems, Political Systems, Economic Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-24
 ---
 

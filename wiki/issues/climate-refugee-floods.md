@@ -11,6 +11,7 @@ socialImpact: 61
 affectedSystems: [Climate, Population, Diplomacy, International Orgs]
 connections: [asylum-system-breakdown, border-wall-politics, atlantic-overturning-collapse-risk-amoc]
 editedBy: Shadow Work Team
+primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 

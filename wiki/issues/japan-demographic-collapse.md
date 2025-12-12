@@ -11,6 +11,7 @@ socialImpact: 86
 affectedSystems: [Demographics, Labor Markets, Healthcare, Economic Systems]
 connections: []
 editedBy: Shadow Work Team
+primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 ---
 
