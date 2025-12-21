@@ -564,6 +564,26 @@ async function main() {
 
   // Selected node state
   let selectedNode: SimNode | null = null;
+  let connectedToSelected = new Set<string>();
+
+  function recomputeConnectedToSelected() {
+    connectedToSelected = new Set<string>();
+    if (!selectedNode) return;
+
+    const selectedId = selectedNode.id;
+    for (const link of graph.getLinks()) {
+      if (link.source.id === selectedId) {
+        connectedToSelected.add(link.target.id);
+      } else if (link.target.id === selectedId) {
+        connectedToSelected.add(link.source.id);
+      }
+    }
+  }
+
+  function setSelectedNode(node: SimNode | null) {
+    selectedNode = node;
+    recomputeConnectedToSelected();
+  }
   const detailPanel = document.getElementById('detail-panel') as HTMLDivElement;
   const panelContent = document.getElementById('panel-content') as HTMLDivElement;
   const closeBtn = document.getElementById('close-panel') as HTMLButtonElement;
@@ -604,7 +624,7 @@ async function main() {
         const nodeId = item.getAttribute('data-node-id');
         const targetNode = graph.getNodes().find(n => n.id === nodeId);
         if (targetNode && targetNode.x !== undefined && targetNode.y !== undefined) {
-          selectedNode = targetNode;
+          setSelectedNode(targetNode);
           panelContent.innerHTML = renderDetailPanel(targetNode, data);
           panelContent.scrollTop = 0; // Reset scroll position for new node
           attachDetailPanelHandlers(); // Re-attach handlers for new connections
@@ -653,7 +673,7 @@ async function main() {
         const articleId = readArticleBtn.getAttribute('data-wiki-article-id');
         if (articleId && data.articles && data.articles[articleId]) {
           detailPanel.classList.add('hidden');
-          selectedNode = null;
+          setSelectedNode(null);
           // Navigate to the wiki article (updates URL)
           router.navigateToArticle('issue', articleId);
         }
@@ -676,7 +696,7 @@ async function main() {
             if (showSystemsBtn) showSystemsBtn.classList.add('active');
           }
 
-          selectedNode = targetNode;
+          setSelectedNode(targetNode);
           panelContent.innerHTML = renderDetailPanel(targetNode, data);
           panelContent.scrollTop = 0; // Reset scroll position for new node
           attachDetailPanelHandlers();
@@ -726,7 +746,7 @@ async function main() {
     canvas,
     graph.getNodes(),
     (node) => {
-      selectedNode = node;
+      setSelectedNode(node);
 
       if (node && node.x !== undefined && node.y !== undefined) {
         // Show detail panel
@@ -785,7 +805,7 @@ async function main() {
 
   // Close panel button
   closeBtn.addEventListener('click', () => {
-    selectedNode = null;
+    setSelectedNode(null);
     detailPanel.classList.add('hidden');
     render();
   });
@@ -1335,6 +1355,7 @@ async function main() {
 
     // Update visible nodes for interaction handlers
     const visibleNodes = getVisibleNodes();
+    const visibleNodeIds = new Set<string>(visibleNodes.map(n => n.id));
     hoverHandler.setVisibleNodes(visibleNodes);
     clickHandler.setVisibleNodes(visibleNodes);
     dragHandler.setVisibleNodes(visibleNodes);
@@ -1359,31 +1380,12 @@ async function main() {
 
     // Draw edges
     for (const link of graph.getLinks()) {
-      // View mode filtering
-      const sourceType = link.source.type;
-      const targetType = link.target.type;
-
-      // Skip edges based on view toggles
-      if (sourceType === 'issue' && !showIssues) continue;
-      if (sourceType === 'system' && !showSystems) continue;
-      if (sourceType === 'principle' && !showPrinciples) continue;
-      if (targetType === 'issue' && !showIssues) continue;
-      if (targetType === 'system' && !showSystems) continue;
-      if (targetType === 'principle' && !showPrinciples) continue;
+      // Skip edges where either endpoint isn't currently visible (filters + view toggles)
+      if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
 
       // Skip data-flow edges if not enabled
-      const edgeData = data.edges.find(e =>
-        (e.source === link.source.id && e.target === link.target.id) ||
-        (e.source === link.target.id && e.target === link.source.id)
-      );
-      const isDataFlow = edgeData?.type === 'data-flow';
+      const isDataFlow = link.type === 'data-flow';
       if (isDataFlow && !showDataFlows) continue;
-
-      // Show edge if ANY category of both source and target are active (additive filtering)
-      const sourceAnyCategoryActive = !link.source.categories?.length || link.source.categories.some(cat => activeCategories.has(cat));
-      const targetAnyCategoryActive = !link.target.categories?.length || link.target.categories.some(cat => activeCategories.has(cat));
-
-      if (!sourceAnyCategoryActive || !targetAnyCategoryActive) continue;
 
       const isConnected = selectedNode &&
         (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
@@ -1407,7 +1409,7 @@ async function main() {
       ctx.stroke();
 
       // Draw arrowhead for directed edges (data flows)
-      if (isDataFlow && edgeData?.directed) {
+      if (isDataFlow && link.directed) {
         ctx.fillStyle = ctx.strokeStyle;
         const targetSize = link.target.size || 8;
         const arrowSize = Math.max(6, 10 / currentTransform.k);
@@ -1424,29 +1426,11 @@ async function main() {
     }
 
     // Draw nodes
-    for (const node of graph.getNodes()) {
-      // View toggle filtering
-      if (node.type === 'issue' && !showIssues) continue;
-      if (node.type === 'system' && !showSystems) continue;
-      if (node.type === 'principle' && !showPrinciples) continue;
-
-      // Show node if ANY of its categories are active (additive filtering)
-      // Principles don't have categories, so they're always "active" if shown
-      const anyCategoryActive = node.type === 'principle' ||
-        !node.categories?.length ||
-        node.categories.some(cat => activeCategories.has(cat));
-
-      if (!anyCategoryActive) continue;
-
+    for (const node of visibleNodes) {
       const isHovered = hoveredNode && node.id === hoveredNode.id;
       const isSelected = selectedNode && node.id === selectedNode.id;
       const isSearchMatch = searchTerm !== '' && searchResults.has(node.id);
-      const isConnected = selectedNode
-        ? data.edges.some(e =>
-            (e.source === selectedNode!.id && e.target === node.id) ||
-            (e.target === selectedNode!.id && e.source === node.id)
-          )
-        : false;
+      const isConnected = selectedNode ? connectedToSelected.has(node.id) : false;
 
       // Determine relevance
       let isRelevant = true;
@@ -1548,14 +1532,24 @@ async function main() {
 
   // Track whether initial fit has been done
   let initialFitDone = false;
+  let renderScheduled = false;
+  function scheduleRender() {
+    if (renderScheduled) return;
+    renderScheduled = true;
+    requestAnimationFrame(() => {
+      renderScheduled = false;
+      render();
+    });
+  }
 
   graph.onTick(() => {
-    // On first tick, fit to view before rendering
+    // On first tick, fit to view before rendering (coalesced to 1 render/frame)
     if (!initialFitDone) {
       initialFitDone = true;
       fitToView();
+      return;
     }
-    render();
+    scheduleRender();
   });
 
   // Now that all dependencies (activeCategories, searchTerm, etc.) are initialized,
@@ -1586,7 +1580,7 @@ async function main() {
       searchResults.clear();
 
       // Clear selection
-      selectedNode = null;
+      setSelectedNode(null);
       detailPanel.classList.add('hidden');
 
       render();
@@ -1609,7 +1603,7 @@ async function main() {
       const nodeId = selectedNode.id;
       const nodeType = selectedNode.type;
       // Clear selection and close detail panel
-      selectedNode = null;
+      setSelectedNode(null);
       const detailPanel = document.getElementById('detail-panel');
       if (detailPanel) detailPanel.classList.add('hidden');
       // Navigate to the wiki article
@@ -1749,7 +1743,7 @@ async function main() {
         const nodeId = tr.getAttribute('data-node-id');
         const node = graph.getNodes().find(n => n.id === nodeId);
         if (node) {
-          selectedNode = node;
+          setSelectedNode(node);
           panelContent.innerHTML = renderDetailPanel(node, data);
           panelContent.scrollTop = 0; // Reset scroll position for new node
           detailPanel.classList.remove('hidden');
@@ -1968,7 +1962,7 @@ async function main() {
             router.navigateToView('graph');
 
             // Select the node and show detail panel
-            selectedNode = targetNode;
+            setSelectedNode(targetNode);
             panelContent.innerHTML = renderDetailPanel(targetNode, data);
             panelContent.scrollTop = 0; // Reset scroll position for new node
             detailPanel.classList.remove('hidden');
@@ -2020,7 +2014,7 @@ async function main() {
           const targetNode = graph.getNodes().find(n => n.id === articleId);
           if (targetNode) {
             router.navigateToView('graph');
-            selectedNode = targetNode;
+            setSelectedNode(targetNode);
             panelContent.innerHTML = renderDetailPanel(targetNode, data);
             panelContent.scrollTop = 0; // Reset scroll position for new node
             detailPanel.classList.remove('hidden');

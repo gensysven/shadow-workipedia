@@ -14,6 +14,9 @@ export interface SimLink extends SimulationLinkDatum<SimNode> {
   target: SimNode;
   strength: number;
   type: EdgeType;
+  directed?: boolean;
+  flowDirection?: 'reads' | 'writes';
+  label?: string;
 }
 
 // Calculate community centroids from node positions
@@ -69,20 +72,23 @@ export class GraphSimulation {
   private createLinks(edges: GraphEdge[]): SimLink[] {
     const nodeMap = new Map(this.nodes.map(n => [n.id, n]));
 
-    return edges
-      .map(e => {
-        const source = nodeMap.get(e.source);
-        const target = nodeMap.get(e.target);
-        if (!source || !target) return null;
+    const links: SimLink[] = [];
+    for (const e of edges) {
+      const source = nodeMap.get(e.source);
+      const target = nodeMap.get(e.target);
+      if (!source || !target) continue;
 
-        return {
-          source,
-          target,
-          strength: e.strength,
-          type: e.type,
-        };
-      })
-      .filter((l): l is SimLink => l !== null);
+      links.push({
+        source,
+        target,
+        strength: e.strength,
+        type: e.type,
+        directed: e.directed,
+        flowDirection: e.flowDirection,
+        label: e.label,
+      });
+    }
+    return links;
   }
 
   getNodes(): SimNode[] {
