@@ -2670,9 +2670,12 @@ async function main() {
   const communitiesSidebar = document.getElementById('communities-sidebar');
 
   renderCommunitiesList = function() {
+    const communitiesArticle = communitiesArticleContent as HTMLDivElement;
+    const communitiesSidebarEl = communitiesSidebarContent as HTMLDivElement;
+
     if (!data.communities || Object.keys(data.communities).length === 0) {
-      communitiesSidebarContent.innerHTML = `<div class="wiki-empty-sidebar">No communities detected</div>`;
-      communitiesArticleContent.innerHTML = `
+      communitiesSidebarEl.innerHTML = `<div class="wiki-empty-sidebar">No communities detected</div>`;
+      communitiesArticle.innerHTML = `
         <div class="wiki-welcome">
           <h2>Community Detection</h2>
           <p>Community data will appear here after analysis.</p>
@@ -2683,6 +2686,14 @@ async function main() {
 
     // Convert communities to array and sort by size (descending)
     const communities = Object.values(data.communities).sort((a, b) => b.size - a.size);
+
+    // Compute issue counts per community from actual graph nodes (more reliable than metadata size)
+    const communityIssueCounts = new Map<number, number>();
+    for (const node of data.nodes) {
+      if (node.type !== 'issue') continue;
+      if (node.communityId === undefined) continue;
+      communityIssueCounts.set(node.communityId, (communityIssueCounts.get(node.communityId) || 0) + 1);
+    }
 
     // Mobile: collapse sidebar when a community is selected
     if (communitiesSidebar) {
@@ -2702,7 +2713,7 @@ async function main() {
             <div style="width: 12px; height: 12px; border-radius: 50%; background: ${getCommunityColor(community.id)}; flex-shrink: 0;"></div>
             <div style="flex: 1; min-width: 0;">
               <div style="font-weight: 600; font-size: 0.85rem; line-height: 1.3;">${community.label}</div>
-              <div style="font-size: 0.75rem; color: #94a3b8;">${community.size} issues</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">${communityIssueCounts.get(community.id) || 0} issues</div>
             </div>
           </div>
         </div>
@@ -2724,26 +2735,105 @@ async function main() {
       </div>
     `;
 
-    communitiesSidebarContent.innerHTML = sidebarHtml;
+    communitiesSidebarEl.innerHTML = sidebarHtml;
 
-    // Render community article content or welcome message
-    if (selectedCommunity && data.articles && data.articles[selectedCommunity]) {
-      const article = data.articles[selectedCommunity];
-      communitiesArticleContent.innerHTML = renderWikiArticleContent(article, data);
-      // Reset scroll position when switching articles
-      communitiesArticleContent.scrollTop = 0;
-    } else {
-      communitiesArticleContent.innerHTML = `
+    function renderCommunityDetail(slug: string) {
+      const match = slug.match(/^community-(\d+)$/);
+      const id = match ? Number(match[1]) : NaN;
+      if (!Number.isFinite(id)) {
+        communitiesArticle.innerHTML = `
+          <div class="wiki-welcome">
+            <h2>Community</h2>
+            <p class="wiki-welcome-subtitle">Invalid community id: ${slug}</p>
+          </div>
+        `;
+        return;
+      }
+
+      const info = (data.communities as Record<number, CommunityInfo>)[id];
+      const issues = data.nodes
+        .filter(n => n.type === 'issue' && n.communityId === id)
+        .sort((a, b) => a.label.localeCompare(b.label));
+
+      const INITIAL_SHOW = 30;
+      const hasMore = issues.length > INITIAL_SHOW;
+
+      const shared = (info?.sharedMechanics || []).slice(0, 12);
+
+      communitiesArticle.innerHTML = `
+        <div class="wiki-welcome">
+          <h2 style="display:flex; align-items:center; gap:0.6rem;">
+            <span style="width: 12px; height: 12px; border-radius: 50%; background: ${getCommunityColor(id)}; display:inline-block;"></span>
+            ${info?.label ?? `Community ${id}`}
+          </h2>
+          <p class="wiki-welcome-subtitle">${issues.length} issues</p>
+          ${info ? `
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; color:#94a3b8; font-size:0.85rem; margin-top:0.25rem;">
+              <span>Top category: <strong style="color:#e2e8f0; font-weight:600;">${info.topCategory}</strong></span>
+              <span>Mechanic score: <strong style="color:#e2e8f0; font-weight:600;">${info.mechanicScore}</strong></span>
+            </div>
+          ` : ''}
+          ${shared.length > 0 ? `
+            <div style="margin-top:0.9rem;">
+              <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Shared mechanics</h3>
+              <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                ${shared.map(m => `
+                  <span class="badge" style="background: rgba(148,163,184,0.12); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;">${m}</span>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="related-content">
+          <h2>Issues</h2>
+          <div class="related-links">
+            ${issues.slice(0, INITIAL_SHOW).map(n => `
+              <a
+                href="#/wiki/${n.id}"
+                class="related-link ${n.hasArticle ? 'has-article' : ''}"
+              >
+                ${n.label}
+                ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+              </a>
+            `).join('')}
+            ${hasMore ? `
+              <div class="related-links-overflow" data-expanded="false">
+                ${issues.slice(INITIAL_SHOW).map(n => `
+                  <a
+                    href="#/wiki/${n.id}"
+                    class="related-link ${n.hasArticle ? 'has-article' : ''}"
+                  >
+                    ${n.label}
+                    ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+                  </a>
+                `).join('')}
+              </div>
+              <button class="expand-toggle" data-target="issues" data-expanded="false">
+                <span class="expand-text">+${issues.length - INITIAL_SHOW} more</span>
+                <span class="collapse-text">Show less</span>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+      communitiesArticle.scrollTop = 0;
+    }
+
+    if (!selectedCommunity) {
+      communitiesArticle.innerHTML = `
         <div class="wiki-welcome">
           <h2>Issue Communities</h2>
           <p class="wiki-welcome-subtitle">${communities.length} communities detected via Louvain algorithm</p>
           <p>Select a community from the sidebar to explore its issues and shared mechanics.</p>
         </div>
       `;
+    } else {
+      renderCommunityDetail(selectedCommunity);
     }
 
     // Attach click handlers to sidebar items
-    communitiesSidebarContent.querySelectorAll('.wiki-sidebar-item').forEach(item => {
+    communitiesSidebarEl.querySelectorAll('.wiki-sidebar-item').forEach(item => {
       item.addEventListener('click', () => {
         const communitySlug = item.getAttribute('data-community-slug');
         if (communitySlug) {
@@ -2762,7 +2852,7 @@ async function main() {
     }
 
     // Attach click handlers to related content links (navigate within communities or to wiki)
-    communitiesArticleContent.querySelectorAll('.related-link').forEach(link => {
+    communitiesArticle.querySelectorAll('.related-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const href = link.getAttribute('href');
@@ -2788,7 +2878,7 @@ async function main() {
     });
 
     // Attach click handlers to expand toggle buttons
-    communitiesArticleContent.querySelectorAll('.expand-toggle').forEach(button => {
+    communitiesArticle.querySelectorAll('.expand-toggle').forEach(button => {
       button.addEventListener('click', () => {
         const isExpanded = button.getAttribute('data-expanded') === 'true';
         const overflow = button.previousElementSibling as HTMLElement;
