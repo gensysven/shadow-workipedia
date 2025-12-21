@@ -105,6 +105,25 @@
 
     <!-- Tooltip -->
     <div id="tooltip" class="hidden"></div>
+
+    <!-- Command palette -->
+    <div id="command-palette-overlay" class="hidden" role="dialog" aria-modal="true" aria-label="Command Palette">
+      <div id="command-palette">
+        <div id="command-palette-input-row">
+          <input
+            id="command-palette-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Search issues, case studies, communities…"
+          />
+          <div id="command-palette-hint">
+            <span class="hint-key">Esc</span> to close
+          </div>
+        </div>
+        <div id="command-palette-results" role="listbox" aria-label="Palette Results"></div>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="/src/main.ts"></script>
