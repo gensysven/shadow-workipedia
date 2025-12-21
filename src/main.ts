@@ -1719,6 +1719,36 @@ async function main() {
   const paletteInput = document.getElementById('command-palette-input') as HTMLInputElement | null;
   const paletteResults = document.getElementById('command-palette-results') as HTMLDivElement | null;
 
+  function isEditableTarget(target: EventTarget | null): boolean {
+    const el = target as HTMLElement | null;
+    if (!el) return false;
+    if (el.isContentEditable) return true;
+    const tag = el.tagName;
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+  }
+
+  // Header tab shortcuts: 1/2/3/4 => Graph/Table/Wiki/Communities
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (isEditableTarget(document.activeElement)) return;
+    if (paletteOverlay && !paletteOverlay.classList.contains('hidden')) return;
+
+    if (e.key === '1') {
+      e.preventDefault();
+      router.navigateToView('graph');
+    } else if (e.key === '2') {
+      e.preventDefault();
+      router.navigateToView('table');
+    } else if (e.key === '3') {
+      e.preventDefault();
+      router.navigateToView('wiki');
+    } else if (e.key === '4') {
+      e.preventDefault();
+      router.navigateToView('communities');
+    }
+  });
+
   const viewToggleButtons = {
     showIssuesBtn: document.getElementById('show-issues-btn') as HTMLButtonElement | null,
     showSystemsBtn: document.getElementById('show-systems-btn') as HTMLButtonElement | null,
