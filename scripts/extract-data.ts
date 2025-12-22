@@ -819,7 +819,7 @@ function loadCommunityData(): {
         label,
         topCategory,
         mechanicScore: community.mechanicScore,
-        sharedMechanics: community.sharedMechanics.map(m => m.pattern),
+        sharedMechanics: community.sharedMechanics,
       };
 
       // Map each member to their community
@@ -1618,6 +1618,9 @@ async function main() {
   for (const [id, article] of wikiContent.primitives) {
     wikiArticles[id] = article;
   }
+  for (const [id, article] of wikiContent.mechanics) {
+    wikiArticles[id] = article;
+  }
   console.log(`  - ${issuesWithEvents} issues with ${totalEvents} events attached`);
 
   // Then, attach wiki article metadata to matching nodes
@@ -1644,6 +1647,7 @@ async function main() {
   console.log(`  - ${wikiContent.systems.size} system articles`);
   console.log(`  - ${wikiContent.principles.size} principle articles`);
   console.log(`  - ${wikiContent.primitives.size} primitive articles`);
+  console.log(`  - ${wikiContent.mechanics.size} mechanic articles`);
 
   const principleCount = nodes.filter(n => n.type === 'principle').length;
 

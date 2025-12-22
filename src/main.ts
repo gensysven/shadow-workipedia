@@ -1703,7 +1703,7 @@ async function main() {
   tabCommunities.addEventListener('click', () => router.navigateToView('communities'));
 
   // Command palette (Cmd+K / Ctrl+K)
-  type PaletteKind = 'command' | 'node' | 'case-study' | 'community';
+  type PaletteKind = 'command' | 'node' | 'case-study' | 'community' | 'mechanic';
   type PaletteItem = {
     kind: PaletteKind;
     id: string;
@@ -2014,6 +2014,28 @@ async function main() {
       }
     }
 
+    // Mechanics (wiki pages)
+    if (data.articles) {
+      for (const article of Object.values(data.articles)) {
+        if (article.type !== 'mechanic') continue;
+        const subtitleParts: string[] = [];
+        if (typeof article.frontmatter?.pattern === 'string') subtitleParts.push(article.frontmatter.pattern);
+        if (typeof article.frontmatter?.mechanic === 'string') subtitleParts.push(article.frontmatter.mechanic);
+        const subtitle = subtitleParts.length > 0 ? subtitleParts.join(' • ') : 'Mechanic';
+
+        items.push({
+          kind: 'mechanic',
+          id: article.id,
+          title: article.title,
+          subtitle,
+          rightHint: 'mechanic',
+          group: 'Mechanics',
+          searchText: `${article.title} ${article.id} ${subtitle}`.toLowerCase(),
+          run: () => router.navigateToArticle('issue', article.id),
+        });
+      }
+    }
+
     // Communities
     if (data.communities) {
       for (const [idStr, info] of Object.entries(data.communities as Record<string, CommunityInfo>)) {
@@ -2127,7 +2149,7 @@ async function main() {
       groups.get(group)!.push(item);
     }
 
-    const groupOrder = ['Commands', 'Issues', 'Systems', 'Principles', 'Case Studies', 'Communities'];
+    const groupOrder = ['Commands', 'Issues', 'Systems', 'Principles', 'Case Studies', 'Mechanics', 'Communities'];
 
     paletteResults.innerHTML = groupOrder
       .filter(g => groups.has(g))
@@ -2420,6 +2442,7 @@ async function main() {
     const systemArticles = articles.filter(a => a.type === 'system' && !a.title.includes('('));
     const principleArticles = articles.filter(a => a.type === 'principle');
     const primitiveArticles = articles.filter(a => a.type === 'primitive');
+    const mechanicArticles = articles.filter(a => a.type === 'mechanic');
 
     // Mobile: collapse sidebar when an article is selected
     if (wikiSidebar) {
@@ -2497,6 +2520,15 @@ async function main() {
           </div>
         </div>
       ` : ''}
+
+      ${mechanicArticles.length > 0 ? `
+        <div class="wiki-sidebar-section">
+          <h3>Mechanics (${mechanicArticles.length})</h3>
+          <div class="wiki-sidebar-list">
+            ${mechanicArticles.map(renderSidebarItem).join('')}
+          </div>
+        </div>
+      ` : ''}
     `;
 
     wikiSidebarContent.innerHTML = sidebarHtml;
@@ -2540,6 +2572,7 @@ async function main() {
             ${renderCollapsibleSection('Systems', systemArticles, 'systems-section')}
             ${renderCollapsibleSection('Principles', principleArticles, 'principles-section')}
             ${renderCollapsibleSection('Primitives', primitiveArticles, 'primitives-section')}
+            ${renderCollapsibleSection('Mechanics', mechanicArticles, 'principles-section')}
           </div>
         </div>
       `;
@@ -2552,7 +2585,7 @@ async function main() {
         if (articleId && data.articles && data.articles[articleId]) {
           const article = data.articles[articleId];
           // Navigate via router to update URL
-          router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive', articleId);
+          router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic', articleId);
         }
       });
     });
@@ -2613,29 +2646,25 @@ async function main() {
         const href = link.getAttribute('href');
         if (!href) return;
 
-        // Parse the href to extract article ID (e.g., "#/issue/water-scarcity-wars" -> "water-scarcity-wars")
-        const match = href.match(/^#\/(issue|system)\/([a-z0-9-]+)$/);
-        if (!match) return;
+        // Preferred: #/wiki/<slug>
+        const wikiMatch = href.match(/^#\/wiki\/([a-z0-9-]+)$/);
+        if (wikiMatch) {
+          const articleId = wikiMatch[1];
+          const article = data.articles?.[articleId];
+          if (article) {
+            router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic', articleId);
+            return;
+          }
 
-        const articleId = match[2];
-
-        // Check if this article exists in our wiki
-        if (data.articles && data.articles[articleId]) {
-          // Navigate to the article (updates URL)
-          const type = match[1] as 'issue' | 'system';
-          router.navigateToArticle(type, articleId);
-        } else {
           // No article exists - show the node in graph view with detail panel
           const targetNode = graph.getNodes().find(n => n.id === articleId);
           if (targetNode) {
             router.navigateToView('graph');
             setSelectedNode(targetNode);
             panelContent.innerHTML = renderDetailPanel(targetNode, data);
-            panelContent.scrollTop = 0; // Reset scroll position for new node
+            panelContent.scrollTop = 0;
             detailPanel.classList.remove('hidden');
             attachDetailPanelHandlers();
-
-            // Pan to center on the node
             if (targetNode.x !== undefined && targetNode.y !== undefined) {
               const centerX = canvas.width / 2;
               const centerY = canvas.height / 2;
@@ -2648,6 +2677,22 @@ async function main() {
               render();
             }
           }
+          return;
+        }
+
+        // Community links: #/communities/community-N
+        const communityMatch = href.match(/^#\/communities\/(community-\d+)$/);
+        if (communityMatch) {
+          router.navigateToCommunity(communityMatch[1]);
+          return;
+        }
+
+        // Legacy: #/issue/<slug>, #/system/<slug>, #/principle/<slug>, #/primitive/<slug>
+        const legacyMatch = href.match(/^#\/(issue|system|principle|primitive)\/([a-z0-9-]+)$/);
+        if (legacyMatch) {
+          const type = legacyMatch[1] as 'issue' | 'system' | 'principle' | 'primitive';
+          const articleId = legacyMatch[2];
+          router.navigateToArticle(type, articleId);
         }
       });
     });
@@ -2766,7 +2811,15 @@ async function main() {
       const INITIAL_SHOW = 30;
       const hasMore = issues.length > INITIAL_SHOW;
 
-      const shared = (info?.sharedMechanics || []).slice(0, 12);
+      const slugify = (value: string) =>
+        value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const mechanicPageId = (pattern: string, mechanic: string) =>
+        `mechanic--${slugify(pattern)}--${slugify(mechanic)}`;
+
+      const shared = (info?.sharedMechanics || [])
+        .slice()
+        .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+        .slice(0, 12);
 
       communitiesArticle.innerHTML = `
         <div class="wiki-welcome">
@@ -2786,7 +2839,14 @@ async function main() {
               <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Shared mechanics</h3>
               <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
                 ${shared.map(m => `
-                  <span class="badge" style="background: rgba(148,163,184,0.12); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;">${m}</span>
+                  <a
+                    class="badge related-link"
+                    href="#/wiki/${mechanicPageId(m.pattern, m.mechanic)}"
+                    style="text-decoration:none; background: rgba(148,163,184,0.12); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;"
+                    title="${m.pattern} • ${m.count} issues"
+                  >
+                    ${m.mechanic}
+                  </a>
                 `).join('')}
               </div>
             </div>
@@ -2879,7 +2939,7 @@ async function main() {
           const articleId = wikiMatch[1];
           if (data.articles && data.articles[articleId]) {
             const article = data.articles[articleId];
-            router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive', articleId);
+            router.navigateToArticle(article.type as 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic', articleId);
           }
         }
       });

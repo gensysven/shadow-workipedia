@@ -48,6 +48,164 @@ function findCaseStudiesForIssue(issueId: string, data: GraphData): WikiArticle[
     .sort((a, b) => a.title.localeCompare(b.title));
 }
 
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function mechanicPageId(pattern: string, mechanic: string): string {
+  return `mechanic--${slugify(pattern)}--${slugify(mechanic)}`;
+}
+
+type IssueMechanic = {
+  id: string;
+  pattern: string;
+  mechanic: string;
+  count: number;
+  percentage: number;
+};
+
+function findMechanicsForIssue(issueId: string, data: GraphData): IssueMechanic[] {
+  const communities = data.communities ? Object.values(data.communities) : [];
+  const byId = new Map<string, IssueMechanic>();
+
+  for (const community of communities) {
+    const shared = (community as any).sharedMechanics as Array<any> | undefined;
+    if (!Array.isArray(shared)) continue;
+
+    for (const m of shared) {
+      if (!m || typeof m.pattern !== 'string' || typeof m.mechanic !== 'string') continue;
+      const issues = Array.isArray(m.issues) ? m.issues : [];
+      if (!issues.includes(issueId)) continue;
+
+      const id = mechanicPageId(m.pattern, m.mechanic);
+      if (!byId.has(id)) {
+        byId.set(id, {
+          id,
+          pattern: m.pattern,
+          mechanic: m.mechanic,
+          count: typeof m.count === 'number' ? m.count : 0,
+          percentage: typeof m.percentage === 'number' ? m.percentage : 0,
+        });
+      }
+    }
+  }
+
+  return Array.from(byId.values()).sort((a, b) =>
+    a.pattern.localeCompare(b.pattern) || a.mechanic.localeCompare(b.mechanic)
+  );
+}
+
+function renderIssueMechanicsSection(issueId: string, data: GraphData): string {
+  const mechanics = findMechanicsForIssue(issueId, data);
+  if (mechanics.length === 0) return '';
+
+  return `
+    <div class="related-section mechanics-section">
+      <h3>Mechanics (${mechanics.length})</h3>
+      <div class="related-links">
+        ${mechanics.map(m => `
+          <a href="#/wiki/${m.id}" class="related-link has-article">
+            ${m.mechanic}
+            <span class="article-indicator">📄</span>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderMechanicRelatedContent(article: WikiArticle, data: GraphData): string {
+  const pattern = typeof article.frontmatter?.pattern === 'string' ? article.frontmatter.pattern : '';
+  const mechanic = typeof article.frontmatter?.mechanic === 'string' ? article.frontmatter.mechanic : '';
+  if (!pattern || !mechanic) return '';
+
+  const communities = data.communities ? Object.values(data.communities) : [];
+  const matchingCommunities: Array<{ id: number; label: string; issues: string[] }> = [];
+  const issueSet = new Set<string>();
+
+  for (const c of communities) {
+    const shared = (c as any).sharedMechanics as Array<any> | undefined;
+    if (!Array.isArray(shared)) continue;
+    const match = shared.find(m => m?.pattern === pattern && m?.mechanic === mechanic);
+    if (!match) continue;
+
+    const cid = (c as any).id as number;
+    const label = (c as any).label as string;
+    const issues = Array.isArray(match.issues) ? match.issues : [];
+    for (const id of issues) issueSet.add(id);
+    matchingCommunities.push({ id: cid, label, issues });
+  }
+
+  const issues = Array.from(issueSet)
+    .map(id => ({
+      id,
+      title: data.articles?.[id]?.title ?? data.nodes.find(n => n.id === id)?.label ?? id,
+      hasArticle: Boolean(data.articles?.[id]),
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title));
+
+  const INITIAL_SHOW = 30;
+  const hasMore = issues.length > INITIAL_SHOW;
+
+  return `
+    <div class="related-content">
+      <h2>Where This Appears</h2>
+
+      ${matchingCommunities.length > 0 ? `
+        <div class="related-section">
+          <h3>Communities (${matchingCommunities.length})</h3>
+          <div class="related-links">
+            ${matchingCommunities
+              .sort((a, b) => a.label.localeCompare(b.label))
+              .map(c => `
+                <a href="#/communities/community-${c.id}" class="related-link">
+                  ${c.label}
+                </a>
+              `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${issues.length > 0 ? `
+        <div class="related-section" data-section="issues">
+          <h3>Issues (${issues.length})</h3>
+          <div class="related-links">
+            ${issues.slice(0, INITIAL_SHOW).map(n => `
+              <a
+                href="#/wiki/${n.id}"
+                class="related-link ${n.hasArticle ? 'has-article' : ''}"
+              >
+                ${n.title}
+                ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+              </a>
+            `).join('')}
+            ${hasMore ? `
+              <div class="related-links-overflow" data-expanded="false">
+                ${issues.slice(INITIAL_SHOW).map(n => `
+                  <a
+                    href="#/wiki/${n.id}"
+                    class="related-link ${n.hasArticle ? 'has-article' : ''}"
+                  >
+                    ${n.title}
+                    ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+                  </a>
+                `).join('')}
+              </div>
+              <button class="expand-toggle" data-target="issues">
+                <span class="expand-text">+${issues.length - INITIAL_SHOW} more</span>
+                <span class="collapse-text">Show less</span>
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
 function renderCaseStudyParentBanner(article: WikiArticle, data: GraphData): string {
   const parentId = getCaseStudyParentId(article);
   if (!parentId) return '';
@@ -89,7 +247,7 @@ function renderRedirectBanner(article: WikiArticle, data: GraphData): string {
 export type ViewType = 'graph' | 'table' | 'wiki' | 'communities';
 export type RouteType =
   | { kind: 'view'; view: ViewType }
-  | { kind: 'article'; type: 'issue' | 'system' | 'principle'; slug: string }
+  | { kind: 'article'; type: 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic'; slug: string }
   | { kind: 'community'; slug: string }
   | null;
 
@@ -170,7 +328,7 @@ export class ArticleRouter {
     this.navigateToView('graph');
   }
 
-  navigateToArticle(_type: 'issue' | 'system' | 'principle' | 'primitive', slug: string) {
+  navigateToArticle(_type: 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic', slug: string) {
     // Use #/wiki/slug for issues, systems, and principles (wiki view with sidebar)
     window.location.hash = `#/wiki/${slug}`;
   }
@@ -224,7 +382,7 @@ export function renderArticleView(article: WikiArticle, data: GraphData): string
         ${article.html}
       </article>
 
-      ${node ? renderRelatedContent(node, data) : ''}
+      ${article.type === 'mechanic' ? renderMechanicRelatedContent(article, data) : (node ? renderRelatedContent(node, data) : '')}
 
       <div class="article-footer">
         <a
@@ -264,7 +422,7 @@ export function renderWikiArticleContent(article: WikiArticle, data: GraphData):
         ${article.html}
       </article>
 
-      ${node ? renderRelatedContent(node, data) : ''}
+      ${article.type === 'mechanic' ? renderMechanicRelatedContent(article, data) : (node ? renderRelatedContent(node, data) : '')}
 
       <div class="article-footer">
         <a
@@ -301,6 +459,7 @@ function renderRelatedContent(node: any, data: GraphData): string {
   const connectedSystems = connectedNodes.filter(n => n.type === 'system');
 
   const caseStudies = node.type === 'issue' ? findCaseStudiesForIssue(node.id, data) : [];
+  const mechanicsSection = node.type === 'issue' ? renderIssueMechanicsSection(node.id, data) : '';
 
   // Find principles for this issue (match sourceFile to issue id)
   const relatedPrinciples = node.type === 'issue' && data.principles
@@ -330,6 +489,8 @@ function renderRelatedContent(node: any, data: GraphData): string {
           </div>
         </div>
       ` : ''}
+
+      ${mechanicsSection}
 
       ${caseStudies.length > 0 ? `
         <div class="related-section case-studies-section">

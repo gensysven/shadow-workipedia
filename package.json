@@ -9,6 +9,7 @@
     "build:full": "pnpm extract-data && tsc && vite build",
     "preview": "vite preview",
     "extract-data": "tsx scripts/extract-data.ts",
+    "generate:mechanics": "tsx scripts/generate-mechanics-wiki.ts",
     "typecheck": "tsc --noEmit",
     "prepare": "husky || true"
   },

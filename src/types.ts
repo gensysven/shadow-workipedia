@@ -114,7 +114,7 @@ export interface IssueEvent {
 export interface WikiArticle {
   id: string;
   title: string;
-  type: 'issue' | 'system' | 'principle' | 'primitive';
+  type: 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic';
   frontmatter: Record<string, any>;
   content: string;
   html: string;
@@ -123,13 +123,21 @@ export interface WikiArticle {
   events?: IssueEvent[];
 }
 
+export interface CommunityMechanicInfo {
+  pattern: string;
+  mechanic: string;
+  count: number;
+  percentage: number;
+  issues: string[];
+}
+
 export interface CommunityInfo {
   id: number;
   size: number;
   label: string;
   topCategory: string;
   mechanicScore: number;
-  sharedMechanics: string[];
+  sharedMechanics: CommunityMechanicInfo[];
 }
 
 export interface PrincipleInfo {
