@@ -15,11 +15,9 @@ primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', '
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--feedbackloop--feedbackloops
-  - mechanic--ready--ready
-  - mechanic--supply-chain--supply-chain-dependencies
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # General Strike Movements

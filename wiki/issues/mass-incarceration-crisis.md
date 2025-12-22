@@ -13,8 +13,8 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
+  - mechanic--disparate-impact--disparate-impact
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Mass Incarceration Crisis

@@ -15,17 +15,16 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--historical-parallel--historical-parallel
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--irreversible--water-extraction-irreversibility
   - mechanic--lock-in--lock-in
   - mechanic--moral-hazard--moral-hazard-from-coverage
   - mechanic--network-effect--network-effects
   - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Machine Consciousness Rights

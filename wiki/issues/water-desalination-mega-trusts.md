@@ -14,11 +14,11 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--duration--duration
+  - mechanic--concentration--concentration
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--it-track--it-tracks
+  - mechanic--lock-in--lock-in
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Water Desalination Mega-Trusts

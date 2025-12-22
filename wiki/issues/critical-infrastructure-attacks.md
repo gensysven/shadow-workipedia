@@ -15,9 +15,7 @@ primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropag
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--factor--factor
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Critical Infrastructure Attacks

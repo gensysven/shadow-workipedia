@@ -13,14 +13,11 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--core-mechanic--core-mechanics
-  - mechanic--feedback--feedback
-  - mechanic--historical-calibration--historical-calibration
-  - mechanic--historical-grounding--historical-grounding
-  - mechanic--model--model
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--first-strike-advantage--first-strike-advantage
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Pyrocumulonimbus Warfare

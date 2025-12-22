@@ -29,17 +29,9 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--duration--duration
-  - mechanic--equilibrium--equilibrium
-  - mechanic--eventtype--eventtype
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--historical-parallel--historical-parallel
-  - mechanic--outcome--outcome
   - mechanic--lock-in--lock-in
-  - mechanic--power-balance-determinant--power-balance-determinant
-  - mechanic--state--state
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Global Debt Jubilee Movements & Sovereign Default Cascade

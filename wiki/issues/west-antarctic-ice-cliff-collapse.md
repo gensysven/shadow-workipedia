@@ -25,13 +25,11 @@ primitives: ['TrustErosion', 'ContagionPropagation', 'LegitimacyDynamics', 'Capt
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--equilibrium--equilibrium
   - mechanic--feedback-loop--feedback-loop
   - mechanic--ghyben-herzberg-amplification--ghyben-herzberg-amplification
   - mechanic--irreversible--water-extraction-irreversibility
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 ## Overview

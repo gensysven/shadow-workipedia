@@ -16,7 +16,6 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--supply-chain--supply-chain-dependencies
   - mechanic--threshold--threshold
 ---
 

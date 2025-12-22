@@ -30,11 +30,10 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
   - mechanic--feedback-loop--feedback-loop
   - mechanic--irreversible--water-extraction-irreversibility
-  - mechanic--key-insight-for-player--key-insight-for-players
   - mechanic--threshold--threshold
-  - mechanic--trigger--cyber-capabilities-trigger-arms-races-similar-to-nuclear-weapons
 ---
 
 # Global Demographic Collapse & Population Implosion Crisis
