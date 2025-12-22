@@ -12,7 +12,24 @@ affectedSystems: [financial-system, education-system, labor-market, housing-mark
 connections: [ai-job-displacement-tsunami,gig-economy-serfdom,billionaire-abolition-movement]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Student Debt Slavery

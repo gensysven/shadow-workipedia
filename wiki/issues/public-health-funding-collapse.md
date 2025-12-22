@@ -12,7 +12,17 @@ affectedSystems: [Health, Emergency-Response, Disease-Surveillance, Community-Se
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Public Health Funding Collapse

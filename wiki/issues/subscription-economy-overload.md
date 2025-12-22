@@ -13,7 +13,17 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Subscription Economy Overload

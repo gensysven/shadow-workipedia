@@ -12,7 +12,18 @@ affectedSystems: [health, urban-planning, transportation, industrial]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--externality--externality-pricing
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
 ---
 
 # Noise Pollution and Sonic Environment Collapse

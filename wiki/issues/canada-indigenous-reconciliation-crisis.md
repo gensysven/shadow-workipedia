@@ -13,7 +13,18 @@ connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResistanceBacklash']
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Canada Indigenous Reconciliation Crisis

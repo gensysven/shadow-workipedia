@@ -12,7 +12,24 @@ affectedSystems: [Climate, Sovereignty, Culture, International Law, Migration]
 connections: [climate-refugee-floods,deep-sea-mining-rush-and-pacific-sovereignty-fight]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--nash-equilibrium--nash-equilibrium
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Pacific Island Nations Disappearing

@@ -27,7 +27,10 @@ connections:
   - fertility-collapse-crisis
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
-mechanics: []
+mechanics:
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Adolescence Extension & Delayed Adulthood

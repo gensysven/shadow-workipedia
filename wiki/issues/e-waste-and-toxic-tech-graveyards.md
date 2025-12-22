@@ -25,7 +25,20 @@ connections:
   - heavy-metal-contamination
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--externality--externality-pricing
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # E-Waste and Toxic Tech Graveyards

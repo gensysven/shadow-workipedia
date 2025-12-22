@@ -31,7 +31,16 @@ connections:
   - rural-hospital-collapse
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
 ---
 
 # Global Tax System Breakdown

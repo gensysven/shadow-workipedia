@@ -12,7 +12,17 @@ affectedSystems: [Housing, Consumer-Finance, Economic-Inequality, Credit-Systems
 connections: [housing-affordability-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
 ---
 
 # Rent-to-Own Poverty Traps

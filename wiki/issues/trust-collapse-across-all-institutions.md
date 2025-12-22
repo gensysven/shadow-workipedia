@@ -26,7 +26,15 @@ connections:
   - conspiracy-theory-mainstreaming
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--prisoners-dilemma--prisoners-dilemma
 ---
 
 # Trust Collapse Across All Institutions

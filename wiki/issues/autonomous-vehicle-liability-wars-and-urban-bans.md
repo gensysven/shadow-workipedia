@@ -12,7 +12,21 @@ affectedSystems: [Transportation, Insurance, Urban Planning, Legal System]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
 ---
 
 # Autonomous Vehicle Liability Wars and Urban Bans

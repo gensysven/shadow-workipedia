@@ -13,7 +13,21 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Argentina Hyperinflation Cycles

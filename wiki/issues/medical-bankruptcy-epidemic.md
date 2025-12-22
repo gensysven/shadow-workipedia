@@ -12,7 +12,21 @@ affectedSystems: [Healthcare Systems, Financial Systems, Labor Markets, Family S
 connections: [insurance-death-panels, medical-debt-vigilantism-and-refusal-networks]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Medical Bankruptcy Epidemic

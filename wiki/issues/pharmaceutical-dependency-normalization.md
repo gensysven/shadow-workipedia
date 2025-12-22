@@ -12,7 +12,10 @@ affectedSystems: [healthcare, pharmaceutical-industry, culture, mental-health]
 connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Pharmaceutical Dependency Normalization

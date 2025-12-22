@@ -12,7 +12,16 @@ affectedSystems: [Economy, Infrastructure, Civil Society]
 connections: [gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Algorithmic Food Delivery Collapse

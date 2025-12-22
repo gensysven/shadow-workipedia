@@ -12,7 +12,31 @@ affectedSystems: [Global Trade, Biodiversity Systems, Technology Innovation, Gov
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--governance-vacuum--governance-vacuum
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Deep-Sea Mining Rush and Pacific Sovereignty Fight

@@ -13,7 +13,22 @@ connections: [asylum-system-breakdown, border-wall-politics, atlantic-overturnin
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Climate Refugee Floods

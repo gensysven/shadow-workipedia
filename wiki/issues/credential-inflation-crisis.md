@@ -24,7 +24,12 @@ connections:
   - wage-stagnation
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--labor-exploitation--labor-exploitation
 ---
 
 # Credential Inflation Crisis

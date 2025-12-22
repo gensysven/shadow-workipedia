@@ -13,7 +13,25 @@ connections: []
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration']
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Gender Medicine Youth Controversy

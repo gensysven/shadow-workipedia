@@ -12,7 +12,19 @@ affectedSystems: [Criminal Justice, State Governance, Healthcare, Commerce]
 connections: [mass-incarceration-crisis, felon-disenfranchisement]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Marijuana Legalization Patchwork

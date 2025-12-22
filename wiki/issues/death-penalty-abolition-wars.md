@@ -12,7 +12,17 @@ affectedSystems: [Criminal Justice, Legal Systems, Human Rights, Political Syste
 connections: [mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
 ---
 
 # Death Penalty Abolition Wars

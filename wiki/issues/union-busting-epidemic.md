@@ -12,7 +12,21 @@ affectedSystems: [Labor Markets, Corporate Power, Politics, Economy, Institution
 connections: [gig-economy-serfdom]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Union Busting Epidemic

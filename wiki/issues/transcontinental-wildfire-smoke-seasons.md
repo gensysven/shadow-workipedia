@@ -13,7 +13,22 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--externality--externality-pricing
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Transcontinental Wildfire Smoke Seasons

@@ -13,7 +13,24 @@ connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Global Trade Finance Gridlock

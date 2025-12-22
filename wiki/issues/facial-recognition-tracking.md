@@ -25,7 +25,16 @@ connections:
   - digital-authoritarianism
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
 ---
 
 # Facial Recognition Tracking

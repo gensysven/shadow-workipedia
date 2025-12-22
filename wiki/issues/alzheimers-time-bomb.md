@@ -12,7 +12,17 @@ affectedSystems: [Healthcare, Social Services, Economy, Family Structure]
 connections: [global-healthcare-workforce-exodus]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
 ---
 
 # Alzheimer's Time Bomb

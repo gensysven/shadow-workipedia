@@ -22,7 +22,17 @@ connections:
   - constitutional-crisis
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Supreme Court Legitimacy Crisis

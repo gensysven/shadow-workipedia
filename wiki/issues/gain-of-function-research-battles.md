@@ -13,7 +13,20 @@ connections: [bioweapon-proliferation]
 editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'AdaptiveResistance']
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--governance-vacuum--governance-vacuum
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Gain-of-Function Research Battles

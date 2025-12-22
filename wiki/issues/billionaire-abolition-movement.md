@@ -12,7 +12,20 @@ affectedSystems: [Economy, Politics, Civil Society]
 connections: [democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Billionaire Abolition Movement

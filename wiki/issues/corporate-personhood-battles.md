@@ -13,7 +13,25 @@ connections: []
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Corporate Personhood Battles

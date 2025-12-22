@@ -12,7 +12,18 @@ affectedSystems: [Mental-Health, Consumer-Finance, Sports, Addiction-Services, Y
 connections: [mental-health-apocalypse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
 ---
 
 # Sports Betting Gambling Addiction

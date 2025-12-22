@@ -13,7 +13,26 @@ connections: [corporate-personhood-battles, corruption-normalization, billionair
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Dark Money Politics

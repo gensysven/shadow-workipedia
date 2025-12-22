@@ -12,7 +12,25 @@ affectedSystems: [Indigenous Rights, Land Use, Cultural Heritage, Development, G
 connections: [resource-extraction-conflicts]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--externality--externality-pricing
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Sacred Site Protection

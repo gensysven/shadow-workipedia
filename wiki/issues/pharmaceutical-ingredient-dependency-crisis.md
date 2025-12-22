@@ -12,7 +12,25 @@ affectedSystems: [Healthcare, Manufacturing, Trade, National Security, Pharmaceu
 connections: [just-in-time-supply-chain-collapse,global-healthcare-workforce-exodus,pandemic-response-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Pharmaceutical Ingredient Dependency Crisis

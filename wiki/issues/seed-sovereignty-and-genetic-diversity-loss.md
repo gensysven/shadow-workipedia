@@ -12,7 +12,17 @@ affectedSystems: [Agriculture, Biodiversity, Food-Security, Climate-Adaptation]
 connections: [seed-monopolies]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Seed Sovereignty and Genetic Diversity Loss

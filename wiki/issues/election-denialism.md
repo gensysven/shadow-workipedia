@@ -13,7 +13,19 @@ connections: [democratic-backsliding, disinformation-plague]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Election Denialism

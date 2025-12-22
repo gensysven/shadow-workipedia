@@ -25,7 +25,18 @@ connections:
   - imperial-overextension
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--tipping-point--tipping-point
 ---
 
 # War on Terror Endless Wars

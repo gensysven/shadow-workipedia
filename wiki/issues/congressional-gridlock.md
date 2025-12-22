@@ -24,7 +24,13 @@ connections:
   - government-shutdowns
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Congressional Gridlock

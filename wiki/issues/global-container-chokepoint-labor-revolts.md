@@ -13,7 +13,23 @@ connections: [just-in-time-supply-chain-collapse]
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Global Container Chokepoint Labor Revolts

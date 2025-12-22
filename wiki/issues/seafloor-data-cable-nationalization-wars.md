@@ -12,7 +12,16 @@ affectedSystems: [Internet Infrastructure, International Relations, Trade, Intel
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Seafloor Data Cable Nationalization Wars

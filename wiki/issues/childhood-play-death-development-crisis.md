@@ -24,7 +24,10 @@ connections:
   - pandemic-learning-loss-and-skills-crash-generation
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--just-in-time-fragility--just-in-time-fragility
 ---
 
 # Childhood Play Death & Development Crisis

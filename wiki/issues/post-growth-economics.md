@@ -12,7 +12,17 @@ affectedSystems: [economy, environment, politics, culture]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--externality--externality-pricing
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Post-Growth Economics

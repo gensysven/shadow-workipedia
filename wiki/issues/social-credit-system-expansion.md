@@ -12,7 +12,21 @@ affectedSystems: [Government, Civil Liberties, Technology, Society, Economy]
 connections: [surveillance-state-expansion,algorithmic-governance-proliferation]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Social Credit System Expansion

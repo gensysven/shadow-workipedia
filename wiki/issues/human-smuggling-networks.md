@@ -13,7 +13,27 @@ connections: [asylum-system-breakdown]
 editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--nash-equilibrium--nash-equilibrium
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Human Smuggling Networks

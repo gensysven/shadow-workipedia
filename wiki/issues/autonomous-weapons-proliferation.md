@@ -13,7 +13,11 @@ connections: [ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--governance-vacuum--governance-vacuum
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--first-strike-advantage--first-strike-advantage
 ---
 
 # Autonomous Weapons Proliferation

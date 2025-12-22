@@ -12,7 +12,15 @@ affectedSystems: [Political Stability, Economic Integration, National Identity, 
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lobbying--lobbying-intensity-response
 ---
 
 # Catalonia and Scottish Independence

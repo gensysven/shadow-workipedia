@@ -12,7 +12,23 @@ affectedSystems: [Legal Systems, Family Structure, Civil Rights, Political Polar
 connections: [supreme-court-legitimacy-crisis, abortion-access-crisis, democratic-backsliding]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Marriage Equality Reversal Fears

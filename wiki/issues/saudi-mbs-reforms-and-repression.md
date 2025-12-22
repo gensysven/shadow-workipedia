@@ -13,7 +13,21 @@ connections: [oil-industry-death-throes]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--nash-equilibrium--nash-equilibrium
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--prisoners-dilemma--prisoners-dilemma
 ---
 
 # Saudi MBS Reforms and Repression

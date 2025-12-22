@@ -12,7 +12,15 @@ affectedSystems: [Healthcare, Technology, Culture, Population (Cohorts)]
 connections: [mental-health-apocalypse, social-media-addiction-crisis, ai-job-displacement-tsunami, long-covid-labor-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
 ---
 
 # Automated Companion Replacements

@@ -12,7 +12,18 @@ affectedSystems: [Human Rights, International Relations, Trade, Technology]
 connections: [surveillance-state-expansion]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Uyghur Genocide

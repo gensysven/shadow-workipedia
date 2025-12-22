@@ -25,7 +25,17 @@ connections:
   - war-on-terror-legacy
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Guantanamo Forever

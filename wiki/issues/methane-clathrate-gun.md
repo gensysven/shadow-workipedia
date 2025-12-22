@@ -12,7 +12,14 @@ affectedSystems: [Climate, Economy, Agriculture, Migration, International Securi
 connections: [permafrost-methane-release, amazon-rainforest-dieback, coral-reef-death-and-ocean-ecosystem-collapse, climate-refugee-floods, climate-insurance-collapse-and-managed-retreat-wars, global-fertilizer-shock-and-food-riots, carrington-class-solar-storm]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--network-effect--network-effects
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Methane Clathrate Gun

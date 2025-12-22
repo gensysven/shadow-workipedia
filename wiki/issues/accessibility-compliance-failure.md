@@ -12,7 +12,11 @@ affectedSystems: [Infrastructure, Employment, Education, Technology]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Accessibility Compliance Failure

@@ -13,7 +13,29 @@ connections: [autonomous-weapons-proliferation, drone-warfare-normalization]
 editedBy: Shadow Work Team
 primitives: ['DeathSpiral', 'ThresholdCascade', 'CapacityStress', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--governance-vacuum--governance-vacuum
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Global Open-Source Weapon Swarms

@@ -12,7 +12,11 @@ affectedSystems: [Technology, Security, Civil Society]
 connections: [agi-containment-failure, autonomous-weapons-proliferation, ai-job-displacement-tsunami]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
-mechanics: []
+mechanics:
+  - mechanic--threshold--confidencethreshold
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--path-dependency--path-dependency-lock-in
+  - mechanic--dual-use-dilemma--dual-use-dilemma
 ---
 
 # AI Alignment Crisis

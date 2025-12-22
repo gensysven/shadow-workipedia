@@ -24,7 +24,11 @@ connections:
   - family-structure-breakdown
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Touch Deprivation and Physical Contact Crisis

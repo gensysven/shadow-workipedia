@@ -12,7 +12,19 @@ affectedSystems: [Technology, Media, Economics, Culture, Politics]
 connections: [disinformation-plague, social-media-addiction-crisis, deepfake-reality-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Misinformation Monetization

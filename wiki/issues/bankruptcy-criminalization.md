@@ -12,7 +12,17 @@ affectedSystems: [Legal System, Criminal Justice, Economic Opportunity, Civil Ri
 connections: [cash-bail-as-debtors-prison]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Bankruptcy Criminalization

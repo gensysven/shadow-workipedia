@@ -12,7 +12,12 @@ affectedSystems: [Consumer-Rights, Manufacturing, E-Waste, Intellectual-Property
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--network-effect--network-effects
 ---
 
 # Right to Repair Battles

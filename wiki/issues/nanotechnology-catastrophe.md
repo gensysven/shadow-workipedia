@@ -34,7 +34,13 @@ connections:
   - gene-drive-cascades
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--network-effect--network-effects
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Nanotechnology Catastrophe

@@ -13,7 +13,11 @@ connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'CapacityStress', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--tipping-point--tipping-point
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--irreversible--water-extraction-irreversibility
 ---
 
 # Permafrost Methane Release

@@ -12,7 +12,12 @@ affectedSystems: [Space Infrastructure, Communications, Navigation, Military, We
 connections: [space-weaponization-and-orbital-conflict, gnss-spoofing-and-positioning-trust-collapse, critical-infrastructure-attacks, undersea-cable-and-powerline-sabotage]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--financial-death-spiral--financial-death-spiral
 ---
 
 # Kessler Syndrome

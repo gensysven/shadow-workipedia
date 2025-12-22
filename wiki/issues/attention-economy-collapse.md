@@ -32,7 +32,20 @@ connections:
   - deepfake-reality-crisis
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
 ---
 
 # Attention Economy Collapse

@@ -34,7 +34,17 @@ connections:
   - splinternet-and-data-localization-wars
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--dual-use-dilemma--dual-use-dilemma
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--threshold--confidencethreshold
 ---
 
 # CBDC Financial Surveillance State

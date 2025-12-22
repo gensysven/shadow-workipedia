@@ -12,7 +12,16 @@ affectedSystems: [Public Health, Federal Governance, Scientific Authority, State
 connections: [public-health-funding-collapse]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
 ---
 
 # CDC Authority Battles

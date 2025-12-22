@@ -13,7 +13,20 @@ connections: [ai-job-displacement-tsunami,billionaire-abolition-movement]
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--network-effect--network-effects
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Universal Basic Income Trials

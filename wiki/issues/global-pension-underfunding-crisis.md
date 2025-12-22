@@ -34,7 +34,18 @@ connections:
   - general-strike-movements
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Global Pension Underfunding Crisis

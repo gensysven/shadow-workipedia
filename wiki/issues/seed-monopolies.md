@@ -12,7 +12,16 @@ affectedSystems: [Agriculture, Food-Security, Biodiversity, Intellectual-Propert
 connections: [seed-sovereignty-and-genetic-diversity-loss]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Seed Monopolies

@@ -13,7 +13,11 @@ connections: [pandemic-response-wars, global-healthcare-workforce-exodus]
 editedBy: Shadow Work Contributors
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--tragedy-of-common--tragedy-of-commons
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Antibiotic Resistance Crisis

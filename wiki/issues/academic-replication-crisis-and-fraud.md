@@ -12,7 +12,10 @@ affectedSystems: [Education, Healthcare, Technology, Policy]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--cascade--epistomological-collapse-cascade
 ---
 
 # Academic Replication Crisis and Fraud

@@ -12,7 +12,13 @@ affectedSystems: [healthcare, criminal-justice, international-law, ethics]
 connections: [corruption-normalization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--black-market-emergence--black-market-emergence
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
 ---
 
 # Organ Trafficking and Transplant Tourism

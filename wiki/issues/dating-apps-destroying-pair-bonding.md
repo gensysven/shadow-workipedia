@@ -24,7 +24,11 @@ connections:
   - technology-addiction
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--network-effect--network-effects
 ---
 
 # Dating Apps Destroying Pair Bonding

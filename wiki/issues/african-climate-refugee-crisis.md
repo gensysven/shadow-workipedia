@@ -13,7 +13,11 @@ connections: [climate-refugee-floods, sahel-jihadist-insurgency, comprehensive-r
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
 ---
 
 # African Climate Refugee Crisis

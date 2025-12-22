@@ -35,7 +35,14 @@ connections:
   - staple-crop-blight-wave
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
-mechanics: []
+mechanics:
+  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--network-effect--network-effects
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Supervolcanic Eruption Risk

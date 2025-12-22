@@ -30,7 +30,19 @@ connections:
   - criminal-justice-reform
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
 ---
 
 # Opioid Policy & Settlement Crisis

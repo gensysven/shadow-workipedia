@@ -12,7 +12,14 @@ affectedSystems: [healthcare, economy, regulation, insurance]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--network-effect--network-effects
+  - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
 ---
 
 # Pharmaceutical Pricing Wars

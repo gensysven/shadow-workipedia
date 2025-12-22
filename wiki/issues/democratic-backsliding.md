@@ -13,7 +13,11 @@ connections: [gerrymandering-extremism, election-denialism, electoral-college-cr
 editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Democratic Backsliding

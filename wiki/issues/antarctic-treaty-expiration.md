@@ -12,7 +12,11 @@ affectedSystems: [International Security, Environment, Extractive Industries, Cl
 connections: [arctic-sovereignty-conflicts, resource-extraction-conflicts, deep-sea-mining-rush-and-pacific-sovereignty-fight, west-antarctic-ice-cliff-collapse, asteroid-mining-rights-wars]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--private-equity-extraction--private-equity-extraction
 ---
 
 # Antarctic Treaty Expiration Crisis

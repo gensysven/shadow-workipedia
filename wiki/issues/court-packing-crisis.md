@@ -13,7 +13,16 @@ connections: [supreme-court-legitimacy-crisis, democratic-backsliding]
 editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog', 'AdaptiveResistance']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--threshold--confidencethreshold
 ---
 
 # Court Packing Crisis

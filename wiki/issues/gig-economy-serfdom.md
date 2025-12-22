@@ -13,7 +13,12 @@ connections: [ai-job-displacement-tsunami, global-healthcare-workforce-exodus, s
 editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'CaptureConcentration', 'ResistanceBacklash']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--regulatory-arbitrage--regulatory-arbitrage
+  - mechanic--network-effect--network-effects
 ---
 
 # Gig Economy Serfdom

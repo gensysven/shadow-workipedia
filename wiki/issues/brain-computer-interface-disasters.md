@@ -12,7 +12,16 @@ affectedSystems: [Healthcare, Technology, Security, Ethics, Regulation]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--disparate-impact--disparate-impact
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lock-in-effect--lock-in-effect
+  - mechanic--path-dependency--path-dependency-lock-in
 ---
 
 # Brain-Computer Interface Disasters

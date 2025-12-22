@@ -13,7 +13,14 @@ connections: [semiconductor-sovereignty-wars,south-china-sea-militarization]
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
-mechanics: []
+mechanics:
+  - mechanic--tipping-point--tipping-point
+  - mechanic--threshold--confidencethreshold
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--nash-equilibrium--nash-equilibrium
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
 ---
 
 # Taiwan Invasion Crisis

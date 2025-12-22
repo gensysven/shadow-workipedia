@@ -12,7 +12,12 @@ affectedSystems: [Healthcare, Social Structure, Labor, Ethics, Regulation]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lobbying--lobbying-intensity-response
 ---
 
 # Artificial Wombs and Gestation Outsourcing

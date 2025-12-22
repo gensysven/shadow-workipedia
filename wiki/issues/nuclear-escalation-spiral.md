@@ -32,7 +32,12 @@ connections:
   - critical-infrastructure-attacks
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--threshold--confidencethreshold
+  - mechanic--tipping-point--tipping-point
+  - mechanic--feedback-loop--feedback-loop
 ---
 
 # Nuclear Escalation Spiral

@@ -12,7 +12,16 @@ affectedSystems: [Criminal Justice, Legal System, Economic Opportunity, Civil Ri
 connections: [bankruptcy-criminalization, mass-incarceration-crisis]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--economic-lock-in--economic-lock-in
+  - mechanic--enforcement-paradox--enforcement-paradox
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
 ---
 
 # Cash Bail as Debtors' Prison

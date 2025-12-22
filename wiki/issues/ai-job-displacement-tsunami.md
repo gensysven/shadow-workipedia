@@ -13,7 +13,10 @@ connections: [gig-economy-serfdom, student-debt-slavery, mental-health-apocalyps
 editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyContagion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--threshold--confidencethreshold
 ---
 
 # AI Job Displacement Tsunami

@@ -12,7 +12,17 @@ affectedSystems: [Ecosystems, Agriculture, Conservation, Scientific Research]
 connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
-mechanics: []
+mechanics:
+  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--chokepoint-concentration--chokepoint-concentration
+  - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--geographic-concentration--geographic-concentration
+  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--network-effect--network-effects
+  - mechanic--regulatory-fragmentation--regulatory-fragmentation
+  - mechanic--tipping-point--tipping-point
 ---
 
 # Species Divergence Crisis
