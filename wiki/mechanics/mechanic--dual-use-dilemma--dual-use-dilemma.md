@@ -31,7 +31,7 @@ This page documents **Dual-Use Dilemma** as it appears in System Walk subsystems
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95a: Model autonomous weapon spread from elite tech to ubiquitous battlefield presenc
-- **gene-drive-synthetic-biology-catastrophe** (SW#66)
+- [gene-drive-synthetic-biology-catastrophe](#/wiki/gene-drive-synthetic-biology-catastrophe) (SW#66) — `gene-drive-synthetic-biology-catastrophe`
   - 66b: Model AI biodesign capability growth timeline (2024 guide RNAs → 2030 autonomous

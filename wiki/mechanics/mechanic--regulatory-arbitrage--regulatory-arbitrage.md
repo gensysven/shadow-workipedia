@@ -31,7 +31,7 @@ This page documents **Regulatory Arbitrage** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102a: Models water-for-lithium trade-offs in the Atacama region, brine extraction dyna
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04o: Model carbon pricing mechanics and green energy subsidies with economic trade-of

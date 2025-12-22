@@ -31,24 +31,24 @@ This page documents **Water Extraction Irreversibility** as it appears in System
 ## References (System Walk occurrences)
 Appears in **32** distinct issue contexts, **80** total mentions.
 
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133e: Cross-border doctrinal spread mechanics, platform amplification, containment res
-- **ai-generated-synthetic-biolab-leaks** (SW#134)
+- [AI-Generated Synthetic Biolab Leaks](#/wiki/ai-generated-synthetic-biolab-leaks) (SW#134) — `ai-generated-synthetic-biolab-leaks`
   - 134a: Capability progression timeline (guide RNA → protein folding → novel organisms),
-- **amazon-rainforest-dieback** (SW#65)
+- [Amazon Rainforest Dieback](#/wiki/amazon-rainforest-dieback) (SW#65) — `amazon-rainforest-dieback`
   - 65a: Models forest-atmosphere coupling where deforestation reduces rainfall recycling
-- **arctic-blue-ocean-jet-stream** (SW#68)
+- [arctic-blue-ocean-jet-stream](#/wiki/arctic-blue-ocean-jet-stream) (SW#68) — `arctic-blue-ocean-jet-stream`
   - 68a: Model Arctic sea ice extent, thickness, and age tracking across 4 regional secto
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95e: Model why 11+ years of UN discussion produced zero binding regulation
-- **brain-computer-interface-neural-sovereignty-crisis** (SW#96)
+- [brain-computer-interface-neural-sovereignty-crisis](#/wiki/brain-computer-interface-neural-sovereignty-crisis) (SW#96) — `brain-computer-interface-neural-sovereignty-crisis`
   - 96a: Model progression from medical necessity to mass adoption through regulatory byp
   - 96b: Model medical complications where neural damage is permanent and unrecoverable
   - 96d: Model BCIs transforming soldiers into controllable weapon platforms
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104c: Model shadow system of predatory guardians legally stripping elders of autonomy
-- **carrington-solar-storm** (SW#57)
+- [carrington-solar-storm](#/wiki/carrington-solar-storm) (SW#57) — `carrington-solar-storm`
   - 57a: Model the physics chain from solar flares to transformer destruction, including
   - 57c: Model financial market collapse when GPS timestamp synchronization fails → HFT o
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
 - …and 22 more

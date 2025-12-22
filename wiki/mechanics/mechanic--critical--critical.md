@@ -31,7 +31,7 @@ This page documents **Critical** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **diplomacy** (SW#03)
+- [diplomacy](#/wiki/diplomacy) (SW#03) — `diplomacy`
   - 03d: Calculate strategic interests, threats, alliance candidates, and war escalation
-- **space-weaponization-orbital-conflict** (SW#92)
+- [space-weaponization-orbital-conflict](#/wiki/space-weaponization-orbital-conflict) (SW#92) — `space-weaponization-orbital-conflict`
   - 92a: Models how modern civilization becomes catastrophically dependent on fragile, un

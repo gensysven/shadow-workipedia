@@ -31,6 +31,6 @@ This page documents **Paranoia_equilibrium** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **synthetic-biology-weaponization-biological-attribution-crisis** (SW#94)
+- [synthetic-biology-weaponization-biological-attribution-crisis](#/wiki/synthetic-biology-weaponization-biological-attribution-crisis) (SW#94) — `synthetic-biology-weaponization-biological-attribution-crisis`
   - 94c: Models fundamental limits of biological forensics creating permanent uncertainty
   - 94e: Models structural impossibility of biological arms control creating permanent un

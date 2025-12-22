@@ -31,7 +31,7 @@ This page documents **Supply_chain** as it appears in System Walk subsystems and
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **brain-computer-interface-neural-sovereignty-crisis** (SW#96)
+- [brain-computer-interface-neural-sovereignty-crisis](#/wiki/brain-computer-interface-neural-sovereignty-crisis) (SW#96) — `brain-computer-interface-neural-sovereignty-crisis`
   - 96c: Model the brain as permanently insecure attack surface with no possible defense
-- **seafloor-data-cable-wars** (SW#91)
+- [seafloor-data-cable-wars](#/wiki/seafloor-data-cable-wars) (SW#91) — `seafloor-data-cable-wars`
   - 91c: Models cascading failures across finance, military, internet, supply chains when

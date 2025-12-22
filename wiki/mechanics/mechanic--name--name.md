@@ -31,22 +31,22 @@ This page documents **Name** as it appears in System Walk subsystems and suggest
 ## References (System Walk occurrences)
 Appears in **8** distinct issue contexts, **11** total mentions.
 
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104c: Model shadow system of predatory guardians legally stripping elders of autonomy
-- **creator-economy-collapse** (SW#109)
+- [creator-economy-collapse](#/wiki/creator-economy-collapse) (SW#109) — `creator-economy-collapse`
   - 109a: Models economic extinction of visual artists by generative AI
   - 109d: Models platform dependence creating income volatility and creator burnout
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102a: Models water-for-lithium trade-offs in the Atacama region, brine extraction dyna
   - 102e: Models indigenous and community resistance to extraction, blockade effectiveness
-- **factory-kill-switch-sabotage** (SW#60)
+- [factory-kill-switch-sabotage](#/wiki/factory-kill-switch-sabotage) (SW#60) — `factory-kill-switch-sabotage`
   - 60d: Model economic and political tradeoffs of resilience countermeasures (manual ove
-- **iatrogenic-medical-harms** (SW#111)
+- [Iatrogenic Medical Harms](#/wiki/iatrogenic-medical-harms) (SW#111) — `iatrogenic-medical-harms`
   - 111c: Models trap of treating side effects with more drugs creating permanent patients
   - 111e: Models erosion of clinical competence and accountability crisis when AI fails
-- **intimate-technology-human-replacement** (SW#108)
+- [intimate-technology-human-replacement](#/wiki/intimate-technology-human-replacement) (SW#108) — `intimate-technology-human-replacement`
   - 108c: Models biological caste system emerging from differential longevity access
-- **opioid-crisis-synthetic-drug-epidemic** (SW#113)
+- [opioid-crisis-synthetic-drug-epidemic](#/wiki/opioid-crisis-synthetic-drug-epidemic) (SW#113) — `opioid-crisis-synthetic-drug-epidemic`
   - 113e: Socioeconomic context creating opioid demand: deindustrialization, economic prec
-- **spyware-for-hire-export-wars** (SW#61)
+- [Spyware-for-Hire Export Wars](#/wiki/spyware-for-hire-export-wars) (SW#61) — `spyware-for-hire-export-wars`
   - 61c: Models patch deployment speed and detection capabilities competition

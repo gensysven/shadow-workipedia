@@ -31,13 +31,13 @@ This page documents **Year** as it appears in System Walk subsystems and suggest
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **5** total mentions.
 
-- **brain-computer-interface-neural-sovereignty-crisis** (SW#96)
+- [brain-computer-interface-neural-sovereignty-crisis](#/wiki/brain-computer-interface-neural-sovereignty-crisis) (SW#96) — `brain-computer-interface-neural-sovereignty-crisis`
   - 96c: Model the brain as permanently insecure attack surface with no possible defense
-- **creator-economy-collapse** (SW#109)
+- [creator-economy-collapse](#/wiki/creator-economy-collapse) (SW#109) — `creator-economy-collapse`
   - 109d: Models platform dependence creating income volatility and creator burnout
-- **gun-violence-mass-shooting-epidemic** (SW#114)
+- [gun-violence-mass-shooting-epidemic](#/wiki/gun-violence-mass-shooting-epidemic) (SW#114) — `gun-violence-mass-shooting-epidemic`
   - 114b: Legal and political landscape of gun regulation, 2nd Amendment jurisprudence evo
-- **nuclear-waste-storage-failure-radioactive-legacy** (SW#76)
+- [nuclear-waste-storage-failure-radioactive-legacy](#/wiki/nuclear-waste-storage-failure-radioactive-legacy) (SW#76) — `nuclear-waste-storage-failure-radioactive-legacy`
   - 76e: Model perpetual plutonium security burden. Track 700+ tons of plutonium in spent
-- **splinternet-data-localization** (SW#41)
+- [splinternet-data-localization](#/wiki/splinternet-data-localization) (SW#41) — `splinternet-data-localization`
   - 41a: Models how data localization mandates spread globally through contagion dynamics

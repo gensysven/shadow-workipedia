@@ -31,7 +31,7 @@ This page documents **Investigation Obstruction** as it appears in System Walk s
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **ai-generated-synthetic-biolab-leaks** (SW#134)
+- [AI-Generated Synthetic Biolab Leaks](#/wiki/ai-generated-synthetic-biolab-leaks) (SW#134) — `ai-generated-synthetic-biolab-leaks`
   - 134c: Attribution confidence degradation (natural 85% → AI-designed 10-20%), AI cover
-- **synthetic-biology-weaponization-biological-attribution-crisis** (SW#94)
+- [synthetic-biology-weaponization-biological-attribution-crisis](#/wiki/synthetic-biology-weaponization-biological-attribution-crisis) (SW#94) — `synthetic-biology-weaponization-biological-attribution-crisis`
   - 94c: Models fundamental limits of biological forensics creating permanent uncertainty

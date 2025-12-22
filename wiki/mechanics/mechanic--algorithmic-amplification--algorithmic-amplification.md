@@ -31,7 +31,7 @@ This page documents **Algorithmic Amplification** as it appears in System Walk s
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133e: Cross-border doctrinal spread mechanics, platform amplification, containment res
-- **political-violence-escalation** (SW#106)
+- [political-violence-escalation](#/wiki/political-violence-escalation) (SW#106) — `political-violence-escalation`
   - 106a: Models pathways from mainstream content to extremist ideology, stochastic terror

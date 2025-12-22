@@ -31,7 +31,7 @@ This page documents **Cause** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **carrington-solar-storm** (SW#57)
+- [carrington-solar-storm](#/wiki/carrington-solar-storm) (SW#57) — `carrington-solar-storm`
   - 57c: Model financial market collapse when GPS timestamp synchronization fails → HFT o
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102c: Models China's 90% rare earth processing control, strategic leverage over supply

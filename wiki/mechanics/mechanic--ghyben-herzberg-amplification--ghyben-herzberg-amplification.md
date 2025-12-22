@@ -31,7 +31,7 @@ This page documents **Ghyben-Herzberg Amplification** as it appears in System Wa
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **urban-groundwater-subsidence** (SW#124)
+- [urban-groundwater-subsidence](#/wiki/urban-groundwater-subsidence) (SW#124) — `urban-groundwater-subsidence`
   - 124b: Models geotechnical mechanics, soil types, irreversibility (Jakarta 25cm/year, M
-- **west-antarctic-ice-cliff-collapse** (SW#64)
+- [West Antarctic Ice Cliff Collapse](#/wiki/west-antarctic-ice-cliff-collapse) (SW#64) — `west-antarctic-ice-cliff-collapse`
   - 64d: Models river delta inundation (200-500M displaced) and freshwater lens destructi

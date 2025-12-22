@@ -31,7 +31,7 @@ This page documents **Just-In-Time Fragility** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **healthcare-system-collapse** (SW#78)
+- [healthcare-system-collapse](#/wiki/healthcare-system-collapse) (SW#78) — `healthcare-system-collapse`
   - 78d: Model hospital capacity exhaustion (85-95% baseline utilization, zero surge capa
-- **topsoil-depletion-agricultural-collapse** (SW#70)
+- [topsoil-depletion-agricultural-collapse](#/wiki/topsoil-depletion-agricultural-collapse) (SW#70) — `topsoil-depletion-agricultural-collapse`
   - 70d: Model just-in-time supply chain vulnerabilities (3-day supermarket inventory dec

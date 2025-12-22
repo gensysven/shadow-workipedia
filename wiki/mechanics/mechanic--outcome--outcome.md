@@ -31,9 +31,9 @@ This page documents **Outcome** as it appears in System Walk subsystems and sugg
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97d: Model how one default triggers contagion across countries and sectors
-- **longevity-inequality-life-extension-apartheid** (SW#131)
+- [longevity-inequality-life-extension-apartheid](#/wiki/longevity-inequality-life-extension-apartheid) (SW#131) — `longevity-inequality-life-extension-apartheid`
   - 131a: Treatment progression from affordable supplements to exclusive gene therapies
-- **nuclear-waste-storage-failure-radioactive-legacy** (SW#76)
+- [nuclear-waste-storage-failure-radioactive-legacy](#/wiki/nuclear-waste-storage-failure-radioactive-legacy) (SW#76) — `nuclear-waste-storage-failure-radioactive-legacy`
   - 76b: Model geological repository impossibility over 10,000+ year timescales. Track gr

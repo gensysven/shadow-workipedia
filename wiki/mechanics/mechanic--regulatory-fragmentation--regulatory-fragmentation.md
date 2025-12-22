@@ -31,9 +31,9 @@ This page documents **Regulatory Fragmentation** as it appears in System Walk su
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **autonomous-vehicle-liability-wars** (SW#135)
+- [autonomous-vehicle-liability-wars](#/wiki/autonomous-vehicle-liability-wars) (SW#135) — `autonomous-vehicle-liability-wars`
   - 135c: Municipal Authority vs Federal Preemption
-- **death-dying-infrastructure** (SW#103)
+- [death-dying-infrastructure](#/wiki/death-dying-infrastructure) (SW#103) — `death-dying-infrastructure`
   - 103d: Model cemetery land exhaustion and burial method conflicts
-- **intimate-technology-human-replacement** (SW#108)
+- [intimate-technology-human-replacement](#/wiki/intimate-technology-human-replacement) (SW#108) — `intimate-technology-human-replacement`
   - 108b: Models sex robot normalization from niche to mainstream market

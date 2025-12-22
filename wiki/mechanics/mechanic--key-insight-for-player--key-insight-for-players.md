@@ -31,6 +31,6 @@ This page documents **Key Insight for Players** as it appears in System Walk sub
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **global-demographic-collapse** (SW#98)
+- [Global Demographic Collapse & Population Implosion Crisis](#/wiki/global-demographic-collapse) (SW#98) — `global-demographic-collapse`
   - 98a: Model why fertility drops below replacement and keeps falling
   - 98e: Model how societies adapt to permanent population decline

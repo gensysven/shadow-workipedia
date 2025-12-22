@@ -31,8 +31,8 @@ This page documents **Key dynamics** as it appears in System Walk subsystems and
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **3** total mentions.
 
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102b: Models artisanal and small-scale mining economics in Congo, supply chain traceab
   - 102c: Models China's 90% rare earth processing control, strategic leverage over supply
-- **vaccine-hesitancy-public-health-trust-collapse** (SW#115)
+- [vaccine-hesitancy-public-health-trust-collapse](#/wiki/vaccine-hesitancy-public-health-trust-collapse) (SW#115) — `vaccine-hesitancy-public-health-trust-collapse`
   - 115c: Disease transmission dynamics when vaccination coverage falls below herd immunit

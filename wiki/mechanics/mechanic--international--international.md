@@ -31,7 +31,7 @@ This page documents **International** as it appears in System Walk subsystems an
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **ai-deepfake-diplomatic-mutinies** (SW#90)
+- [AI Deepfake Diplomatic Mutinies](#/wiki/ai-deepfake-diplomatic-mutinies) (SW#90) — `ai-deepfake-diplomatic-mutinies`
   - 90e: Models specific escalation mechanics for catalog crises: False Surrender, Allian
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122e: Models efforts to rebuild domestic capacity and maintain reserves ($50-100B resh

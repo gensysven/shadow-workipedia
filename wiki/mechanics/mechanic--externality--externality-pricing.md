@@ -31,14 +31,14 @@ This page documents **Externality Pricing** as it appears in System Walk subsyst
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **6** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129e: Arms race between containment methods and AI capability
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132a: Labor pool dynamics by hub (Nairobi, Manila, Accra supply curves), wage determin
-- **autonomous-vehicle-liability-wars** (SW#135)
+- [autonomous-vehicle-liability-wars](#/wiki/autonomous-vehicle-liability-wars) (SW#135) — `autonomous-vehicle-liability-wars`
   - 135d: Liability Framework Fragmentation
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04o: Model carbon pricing mechanics and green energy subsidies with economic trade-of
   - 04q: Simulate cyber insurance market crisis through premium escalation and loss ratio
-- **longevity-inequality-life-extension-apartheid** (SW#131)
+- [longevity-inequality-life-extension-apartheid](#/wiki/longevity-inequality-life-extension-apartheid) (SW#131) — `longevity-inequality-life-extension-apartheid`
   - 131d: Lifespan becomes ultimate class marker, creating rigid castes

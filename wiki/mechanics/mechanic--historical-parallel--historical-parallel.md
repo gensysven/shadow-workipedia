@@ -31,9 +31,9 @@ This page documents **Historical Parallel** as it appears in System Walk subsyst
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **diplomacy** (SW#03)
+- [diplomacy](#/wiki/diplomacy) (SW#03) — `diplomacy`
   - 03g: Coordinate Stockholm-style bans, PFAS export controls, and cleanup funding coali
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97e: Model four possible equilibria after debt crisis peaks
-- **machine-consciousness-rights** (SW#130)
+- [Machine Consciousness Rights](#/wiki/machine-consciousness-rights) (SW#130) — `machine-consciousness-rights`
   - 130a: Scientific/philosophical challenge of detecting machine consciousness

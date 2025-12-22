@@ -31,7 +31,7 @@ This page documents **Financial Death Spiral** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
   - 72e: Model the collapse of healthcare institutions as nosocomial infection rates expl
-- **healthcare-system-collapse** (SW#78)
+- [healthcare-system-collapse](#/wiki/healthcare-system-collapse) (SW#78) — `healthcare-system-collapse`
   - 78b: Model rural hospital closures (130+ since 2010, 600+ at immediate risk), medical

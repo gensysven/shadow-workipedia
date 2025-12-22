@@ -31,15 +31,15 @@ This page documents **Feedback** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **6** distinct issue contexts, **6** total mentions.
 
-- **culture** (SW#12)
+- [culture](#/wiki/culture) (SW#12) — `culture`
   - 12d: Model discrete cultural phenomena (ideologies, movements) spreading via contagio
-- **global-supply-chain-collapse** (SW#81)
+- [global-supply-chain-collapse](#/wiki/global-supply-chain-collapse) (SW#81) — `global-supply-chain-collapse`
   - 81d: Model bullwhip effect and panic buying amplification. Track demand amplification
-- **healthcare-system-collapse** (SW#78)
+- [healthcare-system-collapse](#/wiki/healthcare-system-collapse) (SW#78) — `healthcare-system-collapse`
   - 78c: Model healthcare cost explosion (18% GDP 2023 = $4.3 trillion, growing 6% annual
-- **institutional-legitimacy-collapse** (SW#105)
+- [institutional-legitimacy-collapse](#/wiki/institutional-legitimacy-collapse) (SW#105) — `institutional-legitimacy-collapse`
   - 105b: Models K-12 teacher pipeline collapse, working condition deterioration, AI class
-- **pyrocumulonimbus-warfare** (SW#89)
+- [Pyrocumulonimbus Warfare](#/wiki/pyrocumulonimbus-warfare) (SW#89) — `pyrocumulonimbus-warfare`
   - 89a: Models the physical transformation of megafires into stratosphere-reaching thund
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93a: Models how civilization becomes irrevocably dependent on quantum-vulnerable RSA/

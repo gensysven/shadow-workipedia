@@ -31,7 +31,7 @@ This page documents **Ready** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **cbdc-surveillance-financial-control** (SW#100)
+- [cbdc-surveillance-financial-control](#/wiki/cbdc-surveillance-financial-control) (SW#100) — `cbdc-surveillance-financial-control`
   - 100a: Models CBDC rollout strategies, adoption curves, infrastructure requirements, re
-- **general-strike-movements** (SW#55)
+- [General Strike Movements](#/wiki/general-strike-movements) (SW#55) — `general-strike-movements`
   - 55a: Model the conditions that cause general strikes to erupt and the coordination dy

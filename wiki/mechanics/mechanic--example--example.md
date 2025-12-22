@@ -31,11 +31,11 @@ This page documents **Example** as it appears in System Walk subsystems and sugg
 ## References (System Walk occurrences)
 Appears in **4** distinct issue contexts, **4** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129a: Containment mechanics, escape vectors, operator dynamics
-- **brain-computer-interface-neural-sovereignty-crisis** (SW#96)
+- [brain-computer-interface-neural-sovereignty-crisis](#/wiki/brain-computer-interface-neural-sovereignty-crisis) (SW#96) — `brain-computer-interface-neural-sovereignty-crisis`
   - 96c: Model the brain as permanently insecure attack surface with no possible defense
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93d: Models coordination failures when infrastructure attempts 10-20 year migration w
-- **space-weaponization-orbital-conflict** (SW#92)
+- [space-weaponization-orbital-conflict](#/wiki/space-weaponization-orbital-conflict) (SW#92) — `space-weaponization-orbital-conflict`
   - 92d: Models escalation from ASAT tests to full space war and when nuclear threshold c

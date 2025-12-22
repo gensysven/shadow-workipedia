@@ -31,13 +31,13 @@ This page documents **In** as it appears in System Walk subsystems and suggests 
 ## References (System Walk occurrences)
 Appears in **4** distinct issue contexts, **6** total mentions.
 
-- **food-system-sovereignty-crisis** (SW#119)
+- [food-system-sovereignty-crisis](#/wiki/food-system-sovereignty-crisis) (SW#119) — `food-system-sovereignty-crisis`
   - 119d: Models delivery platform consolidation (DoorDash/Uber 91% duopoly, ghost kitchen
-- **insect-apocalypse-pollinator-collapse** (SW#79)
+- [insect-apocalypse-pollinator-collapse](#/wiki/insect-apocalypse-pollinator-collapse) (SW#79) — `insect-apocalypse-pollinator-collapse`
   - 79a: Model pollinator population collapse driving agricultural catastrophe. Track hon
   - 79c: Model agricultural intensification eliminating insect habitat. Track hedgerow de
   - 79e: Model progression toward biotic homogenization and functional ecosystem death. T
-- **splinternet-data-localization** (SW#41)
+- [splinternet-data-localization](#/wiki/splinternet-data-localization) (SW#41) — `splinternet-data-localization`
   - 41d: Models formation of 4-5 internet blocs (US/China/EU/sovereign), censorship techn
-- **voting-rights-crisis** (SW#117)
+- [voting-rights-crisis](#/wiki/voting-rights-crisis) (SW#117) — `voting-rights-crisis`
   - 117e: Synthesis of suppression, gerrymandering, and denialism into legitimacy crisis o

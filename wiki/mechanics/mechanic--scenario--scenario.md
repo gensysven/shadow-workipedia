@@ -31,9 +31,9 @@ This page documents **Scenario** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122a: Models physical distribution of pharma manufacturing and vulnerability points (C
-- **synthetic-biology-weaponization-biological-attribution-crisis** (SW#94)
+- [synthetic-biology-weaponization-biological-attribution-crisis](#/wiki/synthetic-biology-weaponization-biological-attribution-crisis) (SW#94) — `synthetic-biology-weaponization-biological-attribution-crisis`
   - 94e: Models structural impossibility of biological arms control creating permanent un
-- **voting-rights-crisis** (SW#117)
+- [voting-rights-crisis](#/wiki/voting-rights-crisis) (SW#117) — `voting-rights-crisis`
   - 117a: Concrete suppression tactics: polling closures, ID laws, purges, and their diffe

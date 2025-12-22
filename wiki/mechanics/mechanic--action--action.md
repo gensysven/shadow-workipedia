@@ -31,7 +31,7 @@ This page documents **Action** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95b: Model when "human-in-the-loop" becomes legal fiction
-- **death-dying-infrastructure** (SW#103)
+- [death-dying-infrastructure](#/wiki/death-dying-infrastructure) (SW#103) — `death-dying-infrastructure`
   - 103a: Model morgue capacity crisis and emergency protocols during death spikes

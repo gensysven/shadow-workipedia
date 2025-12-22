@@ -31,10 +31,10 @@ This page documents **Target** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **4** total mentions.
 
-- **death-penalty-abolition** (SW#47)
+- [death-penalty-abolition](#/wiki/death-penalty-abolition) (SW#47) — `death-penalty-abolition`
   - 47b: Model execution protocol availability, lethal injection drug scarcity crisis, an
-- **factory-kill-switch-sabotage** (SW#60)
+- [factory-kill-switch-sabotage](#/wiki/factory-kill-switch-sabotage) (SW#60) — `factory-kill-switch-sabotage`
   - 60b: Model how single-plant kill switch attacks cascade through global supply chains
   - 60c: Model forensic difficulty of distinguishing insider threats from nation-state fa
-- **gene-drive-synthetic-biology-catastrophe** (SW#66)
+- [gene-drive-synthetic-biology-catastrophe](#/wiki/gene-drive-synthetic-biology-catastrophe) (SW#66) — `gene-drive-synthetic-biology-catastrophe`
   - 66c: Model food web dependencies (mosquitoes 30-70% bat diet, 20-50% frog diet, 5-15%

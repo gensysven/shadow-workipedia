@@ -31,6 +31,6 @@ This page documents **Label** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **factory-kill-switch-sabotage** (SW#60)
+- [factory-kill-switch-sabotage](#/wiki/factory-kill-switch-sabotage) (SW#60) — `factory-kill-switch-sabotage`
   - 60b: Model how single-plant kill switch attacks cascade through global supply chains
   - 60d: Model economic and political tradeoffs of resilience countermeasures (manual ove

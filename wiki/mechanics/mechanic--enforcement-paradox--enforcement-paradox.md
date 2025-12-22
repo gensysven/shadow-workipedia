@@ -31,7 +31,7 @@ This page documents **Enforcement Paradox** as it appears in System Walk subsyst
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **amazon-rainforest-dieback** (SW#65)
+- [Amazon Rainforest Dieback](#/wiki/amazon-rainforest-dieback) (SW#65) — `amazon-rainforest-dieback`
   - 65c: Models activist killings (150-300+/year), NGO crackdowns, organized crime networ
-- **migration-infrastructure-collapse** (SW#120)
+- [migration-infrastructure-collapse](#/wiki/migration-infrastructure-collapse) (SW#120) — `migration-infrastructure-collapse`
   - 120b: Models smuggling capacity, pricing, route optimization, mortality rates, cartel

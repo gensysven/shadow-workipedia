@@ -31,6 +31,6 @@ This page documents **Severity levels** as it appears in System Walk subsystems 
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **arctic-blue-ocean-jet-stream** (SW#68)
+- [arctic-blue-ocean-jet-stream](#/wiki/arctic-blue-ocean-jet-stream) (SW#68) — `arctic-blue-ocean-jet-stream`
   - 68a: Model Arctic sea ice extent, thickness, and age tracking across 4 regional secto
   - 68c: Model breadbasket region vulnerability (USA Midwest, Canada Prairies, Russia Sou

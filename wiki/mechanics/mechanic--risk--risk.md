@@ -31,7 +31,7 @@ This page documents **Risk** as it appears in System Walk subsystems and suggest
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93d: Models coordination failures when infrastructure attempts 10-20 year migration w
-- **starlink-satellite-internet-sovereignty** (SW#62)
+- [starlink-satellite-internet-sovereignty](#/wiki/starlink-satellite-internet-sovereignty) (SW#62) — `starlink-satellite-internet-sovereignty`
   - 62a: Models the physics of satellite collisions and the Kessler cascade (self-sustain

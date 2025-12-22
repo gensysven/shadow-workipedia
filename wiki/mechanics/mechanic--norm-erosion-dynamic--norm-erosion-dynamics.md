@@ -31,7 +31,7 @@ This page documents **Norm Erosion Dynamics** as it appears in System Walk subsy
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **diplomacy** (SW#03)
+- [diplomacy](#/wiki/diplomacy) (SW#03) — `diplomacy`
   - 03g: Coordinate Stockholm-style bans, PFAS export controls, and cleanup funding coali
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122b: Models how pharmaceutical dependency can be exploited for political purposes (Ta

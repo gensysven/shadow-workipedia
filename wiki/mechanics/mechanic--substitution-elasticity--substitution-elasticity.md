@@ -31,7 +31,7 @@ This page documents **Substitution Elasticity** as it appears in System Walk sub
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04r: Generate player resources from sector performance and institutional budgets
-- **gene-drive-synthetic-biology-catastrophe** (SW#66)
+- [gene-drive-synthetic-biology-catastrophe](#/wiki/gene-drive-synthetic-biology-catastrophe) (SW#66) — `gene-drive-synthetic-biology-catastrophe`
   - 66c: Model food web dependencies (mosquitoes 30-70% bat diet, 20-50% frog diet, 5-15%

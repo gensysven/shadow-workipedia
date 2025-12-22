@@ -31,7 +31,7 @@ This page documents **Narrative** as it appears in System Walk subsystems and su
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104c: Model shadow system of predatory guardians legally stripping elders of autonomy
-- **opioid-crisis-synthetic-drug-epidemic** (SW#113)
+- [opioid-crisis-synthetic-drug-epidemic](#/wiki/opioid-crisis-synthetic-drug-epidemic) (SW#113) — `opioid-crisis-synthetic-drug-epidemic`
   - 113b: Transition from prescription pills to heroin to illicit fentanyl, tracking econo

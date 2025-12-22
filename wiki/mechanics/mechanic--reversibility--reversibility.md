@@ -31,9 +31,9 @@ This page documents **Reversibility** as it appears in System Walk subsystems an
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104c: Model shadow system of predatory guardians legally stripping elders of autonomy
-- **death-dying-infrastructure** (SW#103)
+- [death-dying-infrastructure](#/wiki/death-dying-infrastructure) (SW#103) — `death-dying-infrastructure`
   - 103a: Model morgue capacity crisis and emergency protocols during death spikes
-- **obesity-metabolic-epidemic** (SW#112)
+- [obesity-metabolic-epidemic](#/wiki/obesity-metabolic-epidemic) (SW#112) — `obesity-metabolic-epidemic`
   - 112b: Models Type 2 diabetes epidemic as primary metabolic consequence overwhelming he

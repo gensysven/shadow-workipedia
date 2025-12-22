@@ -31,7 +31,7 @@ This page documents **Stage 5** as it appears in System Walk subsystems and sugg
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **loneliness-epidemic** (SW#118)
+- [loneliness-epidemic](#/wiki/loneliness-epidemic) (SW#118) — `loneliness-epidemic`
   - 118e: Isolation to extremism pipeline, online radicalization exposure, and violence ri
-- **space-weaponization-orbital-conflict** (SW#92)
+- [space-weaponization-orbital-conflict](#/wiki/space-weaponization-orbital-conflict) (SW#92) — `space-weaponization-orbital-conflict`
   - 92d: Models escalation from ASAT tests to full space war and when nuclear threshold c

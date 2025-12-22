@@ -31,7 +31,7 @@ This page documents **Economic impact** as it appears in System Walk subsystems 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **digital-exile-financial-control** (SW#107)
+- [digital-exile-financial-control](#/wiki/digital-exile-financial-control) (SW#107) — `digital-exile-financial-control`
   - 107d: Models weaponization of financial infrastructure for political/social control
-- **ransomware-pandemic** (SW#52)
+- [Ransomware Pandemic](#/wiki/ransomware-pandemic) (SW#52) — `ransomware-pandemic`
   - 52b: Model escalating ransomware attacks on hospitals (patients die), cities (911 dow

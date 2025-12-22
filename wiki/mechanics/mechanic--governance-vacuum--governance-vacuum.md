@@ -31,7 +31,7 @@ This page documents **Governance Vacuum** as it appears in System Walk subsystem
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **boreal-permafrost-carbon-pulse** (SW#67)
+- [Boreal Permafrost Carbon Pulse](#/wiki/boreal-permafrost-carbon-pulse) (SW#67) — `boreal-permafrost-carbon-pulse`
   - 67d: Model methane feedback amplification (CH₄ GWP20 80× CO₂ for near-term feedback,
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102d: Models International Seabed Authority licensing, polymetallic nodule extraction,

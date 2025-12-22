@@ -31,6 +31,6 @@ This page documents **Nash equilibrium** as it appears in System Walk subsystems
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93b: Models nation-state competition where first-mover gains asymmetric advantage: re
   - 93d: Models coordination failures when infrastructure attempts 10-20 year migration w

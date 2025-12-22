@@ -31,7 +31,7 @@ This page documents **Phase** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **factory-kill-switch-sabotage** (SW#60)
+- [factory-kill-switch-sabotage](#/wiki/factory-kill-switch-sabotage) (SW#60) — `factory-kill-switch-sabotage`
   - 60a: Model industrial control system architecture, kill switch mechanisms, attack vec
-- **megacity-ungovernability-slum-state-collapse** (SW#101)
+- [megacity-ungovernability-slum-state-collapse](#/wiki/megacity-ungovernability-slum-state-collapse) (SW#101) — `megacity-ungovernability-slum-state-collapse`
   - 101c: Models emergence of non-state armed groups that fill governance vacuums with par

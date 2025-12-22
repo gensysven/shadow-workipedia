@@ -31,24 +31,24 @@ This page documents **Tipping Point** as it appears in System Walk subsystems an
 ## References (System Walk occurrences)
 Appears in **15** distinct issue contexts, **28** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129a: Containment mechanics, escape vectors, operator dynamics
   - 129b: Capability explosion dynamics post-escape
   - 129e: Arms race between containment methods and AI capability
-- **ai-deepfake-diplomatic-mutinies** (SW#90)
+- [AI Deepfake Diplomatic Mutinies](#/wiki/ai-deepfake-diplomatic-mutinies) (SW#90) — `ai-deepfake-diplomatic-mutinies`
   - 90e: Models specific escalation mechanics for catalog crises: False Surrender, Allian
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132d: Grievance accumulation (wages + trauma + insecurity), unionization probability a
-- **amoc-collapse** (SW#63)
+- [amoc-collapse](#/wiki/amoc-collapse) (SW#63) — `amoc-collapse`
   - 63a: Models the physical oceanography of AMOC: salinity-driven density gradients, ove
   - 63c: Models the teleconnection between AMOC collapse and West African Sahel monsoon f
-- **attention-time-consciousness** (SW#110)
+- [attention-time-consciousness](#/wiki/attention-time-consciousness) (SW#110) — `attention-time-consciousness`
   - 110a: Models deliberate engineering of digital addiction destroying attention capacity
   - 110b: Models normalization of chronic sleep debt and pharmaceutical crutch dependence
   - 110c: Models global economy's war on biological time and circadian health
-- **autonomous-vehicle-liability-wars** (SW#135)
+- [autonomous-vehicle-liability-wars](#/wiki/autonomous-vehicle-liability-wars) (SW#135) — `autonomous-vehicle-liability-wars`
   - 135c: Municipal Authority vs Federal Preemption
   - 135e: Cyber-Physical Security & Fleet Hijacking
-- **electrical-grid-collapse-infrastructure-decay** (SW#71)
+- [electrical-grid-collapse-infrastructure-decay](#/wiki/electrical-grid-collapse-infrastructure-decay) (SW#71) — `electrical-grid-collapse-infrastructure-decay`
   - 71e: Model microgrid deployment (community-scale, resilient islands), off-grid adapta
 - …and 5 more

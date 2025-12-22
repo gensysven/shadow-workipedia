@@ -31,7 +31,7 @@ This page documents **Interpretation** as it appears in System Walk subsystems a
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **religious-freedom** (SW#24)
+- [religious-freedom](#/wiki/religious-freedom) (SW#24) — `religious-freedom`
   - 11i: 5-step legal regime spectrum (Constitutional Pluralism 0.90 → Theocratic Control
-- **social-media** (SW#22)
+- [social-media](#/wiki/social-media) (SW#22) — `social-media`
   - 22f: Crisis thresholds (teen suicide spike, mass shooting, election interference), re

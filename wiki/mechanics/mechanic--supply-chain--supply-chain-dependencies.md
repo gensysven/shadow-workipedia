@@ -31,23 +31,23 @@ This page documents **Supply Chain Dependencies** as it appears in System Walk s
 ## References (System Walk occurrences)
 Appears in **9** distinct issue contexts, **13** total mentions.
 
-- **boreal-permafrost-carbon-pulse** (SW#67)
+- [Boreal Permafrost Carbon Pulse](#/wiki/boreal-permafrost-carbon-pulse) (SW#67) — `boreal-permafrost-carbon-pulse`
   - 67b: Model pipeline/road/building foundation failure from ground subsidence (thaw dep
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102b: Models artisanal and small-scale mining economics in Congo, supply chain traceab
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04l: Model 13-industry economy with production recipes, supply chains, and dynamic op
-- **general-strike-movements** (SW#55)
+- [General Strike Movements](#/wiki/general-strike-movements) (SW#55) — `general-strike-movements`
   - 55b: Model cascading economic impacts as entire cities/regions shut down, propagating
-- **healthcare** (SW#19)
+- [healthcare](#/wiki/healthcare) (SW#19) — `healthcare`
   - 19a: Manage base healthcare infrastructure capacity (ICU beds, ventilators, hospital
   - 19e: Provide integration contracts between Healthcare System and external systems (Pa
-- **healthcare-system-collapse** (SW#78)
+- [healthcare-system-collapse](#/wiki/healthcare-system-collapse) (SW#78) — `healthcare-system-collapse`
   - 78d: Model hospital capacity exhaustion (85-95% baseline utilization, zero surge capa
   - 78e: Model COVID lesson abandonment, stockpile depletion/expiration, workforce PTSD (
-- **mental-health-apocalypse** (SW#69)
+- [Mental Health Apocalypse](#/wiki/mental-health-apocalypse) (SW#69) — `mental-health-apocalypse`
   - 69a: Model mental illness prevalence by type (depression 8%→18% post-2020, anxiety 19
-- **opioid-crisis-synthetic-drug-epidemic** (SW#113)
+- [opioid-crisis-synthetic-drug-epidemic](#/wiki/opioid-crisis-synthetic-drug-epidemic) (SW#113) — `opioid-crisis-synthetic-drug-epidemic`
   - 113b: Transition from prescription pills to heroin to illicit fentanyl, tracking econo
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122e: Models efforts to rebuild domestic capacity and maintain reserves ($50-100B resh

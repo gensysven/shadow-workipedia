@@ -31,7 +31,7 @@ This page documents **Black Market Emergence** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **designer-baby** (SW#20)
+- [designer-baby](#/wiki/designer-baby) (SW#20) — `designer-baby`
   - 20d: Bioconservative vs bioliberal ideological conflict, disability rights backlash,
-- **longevity-inequality-life-extension-apartheid** (SW#131)
+- [longevity-inequality-life-extension-apartheid](#/wiki/longevity-inequality-life-extension-apartheid) (SW#131) — `longevity-inequality-life-extension-apartheid`
   - 131a: Treatment progression from affordable supplements to exclusive gene therapies

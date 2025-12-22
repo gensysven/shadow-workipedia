@@ -31,7 +31,7 @@ This page documents **Blockers** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **digital-exile-financial-control** (SW#107)
+- [digital-exile-financial-control](#/wiki/digital-exile-financial-control) (SW#107) — `digital-exile-financial-control`
   - 107e: Models emergence of decentralized alternatives and parallel digital economies
-- **ransomware-pandemic** (SW#52)
+- [Ransomware Pandemic](#/wiki/ransomware-pandemic) (SW#52) — `ransomware-pandemic`
   - 52c: Model systemic inability to patch vulnerabilities before exploitation (unpatched

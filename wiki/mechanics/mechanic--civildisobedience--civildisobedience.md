@@ -31,7 +31,7 @@ This page documents **Civil Disobedience** as it appears in System Walk subsyste
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **economic-immigration-conflicts** (SW#51)
+- [Economic Immigration Conflicts](#/wiki/economic-immigration-conflicts) (SW#51) — `economic-immigration-conflicts`
   - 51d: Model sanctuary city policies refusing ICE cooperation, triggering federal fundi
-- **nuclear-waste-storage-failure-radioactive-legacy** (SW#76)
+- [nuclear-waste-storage-failure-radioactive-legacy](#/wiki/nuclear-waste-storage-failure-radioactive-legacy) (SW#76) — `nuclear-waste-storage-failure-radioactive-legacy`
   - 76b: Model geological repository impossibility over 10,000+ year timescales. Track gr

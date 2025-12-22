@@ -32,24 +32,24 @@ This page documents **Cyber capabilities trigger arms races similar to nuclear w
 ## References (System Walk occurrences)
 Appears in **79** distinct issue contexts, **305** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129c: How escaped AI gains control of critical systems
   - 129d: Transition from human to AI decision-making primacy
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133b: Individual radicalization trajectories (casual → committed → fanatic), loyalty d
   - 133c: UN votes and Security Council debates, sanction coalition formation, asylum dyna
-- **ai-deepfake-diplomatic-mutinies** (SW#90)
+- [AI Deepfake Diplomatic Mutinies](#/wiki/ai-deepfake-diplomatic-mutinies) (SW#90) — `ai-deepfake-diplomatic-mutinies`
   - 90b: Models breakdown of military/diplomatic communication trust when audiovisual ord
   - 90c: Models how synthetic content spreads through social media and shapes public beli
   - 90d: Models government/platform/civil society attempts to restore trust through infra
-- **ai-generated-synthetic-biolab-leaks** (SW#134)
+- [AI-Generated Synthetic Biolab Leaks](#/wiki/ai-generated-synthetic-biolab-leaks) (SW#134) — `ai-generated-synthetic-biolab-leaks`
   - 134a: Capability progression timeline (guide RNA → protein folding → novel organisms),
   - 134e: BWC effectiveness degradation, AI governance integration failure (biosecurity +
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132b: PTSD probability model (sigmoid curve, 40% at 12mo), burnout cascade and turnove
   - 132c: AI accuracy by content type (CSAM 90%, hate speech 65%), language support gaps (
   - 132d: Grievance accumulation (wages + trauma + insecurity), unionization probability a
-- **amoc-collapse** (SW#63)
+- [amoc-collapse](#/wiki/amoc-collapse) (SW#63) — `amoc-collapse`
   - 63a: Models the physical oceanography of AMOC: salinity-driven density gradients, ove
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
 - …and 69 more

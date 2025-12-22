@@ -31,13 +31,13 @@ This page documents **ID** as it appears in System Walk subsystems and suggests 
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **5** total mentions.
 
-- **carrington-solar-storm** (SW#57)
+- [carrington-solar-storm](#/wiki/carrington-solar-storm) (SW#57) — `carrington-solar-storm`
   - 57a: Model the physics chain from solar flares to transformer destruction, including
-- **creator-economy-collapse** (SW#109)
+- [creator-economy-collapse](#/wiki/creator-economy-collapse) (SW#109) — `creator-economy-collapse`
   - 109d: Models platform dependence creating income volatility and creator burnout
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102a: Models water-for-lithium trade-offs in the Atacama region, brine extraction dyna
-- **helium-scarcity-cryogenic-shutdown** (SW#126)
+- [helium-scarcity-cryogenic-shutdown](#/wiki/helium-scarcity-cryogenic-shutdown) (SW#126) — `helium-scarcity-cryogenic-shutdown`
   - 126c: Fab helium requirements, chip production vulnerabilities
-- **iatrogenic-medical-harms** (SW#111)
+- [Iatrogenic Medical Harms](#/wiki/iatrogenic-medical-harms) (SW#111) — `iatrogenic-medical-harms`
   - 111c: Models trap of treating side effects with more drugs creating permanent patients

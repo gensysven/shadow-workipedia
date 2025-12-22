@@ -31,24 +31,24 @@ This page documents **Epistomological Collapse Cascade** as it appears in System
 ## References (System Walk occurrences)
 Appears in **73** distinct issue contexts, **318** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129b: Capability explosion dynamics post-escape
   - 129c: How escaped AI gains control of critical systems
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133b: Individual radicalization trajectories (casual → committed → fanatic), loyalty d
-- **ai-generated-synthetic-biolab-leaks** (SW#134)
+- [AI-Generated Synthetic Biolab Leaks](#/wiki/ai-generated-synthetic-biolab-leaks) (SW#134) — `ai-generated-synthetic-biolab-leaks`
   - 134a: Capability progression timeline (guide RNA → protein folding → novel organisms),
   - 134c: Attribution confidence degradation (natural 85% → AI-designed 10-20%), AI cover
   - 134e: BWC effectiveness degradation, AI governance integration failure (biosecurity +
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132b: PTSD probability model (sigmoid curve, 40% at 12mo), burnout cascade and turnove
   - 132d: Grievance accumulation (wages + trauma + insecurity), unionization probability a
-- **amazon-rainforest-dieback** (SW#65)
+- [Amazon Rainforest Dieback](#/wiki/amazon-rainforest-dieback) (SW#65) — `amazon-rainforest-dieback`
   - 65d: Models "flying rivers" disruption, urban water crises (São Paulo/Lima/Bogotá), h
-- **amoc-collapse** (SW#63)
+- [amoc-collapse](#/wiki/amoc-collapse) (SW#63) — `amoc-collapse`
   - 63a: Models the physical oceanography of AMOC: salinity-driven density gradients, ove
   - 63b: Models the paradoxical regional cooling effect: Europe loses 5-10°C warmth while
   - 63c: Models the teleconnection between AMOC collapse and West African Sahel monsoon f
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
   - 72d: Model the collapse of surgical medicine as prophylactic antibiotics fail and inf
 - …and 63 more

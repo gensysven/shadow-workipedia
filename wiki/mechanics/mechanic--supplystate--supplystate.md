@@ -31,6 +31,6 @@ This page documents **Supply State** as it appears in System Walk subsystems and
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **opioid-crisis-synthetic-drug-epidemic** (SW#113)
+- [opioid-crisis-synthetic-drug-epidemic](#/wiki/opioid-crisis-synthetic-drug-epidemic) (SW#113) — `opioid-crisis-synthetic-drug-epidemic`
   - 113c: Chemical arms race between regulators and traffickers, novel analog development,
   - 113d: Addiction treatment infrastructure, chronic underfunding, and policy barriers le

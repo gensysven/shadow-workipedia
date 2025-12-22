@@ -31,7 +31,7 @@ This page documents **Duration** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97e: Model four possible equilibria after debt crisis peaks
-- **water-desalination-mega-trusts** (SW#42)
+- [Water Desalination Mega-Trusts](#/wiki/water-desalination-mega-trusts) (SW#42) — `water-desalination-mega-trusts`
   - 42b: Models M&A waves consolidating fragmented operators into oligopolistic mega-trus

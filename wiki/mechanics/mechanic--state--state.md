@@ -31,10 +31,10 @@ This page documents **State** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **4** total mentions.
 
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95e: Model why 11+ years of UN discussion produced zero binding regulation
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97d: Model how one default triggers contagion across countries and sectors
   - 97e: Model four possible equilibria after debt crisis peaks
-- **opioid-crisis-synthetic-drug-epidemic** (SW#113)
+- [opioid-crisis-synthetic-drug-epidemic](#/wiki/opioid-crisis-synthetic-drug-epidemic) (SW#113) — `opioid-crisis-synthetic-drug-epidemic`
   - 113b: Transition from prescription pills to heroin to illicit fentanyl, tracking econo

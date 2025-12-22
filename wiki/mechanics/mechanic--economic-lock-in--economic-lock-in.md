@@ -31,7 +31,7 @@ This page documents **Economic Lock-In** as it appears in System Walk subsystems
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
   - 72b: Model intensive livestock farming as the primary breeding ground for resistance
-- **topsoil-depletion-agricultural-collapse** (SW#70)
+- [topsoil-depletion-agricultural-collapse](#/wiki/topsoil-depletion-agricultural-collapse) (SW#70) — `topsoil-depletion-agricultural-collapse`
   - 70a: Model soil erosion rates (10-40 tons/hectare/year conventional tillage vs 1 ton/

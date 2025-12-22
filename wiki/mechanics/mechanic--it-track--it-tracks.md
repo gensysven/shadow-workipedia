@@ -31,7 +31,7 @@ This page documents **It tracks** as it appears in System Walk subsystems and su
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **3** total mentions.
 
-- **water-desalination-mega-trusts** (SW#42)
+- [Water Desalination Mega-Trusts](#/wiki/water-desalination-mega-trusts) (SW#42) — `water-desalination-mega-trusts`
   - 42b: Models M&A waves consolidating fragmented operators into oligopolistic mega-trus
   - 42c: Models water futures market emergence, speculative frenzy, volatility amplificat
   - 42d: Models inter-basin water transfers triggering upstream agricultural collapse, vi

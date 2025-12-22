@@ -31,7 +31,7 @@ This page documents **Alert** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **ai-compute-resource-wars** (SW#40)
+- [AI Compute Resource Wars](#/wiki/ai-compute-resource-wars) (SW#40) — `ai-compute-resource-wars`
   - 40a: Track exponential growth in compute requirements for AI model training, inferenc
-- **urban-groundwater-subsidence** (SW#124)
+- [urban-groundwater-subsidence](#/wiki/urban-groundwater-subsidence) (SW#124) — `urban-groundwater-subsidence`
   - 124a: Models megacity groundwater extraction dynamics, formal/informal pumping, indust

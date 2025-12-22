@@ -31,9 +31,9 @@ This page documents **Reason** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **diplomacy** (SW#03)
+- [diplomacy](#/wiki/diplomacy) (SW#03) — `diplomacy`
   - 03f: Negotiate resettlement quotas, safe passages, and funding pledges for climate-dr
-- **splinternet-data-localization** (SW#41)
+- [splinternet-data-localization](#/wiki/splinternet-data-localization) (SW#41) — `splinternet-data-localization`
   - 41b: Models corporate compliance decisions (pay vs exit) and developer ecosystem frag
-- **synthetic-biology-weaponization-biological-attribution-crisis** (SW#94)
+- [synthetic-biology-weaponization-biological-attribution-crisis](#/wiki/synthetic-biology-weaponization-biological-attribution-crisis) (SW#94) — `synthetic-biology-weaponization-biological-attribution-crisis`
   - 94d: Models how legitimate defensive preparations create offensive capability and ter

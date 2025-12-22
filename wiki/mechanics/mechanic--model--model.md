@@ -31,7 +31,7 @@ This page documents **Model** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **nuclear-plant-crisis-cascade** (SW#54)
+- [Nuclear Plant Crisis Cascade](#/wiki/nuclear-plant-crisis-cascade) (SW#54) — `nuclear-plant-crisis-cascade`
   - 54d: Model catastrophic meltdown consequences: radioactive release (isotope inventory
-- **pyrocumulonimbus-warfare** (SW#89)
+- [Pyrocumulonimbus Warfare](#/wiki/pyrocumulonimbus-warfare) (SW#89) — `pyrocumulonimbus-warfare`
   - 89e: Models downstream consequences: smoke warfare, rain bomb floods, casualties, ref

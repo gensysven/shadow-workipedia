@@ -31,7 +31,7 @@ This page documents **Feedback Loop Strength** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **digital-exile-financial-control** (SW#107)
+- [digital-exile-financial-control](#/wiki/digital-exile-financial-control) (SW#107) — `digital-exile-financial-control`
   - 107b: Models credit scoring's expansion into life outcome determinant beyond lending
-- **institutional-legitimacy-collapse** (SW#105)
+- [institutional-legitimacy-collapse](#/wiki/institutional-legitimacy-collapse) (SW#105) — `institutional-legitimacy-collapse`
   - 105b: Models K-12 teacher pipeline collapse, working condition deterioration, AI class

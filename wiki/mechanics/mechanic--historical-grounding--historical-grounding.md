@@ -31,6 +31,6 @@ This page documents **Historical grounding** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **pyrocumulonimbus-warfare** (SW#89)
+- [Pyrocumulonimbus Warfare](#/wiki/pyrocumulonimbus-warfare) (SW#89) — `pyrocumulonimbus-warfare`
   - 89d: Models escalation ladder from experimental ops through treaty collapse to full f
   - 89e: Models downstream consequences: smoke warfare, rain bomb floods, casualties, ref

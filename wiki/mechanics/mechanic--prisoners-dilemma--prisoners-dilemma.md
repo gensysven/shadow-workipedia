@@ -31,6 +31,6 @@ This page documents **Prisoners' Dilemma** as it appears in System Walk subsyste
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **autonomous-vehicle-liability-wars** (SW#135)
+- [autonomous-vehicle-liability-wars](#/wiki/autonomous-vehicle-liability-wars) (SW#135) — `autonomous-vehicle-liability-wars`
   - 135c: Municipal Authority vs Federal Preemption
   - 135e: Cyber-Physical Security & Fleet Hijacking

@@ -31,7 +31,7 @@ This page documents **Result** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
   - 72b: Model intensive livestock farming as the primary breeding ground for resistance
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93c: Models catastrophic intelligence asymmetry from instant 20-30 year communication

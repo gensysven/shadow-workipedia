@@ -31,7 +31,7 @@ This page documents **Event Type** as it appears in System Walk subsystems and s
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129c: How escaped AI gains control of critical systems
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97d: Model how one default triggers contagion across countries and sectors

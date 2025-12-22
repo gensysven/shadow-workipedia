@@ -101,7 +101,32 @@ function normalizeMechanicLabel(raw: string): string {
   return titleCaseToken(trimmed);
 }
 
-function buildReferences(occurrences: Array<NonNullable<NonNullable<SubsystemsIndex['patterns']>[number]['occurrences']>[number]>) {
+function loadIssueTitleIndex(repoRoot: string): Map<string, string> {
+  const index = new Map<string, string>();
+  const dir = join(repoRoot, 'wiki', 'issues');
+  if (!existsSync(dir)) return index;
+
+  const files = readdirSync(dir).filter(f => f.endsWith('.md') && !f.includes('_TEMPLATE'));
+  for (const file of files) {
+    try {
+      const raw = readFileSync(join(dir, file), 'utf8');
+      const parsed = matter(raw);
+      const fm = parsed.data as Record<string, any>;
+      const id = typeof fm.id === 'string' ? fm.id.trim() : file.replace(/\.md$/, '');
+      const title = typeof fm.title === 'string' ? fm.title.trim() : id;
+      if (id) index.set(id, title || id);
+    } catch {
+      // ignore
+    }
+  }
+
+  return index;
+}
+
+function buildReferences(
+  occurrences: Array<NonNullable<NonNullable<SubsystemsIndex['patterns']>[number]['occurrences']>[number]>,
+  issueTitleById: Map<string, string>
+) {
   const byIssue = new Map<string, Array<typeof occurrences[number]>>();
   for (const occ of occurrences) {
     const issueId = occ.issueId?.trim();
@@ -120,7 +145,9 @@ function buildReferences(occurrences: Array<NonNullable<NonNullable<SubsystemsIn
   for (const issueId of issueIds.slice(0, maxIssues)) {
     const list = byIssue.get(issueId)!;
     const sw = list.find(x => typeof x.issueNumber === 'string' && x.issueNumber.trim())?.issueNumber?.trim();
-    const header = sw ? `- **${issueId}** (SW#${sw})` : `- **${issueId}**`;
+    const title = issueTitleById.get(issueId) || issueId;
+    const link = `[${title}](#/wiki/${issueId})`;
+    const header = sw ? `- ${link} (SW#${sw}) — \`${issueId}\`` : `- ${link} — \`${issueId}\``;
     lines.push(header);
     emitted++;
     if (emitted >= maxLines) break;
@@ -158,7 +185,9 @@ function buildReferences(occurrences: Array<NonNullable<NonNullable<SubsystemsIn
   };
 }
 
-function renderBody(opts: {
+function renderBody(
+  issueTitleById: Map<string, string>,
+  opts: {
   title: string;
   pattern: string;
   mechanic: string;
@@ -168,7 +197,7 @@ function renderBody(opts: {
   const mechanicLabel = normalizeMechanicLabel(opts.mechanic);
 
   const occCount = opts.occurrences.length;
-  const refs = buildReferences(opts.occurrences);
+  const refs = buildReferences(opts.occurrences, issueTitleById);
 
   const hints: string[] = [];
   if (patternSlug === 'threshold') {
@@ -241,6 +270,7 @@ function main() {
   }
 
   const subsystems = JSON.parse(readFileSync(subsystemsPath, 'utf8')) as SubsystemsIndex;
+  const issueTitleById = loadIssueTitleIndex(repoRoot);
   const patternById = new Map<string, NonNullable<SubsystemsIndex['patterns']>[number]>();
   for (const p of subsystems.patterns || []) {
     if (!p || typeof p.pattern !== 'string' || typeof p.mechanic !== 'string') continue;
@@ -287,7 +317,7 @@ function main() {
     }
 
     const nextFrontmatter = { ...fm, lastUpdated: today() };
-    const body = renderBody({
+    const body = renderBody(issueTitleById, {
       title: String(fm.title || id),
       pattern: source.pattern,
       mechanic: source.mechanic,
@@ -311,4 +341,3 @@ function main() {
 }
 
 main();
-

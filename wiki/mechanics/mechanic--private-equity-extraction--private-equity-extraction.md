@@ -31,7 +31,7 @@ This page documents **Private Equity Extraction** as it appears in System Walk s
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104b: Model elder care industry as extraction site with systematic abuse
-- **orphaned-oil-wells-methane-crisis** (SW#121)
+- [orphaned-oil-wells-methane-crisis](#/wiki/orphaned-oil-wells-methane-crisis) (SW#121) — `orphaned-oil-wells-methane-crisis`
   - 121b: Models corporate structures and financial maneuvers to evade cleanup responsibil

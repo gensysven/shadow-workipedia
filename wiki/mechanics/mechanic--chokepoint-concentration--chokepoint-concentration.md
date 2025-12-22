@@ -31,7 +31,7 @@ This page documents **Chokepoint Concentration** as it appears in System Walk su
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **digital-exile-financial-control** (SW#107)
+- [digital-exile-financial-control](#/wiki/digital-exile-financial-control) (SW#107) — `digital-exile-financial-control`
   - 107d: Models weaponization of financial infrastructure for political/social control
-- **food-system-sovereignty-crisis** (SW#119)
+- [food-system-sovereignty-crisis](#/wiki/food-system-sovereignty-crisis) (SW#119) — `food-system-sovereignty-crisis`
   - 119a: Models physical chokepoints as geopolitical leverage (Black Sea 30% wheat, Missi

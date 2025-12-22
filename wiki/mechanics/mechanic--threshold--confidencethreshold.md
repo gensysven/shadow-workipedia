@@ -31,24 +31,24 @@ This page documents **Confidence Threshold** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **85** distinct issue contexts, **334** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129a: Containment mechanics, escape vectors, operator dynamics
   - 129b: Capability explosion dynamics post-escape
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133a: Model formation probability, membership growth curves (S-curve dynamics), politi
   - 133d: Hardware requirements by prophet capability level, compute embargo mechanics and
-- **ai-deepfake-diplomatic-mutinies** (SW#90)
+- [AI Deepfake Diplomatic Mutinies](#/wiki/ai-deepfake-diplomatic-mutinies) (SW#90) — `ai-deepfake-diplomatic-mutinies`
   - 90a: Models technical evolution of synthetic media generation vs forensic detection,
   - 90b: Models breakdown of military/diplomatic communication trust when audiovisual ord
   - 90c: Models how synthetic content spreads through social media and shapes public beli
-- **ai-generated-synthetic-biolab-leaks** (SW#134)
+- [AI-Generated Synthetic Biolab Leaks](#/wiki/ai-generated-synthetic-biolab-leaks) (SW#134) — `ai-generated-synthetic-biolab-leaks`
   - 134b: Evasion techniques (sequence obfuscation, fragmentation, natural mimicry), scree
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132a: Labor pool dynamics by hub (Nairobi, Manila, Accra supply curves), wage determin
   - 132b: PTSD probability model (sigmoid curve, 40% at 12mo), burnout cascade and turnove
   - 132c: AI accuracy by content type (CSAM 90%, hate speech 65%), language support gaps (
-- **amazon-rainforest-dieback** (SW#65)
+- [Amazon Rainforest Dieback](#/wiki/amazon-rainforest-dieback) (SW#65) — `amazon-rainforest-dieback`
   - 65a: Models forest-atmosphere coupling where deforestation reduces rainfall recycling
   - 65d: Models "flying rivers" disruption, urban water crises (São Paulo/Lima/Bogotá), h
-- **amoc-collapse** (SW#63)
+- [amoc-collapse](#/wiki/amoc-collapse) (SW#63) — `amoc-collapse`
 - …and 75 more

@@ -31,14 +31,14 @@ This page documents **Supply Chains** as it appears in System Walk subsystems an
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **6** total mentions.
 
-- **ai-cult-states** (SW#133)
+- [AI Cult States](#/wiki/ai-cult-states) (SW#133) — `ai-cult-states`
   - 133d: Hardware requirements by prophet capability level, compute embargo mechanics and
-- **antibiotic-resistance-superbug-pandemic** (SW#72)
+- [antibiotic-resistance-superbug-pandemic](#/wiki/antibiotic-resistance-superbug-pandemic) (SW#72) — `antibiotic-resistance-superbug-pandemic`
   - 72b: Model intensive livestock farming as the primary breeding ground for resistance
   - 72e: Model the collapse of healthcare institutions as nosocomial infection rates expl
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04l: Model 13-industry economy with production recipes, supply chains, and dynamic op
-- **global-supply-chain-collapse** (SW#81)
+- [global-supply-chain-collapse](#/wiki/global-supply-chain-collapse) (SW#81) — `global-supply-chain-collapse`
   - 81e: Model impossibility of rebuilding domestic capacity after offshoring. Track expe
-- **healthcare-system-collapse** (SW#78)
+- [healthcare-system-collapse](#/wiki/healthcare-system-collapse) (SW#78) — `healthcare-system-collapse`
   - 78d: Model hospital capacity exhaustion (85-95% baseline utilization, zero surge capa

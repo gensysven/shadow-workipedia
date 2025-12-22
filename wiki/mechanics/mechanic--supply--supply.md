@@ -31,7 +31,7 @@ This page documents **Supply** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **helium-scarcity-cryogenic-shutdown** (SW#126)
+- [helium-scarcity-cryogenic-shutdown](#/wiki/helium-scarcity-cryogenic-shutdown) (SW#126) — `helium-scarcity-cryogenic-shutdown`
   - 126b: MRI machine dependencies, hospital rationing, diagnostic capacity
-- **orphaned-oil-wells-methane-crisis** (SW#121)
+- [orphaned-oil-wells-methane-crisis](#/wiki/orphaned-oil-wells-methane-crisis) (SW#121) — `orphaned-oil-wells-methane-crisis`
   - 121c: Models economics and physical constraints of well plugging (15-20k wells/year ca

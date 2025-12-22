@@ -31,7 +31,7 @@ This page documents **Supply Chain Disruption** as it appears in System Walk sub
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **gun-violence-mass-shooting-epidemic** (SW#114)
+- [gun-violence-mass-shooting-epidemic](#/wiki/gun-violence-mass-shooting-epidemic) (SW#114) — `gun-violence-mass-shooting-epidemic`
   - 114e: Privately manufactured firearms threat: 3D printing, 80% receivers, and regulato
-- **pandemic** (SW#06)
+- [pandemic](#/wiki/pandemic) (SW#06) — `pandemic`
   - 06d: Calculate GDP loss, sector multipliers, and supply chain disruptions from pandem

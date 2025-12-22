@@ -31,7 +31,7 @@ This page documents **Historical Calibration** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **pandemic** (SW#06)
+- [pandemic](#/wiki/pandemic) (SW#06) — `pandemic`
   - 06e: Track core disease state using SEIR compartmental model with age stratification
-- **pyrocumulonimbus-warfare** (SW#89)
+- [Pyrocumulonimbus Warfare](#/wiki/pyrocumulonimbus-warfare) (SW#89) — `pyrocumulonimbus-warfare`
   - 89a: Models the physical transformation of megafires into stratosphere-reaching thund

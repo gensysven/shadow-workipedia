@@ -31,7 +31,7 @@ This page documents **Demographic Momentum** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **pension-system-collapse-retirement-crisis** (SW#73)
+- [pension-system-collapse-retirement-crisis](#/wiki/pension-system-collapse-retirement-crisis) (SW#73) — `pension-system-collapse-retirement-crisis`
   - 73a: Model the demographic transition from population pyramid to inverted pyramid as
-- **population** (SW#05)
+- [population](#/wiki/population) (SW#05) — `population`
   - 05b: Manage age cohort populations (101 cohorts age 0-100+) and compute demographic a

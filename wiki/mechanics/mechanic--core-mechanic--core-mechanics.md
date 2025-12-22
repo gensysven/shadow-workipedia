@@ -31,6 +31,6 @@ This page documents **Core mechanics** as it appears in System Walk subsystems a
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **pyrocumulonimbus-warfare** (SW#89)
+- [Pyrocumulonimbus Warfare](#/wiki/pyrocumulonimbus-warfare) (SW#89) — `pyrocumulonimbus-warfare`
   - 89c: Models forensic investigation determining natural vs intentional fire origin, an
   - 89e: Models downstream consequences: smoke warfare, rain bomb floods, casualties, ref

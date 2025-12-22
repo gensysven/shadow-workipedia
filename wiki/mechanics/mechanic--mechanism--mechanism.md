@@ -31,12 +31,12 @@ This page documents **Mechanism** as it appears in System Walk subsystems and su
 ## References (System Walk occurrences)
 Appears in **4** distinct issue contexts, **5** total mentions.
 
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102c: Models China's 90% rare earth processing control, strategic leverage over supply
-- **obesity-metabolic-epidemic** (SW#112)
+- [obesity-metabolic-epidemic](#/wiki/obesity-metabolic-epidemic) (SW#112) — `obesity-metabolic-epidemic`
   - 112b: Models Type 2 diabetes epidemic as primary metabolic consequence overwhelming he
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122c: Models emergence of illicit supply chains when legitimate supply fails (Valsarta
   - 122e: Models efforts to rebuild domestic capacity and maintain reserves ($50-100B resh
-- **public-finance** (SW#15)
+- [public-finance](#/wiki/public-finance) (SW#15) — `public-finance`
   - 15g: Petro-state revenue collapse, sovereign funds

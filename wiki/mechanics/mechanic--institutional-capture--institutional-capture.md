@@ -31,9 +31,9 @@ This page documents **Institutional Capture** as it appears in System Walk subsy
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.
 
-- **care-economy-crises** (SW#104)
+- [care-economy-crises](#/wiki/care-economy-crises) (SW#104) — `care-economy-crises`
   - 104c: Model shadow system of predatory guardians legally stripping elders of autonomy
-- **justice** (SW#16)
+- [justice](#/wiki/justice) (SW#16) — `justice`
   - 16e: Integration with protest/security/politics events
-- **politics** (SW#11)
+- [politics](#/wiki/politics) (SW#11) — `politics`
   - 11c: Model democratic erosion mechanics, populist takeover patterns, and institutiona

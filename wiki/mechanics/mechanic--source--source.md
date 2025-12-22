@@ -31,6 +31,6 @@ This page documents **Source** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **factory-kill-switch-sabotage** (SW#60)
+- [factory-kill-switch-sabotage](#/wiki/factory-kill-switch-sabotage) (SW#60) — `factory-kill-switch-sabotage`
   - 60a: Model industrial control system architecture, kill switch mechanisms, attack vec
   - 60c: Model forensic difficulty of distinguishing insider threats from nation-state fa

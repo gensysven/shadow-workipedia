@@ -31,7 +31,7 @@ This page documents **Bidirectional Feedback** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **culture** (SW#12)
+- [culture](#/wiki/culture) (SW#12) — `culture`
   - 12e: Model bidirectional feedback between culture and politics (values → forces, regi
-- **technology** (SW#02)
+- [technology](#/wiki/technology) (SW#02) — `technology`
   - 02f: Model bidirectional feedback loops between education infrastructure and technolo

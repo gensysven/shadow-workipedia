@@ -31,7 +31,7 @@ This page documents **Lobbying Intensity Response** as it appears in System Walk
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **healthcare-insurance-crisis** (SW#116)
+- [healthcare-insurance-crisis](#/wiki/healthcare-insurance-crisis) (SW#116) — `healthcare-insurance-crisis`
   - 116e: Policy momentum, lobbying pressure, and reform windows following crisis events
-- **institutions** (SW#13)
+- [institutions](#/wiki/institutions) (SW#13) — `institutions`
   - 13b: Corporate political power and policy capture mechanics using HHI market concentr

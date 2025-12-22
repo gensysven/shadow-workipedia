@@ -31,6 +31,6 @@ This page documents **Age-Selective Mobility** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **population** (SW#05)
+- [population](#/wiki/population) (SW#05) — `population`
   - 05c: Model cross-border population movements driven by economic opportunity, conflict
   - 05d: Simulate rural-to-urban migration within countries based on industrialization an

@@ -31,15 +31,15 @@ This page documents **Adverse Selection in Cyber Insurance** as it appears in Sy
 ## References (System Walk occurrences)
 Appears in **6** distinct issue contexts, **6** total mentions.
 
-- **agi-containment-failure** (SW#129)
+- [AGI Containment Failure](#/wiki/agi-containment-failure) (SW#129) — `agi-containment-failure`
   - 129e: Arms race between containment methods and AI capability
-- **ai-moderation-sweatshop-revolts** (SW#132)
+- [AI Moderation Sweatshop Revolts](#/wiki/ai-moderation-sweatshop-revolts) (SW#132) — `ai-moderation-sweatshop-revolts`
   - 132b: PTSD probability model (sigmoid curve, 40% at 12mo), burnout cascade and turnove
-- **autonomous-vehicle-liability-wars** (SW#135)
+- [autonomous-vehicle-liability-wars](#/wiki/autonomous-vehicle-liability-wars) (SW#135) — `autonomous-vehicle-liability-wars`
   - 135b: Insurance Market Breakdown
-- **climate-insurance-collapse** (SW#44)
+- [climate-insurance-collapse](#/wiki/climate-insurance-collapse) (SW#44) — `climate-insurance-collapse`
   - 44b: Models government insurance programs (NFIP, state FAIR plans) absorbing private
-- **economy** (SW#04)
+- [economy](#/wiki/economy) (SW#04) — `economy`
   - 04q: Simulate cyber insurance market crisis through premium escalation and loss ratio
-- **longevity-inequality-life-extension-apartheid** (SW#131)
+- [longevity-inequality-life-extension-apartheid](#/wiki/longevity-inequality-life-extension-apartheid) (SW#131) — `longevity-inequality-life-extension-apartheid`
   - 131e: Philosophical/religious responses to optional mortality

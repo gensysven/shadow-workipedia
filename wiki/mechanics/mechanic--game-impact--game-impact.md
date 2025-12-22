@@ -31,7 +31,7 @@ This page documents **Game Impact** as it appears in System Walk subsystems and 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **public-finance** (SW#15)
+- [public-finance](#/wiki/public-finance) (SW#15) — `public-finance`
   - 15g: Petro-state revenue collapse, sovereign funds
-- **social-media** (SW#22)
+- [social-media](#/wiki/social-media) (SW#22) — `social-media`
   - 22f: Crisis thresholds (teen suicide spike, mass shooting, election interference), re

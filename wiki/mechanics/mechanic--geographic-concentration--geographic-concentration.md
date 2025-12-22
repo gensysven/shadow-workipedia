@@ -31,7 +31,7 @@ This page documents **Geographic Concentration** as it appears in System Walk su
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **institutional-legitimacy-collapse** (SW#105)
+- [institutional-legitimacy-collapse](#/wiki/institutional-legitimacy-collapse) (SW#105) — `institutional-legitimacy-collapse`
   - 105b: Models K-12 teacher pipeline collapse, working condition deterioration, AI class
-- **pharmaceutical-ingredient-dependency** (SW#122)
+- [pharmaceutical-ingredient-dependency](#/wiki/pharmaceutical-ingredient-dependency) (SW#122) — `pharmaceutical-ingredient-dependency`
   - 122a: Models physical distribution of pharma manufacturing and vulnerability points (C

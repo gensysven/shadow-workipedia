@@ -31,7 +31,7 @@ This page documents **Asymmetric Arms Race** as it appears in System Walk subsys
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **digital-exile-financial-control** (SW#107)
+- [digital-exile-financial-control](#/wiki/digital-exile-financial-control) (SW#107) — `digital-exile-financial-control`
   - 107e: Models emergence of decentralized alternatives and parallel digital economies
-- **technology** (SW#02)
+- [technology](#/wiki/technology) (SW#02) — `technology`
   - 02c: Simulate AI-driven collapse of shared truth through deepfake generation, media c

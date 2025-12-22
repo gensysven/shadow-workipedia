@@ -31,7 +31,7 @@ This page documents **Base** as it appears in System Walk subsystems and suggest
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **designer-baby** (SW#20)
+- [designer-baby](#/wiki/designer-baby) (SW#20) — `designer-baby`
   - 20a: IVF cost barriers ($20k-$50k total), insurance coverage inequality (10-20% have
-- **urban-groundwater-subsidence** (SW#124)
+- [urban-groundwater-subsidence](#/wiki/urban-groundwater-subsidence) (SW#124) — `urban-groundwater-subsidence`
   - 124c: Models damage to buildings, utilities, transportation from subsidence (different

@@ -31,7 +31,7 @@ This page documents **First-Strike Advantage** as it appears in System Walk subs
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95b: Model when "human-in-the-loop" becomes legal fiction
-- **synthetic-biology-weaponization-biological-attribution-crisis** (SW#94)
+- [synthetic-biology-weaponization-biological-attribution-crisis](#/wiki/synthetic-biology-weaponization-biological-attribution-crisis) (SW#94) — `synthetic-biology-weaponization-biological-attribution-crisis`
   - 94d: Models how legitimate defensive preparations create offensive capability and ter

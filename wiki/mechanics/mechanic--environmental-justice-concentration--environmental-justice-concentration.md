@@ -32,7 +32,7 @@ This page documents **Environmental Justice Concentration** as it appears in Sys
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **orphaned-oil-wells-methane-crisis** (SW#121)
+- [orphaned-oil-wells-methane-crisis](#/wiki/orphaned-oil-wells-methane-crisis) (SW#121) — `orphaned-oil-wells-methane-crisis`
   - 121d: Models contamination pathways and health effects of abandoned wells (aquifer pro
-- **soil-contamination-heavy-metal-accumulation** (SW#77)
+- [soil-contamination-heavy-metal-accumulation](#/wiki/soil-contamination-heavy-metal-accumulation) (SW#77) — `soil-contamination-heavy-metal-accumulation`
   - 77c: Model concentrated urban lead poisoning from paint (24M homes with lead paint),

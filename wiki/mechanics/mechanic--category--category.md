@@ -31,7 +31,7 @@ This page documents **Category** as it appears in System Walk subsystems and sug
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **attention-time-consciousness** (SW#110)
+- [attention-time-consciousness](#/wiki/attention-time-consciousness) (SW#110) — `attention-time-consciousness`
   - 110b: Models normalization of chronic sleep debt and pharmaceutical crutch dependence
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102d: Models International Seabed Authority licensing, polymetallic nodule extraction,

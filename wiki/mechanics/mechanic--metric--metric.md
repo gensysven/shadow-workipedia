@@ -31,7 +31,7 @@ This page documents **Metric** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **death-dying-infrastructure** (SW#103)
+- [death-dying-infrastructure](#/wiki/death-dying-infrastructure) (SW#103) — `death-dying-infrastructure`
   - 103a: Model morgue capacity crisis and emergency protocols during death spikes
-- **gnss-spoofing-positioning-collapse** (SW#59)
+- [gnss-spoofing-positioning-collapse](#/wiki/gnss-spoofing-positioning-collapse) (SW#59) — `gnss-spoofing-positioning-collapse`
   - 59d: Model spoofing attribution mechanics, gray-zone escalation ladder, normalization

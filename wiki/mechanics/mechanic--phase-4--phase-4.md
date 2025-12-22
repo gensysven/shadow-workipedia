@@ -31,7 +31,7 @@ This page documents **Phase 4** as it appears in System Walk subsystems and sugg
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **quantum-computing-post-quantum-cryptographic-crisis** (SW#93)
+- [quantum-computing-post-quantum-cryptographic-crisis](#/wiki/quantum-computing-post-quantum-cryptographic-crisis) (SW#93) — `quantum-computing-post-quantum-cryptographic-crisis`
   - 93c: Models catastrophic intelligence asymmetry from instant 20-30 year communication
-- **splinternet-data-localization** (SW#41)
+- [splinternet-data-localization](#/wiki/splinternet-data-localization) (SW#41) — `splinternet-data-localization`
   - 41d: Models formation of 4-5 internet blocs (US/China/EU/sovereign), censorship techn

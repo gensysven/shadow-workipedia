@@ -31,7 +31,7 @@ This page documents **Disparate Impact** as it appears in System Walk subsystems
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **justice** (SW#16)
+- [justice](#/wiki/justice) (SW#16) — `justice`
   - 16b: Sentencing guidelines, disparities, policy levers
-- **voting-rights-crisis** (SW#117)
+- [voting-rights-crisis](#/wiki/voting-rights-crisis) (SW#117) — `voting-rights-crisis`
   - 117a: Concrete suppression tactics: polling closures, ID laws, purges, and their diffe

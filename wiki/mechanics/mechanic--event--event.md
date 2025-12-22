@@ -31,12 +31,12 @@ This page documents **Event** as it appears in System Walk subsystems and sugges
 ## References (System Walk occurrences)
 Appears in **4** distinct issue contexts, **5** total mentions.
 
-- **autonomous-weapons-laws-accountability-crisis** (SW#95)
+- [autonomous-weapons-laws-accountability-crisis](#/wiki/autonomous-weapons-laws-accountability-crisis) (SW#95) — `autonomous-weapons-laws-accountability-crisis`
   - 95d: Model whether autonomous weapons favor offense, creating pre-emptive strike ince
-- **death-dying-infrastructure** (SW#103)
+- [death-dying-infrastructure](#/wiki/death-dying-infrastructure) (SW#103) — `death-dying-infrastructure`
   - 103b: Model palliative care access and dying with dignity crisis
-- **global-supply-chain-collapse** (SW#81)
+- [global-supply-chain-collapse](#/wiki/global-supply-chain-collapse) (SW#81) — `global-supply-chain-collapse`
   - 81b: Model catastrophic concentration in semiconductor production. Track Taiwan TSMC
-- **urban-groundwater-subsidence** (SW#124)
+- [urban-groundwater-subsidence](#/wiki/urban-groundwater-subsidence) (SW#124) — `urban-groundwater-subsidence`
   - 124a: Models megacity groundwater extraction dynamics, formal/informal pumping, indust
   - 124c: Models damage to buildings, utilities, transportation from subsidence (different

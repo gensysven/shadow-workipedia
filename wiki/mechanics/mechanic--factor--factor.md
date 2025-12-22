@@ -31,7 +31,7 @@ This page documents **Factor** as it appears in System Walk subsystems and sugge
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 
-- **critical-infrastructure-attacks** (SW#53)
+- [Critical Infrastructure Attacks](#/wiki/critical-infrastructure-attacks) (SW#53) — `critical-infrastructure-attacks`
   - 53b: Model attribution challenges (proving who attacked), false flag operations, and
-- **critical-mineral-extraction-wars-green-colonialism** (SW#102)
+- [critical-mineral-extraction-wars-green-colonialism](#/wiki/critical-mineral-extraction-wars-green-colonialism) (SW#102) — `critical-mineral-extraction-wars-green-colonialism`
   - 102c: Models China's 90% rare earth processing control, strategic leverage over supply

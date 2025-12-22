@@ -31,6 +31,6 @@ This page documents **Power Balance Determinant** as it appears in System Walk s
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.
 
-- **global-debt-jubilee-sovereign-default-cascade** (SW#97)
+- [Global Debt Jubilee Movements & Sovereign Default Cascade](#/wiki/global-debt-jubilee-sovereign-default-cascade) (SW#97) — `global-debt-jubilee-sovereign-default-cascade`
   - 97c: Model political mobilization demanding debt cancellation
   - 97e: Model four possible equilibria after debt crisis peaks
