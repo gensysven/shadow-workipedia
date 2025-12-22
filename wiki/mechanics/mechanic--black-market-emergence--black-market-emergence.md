@@ -1,6 +1,6 @@
 ---
 id: mechanic--black-market-emergence--black-market-emergence
-title: Black Market Emergence (black market emergence)
+title: Black Market Emergence (black-market-emergence)
 pattern: black market emergence
 mechanic: Black Market Emergence
 editedBy: Shadow Work Team

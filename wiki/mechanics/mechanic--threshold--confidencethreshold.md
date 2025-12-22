@@ -1,6 +1,6 @@
 ---
 id: mechanic--threshold--confidencethreshold
-title: confidenceThreshold (threshold)
+title: Confidence Threshold (threshold)
 pattern: threshold
 mechanic: confidenceThreshold
 editedBy: Shadow Work Team

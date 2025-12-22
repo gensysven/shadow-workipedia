@@ -1,6 +1,6 @@
 ---
 id: mechanic--supplychain--supplychains
-title: supplyChains (supplychain)
+title: Supply Chains (supplychain)
 pattern: supplychain
 mechanic: supplyChains
 editedBy: Shadow Work Team

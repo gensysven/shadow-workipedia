@@ -1,6 +1,6 @@
 ---
 id: mechanic--feedback--feedback
-title: feedback (feedback)
+title: Feedback (feedback)
 pattern: feedback
 mechanic: feedback
 editedBy: Shadow Work Team

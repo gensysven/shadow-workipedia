@@ -1,6 +1,6 @@
 ---
 id: mechanic--regulatory-fragmentation--regulatory-fragmentation
-title: Regulatory Fragmentation (regulatory fragmentation)
+title: Regulatory Fragmentation (regulatory-fragmentation)
 pattern: regulatory fragmentation
 mechanic: Regulatory Fragmentation
 editedBy: Shadow Work Team

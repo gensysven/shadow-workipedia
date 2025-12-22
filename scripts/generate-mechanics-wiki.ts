@@ -26,6 +26,35 @@ function slugify(value: string): string {
     .replace(/^-|-$/g, '');
 }
 
+function titleizeMechanic(raw: string): string {
+  const trimmed = raw.trim().replace(/\s+/g, ' ');
+  if (!trimmed) return 'Mechanic';
+
+  const lower = trimmed.toLowerCase();
+  if (lower === 'id') return 'ID';
+
+  // Preserve multi-word mechanics as-authored (they often encode sentence case / proper nouns / hyphenation).
+  if (trimmed.includes(' ')) {
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  }
+
+  // Single-token mechanics: normalize casing/spacing.
+  if (/^[a-z]+$/.test(trimmed)) {
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  }
+
+  // camelCase / PascalCase -> words
+  const spaced = trimmed.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+  return spaced
+    .split(' ')
+    .map(w => {
+      if (!w) return w;
+      if (/^[A-Z0-9]{2,}$/.test(w)) return w;
+      return w.charAt(0).toUpperCase() + w.slice(1);
+    })
+    .join(' ');
+}
+
 function mechanicId(pattern: string, mechanic: string): string {
   const p = slugify(pattern);
   const m = slugify(mechanic);
@@ -70,7 +99,8 @@ function main() {
       continue;
     }
 
-    const title = `${mechanic} (${pattern})`;
+    const patternSlug = slugify(pattern);
+    const title = `${titleizeMechanic(mechanic)} (${patternSlug})`;
 
     const content = `---\n` +
       `id: ${id}\n` +
@@ -93,4 +123,3 @@ function main() {
 }
 
 main();
-

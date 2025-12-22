@@ -1,6 +1,6 @@
 ---
 id: mechanic--event--event
-title: event (event)
+title: Event (event)
 pattern: event
 mechanic: event
 editedBy: Shadow Work Team
