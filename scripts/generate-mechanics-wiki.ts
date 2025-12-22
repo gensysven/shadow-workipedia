@@ -1,22 +1,21 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-type CommunityMechanic = {
+type SubsystemPattern = {
   pattern: string;
   mechanic: string;
 };
 
-type CommunitiesWithMechanics = {
-  communities: Array<{
-    sharedMechanics?: Array<{
-      pattern: string;
-      mechanic: string;
-    }>;
+type SubsystemsIndex = {
+  metadata?: Record<string, unknown>;
+  patterns?: Array<{
+    pattern: string;
+    mechanic: string;
   }>;
 };
 
 const PARENT_REPO = join(process.cwd(), '..');
-const INPUT_PATH = join(PARENT_REPO, 'data/generated/analysis/communities-with-mechanics.json');
+const INPUT_PATH = join(PARENT_REPO, 'data/generated/analysis/subsystems.json');
 const OUTPUT_DIR = join(process.cwd(), 'wiki', 'mechanics');
 
 function slugify(value: string): string {
@@ -72,16 +71,21 @@ function main() {
   }
 
   const raw = readFileSync(INPUT_PATH, 'utf8');
-  const data = JSON.parse(raw) as CommunitiesWithMechanics;
+  const data = JSON.parse(raw) as SubsystemsIndex;
 
-  const uniques = new Map<string, CommunityMechanic>();
-  for (const c of data.communities || []) {
-    for (const m of c.sharedMechanics || []) {
-      const key = `${m.pattern}||${m.mechanic}`;
-      if (!uniques.has(key)) {
-        uniques.set(key, { pattern: m.pattern, mechanic: m.mechanic });
+  const uniques = new Map<string, SubsystemPattern>(); // keyed by page id
+  let collisions = 0;
+  for (const m of data.patterns || []) {
+    if (!m || typeof m.pattern !== 'string' || typeof m.mechanic !== 'string') continue;
+    const id = mechanicId(m.pattern, m.mechanic);
+    if (uniques.has(id)) {
+      const existing = uniques.get(id)!;
+      if (existing.pattern !== m.pattern || existing.mechanic !== m.mechanic) {
+        collisions++;
       }
+      continue;
     }
+    uniques.set(id, { pattern: m.pattern, mechanic: m.mechanic });
   }
 
   mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -90,8 +94,7 @@ function main() {
   let created = 0;
   let skipped = 0;
 
-  for (const { pattern, mechanic } of uniques.values()) {
-    const id = mechanicId(pattern, mechanic);
+  for (const [id, { pattern, mechanic }] of uniques.entries()) {
     const filePath = join(OUTPUT_DIR, `${id}.md`);
 
     if (existsSync(filePath)) {
@@ -119,7 +122,9 @@ function main() {
     created++;
   }
 
-  console.log(`✅ Mechanics pages: created ${created}, skipped ${skipped} (already existed)`);
+  console.log(
+    `✅ Mechanics pages (from subsystems patterns): created ${created}, skipped ${skipped} (already existed), total ${uniques.size}, collisions ${collisions}`
+  );
 }
 
 main();
