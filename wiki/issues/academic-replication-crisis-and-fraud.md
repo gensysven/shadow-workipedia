@@ -13,7 +13,11 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
+  - mechanic--feedback-loop--feedback-loop
   - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
+  - mechanic--threshold--threshold
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--cascade--epistomological-collapse-cascade
 ---

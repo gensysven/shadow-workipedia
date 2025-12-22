@@ -15,6 +15,9 @@ primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'Resource
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--concentration--concentration
+  - mechanic--externality--externality-pricing
+  - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
   - mechanic--threshold--threshold
 ---
 

@@ -15,7 +15,10 @@ primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'PolicyCo
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--concentration--concentration
   - mechanic--feedback-loop--feedback-loop
+  - mechanic--labor-exploitation--labor-exploitation
+  - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold
 ---
 

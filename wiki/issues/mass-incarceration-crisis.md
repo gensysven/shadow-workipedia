@@ -14,6 +14,9 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--disparate-impact--disparate-impact
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--lock-in--lock-in
+  - mechanic--lobbying--lobbying-intensity-response
   - mechanic--threshold--threshold
 ---
 

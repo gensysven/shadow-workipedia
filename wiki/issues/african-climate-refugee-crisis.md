@@ -14,9 +14,12 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
 mechanics:
+  - mechanic--age-selective-mobility--age-selective-mobility
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
+  - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
   - mechanic--threshold--threshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # African Climate Refugee Crisis

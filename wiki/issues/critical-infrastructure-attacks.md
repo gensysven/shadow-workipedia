@@ -15,6 +15,11 @@ primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropag
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--concentration--concentration
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
   - mechanic--threshold--threshold
 ---
 

@@ -17,6 +17,7 @@ mechanics:
   - mechanic--governance-vacuum--governance-vacuum
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
+  - mechanic--threshold--threshold
 ---
 
 # Afghanistan Taliban Takeover

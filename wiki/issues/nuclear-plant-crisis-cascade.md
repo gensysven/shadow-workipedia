@@ -14,6 +14,11 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--concentration--concentration
+  - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--lock-in--lock-in
+  - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--threshold--threshold
 ---
 
