@@ -11,6 +11,7 @@
     "extract-data": "tsx scripts/extract-data.ts",
     "generate:mechanics": "tsx scripts/generate-mechanics-wiki.ts",
     "normalize:mechanics": "tsx scripts/normalize-mechanics-wiki.ts",
+    "audit:mechanics": "tsx scripts/audit-mechanics-coverage.ts",
     "typecheck": "tsc --noEmit",
     "prepare": "husky || true"
   },
