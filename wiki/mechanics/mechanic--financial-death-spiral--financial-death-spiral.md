@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Financial Death Spiral** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Institutional solvency and service capacity - rising costs drive away healthy customers, leaving sicker/riskier pool, further raising costs
+- **Drivers:** Adverse selection (healthy drop coverage → premiums rise), revenue loss (customers leave → fixed costs spread over fewer), service degradation (budget cuts → worse outcomes → more customers leave)
+- **Outcomes:** Creditors benefit (extract assets before collapse); workers and patients pay (unemployment, untreated illness); public infrastructure collapses (rural hospitals, safety-net insurers)
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Premium increases above inflation, market exits, rising loss ratios, declining enrollment, facility closures
+- **Levers:** Public backstops (reinsurance, subsidies), mandatory participation (individual mandates), price controls, consolidation/nationalization
+- **Failure modes:** Delayed intervention allows collapse to spread regionally; subsidies without structural reform create permanent dependency; market exits cascade faster than policy response
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

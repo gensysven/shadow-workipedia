@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Private Equity Extraction** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Long-term productive capital converted to short-term financial returns
+- **Drivers:** Leveraged buyouts loading debt onto acquired entities; dividend recapitalization extracting cash; cost-cutting to maximize sale value
+- **Outcomes:** Investors extract value through financial engineering; workers/customers/communities pay through degraded services, job losses, bankruptcies; original owners exit with premium
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Nursing homes/hospitals acquired by PE showing rising debt, falling staffing ratios, quality declines; "rollup" strategies consolidating fragmented industries
+- **Levers:** Liability for portfolio company debts; clawback provisions on dividends before bankruptcy; transparency on ownership structures; restrictions on debt loading
+- **Failure modes:** Critical infrastructure (healthcare, utilities) fails after extraction; communities lose essential services; workers bear pension/healthcare losses while investors profit
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Nursing home chains: PE loads facility with debt, extracts dividends, cuts staffing, then bankruptcy leaves residents/workers/taxpayers with losses
+- Mechanism relies on legal separation between PE firm and portfolio company, enabling profit extraction without liability for consequences
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

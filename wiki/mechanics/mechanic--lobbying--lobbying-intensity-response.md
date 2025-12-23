@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Lobbying Intensity Response** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Policy responsiveness to public vs private interests - concentrated industry spending shapes legislation, regulation, and enforcement
+- **Drivers:** Asymmetric stakes (regulations cost industry billions, benefits diffused across millions), revolving door (regulators become industry consultants), campaign finance dependence, information asymmetry (industry technical expertise)
+- **Outcomes:** Industry benefits from favorable rules, delayed enforcement, captured regulators; public pays through unsafe products, environmental damage, monopoly prices; reform windows close as lobbying intensifies
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Lobbying spend spikes when regulation threatened, industry-drafted legislation, regulatory agency staffing/budget cuts, revolving door appointments, enforcement actions dropped
+- **Levers:** Campaign finance limits, lobbying disclosure, cooling-off periods for regulators, public financing of campaigns, citizens' assemblies for contested policy
+- **Failure modes:** Industry captures entire regulatory cycle (writing rules, staffing agencies, blocking enforcement); crisis-driven reform windows close before implementation; public choice problems (small per-capita costs don't mobilize opposition)
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

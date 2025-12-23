@@ -15,14 +15,14 @@ Regulators act in the interest of incumbents rather than the public due to influ
 This page documents **Regulatory Capture by Incumbents** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Regulatory policy and enforcement - shifts from public interest to incumbent industry interest
+- **Drivers:** Revolving door between regulators and industry; information asymmetry (industry has expertise); concentrated benefits for industry vs diffuse costs for public
+- **Outcomes:** Incumbents protected from competition; regulations that entrench existing players; enforcement selectively targets challengers; public pays through higher prices, lower quality, reduced innovation
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Regulations favoring established firms; lenient enforcement for major players; ex-regulators joining regulated industries; industry-written rules
+- **Levers:** Cooling-off periods for revolving door; independent funding for regulators; transparency in rule-making; statutory mandates with clear metrics
+- **Failure modes:** Complete regulatory inversion where agencies serve industry; innovation blocked by compliance costs only incumbents can afford; crises ignored until catastrophic because industry opposes action
 
 ## Notes
 - Identify capture vectors (lobbying, revolving door, dependence).

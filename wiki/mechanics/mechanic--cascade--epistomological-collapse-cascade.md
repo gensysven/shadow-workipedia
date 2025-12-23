@@ -15,18 +15,20 @@ A chain reaction: one failure/shift increases the likelihood or severity of subs
 This page documents **Epistomological Collapse Cascade** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** System resilience, failure containment, damage propagation speed, recovery capacity
+- **Drivers:** Tight coupling between components means failures transmit rapidly; degraded systems less able to absorb subsequent shocks; early failures consume buffers leaving later stages unprotected; feedback loops accelerate rather than stabilize
+- **Outcomes:** Initial failure triggers chain reaction across dependent systems; localized crisis becomes systemic; intervention windows close rapidly; recovery requires simultaneous restoration of multiple failed components
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Failure transmission speed (time between linked failures), buffer depletion rates, redundancy exhaustion, intervention efficacy declining over time, system coupling metrics
+- **Levers:** Deliberate decoupling (circuit breakers), redundancy investment, buffer stockpiling, early warning systems, cascade modeling to identify critical nodes, emergency protocols that activate automatically
+- **Failure modes:** Complete system collapse beyond recovery threshold; cascades jump to unexpected pathways; interventions arrive too late; restoration efforts trigger new cascades; permanent degraded equilibrium
 
 ## Notes
-- Document typical cascade paths and the main “bridge” conditions.
-- Note dampeners (buffers, redundancy) that halt propagation.
+- AMOC collapse shows physical cascade: freshwater influx → salinity drop → circulation weakening → further ice melt → accelerating loop with regional cooling triggering monsoon disruption
+- Financial contagion demonstrates social cascade: bank failure → depositor panic → bank run → liquidity crisis → credit freeze → broader economic collapse
+- Bridge conditions: shared dependencies (e.g., SWIFT for payments), resource depletion (buffers), trust collapse (coordinated withdrawal)
+- Dampeners: redundancy (multiple supply routes), buffers (strategic reserves), modularity (firebreaks), negative feedback (automatic stabilizers)
 
 ## References (System Walk occurrences)
 Appears in **73** distinct issue contexts, **318** total mentions.

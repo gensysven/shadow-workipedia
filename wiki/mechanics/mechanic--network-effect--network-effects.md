@@ -15,18 +15,18 @@ Value increases with adoption, often producing winner-take-most outcomes and loc
 This page documents **Network Effects** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Platform/technology value - each additional user increases value for all existing users
+- **Drivers:** Adoption curves creating self-reinforcing growth; compatibility and interoperability advantages; data advantages from scale
+- **Outcomes:** Winner-take-most markets; entrenched incumbents impossible to displace; late adopters forced onto dominant platforms despite preferences
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Exponential adoption curves (S-curve); market share concentration above 60-70%; switching costs rising with adoption
+- **Levers:** Interoperability mandates; data portability; public alternative platforms; antitrust intervention at tipping point
+- **Failure modes:** Permanent monopolies with no competitive pressure; dependency on platforms that can extract rents indefinitely; inability to switch even when better alternatives exist
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Social media platforms exemplify: value comes from user base, not features - better features can't overcome network disadvantage
+- Creates path dependence where early adoption patterns lock in long-term outcomes (QWERTY keyboard, VHS vs Betamax)
 
 ## References (System Walk occurrences)
 Appears in **12** distinct issue contexts, **15** total mentions.

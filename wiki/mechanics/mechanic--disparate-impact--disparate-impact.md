@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Disparate Impact** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Equality under law, group-level outcomes, institutional legitimacy, social cohesion
+- **Drivers:** Facially neutral policies interact with existing disparities in resources/opportunities; historical disadvantages compound under uniform rules; proxy variables correlate with protected characteristics; enforcement patterns reflect bias even if rules don't
+- **Outcomes:** Formally equal treatment produces unequal outcomes; disadvantaged groups bear disproportionate costs; advantages concentrate; legitimacy crises emerge when disparities become undeniable
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Group-level outcome divergence (sentencing, voting access, environmental exposure), correlation between facially neutral criteria and protected characteristics, enforcement rate differentials, legal challenges under disparate impact doctrine
+- **Levers:** Impact assessment requirements before policy adoption, statistical monitoring, affirmative remediation, eliminate proxy variables, targeted relief for disparately affected groups
+- **Failure modes:** Inequality entrenches while maintaining appearance of neutrality; disadvantaged groups permanently excluded from opportunities; legitimacy collapse when outcomes diverge from stated equality; backlash from advantaged groups resisting remediation
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Voting ID laws show disparate impact: facially neutral (everyone needs ID), but lack of ID correlates with race/class, creating differential exclusion despite equal rules
+- Sentencing guidelines demonstrate the pattern: uniform rules applied to disparate starting conditions (prior convictions, legal representation quality) produce racially divergent outcomes
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

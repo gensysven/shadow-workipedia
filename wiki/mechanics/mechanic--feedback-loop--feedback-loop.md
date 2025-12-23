@@ -15,14 +15,14 @@ A reinforcing or balancing loop where outputs feed back into inputs, amplifying 
 This page documents **Feedback Loop** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** System stability and trajectory - feedback loops either reinforce (+) or balance (–) changes, creating exponential growth/decline or homeostasis
+- **Drivers:** Outputs that feed back into inputs (reinforcing: deforestation → rainfall reduction → more forest stress; balancing: high prices → increased supply → lower prices)
+- **Outcomes:** Reinforcing loops create runaway dynamics (winners accumulate advantage, losers spiral); balancing loops create stability or oscillation; delays cause overshoot and collapse
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Accelerating trends (reinforcing), oscillating patterns (balancing with delay), threshold breaches triggering regime shifts
+- **Levers:** Break reinforcing loops (progressive taxation, antitrust), strengthen balancing loops (negative feedback regulation), reduce delays (real-time monitoring)
+- **Failure modes:** Reinforcing loops hit physical limits catastrophically; balancing loops with long delays overshoot and crash; intervention at wrong point in loop amplifies problems
 
 ## Notes
 - Specify whether the loop is reinforcing (+) or balancing (–).

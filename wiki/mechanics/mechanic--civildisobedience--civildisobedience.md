@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Civil Disobedience** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Enforcement capacity, legal authority legitimacy, policy effectiveness, state-local relations
+- **Drivers:** Moral opposition to law perceived as unjust; cost of compliance exceeds cost of defiance; enforcement physically/politically impractical; local authorities refuse cooperation with higher levels
+- **Outcomes:** Laws become unenforceable without massive coercion; government authority undermined; policy goals unreachable; conflict escalates or law becomes dead letter
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Compliance rate declining despite enforcement attempts, sanctuary jurisdictions declaring non-cooperation, enforcement cost escalation, arrests without prosecutions, public support for non-compliers
+- **Levers:** Policy modification to increase legitimacy, selective enforcement, federal funding leverage, substitute policies that don't require mass compliance, negotiation with resistant jurisdictions
+- **Failure modes:** Complete enforcement breakdown, violent confrontations, constitutional crises, permanent jurisdictional fragmentation, vigilante enforcement by ideological supporters
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Sanctuary cities refusing ICE cooperation demonstrate civil disobedience at government level: federal immigration enforcement requires local cooperation, local refusal makes enforcement impractical
+- Nuclear waste storage opposition shows individual-level resistance: NIMBY plus moral opposition means no site politically viable, rendering national policy unimplementable for 10,000-year timescales
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

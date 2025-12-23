@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Enforcement Paradox** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Compliance rates, enforcement capacity, rule legitimacy, violence levels
+- **Drivers:** Stricter enforcement increases expected cost of compliance (harder to stay legal) while raising penalties for violation; targets become more sophisticated evaders; enforcers face rising costs to maintain effectiveness; violence emerges as stakes increase
+- **Outcomes:** Compliance decreases as enforcement intensifies; criminals professionalize to avoid detection; enforcement costs escalate without improving outcomes; violence substitutes for legal dispute resolution
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Enforcement intensity rising with compliance falling, sophistication of evasion tactics increasing, violence associated with enforcement actions, corruption of enforcement agencies, public support declining despite (or because of) crackdowns
+- **Levers:** Shift from punishment to incentive-based compliance, reduce penalties to lower stakes, legalization with regulation, enforcement discretion to avoid escalation, address root causes rather than symptoms
+- **Failure modes:** Enforcement arms race triggers permanent conflict state; corruption captures enforcement entirely; violence overwhelms civilian casualties tolerance; mass incarceration destabilizes society; enforcement becomes indistinguishable from organized crime
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Amazon rainforest enforcement paradox: stricter protections → higher logging profits → organized crime involvement → activist killings (150-300/year) → NGO crackdowns → enforcement becomes impossible
+- Migration enforcement shows similar pattern: border militarization → smuggling professionalization → higher smuggling fees → cartel involvement → migrant mortality increases → routes shift to more dangerous terrain
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

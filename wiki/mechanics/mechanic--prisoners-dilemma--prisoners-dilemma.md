@@ -15,18 +15,18 @@ Individually rational choices lead to collectively worse outcomes absent coordin
 This page documents **Prisoners' Dilemma** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Collective welfare - mutual defection dominates mutual cooperation in one-shot games
+- **Drivers:** Individual incentive to defect regardless of other's choice; inability to coordinate; lack of enforcement
+- **Outcomes:** Pareto-inferior outcomes where everyone worse off than if they cooperated; rational individual choice produces collective failure
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Race-to-the-bottom dynamics; regulatory arbitrage; free-rider problems in public goods provision
+- **Levers:** Binding agreements with penalties; repeated interaction enabling reputation; changing payoffs to align individual/collective incentives
+- **Failure modes:** Iterative defection spirals; breakdown of cooperation after trust violations; inability to escape trap even when harm is obvious
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Municipal AV regulation: each city has incentive to be permissive (attract innovation) even though coordinated standards would be safer
+- Classic structure: Cooperate/Cooperate = (3,3), Defect/Cooperate = (5,0), Cooperate/Defect = (0,5), Defect/Defect = (1,1)
 
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.

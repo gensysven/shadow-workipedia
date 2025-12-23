@@ -15,18 +15,18 @@ Costs/benefits are imposed on others and not reflected in the decision-maker’s
 This page documents **Externality Pricing** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Resource allocation efficiency, true cost accounting, burden distribution, environmental/social capital
+- **Drivers:** Decision-makers capture benefits but diffuse costs to others (spatial, temporal, or social distance); market prices reflect private costs only, ignoring social costs; regulatory gaps leave harms unpriced; victims lack standing or power to demand compensation
+- **Outcomes:** Overproduction of harm-generating activities; socially inefficient resource allocation; costs accumulate invisibly until crisis; those who profit never pay full costs
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Divergence between private prices and social costs, harm accumulation in commons or on powerless groups, regulatory arbitrage, declining environmental/social capital despite economic growth
+- **Levers:** Pigouvian taxes (carbon pricing), cap-and-trade, liability assignment, subsidy removal, disclosure requirements, standing for affected parties, rights assignment (property rights to pollution sinks)
+- **Failure modes:** Harms accumulate to irreversible tipping points before action; regulatory capture prevents internalization; costs shifted to future generations or distant populations who can't retaliate; commons collapse under overuse
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Carbon emissions: firms profit from fossil fuel use, atmosphere absorbs CO2 for free, climate costs imposed on future generations globally - classic temporal and spatial externality
+- Cyber insurance collapse: firms under-invest in security (costs borne by insurers/victims), creating systemic risk that exceeds any single firm's calculus
 
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **6** total mentions.

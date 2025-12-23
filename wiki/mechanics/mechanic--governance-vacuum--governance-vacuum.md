@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Governance Vacuum** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Regulatory authority and enforcement capacity - absence of effective governance allows extractive actors to operate unchecked
+- **Drivers:** Frontier zones (deep sea, Arctic, cyberspace), technological outpacing (AI, biotech), state collapse/corruption, jurisdictional ambiguity (international waters, space)
+- **Outcomes:** First movers exploit resources without accountability; race-to-the-bottom dynamics as actors flee regulation; commons depleted; risks externalized to public
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Unregulated extraction activity, regulatory gaps acknowledged but not filled, treaty negotiation stalls, industry self-regulation failing
+- **Levers:** International treaties (Seabed Authority, Outer Space Treaty), technology export controls, liability frameworks, corporate transparency mandates
+- **Failure modes:** Governance arrives after irreversible damage; powerful states block treaties to protect national advantage; capture of weak institutions by industry; de facto norms set by bad actors
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Dual-Use Dilemma** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Research freedom, innovation velocity, proliferation risk, governance overhead
+- **Drivers:** Same technology enables beneficial applications and catastrophic misuse; restricting access blocks benefits but prevents harms; diffusion impossible to control once knowledge exists; attribution of intent difficult before deployment
+- **Outcomes:** Either accept proliferation risk to gain benefits, or sacrifice benefits to reduce risk; partial restrictions fail (competent actors circumvent, incompetent actors harmed); arms race dynamics if competitors choose different strategies
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Technology diffusion rates, capability-to-harm gap closing, beneficial application adoption vs misuse incidents, regulatory circumvention prevalence, international coordination breakdown
+- **Levers:** Use-case licensing (not blanket bans), attribution technologies, responsible disclosure norms, international treaties with verification, defensive application prioritization, security-by-design requirements
+- **Failure modes:** Premature restriction prevents beneficial uses while failing to stop determined misuse; unrestricted proliferation enables catastrophic events; regulatory fragmentation creates racing to bottom; knowledge already diffused makes controls pointless
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- CRISPR gene drives: could eradicate disease vectors (malaria) or invasive species, but also enable ecological weapons or accidental ecosystem collapse
+- AI biodesign: accelerates drug discovery and protein engineering, but also lowers barrier to novel pathogen creation from guide RNAs to autonomous organism design
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

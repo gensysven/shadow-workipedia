@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Asymmetric Arms Race** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Relative capability advantage, defensive spending, innovation investment, strategic stability
+- **Drivers:** Attack-defense imbalance favors attackers; defenders must protect all surfaces while attackers choose one; defensive costs scale linearly, offensive capabilities compound; proliferation outpaces countermeasures
+- **Outcomes:** Defenders trapped in losing race, burning resources; attackers gain persistent advantage; eventually defenders abandon direct competition, seek alternative strategies
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Defender spending as % of GDP with declining effectiveness, successful attack rate increasing despite investment, time-to-compromise metrics shrinking, defensive tool obsolescence acceleration
+- **Levers:** Offensive capability restrictions (arms control), liability shifting to create defensive incentives, capability pooling (collective defense), paradigm shift to resilience over prevention
+- **Failure modes:** Defensive collapse forces acceptance of persistent compromise; critical infrastructure permanently insecure; attackers operate with impunity; deterrence becomes only viable strategy
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Cybersecurity exemplifies asymmetry: attackers need one exploit, defenders must patch everything; AI-generated attacks scale while defenses remain labor-intensive
+- Deepfake detection shows similar pattern: detection methods lag generation capabilities, authenticity verification becomes impossible
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

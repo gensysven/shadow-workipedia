@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Norm Erosion Dynamics** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Social norms, informal rules, and behavioral standards that govern cooperation
+- **Drivers:** Unpunished violations signal acceptability; enforcement fatigue as violations become common; elite defection signals norm is negotiable
+- **Outcomes:** Gradual normalization of previously unacceptable behavior; coordination failures as shared expectations collapse; race to the bottom as defectors gain advantage
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Rising violation rates without penalties; prominent actors defecting openly; "everyone does it" justifications spreading
+- **Levers:** Visible enforcement of violations (deterrence); norm entrepreneurs reinforcing standards; institutional commitment devices
+- **Failure modes:** Irreversible norm collapse when violations become majority behavior; inability to coordinate even when mutual benefit is clear; cynicism preventing new norm formation
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Chemical weapons taboo eroded when Syria used them without decisive response - other actors noted lack of consequences
+- Distinguished from formal rule-breaking by dependence on shared belief rather than enforcement capacity
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

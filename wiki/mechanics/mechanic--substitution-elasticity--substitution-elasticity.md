@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Substitution Elasticity** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Economic resilience and dependency - measures how easily actors can switch between alternatives when prices/availability change
+- **Drivers:** Availability and cost of substitutes; switching costs (infrastructure, retraining, compatibility); time horizons for adaptation
+- **Outcomes:** High elasticity = actors smoothly adapt to shocks; low elasticity = dependency creates leverage and vulnerability; asymmetric elasticity creates power imbalances
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Price shocks causing rapid shifts (high elasticity) or demand staying constant (low elasticity); infrastructure lock-in; supply chain concentration
+- **Levers:** Diversification incentives; strategic reserves; interoperability standards reducing switching costs; investment in alternatives
+- **Failure modes:** Over-dependence on irreplaceable resources becomes weaponizable; sudden unavailability of low-elasticity goods causes cascading failures; stranded assets when substitution happens rapidly
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Pharmaceutical APIs: low substitution elasticity (specific chemistry required) enables supplier leverage and vulnerability to disruption
+- Food web ecology: if mosquitoes eliminated, bats with high dependence (70% of diet) crash vs bats with alternatives (20% of diet) adapt
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

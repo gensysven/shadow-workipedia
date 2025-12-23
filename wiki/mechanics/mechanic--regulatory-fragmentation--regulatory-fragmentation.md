@@ -15,18 +15,18 @@ Inconsistent rules across jurisdictions create loopholes, arbitrage, and enforce
 This page documents **Regulatory Fragmentation** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Regulatory coherence - patchwork of conflicting rules across jurisdictions creates compliance chaos and enforcement gaps
+- **Drivers:** Federal vs state vs local authority conflicts; rapid innovation outpacing coordination; jurisdictions pursuing independent policy goals
+- **Outcomes:** Compliance costs explode for multi-jurisdiction operations; enforcement gaps where rules conflict; innovators exploit inconsistencies; some jurisdictions become regulatory havens
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Same activity legal in one jurisdiction, banned in another; businesses operating differently by location; forum shopping for favorable rules
+- **Levers:** Federal preemption establishing minimum standards; interstate compacts; conditional funding to harmonize rules; model legislation
+- **Failure modes:** Gridlock preventing any effective regulation; innovation concentrates in permissive zones; impossible to coordinate response to systemic risks; races-to-bottom as jurisdictions compete
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Autonomous vehicle regulation: municipal bans vs state permissiveness vs federal uncertainty creates operational chaos
+- Differs from regulatory arbitrage (exploiting differences) by focusing on unintentional fragmentation creating compliance/enforcement problems
 
 ## References (System Walk occurrences)
 Appears in **3** distinct issue contexts, **3** total mentions.

@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Age-Selective Mobility** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Age distribution of populations across regions, dependency ratios, labor force composition
+- **Drivers:** Economic opportunity differentials, education access, family formation timing, physical mobility capacity, risk tolerance varies by life stage
+- **Outcomes:** Working-age adults concentrate in opportunity zones; children and elderly remain in origin regions; dependency ratios diverge; sending regions age rapidly while receiving regions stay young
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Migration rate differentials by age cohort, median age divergence between regions, labor force participation rates, dependency ratio imbalances
+- **Levers:** Age-targeted migration policies, elderly care infrastructure in origin regions, family reunification rules, pension portability, return migration incentives
+- **Failure modes:** Sending regions enter demographic death spiral - shrinking tax base, collapsing services, further youth exodus; receiving regions face integration challenges but maintain vitality
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Rural-to-urban migration is strongly age-selective: young adults move for jobs/education, leave elderly parents and young children behind
+- International migration shows similar patterns: prime working-age adults migrate, dependents follow later or remain in origin countries
 
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.

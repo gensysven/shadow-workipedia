@@ -15,14 +15,14 @@ A mismatch in information between parties that distorts incentives and decision 
 This page documents **Information Asymmetry** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Decision quality and bargaining power - one party has critical information the other lacks, enabling exploitation or distorting incentives
+- **Drivers:** Proprietary data (platform algorithms, AV sensor logs), complexity (financial derivatives, AI models), intentional opacity (trade secrecy, NDAs), expertise gaps (technical vs policy)
+- **Outcomes:** Informed party extracts rents (algorithmic pricing, insurance cherry-picking); uninformed party makes poor choices (bad mortgages, unsafe products); markets fail (adverse selection, lemons problem)
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Widening expertise gaps, regulatory capture by technical insiders, "trust us" claims without transparency, contract terms favoring informed party
+- **Levers:** Mandatory disclosure (nutritional labels, crash data), independent auditing, public research funding, consumer protection agencies, algorithmic transparency laws
+- **Failure modes:** Disclosure drowns users in unreadable terms; auditors captured by industry; asymmetry grows faster than regulation can mandate transparency; platforms exploit data moats
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

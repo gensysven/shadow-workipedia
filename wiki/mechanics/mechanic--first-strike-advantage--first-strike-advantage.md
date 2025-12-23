@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **First-Strike Advantage** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Strategic position and response time - the side that attacks first gains decisive advantage by degrading the opponent's ability to respond effectively
+- **Drivers:** Speed-of-light weapons (hypersonics, cyber), compressed decision timelines (minutes vs hours), attribution difficulty (can't retaliate if you don't know who attacked)
+- **Outcomes:** Attacker gains initiative and shapes battlefield; defender suffers degraded command/control and must respond from disadvantage; arms races intensify as both sides pursue preemptive capability
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Doctrine shifts toward "launch on warning," forward deployment of fast weapons, automated defensive systems, hair-trigger alerts
+- **Levers:** Treaty limits on destabilizing weapons, confidence-building measures, attack attribution systems, decision-delay requirements (human-in-the-loop)
+- **Failure modes:** Crisis escalation due to "use it or lose it" pressure; accidental war from false alarms; defensive preparations perceived as offensive buildup triggering preemption
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

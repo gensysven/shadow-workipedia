@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Nash equilibrium** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Strategic equilibrium where no actor can improve their position by unilateral action
+- **Drivers:** Rational self-interest of independent actors; absence of binding coordination mechanisms; first-mover advantage or disadvantage
+- **Outcomes:** Stable but often suboptimal outcomes; actors locked into defensive strategies; coordination failures persist because deviation is punished
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** All actors maintaining defensive postures despite mutual losses; "invest or lose" dynamics in arms races or technology competition
+- **Levers:** Coordination mechanisms that change payoff structures (treaties, binding agreements); iterated games that enable reputation/trust; side payments to change incentives
+- **Failure modes:** Locked into inferior equilibria (everyone worse off than cooperation, but no one can move alone); destabilizing shifts when one actor achieves breakthrough
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Post-quantum cryptography race: nations can't afford to lag (lose security) or lead too early (waste resources on wrong standard)
+- Differs from Prisoner's Dilemma in that Nash equilibrium is stable - no incentive to deviate even if coordination would help
 
 ## References (System Walk occurrences)
 Appears in **1** distinct issue contexts, **2** total mentions.

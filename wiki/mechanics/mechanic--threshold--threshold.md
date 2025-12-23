@@ -25,9 +25,9 @@ This mechanic consolidates: threshold, tipping-point.
 - **Failure modes:** Irreversible transitions, hysteresis preventing recovery
 
 ## Notes
-- Tipping points are thresholds with irreversibility/hysteresis
+- Tipping points are thresholds with irreversibility/hysteresis (ice sheet collapse, ecosystem regime shifts)
 - Both describe the same causal structure: nonlinear discontinuous change at critical values
-- Identify the tracked variable, threshold value, and reversibility
+- AMOC collapse at ~1.4°C warming: smooth temperature rise, sudden circulation shift with no smooth reversal path
 
 ## References (System Walk occurrences)
 Appears in **85** distinct issue contexts, **334** total mentions.

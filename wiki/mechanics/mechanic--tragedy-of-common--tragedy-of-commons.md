@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Tragedy of Commons** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Common-pool resources (atmosphere, oceans, shared infrastructure) - overexploited when individual extraction costs are private but depletion costs are shared
+- **Drivers:** Open access or weak excludability; individual incentive to extract before others do; benefits concentrated on user, costs diffused across all
+- **Outcomes:** Resource degradation or depletion; each actor optimizing individually produces collective ruin; late-arriving users face depleted resource
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Accelerating extraction rates; resource quality/quantity declining; users racing to exploit before depletion
+- **Levers:** Property rights or quotas (excludability); usage fees internalizing costs; monitoring and enforcement; community self-governance
+- **Failure modes:** Irreversible resource collapse (fishery extinction); degradation beyond recovery (ocean acidification); coordination failure even when collapse is obvious
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Atmospheric carbon sink: each nation dumps CO2 for private benefit, but climate damages shared globally - no individual incentive to restrain
+- Hardin's original formulation (grazing commons) understates complexity - real commons often have successful governance institutions
 
 ## References (System Walk occurrences)
 Appears in **5** distinct issue contexts, **13** total mentions.

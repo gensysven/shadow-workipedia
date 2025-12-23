@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Regulatory Arbitrage** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Regulatory effectiveness - actors exploit jurisdictional differences to avoid compliance costs
+- **Drivers:** Variation in standards across borders; mobility of capital/operations; enforcement gaps between jurisdictions
+- **Outcomes:** Race-to-the-bottom as jurisdictions compete to attract investment; externalities exported to weaker regulatory regimes; erosion of protections even in strict jurisdictions
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Industries relocating to low-regulation zones; flags-of-convenience for shipping/incorporation; regulatory shopping in federal systems
+- **Levers:** Harmonized international standards; extraterritorial enforcement; conditional market access (comply with our standards or no access); border adjustments
+- **Failure modes:** Global standards collapse to lowest common denominator; beggar-thy-neighbor competition; inability to regulate transnational activities
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Carbon pricing: industries relocate to non-pricing jurisdictions, undermining climate goals and competitiveness of acting nations
+- Requires both regulatory variance AND sufficient actor mobility - works for finance, shipping, digital platforms but not immobile industries
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

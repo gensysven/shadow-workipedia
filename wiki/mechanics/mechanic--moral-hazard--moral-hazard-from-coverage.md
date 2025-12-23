@@ -15,14 +15,14 @@ Protection/insurance changes incentives, increasing risky behavior or reducing d
 This page documents **Moral Hazard from Coverage** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Risk-taking behavior and precautionary effort - protection from consequences reduces incentives to avoid harm
+- **Drivers:** Insurance (health, deposit, liability), bailout expectations (too big to fail), safety nets (flood insurance in hazard zones), information hiding (insurer can't observe behavior)
+- **Outcomes:** Protected actors take excessive risks; insurers face losses and raise premiums; taxpayers absorb bailout costs; hazards amplify (coastal development in flood zones, antibiotic overuse)
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Risk-taking increases after coverage, loss ratios rise, repeat claims from same actors, disaster costs escalate in insured areas
+- **Levers:** Co-pays and deductibles (skin in the game), experience-rated premiums, conditional coverage (safety requirements), ex-post penalties, building codes and land use restrictions
+- **Failure modes:** Coverage withdrawal leaves vulnerable unprotected; premiums spiral from adverse selection; political pressure prevents risk-based pricing; repeated bailouts entrench risky behavior
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

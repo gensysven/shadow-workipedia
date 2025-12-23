@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Demographic Momentum** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Population age structure, dependency ratios, future population growth/decline
+- **Drivers:** Age cohort sizes determined by past fertility; large young cohorts enter reproductive years → population growth persists even if per-woman fertility drops; large old cohorts create dependency burden for decades regardless of current births
+- **Outcomes:** Population trends become inevitable decades in advance; interventions today only affect outcomes 20-50 years later; mismatch between current policy and future needs; fiscal crises from foreseeable but politically ignored trends
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Age pyramid shape (wide base = growth momentum, narrow base = decline momentum), median age trajectory, dependency ratio projections, working-age population forecasts
+- **Levers:** Immigration to alter age structure immediately (vs slow fertility changes), retirement age adjustments, productivity investments to offset shrinking workforce, pension reform decades before crisis
+- **Failure modes:** Pension systems collapse when predicted dependency ratios arrive but no preparation made; healthcare systems overwhelmed by foreseeable elderly surge; labor shortages cause economic stagnation despite decades of warning
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Japan's demographic momentum: fertility below replacement since 1970s, but population kept growing until 2010 because large cohorts born in 1950s-60s were still reproducing
+- Pension crises demonstrate political failure to address momentum: inverted population pyramid visible 30+ years in advance, but reforms delayed until insolvency imminent
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

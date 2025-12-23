@@ -15,14 +15,14 @@ A dynamic where damage or depletion is difficult or impossible to undo on releva
 This page documents **Water Extraction Irreversibility** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** System recoverability and option value - damage crosses thresholds beyond which restoration is impossible on human timescales
+- **Drivers:** Aquifer compaction (once compressed, pore space lost), soil erosion (topsoil formation takes centuries), species extinction (genetic diversity unrecoverable), ice sheet collapse (positive feedbacks prevent regrowth)
+- **Outcomes:** Present actors benefit from extraction; future generations pay permanent costs; stranded assets and unusable infrastructure; cascading failures as dependent systems lose critical inputs
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Depletion rates exceeding regeneration, geological/biological thresholds being approached, warnings from scientists ignored by policymakers
+- **Levers:** Preventive moratoriums, extraction limits below regeneration rates, protected reserves, precautionary principle in policy
+- **Failure modes:** Irreversibility discovered too late; gradual erosion hides threshold until crossed; political resistance to limits until damage permanent; no fallback once system collapses
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

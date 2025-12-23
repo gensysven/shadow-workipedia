@@ -15,14 +15,14 @@ An allocation failure where markets produce inefficient or harmful outcomes (oft
 This page documents **Geographic Market Failure** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Allocative efficiency and social welfare - markets fail to provide socially optimal outcomes due to structural problems (externalities, public goods, information failures)
+- **Drivers:** Geographic constraints (rural areas unprofitable for private providers), public goods (antibiotics benefit society but not profitable to develop), externalities (pollution costs not priced), natural monopolies (infrastructure duplication wasteful)
+- **Outcomes:** Profitable urban areas served, unprofitable rural areas abandoned; socially valuable goods (orphan drugs, basic research) underprovided; negative externalities overproduced (pollution, antimicrobial resistance)
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Rural service deserts (hospitals, broadband), R&D investment below social optimum, rising negative externalities, market concentration in natural monopolies
+- **Levers:** Universal service obligations, public provision (research, infrastructure), Pigouvian taxes (carbon pricing), subsidies for positive externalities (vaccines), antitrust for natural monopolies
+- **Failure modes:** Private sector exit faster than public can fill gap; subsidies create dependency without fixing structure; regulatory capture prevents corrective intervention; geographic inequality becomes politically unsustainable
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

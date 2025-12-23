@@ -15,18 +15,18 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Algorithmic Amplification** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Attention distribution, belief propagation speed, content virality, radicalization pathways
+- **Drivers:** Engagement-maximizing recommendation algorithms prioritize emotionally provocative content; filter bubbles reinforce existing beliefs; edge cases get disproportionate reach
+- **Outcomes:** Fringe content reaches mainstream audiences rapidly; moderate voices drowned out; outrage cycles accelerate; coordination across dispersed actors becomes trivial
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Content velocity (shares/time), reach concentration (small creators with massive audiences), radicalization pathway completion rates, cross-platform coordination speed
+- **Levers:** Algorithmic transparency requirements, amplification circuit breakers, friction insertion (share delays), down-ranking of coordinated inauthentic behavior, human review for viral content
+- **Failure modes:** Platform capture by extremist content, mass radicalization events, coordinated harassment campaigns, information ecosystem collapse, stochastic terrorism
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- YouTube's recommendation algorithm creates radicalization funnels: mainstream → edgy → extreme in predictable sequences
+- Political extremism spreads via algorithmic amplification faster than organic social networks ever permitted
 
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.

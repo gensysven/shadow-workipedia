@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Just-In-Time Fragility** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** System resilience and buffer capacity - eliminating inventory/slack maximizes efficiency but removes shock absorption
+- **Drivers:** Cost optimization (inventory holding costs), competitive pressure (lean manufacturing), financialization (quarterly earnings), globalized supply chains (single points of failure)
+- **Outcomes:** Corporations benefit from capital efficiency in normal times; consumers pay through shortages and price spikes during disruptions; workers face sudden unemployment when supply chains break
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Declining inventory-to-sales ratios, single-sourcing, long/complex supply chains, hospital capacity utilization above 85%, supermarket stockouts from minor disruptions
+- **Levers:** Strategic reserves (medical, food), domestic production mandates, redundancy requirements, inventory targets for critical goods
+- **Failure modes:** Small shocks cascade into systemic failures; no time to adapt during crisis; hoarding and panic buying amplify shortages; critical infrastructure (hospitals) paralyzed by supply interruptions
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

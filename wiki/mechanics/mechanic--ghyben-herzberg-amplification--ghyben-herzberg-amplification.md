@@ -15,14 +15,14 @@ A reusable dynamic extracted from System Walk subsystems; this page documents ho
 This page documents **Ghyben-Herzberg Amplification** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Freshwater lens thickness in coastal aquifers - due to density differences, every 1m drop in freshwater table allows 40m of saltwater intrusion
+- **Drivers:** Groundwater extraction (lowers freshwater head pressure), sea level rise (increases saltwater pressure), land subsidence (reduces aquifer capacity)
+- **Outcomes:** Coastal cities lose drinking water supply; agriculture in river deltas fails; property values collapse in salinized zones; climate refugees from uninhabitable coasts
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Rising salinity in wells, declining water table, coastal subsidence rates, crop yields dropping in delta regions
+- **Levers:** Extraction limits (enforce sustainable pumping), managed aquifer recharge, desalination (expensive), relocation assistance, seawalls (buy time but don't solve root cause)
+- **Failure modes:** Salinization is effectively irreversible on human timescales; once lens collapses, aquifer is unusable for generations; gradual decline gives false sense of time until threshold collapse
 
 ## Notes
 - Add concrete parameters/events this mechanic should influence.

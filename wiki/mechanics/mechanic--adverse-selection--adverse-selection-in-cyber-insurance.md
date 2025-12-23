@@ -15,18 +15,18 @@ Selection effects where higher-risk actors are more likely to participate, under
 This page documents **Adverse Selection in Cyber Insurance** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
-- What is the “state” or resource this mechanic changes?
-- What are the main drivers/inputs?
-- What are the outcomes/outputs (who benefits, who pays, what breaks)?
+- **State/Resource:** Insurance market viability, premium pricing, coverage availability
+- **Drivers:** Information asymmetry between buyers and insurers; high-risk actors know they need coverage more than insurers can detect; low-risk actors exit when premiums rise to reflect average risk
+- **Outcomes:** Death spiral - only worst risks remain in pool, premiums escalate, coverage becomes unavailable or unaffordable, markets collapse
 
 ## In the simulation
-- **Signals:** What would make this mechanic “activate” or intensify?
-- **Levers:** What interventions can players apply (policy, spending, coordination, enforcement)?
-- **Failure modes:** What happens if this is ignored or mismanaged?
+- **Signals:** Rising loss ratios (claims/premiums >100%), premium escalation rate, coverage withdrawal from markets, proportion of high-risk actors in insured pool
+- **Levers:** Mandatory coverage requirements, risk assessment improvements, subsidies for low-risk participants, government backstops, disclosure requirements
+- **Failure modes:** Complete market collapse leaves critical infrastructure uninsured; costs externalized to taxpayers; organizations self-insure inadequately; catastrophic losses trigger cascade failures
 
 ## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
+- Cyber insurance demonstrates classic adverse selection: firms with weak security know they need coverage, firms with strong security opt out when premiums rise
+- Climate insurance shows similar dynamics: highest-risk properties remain in pools as others exit, forcing government absorption (NFIP, state FAIR plans)
 
 ## References (System Walk occurrences)
 Appears in **6** distinct issue contexts, **6** total mentions.
