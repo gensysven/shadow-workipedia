@@ -2578,7 +2578,7 @@ async function main() {
             ${renderCollapsibleSection('Systems', systemArticles, 'systems-section')}
             ${renderCollapsibleSection('Principles', principleArticles, 'principles-section')}
             ${renderCollapsibleSection('Primitives', primitiveArticles, 'primitives-section')}
-            ${renderCollapsibleSection('Mechanics', mechanicArticles, 'principles-section')}
+            ${renderCollapsibleSection('Mechanics', mechanicArticles, 'mechanics-section')}
           </div>
         </div>
       `;

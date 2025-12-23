@@ -1686,6 +1686,13 @@ body {
   padding: 1.5rem 2rem;
 }
 
+/* Wiki index page (no article selected) - use full width */
+#wiki-article-content:has(.wiki-welcome-full),
+#communities-article-content:has(.wiki-welcome-full) {
+  max-width: 100%;
+  padding: 1.5rem 3rem;
+}
+
 /* Sidebar article list */
 .wiki-sidebar-section {
   margin-bottom: 1.5rem;
@@ -1804,9 +1811,10 @@ body {
 }
 
 .wiki-sections {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 1.5rem;
+  align-items: start;
 }
 
 .wiki-collapsible-section {
@@ -1874,13 +1882,19 @@ body {
   border-left: 4px solid #8b5cf6;
 }
 
+.primitives-section summary {
+  border-left: 4px solid #10b981;
+}
+
+.mechanics-section summary {
+  border-left: 4px solid #f59e0b;
+}
+
 .wiki-article-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.5rem;
-  padding: 1rem;
-  max-height: 400px;
-  overflow-y: auto;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
 }
 
 .wiki-article-card {
@@ -1905,13 +1919,23 @@ body {
 }
 
 /* Responsive adjustments */
+@media (max-width: 900px) {
+  .wiki-sections {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .wiki-welcome-full {
     padding: 1rem;
   }
 
   .wiki-article-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  #wiki-article-content:has(.wiki-welcome-full) {
+    padding: 1rem;
   }
 }
 
