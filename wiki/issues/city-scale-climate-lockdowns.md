@@ -13,21 +13,21 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
-  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
+  - mechanic--adverse-selection--adverse-selection
   - mechanic--age-selective-mobility--age-selective-mobility
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--enforcement-paradox--enforcement-paradox
-  - mechanic--externality--externality-pricing
+  - mechanic--externality--externality
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in

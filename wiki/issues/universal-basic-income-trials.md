@@ -15,14 +15,14 @@ primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'ResourceDepletion', 'Exo
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--age-selective-mobility--age-selective-mobility
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration
-  - mechanic--irreversible--water-extraction-irreversibility
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--irreversibility--irreversibility
+  - mechanic--lobbying--lobbying
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--network-effect--network-effects
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons

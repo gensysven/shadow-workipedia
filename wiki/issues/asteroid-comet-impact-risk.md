@@ -36,13 +36,13 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--disparate-impact--disparate-impact
   - mechanic--dual-use-dilemma--dual-use-dilemma
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
 ---
 

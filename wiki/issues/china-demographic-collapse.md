@@ -15,11 +15,11 @@ primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'Resourc
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold
 ---

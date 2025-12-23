@@ -34,7 +34,7 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--network-effect--network-effects
   - mechanic--lock-in--lock-in

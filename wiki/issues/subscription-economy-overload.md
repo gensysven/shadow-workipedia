@@ -14,12 +14,12 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--lock-in--lock-in
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
 ---
 

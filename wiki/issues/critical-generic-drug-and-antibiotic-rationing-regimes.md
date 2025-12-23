@@ -16,15 +16,15 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--age-selective-mobility--age-selective-mobility
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--concentration--concentration
   - mechanic--civildisobedience--civildisobedience
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons

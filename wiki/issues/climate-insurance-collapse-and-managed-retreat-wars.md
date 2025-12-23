@@ -13,8 +13,8 @@ connections: [climate-refugee-floods]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
-  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--adverse-selection--adverse-selection
+  - mechanic--cascade--cascade
   - mechanic--lock-in--lock-in
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral

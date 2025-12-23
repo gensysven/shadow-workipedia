@@ -35,14 +35,14 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop
   - mechanic--concentration--concentration
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons
 ---

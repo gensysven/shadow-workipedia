@@ -13,10 +13,10 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold

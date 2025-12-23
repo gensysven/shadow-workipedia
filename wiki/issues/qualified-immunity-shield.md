@@ -16,15 +16,15 @@ mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration
-  - mechanic--irreversible--water-extraction-irreversibility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--irreversibility--irreversibility
+  - mechanic--lobbying--lobbying
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
   - mechanic--regulatory-arbitrage--regulatory-arbitrage

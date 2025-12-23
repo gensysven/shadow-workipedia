@@ -25,7 +25,7 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--feedback-loop--feedback-loop
   - mechanic--threshold--threshold

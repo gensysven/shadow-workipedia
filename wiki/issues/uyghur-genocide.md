@@ -13,13 +13,13 @@ connections: [surveillance-state-expansion]
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--first-strike-advantage--first-strike-advantage
   - mechanic--concentration--concentration
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--lock-in--lock-in
   - mechanic--regulatory-fragmentation--regulatory-fragmentation

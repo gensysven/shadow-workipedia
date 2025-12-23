@@ -33,11 +33,11 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--private-equity-extraction--private-equity-extraction
 ---
 

@@ -15,7 +15,7 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--age-selective-mobility--age-selective-mobility
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
@@ -23,10 +23,10 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--private-equity-extraction--private-equity-extraction
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
 ---
 
 # Tech Worker Uprising

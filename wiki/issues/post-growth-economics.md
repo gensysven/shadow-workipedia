@@ -13,13 +13,13 @@ connections: []
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
-  - mechanic--externality--externality-pricing
+  - mechanic--externality--externality
   - mechanic--financial-death-spiral--financial-death-spiral
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--private-equity-extraction--private-equity-extraction
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons

@@ -15,15 +15,15 @@ primitives: ['DeathSpiral', 'ThresholdCascade', 'LegitimacyDynamics', 'ResourceD
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--age-selective-mobility--age-selective-mobility
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--irreversible--water-extraction-irreversibility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--irreversibility--irreversibility
+  - mechanic--lobbying--lobbying
   - mechanic--lock-in--lock-in
   - mechanic--private-equity-extraction--private-equity-extraction
   - mechanic--threshold--threshold

@@ -15,7 +15,7 @@ primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropag
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold

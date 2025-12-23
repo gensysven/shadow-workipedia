@@ -13,7 +13,7 @@ connections: [permafrost-methane-release, amazon-rainforest-dieback, coral-reef-
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration

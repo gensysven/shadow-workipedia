@@ -14,7 +14,7 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--concentration--concentration
   - mechanic--governance-vacuum--governance-vacuum

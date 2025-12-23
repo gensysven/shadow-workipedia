@@ -1,12 +1,12 @@
 ---
-id: mechanic--market-failure--geographic-market-failure
-title: Geographic Market Failure (market-failure)
+id: mechanic--market-failure--market-failure
+title: Market Failure (market-failure)
 pattern: market-failure
-mechanic: Geographic Market Failure
+mechanic: Market Failure
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Geographic Market Failure
+# Market Failure
 ## Overview
 An allocation failure where markets produce inefficient or harmful outcomes (often due to geography, power, or information).
 

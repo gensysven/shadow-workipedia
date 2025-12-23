@@ -25,13 +25,13 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
-  - mechanic--externality--externality-pricing
+  - mechanic--externality--externality
   - mechanic--feedback-loop--feedback-loop
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--lobbying--lobbying
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
 ---
 
 # Endocrine Disruptors and Environmental Hormones

@@ -1,12 +1,12 @@
 ---
-id: mechanic--regulatory-capture--regulatory-capture-by-incumbents
-title: Regulatory Capture by Incumbents (regulatory-capture)
+id: mechanic--regulatory-capture--regulatory-capture
+title: Regulatory Capture (regulatory-capture)
 pattern: regulatory-capture
-mechanic: Regulatory Capture by Incumbents
+mechanic: Regulatory Capture
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Regulatory Capture by Incumbents
+# Regulatory Capture
 ## Overview
 Regulators act in the interest of incumbents rather than the public due to influence, revolving doors, or dependency.
 

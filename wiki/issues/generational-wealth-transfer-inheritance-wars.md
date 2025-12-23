@@ -27,10 +27,10 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--concentration--concentration
   - mechanic--demographic-momentum--demographic-momentum
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--lock-in--lock-in
 ---

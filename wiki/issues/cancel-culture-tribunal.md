@@ -15,7 +15,7 @@ primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMi
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--network-effect--network-effects

@@ -31,7 +31,7 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--concentration--concentration
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--dual-use-dilemma--dual-use-dilemma

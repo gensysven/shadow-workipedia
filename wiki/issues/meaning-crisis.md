@@ -34,12 +34,12 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
   - mechanic--age-selective-mobility--age-selective-mobility
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--prisoners-dilemma--prisoners-dilemma
 ---
 

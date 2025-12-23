@@ -16,8 +16,8 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--threshold--threshold
   - mechanic--feedback-loop--feedback-loop
-  - mechanic--cascade--epistomological-collapse-cascade
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--cascade--cascade
+  - mechanic--irreversibility--irreversibility
 ---
 
 # Permafrost Methane Release

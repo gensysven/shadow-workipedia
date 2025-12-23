@@ -19,7 +19,7 @@ mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--dual-use-dilemma--dual-use-dilemma
@@ -28,10 +28,10 @@ mechanics:
   - mechanic--first-strike-advantage--first-strike-advantage
   - mechanic--concentration--concentration
   - mechanic--governance-vacuum--governance-vacuum
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--lobbying--lobbying
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--network-effect--network-effects
   - mechanic--lock-in--lock-in
   - mechanic--regulatory-arbitrage--regulatory-arbitrage

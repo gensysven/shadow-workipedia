@@ -15,7 +15,7 @@ primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', '
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--disparate-impact--disparate-impact
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold

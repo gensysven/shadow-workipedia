@@ -19,7 +19,7 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
 ---
 

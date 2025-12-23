@@ -15,13 +15,13 @@ primitives: ['DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'Legitim
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--feedback-loop--feedback-loop
   - mechanic--concentration--concentration
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
   - mechanic--private-equity-extraction--private-equity-extraction

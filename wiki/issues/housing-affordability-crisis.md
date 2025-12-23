@@ -35,8 +35,8 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--disparate-impact--disparate-impact
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--lobbying--lobbying
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
 ---
 

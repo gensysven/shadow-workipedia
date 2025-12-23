@@ -36,11 +36,11 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
   - mechanic--concentration--concentration
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--lock-in--lock-in
   - mechanic--tragedy-of-common--tragedy-of-commons
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
 ---
 
 # Peak Phosphorus Crisis

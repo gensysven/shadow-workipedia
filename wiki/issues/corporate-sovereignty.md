@@ -32,14 +32,14 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--regulatory-arbitrage--regulatory-arbitrage
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
 ---
 
 # Corporate Sovereignty and Neo-Feudalism

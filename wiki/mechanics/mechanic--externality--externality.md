@@ -1,12 +1,12 @@
 ---
-id: mechanic--externality--externality-pricing
-title: Externality Pricing (externality)
+id: mechanic--externality--externality
+title: Externality (externality)
 pattern: externality
-mechanic: Externality Pricing
+mechanic: Externality
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Externality Pricing
+# Externality
 ## Overview
 Costs/benefits are imposed on others and not reflected in the decision-maker’s prices or incentives.
 

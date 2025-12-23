@@ -1,12 +1,12 @@
 ---
-id: mechanic--moral-hazard--moral-hazard-from-coverage
-title: Moral Hazard from Coverage (moral-hazard)
+id: mechanic--moral-hazard--moral-hazard
+title: Moral Hazard (moral-hazard)
 pattern: moral-hazard
-mechanic: Moral Hazard from Coverage
+mechanic: Moral Hazard
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Moral Hazard from Coverage
+# Moral Hazard
 ## Overview
 Protection/insurance changes incentives, increasing risky behavior or reducing diligence.
 

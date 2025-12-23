@@ -1,12 +1,12 @@
 ---
-id: mechanic--lobbying--lobbying-intensity-response
-title: Lobbying Intensity Response (lobbying)
+id: mechanic--lobbying--lobbying
+title: Lobbying (lobbying)
 pattern: lobbying
-mechanic: Lobbying Intensity Response
+mechanic: Lobbying
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Lobbying Intensity Response
+# Lobbying
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

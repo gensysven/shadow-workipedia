@@ -15,7 +15,7 @@ primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', '
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop
   - mechanic--labor-exploitation--labor-exploitation

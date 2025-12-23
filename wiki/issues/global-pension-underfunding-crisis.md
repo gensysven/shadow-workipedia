@@ -35,7 +35,7 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--feedback-loop--feedback-loop
@@ -43,8 +43,8 @@ mechanics:
   - mechanic--concentration--concentration
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--lobbying--lobbying
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--lock-in--lock-in
 ---
 

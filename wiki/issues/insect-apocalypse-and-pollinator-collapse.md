@@ -15,13 +15,13 @@ editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons
   - mechanic--lock-in--lock-in
-  - mechanic--irreversible--water-extraction-irreversibility
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--irreversibility--irreversibility
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--enforcement-paradox--enforcement-paradox
 ---
 

@@ -13,10 +13,10 @@ connections: [arctic-sovereignty-conflicts, resource-extraction-conflicts, deep-
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--governance-vacuum--governance-vacuum
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--private-equity-extraction--private-equity-extraction
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--threshold--threshold

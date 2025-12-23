@@ -39,7 +39,7 @@ lastUpdated: 2025-12-17
 mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--dual-use-dilemma--dual-use-dilemma
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--network-effect--network-effects

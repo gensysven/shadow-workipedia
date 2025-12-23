@@ -33,13 +33,13 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--lock-in--lock-in
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--threshold--threshold
 ---

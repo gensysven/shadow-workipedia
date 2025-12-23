@@ -25,7 +25,7 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--lock-in--lock-in

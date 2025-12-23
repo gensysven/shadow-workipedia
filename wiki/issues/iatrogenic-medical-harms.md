@@ -27,12 +27,12 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--threshold--threshold
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--moral-hazard--moral-hazard-from-coverage
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--moral-hazard--moral-hazard
+  - mechanic--regulatory-capture--regulatory-capture
 ---
 
 # Iatrogenic Medical Harms

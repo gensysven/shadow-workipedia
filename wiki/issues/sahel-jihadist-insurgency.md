@@ -15,7 +15,7 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--black-market-emergence--black-market-emergence
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--dual-use-dilemma--dual-use-dilemma
@@ -24,7 +24,7 @@ mechanics:
   - mechanic--concentration--concentration
   - mechanic--governance-vacuum--governance-vacuum
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--lock-in--lock-in
   - mechanic--network-effect--network-effects
   - mechanic--prisoners-dilemma--prisoners-dilemma

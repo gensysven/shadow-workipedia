@@ -17,9 +17,9 @@ mechanics:
   - mechanic--threshold--threshold
   - mechanic--disparate-impact--disparate-impact
   - mechanic--concentration--concentration
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
-  - mechanic--externality--externality-pricing
+  - mechanic--lobbying--lobbying
+  - mechanic--regulatory-capture--regulatory-capture
+  - mechanic--externality--externality
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
 ---

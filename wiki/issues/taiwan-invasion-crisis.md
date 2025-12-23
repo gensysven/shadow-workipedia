@@ -18,7 +18,7 @@ mechanics:
   - mechanic--first-strike-advantage--first-strike-advantage
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--nash-equilibrium--nash-equilibrium
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--concentration--concentration
 ---
 

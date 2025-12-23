@@ -16,7 +16,7 @@ mechanics:
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--prisoners-dilemma--prisoners-dilemma
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in

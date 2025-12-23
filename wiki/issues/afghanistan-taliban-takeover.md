@@ -15,7 +15,7 @@ lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
 mechanics:
   - mechanic--governance-vacuum--governance-vacuum
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--threshold--threshold
 ---

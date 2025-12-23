@@ -14,7 +14,7 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-19
 factualAsOf: 2025-12-19
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--dual-use-dilemma--dual-use-dilemma
   - mechanic--information-asymmetry--information-asymmetry

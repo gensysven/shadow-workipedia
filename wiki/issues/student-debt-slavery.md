@@ -13,9 +13,9 @@ connections: [ai-job-displacement-tsunami,gig-economy-serfdom,billionaire-abolit
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
+  - mechanic--adverse-selection--adverse-selection
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
   - mechanic--dual-use-dilemma--dual-use-dilemma

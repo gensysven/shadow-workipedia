@@ -36,9 +36,9 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-17
 mechanics:
-  - mechanic--adverse-selection--adverse-selection-in-cyber-insurance
+  - mechanic--adverse-selection--adverse-selection
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration
   - mechanic--network-effect--network-effects

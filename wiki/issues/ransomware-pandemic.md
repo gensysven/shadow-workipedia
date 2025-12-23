@@ -13,9 +13,9 @@ connections: [state-sponsored-hacking-epidemic, critical-infrastructure-attacks,
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--concentration--concentration

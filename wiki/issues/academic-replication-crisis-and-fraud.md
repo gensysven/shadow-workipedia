@@ -18,8 +18,8 @@ mechanics:
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--threshold--threshold
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--regulatory-capture--regulatory-capture
+  - mechanic--cascade--cascade
 ---
 
 # Academic Replication Crisis and Fraud

@@ -28,8 +28,8 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--disparate-impact--disparate-impact
   - mechanic--lock-in--lock-in
-  - mechanic--market-failure--geographic-market-failure
-  - mechanic--externality--externality-pricing
+  - mechanic--market-failure--market-failure
+  - mechanic--externality--externality
 ---
 
 # Essential Care Services Class Divide

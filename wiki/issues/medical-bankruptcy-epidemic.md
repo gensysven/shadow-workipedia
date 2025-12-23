@@ -13,7 +13,7 @@ connections: [insurance-death-panels, medical-debt-vigilantism-and-refusal-netwo
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--civildisobedience--civildisobedience
   - mechanic--demographic-momentum--demographic-momentum
   - mechanic--disparate-impact--disparate-impact
@@ -22,7 +22,7 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--just-in-time-fragility--just-in-time-fragility
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--regulatory-fragmentation--regulatory-fragmentation
   - mechanic--threshold--threshold

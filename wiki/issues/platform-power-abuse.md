@@ -16,8 +16,8 @@ mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--network-effect--network-effects
   - mechanic--lock-in--lock-in
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--regulatory-capture--regulatory-capture
+  - mechanic--lobbying--lobbying
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop

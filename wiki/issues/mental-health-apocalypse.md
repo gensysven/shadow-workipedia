@@ -15,7 +15,7 @@ primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'Resource
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--multi-factor-vulnerability--multi-factor-vulnerability

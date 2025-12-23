@@ -13,16 +13,16 @@ connections: [ai-alignment-crisis, ai-job-displacement-tsunami, algorithmic-gove
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--lock-in--lock-in
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--network-effect--network-effects
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--regulatory-fragmentation--regulatory-fragmentation
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--regulatory-capture--regulatory-capture
   - mechanic--threshold--threshold
   - mechanic--tragedy-of-common--tragedy-of-commons
 ---

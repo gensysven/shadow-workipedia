@@ -29,7 +29,7 @@ mechanics:
   - mechanic--black-market-emergence--black-market-emergence
   - mechanic--disparate-impact--disparate-impact
   - mechanic--enforcement-paradox--enforcement-paradox
-  - mechanic--externality--externality-pricing
+  - mechanic--externality--externality
   - mechanic--labor-exploitation--labor-exploitation
   - mechanic--regulatory-arbitrage--regulatory-arbitrage
   - mechanic--lock-in--lock-in

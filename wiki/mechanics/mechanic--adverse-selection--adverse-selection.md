@@ -1,12 +1,12 @@
 ---
-id: mechanic--adverse-selection--adverse-selection-in-cyber-insurance
-title: Adverse Selection in Cyber Insurance (adverse-selection)
+id: mechanic--adverse-selection--adverse-selection
+title: Adverse Selection (adverse-selection)
 pattern: adverse-selection
-mechanic: Adverse Selection in Cyber Insurance
+mechanic: Adverse Selection
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Adverse Selection in Cyber Insurance
+# Adverse Selection
 ## Overview
 Selection effects where higher-risk actors are more likely to participate, undermining pools/markets.
 

@@ -17,7 +17,7 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold
   - mechanic--prisoners-dilemma--prisoners-dilemma

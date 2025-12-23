@@ -17,7 +17,7 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--labor-exploitation--labor-exploitation
-  - mechanic--market-failure--geographic-market-failure
+  - mechanic--market-failure--market-failure
 ---
 
 # Childcare Affordability Catastrophe

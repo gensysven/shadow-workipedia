@@ -14,9 +14,9 @@ editedBy: Shadow Work Contributors
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--concentration--concentration
-  - mechanic--externality--externality-pricing
+  - mechanic--externality--externality
   - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
   - mechanic--threshold--threshold
 ---

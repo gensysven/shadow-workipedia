@@ -1,12 +1,12 @@
 ---
-id: mechanic--irreversible--water-extraction-irreversibility
-title: Water Extraction Irreversibility (irreversible)
-pattern: irreversible
-mechanic: Water Extraction Irreversibility
+id: mechanic--irreversibility--irreversibility
+title: Irreversibility (irreversibility)
+pattern: irreversibility
+mechanic: Irreversibility
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
-# Water Extraction Irreversibility
+# Irreversibility
 ## Overview
 A dynamic where damage or depletion is difficult or impossible to undo on relevant timescales.
 

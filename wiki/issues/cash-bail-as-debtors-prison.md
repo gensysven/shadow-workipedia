@@ -17,8 +17,8 @@ mechanics:
   - mechanic--enforcement-paradox--enforcement-paradox
   - mechanic--feedback-loop--feedback-loop
   - mechanic--financial-death-spiral--financial-death-spiral
-  - mechanic--lobbying--lobbying-intensity-response
-  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--lobbying--lobbying
+  - mechanic--regulatory-capture--regulatory-capture
 ---
 
 # Cash Bail as Debtors' Prison

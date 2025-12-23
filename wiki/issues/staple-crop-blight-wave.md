@@ -15,7 +15,7 @@ lastUpdated: 2025-12-17
 mechanics:
   - mechanic--concentration--concentration
   - mechanic--dual-use-dilemma--dual-use-dilemma
-  - mechanic--lobbying--lobbying-intensity-response
+  - mechanic--lobbying--lobbying
   - mechanic--network-effect--network-effects
   - mechanic--threshold--threshold
 ---

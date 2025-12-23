@@ -24,10 +24,10 @@ editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'ContagionPropagation', 'LegitimacyDynamics', 'CaptureConcentration', 'QueueBacklog']
 lastUpdated: 2025-11-24
 mechanics:
-  - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--cascade--cascade
   - mechanic--feedback-loop--feedback-loop
   - mechanic--ghyben-herzberg-amplification--ghyben-herzberg-amplification
-  - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--irreversibility--irreversibility
   - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--threshold--threshold
 ---

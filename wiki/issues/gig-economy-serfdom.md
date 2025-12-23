@@ -16,7 +16,7 @@ lastUpdated: 2025-11-24
 mechanics:
   - mechanic--labor-exploitation--labor-exploitation
   - mechanic--information-asymmetry--information-asymmetry
-  - mechanic--moral-hazard--moral-hazard-from-coverage
+  - mechanic--moral-hazard--moral-hazard
   - mechanic--regulatory-arbitrage--regulatory-arbitrage
   - mechanic--network-effect--network-effects
 ---
