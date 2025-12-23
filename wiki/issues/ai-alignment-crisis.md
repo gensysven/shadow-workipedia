@@ -13,9 +13,14 @@ connections: [agi-containment-failure, autonomous-weapons-proliferation, ai-job-
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--information-asymmetry--information-asymmetry
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--threshold--threshold
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
+  - mechanic--tragedy-of-common--tragedy-of-commons
   - mechanic--dual-use-dilemma--dual-use-dilemma
 ---
 

@@ -16,6 +16,7 @@ mechanics:
   - mechanic--threshold--threshold
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
+  - mechanic--irreversible--water-extraction-irreversibility
 ---
 
 # Atlantic Overturning Collapse Risk (AMOC)

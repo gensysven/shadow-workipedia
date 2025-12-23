@@ -18,6 +18,9 @@ mechanics:
   - mechanic--governance-vacuum--governance-vacuum
   - mechanic--dual-use-dilemma--dual-use-dilemma
   - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--paranoia-equilibrium--paranoia-equilibrium
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--threshold--threshold
 ---
 
 # Autonomous Weapons Proliferation

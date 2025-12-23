@@ -28,6 +28,8 @@ mechanics:
   - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--demographic-momentum--demographic-momentum
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--lock-in--lock-in
   - mechanic--network-effect--network-effects
 ---
 

@@ -14,9 +14,14 @@ editedBy: Shadow Work Team
 primitives: ['TrustErosion', 'DeathSpiral', 'ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'FeedbackLoop', 'ExodusMigration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
+  - mechanic--information-asymmetry--information-asymmetry
   - mechanic--irreversible--water-extraction-irreversibility
+  - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--threshold
 ---
 
 # Disinformation Plague

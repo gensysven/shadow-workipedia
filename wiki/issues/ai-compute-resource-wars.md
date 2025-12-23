@@ -14,8 +14,10 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
   - mechanic--concentration--concentration
+  - mechanic--externality--externality-pricing
   - mechanic--just-in-time-fragility--just-in-time-fragility
   - mechanic--asymmetric-arms-race--asymmetric-arms-race
+  - mechanic--lock-in--lock-in
   - mechanic--prisoners-dilemma--prisoners-dilemma
 ---
 

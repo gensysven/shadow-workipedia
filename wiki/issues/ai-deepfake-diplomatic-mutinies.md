@@ -13,7 +13,9 @@ connections: [deepfake-reality-crisis, disinformation-plague, state-sponsored-ha
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-25
 mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--feedback-loop--feedback-loop
   - mechanic--information-asymmetry--information-asymmetry
   - mechanic--threshold--threshold
   - mechanic--paranoia-equilibrium--paranoia-equilibrium

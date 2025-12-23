@@ -17,6 +17,7 @@ mechanics:
   - mechanic--feedback-loop--feedback-loop
   - mechanic--tragedy-of-common--tragedy-of-commons
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--threshold--threshold
 ---
 

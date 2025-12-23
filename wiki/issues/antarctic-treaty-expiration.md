@@ -15,8 +15,12 @@ lastUpdated: 2025-12-17
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--financial-death-spiral--financial-death-spiral
+  - mechanic--governance-vacuum--governance-vacuum
   - mechanic--lobbying--lobbying-intensity-response
   - mechanic--private-equity-extraction--private-equity-extraction
+  - mechanic--prisoners-dilemma--prisoners-dilemma
+  - mechanic--threshold--threshold
+  - mechanic--tragedy-of-common--tragedy-of-commons
 ---
 
 # Antarctic Treaty Expiration Crisis
@@ -38,4 +42,3 @@ Multiple nations hold territorial claims frozen by the treaty. As climate change
 **Contributors**: Shadow Work Team
 **Last Updated**: 2025-12-17
 **Edit on GitHub**: [Suggest changes](https://github.com/mistakeknot/shadow-workipedia/edit/main/wiki/issues/antarctic-treaty-expiration.md)
-

@@ -14,8 +14,11 @@ editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'LegitimacyDynamics', 'FeedbackLoop', 'ResourceDepletion', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-24
 mechanics:
+  - mechanic--algorithmic-amplification--algorithmic-amplification
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--feedback-loop--feedback-loop
+  - mechanic--lock-in--lock-in
+  - mechanic--multi-factor-vulnerability--multi-factor-vulnerability
   - mechanic--threshold--threshold
 ---
 

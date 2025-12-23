@@ -18,6 +18,7 @@ mechanics:
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--norm-erosion-dynamic--norm-erosion-dynamics
   - mechanic--lock-in--lock-in
+  - mechanic--threshold--threshold
 ---
 
 # Democratic Backsliding

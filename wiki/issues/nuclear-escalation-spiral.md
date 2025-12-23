@@ -33,8 +33,11 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-12-16
 mechanics:
+  - mechanic--asymmetric-arms-race--asymmetric-arms-race
   - mechanic--cascade--epistomological-collapse-cascade
   - mechanic--first-strike-advantage--first-strike-advantage
+  - mechanic--paranoia-equilibrium--paranoia-equilibrium
+  - mechanic--prisoners-dilemma--prisoners-dilemma
   - mechanic--threshold--threshold
   - mechanic--feedback-loop--feedback-loop
 ---

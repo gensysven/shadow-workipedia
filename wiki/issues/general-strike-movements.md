@@ -15,8 +15,10 @@ primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', '
 lastUpdated: 2025-11-24
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--civildisobedience--civildisobedience
   - mechanic--feedback-loop--feedback-loop
   - mechanic--just-in-time-fragility--just-in-time-fragility
+  - mechanic--labor-exploitation--labor-exploitation
   - mechanic--threshold--threshold
 ---
 

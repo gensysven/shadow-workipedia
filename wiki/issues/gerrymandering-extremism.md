@@ -14,9 +14,11 @@ editedBy: Shadow Work Team
 primitives: ['ThresholdCascade', 'ContagionPropagation', 'LegitimacyDynamics', 'ResourceDepletion', 'ExodusMigration', 'CaptureConcentration', 'ResistanceBacklash', 'QueueBacklog']
 lastUpdated: 2025-11-25
 mechanics:
+  - mechanic--disparate-impact--disparate-impact
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
+  - mechanic--threshold--threshold
 ---
 
 # Gerrymandering Extremism

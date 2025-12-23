@@ -31,10 +31,13 @@ connections:
 editedBy: Shadow Work Team
 lastUpdated: 2025-11-27
 mechanics:
+  - mechanic--concentration--concentration
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--disparate-impact--disparate-impact
+  - mechanic--lobbying--lobbying-intensity-response
   - mechanic--regulatory-capture--regulatory-capture-by-incumbents
+  - mechanic--threshold--threshold
 ---
 
 # Housing Affordability Crisis

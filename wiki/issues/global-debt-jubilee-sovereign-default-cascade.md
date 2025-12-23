@@ -29,6 +29,7 @@ editedBy: Shadow Work Team
 lastUpdated: 2025-12-21
 mechanics:
   - mechanic--cascade--epistomological-collapse-cascade
+  - mechanic--financial-death-spiral--financial-death-spiral
   - mechanic--feedback-loop--feedback-loop
   - mechanic--lock-in--lock-in
   - mechanic--threshold--threshold
