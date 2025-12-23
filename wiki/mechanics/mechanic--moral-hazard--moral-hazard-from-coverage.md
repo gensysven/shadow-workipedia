@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `moral-hazard`
-**Mechanic:** `Moral Hazard from Coverage`
-
 Protection/insurance changes incentives, increasing risky behavior or reducing diligence.
-
-This page documents **Moral Hazard from Coverage** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Risk-taking behavior and precautionary effort - protection from consequences reduces incentives to avoid harm

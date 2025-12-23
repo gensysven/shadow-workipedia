@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `lobbying`
-**Mechanic:** `Lobbying Intensity Response`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Lobbying Intensity Response** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Policy responsiveness to public vs private interests - concentrated industry spending shapes legislation, regulation, and enforcement

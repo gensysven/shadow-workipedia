@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `ghyben-herzberg amplification`
-**Mechanic:** `Ghyben-Herzberg Amplification`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Ghyben-Herzberg Amplification** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Freshwater lens thickness in coastal aquifers - due to density differences, every 1m drop in freshwater table allows 40m of saltwater intrusion

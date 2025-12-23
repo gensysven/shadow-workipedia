@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `regulatory-capture`
-**Mechanic:** `Regulatory Capture by Incumbents`
-
 Regulators act in the interest of incumbents rather than the public due to influence, revolving doors, or dependency.
-
-This page documents **Regulatory Capture by Incumbents** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Regulatory policy and enforcement - shifts from public interest to incumbent industry interest

@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `nash equilibrium`
-**Mechanic:** `Nash equilibrium`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Nash equilibrium** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Strategic equilibrium where no actor can improve their position by unilateral action

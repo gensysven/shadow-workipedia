@@ -7,9 +7,6 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `lock-in`
-**Mechanic:** `Lock-In`
-
 Once committed, systems resist change due to costs, compatibility, contracts, institutional inertia, or accumulated infrastructure. Early choices constrain future options; switching costs make reversals hard.
 
 This mechanic consolidates: lock-in-effect, economic-lock-in, path-dependency.

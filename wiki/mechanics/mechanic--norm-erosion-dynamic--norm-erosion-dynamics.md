@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `norm erosion dynamic`
-**Mechanic:** `Norm Erosion Dynamics`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Norm Erosion Dynamics** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Social norms, informal rules, and behavioral standards that govern cooperation

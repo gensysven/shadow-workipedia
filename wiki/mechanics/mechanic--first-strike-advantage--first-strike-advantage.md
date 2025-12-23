@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `first-strike advantage`
-**Mechanic:** `First-Strike Advantage`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **First-Strike Advantage** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Strategic position and response time - the side that attacks first gains decisive advantage by degrading the opponent's ability to respond effectively

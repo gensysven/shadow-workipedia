@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `externality`
-**Mechanic:** `Externality Pricing`
-
 Costs/benefits are imposed on others and not reflected in the decision-maker’s prices or incentives.
-
-This page documents **Externality Pricing** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Resource allocation efficiency, true cost accounting, burden distribution, environmental/social capital

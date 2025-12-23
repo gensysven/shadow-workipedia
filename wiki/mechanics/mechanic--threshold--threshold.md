@@ -7,9 +7,6 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `threshold`
-**Mechanic:** `Threshold`
-
 A nonlinear trigger: behavior changes discontinuously once a variable crosses a critical value. Includes tipping points (often irreversible regime shifts).
 
 This mechanic consolidates: threshold, tipping-point.

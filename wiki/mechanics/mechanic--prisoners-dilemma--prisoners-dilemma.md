@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `prisoners' dilemma`
-**Mechanic:** `Prisoners' Dilemma`
-
 Individually rational choices lead to collectively worse outcomes absent coordination mechanisms.
-
-This page documents **Prisoners' Dilemma** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Collective welfare - mutual defection dominates mutual cooperation in one-shot games

@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `regulatory fragmentation`
-**Mechanic:** `Regulatory Fragmentation`
-
 Inconsistent rules across jurisdictions create loopholes, arbitrage, and enforcement gaps.
-
-This page documents **Regulatory Fragmentation** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Regulatory coherence - patchwork of conflicting rules across jurisdictions creates compliance chaos and enforcement gaps

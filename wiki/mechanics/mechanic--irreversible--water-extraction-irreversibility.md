@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `irreversible`
-**Mechanic:** `Water Extraction Irreversibility`
-
 A dynamic where damage or depletion is difficult or impossible to undo on relevant timescales.
-
-This page documents **Water Extraction Irreversibility** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** System recoverability and option value - damage crosses thresholds beyond which restoration is impossible on human timescales

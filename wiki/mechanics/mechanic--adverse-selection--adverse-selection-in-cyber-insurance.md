@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `adverse-selection`
-**Mechanic:** `Adverse Selection in Cyber Insurance`
-
 Selection effects where higher-risk actors are more likely to participate, undermining pools/markets.
-
-This page documents **Adverse Selection in Cyber Insurance** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Insurance market viability, premium pricing, coverage availability

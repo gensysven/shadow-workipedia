@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `market-failure`
-**Mechanic:** `Geographic Market Failure`
-
 An allocation failure where markets produce inefficient or harmful outcomes (often due to geography, power, or information).
-
-This page documents **Geographic Market Failure** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Allocative efficiency and social welfare - markets fail to provide socially optimal outcomes due to structural problems (externalities, public goods, information failures)

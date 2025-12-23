@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `network-effect`
-**Mechanic:** `Network Effects`
-
 Value increases with adoption, often producing winner-take-most outcomes and lock-in.
-
-This page documents **Network Effects** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Platform/technology value - each additional user increases value for all existing users

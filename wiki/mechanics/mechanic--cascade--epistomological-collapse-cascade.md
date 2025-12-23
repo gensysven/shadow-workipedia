@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `cascade`
-**Mechanic:** `Epistomological Collapse Cascade`
-
 A chain reaction: one failure/shift increases the likelihood or severity of subsequent failures.
-
-This page documents **Epistomological Collapse Cascade** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** System resilience, failure containment, damage propagation speed, recovery capacity

@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `information-asymmetry`
-**Mechanic:** `Information Asymmetry`
-
 A mismatch in information between parties that distorts incentives and decision quality.
-
-This page documents **Information Asymmetry** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Decision quality and bargaining power - one party has critical information the other lacks, enabling exploitation or distorting incentives

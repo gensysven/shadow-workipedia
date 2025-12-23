@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `just-in-time fragility`
-**Mechanic:** `Just-In-Time Fragility`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Just-In-Time Fragility** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** System resilience and buffer capacity - eliminating inventory/slack maximizes efficiency but removes shock absorption

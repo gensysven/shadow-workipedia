@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `feedback-loop`
-**Mechanic:** `Feedback Loop`
-
 A reinforcing or balancing loop where outputs feed back into inputs, amplifying or stabilizing dynamics.
-
-This page documents **Feedback Loop** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** System stability and trajectory - feedback loops either reinforce (+) or balance (–) changes, creating exponential growth/decline or homeostasis

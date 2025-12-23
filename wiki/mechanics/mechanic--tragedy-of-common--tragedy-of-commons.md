@@ -7,12 +7,7 @@ editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
 ## Overview
-**Pattern:** `tragedy of common`
-**Mechanic:** `Tragedy of Commons`
-
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
-
-This page documents **Tragedy of Commons** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.
 
 ## How it works
 - **State/Resource:** Common-pool resources (atmosphere, oceans, shared infrastructure) - overexploited when individual extraction costs are private but depletion costs are shared
