@@ -6,6 +6,7 @@ mechanic: Just-In-Time Fragility
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Just-In-Time Fragility
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

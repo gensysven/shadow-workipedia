@@ -6,6 +6,7 @@ mechanic: Information Asymmetry
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Information Asymmetry
 ## Overview
 A mismatch in information between parties that distorts incentives and decision quality.
 

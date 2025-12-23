@@ -6,6 +6,7 @@ mechanic: Demographic Momentum
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Demographic Momentum
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

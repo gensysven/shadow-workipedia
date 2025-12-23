@@ -6,6 +6,7 @@ mechanic: Prisoners Dilemma
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Prisoners Dilemma
 ## Overview
 Individually rational choices lead to collectively worse outcomes absent coordination mechanisms.
 

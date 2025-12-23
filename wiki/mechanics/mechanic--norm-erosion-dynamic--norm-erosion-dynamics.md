@@ -6,6 +6,7 @@ mechanic: Norm Erosion Dynamics
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Norm Erosion Dynamics
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

@@ -6,6 +6,7 @@ mechanic: Asymmetric Arms Race
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Asymmetric Arms Race
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

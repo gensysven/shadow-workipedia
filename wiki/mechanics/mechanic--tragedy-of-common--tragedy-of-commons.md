@@ -6,6 +6,7 @@ mechanic: Tragedy of Commons
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Tragedy of Commons
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

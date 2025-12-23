@@ -6,6 +6,7 @@ mechanic: Network Effects
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Network Effects
 ## Overview
 Value increases with adoption, often producing winner-take-most outcomes and lock-in.
 

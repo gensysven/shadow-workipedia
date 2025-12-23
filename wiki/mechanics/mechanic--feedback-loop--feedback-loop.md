@@ -6,6 +6,7 @@ mechanic: Feedback Loop
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Feedback Loop
 ## Overview
 A reinforcing or balancing loop where outputs feed back into inputs, amplifying or stabilizing dynamics.
 

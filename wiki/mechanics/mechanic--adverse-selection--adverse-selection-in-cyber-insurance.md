@@ -6,6 +6,7 @@ mechanic: Adverse Selection in Cyber Insurance
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Adverse Selection in Cyber Insurance
 ## Overview
 Selection effects where higher-risk actors are more likely to participate, undermining pools/markets.
 

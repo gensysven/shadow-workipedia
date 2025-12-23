@@ -6,6 +6,7 @@ mechanic: Epistomological Collapse Cascade
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Epistomological Collapse Cascade
 ## Overview
 A chain reaction: one failure/shift increases the likelihood or severity of subsequent failures.
 

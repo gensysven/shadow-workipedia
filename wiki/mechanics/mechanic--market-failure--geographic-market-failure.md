@@ -6,6 +6,7 @@ mechanic: Geographic Market Failure
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Geographic Market Failure
 ## Overview
 An allocation failure where markets produce inefficient or harmful outcomes (often due to geography, power, or information).
 

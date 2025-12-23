@@ -6,6 +6,7 @@ mechanic: Lobbying Intensity Response
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Lobbying Intensity Response
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

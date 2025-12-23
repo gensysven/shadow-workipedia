@@ -6,6 +6,7 @@ mechanic: Dual-Use Dilemma
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Dual-Use Dilemma
 ## Overview
 A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
 

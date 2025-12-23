@@ -6,6 +6,7 @@ mechanic: Moral Hazard from Coverage
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Moral Hazard from Coverage
 ## Overview
 Protection/insurance changes incentives, increasing risky behavior or reducing diligence.
 

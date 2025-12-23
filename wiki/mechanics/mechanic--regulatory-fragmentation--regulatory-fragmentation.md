@@ -6,6 +6,7 @@ mechanic: Regulatory Fragmentation
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Regulatory Fragmentation
 ## Overview
 Inconsistent rules across jurisdictions create loopholes, arbitrage, and enforcement gaps.
 

@@ -6,6 +6,7 @@ mechanic: Lock-In
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Lock-In
 ## Overview
 Once committed, systems resist change due to costs, compatibility, contracts, institutional inertia, or accumulated infrastructure. Early choices constrain future options; switching costs make reversals hard.
 

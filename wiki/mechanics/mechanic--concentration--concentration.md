@@ -6,6 +6,7 @@ mechanic: Concentration
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Concentration
 ## Overview
 Critical dependencies or vulnerabilities concentrated in few locations, entities, or chokepoints. Single points of failure that amplify systemic risk.
 

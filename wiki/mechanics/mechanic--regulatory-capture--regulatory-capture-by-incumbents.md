@@ -6,6 +6,7 @@ mechanic: Regulatory Capture by Incumbents
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Regulatory Capture by Incumbents
 ## Overview
 Regulators act in the interest of incumbents rather than the public due to influence, revolving doors, or dependency.
 

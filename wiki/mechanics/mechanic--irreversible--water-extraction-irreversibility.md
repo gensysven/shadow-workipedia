@@ -6,6 +6,7 @@ mechanic: Water Extraction Irreversibility
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Water Extraction Irreversibility
 ## Overview
 A dynamic where damage or depletion is difficult or impossible to undo on relevant timescales.
 

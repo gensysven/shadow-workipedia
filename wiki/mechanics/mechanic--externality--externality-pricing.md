@@ -6,6 +6,7 @@ mechanic: Externality Pricing
 editedBy: Shadow Work Team
 lastUpdated: '2025-12-22'
 ---
+# Externality Pricing
 ## Overview
 Costs/benefits are imposed on others and not reflected in the decision-maker’s prices or incentives.
 
