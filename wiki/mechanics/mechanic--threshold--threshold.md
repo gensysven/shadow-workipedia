@@ -4,13 +4,15 @@ title: Threshold (threshold)
 pattern: threshold
 mechanic: Threshold
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Threshold
 ## Overview
-A nonlinear trigger: behavior changes discontinuously once a variable crosses a critical value. Includes tipping points (often irreversible regime shifts).
+Threshold dynamics describe nonlinear triggers: once a variable crosses a critical value, behavior changes discontinuously and the system can shift regimes.
+Thresholds matter because incremental pressure can look safe until it isn’t—after which recovery may require far more effort than prevention (or may be impossible).
 
 This mechanic consolidates: threshold, tipping-point.
+
 
 ## How it works
 - **State/Resource:** System regime, equilibrium state

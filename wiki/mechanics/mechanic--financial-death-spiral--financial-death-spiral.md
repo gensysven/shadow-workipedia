@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Financial Death Spiral
 ## Overview
-Institutional solvency and service capacity — rising costs drive away healthy customers, leaving sicker/riskier pool, further raising costs. Driven by Adverse selection (healthy drop coverage → premiums rise), revenue loss (customers leave → fixed costs spread over fewer), service degradation (budget cuts → worse outcomes → more customers leave). Leads to Creditors benefit (extract assets before collapse); workers and patients pay (unemployment, untreated illness); public infrastructure collapses (rural hospitals, safety-net insurers).
+A financial death spiral is a self-reinforcing deterioration where falling revenue and rising risk premiums force cuts that further reduce performance and trust.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., antibiotic-resistance-superbug-pandemic; healthcare-system-collapse).
+Once refinancing becomes expensive or impossible, the spiral compresses time: what was manageable debt becomes imminent default, and second-order failures spread to dependents.
 
 
 ## How it works

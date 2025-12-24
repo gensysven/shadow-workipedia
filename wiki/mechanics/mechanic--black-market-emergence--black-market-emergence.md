@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Black Market Emergence
 ## Overview
-Regulatory effectiveness, tax revenue, product safety, enforcement capacity. Driven by High demand meets restricted supply (prohibition/rationing); price gaps between legal and illegal channels; enforcement costs exceed deterrence benefits; regulatory capture creates artificial scarcity. Leads to Criminal organizations profit, violence emerges over market control, consumers face safety risks, governments lose tax revenue and regulatory oversight.
+Black markets form when demand persists but legal supply is restricted, risky, or too slow—shifting exchange into informal networks that can price risk and evade oversight.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., longevity-inequality-life-extension-apartheid; designer-baby).
+Over time, illicit markets erode legitimacy, corrupt enforcement, and can become a parallel governance layer (violence, protection rackets, counterfeit goods, unsafe substitutes).
 
 
 ## How it works

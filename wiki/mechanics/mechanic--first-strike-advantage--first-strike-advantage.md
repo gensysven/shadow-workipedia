@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # First-Strike Advantage
 ## Overview
-Strategic position and response time — the side that attacks first gains decisive advantage by degrading the opponent's ability to respond effectively. Driven by Speed-of-light weapons (hypersonics, cyber), compressed decision timelines (minutes vs hours), attribution difficulty (can't retaliate if you don't know who attacked). Leads to Attacker gains initiative and shapes battlefield; defender suffers degraded command/control and must respond from disadvantage; arms races intensify as both sides pursue preemptive capability.
+First-strike advantage is the strategic instability created when acting first can disable an opponent’s ability to respond—especially in fast, ambiguous domains like cyber, drones, hypersonics, or bio attribution.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., synthetic-biology-weaponization-biological-attribution-crisis; autonomous-weapons-laws-accountability-crisis).
+When timelines are compressed and signals are noisy, “use-it-or-lose-it” logic can turn defensive posture into perceived threat and push actors toward preemption.
 
 
 ## How it works

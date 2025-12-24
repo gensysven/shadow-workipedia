@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # civilDisobedience
 ## Overview
-Enforcement capacity, legal authority legitimacy, policy effectiveness, state — local relations. Driven by Moral opposition to law perceived as unjust; cost of compliance exceeds cost of defiance; enforcement physically/politically impractical; local authorities refuse cooperation with higher levels. Leads to Laws become unenforceable without massive coercion; government authority undermined; policy goals unreachable; conflict escalates or law becomes dead letter.
+Civil disobedience is coordinated, visible noncompliance used to contest legitimacy, raise the costs of enforcement, and force negotiation or concessions.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., Economic Immigration Conflicts; nuclear-waste-storage-failure-radioactive-legacy).
+Its power comes from collective action and narrative: the same act can be treated as lawful protest or subversion depending on public sympathy and state capacity.
 
 
 ## How it works

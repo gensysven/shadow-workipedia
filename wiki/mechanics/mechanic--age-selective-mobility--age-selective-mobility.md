@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Age-Selective Mobility
 ## Overview
-Age distribution of populations across regions, dependency ratios, labor force composition. Driven by Economic opportunity differentials, education access, family formation timing, physical mobility capacity, risk tolerance varies by life stage. Leads to Working-age adults concentrate in opportunity zones; children and elderly remain in origin regions; dependency ratios diverge; sending regions age rapidly while receiving regions stay young.
+Migration is rarely “population-neutral”: it is disproportionately carried by young and working-age cohorts who can move, take risks, and chase opportunity.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., population).
+That concentrates labor and fertility in destination regions while leaving origin regions with higher dependency ratios, shrinking tax bases, and accelerating service collapse (schools, healthcare, local government).
 
 
 ## How it works

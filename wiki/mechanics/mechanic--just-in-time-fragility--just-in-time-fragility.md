@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Just-In-Time Fragility
 ## Overview
-System resilience and buffer capacity — eliminating inventory/slack maximizes efficiency but removes shock absorption. Driven by Cost optimization (inventory holding costs), competitive pressure (lean manufacturing), financialization (quarterly earnings), globalized supply chains (single points of failure). Leads to Corporations benefit from capital efficiency in normal times; consumers pay through shortages and price spikes during disruptions; workers face sudden unemployment when supply chains break.
+Just-in-time fragility is the tradeoff where efficiency is purchased by removing slack—inventory, redundancy, staffing buffers, or spare capacity.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., topsoil-depletion-agricultural-collapse; healthcare-system-collapse).
+When shocks arrive, the absence of buffers turns minor disruptions into cascading outages, rationing, and panic responses that are hard to coordinate in real time.
 
 
 ## How it works

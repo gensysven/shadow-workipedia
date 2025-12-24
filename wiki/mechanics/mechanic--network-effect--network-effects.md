@@ -4,11 +4,14 @@ title: Network Effects (network-effect)
 pattern: network-effect
 mechanic: Network Effects
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Network Effects
 ## Overview
-Value increases with adoption, often producing winner-take-most outcomes and lock-in.
+Network effects mean the value of a platform, protocol, or ecosystem rises with the number of participants, pushing markets toward winner-take-most dynamics.
+
+That creates durable lock-in: once a network becomes dominant, switching requires coordination (interoperability, portability, standards) rather than a merely “better product.”
+
 
 ## How it works
 - **State/Resource:** Platform/technology value - each additional user increases value for all existing users

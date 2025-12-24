@@ -4,11 +4,14 @@ title: Prisoners Dilemma (prisoners-dilemma)
 pattern: prisoners-dilemma
 mechanic: Prisoners Dilemma
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Prisoners Dilemma
 ## Overview
-Individually rational choices lead to collectively worse outcomes absent coordination mechanisms.
+The prisoner’s dilemma is the coordination trap where individually rational choices (defecting) produce collectively worse outcomes than cooperation.
+
+It persists when trust is low and enforcement is weak; durable cooperation requires repeated interaction, credible commitments, monitoring, and penalties for defection.
+
 
 ## How it works
 - **State/Resource:** Collective welfare - mutual defection dominates mutual cooperation in one-shot games

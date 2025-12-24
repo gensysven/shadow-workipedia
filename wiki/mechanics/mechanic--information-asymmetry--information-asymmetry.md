@@ -4,11 +4,14 @@ title: Information Asymmetry (information-asymmetry)
 pattern: information-asymmetry
 mechanic: Information Asymmetry
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Information Asymmetry
 ## Overview
-A mismatch in information between parties that distorts incentives and decision quality.
+Information asymmetry is a persistent mismatch in what different parties know, can verify, or can prove—creating distorted incentives.
+
+It fuels fraud, adverse selection, and capture: when trust can’t be cheaply established, markets and institutions shift toward exclusion, surveillance, or breakdown.
+
 
 ## How it works
 - **State/Resource:** Decision quality and bargaining power - one party has critical information the other lacks, enabling exploitation or distorting incentives

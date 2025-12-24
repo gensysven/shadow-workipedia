@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # paranoia_equilibrium
 ## Overview
-Trust and attribution confidence in contested environments. Driven by Fundamental uncertainty about actor identity/intent; inability to verify claims; consequences of both false positives and false negatives being severe. Leads to All actors assume worst-case scenarios; defensive overreaction becomes rational; cooperation impossible even when mutually beneficial.
+A paranoia equilibrium is a self-sustaining security dilemma: because actors expect betrayal, they interpret defensive moves as offensive and escalate accordingly.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., synthetic-biology-weaponization-biological-attribution-crisis).
+Once fear dominates interpretation, trust signals stop working, and the system drifts toward preemption, surveillance, and brittle “stability” maintained by coercion.
 
 
 ## How it works

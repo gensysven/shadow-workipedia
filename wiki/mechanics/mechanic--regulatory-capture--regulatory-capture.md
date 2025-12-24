@@ -4,11 +4,14 @@ title: Regulatory Capture (regulatory-capture)
 pattern: regulatory-capture
 mechanic: Regulatory Capture
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Regulatory Capture
 ## Overview
-Regulators act in the interest of incumbents rather than the public due to influence, revolving doors, or dependency.
+Regulatory capture occurs when regulators come to serve the interests of the regulated—through lobbying, revolving doors, dependency on industry expertise, or political pressure.
+
+Captured systems preserve the appearance of oversight while weakening enforcement, delaying reforms, and protecting incumbents as harms accumulate.
+
 
 ## How it works
 - **State/Resource:** Regulatory policy and enforcement - shifts from public interest to incumbent industry interest

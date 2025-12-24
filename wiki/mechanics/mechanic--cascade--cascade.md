@@ -4,11 +4,14 @@ title: Cascade (cascade)
 pattern: cascade
 mechanic: Cascade
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Cascade
 ## Overview
-A chain reaction: one failure/shift increases the likelihood or severity of subsequent failures.
+A cascade is a chain reaction where one failure increases the likelihood or severity of subsequent failures across connected systems.
+
+Cascades are driven by tight coupling and missing buffers: what looks like a local incident becomes systemic when dependencies share chokepoints or synchronized timing.
+
 
 ## How it works
 - **State/Resource:** System resilience, failure containment, damage propagation speed, recovery capacity

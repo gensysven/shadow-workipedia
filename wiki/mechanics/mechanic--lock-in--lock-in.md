@@ -4,13 +4,14 @@ title: Lock-In (lock-in)
 pattern: lock-in
 mechanic: Lock-In
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Lock-In
 ## Overview
-Once committed, systems resist change due to costs, compatibility, contracts, institutional inertia, or accumulated infrastructure. Early choices constrain future options; switching costs make reversals hard.
+Lock-in occurs when switching away from a technology, policy, or institution becomes prohibitively costly due to infrastructure, contracts, standards, or cultural habits.
 
-This mechanic consolidates: lock-in-effect, economic-lock-in, path-dependency.
+Once locked in, “better alternatives” struggle to win; change requires coordinated transitions, subsidies, or shocks that justify paying the switching costs.
+
 
 ## How it works
 - **State/Resource:** Flexibility, optionality, ability to pivot

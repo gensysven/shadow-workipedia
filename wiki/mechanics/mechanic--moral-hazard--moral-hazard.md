@@ -4,11 +4,14 @@ title: Moral Hazard (moral-hazard)
 pattern: moral-hazard
 mechanic: Moral Hazard
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Moral Hazard
 ## Overview
-Protection/insurance changes incentives, increasing risky behavior or reducing diligence.
+Moral hazard arises when protection against losses (insurance, bailouts, guarantees) changes behavior, making risky actions privately attractive and collectively costly.
+
+It’s especially destabilizing when the downside is socialized but the upside remains private—encouraging leverage, corner-cutting, and fragile equilibria.
+
 
 ## How it works
 - **State/Resource:** Risk-taking behavior and precautionary effort - protection from consequences reduces incentives to avoid harm

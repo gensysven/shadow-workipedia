@@ -4,11 +4,14 @@ title: Feedback Loop (feedback-loop)
 pattern: feedback-loop
 mechanic: Feedback Loop
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Feedback Loop
 ## Overview
-A reinforcing or balancing loop where outputs feed back into inputs, amplifying or stabilizing dynamics.
+Feedback loops are circular causal structures: outputs feed back into inputs, either reinforcing change (runaway growth/decline) or balancing it (stabilization).
+
+They explain why systems can look stable and then suddenly accelerate—especially when delays hide the loop until it overshoots into crisis.
+
 
 ## How it works
 - **State/Resource:** System stability and trajectory - feedback loops either reinforce (+) or balance (–) changes, creating exponential growth/decline or homeostasis

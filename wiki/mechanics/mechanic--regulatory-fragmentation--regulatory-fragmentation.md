@@ -4,11 +4,14 @@ title: Regulatory Fragmentation (regulatory-fragmentation)
 pattern: regulatory fragmentation
 mechanic: Regulatory Fragmentation
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Regulatory Fragmentation
 ## Overview
-Inconsistent rules across jurisdictions create loopholes, arbitrage, and enforcement gaps.
+Regulatory fragmentation is a patchwork of inconsistent rules across jurisdictions that creates loopholes, enforcement gaps, and compliance chaos.
+
+It empowers actors who can shop venues or relocate (capital, platforms) and weakens actors who can’t (workers, local governments), pushing problems into the seams between authorities.
+
 
 ## How it works
 - **State/Resource:** Regulatory coherence - patchwork of conflicting rules across jurisdictions creates compliance chaos and enforcement gaps

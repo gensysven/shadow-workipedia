@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Disparate Impact
 ## Overview
-Equality under law, group — level outcomes, institutional legitimacy, social cohesion. Driven by Facially neutral policies interact with existing disparities in resources/opportunities; historical disadvantages compound under uniform rules; proxy variables correlate with protected characteristics; enforcement patterns reflect bias even if rules don't. Leads to Formally equal treatment produces unequal outcomes; disadvantaged groups bear disproportionate costs; advantages concentrate; legitimacy crises emerge when disparities become undeniable.
+Disparate impact is when a “neutral” rule or technology produces systematically unequal outcomes across groups due to baseline differences in exposure, access, or vulnerability.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., voting-rights-crisis; justice).
+It often triggers legitimacy crises: harm can be real even without intent, and mitigation requires either redesign (changing the rule) or compensation (changing who bears the cost).
 
 
 ## How it works

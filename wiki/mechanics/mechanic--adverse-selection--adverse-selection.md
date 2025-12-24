@@ -4,11 +4,14 @@ title: Adverse Selection (adverse-selection)
 pattern: adverse-selection
 mechanic: Adverse Selection
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Adverse Selection
 ## Overview
-Selection effects where higher-risk actors are more likely to participate, undermining pools/markets.
+Adverse selection happens when risk is hard to observe or price: the actors most likely to suffer losses are the most motivated to buy in, while lower-risk actors opt out as terms worsen.
+
+That shifts the pool toward higher average risk, which forces premiums, collateral, or restrictions to tighten further—often turning into a self-reinforcing market unraveling.
+
 
 ## How it works
 - **State/Resource:** Insurance market viability, premium pricing, coverage availability

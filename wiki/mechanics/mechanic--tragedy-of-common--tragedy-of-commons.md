@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Tragedy of Commons
 ## Overview
-Common — pool resources (atmosphere, oceans, shared infrastructure) — overexploited when individual extraction costs are private but depletion costs are shared. Driven by Open access or weak excludability; individual incentive to extract before others do; benefits concentrated on user, costs diffused across all. Leads to Resource degradation or depletion; each actor optimizing individually produces collective ruin; late-arriving users face depleted resource.
+The tragedy of the commons is the overuse of a shared resource when individual benefits are private but depletion costs are shared.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **5** issues (**13** mentions) (e.g., attention-time-consciousness; Machine Consciousness Rights; AGI Containment Failure).
+Without governance—rules, monitoring, pricing, or exclusion—each actor has an incentive to extract “before others do,” producing collective ruin and late-stage conflict over scarcity.
 
 
 ## How it works

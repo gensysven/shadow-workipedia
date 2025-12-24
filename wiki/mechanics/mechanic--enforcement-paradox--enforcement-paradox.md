@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Enforcement Paradox
 ## Overview
-Compliance rates, enforcement capacity, rule legitimacy, violence levels. Driven by Stricter enforcement increases expected cost of compliance (harder to stay legal) while raising penalties for violation; targets become more sophisticated evaders; enforcers face rising costs to maintain effectiveness; violence emerges as stakes increase. Leads to Compliance decreases as enforcement intensifies; criminals professionalize to avoid detection; enforcement costs escalate without improving outcomes; violence substitutes for legal dispute resolution.
+The enforcement paradox is when tightening rules without credible capacity backfires: selective enforcement, evasion, and politicization can increase both harm and resentment.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., migration-infrastructure-collapse; Amazon Rainforest Dieback).
+It shows up when compliance is expensive, penalties are uneven, or enforcement institutions are captured—creating incentives to shift activity into harder-to-monitor channels.
 
 
 ## How it works

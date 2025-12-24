@@ -4,11 +4,14 @@ title: Irreversibility (irreversibility)
 pattern: irreversibility
 mechanic: Irreversibility
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Irreversibility
 ## Overview
-A dynamic where damage or depletion is difficult or impossible to undo on relevant timescales.
+Irreversibility describes damage or regime shifts that cannot be undone on relevant timescales, even if the original cause is removed.
+
+It raises the stakes of early action: once thresholds are crossed—ecological loss, trust collapse, infrastructure decay—policy becomes triage rather than prevention.
+
 
 ## How it works
 - **State/Resource:** System recoverability and option value - damage crosses thresholds beyond which restoration is impossible on human timescales

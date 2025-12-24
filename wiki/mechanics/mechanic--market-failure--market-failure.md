@@ -4,11 +4,14 @@ title: Market Failure (market-failure)
 pattern: market-failure
 mechanic: Market Failure
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Market Failure
 ## Overview
-An allocation failure where markets produce inefficient or harmful outcomes (often due to geography, power, or information).
+Market failure is when decentralized exchange produces persistently harmful or inefficient outcomes—because prices can’t reflect real constraints, power is uneven, or information is missing.
+
+In Shadow Work terms, it’s the moment when “let the market handle it” becomes a generator of fragility, requiring governance, public provision, or constraint to restore stability.
+
 
 ## How it works
 - **State/Resource:** Allocative efficiency and social welfare - markets fail to provide socially optimal outcomes due to structural problems (externalities, public goods, information failures)

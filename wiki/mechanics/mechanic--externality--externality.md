@@ -4,11 +4,14 @@ title: Externality (externality)
 pattern: externality
 mechanic: Externality
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Externality
 ## Overview
-Costs/benefits are imposed on others and not reflected in the decision-maker’s prices or incentives.
+An externality occurs when decision-makers don’t bear the full costs (or capture the full benefits) of their actions, so private incentives diverge from collective welfare.
+
+Externalities accumulate as hidden debt—pollution, burnout, fragility—until they surface as crises that markets alone cannot price or repair.
+
 
 ## How it works
 - **State/Resource:** Resource allocation efficiency, true cost accounting, burden distribution, environmental/social capital

@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Ghyben-Herzberg Amplification
 ## Overview
-Freshwater lens thickness in coastal aquifers — due to density differences, every 1m drop in freshwater table allows 40m of saltwater intrusion. Driven by Groundwater extraction (lowers freshwater head pressure), sea level rise (increases saltwater pressure), land subsidence (reduces aquifer capacity). Leads to Coastal cities lose drinking water supply; agriculture in river deltas fails; property values collapse in salinized zones; climate refugees from uninhabitable coasts.
+The Ghyben–Herzberg effect describes the fragile balance of coastal freshwater lenses floating on seawater; small changes in sea level or pumping can drive disproportionate saltwater intrusion.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., urban-groundwater-subsidence; West Antarctic Ice Cliff Collapse).
+It’s an amplifier because salinization reduces usable water, which often increases pumping and land subsidence, worsening intrusion further and making recovery slow or impossible.
 
 
 ## How it works

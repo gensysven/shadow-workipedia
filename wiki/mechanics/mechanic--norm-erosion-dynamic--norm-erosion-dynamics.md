@@ -8,9 +8,9 @@ lastUpdated: '2025-12-24'
 ---
 # Norm Erosion Dynamics
 ## Overview
-Social norms, informal rules, and behavioral standards that govern cooperation. Driven by Unpunished violations signal acceptability; enforcement fatigue as violations become common; elite defection signals norm is negotiable. Leads to Gradual normalization of previously unacceptable behavior; coordination failures as shared expectations collapse; race to the bottom as defectors gain advantage.
+Norm erosion is the gradual breakdown of informal rules—truthfulness, restraint, fair process—through repeated boundary violations that go unpunished.
 
-A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., diplomacy; pharmaceutical-ingredient-dependency).
+As expectations shift, enforcement becomes harder: each tolerated breach raises the next acceptable breach, until institutions face a legitimacy cliff or a hard crackdown.
 
 
 ## How it works

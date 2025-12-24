@@ -4,13 +4,14 @@ title: Concentration (concentration)
 pattern: concentration
 mechanic: Concentration
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Concentration
 ## Overview
-Critical dependencies or vulnerabilities concentrated in few locations, entities, or chokepoints. Single points of failure that amplify systemic risk.
+Concentration is the accumulation of economic, informational, or political power into fewer hands—firms, platforms, families, agencies, or blocs.
 
-This mechanic consolidates: geographic-concentration, chokepoint-concentration, environmental-justice-concentration.
+As concentration rises, competition and accountability weaken, dependence increases, and the system becomes both more extractive and more brittle (single points of failure, capture, rent-seeking).
+
 
 ## How it works
 - **State/Resource:** Resilience, redundancy, distributed capacity
