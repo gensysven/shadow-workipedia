@@ -41,9 +41,16 @@
 	          <span class="tab-label">Wiki</span>
 	          <span class="tab-shortcut">3</span>
 	        </button>
+          <button id="tab-agents" class="tab-btn" aria-keyshortcuts="4">
+            <span class="tab-label">Agents</span>
+            <span class="tab-shortcut">4</span>
+          </button>
 	      </div>
 	      <h1>Shadow Workipedia</h1>
 	    </header>
+
+    <!-- Data warning banner (shown when /data.json is missing or empty) -->
+    <div id="data-warning-banner" class="hidden"></div>
 
     <!-- Filter bar -->
     <div id="filter-bar">
@@ -86,6 +93,11 @@
 	        <div id="wiki-article-content"></div>
 	      </main>
 	    </div>
+
+    <!-- Agents view (hidden by default) -->
+    <div id="agents-view" class="hidden">
+      <div id="agents-container"></div>
+    </div>
 
     <!-- Article view (hidden by default) -->
     <div id="article-view" class="hidden">

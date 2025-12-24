@@ -4,6 +4,7 @@ import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
 import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType } from './article';
+import { initializeAgentsView } from './agentsView';
 import { polygonHull, polygonCentroid } from 'd3-polygon';
 
 // Category color mapping (must match extract-data.ts)
@@ -318,8 +319,29 @@ async function main() {
   console.log('🚀 Shadow Workipedia initializing...');
 
   // Load data
-  const response = await fetch('/data.json');
-  const data: GraphData = await response.json();
+  let data: GraphData;
+  let dataLoadError: string | null = null;
+  try {
+    const response = await fetch('/data.json');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status} ${response.statusText}`.trim());
+    }
+    data = (await response.json()) as GraphData;
+  } catch (err) {
+    dataLoadError = (err instanceof Error ? err.message : String(err)) || 'Unknown error';
+    console.warn(`[Shadow Workipedia] Failed to load /data.json: ${dataLoadError}`);
+    const now = new Date().toISOString();
+    data = {
+      nodes: [],
+      edges: [],
+      metadata: {
+        generatedAt: now,
+        issueCount: 0,
+        systemCount: 0,
+        edgeCount: 0,
+      },
+    };
+  }
 
   console.log(`📊 Loaded ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems`);
   if (data.metadata.articleCount) {
@@ -346,10 +368,30 @@ async function main() {
   const loading = document.getElementById('loading');
   if (loading) loading.classList.add('hidden');
 
+  const warningBanner = document.getElementById('data-warning-banner');
+  if (warningBanner) {
+    if (dataLoadError) {
+      warningBanner.classList.remove('hidden');
+      const extra =
+        window.location.protocol === 'file:'
+          ? ` You appear to be opening the site via <code>file://</code>; use <code>pnpm dev</code> or <code>pnpm preview</code> instead.`
+          : '';
+      warningBanner.innerHTML = `No <code>/data.json</code> found. Run <code>pnpm -C shadow-workipedia extract-data</code> (or <code>pnpm -C shadow-workipedia build:full</code>) then reload.${extra}`;
+    } else if (data.nodes.length === 0) {
+      warningBanner.classList.remove('hidden');
+      warningBanner.innerHTML = `Loaded <code>/data.json</code> but it contains 0 nodes. Re-run <code>pnpm -C shadow-workipedia extract-data</code> and reload.`;
+    } else {
+      warningBanner.classList.add('hidden');
+      warningBanner.textContent = '';
+    }
+  }
+
   // Get view elements
   const graphView = document.getElementById('graph-view');
   const tableView = document.getElementById('table-view');
   const wikiView = document.getElementById('wiki-view');
+  const agentsView = document.getElementById('agents-view');
+  const agentsContainer = document.getElementById('agents-container');
 	  const wikiSidebarContent = document.getElementById('wiki-sidebar-content');
 	  const wikiArticleContent = document.getElementById('wiki-article-content');
 	  const articleView = document.getElementById('article-view');
@@ -358,7 +400,7 @@ async function main() {
 	  const tabNav = document.getElementById('tab-nav');
 	  const filterBar = document.getElementById('filter-bar');
 
-	  if (!graphView || !tableView || !wikiView || !wikiSidebarContent || !wikiArticleContent || !articleView || !articleContainer) {
+	  if (!graphView || !tableView || !wikiView || !agentsView || !agentsContainer || !wikiSidebarContent || !wikiArticleContent || !articleView || !articleContainer) {
 	    throw new Error('Required view elements not found');
 	  }
 
@@ -368,11 +410,14 @@ async function main() {
 	  let wikiSection: 'articles' | 'communities' = 'articles';
 
 	  // View state (needed early for router initialization)
-	  let currentView: 'graph' | 'table' | 'wiki' | 'communities' = 'graph';
+	  let currentView: 'graph' | 'table' | 'wiki' | 'agents' | 'communities' = 'graph';
 
 	  // Forward declare render functions (implemented later)
 	  let renderTable: () => void;
 	  let renderWikiList: () => void;
+
+	  // Initialize Agents view (independent of extracted data)
+	  initializeAgentsView(agentsContainer as HTMLElement);
 
   // Store router reference for navigation
   let router: ArticleRouter;
@@ -389,10 +434,12 @@ async function main() {
 	    const tabGraph = document.getElementById('tab-graph');
 	    const tabTable = document.getElementById('tab-table');
 	    const tabWiki = document.getElementById('tab-wiki');
+	    const tabAgents = document.getElementById('tab-agents');
 
 	    tabGraph?.classList.remove('active');
 	    tabTable?.classList.remove('active');
 	    tabWiki?.classList.remove('active');
+	    tabAgents?.classList.remove('active');
 
 	    articleView?.classList.add('hidden');
 	    if (header) header.classList.remove('hidden');
@@ -409,6 +456,10 @@ async function main() {
 	      graphView?.classList.remove('hidden');
 	      tableView?.classList.add('hidden');
 	      wikiView?.classList.add('hidden');
+	      agentsView?.classList.add('hidden');
+	      if (filterBar) filterBar.classList.remove('hidden');
+	      // If a prior view hid the filter bar, force a canvas resize recompute.
+	      window.dispatchEvent(new Event('resize'));
 	      // Show view toggles and category filters for graph
 	      if (viewModeToggles) viewModeToggles.style.display = '';
 	      if (categoryFilters) categoryFilters.style.display = '';
@@ -418,16 +469,31 @@ async function main() {
 	      graphView?.classList.add('hidden');
 	      tableView?.classList.remove('hidden');
 	      wikiView?.classList.add('hidden');
+	      agentsView?.classList.add('hidden');
+	      if (filterBar) filterBar.classList.remove('hidden');
 	      // Show view toggles and category filters for table
 	      if (viewModeToggles) viewModeToggles.style.display = '';
 	      if (categoryFilters) categoryFilters.style.display = '';
 	      if (clusterToggle) clusterToggle.style.display = '';
 	      renderTable();
+	    } else if (view === 'agents') {
+	      tabAgents?.classList.add('active');
+	      graphView?.classList.add('hidden');
+	      tableView?.classList.add('hidden');
+	      wikiView?.classList.add('hidden');
+	      agentsView?.classList.remove('hidden');
+	      if (filterBar) filterBar.classList.add('hidden');
+	      // Hide all filters for agents
+	      if (viewModeToggles) viewModeToggles.style.display = 'none';
+	      if (categoryFilters) categoryFilters.style.display = 'none';
+	      if (clusterToggle) clusterToggle.style.display = 'none';
 	    } else if (view === 'wiki' || view === 'communities') {
 	      tabWiki?.classList.add('active');
 	      graphView?.classList.add('hidden');
 	      tableView?.classList.add('hidden');
 	      wikiView?.classList.remove('hidden');
+	      agentsView?.classList.add('hidden');
+	      if (filterBar) filterBar.classList.remove('hidden');
 	      // Hide all filters for wiki (including communities, which renders inside wiki)
 	      if (viewModeToggles) viewModeToggles.style.display = 'none';
 	      if (categoryFilters) categoryFilters.style.display = 'none';
@@ -1673,11 +1739,13 @@ async function main() {
 	  const tabGraph = document.getElementById('tab-graph') as HTMLButtonElement;
 	  const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
 	  const tabWiki = document.getElementById('tab-wiki') as HTMLButtonElement;
+	  const tabAgents = document.getElementById('tab-agents') as HTMLButtonElement;
 	  const tableContainer = document.getElementById('table-container') as HTMLDivElement;
 
   // Tab clicks navigate via router (which updates URL and calls showView)
   tabGraph.addEventListener('click', () => router.navigateToView('graph'));
   tabTable.addEventListener('click', () => router.navigateToView('table'));
+	  tabAgents.addEventListener('click', () => router.navigateToView('agents'));
 	  tabWiki.addEventListener('click', () => {
 	    // If a node is selected, navigate to its wiki article
 	    if (selectedNode) {
@@ -1719,7 +1787,7 @@ async function main() {
     return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
   }
 
-	  // Header tab shortcuts: 1/2/3 => Graph/Table/Wiki (4 still opens communities inside wiki)
+	  // Header tab shortcuts: 1/2/3/4 => Graph/Table/Wiki/Agents (5 opens communities inside wiki)
 	  document.addEventListener('keydown', (e) => {
 	    if (e.defaultPrevented) return;
 	    if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -1736,6 +1804,9 @@ async function main() {
 	      e.preventDefault();
 	      router.navigateToView('wiki');
 	    } else if (e.key === '4') {
+	      e.preventDefault();
+	      router.navigateToView('agents');
+	    } else if (e.key === '5') {
 	      e.preventDefault();
 	      router.navigateToView('communities');
 	    }

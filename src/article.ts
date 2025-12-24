@@ -463,7 +463,7 @@ function renderRedirectBanner(article: WikiArticle, data: GraphData): string {
   `;
 }
 
-export type ViewType = 'graph' | 'table' | 'wiki' | 'communities';
+export type ViewType = 'graph' | 'table' | 'wiki' | 'agents' | 'communities';
 export type RouteType =
   | { kind: 'view'; view: ViewType }
   | { kind: 'article'; type: 'issue' | 'system' | 'principle' | 'primitive' | 'mechanic'; slug: string }
@@ -476,6 +476,7 @@ export type RouteType =
  *   #/ or #/graph - Graph view (default)
  *   #/table - Table view
  *   #/wiki - Wiki list view
+ *   #/agents or #/agents/<seed> - Seeded agent generator
  *   #/wiki/issue-slug - Wiki article for an issue
  *   #/issue/slug - Issue article (legacy, redirects to #/wiki/slug)
  *   #/system/slug - System article
@@ -503,7 +504,7 @@ export class ArticleRouter {
       return;
     }
 
-    // View routes: #/table, #/wiki, #/communities
+    // View routes: #/table, #/wiki, #/agents, #/communities
     if (hash === '#/table') {
       this.currentRoute = { kind: 'view', view: 'table' };
       this.onRouteChange(this.currentRoute);
@@ -512,6 +513,12 @@ export class ArticleRouter {
 
     if (hash === '#/wiki') {
       this.currentRoute = { kind: 'view', view: 'wiki' };
+      this.onRouteChange(this.currentRoute);
+      return;
+    }
+
+    if (hash === '#/agents' || hash.startsWith('#/agents/')) {
+      this.currentRoute = { kind: 'view', view: 'agents' };
       this.onRouteChange(this.currentRoute);
       return;
     }

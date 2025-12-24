@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "build:full": "pnpm extract-data && tsc && vite build",
     "preview": "vite preview",
+    "preview:full": "pnpm build:full && vite preview",
     "extract-data": "node --import tsx scripts/extract-data.ts",
     "generate:mechanics": "node --import tsx scripts/generate-mechanics-wiki.ts",
     "normalize:mechanics": "node --import tsx scripts/normalize-mechanics-wiki.ts",
