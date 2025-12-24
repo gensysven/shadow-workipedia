@@ -23,10 +23,6 @@ It raises the stakes of early action: once thresholds are crossed—ecological l
 - **Levers:** Preventive moratoriums, extraction limits below regeneration rates, protected reserves, precautionary principle in policy
 - **Failure modes:** Irreversibility discovered too late; gradual erosion hides threshold until crossed; political resistance to limits until damage permanent; no fallback once system collapses
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **32** distinct issue contexts, **80** total mentions.
 

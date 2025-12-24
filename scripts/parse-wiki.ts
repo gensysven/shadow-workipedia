@@ -14,6 +14,58 @@ export interface WikiArticle {
   lastUpdated: string;
 }
 
+function titleCaseWords(raw: string): string {
+  return raw
+    .split(/\s+/g)
+    .filter(Boolean)
+    .map(word => word.slice(0, 1).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+function humanizeWikiId(id: string): string {
+  const trimmed = id.trim();
+  if (!trimmed) return '';
+
+  const prefixed = trimmed.match(/^(mechanic|issue|system|principle|primitive|community)--(.+?)--(.+)$/);
+  if (prefixed && prefixed[2] === prefixed[3]) {
+    return titleCaseWords(prefixed[2].replace(/[-_]+/g, ' '));
+  }
+
+  return titleCaseWords(trimmed.replace(/[-_]+/g, ' '));
+}
+
+function rewriteWikiLinks(input: string): string {
+  const lines = input.split('\n');
+  const out: string[] = [];
+  let inCodeFence = false;
+
+  for (const line of lines) {
+    if (/^\s*```/.test(line)) {
+      inCodeFence = !inCodeFence;
+      out.push(line);
+      continue;
+    }
+
+    if (inCodeFence) {
+      out.push(line);
+      continue;
+    }
+
+    out.push(
+      line.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, rawId: string, rawLabel?: string) => {
+        const id = String(rawId ?? '').trim();
+        if (!id) return String(_);
+
+        const label = String(rawLabel ?? '').trim() || humanizeWikiId(id) || id;
+        const href = `#/wiki/${encodeURIComponent(id)}`;
+        return `[${label}](${href})`;
+      })
+    );
+  }
+
+  return out.join('\n');
+}
+
 /**
  * Parse a single wiki markdown file
  */
@@ -31,18 +83,20 @@ export function parseWikiArticle(filePath: string, type: 'issue' | 'system' | 'p
       return null;
     }
 
+    const normalizedContent = rewriteWikiLinks(content);
+
     // Convert markdown to HTML
-    const html = marked.parse(content) as string;
+    const html = marked.parse(normalizedContent) as string;
 
     // Calculate word count
-    const wordCount = content.split(/\s+/).length;
+    const wordCount = normalizedContent.split(/\s+/).length;
 
     return {
       id: frontmatter.id || 'unknown',
       title: frontmatter.title || frontmatter.name || 'Untitled',
       type,
       frontmatter,
-      content,
+      content: normalizedContent,
       html,
       wordCount,
       lastUpdated: frontmatter.lastUpdated || new Date().toISOString().split('T')[0],

@@ -23,10 +23,6 @@ It’s especially destabilizing when the downside is socialized but the upside r
 - **Levers:** Co-pays and deductibles (skin in the game), experience-rated premiums, conditional coverage (safety requirements), ex-post penalties, building codes and land use restrictions
 - **Failure modes:** Coverage withdrawal leaves vulnerable unprotected; premiums spiral from adverse selection; political pressure prevents risk-based pricing; repeated bailouts entrench risky behavior
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **10** distinct issue contexts, **18** total mentions.
 

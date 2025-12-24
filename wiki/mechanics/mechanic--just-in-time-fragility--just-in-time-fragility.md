@@ -23,10 +23,6 @@ When shocks arrive, the absence of buffers turns minor disruptions into cascadin
 - **Levers:** Strategic reserves (medical, food), domestic production mandates, redundancy requirements, inventory targets for critical goods
 - **Failure modes:** Small shocks cascade into systemic failures; no time to adapt during crisis; hoarding and panic buying amplify shortages; critical infrastructure (hospitals) paralyzed by supply interruptions
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

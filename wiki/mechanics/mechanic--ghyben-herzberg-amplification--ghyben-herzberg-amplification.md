@@ -23,10 +23,6 @@ It’s an amplifier because salinization reduces usable water, which often incre
 - **Levers:** Extraction limits (enforce sustainable pumping), managed aquifer recharge, desalination (expensive), relocation assistance, seawalls (buy time but don't solve root cause)
 - **Failure modes:** Salinization is effectively irreversible on human timescales; once lens collapses, aquifer is unusable for generations; gradual decline gives false sense of time until threshold collapse
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

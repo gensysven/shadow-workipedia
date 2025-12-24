@@ -23,10 +23,6 @@ Once refinancing becomes expensive or impossible, the spiral compresses time: wh
 - **Levers:** Public backstops (reinsurance, subsidies), mandatory participation (individual mandates), price controls, consolidation/nationalization
 - **Failure modes:** Delayed intervention allows collapse to spread regionally; subsidies without structural reform create permanent dependency; market exits cascade faster than policy response
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

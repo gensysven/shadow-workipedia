@@ -23,10 +23,6 @@ Because the benefits are concentrated and costs are diffuse, lobbying can domina
 - **Levers:** Campaign finance limits, lobbying disclosure, cooling-off periods for regulators, public financing of campaigns, citizens' assemblies for contested policy
 - **Failure modes:** Industry captures entire regulatory cycle (writing rules, staffing agencies, blocking enforcement); crisis-driven reform windows close before implementation; public choice problems (small per-capita costs don't mobilize opposition)
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

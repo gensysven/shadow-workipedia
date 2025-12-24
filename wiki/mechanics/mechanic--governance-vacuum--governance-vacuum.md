@@ -23,10 +23,6 @@ The replacement “governance” may be informal, coercive, or fragmented (milit
 - **Levers:** International treaties (Seabed Authority, Outer Space Treaty), technology export controls, liability frameworks, corporate transparency mandates
 - **Failure modes:** Governance arrives after irreversible damage; powerful states block treaties to protect national advantage; capture of weak institutions by industry; de facto norms set by bad actors
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

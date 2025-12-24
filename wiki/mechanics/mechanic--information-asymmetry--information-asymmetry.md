@@ -23,10 +23,6 @@ It fuels fraud, adverse selection, and capture: when trust can’t be cheaply es
 - **Levers:** Mandatory disclosure (nutritional labels, crash data), independent auditing, public research funding, consumer protection agencies, algorithmic transparency laws
 - **Failure modes:** Disclosure drowns users in unreadable terms; auditors captured by industry; asymmetry grows faster than regulation can mandate transparency; platforms exploit data moats
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **11** distinct issue contexts, **21** total mentions.
 

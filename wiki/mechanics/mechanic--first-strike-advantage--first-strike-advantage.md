@@ -23,10 +23,6 @@ When timelines are compressed and signals are noisy, “use-it-or-lose-it” log
 - **Levers:** Treaty limits on destabilizing weapons, confidence-building measures, attack attribution systems, decision-delay requirements (human-in-the-loop)
 - **Failure modes:** Crisis escalation due to "use it or lose it" pressure; accidental war from false alarms; defensive preparations perceived as offensive buildup triggering preemption
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **2** distinct issue contexts, **2** total mentions.
 

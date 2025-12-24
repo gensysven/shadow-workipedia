@@ -23,10 +23,6 @@ In Shadow Work terms, it’s the moment when “let the market handle it” beco
 - **Levers:** Universal service obligations, public provision (research, infrastructure), Pigouvian taxes (carbon pricing), subsidies for positive externalities (vaccines), antitrust for natural monopolies
 - **Failure modes:** Private sector exit faster than public can fill gap; subsidies create dependency without fixing structure; regulatory capture prevents corrective intervention; geographic inequality becomes politically unsustainable
 
-## Notes
-- Add concrete parameters/events this mechanic should influence.
-- Add at least one real-world anchor example (case study).
-
 ## References (System Walk occurrences)
 Appears in **4** distinct issue contexts, **4** total mentions.
 
