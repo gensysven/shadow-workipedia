@@ -2504,15 +2504,23 @@ async function main() {
 	        ${article.title}
 	      </div>
 	    `;
-	    const renderCommunitySidebarItem = (community: (typeof communities)[number]) => {
-	      const slug = `community-${community.id}`;
-	      const count = communityIssueCounts.get(community.id) ?? community.size ?? 0;
-	      return `
-	        <div class="wiki-sidebar-item${selectedCommunity === slug ? ' active' : ''}" data-community-slug="${slug}">
-	          ${community.label || `Community ${community.id}`} (${count})
-	        </div>
-	      `;
-	    };
+		    const renderCommunitySidebarItem = (community: (typeof communities)[number]) => {
+		      const slug = `community-${community.id}`;
+		      const count = communityIssueCounts.get(community.id) ?? community.size ?? 0;
+		      return `
+		        <div class="wiki-sidebar-item${selectedCommunity === slug ? ' active' : ''}" data-community-slug="${slug}">
+		          <div style="display:flex; align-items:center; gap:0.5rem;">
+		            <span style="width: 10px; height: 10px; border-radius: 50%; background: ${getCommunityColor(community.id)}; flex-shrink: 0;"></span>
+		            <div style="flex: 1; min-width: 0;">
+		              <div style="font-weight: 600; font-size: 0.85rem; line-height: 1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+		                ${community.label || `Community ${community.id}`}
+		              </div>
+		              <div style="font-size: 0.75rem; color:#94a3b8;">${count} issues</div>
+		            </div>
+		          </div>
+		        </div>
+		      `;
+		    };
 
 	    const sectionState = loadWikiSidebarSectionState();
 	    const renderSidebarSection = (title: string, key: string, items: typeof articles) => {
@@ -2563,10 +2571,10 @@ async function main() {
 
     wikiSidebarContent.innerHTML = sidebarHtml;
 
-	    function renderCommunityDetailHtml(slug: string): string {
-	      const match = slug.match(/^community-(\d+)$/);
-	      const id = match ? Number(match[1]) : NaN;
-	      if (!Number.isFinite(id)) {
+		    function renderCommunityDetailHtml(slug: string): string {
+		      const match = slug.match(/^community-(\d+)$/);
+		      const id = match ? Number(match[1]) : NaN;
+		      if (!Number.isFinite(id)) {
 	        return `
 	          <div class="wiki-welcome">
 	            <h2>Community</h2>
@@ -2575,42 +2583,177 @@ async function main() {
 	        `;
 	      }
 
-	      const info = (data.communities as Record<number, CommunityInfo> | undefined)?.[id];
-	      const issues = data.nodes
-	        .filter(n => n.type === 'issue' && n.communityId === id)
-	        .sort((a, b) => a.label.localeCompare(b.label));
+		      const info = (data.communities as Record<number, CommunityInfo> | undefined)?.[id];
+		      const issues = data.nodes
+		        .filter(n => n.type === 'issue' && n.communityId === id)
+		        .sort((a, b) => a.label.localeCompare(b.label));
 
-	      const INITIAL_SHOW = 30;
-	      const hasMore = issues.length > INITIAL_SHOW;
+		      const issueIds = new Set(issues.map(i => i.id));
+		      const issueById = new Map(issues.map(i => [i.id, i]));
+
+		      const toTopList = <T,>(counts: Map<T, number>, limit: number) =>
+		        Array.from(counts.entries())
+		          .sort((a, b) => b[1] - a[1])
+		          .slice(0, limit);
+		      const toTopCountedList = <T, V extends { count: number }>(counts: Map<T, V>, limit: number) =>
+		        Array.from(counts.entries())
+		          .sort((a, b) => (b[1]?.count ?? 0) - (a[1]?.count ?? 0))
+		          .slice(0, limit);
+
+		      const categoryCounts = new Map<string, number>();
+		      for (const issue of issues) {
+		        for (const category of issue.categories ?? []) {
+		          categoryCounts.set(category, (categoryCounts.get(category) || 0) + 1);
+		        }
+		      }
+
+		      const systemCounts = new Map<string, number>();
+		      for (const issue of issues) {
+		        for (const system of issue.affectedSystems ?? []) {
+		          systemCounts.set(system, (systemCounts.get(system) || 0) + 1);
+		        }
+		      }
+
+		      const tagCounts = new Map<string, number>();
+		      for (const issue of issues) {
+		        const tags = data.articles?.[issue.id]?.frontmatter?.tags;
+		        if (!Array.isArray(tags)) continue;
+		        for (const tag of tags) {
+		          if (typeof tag !== 'string') continue;
+		          const trimmed = tag.trim();
+		          if (!trimmed) continue;
+		          tagCounts.set(trimmed, (tagCounts.get(trimmed) || 0) + 1);
+		        }
+		      }
+
+		      const issueDegree = new Map<string, number>();
+		      const issueInternalDegree = new Map<string, number>();
+		      const issueExternalDegree = new Map<string, number>();
+
+		      const externalTargetCounts = new Map<string, { count: number; strengthSum: number; labelCounts: Map<string, number> }>();
+		      const connectedCommunityCounts = new Map<number, number>();
+
+		      let internalIssueEdges = 0;
+		      let externalIssueEdges = 0;
+
+		      for (const edge of data.edges) {
+		        if (edge.type !== 'issue-issue') continue;
+		        const sourceIn = issueIds.has(edge.source);
+		        const targetIn = issueIds.has(edge.target);
+		        if (!sourceIn && !targetIn) continue;
+
+		        // Update degree counts for member issues
+		        if (sourceIn) issueDegree.set(edge.source, (issueDegree.get(edge.source) || 0) + 1);
+		        if (targetIn) issueDegree.set(edge.target, (issueDegree.get(edge.target) || 0) + 1);
+
+		        if (sourceIn && targetIn) {
+		          internalIssueEdges++;
+		          issueInternalDegree.set(edge.source, (issueInternalDegree.get(edge.source) || 0) + 1);
+		          issueInternalDegree.set(edge.target, (issueInternalDegree.get(edge.target) || 0) + 1);
+		          continue;
+		        }
+
+		        // Cross-community issue edge
+		        externalIssueEdges++;
+		        const member = sourceIn ? edge.source : edge.target;
+		        const other = sourceIn ? edge.target : edge.source;
+		        issueExternalDegree.set(member, (issueExternalDegree.get(member) || 0) + 1);
+
+		        const bucket = externalTargetCounts.get(other) ?? { count: 0, strengthSum: 0, labelCounts: new Map() };
+		        bucket.count += 1;
+		        bucket.strengthSum += edge.strength || 0;
+		        const label = edge.label || 'correlates';
+		        bucket.labelCounts.set(label, (bucket.labelCounts.get(label) || 0) + 1);
+		        externalTargetCounts.set(other, bucket);
+
+		        const otherNode = data.nodes.find(n => n.id === other && n.type === 'issue');
+		        const otherCommunity = otherNode?.communityId;
+		        if (typeof otherCommunity === 'number' && otherCommunity !== id) {
+		          connectedCommunityCounts.set(otherCommunity, (connectedCommunityCounts.get(otherCommunity) || 0) + 1);
+		        }
+		      }
+
+		      const systemTargetCounts = new Map<string, { count: number; strengthSum: number; labelCounts: Map<string, number> }>();
+		      let externalSystemEdges = 0;
+		      for (const edge of data.edges) {
+		        if (edge.type !== 'issue-system') continue;
+		        const sourceIn = issueIds.has(edge.source);
+		        const targetIn = issueIds.has(edge.target);
+		        if (!sourceIn && !targetIn) continue;
+
+		        externalSystemEdges++;
+		        const member = sourceIn ? edge.source : edge.target;
+		        const other = sourceIn ? edge.target : edge.source;
+		        issueDegree.set(member, (issueDegree.get(member) || 0) + 1);
+		        issueExternalDegree.set(member, (issueExternalDegree.get(member) || 0) + 1);
+
+		        const bucket = systemTargetCounts.get(other) ?? { count: 0, strengthSum: 0, labelCounts: new Map() };
+		        bucket.count += 1;
+		        bucket.strengthSum += edge.strength || 0;
+		        const label = edge.label || 'correlates';
+		        bucket.labelCounts.set(label, (bucket.labelCounts.get(label) || 0) + 1);
+		        systemTargetCounts.set(other, bucket);
+		      }
+
+		      const topInternalIssues = toTopList(issueInternalDegree, 8).map(([issueId]) => issueById.get(issueId)).filter(Boolean) as typeof issues;
+		      const topBridgeIssues = issues
+		        .filter(i => i.isBridgeNode)
+		        .sort((a, b) => (issueExternalDegree.get(b.id) || 0) - (issueExternalDegree.get(a.id) || 0))
+		        .slice(0, 8);
+
+		      const topExternalTargets = toTopCountedList(externalTargetCounts, 10).map(([targetId, meta]) => {
+		        const node = data.nodes.find(n => n.id === targetId);
+		        const title = node?.label ?? targetId;
+		        const avgStrength = meta.count > 0 ? meta.strengthSum / meta.count : 0;
+		        const topLabel = toTopList(meta.labelCounts, 1)[0]?.[0] ?? 'correlates';
+		        return { targetId, title, count: meta.count, avgStrength, label: topLabel };
+		      });
+		      const topSystemTargets = toTopCountedList(systemTargetCounts, 10).map(([targetId, meta]) => {
+		        const node = data.nodes.find(n => n.id === targetId);
+		        const title = node?.label ?? targetId;
+		        const avgStrength = meta.count > 0 ? meta.strengthSum / meta.count : 0;
+		        const topLabel = toTopList(meta.labelCounts, 1)[0]?.[0] ?? 'correlates';
+		        return { targetId, title, count: meta.count, avgStrength, label: topLabel };
+		      });
+
+		      const topConnectedCommunities = toTopList(connectedCommunityCounts, 8).map(([otherId, count]) => {
+		        const other = (data.communities as Record<number, CommunityInfo> | undefined)?.[otherId];
+		        return { id: otherId, label: other?.label ?? `Community ${otherId}`, count };
+		      });
+
+		      const INITIAL_SHOW = 30;
+		      const hasMore = issues.length > INITIAL_SHOW;
 
 	      const slugify = (value: string) =>
 	        value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	      const mechanicPageId = (pattern: string, mechanic: string) =>
 	        `mechanic--${slugify(pattern)}--${slugify(mechanic)}`;
 
-	      const shared = (info?.sharedMechanics || [])
-	        .slice()
-	        .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
-	        .slice(0, 12);
+		      const shared = (info?.sharedMechanics || [])
+		        .slice()
+		        .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
+		        .slice(0, 12);
 
-	      return `
-	        <div class="wiki-welcome">
-	          <h2 style="display:flex; align-items:center; gap:0.6rem;">
-	            <span style="width: 12px; height: 12px; border-radius: 50%; background: ${getCommunityColor(id)}; display:inline-block;"></span>
-	            ${info?.label ?? `Community ${id}`}
-	          </h2>
-	          <p class="wiki-welcome-subtitle">${issues.length} issues</p>
-	          ${info ? `
-	            <div style="display:flex; gap:1rem; flex-wrap:wrap; color:#94a3b8; font-size:0.85rem; margin-top:0.25rem;">
-	              <span>Top category: <strong style="color:#e2e8f0; font-weight:600;">${info.topCategory}</strong></span>
-	              <span>Mechanic score: <strong style="color:#e2e8f0; font-weight:600;">${info.mechanicScore}</strong></span>
-	            </div>
-	          ` : ''}
-	          ${shared.length > 0 ? `
-	            <div style="margin-top:0.9rem;">
-	              <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Shared mechanics</h3>
-	              <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-	                ${shared.map(m => `
+		      return `
+		        <div class="wiki-welcome">
+		          <h2 style="display:flex; align-items:center; gap:0.6rem;">
+		            <span style="width: 12px; height: 12px; border-radius: 50%; background: ${getCommunityColor(id)}; display:inline-block;"></span>
+		            ${info?.label ?? `Community ${id}`}
+		          </h2>
+		          <p class="wiki-welcome-subtitle">${issues.length} issues</p>
+		          ${info ? `
+		            <div style="display:flex; gap:1rem; flex-wrap:wrap; color:#94a3b8; font-size:0.85rem; margin-top:0.25rem;">
+		              <span>Top category: <strong style="color:#e2e8f0; font-weight:600;">${info.topCategory}</strong></span>
+		              <span>Mechanic score: <strong style="color:#e2e8f0; font-weight:600;">${info.mechanicScore}</strong></span>
+		              <span>Internal links: <strong style="color:#e2e8f0; font-weight:600;">${internalIssueEdges}</strong></span>
+		              <span>Cross-community links: <strong style="color:#e2e8f0; font-weight:600;">${externalIssueEdges}</strong></span>
+		            </div>
+		          ` : ''}
+		          ${shared.length > 0 ? `
+		            <div style="margin-top:0.9rem;">
+		              <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Shared mechanics</h3>
+		              <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+		                ${shared.map(m => `
 	                  <a
 	                    class="badge related-link"
 	                    href="#/wiki/${mechanicPageId(m.pattern, m.mechanic)}"
@@ -2619,16 +2762,132 @@ async function main() {
 	                  >
 	                    ${m.mechanic}
 	                  </a>
-	                `).join('')}
-	              </div>
-	            </div>
-	          ` : ''}
-	        </div>
+		                `).join('')}
+		              </div>
+		            </div>
+		          ` : ''}
+		        </div>
 
-	        <div class="related-content">
-	          <h2>Issues</h2>
-	          <div class="related-links">
-	            ${issues.slice(0, INITIAL_SHOW).map(n => `
+		        ${(toTopList(categoryCounts, 1).length > 0 || toTopList(tagCounts, 1).length > 0 || toTopList(systemCounts, 1).length > 0) ? `
+		          <div class="related-content">
+		            <h2>Signature</h2>
+		            ${toTopList(categoryCounts, 5).length > 0 ? `
+		              <div style="margin-top:0.5rem;">
+		                <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Categories</h3>
+		                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+		                  ${toTopList(categoryCounts, 8).map(([cat, count]) => `
+		                    <span class="badge" style="background: rgba(148,163,184,0.10); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;" title="${count} issues">
+		                      ${cat}
+		                    </span>
+		                  `).join('')}
+		                </div>
+		              </div>
+		            ` : ''}
+		            ${toTopList(tagCounts, 5).length > 0 ? `
+		              <div style="margin-top:0.9rem;">
+		                <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Dominant tags</h3>
+		                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+		                  ${toTopList(tagCounts, 12).map(([tag, count]) => `
+		                    <span class="badge" style="background: rgba(148,163,184,0.10); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;" title="${count} issues">
+		                      ${tag}
+		                    </span>
+		                  `).join('')}
+		                </div>
+		              </div>
+		            ` : ''}
+		            ${toTopList(systemCounts, 5).length > 0 ? `
+		              <div style="margin-top:0.9rem;">
+		                <h3 style="margin:0 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Most affected systems</h3>
+		                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+		                  ${toTopList(systemCounts, 10).map(([system, count]) => `
+		                    <a
+		                      class="badge related-link"
+		                      href="#/wiki/${system}"
+		                      style="text-decoration:none; background: rgba(148,163,184,0.10); border: 1px solid rgba(148,163,184,0.18); color:#cbd5e1;"
+		                      title="${count} issues"
+		                    >
+		                      ${system}
+		                    </a>
+		                  `).join('')}
+		                </div>
+		              </div>
+		            ` : ''}
+		          </div>
+		        ` : ''}
+
+		        ${(topBridgeIssues.length > 0 || topInternalIssues.length > 0) ? `
+		          <div class="related-content">
+		            <h2>Key Issues</h2>
+		            ${topInternalIssues.length > 0 ? `
+		              <h3 style="margin:0.6rem 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Most connected (within community)</h3>
+		              <div class="related-links">
+		                ${topInternalIssues.map(n => `
+		                  <a href="#/wiki/${n.id}" class="related-link ${n.hasArticle ? 'has-article' : ''}">
+		                    ${n.label}
+		                    <span style="color:#94a3b8; font-size:0.8rem;">(${issueInternalDegree.get(n.id) || 0} links)</span>
+		                    ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+		                  </a>
+		                `).join('')}
+		              </div>
+		            ` : ''}
+		            ${topBridgeIssues.length > 0 ? `
+		              <h3 style="margin:0.9rem 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Bridge issues (cross-community)</h3>
+		              <div class="related-links">
+		                ${topBridgeIssues.map(n => `
+		                  <a href="#/wiki/${n.id}" class="related-link ${n.hasArticle ? 'has-article' : ''}">
+		                    ${n.label}
+		                    <span style="color:#94a3b8; font-size:0.8rem;">(${issueExternalDegree.get(n.id) || 0} outbound links)</span>
+		                    ${n.hasArticle ? '<span class="article-indicator">📄</span>' : ''}
+		                  </a>
+		                `).join('')}
+		              </div>
+		            ` : ''}
+		          </div>
+		        ` : ''}
+
+		        ${(topExternalTargets.length > 0 || topSystemTargets.length > 0 || topConnectedCommunities.length > 0) ? `
+		          <div class="related-content">
+		            <h2>Connections</h2>
+		            ${topConnectedCommunities.length > 0 ? `
+		              <h3 style="margin:0.6rem 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Connected communities</h3>
+		              <div class="related-links">
+		                ${topConnectedCommunities.map(c => `
+		                  <a href="#/communities/community-${c.id}" class="related-link">
+		                    ${c.label}
+		                    <span style="color:#94a3b8; font-size:0.8rem;">(${c.count} edges)</span>
+		                  </a>
+		                `).join('')}
+		              </div>
+		            ` : ''}
+		            ${topExternalTargets.length > 0 ? `
+		              <h3 style="margin:0.9rem 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Top cross-community issue links</h3>
+		              <div class="related-links">
+		                ${topExternalTargets.map(t => `
+		                  <a href="#/wiki/${t.targetId}" class="related-link">
+		                    ${t.title}
+		                    <span style="color:#94a3b8; font-size:0.8rem;">(${t.count} • ${t.label} • ${t.avgStrength.toFixed(2)})</span>
+		                  </a>
+		                `).join('')}
+		              </div>
+		            ` : ''}
+		            ${topSystemTargets.length > 0 ? `
+		              <h3 style="margin:0.9rem 0 0.5rem 0; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-size:0.75rem;">Most linked systems</h3>
+		              <div class="related-links">
+		                ${topSystemTargets.map(t => `
+		                  <a href="#/wiki/${t.targetId}" class="related-link">
+		                    ${t.title}
+		                    <span style="color:#94a3b8; font-size:0.8rem;">(${t.count} • ${t.label} • ${t.avgStrength.toFixed(2)})</span>
+		                  </a>
+		                `).join('')}
+		              </div>
+		            ` : ''}
+		          </div>
+		        ` : ''}
+
+		        <div class="related-content">
+		          <h2>Issues</h2>
+		          <div class="related-links">
+		            ${issues.slice(0, INITIAL_SHOW).map(n => `
 	              <a
 	                href="#/wiki/${n.id}"
 	                class="related-link ${n.hasArticle ? 'has-article' : ''}"
