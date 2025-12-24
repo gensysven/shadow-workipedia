@@ -4,11 +4,12 @@ title: Algorithmic Amplification (algorithmic-amplification)
 pattern: algorithmic amplification
 mechanic: Algorithmic Amplification
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Algorithmic Amplification
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., political-violence-escalation; AI Cult States).
+
 
 ## How it works
 - **State/Resource:** Attention distribution, belief propagation speed, content virality, radicalization pathways

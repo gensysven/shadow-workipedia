@@ -4,11 +4,12 @@ title: Civil Disobedience (civildisobedience)
 pattern: civildisobedience
 mechanic: civilDisobedience
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # civilDisobedience
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., Economic Immigration Conflicts; nuclear-waste-storage-failure-radioactive-legacy).
+
 
 ## How it works
 - **State/Resource:** Enforcement capacity, legal authority legitimacy, policy effectiveness, state-local relations

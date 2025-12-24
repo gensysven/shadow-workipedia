@@ -4,11 +4,12 @@ title: Dual-Use Dilemma (dual-use-dilemma)
 pattern: dual-use dilemma
 mechanic: Dual-Use Dilemma
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Dual-Use Dilemma
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., gene-drive-synthetic-biology-catastrophe; autonomous-weapons-laws-accountability-crisis).
+
 
 ## How it works
 - **State/Resource:** Research freedom, innovation velocity, proliferation risk, governance overhead

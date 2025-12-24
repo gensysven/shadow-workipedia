@@ -4,11 +4,12 @@ title: Governance Vacuum (governance-vacuum)
 pattern: governance vacuum
 mechanic: Governance Vacuum
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Governance Vacuum
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., critical-mineral-extraction-wars-green-colonialism; Boreal Permafrost Carbon Pulse).
+
 
 ## How it works
 - **State/Resource:** Regulatory authority and enforcement capacity - absence of effective governance allows extractive actors to operate unchecked

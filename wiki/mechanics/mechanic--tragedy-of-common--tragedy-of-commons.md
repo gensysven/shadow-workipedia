@@ -4,11 +4,12 @@ title: Tragedy of Commons (tragedy-of-common)
 pattern: tragedy of common
 mechanic: Tragedy of Commons
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Tragedy of Commons
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **5** issues (**13** mentions) (e.g., attention-time-consciousness; Machine Consciousness Rights; AGI Containment Failure).
+
 
 ## How it works
 - **State/Resource:** Common-pool resources (atmosphere, oceans, shared infrastructure) - overexploited when individual extraction costs are private but depletion costs are shared

@@ -4,11 +4,12 @@ title: Enforcement Paradox (enforcement-paradox)
 pattern: enforcement paradox
 mechanic: Enforcement Paradox
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Enforcement Paradox
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., migration-infrastructure-collapse; Amazon Rainforest Dieback).
+
 
 ## How it works
 - **State/Resource:** Compliance rates, enforcement capacity, rule legitimacy, violence levels

@@ -4,11 +4,12 @@ title: Lobbying (lobbying)
 pattern: lobbying
 mechanic: Lobbying
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Lobbying
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., healthcare-insurance-crisis; institutions).
+
 
 ## How it works
 - **State/Resource:** Policy responsiveness to public vs private interests - concentrated industry spending shapes legislation, regulation, and enforcement

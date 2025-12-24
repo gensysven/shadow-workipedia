@@ -4,11 +4,12 @@ title: Asymmetric Arms Race (asymmetric-arms-race)
 pattern: asymmetric arms race
 mechanic: Asymmetric Arms Race
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Asymmetric Arms Race
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., technology; digital-exile-financial-control).
+
 
 ## How it works
 - **State/Resource:** Relative capability advantage, defensive spending, innovation investment, strategic stability

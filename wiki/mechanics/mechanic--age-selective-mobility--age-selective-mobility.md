@@ -4,11 +4,12 @@ title: Age-Selective Mobility (age-selective-mobility)
 pattern: age-selective mobility
 mechanic: Age-Selective Mobility
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Age-Selective Mobility
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., population).
+
 
 ## How it works
 - **State/Resource:** Age distribution of populations across regions, dependency ratios, labor force composition

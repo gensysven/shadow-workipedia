@@ -4,11 +4,12 @@ title: Disparate Impact (disparate-impact)
 pattern: disparate impact
 mechanic: Disparate Impact
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Disparate Impact
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., voting-rights-crisis; justice).
+
 
 ## How it works
 - **State/Resource:** Equality under law, group-level outcomes, institutional legitimacy, social cohesion

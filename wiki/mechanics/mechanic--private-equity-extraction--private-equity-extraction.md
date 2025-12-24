@@ -4,11 +4,12 @@ title: Private Equity Extraction (private-equity-extraction)
 pattern: private equity extraction
 mechanic: Private Equity Extraction
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Private Equity Extraction
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., care-economy-crises; orphaned-oil-wells-methane-crisis).
+
 
 ## How it works
 - **State/Resource:** Long-term productive capital converted to short-term financial returns

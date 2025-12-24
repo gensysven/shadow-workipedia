@@ -4,11 +4,12 @@ title: Norm Erosion Dynamics (norm-erosion-dynamic)
 pattern: norm erosion dynamic
 mechanic: Norm Erosion Dynamics
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Norm Erosion Dynamics
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., diplomacy; pharmaceutical-ingredient-dependency).
+
 
 ## How it works
 - **State/Resource:** Social norms, informal rules, and behavioral standards that govern cooperation

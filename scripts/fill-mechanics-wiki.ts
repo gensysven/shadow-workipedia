@@ -86,6 +86,8 @@ function describePattern(patternSlug: string): string {
   }
 }
 
+const GENERIC_OVERVIEW = 'A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.';
+
 function normalizeMechanicLabel(raw: string): string {
   const trimmed = raw.trim().replace(/\s+/g, ' ');
   if (!trimmed) return 'Mechanic';
@@ -185,6 +187,72 @@ function buildReferences(
   };
 }
 
+function buildTopIssueExamples(
+  occurrences: Array<NonNullable<NonNullable<SubsystemsIndex['patterns']>[number]['occurrences']>[number]>,
+  issueTitleById: Map<string, string>,
+  limit: number
+): string[] {
+  const counts = new Map<string, number>();
+  for (const occ of occurrences) {
+    const issueId = occ.issueId?.trim();
+    if (!issueId) continue;
+    counts.set(issueId, (counts.get(issueId) || 0) + 1);
+  }
+
+  return Array.from(counts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([issueId]) => issueTitleById.get(issueId) || issueId);
+}
+
+function buildContextualOverview(opts: {
+  mechanicLabel: string;
+  pattern: string;
+  distinctIssues: number;
+  occurrences: number;
+  examples: string[];
+}): string {
+  const examplesText = opts.examples.length > 0 ? ` (e.g., ${opts.examples.join('; ')})` : '';
+  const issueWord = opts.distinctIssues === 1 ? 'issue' : 'issues';
+  const mentionWord = opts.occurrences === 1 ? 'mention' : 'mentions';
+
+  return `A recurring dynamic extracted from System Walk subsystems. Appears in **${opts.distinctIssues}** ${issueWord} (**${opts.occurrences}** ${mentionWord})${examplesText}.`;
+}
+
+function replaceGenericOverview(content: string, nextOverview: string): string {
+  const pattern = /(## Overview\n)([\s\S]*?)(\n## )/;
+  const match = content.match(pattern);
+  if (!match) return content;
+
+  const currentSection = match[2];
+  const trimmed = currentSection.trim();
+  if (trimmed !== GENERIC_OVERVIEW) return content;
+
+  return content.replace(pattern, `$1${nextOverview}\n\n$3`);
+}
+
+function extractReferenceSummaryFromBody(content: string): { distinctIssues: number; occurrences: number; examples: string[] } | null {
+  const summaryMatch = content.match(/Appears in \*\*(\d+)\*\* distinct issue contexts, \*\*(\d+)\*\* total mentions\./);
+  if (!summaryMatch) return null;
+
+  const distinctIssues = Number(summaryMatch[1]);
+  const occurrences = Number(summaryMatch[2]);
+  if (!Number.isFinite(distinctIssues) || !Number.isFinite(occurrences)) return null;
+
+  const examples: string[] = [];
+  const linkRe = /^- \[([^\]]+)\]\(#\/wiki\/[a-z0-9-]+\)/;
+  for (const line of content.split('\n')) {
+    const m = line.match(linkRe);
+    if (!m) continue;
+    const title = m[1].trim();
+    if (!title) continue;
+    if (!examples.includes(title)) examples.push(title);
+    if (examples.length >= 3) break;
+  }
+
+  return { distinctIssues, occurrences, examples };
+}
+
 function renderBody(
   issueTitleById: Map<string, string>,
   opts: {
@@ -198,6 +266,19 @@ function renderBody(
 
   const occCount = opts.occurrences.length;
   const refs = buildReferences(opts.occurrences, issueTitleById);
+  const topExamples = buildTopIssueExamples(opts.occurrences, issueTitleById, 3);
+
+  const baseOverview = describePattern(patternSlug);
+  const overview =
+    baseOverview === GENERIC_OVERVIEW
+      ? buildContextualOverview({
+          mechanicLabel,
+          pattern: opts.pattern,
+          distinctIssues: refs.distinctIssues,
+          occurrences: occCount,
+          examples: topExamples,
+        })
+      : baseOverview;
 
   const hints: string[] = [];
   if (patternSlug === 'threshold') {
@@ -225,7 +306,7 @@ function renderBody(
     `**Pattern:** \`${opts.pattern}\``,
     `**Mechanic:** \`${opts.mechanic}\``,
     '',
-    describePattern(patternSlug),
+    overview,
     '',
     `This page documents **${mechanicLabel}** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.`,
     '',
@@ -308,11 +389,58 @@ function main() {
     const source = patternById.get(id);
     if (!source) {
       missingSource++;
+
+      if (!force) {
+        const fallback = extractReferenceSummaryFromBody(parsed.content);
+        if (fallback) {
+          const nextOverview = buildContextualOverview({
+            mechanicLabel: normalizeMechanicLabel(typeof fm.mechanic === 'string' ? fm.mechanic : String(fm.title || id)),
+            pattern: typeof fm.pattern === 'string' ? fm.pattern : id,
+            distinctIssues: fallback.distinctIssues,
+            occurrences: fallback.occurrences,
+            examples: fallback.examples,
+          });
+          const nextContent = replaceGenericOverview(parsed.content, nextOverview);
+          if (nextContent !== parsed.content) {
+            const nextFrontmatter = { ...fm, lastUpdated: today() };
+            const next = matter.stringify(nextContent, nextFrontmatter);
+            if (next !== raw) {
+              writeFileSync(filePath, next, 'utf8');
+              updated++;
+              continue;
+            }
+          }
+        }
+      }
       continue;
     }
 
     if (!force && !isPlaceholderBody(parsed.content)) {
-      skipped++;
+      const occCount = Array.isArray(source.occurrences) ? source.occurrences.length : 0;
+      const refs = buildReferences(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById);
+      const topExamples = buildTopIssueExamples(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById, 3);
+      const nextOverview = buildContextualOverview({
+        mechanicLabel: normalizeMechanicLabel(source.mechanic),
+        pattern: source.pattern,
+        distinctIssues: refs.distinctIssues,
+        occurrences: occCount,
+        examples: topExamples,
+      });
+
+      const nextContent = replaceGenericOverview(parsed.content, nextOverview);
+      if (nextContent === parsed.content) {
+        skipped++;
+        continue;
+      }
+
+      const nextFrontmatter = { ...fm, lastUpdated: today() };
+      const next = matter.stringify(nextContent, nextFrontmatter);
+      if (next !== raw) {
+        writeFileSync(filePath, next, 'utf8');
+        updated++;
+      } else {
+        skipped++;
+      }
       continue;
     }
 

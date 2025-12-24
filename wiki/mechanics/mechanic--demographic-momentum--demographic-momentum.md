@@ -4,11 +4,12 @@ title: Demographic Momentum (demographic-momentum)
 pattern: demographic momentum
 mechanic: Demographic Momentum
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Demographic Momentum
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., population; pension-system-collapse-retirement-crisis).
+
 
 ## How it works
 - **State/Resource:** Population age structure, dependency ratios, future population growth/decline

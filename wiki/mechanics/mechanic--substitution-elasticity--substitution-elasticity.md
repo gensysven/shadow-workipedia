@@ -4,11 +4,12 @@ title: Substitution Elasticity (substitution-elasticity)
 pattern: substitution elasticity
 mechanic: Substitution Elasticity
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Substitution Elasticity
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., economy; gene-drive-synthetic-biology-catastrophe).
+
 
 ## How it works
 - **State/Resource:** Economic resilience and dependency - measures how easily actors can switch between alternatives when prices/availability change

@@ -4,11 +4,12 @@ title: Just-In-Time Fragility (just-in-time-fragility)
 pattern: just-in-time fragility
 mechanic: Just-In-Time Fragility
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Just-In-Time Fragility
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., topsoil-depletion-agricultural-collapse; healthcare-system-collapse).
+
 
 ## How it works
 - **State/Resource:** System resilience and buffer capacity - eliminating inventory/slack maximizes efficiency but removes shock absorption

@@ -4,11 +4,12 @@ title: Regulatory Arbitrage (regulatory-arbitrage)
 pattern: regulatory arbitrage
 mechanic: Regulatory Arbitrage
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Regulatory Arbitrage
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., economy; critical-mineral-extraction-wars-green-colonialism).
+
 
 ## How it works
 - **State/Resource:** Regulatory effectiveness - actors exploit jurisdictional differences to avoid compliance costs

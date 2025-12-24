@@ -4,11 +4,12 @@ title: Financial Death Spiral (financial-death-spiral)
 pattern: financial death spiral
 mechanic: Financial Death Spiral
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Financial Death Spiral
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., antibiotic-resistance-superbug-pandemic; healthcare-system-collapse).
+
 
 ## How it works
 - **State/Resource:** Institutional solvency and service capacity - rising costs drive away healthy customers, leaving sicker/riskier pool, further raising costs

@@ -4,11 +4,12 @@ title: Paranoia_equilibrium (paranoia-equilibrium)
 pattern: paranoia_equilibrium
 mechanic: paranoia_equilibrium
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # paranoia_equilibrium
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., synthetic-biology-weaponization-biological-attribution-crisis).
+
 
 ## How it works
 - **State/Resource:** Trust and attribution confidence in contested environments

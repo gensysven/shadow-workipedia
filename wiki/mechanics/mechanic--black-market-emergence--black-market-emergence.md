@@ -4,11 +4,12 @@ title: Black Market Emergence (black-market-emergence)
 pattern: black market emergence
 mechanic: Black Market Emergence
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Black Market Emergence
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., longevity-inequality-life-extension-apartheid; designer-baby).
+
 
 ## How it works
 - **State/Resource:** Regulatory effectiveness, tax revenue, product safety, enforcement capacity

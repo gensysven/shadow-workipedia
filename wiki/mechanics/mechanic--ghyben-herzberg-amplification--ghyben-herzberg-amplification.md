@@ -4,11 +4,12 @@ title: Ghyben-Herzberg Amplification (ghyben-herzberg-amplification)
 pattern: ghyben-herzberg amplification
 mechanic: Ghyben-Herzberg Amplification
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Ghyben-Herzberg Amplification
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., urban-groundwater-subsidence; West Antarctic Ice Cliff Collapse).
+
 
 ## How it works
 - **State/Resource:** Freshwater lens thickness in coastal aquifers - due to density differences, every 1m drop in freshwater table allows 40m of saltwater intrusion

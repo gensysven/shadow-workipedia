@@ -4,11 +4,12 @@ title: Nash equilibrium (nash-equilibrium)
 pattern: nash equilibrium
 mechanic: Nash equilibrium
 editedBy: Shadow Work Team
-lastUpdated: '2025-12-22'
+lastUpdated: '2025-12-24'
 ---
 # Nash equilibrium
 ## Overview
-A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.
+A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., quantum-computing-post-quantum-cryptographic-crisis).
+
 
 ## How it works
 - **State/Resource:** Strategic equilibrium where no actor can improve their position by unilateral action
