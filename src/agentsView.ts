@@ -1,4 +1,4 @@
-import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type GeneratedAgent, type TierBand } from './agentGenerator';
+import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentVocabV1, type GeneratedAgent, type TierBand } from './agentGenerator';
 
 type RosterItem = {
   id: string;
@@ -9,6 +9,22 @@ type RosterItem = {
 };
 
 const ROSTER_STORAGE_KEY = 'swp.agents.roster.v1';
+
+let agentVocabPromise: Promise<AgentVocabV1> | null = null;
+
+function getAgentVocabV1(): Promise<AgentVocabV1> {
+  if (agentVocabPromise) return agentVocabPromise;
+  agentVocabPromise = (async () => {
+    const res = await fetch('agent-vocab.v1.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Failed to load agent vocab (${res.status})`);
+    const parsed = (await res.json()) as unknown;
+    if (!parsed || typeof parsed !== 'object') throw new Error('Agent vocab JSON is not an object');
+    const version = (parsed as { version?: unknown }).version;
+    if (version !== 1) throw new Error(`Unsupported agent vocab version: ${String(version)}`);
+    return parsed as AgentVocabV1;
+  })();
+  return agentVocabPromise;
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -336,23 +352,59 @@ export function initializeAgentsView(container: HTMLElement) {
   let roster = loadRoster();
   let selectedRosterId: string | null = roster[0]?.id ?? null;
   let activeAgent: GeneratedAgent | null = selectedRosterId ? roster.find(x => x.id === selectedRosterId)?.agent ?? null : null;
+  let agentVocab: AgentVocabV1 | null = null;
+  let agentVocabError: string | null = null;
   let useOverrides = false;
   let overrideRoleTags: string[] = [];
+  let seedDraft = activeAgent?.seed ?? '';
+  let pendingHashSeed: string | null = readSeedFromHash();
 
-  const initialSeed = readSeedFromHash();
-  if (initialSeed) {
-    activeAgent = generateAgent({ seed: initialSeed });
-  } else if (!activeAgent) {
-    activeAgent = generateAgent({ seed: randomSeedString() });
+  if (pendingHashSeed) {
+    selectedRosterId = null;
+    activeAgent = null;
+    seedDraft = pendingHashSeed;
+  } else if (!seedDraft) {
+    seedDraft = randomSeedString();
   }
 
+  void getAgentVocabV1()
+    .then((v) => {
+      agentVocab = v;
+      agentVocabError = null;
+
+      if (pendingHashSeed) {
+        activeAgent = generateAgent({ seed: pendingHashSeed, vocab: agentVocab });
+        seedDraft = activeAgent.seed;
+        pendingHashSeed = null;
+      } else if (!activeAgent) {
+        activeAgent = generateAgent({ seed: seedDraft, vocab: agentVocab });
+        seedDraft = activeAgent.seed;
+      }
+
+      render();
+    })
+    .catch((err: unknown) => {
+      agentVocab = null;
+      agentVocabError = err instanceof Error ? err.message : String(err);
+      render();
+    });
+
   function render() {
-    const seedValue = activeAgent?.seed ?? '';
     const birthYear = activeAgent?.identity.birthYear ?? 1990;
     const tierBand = (activeAgent?.identity.tierBand ?? 'middle') as TierBand;
     const homeCulture = activeAgent?.identity.homeCulture ?? 'Global';
     const roleSeedTags = activeAgent?.identity.roleSeedTags ?? [];
     if (!overrideRoleTags.length) overrideRoleTags = [...roleSeedTags];
+
+    const vocabTierBands = (agentVocab?.identity.tierBands?.length ? agentVocab.identity.tierBands : (['elite', 'middle', 'mass'] as const)) as readonly TierBand[];
+    const vocabCultures = agentVocab?.identity.homeCultures?.length ? agentVocab.identity.homeCultures : [homeCulture];
+    const vocabRoleSeeds = agentVocab?.identity.roleSeedTags?.length ? agentVocab.identity.roleSeedTags : overrideRoleTags;
+
+    const vocabHint = agentVocab
+      ? `<div class="agents-sidebar-subtitle agent-muted">Vocabulary loaded.</div>`
+      : agentVocabError
+        ? `<div class="agents-sidebar-subtitle agent-muted">Vocabulary missing — run <code>pnpm extract-data</code> in <code>shadow-workipedia</code>.</div>`
+        : `<div class="agents-sidebar-subtitle agent-muted">Loading vocabulary…</div>`;
 
     container.innerHTML = `
       <div class="agents-view">
@@ -362,15 +414,16 @@ export function initializeAgentsView(container: HTMLElement) {
               <div class="agents-sidebar-title">
                 <h2>Generator</h2>
                 <div class="agents-sidebar-subtitle">Seed drives all derived traits by default.</div>
+                ${vocabHint}
               </div>
               <label class="agents-label agents-label-seed">
                 Seed
-                <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedValue)}" spellcheck="false" />
+                <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedDraft)}" spellcheck="false" />
               </label>
             <div class="agents-btn-row">
-              <button id="agents-random" class="agents-btn">Random</button>
-              <button id="agents-generate" class="agents-btn primary">Generate</button>
-              <button id="agents-save" class="agents-btn primary">Save</button>
+              <button id="agents-random" class="agents-btn" ${agentVocab ? '' : 'disabled'}>Random</button>
+              <button id="agents-generate" class="agents-btn primary" ${agentVocab ? '' : 'disabled'}>Generate</button>
+              <button id="agents-save" class="agents-btn primary" ${activeAgent ? '' : 'disabled'}>Save</button>
               <button id="agents-export" class="agents-btn">Export JSON</button>
               <button id="agents-copy-json" class="agents-btn">Copy JSON</button>
               <button id="agents-share" class="agents-btn">Copy link</button>
@@ -393,19 +446,19 @@ export function initializeAgentsView(container: HTMLElement) {
                   <label class="agents-label">
                     Tier
                     <select id="agents-tier" class="agents-input">
-                      ${(['elite','middle','mass'] as const).map(t => `<option value="${t}" ${t === tierBand ? 'selected' : ''}>${escapeHtml(toTitleCaseWords(t))}</option>`).join('')}
+                      ${vocabTierBands.map(t => `<option value="${escapeHtml(t)}" ${t === tierBand ? 'selected' : ''}>${escapeHtml(toTitleCaseWords(t))}</option>`).join('')}
                     </select>
                   </label>
                   <label class="agents-label">
                     Culture
                     <select id="agents-culture" class="agents-input">
-                      ${['Global','Americas','Europe','MENA','Sub‑Saharan Africa','South Asia','East Asia','Oceania'].map(c => `<option value="${escapeHtml(c)}" ${c === homeCulture ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
+                      ${vocabCultures.map(c => `<option value="${escapeHtml(c)}" ${c === homeCulture ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
                     </select>
                   </label>
                   <div class="agents-label">
                     Role seeds
                     <div class="agents-chips" id="agents-role-chips">
-                      ${['operative','analyst','diplomat','organizer','technocrat','security','media','logistics'].map(tag => `
+                      ${vocabRoleSeeds.map(tag => `
                         <button type="button" class="chip ${overrideRoleTags.includes(tag) ? 'active' : ''}" data-role="${escapeHtml(tag)}">${escapeHtml(toTitleCaseWords(tag))}</button>
                       `).join('')}
                     </div>
@@ -445,6 +498,10 @@ export function initializeAgentsView(container: HTMLElement) {
     const tierEl = container.querySelector('#agents-tier') as HTMLSelectElement | null;
     const cultureEl = container.querySelector('#agents-culture') as HTMLSelectElement | null;
 
+    seedEl?.addEventListener('input', () => {
+      seedDraft = seedEl.value;
+    });
+
     const roleChips = Array.from(container.querySelectorAll<HTMLButtonElement>('#agents-role-chips .chip'));
     for (const chip of roleChips) {
       chip.addEventListener('click', () => {
@@ -472,32 +529,38 @@ export function initializeAgentsView(container: HTMLElement) {
     });
 
     btnRandom?.addEventListener('click', () => {
+      if (!agentVocab) return;
       const seed = randomSeedString();
       if (seedEl) seedEl.value = seed;
+      seedDraft = seed;
       activeAgent = useOverrides
         ? generateAgent({
             seed,
+            vocab: agentVocab,
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
             homeCulture: cultureEl?.value ?? homeCulture,
             roleSeedTags: overrideRoleTags,
           })
-        : generateAgent({ seed });
+        : generateAgent({ seed, vocab: agentVocab });
       render();
     });
 
     btnGenerate?.addEventListener('click', () => {
+      if (!agentVocab) return;
       const seed = (seedEl?.value ?? '').trim();
       if (!seed) return;
+      seedDraft = seed;
       activeAgent = useOverrides
         ? generateAgent({
             seed,
+            vocab: agentVocab,
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
             homeCulture: cultureEl?.value ?? homeCulture,
             roleSeedTags: overrideRoleTags,
           })
-        : generateAgent({ seed });
+        : generateAgent({ seed, vocab: agentVocab });
       render();
     });
 
@@ -556,6 +619,8 @@ export function initializeAgentsView(container: HTMLElement) {
         if (!found) return;
         selectedRosterId = found.id;
         activeAgent = found.agent;
+        seedDraft = activeAgent.seed;
+        pendingHashSeed = null;
         render();
       });
     }
@@ -569,6 +634,7 @@ export function initializeAgentsView(container: HTMLElement) {
         if (selectedRosterId === id) {
           selectedRosterId = roster[0]?.id ?? null;
           activeAgent = selectedRosterId ? roster.find(x => x.id === selectedRosterId)?.agent ?? null : activeAgent;
+          if (activeAgent) seedDraft = activeAgent.seed;
         }
         saveRoster(roster);
         render();
@@ -580,7 +646,10 @@ export function initializeAgentsView(container: HTMLElement) {
     if (!window.location.hash.startsWith('#/agents')) return;
     const seed = readSeedFromHash();
     if (seed) {
-      activeAgent = generateAgent({ seed });
+      selectedRosterId = null;
+      seedDraft = seed;
+      if (agentVocab) activeAgent = generateAgent({ seed, vocab: agentVocab });
+      else pendingHashSeed = seed;
       render();
     }
   });

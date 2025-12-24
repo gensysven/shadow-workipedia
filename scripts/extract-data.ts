@@ -7,6 +7,8 @@ import { loadWikiContent, getWikiArticle, type WikiArticle } from './parse-wiki'
 
 const PARENT_REPO = join(process.cwd(), '..');
 const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');
+const AGENT_VOCAB_INPUT_PATH = join(PARENT_REPO, 'data/agent-generation/v1/vocab.json');
+const AGENT_VOCAB_OUTPUT_PATH = join(process.cwd(), 'public', 'agent-vocab.v1.json');
 const YAML_DATA_DIR = join(PARENT_REPO, 'data/issues');
 const COMMUNITIES_DATA_FILE = join(PARENT_REPO, 'data/generated/analysis/communities-with-mechanics.json');
 const PRINCIPLES_INDEX_FILE = join(process.cwd(), 'data/principles-index.json');
@@ -80,6 +82,22 @@ function canonicalizeSystemLabel(raw: unknown): CanonicalSystem | null {
   if (direct) return direct;
 
   return null;
+}
+
+function copyAgentVocab() {
+  if (!existsSync(AGENT_VOCAB_INPUT_PATH)) {
+    console.warn('⚠️  Agent vocab not found:', AGENT_VOCAB_INPUT_PATH);
+    return;
+  }
+  try {
+    const raw = readFileSync(AGENT_VOCAB_INPUT_PATH, 'utf-8');
+    // Validate JSON before writing to public/.
+    JSON.parse(raw);
+    writeFileSync(AGENT_VOCAB_OUTPUT_PATH, raw);
+    console.log('🧬 Copied agent vocab →', AGENT_VOCAB_OUTPUT_PATH);
+  } catch (err) {
+    console.warn('⚠️  Failed to copy agent vocab:', err);
+  }
 }
 
 function normalizeAffectedSystems(rawSystems: unknown): CanonicalSystem[] {
@@ -1454,6 +1472,8 @@ function buildSlugToIssueNumberMap(): Map<string, number> {
 
 async function main() {
   console.log('🔍 Extracting data from Shadow Work...');
+
+  copyAgentVocab();
 
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];

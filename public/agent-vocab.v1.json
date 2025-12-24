@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "identity": {
+    "tierBands": ["elite", "middle", "mass"],
+    "homeCultures": [
+      "Global",
+      "Americas",
+      "Europe",
+      "MENA",
+      "Sub‑Saharan Africa",
+      "South Asia",
+      "East Asia",
+      "Oceania"
+    ],
+    "roleSeedTags": [
+      "operative",
+      "analyst",
+      "diplomat",
+      "organizer",
+      "technocrat",
+      "security",
+      "media",
+      "logistics"
+    ],
+    "firstNames": [
+      "Amina",
+      "Ilya",
+      "Noor",
+      "Sofia",
+      "Mateo",
+      "Aya",
+      "Jun",
+      "Leila",
+      "Hugo",
+      "Zara",
+      "Samir",
+      "Mira",
+      "Kaito",
+      "Nadia",
+      "Daniel",
+      "Priya"
+    ],
+    "lastNames": [
+      "Khan",
+      "Novak",
+      "Silva",
+      "Haddad",
+      "Kim",
+      "Garcia",
+      "Dubois",
+      "Okoye",
+      "Ibrahim",
+      "Nakamura",
+      "Rossi",
+      "Patel",
+      "Mensah",
+      "Santos",
+      "Sato",
+      "Nguyen"
+    ],
+    "languages": [
+      "English",
+      "Spanish",
+      "French",
+      "Arabic",
+      "Hindi",
+      "Mandarin",
+      "Russian",
+      "Portuguese",
+      "Japanese",
+      "Swahili",
+      "Turkish",
+      "German"
+    ]
+  },
+  "appearance": {
+    "heightBands": ["very_short", "short", "average", "tall", "very_tall"],
+    "buildTags": ["lean", "athletic", "stocky", "lanky", "compact"],
+    "hairColors": ["black", "brown", "blonde", "auburn", "gray"],
+    "hairTextures": ["straight", "wavy", "curly", "coily"],
+    "eyeColors": ["brown", "hazel", "green", "blue", "gray"],
+    "voiceTags": ["soft-spoken", "measured", "fast-talking", "commanding", "warm"],
+    "distinguishingMarks": ["scar", "freckles", "tattoo", "piercing", "birthmark", "callused hands"]
+  },
+  "capabilities": {
+    "skillKeys": [
+      "driving",
+      "shooting",
+      "surveillance",
+      "tradecraft",
+      "firstAid",
+      "negotiation",
+      "mediaHandling",
+      "bureaucracy",
+      "financeOps",
+      "legalOps"
+    ],
+    "roleSkillBumps": {
+      "operative": { "tradecraft": 150, "surveillance": 120, "driving": 80 },
+      "security": { "shooting": 140, "firstAid": 80, "tradecraft": 60 },
+      "diplomat": { "negotiation": 180, "bureaucracy": 80 },
+      "media": { "mediaHandling": 200, "negotiation": 60 },
+      "technocrat": { "bureaucracy": 140, "financeOps": 90, "legalOps": 60 },
+      "logistics": { "driving": 160, "firstAid": 60 },
+      "analyst": { "surveillance": 120, "bureaucracy": 60 },
+      "organizer": { "negotiation": 120, "mediaHandling": 80 }
+    }
+  },
+  "preferences": {
+    "food": {
+      "comfortFoods": [
+        "street food",
+        "home cooking",
+        "fine dining",
+        "spicy food",
+        "seafood",
+        "grilled meats",
+        "vegetarian dishes",
+        "desserts"
+      ],
+      "dislikes": ["bitter greens", "sweet drinks", "oily food", "raw fish", "very spicy", "dairy", "red meat"],
+      "restrictions": ["halal", "kosher", "vegetarian", "lactose-sensitive", "gluten-sensitive"],
+      "ritualDrinks": ["tea", "coffee", "mate", "sparkling water", "black espresso"]
+    },
+    "media": {
+      "genres": [
+        "political thriller",
+        "hard sci-fi",
+        "romance",
+        "crime",
+        "history",
+        "tech podcasts",
+        "sports",
+        "strategy games",
+        "documentaries"
+      ],
+      "platforms": ["print", "radio", "tv", "social", "closed"]
+    },
+    "fashion": {
+      "styleTags": ["minimalist", "formal", "utilitarian", "streetwear", "heritage", "avant-garde", "classic", "sporty"]
+    }
+  },
+  "routines": {
+    "chronotypes": ["early", "standard", "night"],
+    "recoveryRituals": ["long walk", "journaling", "quiet music", "gym session", "cook a meal", "call a friend", "meditation"]
+  },
+  "vices": {
+    "vicePool": ["alcohol", "stims", "doomscrolling", "gambling", "workaholism"],
+    "triggers": ["sleep debt", "humiliation", "loneliness", "mission failure", "public backlash", "moral injury"]
+  },
+  "logistics": {
+    "identityKitItems": ["passport set", "burner phone", "laptop", "cover documents", "keepsake", "cash stash", "keys"]
+  }
+}

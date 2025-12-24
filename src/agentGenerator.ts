@@ -4,6 +4,59 @@ export type Band5 = 'very_low' | 'low' | 'medium' | 'high' | 'very_high';
 
 export type Fixed = number; // fixed-point int, typically 0..1000
 
+export type HeightBand = 'very_short' | 'short' | 'average' | 'tall' | 'very_tall';
+
+export type AgentVocabV1 = {
+  version: 1;
+  identity: {
+    tierBands: TierBand[];
+    homeCultures: string[];
+    roleSeedTags: string[];
+    firstNames: string[];
+    lastNames: string[];
+    languages: string[];
+  };
+  appearance: {
+    heightBands: HeightBand[];
+    buildTags: string[];
+    hairColors: string[];
+    hairTextures: string[];
+    eyeColors: string[];
+    voiceTags: string[];
+    distinguishingMarks: string[];
+  };
+  capabilities: {
+    skillKeys: string[];
+    roleSkillBumps: Record<string, Record<string, number>>;
+  };
+  preferences: {
+    food: {
+      comfortFoods: string[];
+      dislikes: string[];
+      restrictions: string[];
+      ritualDrinks: string[];
+    };
+    media: {
+      genres: string[];
+      platforms: string[];
+    };
+    fashion: {
+      styleTags: string[];
+    };
+  };
+  routines: {
+    chronotypes: string[];
+    recoveryRituals: string[];
+  };
+  vices: {
+    vicePool: string[];
+    triggers: string[];
+  };
+  logistics: {
+    identityKitItems: string[];
+  };
+};
+
 export type GeneratedAgent = {
   version: 1;
   id: string;
@@ -20,7 +73,7 @@ export type GeneratedAgent = {
   };
 
   appearance: {
-    heightBand: 'very_short' | 'short' | 'average' | 'tall' | 'very_tall';
+    heightBand: HeightBand;
     buildTag: string;
     hair: { color: string; texture: string };
     eyes: { color: string };
@@ -89,6 +142,7 @@ export type GeneratedAgent = {
 };
 
 export type GenerateAgentInput = {
+  vocab: AgentVocabV1;
   seed: string;
   birthYear?: number;
   tierBand?: TierBand;
@@ -199,29 +253,41 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const base = makeRng(facetSeed(seed, 'base'));
 
   const birthYear = clampInt(input.birthYear ?? base.int(1960, 2006), 1800, 2525);
-  const tierBand: TierBand = input.tierBand ?? base.pick(['elite', 'middle', 'mass'] as const);
-  const homeCulture = (input.homeCulture ?? base.pick(['Global', 'Americas', 'Europe', 'MENA', 'Sub‑Saharan Africa', 'South Asia', 'East Asia', 'Oceania'] as const)) as string;
-  const roleSeedTags = (input.roleSeedTags?.length ? input.roleSeedTags : base.pickK(['operative', 'analyst', 'diplomat', 'organizer', 'technocrat', 'security', 'media', 'logistics'], 2))
+  const vocab = input.vocab;
+  if (vocab.version !== 1) throw new Error(`Unsupported agent vocab version: ${String((vocab as { version?: unknown }).version)}`);
+  if (!vocab.identity.tierBands.length) throw new Error('Agent vocab missing: identity.tierBands');
+  if (!vocab.identity.homeCultures.length) throw new Error('Agent vocab missing: identity.homeCultures');
+  if (!vocab.identity.roleSeedTags.length) throw new Error('Agent vocab missing: identity.roleSeedTags');
+  if (!vocab.identity.firstNames.length || !vocab.identity.lastNames.length) throw new Error('Agent vocab missing: identity name pools');
+  if (!vocab.identity.languages.length) throw new Error('Agent vocab missing: identity.languages');
+
+  const tierBand: TierBand = input.tierBand ?? base.pick(vocab.identity.tierBands as readonly TierBand[]);
+  const homeCulture = (input.homeCulture ?? base.pick(vocab.identity.homeCultures)) as string;
+  const roleSeedTags = (input.roleSeedTags?.length ? input.roleSeedTags : base.pickK(vocab.identity.roleSeedTags, 2))
     .slice(0, 4);
 
   const nameRng = makeRng(facetSeed(seed, 'name'));
-  const firstNames = ['Amina', 'Ilya', 'Noor', 'Sofia', 'Mateo', 'Aya', 'Jun', 'Leila', 'Hugo', 'Zara', 'Samir', 'Mira', 'Kaito', 'Nadia', 'Daniel', 'Priya'] as const;
-  const lastNames = ['Khan', 'Novak', 'Silva', 'Haddad', 'Kim', 'Garcia', 'Dubois', 'Okoye', 'Ibrahim', 'Nakamura', 'Rossi', 'Patel', 'Mensah', 'Santos', 'Sato', 'Nguyen'] as const;
-  const name = `${nameRng.pick(firstNames)} ${nameRng.pick(lastNames)}`;
+  const name = `${nameRng.pick(vocab.identity.firstNames)} ${nameRng.pick(vocab.identity.lastNames)}`;
 
   const langRng = makeRng(facetSeed(seed, 'languages'));
   const languages = langRng.pickK(
-    ['English', 'Spanish', 'French', 'Arabic', 'Hindi', 'Mandarin', 'Russian', 'Portuguese', 'Japanese', 'Swahili', 'Turkish', 'German'] as const,
+    vocab.identity.languages,
     langRng.int(1, 3)
   );
 
   const appearanceRng = makeRng(facetSeed(seed, 'appearance'));
-  const heightBand = appearanceRng.pick(['very_short', 'short', 'average', 'tall', 'very_tall'] as const);
-  const buildTag = appearanceRng.pick(['lean', 'athletic', 'stocky', 'lanky', 'compact'] as const);
-  const hair = { color: appearanceRng.pick(['black', 'brown', 'blonde', 'auburn', 'gray'] as const), texture: appearanceRng.pick(['straight', 'wavy', 'curly', 'coily'] as const) };
-  const eyes = { color: appearanceRng.pick(['brown', 'hazel', 'green', 'blue', 'gray'] as const) };
-  const voiceTag = appearanceRng.pick(['soft-spoken', 'measured', 'fast-talking', 'commanding', 'warm'] as const);
-  const distinguishingMarks = appearanceRng.pickK(['scar', 'freckles', 'tattoo', 'piercing', 'birthmark', 'callused hands'] as const, appearanceRng.int(0, 2));
+  if (!vocab.appearance.heightBands.length) throw new Error('Agent vocab missing: appearance.heightBands');
+  if (!vocab.appearance.buildTags.length) throw new Error('Agent vocab missing: appearance.buildTags');
+  if (!vocab.appearance.hairColors.length || !vocab.appearance.hairTextures.length) throw new Error('Agent vocab missing: appearance hair pools');
+  if (!vocab.appearance.eyeColors.length) throw new Error('Agent vocab missing: appearance.eyeColors');
+  if (!vocab.appearance.voiceTags.length) throw new Error('Agent vocab missing: appearance.voiceTags');
+
+  const heightBand = appearanceRng.pick(vocab.appearance.heightBands as readonly HeightBand[]);
+  const buildTag = appearanceRng.pick(vocab.appearance.buildTags);
+  const hair = { color: appearanceRng.pick(vocab.appearance.hairColors), texture: appearanceRng.pick(vocab.appearance.hairTextures) };
+  const eyes = { color: appearanceRng.pick(vocab.appearance.eyeColors) };
+  const voiceTag = appearanceRng.pick(vocab.appearance.voiceTags);
+  const distinguishingMarks = appearanceRng.pickK(vocab.appearance.distinguishingMarks, appearanceRng.int(0, 2));
 
   const capRng = makeRng(facetSeed(seed, 'capabilities'));
   const physical = capRng.int(200, 900);
@@ -250,95 +316,70 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const skillRng = makeRng(facetSeed(seed, 'skills'));
   const baseSkillValue = (min: number, max: number) => clampFixed01k(skillRng.int(min, max));
 
-  const skillKeys = [
-    'driving',
-    'shooting',
-    'surveillance',
-    'tradecraft',
-    'firstAid',
-    'negotiation',
-    'mediaHandling',
-    'bureaucracy',
-    'financeOps',
-    'legalOps',
-  ] as const;
+  if (!vocab.capabilities.skillKeys.length) throw new Error('Agent vocab missing: capabilities.skillKeys');
 
   const skills: GeneratedAgent['capabilities']['skills'] = Object.fromEntries(
-    skillKeys.map((k) => [k, { value: baseSkillValue(120, 720), xp: clampFixed01k(skillRng.int(0, 500)), lastUsedDay: null }])
+    vocab.capabilities.skillKeys.map((k) => [k, { value: baseSkillValue(120, 720), xp: clampFixed01k(skillRng.int(0, 500)), lastUsedDay: null }])
   ) as GeneratedAgent['capabilities']['skills'];
 
   // Role seed nudges (bounded)
-  const bump = (key: keyof typeof skills, delta: number) => {
-    skills[key].value = clampFixed01k(skills[key].value + delta);
+  const bump = (key: string, delta: number) => {
+    const entry = skills[key];
+    if (!entry) return;
+    entry.value = clampFixed01k(entry.value + delta);
   };
 
   for (const tag of roleSeedTags) {
-    if (tag === 'operative') {
-      bump('tradecraft', 150);
-      bump('surveillance', 120);
-      bump('driving', 80);
-    } else if (tag === 'security') {
-      bump('shooting', 140);
-      bump('firstAid', 80);
-      bump('tradecraft', 60);
-    } else if (tag === 'diplomat') {
-      bump('negotiation', 180);
-      bump('bureaucracy', 80);
-    } else if (tag === 'media') {
-      bump('mediaHandling', 200);
-      bump('negotiation', 60);
-    } else if (tag === 'technocrat') {
-      bump('bureaucracy', 140);
-      bump('financeOps', 90);
-      bump('legalOps', 60);
-    } else if (tag === 'logistics') {
-      bump('driving', 160);
-      bump('firstAid', 60);
-    } else if (tag === 'analyst') {
-      bump('surveillance', 120);
-      bump('bureaucracy', 60);
-    } else if (tag === 'organizer') {
-      bump('negotiation', 120);
-      bump('mediaHandling', 80);
-    }
+    const bumps = vocab.capabilities.roleSkillBumps[tag];
+    if (!bumps) continue;
+    for (const [skillKey, delta] of Object.entries(bumps)) bump(skillKey, delta);
   }
 
   const prefsRng = makeRng(facetSeed(seed, 'preferences'));
-  const cuisines = ['street food', 'home cooking', 'fine dining', 'spicy food', 'seafood', 'grilled meats', 'vegetarian dishes', 'desserts'] as const;
-  const comfortFoods = prefsRng.pickK(cuisines, 2);
-  const dislikes = prefsRng.pickK(['bitter greens', 'sweet drinks', 'oily food', 'raw fish', 'very spicy', 'dairy', 'red meat'] as const, prefsRng.int(1, 3));
-  const restrictions = prefsRng.pickK(['halal', 'kosher', 'vegetarian', 'lactose-sensitive', 'gluten-sensitive'] as const, prefsRng.int(0, 1));
-  const ritualDrink = prefsRng.pick(['tea', 'coffee', 'mate', 'sparkling water', 'black espresso'] as const);
+  if (!vocab.preferences.food.comfortFoods.length) throw new Error('Agent vocab missing: preferences.food.comfortFoods');
+  if (!vocab.preferences.food.dislikes.length) throw new Error('Agent vocab missing: preferences.food.dislikes');
+  if (!vocab.preferences.food.restrictions.length) throw new Error('Agent vocab missing: preferences.food.restrictions');
+  if (!vocab.preferences.food.ritualDrinks.length) throw new Error('Agent vocab missing: preferences.food.ritualDrinks');
 
-  const genres = ['political thriller', 'hard sci-fi', 'romance', 'crime', 'history', 'tech podcasts', 'sports', 'strategy games', 'documentaries'] as const;
-  const genreTopK = prefsRng.pickK(genres, 5);
-  const platforms = ['print', 'radio', 'tv', 'social', 'closed'] as const;
-  const platformDietRaw = platforms.map(p => ({ p, w: prefsRng.int(1, 100) }));
+  const comfortFoods = prefsRng.pickK(vocab.preferences.food.comfortFoods, 2);
+  const dislikes = prefsRng.pickK(vocab.preferences.food.dislikes, prefsRng.int(1, 3));
+  const restrictions = prefsRng.pickK(vocab.preferences.food.restrictions, prefsRng.int(0, 1));
+  const ritualDrink = prefsRng.pick(vocab.preferences.food.ritualDrinks);
+
+  if (!vocab.preferences.media.genres.length) throw new Error('Agent vocab missing: preferences.media.genres');
+  if (!vocab.preferences.media.platforms.length) throw new Error('Agent vocab missing: preferences.media.platforms');
+  const genreTopK = prefsRng.pickK(vocab.preferences.media.genres, 5);
+  const platformDietRaw = vocab.preferences.media.platforms.map(p => ({ p, w: prefsRng.int(1, 100) }));
   const totalW = platformDietRaw.reduce((s, x) => s + x.w, 0);
   const platformDiet: Record<string, Fixed> = Object.fromEntries(platformDietRaw.map(({ p, w }) => [p, clampInt((w / totalW) * 1000, 0, 1000)]));
 
   const fashionRng = makeRng(facetSeed(seed, 'fashion'));
-  const styleTags = fashionRng.pickK(['minimalist', 'formal', 'utilitarian', 'streetwear', 'heritage', 'avant-garde', 'classic', 'sporty'] as const, 3);
+  if (!vocab.preferences.fashion.styleTags.length) throw new Error('Agent vocab missing: preferences.fashion.styleTags');
+  const styleTags = fashionRng.pickK(vocab.preferences.fashion.styleTags, 3);
   const formality = clampFixed01k(fashionRng.int(0, 1000));
   const conformity = clampFixed01k(fashionRng.int(0, 1000));
   const statusSignaling = clampFixed01k(fashionRng.int(0, 1000));
 
   const routinesRng = makeRng(facetSeed(seed, 'routines'));
-  const chronotype = routinesRng.pick(['early', 'standard', 'night'] as const);
+  if (!vocab.routines.chronotypes.length) throw new Error('Agent vocab missing: routines.chronotypes');
+  if (!vocab.routines.recoveryRituals.length) throw new Error('Agent vocab missing: routines.recoveryRituals');
+  const chronotype = routinesRng.pick(vocab.routines.chronotypes);
   const sleepWindow = chronotype === 'early' ? '22:00–06:00' : chronotype === 'night' ? '02:00–10:00' : '00:00–08:00';
-  const recoveryRituals = routinesRng.pickK(['long walk', 'journaling', 'quiet music', 'gym session', 'cook a meal', 'call a friend', 'meditation'] as const, 2);
+  const recoveryRituals = routinesRng.pickK(vocab.routines.recoveryRituals, 2);
 
   const vicesRng = makeRng(facetSeed(seed, 'vices'));
-  const vicePool = ['alcohol', 'stims', 'doomscrolling', 'gambling', 'workaholism'] as const;
+  if (!vocab.vices.vicePool.length) throw new Error('Agent vocab missing: vices.vicePool');
+  if (!vocab.vices.triggers.length) throw new Error('Agent vocab missing: vices.triggers');
   const viceCount = vicesRng.int(0, 2);
-  const vices = vicesRng.pickK(vicePool, viceCount).map((vice) => {
+  const vices = vicesRng.pickK(vocab.vices.vicePool, viceCount).map((vice) => {
     const severityValue = clampFixed01k(vicesRng.int(100, 950));
-    const triggers = vicesRng.pickK(['sleep debt', 'humiliation', 'loneliness', 'mission failure', 'public backlash', 'moral injury'] as const, vicesRng.int(1, 3));
+    const triggers = vicesRng.pickK(vocab.vices.triggers, vicesRng.int(1, 3));
     return { vice, severity: band5From01k(severityValue), triggers };
   });
 
   const logisticsRng = makeRng(facetSeed(seed, 'logistics'));
-  const kitItems = logisticsRng.pickK(['passport set', 'burner phone', 'laptop', 'cover documents', 'keepsake', 'cash stash', 'keys'] as const, 5)
+  if (!vocab.logistics.identityKitItems.length) throw new Error('Agent vocab missing: logistics.identityKitItems');
+  const kitItems = logisticsRng.pickK(vocab.logistics.identityKitItems, 5)
     .map((item) => {
       const security = band5From01k(clampFixed01k(logisticsRng.int(150, 900)));
       return { item, security, compromised: false };
