@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Regulatory Arbitrage
 ## Overview
+Regulatory effectiveness — actors exploit jurisdictional differences to avoid compliance costs. Driven by Variation in standards across borders; mobility of capital/operations; enforcement gaps between jurisdictions. Leads to Race-to-the-bottom as jurisdictions compete to attract investment; externalities exported to weaker regulatory regimes; erosion of protections even in strict jurisdictions.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., economy; critical-mineral-extraction-wars-green-colonialism).
 
 

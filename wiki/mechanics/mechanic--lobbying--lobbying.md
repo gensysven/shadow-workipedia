@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Lobbying
 ## Overview
+Policy responsiveness to public vs private interests — concentrated industry spending shapes legislation, regulation, and enforcement. Driven by Asymmetric stakes (regulations cost industry billions, benefits diffused across millions), revolving door (regulators become industry consultants), campaign finance dependence, information asymmetry (industry technical expertise). Leads to Industry benefits from favorable rules, delayed enforcement, captured regulators; public pays through unsafe products, environmental damage, monopoly prices; reform windows close as lobbying intensifies.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., healthcare-insurance-crisis; institutions).
 
 

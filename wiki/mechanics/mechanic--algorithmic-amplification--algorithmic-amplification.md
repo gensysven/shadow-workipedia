@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Algorithmic Amplification
 ## Overview
+Attention distribution, belief propagation speed, content virality, radicalization pathways. Driven by Engagement-maximizing recommendation algorithms prioritize emotionally provocative content; filter bubbles reinforce existing beliefs; edge cases get disproportionate reach. Leads to Fringe content reaches mainstream audiences rapidly; moderate voices drowned out; outrage cycles accelerate; coordination across dispersed actors becomes trivial.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., political-violence-escalation; AI Cult States).
 
 

@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Nash equilibrium
 ## Overview
+Strategic equilibrium where no actor can improve their position by unilateral action. Driven by Rational self-interest of independent actors; absence of binding coordination mechanisms; first-mover advantage or disadvantage. Leads to Stable but often suboptimal outcomes; actors locked into defensive strategies; coordination failures persist because deviation is punished.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., quantum-computing-post-quantum-cryptographic-crisis).
 
 

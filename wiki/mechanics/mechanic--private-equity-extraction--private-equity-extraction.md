@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Private Equity Extraction
 ## Overview
+Long — term productive capital converted to short — term financial returns. Driven by Leveraged buyouts loading debt onto acquired entities; dividend recapitalization extracting cash; cost-cutting to maximize sale value. Leads to Investors extract value through financial engineering; workers/customers/communities pay through degraded services, job losses, bankruptcies; original owners exit with premium.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., care-economy-crises; orphaned-oil-wells-methane-crisis).
 
 

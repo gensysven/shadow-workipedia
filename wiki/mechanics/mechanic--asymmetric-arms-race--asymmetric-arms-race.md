@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Asymmetric Arms Race
 ## Overview
+Relative capability advantage, defensive spending, innovation investment, strategic stability. Driven by Attack-defense imbalance favors attackers; defenders must protect all surfaces while attackers choose one; defensive costs scale linearly, offensive capabilities compound; proliferation outpaces countermeasures. Leads to Defenders trapped in losing race, burning resources; attackers gain persistent advantage; eventually defenders abandon direct competition, seek alternative strategies.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., technology; digital-exile-financial-control).
 
 

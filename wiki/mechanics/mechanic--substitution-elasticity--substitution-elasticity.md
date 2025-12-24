@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Substitution Elasticity
 ## Overview
+Economic resilience and dependency — measures how easily actors can switch between alternatives when prices/availability change. Driven by Availability and cost of substitutes; switching costs (infrastructure, retraining, compatibility); time horizons for adaptation. Leads to High elasticity = actors smoothly adapt to shocks; low elasticity = dependency creates leverage and vulnerability; asymmetric elasticity creates power imbalances.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., economy; gene-drive-synthetic-biology-catastrophe).
 
 

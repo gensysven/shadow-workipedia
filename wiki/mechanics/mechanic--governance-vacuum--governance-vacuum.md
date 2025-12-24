@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Governance Vacuum
 ## Overview
+Regulatory authority and enforcement capacity — absence of effective governance allows extractive actors to operate unchecked. Driven by Frontier zones (deep sea, Arctic, cyberspace), technological outpacing (AI, biotech), state collapse/corruption, jurisdictional ambiguity (international waters, space). Leads to First movers exploit resources without accountability; race-to-the-bottom dynamics as actors flee regulation; commons depleted; risks externalized to public.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., critical-mineral-extraction-wars-green-colonialism; Boreal Permafrost Carbon Pulse).
 
 

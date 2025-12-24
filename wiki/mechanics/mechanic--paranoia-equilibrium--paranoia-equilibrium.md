@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # paranoia_equilibrium
 ## Overview
+Trust and attribution confidence in contested environments. Driven by Fundamental uncertainty about actor identity/intent; inability to verify claims; consequences of both false positives and false negatives being severe. Leads to All actors assume worst-case scenarios; defensive overreaction becomes rational; cooperation impossible even when mutually beneficial.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **1** issue (**2** mentions) (e.g., synthetic-biology-weaponization-biological-attribution-crisis).
 
 

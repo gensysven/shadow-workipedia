@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Demographic Momentum
 ## Overview
+Population age structure, dependency ratios, future population growth/decline. Driven by Age cohort sizes determined by past fertility; large young cohorts enter reproductive years → population growth persists even if per-woman fertility drops; large old cohorts create dependency burden for decades regardless of current births. Leads to Population trends become inevitable decades in advance; interventions today only affect outcomes 20-50 years later; mismatch between current policy and future needs; fiscal crises from foreseeable but politically ignored trends.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., population; pension-system-collapse-retirement-crisis).
 
 

@@ -87,6 +87,7 @@ function describePattern(patternSlug: string): string {
 }
 
 const GENERIC_OVERVIEW = 'A reusable dynamic extracted from System Walk subsystems; this page documents how it is used and where it appears.';
+const AUTO_CONTEXTUAL_OVERVIEW_PREFIX = 'A recurring dynamic extracted from System Walk subsystems.';
 
 function normalizeMechanicLabel(raw: string): string {
   const trimmed = raw.trim().replace(/\s+/g, ' ');
@@ -219,16 +220,19 @@ function buildContextualOverview(opts: {
   return `A recurring dynamic extracted from System Walk subsystems. Appears in **${opts.distinctIssues}** ${issueWord} (**${opts.occurrences}** ${mentionWord})${examplesText}.`;
 }
 
-function replaceGenericOverview(content: string, nextOverview: string): string {
+function replaceAutoOverview(content: string, nextOverviewBlock: string, opts?: { allowReplaceAutoContextual?: boolean }): string {
   const pattern = /(## Overview\n)([\s\S]*?)(\n## )/;
   const match = content.match(pattern);
   if (!match) return content;
 
   const currentSection = match[2];
   const trimmed = currentSection.trim();
-  if (trimmed !== GENERIC_OVERVIEW) return content;
+  const allowReplaceAutoContextual = opts?.allowReplaceAutoContextual === true;
+  const isGeneric = trimmed === GENERIC_OVERVIEW;
+  const isAutoContextual = trimmed.startsWith(AUTO_CONTEXTUAL_OVERVIEW_PREFIX);
+  if (!isGeneric && !(allowReplaceAutoContextual && isAutoContextual)) return content;
 
-  return content.replace(pattern, `$1${nextOverview}\n\n$3`);
+  return content.replace(pattern, `$1${nextOverviewBlock}\n\n$3`);
 }
 
 function extractReferenceSummaryFromBody(content: string): { distinctIssues: number; occurrences: number; examples: string[] } | null {
@@ -253,6 +257,41 @@ function extractReferenceSummaryFromBody(content: string): { distinctIssues: num
   return { distinctIssues, occurrences, examples };
 }
 
+function extractHowItWorksDefinition(content: string): string | null {
+  const sectionMatch = content.match(/## How it works\n([\s\S]*?)(\n## |\n$)/);
+  if (!sectionMatch) return null;
+
+  const section = sectionMatch[1];
+  const lines = section.split('\n').map(l => l.trim()).filter(Boolean);
+
+  const find = (label: string) => {
+    const re = new RegExp(`^[-*]\\s*\\*\\*${label}:\\*\\*\\s*(.+)$`, 'i');
+    for (const line of lines) {
+      const m = line.match(re);
+      if (m && m[1]) return m[1].trim();
+    }
+    return '';
+  };
+
+  const state = find('State\\/Resource');
+  const drivers = find('Drivers');
+  const outcomes = find('Outcomes');
+
+  const parts: string[] = [];
+  if (state) parts.push(state.replace(/\s+/g, ' ').replace(/\s*-\s*/g, ' — '));
+  if (drivers) parts.push(`Driven by ${drivers.replace(/\s+/g, ' ')}`);
+  if (outcomes) parts.push(`Leads to ${outcomes.replace(/\s+/g, ' ')}`);
+
+  if (parts.length === 0) return null;
+  const sentence = parts.join('. ').replace(/\.\.+/g, '.').trim();
+  return sentence.endsWith('.') ? sentence : `${sentence}.`;
+}
+
+function buildOverviewBlock(definition: string | null, statsLine: string): string {
+  if (definition) return `${definition}\n\n${statsLine}`;
+  return statsLine;
+}
+
 function renderBody(
   issueTitleById: Map<string, string>,
   opts: {
@@ -269,7 +308,7 @@ function renderBody(
   const topExamples = buildTopIssueExamples(opts.occurrences, issueTitleById, 3);
 
   const baseOverview = describePattern(patternSlug);
-  const overview =
+  const statsLine =
     baseOverview === GENERIC_OVERVIEW
       ? buildContextualOverview({
           mechanicLabel,
@@ -279,6 +318,7 @@ function renderBody(
           examples: topExamples,
         })
       : baseOverview;
+  const overviewBlock = buildOverviewBlock(null, statsLine);
 
   const hints: string[] = [];
   if (patternSlug === 'threshold') {
@@ -306,7 +346,7 @@ function renderBody(
     `**Pattern:** \`${opts.pattern}\``,
     `**Mechanic:** \`${opts.mechanic}\``,
     '',
-    overview,
+    overviewBlock,
     '',
     `This page documents **${mechanicLabel}** as it appears in System Walk subsystems and suggests how to represent it consistently in the simulation/UI.`,
     '',
@@ -386,26 +426,28 @@ function main() {
       continue;
     }
 
-    const source = patternById.get(id);
-    if (!source) {
-      missingSource++;
+	    const source = patternById.get(id);
+	    if (!source) {
+	      missingSource++;
 
-      if (!force) {
-        const fallback = extractReferenceSummaryFromBody(parsed.content);
-        if (fallback) {
-          const nextOverview = buildContextualOverview({
-            mechanicLabel: normalizeMechanicLabel(typeof fm.mechanic === 'string' ? fm.mechanic : String(fm.title || id)),
-            pattern: typeof fm.pattern === 'string' ? fm.pattern : id,
-            distinctIssues: fallback.distinctIssues,
-            occurrences: fallback.occurrences,
-            examples: fallback.examples,
-          });
-          const nextContent = replaceGenericOverview(parsed.content, nextOverview);
-          if (nextContent !== parsed.content) {
-            const nextFrontmatter = { ...fm, lastUpdated: today() };
-            const next = matter.stringify(nextContent, nextFrontmatter);
-            if (next !== raw) {
-              writeFileSync(filePath, next, 'utf8');
+	      if (!force) {
+	        const fallback = extractReferenceSummaryFromBody(parsed.content);
+	        if (fallback) {
+	          const nextOverview = buildContextualOverview({
+	            mechanicLabel: normalizeMechanicLabel(typeof fm.mechanic === 'string' ? fm.mechanic : String(fm.title || id)),
+	            pattern: typeof fm.pattern === 'string' ? fm.pattern : id,
+	            distinctIssues: fallback.distinctIssues,
+	            occurrences: fallback.occurrences,
+	            examples: fallback.examples,
+	          });
+	          const definition = extractHowItWorksDefinition(parsed.content);
+	          const nextBlock = buildOverviewBlock(definition, nextOverview);
+	          const nextContent = replaceAutoOverview(parsed.content, nextBlock, { allowReplaceAutoContextual: true });
+	          if (nextContent !== parsed.content) {
+	            const nextFrontmatter = { ...fm, lastUpdated: today() };
+	            const next = matter.stringify(nextContent, nextFrontmatter);
+	            if (next !== raw) {
+	              writeFileSync(filePath, next, 'utf8');
               updated++;
               continue;
             }
@@ -415,23 +457,25 @@ function main() {
       continue;
     }
 
-    if (!force && !isPlaceholderBody(parsed.content)) {
-      const occCount = Array.isArray(source.occurrences) ? source.occurrences.length : 0;
-      const refs = buildReferences(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById);
-      const topExamples = buildTopIssueExamples(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById, 3);
-      const nextOverview = buildContextualOverview({
-        mechanicLabel: normalizeMechanicLabel(source.mechanic),
-        pattern: source.pattern,
-        distinctIssues: refs.distinctIssues,
-        occurrences: occCount,
-        examples: topExamples,
-      });
+	    if (!force && !isPlaceholderBody(parsed.content)) {
+	      const occCount = Array.isArray(source.occurrences) ? source.occurrences.length : 0;
+	      const refs = buildReferences(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById);
+	      const topExamples = buildTopIssueExamples(Array.isArray(source.occurrences) ? source.occurrences : [], issueTitleById, 3);
+	      const nextOverview = buildContextualOverview({
+	        mechanicLabel: normalizeMechanicLabel(source.mechanic),
+	        pattern: source.pattern,
+	        distinctIssues: refs.distinctIssues,
+	        occurrences: occCount,
+	        examples: topExamples,
+	      });
 
-      const nextContent = replaceGenericOverview(parsed.content, nextOverview);
-      if (nextContent === parsed.content) {
-        skipped++;
-        continue;
-      }
+	      const definition = extractHowItWorksDefinition(parsed.content);
+	      const nextBlock = buildOverviewBlock(definition, nextOverview);
+	      const nextContent = replaceAutoOverview(parsed.content, nextBlock, { allowReplaceAutoContextual: true });
+	      if (nextContent === parsed.content) {
+	        skipped++;
+	        continue;
+	      }
 
       const nextFrontmatter = { ...fm, lastUpdated: today() };
       const next = matter.stringify(nextContent, nextFrontmatter);

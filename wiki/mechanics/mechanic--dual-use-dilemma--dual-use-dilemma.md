@@ -8,6 +8,8 @@ lastUpdated: '2025-12-24'
 ---
 # Dual-Use Dilemma
 ## Overview
+Research freedom, innovation velocity, proliferation risk, governance overhead. Driven by Same technology enables beneficial applications and catastrophic misuse; restricting access blocks benefits but prevents harms; diffusion impossible to control once knowledge exists; attribution of intent difficult before deployment. Leads to Either accept proliferation risk to gain benefits, or sacrifice benefits to reduce risk; partial restrictions fail (competent actors circumvent, incompetent actors harmed); arms race dynamics if competitors choose different strategies.
+
 A recurring dynamic extracted from System Walk subsystems. Appears in **2** issues (**2** mentions) (e.g., gene-drive-synthetic-biology-catastrophe; autonomous-weapons-laws-accountability-crisis).
 
 
