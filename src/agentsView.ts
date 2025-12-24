@@ -47,6 +47,31 @@ function downloadJson(filename: string, value: unknown) {
   URL.revokeObjectURL(url);
 }
 
+async function copyJsonToClipboard(value: unknown): Promise<boolean> {
+  const text = JSON.stringify(value, null, 2);
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    // Fallback for restricted clipboard contexts.
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const ok = document.execCommand('copy');
+      textarea.remove();
+      return ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
 function readSeedFromHash(): string | null {
   const hash = window.location.hash;
   const m = hash.match(/^#\/agents\/(.+)$/);
@@ -248,13 +273,14 @@ export function initializeAgentsView(container: HTMLElement) {
                 Seed
                 <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedValue)}" spellcheck="false" />
               </label>
-              <div class="agents-btn-row">
-                <button id="agents-random" class="agents-btn">Random</button>
-                <button id="agents-generate" class="agents-btn primary">Generate</button>
-                <button id="agents-save" class="agents-btn primary">Save</button>
-                <button id="agents-export" class="agents-btn">Export</button>
-                <button id="agents-share" class="agents-btn">Copy link</button>
-              </div>
+            <div class="agents-btn-row">
+              <button id="agents-random" class="agents-btn">Random</button>
+              <button id="agents-generate" class="agents-btn primary">Generate</button>
+              <button id="agents-save" class="agents-btn primary">Save</button>
+              <button id="agents-export" class="agents-btn">Export JSON</button>
+              <button id="agents-copy-json" class="agents-btn">Copy JSON</button>
+              <button id="agents-share" class="agents-btn">Copy link</button>
+            </div>
 
               <details class="agents-advanced" ${useOverrides ? 'open' : ''}>
                 <summary class="agents-advanced-summary">
@@ -342,6 +368,7 @@ export function initializeAgentsView(container: HTMLElement) {
     const btnShare = container.querySelector('#agents-share') as HTMLButtonElement | null;
     const btnSave = container.querySelector('#agents-save') as HTMLButtonElement | null;
     const btnExport = container.querySelector('#agents-export') as HTMLButtonElement | null;
+    const btnCopyJson = container.querySelector('#agents-copy-json') as HTMLButtonElement | null;
     const btnClear = container.querySelector('#agents-clear') as HTMLButtonElement | null;
     const overridesToggle = container.querySelector('#agents-use-overrides') as HTMLInputElement | null;
 
@@ -410,6 +437,15 @@ export function initializeAgentsView(container: HTMLElement) {
     btnExport?.addEventListener('click', () => {
       if (!activeAgent) return;
       downloadJson(`agent-${activeAgent.id}.json`, activeAgent);
+    });
+
+    btnCopyJson?.addEventListener('click', async () => {
+      if (!activeAgent) return;
+      const ok = await copyJsonToClipboard(activeAgent);
+      if (!ok) {
+        // Last-resort UX without bringing in toast infra.
+        alert('Could not copy JSON to clipboard (browser blocked clipboard access).');
+      }
     });
 
     btnClear?.addEventListener('click', () => {
