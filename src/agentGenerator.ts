@@ -35,6 +35,7 @@ export type AgentPriorsV1 = {
               Fixed
             >
           >;
+          securityEnvironment01k?: Partial<Record<'conflict' | 'stateViolence' | 'militarization', Fixed>>;
           appearance?: { heightBandWeights01k?: Partial<Record<HeightBand, Fixed>> };
           mediaEnvironment01k?: Partial<Record<'print' | 'radio' | 'tv' | 'social' | 'closed', Fixed>>;
           educationTrackWeights?: Record<string, number>;
@@ -490,6 +491,44 @@ function mixFoodEnv01k(parts: Array<{ env: FoodEnv01k; weight: number }>): FoodE
     out[axis] = clampFixed01k((acc / total) * 1000);
   }
   return out as FoodEnv01k;
+}
+
+type SecurityEnvAxis = 'conflict' | 'stateViolence' | 'militarization';
+
+type SecurityEnv01k = Record<SecurityEnvAxis, Fixed>;
+
+const SECURITY_ENV_AXES: readonly SecurityEnvAxis[] = ['conflict', 'stateViolence', 'militarization'];
+
+function normalizeSecurityEnv01k(env: Partial<Record<SecurityEnvAxis, Fixed>> | null | undefined): SecurityEnv01k | null {
+  if (!env || typeof env !== 'object') return null;
+  let hasAny = false;
+  const out: Record<string, Fixed> = {};
+  const defaults: SecurityEnv01k = { conflict: 0, stateViolence: 0, militarization: 150 };
+  for (const axis of SECURITY_ENV_AXES) {
+    const v = Number(env[axis]);
+    if (Number.isFinite(v)) {
+      hasAny = true;
+      out[axis] = clampFixed01k(v);
+    } else {
+      out[axis] = defaults[axis];
+    }
+  }
+  return hasAny ? (out as SecurityEnv01k) : null;
+}
+
+function mixSecurityEnv01k(parts: Array<{ env: SecurityEnv01k; weight: number }>): SecurityEnv01k {
+  const cleaned = parts
+    .map(p => ({ env: p.env, weight: Number.isFinite(p.weight) ? Math.max(0, p.weight) : 0 }))
+    .filter(p => p.weight > 0);
+  if (!cleaned.length) return { conflict: 0, stateViolence: 0, militarization: 150 };
+  const total = cleaned.reduce((s, p) => s + p.weight, 0);
+  const out: Record<string, Fixed> = {};
+  for (const axis of SECURITY_ENV_AXES) {
+    let acc = 0;
+    for (const p of cleaned) acc += (p.env[axis] / 1000) * p.weight;
+    out[axis] = clampFixed01k((acc / total) * 1000);
+  }
+  return out as SecurityEnv01k;
 }
 
 function deriveCultureFromShadowContinent(continent: string | undefined): string {
@@ -1066,6 +1105,40 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const travelFrequencyBand = band5From01k(travelScore);
   traceSet(trace, 'mobility', { mobilityTag, passportAccessBand, travelFrequencyBand }, { method: 'weightedPick+env+formula', dependsOn: { facet: 'mobility', tierBand, cosmo01, inst01, public01, roleSeedTags, passportEnv: passportEnv ?? null, travelEnv: travelEnv ?? null } });
 
+  const getSecurityEnv01k = (iso3: string): SecurityEnv01k | null => {
+    const bucket = input.priors?.countries?.[iso3]?.buckets?.[String(cohortBucketStartYear)];
+    return normalizeSecurityEnv01k(bucket?.securityEnvironment01k as Partial<Record<SecurityEnvAxis, Fixed>> | null | undefined);
+  };
+  const homeSecurityEnv01k = getSecurityEnv01k(homeCountryIso3);
+  const citizenshipSecurityEnv01k = citizenshipCountryIso3 !== homeCountryIso3 ? getSecurityEnv01k(citizenshipCountryIso3) : null;
+  const currentSecurityEnv01k = currentCountryIso3 !== homeCountryIso3 ? getSecurityEnv01k(currentCountryIso3) : null;
+
+  const securityEnv01k = homeSecurityEnv01k
+    ? mixSecurityEnv01k([
+        { env: homeSecurityEnv01k, weight: 1 },
+        ...(citizenshipSecurityEnv01k ? [{ env: citizenshipSecurityEnv01k, weight: 0.10 + 0.25 * cosmo01 }] : []),
+        ...(currentSecurityEnv01k ? [{ env: currentSecurityEnv01k, weight: 0.15 + 0.35 * cosmo01 + (abroad ? 0.15 : 0) }] : []),
+      ])
+    : null;
+
+  if (trace) {
+    trace.derived.securityEnv = {
+      home: homeSecurityEnv01k,
+      citizenship: citizenshipSecurityEnv01k,
+      current: currentSecurityEnv01k,
+      blended: securityEnv01k,
+    };
+  }
+
+  const securityAxis01k = (axis: SecurityEnvAxis, fallback01k: Fixed) => (securityEnv01k ? securityEnv01k[axis] : fallback01k);
+  const conflictEnv01k = securityAxis01k('conflict', 0);
+  const stateViolenceEnv01k = securityAxis01k('stateViolence', 0);
+  const militarizationEnv01k = securityAxis01k('militarization', 150);
+  const securityPressure01k = clampFixed01k(
+    0.45 * conflictEnv01k + 0.35 * stateViolenceEnv01k + 0.20 * militarizationEnv01k,
+  );
+  if (trace) trace.derived.securityPressure01k = securityPressure01k;
+
   traceFacet(trace, seed, 'skills');
   const skillRng = makeRng(facetSeed(seed, 'skills'));
   const skillTrace: Record<string, unknown> = {};
@@ -1118,11 +1191,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
           add('handEyeCoordination', aptitudes.handEyeCoordination);
           add('attentionControl', aptitudes.attentionControl);
           add('opsecDiscipline', latents.opsecDiscipline);
+          add('securityPressure', securityPressure01k);
           value = clampFixed01k(
             0.26 * aptitudes.reflexes +
               0.24 * aptitudes.handEyeCoordination +
               0.18 * aptitudes.attentionControl +
               0.12 * latents.opsecDiscipline +
+              0.08 * securityPressure01k +
               0.20 * noise +
               careerBonus +
               tierBonus,
@@ -1134,11 +1209,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
           add('attentionControl', aptitudes.attentionControl);
           add('workingMemory', aptitudes.workingMemory);
           add('opsecDiscipline', latents.opsecDiscipline);
+          add('stateViolenceEnv', stateViolenceEnv01k);
           value = clampFixed01k(
             0.22 * aptitudes.cognitiveSpeed +
               0.22 * aptitudes.attentionControl +
               0.18 * aptitudes.workingMemory +
               0.18 * latents.opsecDiscipline +
+              0.06 * stateViolenceEnv01k +
               0.20 * noise +
               careerBonus,
           );
@@ -1149,11 +1226,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
           add('deceptionAptitude', aptitudes.deceptionAptitude);
           add('riskAppetite', latents.riskAppetite);
           add('workingMemory', aptitudes.workingMemory);
+          add('conflictEnv', conflictEnv01k);
           value = clampFixed01k(
             0.28 * latents.opsecDiscipline +
               0.22 * aptitudes.deceptionAptitude +
               0.12 * latents.riskAppetite +
               0.18 * aptitudes.workingMemory +
+              0.06 * conflictEnv01k +
               0.20 * noise +
               careerBonus +
               (roleSeedTags.includes('operative') ? 90 : 0),
@@ -1164,10 +1243,12 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
           add('workingMemory', aptitudes.workingMemory);
           add('attentionControl', aptitudes.attentionControl);
           add('conscientiousness', traits.conscientiousness);
+          add('stateViolenceEnv', stateViolenceEnv01k);
           value = clampFixed01k(
             0.25 * aptitudes.workingMemory +
               0.20 * aptitudes.attentionControl +
               0.25 * traits.conscientiousness +
+              0.06 * stateViolenceEnv01k +
               0.30 * noise +
               careerBonus +
               tierBonus,
