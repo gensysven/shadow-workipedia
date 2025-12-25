@@ -19,6 +19,7 @@ export type AgentPriorsV1 = {
         {
           cohortBucketStartYear: number;
           indicators?: Record<string, unknown>;
+          languages01k?: Record<string, Fixed>;
           appearance?: { heightBandWeights01k?: Partial<Record<HeightBand, Fixed>> };
           mediaEnvironment01k?: Partial<Record<'print' | 'radio' | 'tv' | 'social' | 'closed', Fixed>>;
           educationTrackWeights?: Record<string, number>;
@@ -716,6 +717,18 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const cultureLangs = uniqueStrings(culture?.identity?.languages ?? []);
   const baseLangs = uniqueStrings(vocab.identity.languages);
   const unionLangs = uniqueStrings([...cultureLangs, ...baseLangs]);
+  const getLanguageEnv01k = (iso3: string): Record<string, Fixed> | null => {
+    const bucket = input.priors?.countries?.[iso3]?.buckets?.[String(cohortBucketStartYear)];
+    const env = bucket?.languages01k;
+    return env && typeof env === 'object' ? (env as Record<string, Fixed>) : null;
+  };
+  const homeLangEnv01k = getLanguageEnv01k(homeCountryIso3);
+  const citizenshipLangEnv01k = citizenshipCountryIso3 !== homeCountryIso3 ? getLanguageEnv01k(citizenshipCountryIso3) : null;
+  const currentLangEnv01k = currentCountryIso3 !== homeCountryIso3 ? getLanguageEnv01k(currentCountryIso3) : null;
+
+  const maxHomeWeight = homeLangEnv01k ? Math.max(0, ...Object.values(homeLangEnv01k).map(Number)) : null;
+  const homeDiversity01 = maxHomeWeight != null ? clamp01(1 - maxHomeWeight / 1000, 0) : 0;
+
   const desiredLanguageCount = Math.max(
     1,
     Math.min(
@@ -723,32 +736,89 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       1 +
         (cosmo01 > 0.45 ? 1 : 0) +
         (cosmo01 > 0.78 ? 1 : 0) +
+        (homeDiversity01 > 0.40 ? 1 : 0) +
         (careerTrackTag === 'foreign-service' ? 1 : 0) +
         (educationTrackTag === 'graduate' || educationTrackTag === 'doctorate' ? 1 : 0),
     ),
   );
   const languageCount = Math.max(1, Math.min(3, desiredLanguageCount));
+
+  const topEnv = (env: Record<string, Fixed> | null) =>
+    env
+      ? Object.entries(env).sort((a, b) => Number(b[1]) - Number(a[1])).slice(0, 8).map(([language, weight01k]) => ({ language, weight01k: Number(weight01k) }))
+      : null;
+  if (trace) {
+    trace.derived.languageEnv = {
+      home: topEnv(homeLangEnv01k),
+      citizenship: topEnv(citizenshipLangEnv01k),
+      current: topEnv(currentLangEnv01k),
+      homeDiversity01,
+    };
+  }
+
   const languages: string[] = [];
-  const useCulturePrimaryLanguage = cultureLangs.length > 0 && langRng.next01() < languagesPrimaryWeight;
-  languages.push(langRng.pick(useCulturePrimaryLanguage ? cultureLangs : baseLangs));
-  const remaining = Math.max(0, languageCount - languages.length);
-  languages.push(...langRng.pickK(unionLangs.filter(l => !languages.includes(l)), remaining));
-  traceSet(trace, 'identity.languages', languages, { method: 'hybridPickK', dependsOn: { facet: 'languages', languagesPrimaryWeight, useCulturePrimaryLanguage, desiredLanguageCount, languageCount, cultureLangPoolSize: cultureLangs.length, baseLangPoolSize: baseLangs.length } });
+  if (homeLangEnv01k) {
+    const citFactor = citizenshipLangEnv01k ? 0.10 + 0.25 * cosmo01 : 0;
+    const curFactor = currentLangEnv01k ? 0.15 + 0.35 * cosmo01 + (abroad ? 0.15 : 0) : 0;
+    const cultureBoost = 60 * languagesPrimaryWeight;
+
+    const primaryWeights = baseLangs.map((language) => {
+      let w = 1 + (homeLangEnv01k[language] ?? 0);
+      if (citizenshipLangEnv01k) w += (citizenshipLangEnv01k[language] ?? 0) * citFactor;
+      if (currentLangEnv01k) w += (currentLangEnv01k[language] ?? 0) * curFactor;
+      if (cultureLangs.includes(language)) w += cultureBoost;
+      return { item: language, weight: w };
+    });
+    const primaryLanguage = weightedPick(langRng, primaryWeights);
+    languages.push(primaryLanguage);
+
+    const remainingWeights = baseLangs
+      .filter(l => !languages.includes(l))
+      .map((language) => {
+        let w = 1 + (homeLangEnv01k[language] ?? 0);
+        if (citizenshipLangEnv01k) w += (citizenshipLangEnv01k[language] ?? 0) * (0.20 + 0.30 * cosmo01);
+        if (currentLangEnv01k) w += (currentLangEnv01k[language] ?? 0) * (0.25 + 0.35 * cosmo01 + (abroad ? 0.20 : 0));
+        if (cultureLangs.includes(language)) w += 40;
+        return { item: language, weight: w };
+      });
+    const remaining = Math.max(0, languageCount - languages.length);
+    languages.push(...weightedPickKUnique(langRng, remainingWeights, remaining));
+
+    traceSet(trace, 'identity.languages', languages, {
+      method: 'env+weightedPickKUnique',
+      dependsOn: { facet: 'languages', languageCount, homeCountryIso3, citizenshipCountryIso3, currentCountryIso3, cosmo01, homeDiversity01 },
+    });
+  } else {
+    const useCulturePrimaryLanguage = cultureLangs.length > 0 && langRng.next01() < languagesPrimaryWeight;
+    languages.push(langRng.pick(useCulturePrimaryLanguage ? cultureLangs : baseLangs));
+    const remaining = Math.max(0, languageCount - languages.length);
+    languages.push(...langRng.pickK(unionLangs.filter(l => !languages.includes(l)), remaining));
+    traceSet(trace, 'identity.languages', languages, {
+      method: 'hybridPickK',
+      dependsOn: { facet: 'languages', languagesPrimaryWeight, useCulturePrimaryLanguage, languageCount, cultureLangPoolSize: cultureLangs.length, baseLangPoolSize: baseLangs.length },
+    });
+  }
 
   traceFacet(trace, seed, 'language_proficiency');
   const proficiencyRng = makeRng(facetSeed(seed, 'language_proficiency'));
   const languageProficiencies = languages.map((language, idx) => {
     const isPrimary = idx === 0;
-    const band: Band5 = isPrimary
-      ? 'very_high'
+    const envSupport01 = Math.max(
+      (homeLangEnv01k?.[language] ?? 0) / 1000,
+      (citizenshipLangEnv01k?.[language] ?? 0) / 1000,
+      (currentLangEnv01k?.[language] ?? 0) / 1000,
+    );
+    const score = isPrimary
+      ? 980
       : tierBand === 'elite'
-        ? band5From01k(clampFixed01k(proficiencyRng.int(450, 1000)))
+        ? clampFixed01k(proficiencyRng.int(420, 980) + Math.round(envSupport01 * 220) + Math.round(cosmo01 * 120))
         : tierBand === 'middle'
-          ? band5From01k(clampFixed01k(proficiencyRng.int(300, 950)))
-          : band5From01k(clampFixed01k(proficiencyRng.int(200, 900)));
+          ? clampFixed01k(proficiencyRng.int(300, 950) + Math.round(envSupport01 * 200) + Math.round(cosmo01 * 100))
+          : clampFixed01k(proficiencyRng.int(220, 900) + Math.round(envSupport01 * 180) + Math.round(cosmo01 * 80));
+    const band: Band5 = band5From01k(score);
     return { language, proficiencyBand: band };
   });
-  traceSet(trace, 'identity.languageProficiencies', languageProficiencies, { method: 'perLanguageBand', dependsOn: { facet: 'language_proficiency', tierBand } });
+  traceSet(trace, 'identity.languageProficiencies', languageProficiencies, { method: 'env+perLanguageBand', dependsOn: { facet: 'language_proficiency', tierBand, cosmo01 } });
 
   traceFacet(trace, seed, 'appearance');
   const appearanceRng = makeRng(facetSeed(seed, 'appearance'));
