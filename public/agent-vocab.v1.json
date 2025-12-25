@@ -193,6 +193,33 @@
       "Hausa",
       "Yoruba",
       "Amharic"
+    ],
+    "educationTracks": [
+      "secondary",
+      "trade-certification",
+      "undergraduate",
+      "graduate",
+      "doctorate",
+      "military-academy",
+      "civil-service-track",
+      "self-taught"
+    ],
+    "careerTracks": [
+      "civil-service",
+      "foreign-service",
+      "intelligence",
+      "military",
+      "law",
+      "journalism",
+      "finance",
+      "engineering",
+      "academia",
+      "ngo",
+      "corporate-ops",
+      "organized-labor",
+      "public-health",
+      "logistics",
+      "politics"
     ]
   },
   "appearance": {
@@ -242,6 +269,66 @@
       "analyst": { "surveillance": 120, "bureaucracy": 60 },
       "organizer": { "negotiation": 120, "mediaHandling": 80 }
     }
+  },
+  "psych": {
+    "redLines": [
+      "harm-to-civilians",
+      "torture",
+      "assassination",
+      "kidnapping",
+      "mass-casualties",
+      "collective-punishment",
+      "framing-innocents",
+      "betrayal-of-close-allies",
+      "blackmail",
+      "personal-corruption",
+      "ideological-compromise"
+    ],
+    "redLineByRole": {
+      "operative": ["harm-to-civilians", "mass-casualties", "betrayal-of-close-allies"],
+      "security": ["torture", "assassination", "mass-casualties"],
+      "diplomat": ["assassination", "kidnapping", "collective-punishment"],
+      "media": ["framing-innocents", "blackmail", "personal-corruption"],
+      "technocrat": ["personal-corruption", "collective-punishment", "ideological-compromise"],
+      "analyst": ["assassination", "kidnapping", "framing-innocents"],
+      "organizer": ["betrayal-of-close-allies", "blackmail", "personal-corruption"],
+      "logistics": ["mass-casualties", "harm-to-civilians", "kidnapping"]
+    }
+  },
+  "visibility": {
+    "publicRoleTags": ["ministerial-advisor", "public-spokesperson", "industry-leader", "activist", "celebrity-adjacent"],
+    "stealthRoleTags": ["deep-cover", "quiet-professional", "backroom-operator", "invisible-specialist"]
+  },
+  "health": {
+    "chronicConditionTags": [
+      "asthma",
+      "hypertension",
+      "migraine",
+      "insomnia",
+      "chronic-pain",
+      "seasonal-allergies"
+    ],
+    "allergyTags": ["nuts", "shellfish", "dairy", "gluten", "pollen"]
+  },
+  "covers": {
+    "coverAptitudeTags": [
+      "consultant",
+      "journalist",
+      "ngo-worker",
+      "academic",
+      "engineer",
+      "logistics-contractor",
+      "diplomatic-staff",
+      "business-development",
+      "tourist",
+      "aid-worker",
+      "trade-delegate",
+      "freelancer"
+    ]
+  },
+  "mobility": {
+    "mobilityTags": ["low-mobility", "regional-travel", "frequent-flyer", "nomadic"],
+    "passportAccessBands": ["very_low", "low", "medium", "high", "very_high"]
   },
   "preferences": {
     "food": {

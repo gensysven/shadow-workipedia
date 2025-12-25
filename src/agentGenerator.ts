@@ -42,6 +42,8 @@ export type AgentVocabV1 = {
     firstNames: string[];
     lastNames: string[];
     languages: string[];
+    educationTracks?: string[];
+    careerTracks?: string[];
   };
   appearance: {
     heightBands: HeightBand[];
@@ -82,6 +84,25 @@ export type AgentVocabV1 = {
   logistics: {
     identityKitItems: string[];
   };
+  psych?: {
+    redLines?: string[];
+    redLineByRole?: Record<string, string[]>;
+  };
+  visibility?: {
+    publicRoleTags?: string[];
+    stealthRoleTags?: string[];
+  };
+  health?: {
+    chronicConditionTags?: string[];
+    allergyTags?: string[];
+  };
+  covers?: {
+    coverAptitudeTags?: string[];
+  };
+  mobility?: {
+    mobilityTags?: string[];
+    passportAccessBands?: Band5[];
+  };
   cultureProfiles?: Record<string, CultureProfileV1>;
 };
 
@@ -94,11 +115,17 @@ export type GeneratedAgent = {
   identity: {
     name: string;
     homeCountryIso3: string;
+    citizenshipCountryIso3: string;
+    currentCountryIso3: string;
     homeCulture: string;
     birthYear: number;
     tierBand: TierBand;
     roleSeedTags: string[];
     languages: string[];
+    languageProficiencies: Array<{ language: string; proficiencyBand: Band5 }>;
+    educationTrackTag: string;
+    careerTrackTag: string;
+    redLines: string[];
   };
 
   appearance: {
@@ -153,6 +180,37 @@ export type GeneratedAgent = {
     };
   };
 
+  psych: {
+    traits: {
+      riskTolerance: Fixed;
+      conscientiousness: Fixed;
+      noveltySeeking: Fixed;
+      agreeableness: Fixed;
+      authoritarianism: Fixed;
+    };
+  };
+
+  visibility: {
+    publicVisibility: Fixed;
+    paperTrail: Fixed;
+    digitalHygiene: Fixed;
+  };
+
+  health: {
+    chronicConditionTags: string[];
+    allergyTags: string[];
+  };
+
+  covers: {
+    coverAptitudeTags: string[];
+  };
+
+  mobility: {
+    passportAccessBand: Band5;
+    mobilityTag: string;
+    travelFrequencyBand: Band5;
+  };
+
   routines: {
     chronotype: string;
     sleepWindow: string;
@@ -176,7 +234,6 @@ export type GenerateAgentInput = {
   seed: string;
   birthYear?: number;
   tierBand?: TierBand;
-  homeCulture?: string;
   roleSeedTags?: string[];
 };
 
@@ -310,6 +367,28 @@ function pickKHybrid(rng: Rng, primary: readonly string[], fallback: readonly st
   return uniqueStrings([...a, ...b]).slice(0, k);
 }
 
+function deriveCultureFromShadowContinent(continent: string | undefined): string {
+  const token = (continent ?? '').trim();
+  if (!token) return 'Global';
+  const shadowContinentToCulture: Record<string, string> = {
+    Pelag: 'Oceania',
+    Mero: 'Sub‑Saharan Africa',
+    Aram: 'MENA',
+    Solis: 'South Asia',
+    Hesper: 'Europe',
+    Athar: 'Europe',
+    Verd: 'Americas',
+  };
+  return shadowContinentToCulture[token] ?? 'Global';
+}
+
+function bandedByTier(tier: TierBand, rng: Rng): Band5 {
+  // Quick heuristic: elite skews higher; mass skews lower.
+  const x = rng.int(0, 1000);
+  const bias = tier === 'elite' ? 120 : tier === 'mass' ? -80 : 0;
+  return band5From01k(clampFixed01k(x + bias));
+}
+
 export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const seed = normalizeSeed(input.seed);
   const base = makeRng(facetSeed(seed, 'base'));
@@ -331,21 +410,34 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const originRng = makeRng(facetSeed(seed, 'origin'));
   const origin = originRng.pick(validCountries);
   const homeCountryIso3 = origin.iso3.trim().toUpperCase();
-
-  const shadowContinentToCulture: Record<string, string> = {
-    Pelag: 'Oceania',
-    Mero: 'Sub‑Saharan Africa',
-    Aram: 'MENA',
-    Solis: 'South Asia',
-    Hesper: 'Europe',
-    Athar: 'Europe',
-    Verd: 'Americas',
-  };
-
-  const derivedCulture = shadowContinentToCulture[(origin.continent ?? '').trim()] ?? 'Global';
-  const homeCulture = (input.homeCulture ?? derivedCulture ?? base.pick(vocab.identity.homeCultures)) as string;
+  const homeCulture = deriveCultureFromShadowContinent(origin.continent);
   const roleSeedTags = (input.roleSeedTags?.length ? input.roleSeedTags : base.pickK(vocab.identity.roleSeedTags, 2))
     .slice(0, 4);
+
+  const cultureCountries = validCountries.filter((c) => deriveCultureFromShadowContinent(c.continent) === homeCulture);
+  const citizenshipRng = makeRng(facetSeed(seed, 'citizenship'));
+  const citizenshipFlipBase = tierBand === 'elite' ? 0.25 : tierBand === 'middle' ? 0.18 : 0.12;
+  const citizenshipFlip = citizenshipFlipBase + (roleSeedTags.includes('diplomat') ? 0.12 : 0) + (roleSeedTags.includes('operative') ? 0.06 : 0);
+  const citizenshipOrigin = (citizenshipRng.next01() < Math.min(0.6, citizenshipFlip) && cultureCountries.length)
+    ? citizenshipRng.pick(cultureCountries)
+    : origin;
+  const citizenshipCountryIso3 = citizenshipOrigin.iso3.trim().toUpperCase();
+
+  const currentRng = makeRng(facetSeed(seed, 'current_country'));
+  const baseAbroad = tierBand === 'elite' ? 0.35 : tierBand === 'middle' ? 0.22 : 0.12;
+  const roleAbroad =
+    (roleSeedTags.includes('diplomat') ? 0.35 : 0) +
+    (roleSeedTags.includes('media') ? 0.10 : 0) +
+    (roleSeedTags.includes('technocrat') ? 0.08 : 0) +
+    (roleSeedTags.includes('operative') ? 0.18 : 0);
+  const abroadChance = Math.min(0.85, baseAbroad + roleAbroad);
+  const abroad = currentRng.next01() < abroadChance;
+  const currentCandidatePool = cultureCountries.length ? cultureCountries : validCountries;
+  const abroadPool = currentCandidatePool.filter(c => c.iso3.trim().toUpperCase() !== homeCountryIso3);
+  const currentPick = abroad
+    ? currentRng.pick(abroadPool.length ? abroadPool : currentCandidatePool)
+    : origin;
+  const currentCountryIso3 = currentPick.iso3.trim().toUpperCase();
 
   const culture = vocab.cultureProfiles?.[homeCulture];
   const cultureWeights = culture?.weights ?? {};
@@ -373,6 +465,19 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   }
   const remaining = Math.max(0, languageCount - languages.length);
   languages.push(...langRng.pickK(unionLangs.filter(l => !languages.includes(l)), remaining));
+
+  const proficiencyRng = makeRng(facetSeed(seed, 'language_proficiency'));
+  const languageProficiencies = languages.map((language, idx) => {
+    const isPrimary = idx === 0;
+    const band: Band5 = isPrimary
+      ? 'very_high'
+      : tierBand === 'elite'
+        ? band5From01k(clampFixed01k(proficiencyRng.int(450, 1000)))
+        : tierBand === 'middle'
+          ? band5From01k(clampFixed01k(proficiencyRng.int(300, 950)))
+          : band5From01k(clampFixed01k(proficiencyRng.int(200, 900)));
+    return { language, proficiencyBand: band };
+  });
 
   const appearanceRng = makeRng(facetSeed(seed, 'appearance'));
   if (!vocab.appearance.heightBands.length) throw new Error('Agent vocab missing: appearance.heightBands');
@@ -411,6 +516,72 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     assertiveness: clampFixed01k(0.50 * social + 0.50 * capRng.int(0, 1000)),
     deceptionAptitude: clampFixed01k(0.40 * social + 0.60 * capRng.int(0, 1000)),
   };
+
+  const identityRng = makeRng(facetSeed(seed, 'identity_tracks'));
+  const educationTracks = uniqueStrings(vocab.identity.educationTracks ?? []);
+  const careerTracks = uniqueStrings(vocab.identity.careerTracks ?? []);
+  const educationTrackTag = educationTracks.length
+    ? identityRng.pick(educationTracks)
+    : identityRng.pick(['secondary', 'undergraduate', 'graduate', 'trade-certification'] as const);
+
+  const careerNudges: Record<string, string> = {
+    diplomat: 'foreign-service',
+    operative: 'intelligence',
+    security: 'military',
+    media: 'journalism',
+    technocrat: 'engineering',
+    analyst: 'academia',
+    organizer: 'organized-labor',
+    logistics: 'logistics',
+  };
+  const nudged = roleSeedTags.map(r => careerNudges[r]).find(Boolean);
+  const careerTrackTag = nudged && careerTracks.includes(nudged) ? nudged : (careerTracks.length ? identityRng.pick(careerTracks) : 'civil-service');
+
+  const traitRng = makeRng(facetSeed(seed, 'psych_traits'));
+  const traits = {
+    riskTolerance: clampFixed01k(0.55 * aptitudes.riskCalibration + 0.45 * traitRng.int(0, 1000)),
+    conscientiousness: clampFixed01k(0.65 * aptitudes.attentionControl + 0.35 * traitRng.int(0, 1000)),
+    noveltySeeking: clampFixed01k(0.55 * aptitudes.cognitiveSpeed + 0.45 * traitRng.int(0, 1000)),
+    agreeableness: clampFixed01k(0.70 * aptitudes.empathy + 0.30 * traitRng.int(0, 1000)),
+    authoritarianism: clampFixed01k(0.55 * aptitudes.assertiveness + 0.45 * traitRng.int(0, 1000)),
+  };
+
+  const redLinePool = uniqueStrings(vocab.psych?.redLines ?? []);
+  const roleRedLinePool = roleSeedTags.flatMap(r => vocab.psych?.redLineByRole?.[r] ?? []);
+  const redLineRng = makeRng(facetSeed(seed, 'red_lines'));
+  const redLineCount = clampInt(1 + Math.round((traits.agreeableness + traits.conscientiousness) / 1000), 1, 3);
+  const redLines = redLinePool.length
+    ? pickKHybrid(redLineRng, uniqueStrings(roleRedLinePool), redLinePool, redLineCount, Math.min(redLineCount, 2))
+    : redLineRng.pickK(['harm-to-civilians', 'torture', 'personal-corruption'] as const, redLineCount);
+
+  const visRng = makeRng(facetSeed(seed, 'visibility'));
+  const publicRoleBoost = roleSeedTags.includes('media') || roleSeedTags.includes('diplomat') ? 220 : 0;
+  const stealthRoleBoost = roleSeedTags.includes('operative') ? 220 : 0;
+  const publicVisibility = clampFixed01k(visRng.int(0, 1000) + publicRoleBoost - stealthRoleBoost);
+  const paperTrail = clampFixed01k(visRng.int(0, 1000) + (careerTrackTag === 'civil-service' || careerTrackTag === 'law' ? 120 : 0));
+  const digitalHygiene = clampFixed01k(0.55 * aptitudes.attentionControl + 0.45 * visRng.int(0, 1000) + (roleSeedTags.includes('operative') ? 120 : 0));
+
+  const healthRng = makeRng(facetSeed(seed, 'health'));
+  const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
+  const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
+  const age = clampInt(new Date().getFullYear() - birthYear, 0, 120);
+  const chronicChance = Math.min(0.55, Math.max(0.05, age / 200));
+  const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance ? healthRng.pickK(chronicPool, healthRng.int(0, 1)) : [];
+  const allergyTags = allergyPool.length && healthRng.next01() < 0.25 ? healthRng.pickK(allergyPool, 1) : [];
+
+  const coverRng = makeRng(facetSeed(seed, 'covers'));
+  const coverPool = uniqueStrings(vocab.covers?.coverAptitudeTags ?? []);
+  const coverAptitudeTags = coverPool.length ? coverRng.pickK(coverPool, 3) : coverRng.pickK(['consultant', 'ngo-worker', 'tourist'] as const, 3);
+
+  const mobilityRng = makeRng(facetSeed(seed, 'mobility'));
+  const mobilityTags = uniqueStrings(vocab.mobility?.mobilityTags ?? []);
+  const mobilityTag = mobilityTags.length ? mobilityRng.pick(mobilityTags) : mobilityRng.pick(['low-mobility', 'regional-travel', 'frequent-flyer'] as const);
+  const passportAccessBand = bandedByTier(tierBand, mobilityRng);
+  const travelFrequencyBand: Band5 = roleSeedTags.includes('diplomat')
+    ? 'very_high'
+    : roleSeedTags.includes('operative') || tierBand === 'elite'
+      ? bandedByTier('elite', mobilityRng)
+      : bandedByTier(tierBand, mobilityRng);
 
   const skillRng = makeRng(facetSeed(seed, 'skills'));
   const baseSkillValue = (min: number, max: number) => clampFixed01k(skillRng.int(min, max));
@@ -506,11 +677,17 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     identity: {
       name,
       homeCountryIso3,
+      citizenshipCountryIso3,
+      currentCountryIso3,
       homeCulture,
       birthYear,
       tierBand,
       roleSeedTags,
       languages,
+      languageProficiencies,
+      educationTrackTag,
+      careerTrackTag,
+      redLines,
     },
     appearance: {
       heightBand,
@@ -535,6 +712,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       },
       fashion: { styleTags, formality, conformity, statusSignaling },
     },
+    psych: { traits },
+    visibility: { publicVisibility, paperTrail, digitalHygiene },
+    health: { chronicConditionTags, allergyTags },
+    covers: { coverAptitudeTags },
+    mobility: { passportAccessBand, mobilityTag, travelFrequencyBand },
     routines: {
       chronotype,
       sleepWindow,

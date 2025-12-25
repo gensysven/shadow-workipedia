@@ -5,7 +5,7 @@ type RosterItem = {
   name: string;
   seed: string;
   createdAtIso: string;
-  agent: GeneratedAgent;
+  agent?: GeneratedAgent;
 };
 
 const ROSTER_STORAGE_KEY = 'swp.agents.roster.v1';
@@ -54,7 +54,13 @@ function loadRoster(): RosterItem[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw) as RosterItem[];
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter(x => x && typeof x === 'object' && typeof x.id === 'string' && x.agent && x.agent.version === 1);
+    return parsed.filter(x =>
+      x &&
+      typeof x === 'object' &&
+      typeof (x as { id?: unknown }).id === 'string' &&
+      typeof (x as { seed?: unknown }).seed === 'string' &&
+      typeof (x as { name?: unknown }).name === 'string'
+    );
   } catch {
     return [];
   }
@@ -99,18 +105,28 @@ function toTitleCaseWords(input: string): string {
   return mapped.join(' ').replace(/\bSci Fi\b/g, 'Sci-Fi');
 }
 
-function humanizeAgentForExport(agent: GeneratedAgent): unknown {
+function humanizeAgentForExport(agent: GeneratedAgent, shadowByIso3?: ReadonlyMap<string, { shadow: string; continent?: string }>): unknown {
   const platformDiet: Record<string, number> = {};
   for (const [k, v] of Object.entries(agent.preferences.media.platformDiet)) {
     platformDiet[toTitleCaseWords(k)] = v;
   }
 
+  const homeShadow = shadowByIso3?.get(agent.identity.homeCountryIso3)?.shadow ?? null;
+  const citizenshipShadow = shadowByIso3?.get(agent.identity.citizenshipCountryIso3)?.shadow ?? null;
+  const currentShadow = shadowByIso3?.get(agent.identity.currentCountryIso3)?.shadow ?? null;
+
   return {
     ...agent,
     identity: {
       ...agent.identity,
+      homeCountryShadow: homeShadow,
+      citizenshipCountryShadow: citizenshipShadow,
+      currentCountryShadow: currentShadow,
       tierBand: toTitleCaseWords(agent.identity.tierBand),
       roleSeedTags: agent.identity.roleSeedTags.map(toTitleCaseWords),
+      educationTrackTag: toTitleCaseWords(agent.identity.educationTrackTag),
+      careerTrackTag: toTitleCaseWords(agent.identity.careerTrackTag),
+      redLines: agent.identity.redLines.map(toTitleCaseWords),
     },
     appearance: {
       ...agent.appearance,
@@ -142,6 +158,33 @@ function humanizeAgentForExport(agent: GeneratedAgent): unknown {
         ...agent.preferences.fashion,
         styleTags: agent.preferences.fashion.styleTags.map(toTitleCaseWords),
       },
+    },
+    psych: {
+      traits: {
+        riskTolerance: agent.psych.traits.riskTolerance,
+        conscientiousness: agent.psych.traits.conscientiousness,
+        noveltySeeking: agent.psych.traits.noveltySeeking,
+        agreeableness: agent.psych.traits.agreeableness,
+        authoritarianism: agent.psych.traits.authoritarianism,
+      },
+    },
+    visibility: {
+      publicVisibility: agent.visibility.publicVisibility,
+      paperTrail: agent.visibility.paperTrail,
+      digitalHygiene: agent.visibility.digitalHygiene,
+    },
+    health: {
+      chronicConditionTags: agent.health.chronicConditionTags.map(toTitleCaseWords),
+      allergyTags: agent.health.allergyTags.map(toTitleCaseWords),
+    },
+    covers: {
+      coverAptitudeTags: agent.covers.coverAptitudeTags.map(toTitleCaseWords),
+    },
+    mobility: {
+      ...agent.mobility,
+      passportAccessBand: toTitleCaseWords(agent.mobility.passportAccessBand),
+      mobilityTag: toTitleCaseWords(agent.mobility.mobilityTag),
+      travelFrequencyBand: toTitleCaseWords(agent.mobility.travelFrequencyBand),
     },
     routines: {
       ...agent.routines,
@@ -229,8 +272,13 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
   const apt = agent.capabilities.aptitudes;
   const skills = agent.capabilities.skills;
 
-  const origin = shadowByIso3.get(agent.identity.homeCountryIso3);
-  const originLabel = origin?.shadow ?? agent.identity.homeCountryIso3;
+  const homeShadow = shadowByIso3.get(agent.identity.homeCountryIso3)?.shadow;
+  const citizenshipShadow = shadowByIso3.get(agent.identity.citizenshipCountryIso3)?.shadow;
+  const currentShadow = shadowByIso3.get(agent.identity.currentCountryIso3)?.shadow;
+
+  const originLabel = homeShadow ?? agent.identity.homeCountryIso3;
+  const citizenshipLabel = citizenshipShadow ?? agent.identity.citizenshipCountryIso3;
+  const currentLabel = currentShadow ?? agent.identity.currentCountryIso3;
 
   const platformDiet = Object.entries(agent.preferences.media.platformDiet)
     .map(([k, v]) => `<li><span class="kv-k">${escapeHtml(toTitleCaseWords(k))}</span><span class="kv-v">${escapeHtml(formatFixed01k(v))}</span></li>`)
@@ -257,6 +305,8 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
           <div class="agent-meta">
             <span class="agent-meta-item">Seed: <code>${escapeHtml(agent.seed)}</code></span>
             <span class="agent-meta-item">Origin: ${escapeHtml(originLabel)} <code>${escapeHtml(agent.identity.homeCountryIso3)}</code></span>
+            <span class="agent-meta-item">Citizenship: ${escapeHtml(citizenshipLabel)} <code>${escapeHtml(agent.identity.citizenshipCountryIso3)}</code></span>
+            <span class="agent-meta-item">Location: ${escapeHtml(currentLabel)} <code>${escapeHtml(agent.identity.currentCountryIso3)}</code></span>
             <span class="agent-meta-item">Born: ${escapeHtml(String(agent.identity.birthYear))}</span>
             <span class="agent-meta-item">Tier: ${escapeHtml(toTitleCaseWords(agent.identity.tierBand))}</span>
             <span class="agent-meta-item">Culture: ${escapeHtml(agent.identity.homeCulture)}</span>
@@ -266,6 +316,17 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
       </div>
 
       <div class="agent-grid">
+        <section class="agent-card">
+          <h3>Identity</h3>
+          <div class="agent-kv">
+            <div class="kv-row"><span class="kv-k">Education</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.educationTrackTag))}</span></div>
+            <div class="kv-row"><span class="kv-k">Career</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.careerTrackTag))}</span></div>
+            <div class="kv-row"><span class="kv-k">Mobility</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.mobilityTag))}</span></div>
+            <div class="kv-row"><span class="kv-k">Passport access</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.passportAccessBand))}</span></div>
+            <div class="kv-row"><span class="kv-k">Travel frequency</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.travelFrequencyBand))}</span></div>
+          </div>
+        </section>
+
         <section class="agent-card">
           <h3>Capabilities</h3>
           <div class="agent-card-grid">
@@ -291,6 +352,26 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
             <span>Skill</span><span>Band</span><span>Value</span>
           </div>
           <div class="agent-skill-list">${skillRows}</div>
+        </section>
+
+        <section class="agent-card">
+          <h3>Traits</h3>
+          <div class="agent-card-grid">
+            ${renderGauge('Risk tolerance', agent.psych.traits.riskTolerance)}
+            ${renderGauge('Conscientiousness', agent.psych.traits.conscientiousness)}
+            ${renderGauge('Novelty seeking', agent.psych.traits.noveltySeeking)}
+            ${renderGauge('Agreeableness', agent.psych.traits.agreeableness)}
+            ${renderGauge('Authoritarianism', agent.psych.traits.authoritarianism)}
+          </div>
+        </section>
+
+        <section class="agent-card">
+          <h3>Visibility</h3>
+          <div class="agent-card-grid">
+            ${renderGauge('Public visibility', agent.visibility.publicVisibility)}
+            ${renderGauge('Paper trail', agent.visibility.paperTrail)}
+            ${renderGauge('Digital hygiene', agent.visibility.digitalHygiene)}
+          </div>
         </section>
 
         <section class="agent-card">
@@ -337,6 +418,16 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
         </section>
 
         <section class="agent-card">
+          <h3>Constraints</h3>
+          <div class="agent-kv">
+            <div class="kv-row"><span class="kv-k">Red lines</span><span class="kv-v">${escapeHtml(agent.identity.redLines.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+            <div class="kv-row"><span class="kv-k">Chronic</span><span class="kv-v">${escapeHtml(agent.health.chronicConditionTags.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+            <div class="kv-row"><span class="kv-k">Allergies</span><span class="kv-v">${escapeHtml(agent.health.allergyTags.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+            <div class="kv-row"><span class="kv-k">Cover aptitudes</span><span class="kv-v">${escapeHtml(agent.covers.coverAptitudeTags.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+          </div>
+        </section>
+
+        <section class="agent-card">
           <h3>Vices</h3>
           ${agent.vices.length
             ? agent.vices.map(v => `
@@ -368,7 +459,7 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
 export function initializeAgentsView(container: HTMLElement) {
   let roster = loadRoster();
   let selectedRosterId: string | null = roster[0]?.id ?? null;
-  let activeAgent: GeneratedAgent | null = selectedRosterId ? roster.find(x => x.id === selectedRosterId)?.agent ?? null : null;
+  let activeAgent: GeneratedAgent | null = null;
   let agentVocab: AgentVocabV1 | null = null;
   let agentVocabError: string | null = null;
   let shadowCountries: Array<{ shadow: string; iso3: string; continent?: string }> | null = null;
@@ -376,7 +467,7 @@ export function initializeAgentsView(container: HTMLElement) {
   let shadowByIso3 = new Map<string, { shadow: string; continent?: string }>();
   let useOverrides = false;
   let overrideRoleTags: string[] = [];
-  let seedDraft = activeAgent?.seed ?? '';
+  let seedDraft = roster.find(x => x.id === selectedRosterId)?.seed ?? '';
   let pendingHashSeed: string | null = readSeedFromHash();
 
   if (pendingHashSeed) {
@@ -437,12 +528,10 @@ export function initializeAgentsView(container: HTMLElement) {
   function render() {
     const birthYear = activeAgent?.identity.birthYear ?? 1990;
     const tierBand = (activeAgent?.identity.tierBand ?? 'middle') as TierBand;
-    const homeCulture = activeAgent?.identity.homeCulture ?? 'Global';
     const roleSeedTags = activeAgent?.identity.roleSeedTags ?? [];
     if (!overrideRoleTags.length) overrideRoleTags = [...roleSeedTags];
 
     const vocabTierBands = (agentVocab?.identity.tierBands?.length ? agentVocab.identity.tierBands : (['elite', 'middle', 'mass'] as const)) as readonly TierBand[];
-    const vocabCultures = agentVocab?.identity.homeCultures?.length ? agentVocab.identity.homeCultures : [homeCulture];
     const vocabRoleSeeds = agentVocab?.identity.roleSeedTags?.length ? agentVocab.identity.roleSeedTags : overrideRoleTags;
 
     const hintLines: string[] = [];
@@ -499,12 +588,6 @@ export function initializeAgentsView(container: HTMLElement) {
                       ${vocabTierBands.map(t => `<option value="${escapeHtml(t)}" ${t === tierBand ? 'selected' : ''}>${escapeHtml(toTitleCaseWords(t))}</option>`).join('')}
                     </select>
                   </label>
-                  <label class="agents-label">
-                    Culture
-                    <select id="agents-culture" class="agents-input">
-                      ${vocabCultures.map(c => `<option value="${escapeHtml(c)}" ${c === homeCulture ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
-                    </select>
-                  </label>
                   <div class="agents-label">
                     Role seeds
                     <div class="agents-chips" id="agents-role-chips">
@@ -546,7 +629,6 @@ export function initializeAgentsView(container: HTMLElement) {
     const seedEl = container.querySelector('#agents-seed') as HTMLInputElement | null;
     const birthYearEl = container.querySelector('#agents-birthyear') as HTMLInputElement | null;
     const tierEl = container.querySelector('#agents-tier') as HTMLSelectElement | null;
-    const cultureEl = container.querySelector('#agents-culture') as HTMLSelectElement | null;
 
     seedEl?.addEventListener('input', () => {
       seedDraft = seedEl.value;
@@ -590,7 +672,6 @@ export function initializeAgentsView(container: HTMLElement) {
             countries: shadowCountries,
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
-            homeCulture: cultureEl?.value ?? homeCulture,
             roleSeedTags: overrideRoleTags,
           })
         : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries });
@@ -609,7 +690,6 @@ export function initializeAgentsView(container: HTMLElement) {
             countries: shadowCountries,
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
-            homeCulture: cultureEl?.value ?? homeCulture,
             roleSeedTags: overrideRoleTags,
           })
         : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries });
@@ -645,12 +725,12 @@ export function initializeAgentsView(container: HTMLElement) {
 
     btnExport?.addEventListener('click', () => {
       if (!activeAgent) return;
-      downloadJson(`agent-${activeAgent.id}.json`, humanizeAgentForExport(activeAgent));
+      downloadJson(`agent-${activeAgent.id}.json`, humanizeAgentForExport(activeAgent, shadowByIso3));
     });
 
     btnCopyJson?.addEventListener('click', async () => {
       if (!activeAgent) return;
-      const ok = await copyJsonToClipboard(humanizeAgentForExport(activeAgent));
+      const ok = await copyJsonToClipboard(humanizeAgentForExport(activeAgent, shadowByIso3));
       if (!ok) {
         // Last-resort UX without bringing in toast infra.
         alert('Could not copy JSON to clipboard (browser blocked clipboard access).');
@@ -670,9 +750,11 @@ export function initializeAgentsView(container: HTMLElement) {
         const found = roster.find(x => x.id === id);
         if (!found) return;
         selectedRosterId = found.id;
-        activeAgent = found.agent;
-        seedDraft = activeAgent.seed;
+        seedDraft = found.seed;
         pendingHashSeed = null;
+        activeAgent = agentVocab && shadowCountries
+          ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries })
+          : null;
         render();
       });
     }
@@ -685,8 +767,11 @@ export function initializeAgentsView(container: HTMLElement) {
         roster = roster.filter(x => x.id !== id);
         if (selectedRosterId === id) {
           selectedRosterId = roster[0]?.id ?? null;
-          activeAgent = selectedRosterId ? roster.find(x => x.id === selectedRosterId)?.agent ?? null : activeAgent;
-          if (activeAgent) seedDraft = activeAgent.seed;
+          const next = selectedRosterId ? roster.find(x => x.id === selectedRosterId) : null;
+          seedDraft = next?.seed ?? seedDraft;
+          activeAgent = next && agentVocab && shadowCountries
+            ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries })
+            : null;
         }
         saveRoster(roster);
         render();
