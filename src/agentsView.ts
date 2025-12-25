@@ -85,7 +85,7 @@ function downloadJson(filename: string, value: unknown) {
 function toTitleCaseWords(input: string): string {
   const normalized = input
     .trim()
-    .replace(/[_]+/g, ' ')
+    .replace(/[_-]+/g, ' ')
     .replace(/\s+/g, ' ');
   if (!normalized) return normalized;
 
@@ -319,6 +319,7 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
         <section class="agent-card">
           <h3>Identity</h3>
           <div class="agent-kv">
+            <div class="kv-row"><span class="kv-k">Languages</span><span class="kv-v">${escapeHtml(agent.identity.languageProficiencies.map(lp => `${lp.language} (${toTitleCaseWords(lp.proficiencyBand)})`).join(', '))}</span></div>
             <div class="kv-row"><span class="kv-k">Education</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.educationTrackTag))}</span></div>
             <div class="kv-row"><span class="kv-k">Career</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.careerTrackTag))}</span></div>
             <div class="kv-row"><span class="kv-k">Mobility</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.mobilityTag))}</span></div>
