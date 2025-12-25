@@ -106,6 +106,7 @@ function toTitleCaseWords(input: string): string {
 }
 
 function humanizeAgentForExport(agent: GeneratedAgent, shadowByIso3?: ReadonlyMap<string, { shadow: string; continent?: string }>): unknown {
+  const { generationTrace: _generationTrace, ...agentWithoutTrace } = agent;
   const platformDiet: Record<string, number> = {};
   for (const [k, v] of Object.entries(agent.preferences.media.platformDiet)) {
     platformDiet[toTitleCaseWords(k)] = v;
@@ -116,7 +117,7 @@ function humanizeAgentForExport(agent: GeneratedAgent, shadowByIso3?: ReadonlyMa
   const currentShadow = shadowByIso3?.get(agent.identity.currentCountryIso3)?.shadow ?? null;
 
   return {
-    ...agent,
+    ...agentWithoutTrace,
     identity: {
       ...agent.identity,
       homeCountryShadow: homeShadow,
@@ -297,6 +298,15 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
     `)
     .join('');
 
+  const traceSection = agent.generationTrace
+    ? `
+      <details class="agent-trace">
+        <summary>Generation trace</summary>
+        <pre class="agent-trace-pre">${escapeHtml(JSON.stringify(agent.generationTrace, null, 2))}</pre>
+      </details>
+    `
+    : '';
+
   return `
     <div class="agent-profile">
       <div class="agent-profile-header">
@@ -453,6 +463,8 @@ function renderAgent(agent: GeneratedAgent, shadowByIso3: ReadonlyMap<string, { 
           </div>
         </section>
       </div>
+
+      ${traceSection}
     </div>
   `;
 }
@@ -483,11 +495,11 @@ export function initializeAgentsView(container: HTMLElement) {
     if (!agentVocab || !shadowCountries) return;
 
     if (pendingHashSeed) {
-      activeAgent = generateAgent({ seed: pendingHashSeed, vocab: agentVocab, countries: shadowCountries });
+      activeAgent = generateAgent({ seed: pendingHashSeed, vocab: agentVocab, countries: shadowCountries, includeTrace: true });
       seedDraft = activeAgent.seed;
       pendingHashSeed = null;
     } else if (!activeAgent) {
-      activeAgent = generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries });
+      activeAgent = generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, includeTrace: true });
       seedDraft = activeAgent.seed;
     }
   };
@@ -566,6 +578,7 @@ export function initializeAgentsView(container: HTMLElement) {
               <button id="agents-save" class="agents-btn primary" ${activeAgent ? '' : 'disabled'}>Save</button>
               <button id="agents-export" class="agents-btn">Export JSON</button>
               <button id="agents-copy-json" class="agents-btn">Copy JSON</button>
+              <button id="agents-copy-trace" class="agents-btn">Copy trace</button>
               <button id="agents-share" class="agents-btn">Copy link</button>
             </div>
 
@@ -653,6 +666,7 @@ export function initializeAgentsView(container: HTMLElement) {
     const btnSave = container.querySelector('#agents-save') as HTMLButtonElement | null;
     const btnExport = container.querySelector('#agents-export') as HTMLButtonElement | null;
     const btnCopyJson = container.querySelector('#agents-copy-json') as HTMLButtonElement | null;
+    const btnCopyTrace = container.querySelector('#agents-copy-trace') as HTMLButtonElement | null;
     const btnClear = container.querySelector('#agents-clear') as HTMLButtonElement | null;
     const overridesToggle = container.querySelector('#agents-use-overrides') as HTMLInputElement | null;
 
@@ -674,8 +688,9 @@ export function initializeAgentsView(container: HTMLElement) {
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
             roleSeedTags: overrideRoleTags,
+            includeTrace: true,
           })
-        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries });
+        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, includeTrace: true });
       render();
     });
 
@@ -692,8 +707,9 @@ export function initializeAgentsView(container: HTMLElement) {
             birthYear: Number(birthYearEl?.value || birthYear),
             tierBand: (tierEl?.value as TierBand) ?? tierBand,
             roleSeedTags: overrideRoleTags,
+            includeTrace: true,
           })
-        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries });
+        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, includeTrace: true });
       render();
     });
 
@@ -716,7 +732,7 @@ export function initializeAgentsView(container: HTMLElement) {
         name: activeAgent.identity.name,
         seed: activeAgent.seed,
         createdAtIso: activeAgent.createdAtIso,
-        agent: activeAgent,
+        agent: { ...activeAgent, generationTrace: undefined },
       };
       roster = [item, ...roster.filter(x => x.id !== item.id)].slice(0, 100);
       selectedRosterId = item.id;
@@ -738,6 +754,18 @@ export function initializeAgentsView(container: HTMLElement) {
       }
     });
 
+    btnCopyTrace?.addEventListener('click', async () => {
+      const trace = activeAgent?.generationTrace;
+      if (!trace) {
+        alert('No generation trace available for this agent.');
+        return;
+      }
+      const ok = await copyJsonToClipboard(trace);
+      if (!ok) {
+        alert('Could not copy trace JSON to clipboard (browser blocked clipboard access).');
+      }
+    });
+
     btnClear?.addEventListener('click', () => {
       roster = [];
       selectedRosterId = null;
@@ -754,7 +782,7 @@ export function initializeAgentsView(container: HTMLElement) {
         seedDraft = found.seed;
         pendingHashSeed = null;
         activeAgent = agentVocab && shadowCountries
-          ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries })
+          ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, includeTrace: true })
           : null;
         render();
       });
@@ -771,7 +799,7 @@ export function initializeAgentsView(container: HTMLElement) {
           const next = selectedRosterId ? roster.find(x => x.id === selectedRosterId) : null;
           seedDraft = next?.seed ?? seedDraft;
           activeAgent = next && agentVocab && shadowCountries
-            ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries })
+            ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, includeTrace: true })
             : null;
         }
         saveRoster(roster);
@@ -786,7 +814,7 @@ export function initializeAgentsView(container: HTMLElement) {
     if (seed) {
       selectedRosterId = null;
       seedDraft = seed;
-      if (agentVocab && shadowCountries) activeAgent = generateAgent({ seed, vocab: agentVocab, countries: shadowCountries });
+      if (agentVocab && shadowCountries) activeAgent = generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, includeTrace: true });
       else pendingHashSeed = seed;
       render();
     }

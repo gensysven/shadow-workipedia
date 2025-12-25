@@ -112,6 +112,8 @@ export type GeneratedAgent = {
   seed: string;
   createdAtIso: string;
 
+  generationTrace?: AgentGenerationTraceV1;
+
   identity: {
     name: string;
     homeCountryIso3: string;
@@ -235,6 +237,7 @@ export type GenerateAgentInput = {
   birthYear?: number;
   tierBand?: TierBand;
   roleSeedTags?: string[];
+  includeTrace?: boolean;
 };
 
 function clampInt(value: number, min: number, max: number): number {
@@ -419,7 +422,36 @@ type Latents = {
   riskAppetite: Fixed;
 };
 
-function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly string[]): Latents {
+export type AgentGenerationTraceV1 = {
+  version: 1;
+  normalizedSeed: string;
+  facetSeeds: Record<string, number>;
+  latents: {
+    values: Latents;
+    raw: Record<keyof Latents, Fixed>;
+    tierBias: Record<keyof Latents, number>;
+    roleBias: Record<keyof Latents, number>;
+  };
+  derived: Record<string, unknown>;
+  fields: Record<string, { value: unknown; method?: string; dependsOn?: Record<string, unknown> }>;
+};
+
+function traceSet(
+  trace: AgentGenerationTraceV1 | undefined,
+  path: string,
+  value: unknown,
+  meta?: { method?: string; dependsOn?: Record<string, unknown> },
+) {
+  if (!trace) return;
+  trace.fields[path] = { value, ...(meta ?? {}) };
+}
+
+function traceFacet(trace: AgentGenerationTraceV1 | undefined, seed: string, facet: string) {
+  if (!trace) return;
+  trace.facetSeeds[facet] = facetSeed(seed, facet);
+}
+
+function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly string[]) {
   const rng = makeRng(facetSeed(seed, 'latents'));
   const tierCosmoBias = tierBand === 'elite' ? 160 : tierBand === 'mass' ? -120 : 0;
   const tierPublicBias = tierBand === 'elite' ? 120 : tierBand === 'mass' ? -40 : 0;
@@ -432,20 +464,64 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
   const instRoleBias = (role.has('technocrat') ? 200 : 0) + (role.has('diplomat') ? 160 : 0) + (role.has('analyst') ? 120 : 0) + (role.has('organizer') ? 80 : 0);
   const riskRoleBias = (role.has('operative') ? 180 : 0) + (role.has('security') ? 120 : 0) + (role.has('organizer') ? 80 : 0) - (role.has('diplomat') ? 40 : 0);
 
-  const cosmopolitanism = clampFixed01k(rng.int(0, 1000) + tierCosmoBias + cosmoRoleBias);
-  const publicness = clampFixed01k(rng.int(0, 1000) + tierPublicBias + publicRoleBias);
-  const opsecDiscipline = clampFixed01k(rng.int(0, 1000) + opsecRoleBias);
-  const institutionalEmbeddedness = clampFixed01k(rng.int(0, 1000) + tierInstBias + instRoleBias);
-  const riskAppetite = clampFixed01k(rng.int(0, 1000) + riskRoleBias);
+  const raw: Record<keyof Latents, Fixed> = {
+    cosmopolitanism: clampFixed01k(rng.int(0, 1000)),
+    publicness: clampFixed01k(rng.int(0, 1000)),
+    opsecDiscipline: clampFixed01k(rng.int(0, 1000)),
+    institutionalEmbeddedness: clampFixed01k(rng.int(0, 1000)),
+    riskAppetite: clampFixed01k(rng.int(0, 1000)),
+  };
 
-  return { cosmopolitanism, publicness, opsecDiscipline, institutionalEmbeddedness, riskAppetite };
+  const tierBias: Record<keyof Latents, number> = {
+    cosmopolitanism: tierCosmoBias,
+    publicness: tierPublicBias,
+    opsecDiscipline: 0,
+    institutionalEmbeddedness: tierInstBias,
+    riskAppetite: 0,
+  };
+
+  const roleBias: Record<keyof Latents, number> = {
+    cosmopolitanism: cosmoRoleBias,
+    publicness: publicRoleBias,
+    opsecDiscipline: opsecRoleBias,
+    institutionalEmbeddedness: instRoleBias,
+    riskAppetite: riskRoleBias,
+  };
+
+  const values: Latents = {
+    cosmopolitanism: clampFixed01k(raw.cosmopolitanism + tierBias.cosmopolitanism + roleBias.cosmopolitanism),
+    publicness: clampFixed01k(raw.publicness + tierBias.publicness + roleBias.publicness),
+    opsecDiscipline: clampFixed01k(raw.opsecDiscipline + tierBias.opsecDiscipline + roleBias.opsecDiscipline),
+    institutionalEmbeddedness: clampFixed01k(raw.institutionalEmbeddedness + tierBias.institutionalEmbeddedness + roleBias.institutionalEmbeddedness),
+    riskAppetite: clampFixed01k(raw.riskAppetite + tierBias.riskAppetite + roleBias.riskAppetite),
+  };
+
+  return { values, raw, tierBias, roleBias };
 }
 
 export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const seed = normalizeSeed(input.seed);
+  const trace: AgentGenerationTraceV1 | undefined = input.includeTrace
+    ? {
+        version: 1,
+        normalizedSeed: seed,
+        facetSeeds: {},
+        latents: {
+          values: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
+          raw: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
+          tierBias: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
+          roleBias: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
+        },
+        derived: {},
+        fields: {},
+      }
+    : undefined;
+
+  traceFacet(trace, seed, 'base');
   const base = makeRng(facetSeed(seed, 'base'));
 
   const birthYear = clampInt(input.birthYear ?? base.int(1960, 2006), 1800, 2525);
+  traceSet(trace, 'identity.birthYear', birthYear, { method: input.birthYear != null ? 'override' : 'rng', dependsOn: { facet: 'base' } });
   const vocab = input.vocab;
   if (vocab.version !== 1) throw new Error(`Unsupported agent vocab version: ${String((vocab as { version?: unknown }).version)}`);
   if (!vocab.identity.tierBands.length) throw new Error('Agent vocab missing: identity.tierBands');
@@ -455,25 +531,35 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (!vocab.identity.languages.length) throw new Error('Agent vocab missing: identity.languages');
 
   const tierBand: TierBand = input.tierBand ?? base.pick(vocab.identity.tierBands as readonly TierBand[]);
+  traceSet(trace, 'identity.tierBand', tierBand, { method: input.tierBand ? 'override' : 'rng', dependsOn: { facet: 'base', poolSize: vocab.identity.tierBands.length } });
 
   const countries = input.countries;
   const validCountries = countries.filter((c) => typeof c.iso3 === 'string' && c.iso3.trim().length === 3);
   if (!validCountries.length) throw new Error('Agent country map missing: no ISO3 entries');
+  traceFacet(trace, seed, 'origin');
   const originRng = makeRng(facetSeed(seed, 'origin'));
   const origin = originRng.pick(validCountries);
   const homeCountryIso3 = origin.iso3.trim().toUpperCase();
   const homeCulture = deriveCultureFromShadowContinent(origin.continent);
+  traceSet(trace, 'identity.homeCountryIso3', homeCountryIso3, { method: 'pick', dependsOn: { facet: 'origin', poolSize: validCountries.length, continent: origin.continent ?? null } });
+  traceSet(trace, 'identity.homeCulture', homeCulture, { method: 'deriveCultureFromShadowContinent', dependsOn: { continent: origin.continent ?? null } });
   const roleSeedTags = (input.roleSeedTags?.length ? input.roleSeedTags : base.pickK(vocab.identity.roleSeedTags, 2))
     .slice(0, 4);
+  traceSet(trace, 'identity.roleSeedTags', roleSeedTags, { method: input.roleSeedTags?.length ? 'override' : 'rng', dependsOn: { facet: 'base', poolSize: vocab.identity.roleSeedTags.length } });
 
-  const latents = computeLatents(seed, tierBand, roleSeedTags);
+  traceFacet(trace, seed, 'latents');
+  const latentModel = computeLatents(seed, tierBand, roleSeedTags);
+  const latents = latentModel.values;
+  if (trace) trace.latents = latentModel;
   const cosmo01 = latents.cosmopolitanism / 1000;
   const public01 = latents.publicness / 1000;
   const opsec01 = latents.opsecDiscipline / 1000;
   const inst01 = latents.institutionalEmbeddedness / 1000;
   const risk01 = latents.riskAppetite / 1000;
+  traceSet(trace, 'latents.values', latents, { method: 'computeLatents', dependsOn: { tierBand, roleSeedTags } });
 
   const cultureCountries = validCountries.filter((c) => deriveCultureFromShadowContinent(c.continent) === homeCulture);
+  traceFacet(trace, seed, 'citizenship');
   const citizenshipRng = makeRng(facetSeed(seed, 'citizenship'));
   const citizenshipFlip = Math.min(
     0.65,
@@ -483,7 +569,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     ? citizenshipRng.pick(cultureCountries)
     : origin;
   const citizenshipCountryIso3 = citizenshipOrigin.iso3.trim().toUpperCase();
+  traceSet(trace, 'identity.citizenshipCountryIso3', citizenshipCountryIso3, { method: 'probabilisticPick', dependsOn: { facet: 'citizenship', citizenshipFlip, cultureCountryPoolSize: cultureCountries.length } });
 
+  traceFacet(trace, seed, 'current_country');
   const currentRng = makeRng(facetSeed(seed, 'current_country'));
   const roleAbroad =
     (roleSeedTags.includes('diplomat') ? 0.22 : 0) +
@@ -498,6 +586,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     ? currentRng.pick(abroadPool.length ? abroadPool : currentCandidatePool)
     : origin;
   const currentCountryIso3 = currentPick.iso3.trim().toUpperCase();
+  traceSet(trace, 'identity.currentCountryIso3', currentCountryIso3, { method: 'probabilisticPick', dependsOn: { facet: 'current_country', abroadChance, abroad, poolSize: (abroad ? (abroadPool.length || currentCandidatePool.length) : 1) } });
 
   const culture = vocab.cultureProfiles?.[homeCulture];
   const cultureWeights = culture?.weights ?? {};
@@ -507,7 +596,12 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const foodPrimaryWeight = clamp01((cultureWeights.foodPrimaryWeight ?? 0.7) - 0.25 * cosmo01, 0.7);
   const mediaPrimaryWeight = clamp01((cultureWeights.mediaPrimaryWeight ?? 0.7) - 0.35 * cosmo01, 0.7);
   const fashionPrimaryWeight = clamp01((cultureWeights.fashionPrimaryWeight ?? 0.6) - 0.30 * cosmo01, 0.6);
+  if (trace) {
+    trace.derived.primaryWeights = { namesPrimaryWeight, languagesPrimaryWeight, foodPrimaryWeight, mediaPrimaryWeight, fashionPrimaryWeight };
+    trace.derived.homeCultureProfilePresent = !!culture;
+  }
 
+  traceFacet(trace, seed, 'identity_tracks');
   const identityRng = makeRng(facetSeed(seed, 'identity_tracks'));
   const educationTracks = uniqueStrings(vocab.identity.educationTracks ?? []);
   const careerTracks = uniqueStrings(vocab.identity.careerTracks ?? []);
@@ -535,8 +629,15 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       if (roleNudgedCareer === t) w += 3.0;
       return { item: t, weight: w };
     });
-    return weightedPick(identityRng, weights);
+    const picked = weightedPick(identityRng, weights);
+    if (trace) {
+      trace.derived.careerTrackWeightsTop = [...weights]
+        .sort((a, b) => b.weight - a.weight)
+        .slice(0, 8);
+    }
+    return picked;
   })();
+  traceSet(trace, 'identity.careerTrackTag', careerTrackTag, { method: 'weightedPick', dependsOn: { facet: 'identity_tracks', roleNudgedCareer: roleNudgedCareer ?? null, inst01, risk01 } });
 
   const educationTrackTag = (() => {
     const pool = educationTracks.length ? educationTracks : ['secondary', 'undergraduate', 'graduate', 'trade-certification'];
@@ -549,14 +650,28 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       if (inst01 > 0.65 && ['graduate', 'civil-service-track'].includes(t)) w += 1.2;
       return { item: t, weight: w };
     });
-    return weightedPick(identityRng, weights);
+    const picked = weightedPick(identityRng, weights);
+    if (trace) {
+      trace.derived.educationTrackWeightsTop = [...weights]
+        .sort((a, b) => b.weight - a.weight)
+        .slice(0, 8);
+    }
+    return picked;
   })();
+  traceSet(trace, 'identity.educationTrackTag', educationTrackTag, { method: 'weightedPick', dependsOn: { facet: 'identity_tracks', tierBand, careerTrackTag, inst01 } });
 
+  traceFacet(trace, seed, 'name');
   const nameRng = makeRng(facetSeed(seed, 'name'));
   const cultureFirst = culture?.identity?.firstNames ?? [];
   const cultureLast = culture?.identity?.lastNames ?? [];
-  const name = `${pickWeightedFromPools(nameRng, cultureFirst, vocab.identity.firstNames, namesPrimaryWeight)} ${pickWeightedFromPools(nameRng, cultureLast, vocab.identity.lastNames, namesPrimaryWeight)}`;
+  const useCultureFirst = cultureFirst.length > 0 && nameRng.next01() < namesPrimaryWeight;
+  const useCultureLast = cultureLast.length > 0 && nameRng.next01() < namesPrimaryWeight;
+  const firstName = nameRng.pick(useCultureFirst ? cultureFirst : vocab.identity.firstNames);
+  const lastName = nameRng.pick(useCultureLast ? cultureLast : vocab.identity.lastNames);
+  const name = `${firstName} ${lastName}`;
+  traceSet(trace, 'identity.name', name, { method: 'hybridPick', dependsOn: { facet: 'name', namesPrimaryWeight, useCultureFirst, useCultureLast, cultureFirstPoolSize: cultureFirst.length, cultureLastPoolSize: cultureLast.length } });
 
+  traceFacet(trace, seed, 'languages');
   const langRng = makeRng(facetSeed(seed, 'languages'));
   const cultureLangs = uniqueStrings(culture?.identity?.languages ?? []);
   const baseLangs = uniqueStrings(vocab.identity.languages);
@@ -574,14 +689,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   );
   const languageCount = Math.max(1, Math.min(3, desiredLanguageCount));
   const languages: string[] = [];
-  if (cultureLangs.length && langRng.next01() < languagesPrimaryWeight) {
-    languages.push(langRng.pick(cultureLangs));
-  } else {
-    languages.push(langRng.pick(baseLangs));
-  }
+  const useCulturePrimaryLanguage = cultureLangs.length > 0 && langRng.next01() < languagesPrimaryWeight;
+  languages.push(langRng.pick(useCulturePrimaryLanguage ? cultureLangs : baseLangs));
   const remaining = Math.max(0, languageCount - languages.length);
   languages.push(...langRng.pickK(unionLangs.filter(l => !languages.includes(l)), remaining));
+  traceSet(trace, 'identity.languages', languages, { method: 'hybridPickK', dependsOn: { facet: 'languages', languagesPrimaryWeight, useCulturePrimaryLanguage, desiredLanguageCount, languageCount, cultureLangPoolSize: cultureLangs.length, baseLangPoolSize: baseLangs.length } });
 
+  traceFacet(trace, seed, 'language_proficiency');
   const proficiencyRng = makeRng(facetSeed(seed, 'language_proficiency'));
   const languageProficiencies = languages.map((language, idx) => {
     const isPrimary = idx === 0;
@@ -594,7 +708,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
           : band5From01k(clampFixed01k(proficiencyRng.int(200, 900)));
     return { language, proficiencyBand: band };
   });
+  traceSet(trace, 'identity.languageProficiencies', languageProficiencies, { method: 'perLanguageBand', dependsOn: { facet: 'language_proficiency', tierBand } });
 
+  traceFacet(trace, seed, 'appearance');
   const appearanceRng = makeRng(facetSeed(seed, 'appearance'));
   if (!vocab.appearance.heightBands.length) throw new Error('Agent vocab missing: appearance.heightBands');
   if (!vocab.appearance.buildTags.length) throw new Error('Agent vocab missing: appearance.buildTags');
@@ -608,7 +724,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const eyes = { color: appearanceRng.pick(vocab.appearance.eyeColors) };
   const voiceTag = appearanceRng.pick(vocab.appearance.voiceTags);
   const distinguishingMarks = appearanceRng.pickK(vocab.appearance.distinguishingMarks, appearanceRng.int(0, 2));
+  traceSet(trace, 'appearance', { heightBand, buildTag, hair, eyes, voiceTag, distinguishingMarks }, { method: 'pick', dependsOn: { facet: 'appearance' } });
 
+  traceFacet(trace, seed, 'capabilities');
   const capRng = makeRng(facetSeed(seed, 'capabilities'));
   const physical = capRng.int(200, 900);
   const coordination = capRng.int(200, 900);
@@ -632,7 +750,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     assertiveness: clampFixed01k(0.50 * social + 0.50 * capRng.int(0, 1000)),
     deceptionAptitude: clampFixed01k(0.40 * social + 0.60 * capRng.int(0, 1000)),
   };
+  traceSet(trace, 'capabilities.aptitudes', aptitudes, { method: 'formula', dependsOn: { facet: 'capabilities', physical, coordination, cognitive, social, tierBand } });
 
+  traceFacet(trace, seed, 'psych_traits');
   const traitRng = makeRng(facetSeed(seed, 'psych_traits'));
   const traits = {
     riskTolerance: clampFixed01k(0.35 * (1000 - aptitudes.riskCalibration) + 0.35 * latents.riskAppetite + 0.30 * traitRng.int(0, 1000)),
@@ -641,15 +761,23 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     agreeableness: clampFixed01k(0.65 * aptitudes.empathy + 0.15 * (1000 - latents.riskAppetite) + 0.20 * traitRng.int(0, 1000)),
     authoritarianism: clampFixed01k(0.55 * aptitudes.assertiveness + 0.25 * latents.institutionalEmbeddedness + 0.20 * traitRng.int(0, 1000)),
   };
+  traceSet(trace, 'psych.traits', traits, { method: 'formula', dependsOn: { facet: 'psych_traits', latents: latentModel.values, aptitudes } });
+
+  // Shared derived: vice tendency used by vices, health, and some media/routines.
+  const viceTendency = 0.35 * risk01 + 0.25 * (1 - opsec01) + 0.25 * (1 - traits.conscientiousness / 1000) + 0.15 * (public01);
+  if (trace) trace.derived.viceTendency = viceTendency;
 
   const redLinePool = uniqueStrings(vocab.psych?.redLines ?? []);
   const roleRedLinePool = roleSeedTags.flatMap(r => vocab.psych?.redLineByRole?.[r] ?? []);
+  traceFacet(trace, seed, 'red_lines');
   const redLineRng = makeRng(facetSeed(seed, 'red_lines'));
   const redLineCount = clampInt(1 + Math.round((traits.agreeableness + traits.conscientiousness) / 1000), 1, 3);
   const redLines = redLinePool.length
     ? pickKHybrid(redLineRng, uniqueStrings(roleRedLinePool), redLinePool, redLineCount, Math.min(redLineCount, 2))
     : redLineRng.pickK(['harm-to-civilians', 'torture', 'personal-corruption'] as const, redLineCount);
+  traceSet(trace, 'identity.redLines', redLines, { method: 'hybridPickK', dependsOn: { facet: 'red_lines', redLineCount, rolePoolSize: roleRedLinePool.length, globalPoolSize: redLinePool.length } });
 
+  traceFacet(trace, seed, 'visibility');
   const visRng = makeRng(facetSeed(seed, 'visibility'));
   const publicVisibility = clampFixed01k(0.70 * latents.publicness + 0.30 * visRng.int(0, 1000));
   const paperTrail = clampFixed01k(
@@ -662,15 +790,21 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       0.30 * latents.opsecDiscipline +
       0.20 * visRng.int(0, 1000),
   );
+  traceSet(trace, 'visibility', { publicVisibility, paperTrail, digitalHygiene }, { method: 'formula', dependsOn: { facet: 'visibility', latents: latentModel.values, aptitudes, careerTrackTag } });
 
+  traceFacet(trace, seed, 'health');
   const healthRng = makeRng(facetSeed(seed, 'health'));
   const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
   const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
   const age = clampInt(new Date().getFullYear() - birthYear, 0, 120);
-  const chronicChance = Math.min(0.55, Math.max(0.05, age / 200));
+  const endurance01 = aptitudes.endurance / 1000;
+  const chronicChance = Math.min(0.65, Math.max(0.04, age / 210 + 0.10 * (1 - endurance01) + 0.10 * viceTendency));
   const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance ? healthRng.pickK(chronicPool, healthRng.int(0, 1)) : [];
-  const allergyTags = allergyPool.length && healthRng.next01() < 0.25 ? healthRng.pickK(allergyPool, 1) : [];
+  const allergyChance = 0.22 + 0.10 * (traits.agreeableness / 1000);
+  const allergyTags = allergyPool.length && healthRng.next01() < allergyChance ? healthRng.pickK(allergyPool, 1) : [];
+  traceSet(trace, 'health', { chronicConditionTags, allergyTags }, { method: 'probabilisticPickK', dependsOn: { facet: 'health', age, endurance01, viceTendency, chronicChance, allergyChance, chronicPoolSize: chronicPool.length, allergyPoolSize: allergyPool.length } });
 
+  traceFacet(trace, seed, 'covers');
   const coverRng = makeRng(facetSeed(seed, 'covers'));
   const coverPool = uniqueStrings(vocab.covers?.coverAptitudeTags ?? []);
   const coverForced: string[] = [];
@@ -705,7 +839,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
         ...coverRng.pickK(coverPool.filter(x => !coverForced.includes(x)), Math.max(0, 3 - coverForced.slice(0, 2).length)),
       ]).slice(0, 3)
     : coverRng.pickK(['consultant', 'ngo-worker', 'tourist'] as const, 3);
+  traceSet(trace, 'covers.coverAptitudeTags', coverAptitudeTags, { method: 'forcedPlusPickK', dependsOn: { facet: 'covers', careerTrackTag, forced: coverForced.slice(0, 2), poolSize: coverPool.length } });
 
+  traceFacet(trace, seed, 'mobility');
   const mobilityRng = makeRng(facetSeed(seed, 'mobility'));
   const mobilityTags = uniqueStrings(vocab.mobility?.mobilityTags ?? []);
   const mobilityTag = (() => {
@@ -737,14 +873,213 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       mobilityRng.int(0, 1000) * 0.20,
   );
   const travelFrequencyBand = band5From01k(travelScore);
+  traceSet(trace, 'mobility', { mobilityTag, passportAccessBand, travelFrequencyBand }, { method: 'weightedPick+formula', dependsOn: { facet: 'mobility', tierBand, cosmo01, inst01, public01, roleSeedTags } });
 
+  traceFacet(trace, seed, 'skills');
   const skillRng = makeRng(facetSeed(seed, 'skills'));
-  const baseSkillValue = (min: number, max: number) => clampFixed01k(skillRng.int(min, max));
+  const skillTrace: Record<string, unknown> = {};
 
   if (!vocab.capabilities.skillKeys.length) throw new Error('Agent vocab missing: capabilities.skillKeys');
 
   const skills: GeneratedAgent['capabilities']['skills'] = Object.fromEntries(
-    vocab.capabilities.skillKeys.map((k) => [k, { value: baseSkillValue(120, 720), xp: clampFixed01k(skillRng.int(0, 500)), lastUsedDay: null }])
+    vocab.capabilities.skillKeys.map((k) => {
+      const noise = clampFixed01k(skillRng.int(0, 1000));
+      const careerBonus =
+        (careerTrackTag === 'military' && ['shooting', 'tradecraft', 'surveillance', 'driving'].includes(k) ? 120 : 0) +
+        (careerTrackTag === 'intelligence' && ['tradecraft', 'surveillance', 'shooting', 'driving', 'legalOps'].includes(k) ? 140 : 0) +
+        (careerTrackTag === 'foreign-service' && ['negotiation', 'bureaucracy', 'mediaHandling', 'driving'].includes(k) ? 120 : 0) +
+        (careerTrackTag === 'journalism' && ['mediaHandling', 'surveillance', 'negotiation'].includes(k) ? 120 : 0) +
+        (careerTrackTag === 'law' && ['legalOps', 'bureaucracy', 'negotiation'].includes(k) ? 140 : 0) +
+        (careerTrackTag === 'public-health' && ['firstAid', 'bureaucracy', 'negotiation'].includes(k) ? 120 : 0) +
+        (careerTrackTag === 'finance' && ['financeOps', 'bureaucracy', 'negotiation'].includes(k) ? 120 : 0) +
+        (careerTrackTag === 'logistics' && ['driving', 'tradecraft', 'bureaucracy'].includes(k) ? 120 : 0);
+
+      const tierBonus = tierBand === 'elite' ? 60 : tierBand === 'mass' ? -20 : 0;
+
+      const baseTerms: Record<string, Fixed> = {};
+      const add = (name: string, value: Fixed) => {
+        baseTerms[name] = value;
+      };
+
+      // Skills are derived from a few aptitudes + latent factors, plus per-skill noise for variety.
+      let value: Fixed;
+      switch (k) {
+        case 'driving': {
+          add('dexterity', aptitudes.dexterity);
+          add('handEyeCoordination', aptitudes.handEyeCoordination);
+          add('attentionControl', aptitudes.attentionControl);
+          add('riskTolerance', traits.riskTolerance);
+          add('travelScore', travelScore);
+          value = clampFixed01k(
+            0.22 * aptitudes.dexterity +
+              0.22 * aptitudes.handEyeCoordination +
+              0.20 * aptitudes.attentionControl +
+              0.12 * traits.riskTolerance +
+              0.12 * travelScore +
+              0.12 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'shooting': {
+          add('reflexes', aptitudes.reflexes);
+          add('handEyeCoordination', aptitudes.handEyeCoordination);
+          add('attentionControl', aptitudes.attentionControl);
+          add('opsecDiscipline', latents.opsecDiscipline);
+          value = clampFixed01k(
+            0.26 * aptitudes.reflexes +
+              0.24 * aptitudes.handEyeCoordination +
+              0.18 * aptitudes.attentionControl +
+              0.12 * latents.opsecDiscipline +
+              0.20 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'surveillance': {
+          add('cognitiveSpeed', aptitudes.cognitiveSpeed);
+          add('attentionControl', aptitudes.attentionControl);
+          add('workingMemory', aptitudes.workingMemory);
+          add('opsecDiscipline', latents.opsecDiscipline);
+          value = clampFixed01k(
+            0.22 * aptitudes.cognitiveSpeed +
+              0.22 * aptitudes.attentionControl +
+              0.18 * aptitudes.workingMemory +
+              0.18 * latents.opsecDiscipline +
+              0.20 * noise +
+              careerBonus,
+          );
+          break;
+        }
+        case 'tradecraft': {
+          add('opsecDiscipline', latents.opsecDiscipline);
+          add('deceptionAptitude', aptitudes.deceptionAptitude);
+          add('riskAppetite', latents.riskAppetite);
+          add('workingMemory', aptitudes.workingMemory);
+          value = clampFixed01k(
+            0.28 * latents.opsecDiscipline +
+              0.22 * aptitudes.deceptionAptitude +
+              0.12 * latents.riskAppetite +
+              0.18 * aptitudes.workingMemory +
+              0.20 * noise +
+              careerBonus +
+              (roleSeedTags.includes('operative') ? 90 : 0),
+          );
+          break;
+        }
+        case 'firstAid': {
+          add('workingMemory', aptitudes.workingMemory);
+          add('attentionControl', aptitudes.attentionControl);
+          add('conscientiousness', traits.conscientiousness);
+          value = clampFixed01k(
+            0.25 * aptitudes.workingMemory +
+              0.20 * aptitudes.attentionControl +
+              0.25 * traits.conscientiousness +
+              0.30 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'negotiation': {
+          add('charisma', aptitudes.charisma);
+          add('empathy', aptitudes.empathy);
+          add('workingMemory', aptitudes.workingMemory);
+          add('publicness', latents.publicness);
+          value = clampFixed01k(
+            0.30 * aptitudes.charisma +
+              0.20 * aptitudes.empathy +
+              0.18 * aptitudes.workingMemory +
+              0.12 * latents.publicness +
+              0.20 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'mediaHandling': {
+          add('publicness', latents.publicness);
+          add('charisma', aptitudes.charisma);
+          add('attentionControl', aptitudes.attentionControl);
+          add('opsecDiscipline', latents.opsecDiscipline);
+          value = clampFixed01k(
+            0.30 * latents.publicness +
+              0.20 * aptitudes.charisma +
+              0.18 * aptitudes.attentionControl +
+              0.12 * (1000 - latents.opsecDiscipline) +
+              0.20 * noise +
+              careerBonus +
+              (roleSeedTags.includes('media') ? 90 : 0),
+          );
+          break;
+        }
+        case 'bureaucracy': {
+          add('institutionalEmbeddedness', latents.institutionalEmbeddedness);
+          add('workingMemory', aptitudes.workingMemory);
+          add('conscientiousness', traits.conscientiousness);
+          value = clampFixed01k(
+            0.28 * latents.institutionalEmbeddedness +
+              0.22 * aptitudes.workingMemory +
+              0.18 * traits.conscientiousness +
+              0.32 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'financeOps': {
+          add('workingMemory', aptitudes.workingMemory);
+          add('cognitiveSpeed', aptitudes.cognitiveSpeed);
+          add('conscientiousness', traits.conscientiousness);
+          value = clampFixed01k(
+            0.24 * aptitudes.workingMemory +
+              0.20 * aptitudes.cognitiveSpeed +
+              0.18 * traits.conscientiousness +
+              0.38 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        case 'legalOps': {
+          add('workingMemory', aptitudes.workingMemory);
+          add('attentionControl', aptitudes.attentionControl);
+          add('institutionalEmbeddedness', latents.institutionalEmbeddedness);
+          value = clampFixed01k(
+            0.24 * aptitudes.workingMemory +
+              0.20 * aptitudes.attentionControl +
+              0.18 * latents.institutionalEmbeddedness +
+              0.38 * noise +
+              careerBonus +
+              tierBonus,
+          );
+          break;
+        }
+        default: {
+          // Generic skill: primarily cognitive + attention + some noise.
+          add('cognitiveSpeed', aptitudes.cognitiveSpeed);
+          add('attentionControl', aptitudes.attentionControl);
+          add('workingMemory', aptitudes.workingMemory);
+          value = clampFixed01k(
+            0.22 * aptitudes.cognitiveSpeed +
+              0.22 * aptitudes.attentionControl +
+              0.18 * aptitudes.workingMemory +
+              0.38 * noise +
+              careerBonus,
+          );
+          break;
+        }
+      }
+
+      // Mild floor/ceiling for readability.
+      value = clampFixed01k(clampInt(value, 90, 940));
+
+      const xp = clampFixed01k(clampInt(Math.round((value / 1000) * 520) + skillRng.int(0, 180), 0, 500));
+      skillTrace[k] = { noise, baseTerms, careerBonus, tierBonus, baseValue: value, xp };
+      return [k, { value, xp, lastUsedDay: null }];
+    }),
   ) as GeneratedAgent['capabilities']['skills'];
 
   // Role seed nudges (bounded)
@@ -759,7 +1094,10 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (!bumps) continue;
     for (const [skillKey, delta] of Object.entries(bumps)) bump(skillKey, delta);
   }
+  if (trace) trace.derived.skillTrace = skillTrace;
+  traceSet(trace, 'capabilities.skills', skills, { method: 'derived+roleBumps', dependsOn: { facet: 'skills', roleSeedTags, careerTrackTag, tierBand } });
 
+  traceFacet(trace, seed, 'preferences');
   const prefsRng = makeRng(facetSeed(seed, 'preferences'));
   if (!vocab.preferences.food.comfortFoods.length) throw new Error('Agent vocab missing: preferences.food.comfortFoods');
   if (!vocab.preferences.food.dislikes.length) throw new Error('Agent vocab missing: preferences.food.dislikes');
@@ -776,6 +1114,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const ritualDrink = cultureDrinks.length
     ? pickWeightedFromPools(prefsRng, cultureDrinks, vocab.preferences.food.ritualDrinks, foodPrimaryWeight)
     : prefsRng.pick(vocab.preferences.food.ritualDrinks);
+  traceSet(trace, 'preferences.food', { comfortFoods, dislikes, restrictions, ritualDrink }, { method: 'hybridPickK', dependsOn: { facet: 'preferences', foodPrimaryWeight, cultureComfortPoolSize: cultureComfort.length, cultureDrinksPoolSize: cultureDrinks.length } });
 
   if (!vocab.preferences.media.genres.length) throw new Error('Agent vocab missing: preferences.media.genres');
   if (!vocab.preferences.media.platforms.length) throw new Error('Agent vocab missing: preferences.media.platforms');
@@ -783,6 +1122,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const genreTopK = cultureGenres.length && prefsRng.next01() < mediaPrimaryWeight
     ? pickKHybrid(prefsRng, cultureGenres, vocab.preferences.media.genres, 5, 3)
     : prefsRng.pickK(vocab.preferences.media.genres, 5);
+  traceSet(trace, 'preferences.media.genreTopK', genreTopK, { method: 'hybridPickK', dependsOn: { facet: 'preferences', mediaPrimaryWeight, cultureGenrePoolSize: cultureGenres.length, globalGenrePoolSize: vocab.preferences.media.genres.length } });
   const platformDietRaw = vocab.preferences.media.platforms.map((p) => {
     const key = p.toLowerCase();
     let bias = 0;
@@ -796,7 +1136,34 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   });
   const totalW = platformDietRaw.reduce((s, x) => s + x.w, 0);
   const platformDiet: Record<string, Fixed> = Object.fromEntries(platformDietRaw.map(({ p, w }) => [p, clampInt((w / totalW) * 1000, 0, 1000)]));
+  if (trace) trace.derived.platformDietRaw = platformDietRaw;
+  traceSet(trace, 'preferences.media.platformDiet', platformDiet, { method: 'weightedNormalize', dependsOn: { facet: 'preferences', public01, opsec01, inst01 } });
 
+  // Media/cognition traits should correlate with attention, OPSEC, and publicness.
+  const attentionResilience = clampFixed01k(
+    0.42 * aptitudes.attentionControl +
+      0.22 * traits.conscientiousness +
+      0.12 * aptitudes.workingMemory +
+      0.10 * (1000 - latents.publicness) +
+      0.14 * prefsRng.int(0, 1000),
+  );
+  const doomscrollingRisk = clampFixed01k(
+    0.30 * latents.publicness +
+      0.22 * (1000 - latents.opsecDiscipline) +
+      0.22 * (1000 - traits.conscientiousness) +
+      0.10 * traits.noveltySeeking +
+      0.16 * prefsRng.int(0, 1000),
+  );
+  const epistemicHygiene = clampFixed01k(
+    0.28 * aptitudes.workingMemory +
+      0.20 * aptitudes.attentionControl +
+      0.20 * latents.institutionalEmbeddedness +
+      0.20 * latents.opsecDiscipline +
+      0.12 * prefsRng.int(0, 1000),
+  );
+  traceSet(trace, 'preferences.media.metrics', { attentionResilience, doomscrollingRisk, epistemicHygiene }, { method: 'formula', dependsOn: { facet: 'preferences', aptitudes, traits, latents: latentModel.values } });
+
+  traceFacet(trace, seed, 'fashion');
   const fashionRng = makeRng(facetSeed(seed, 'fashion'));
   if (!vocab.preferences.fashion.styleTags.length) throw new Error('Agent vocab missing: preferences.fashion.styleTags');
   const cultureStyle = uniqueStrings(culture?.preferences?.fashion?.styleTags ?? []);
@@ -828,21 +1195,61 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (styleTags.includes(tag)) continue;
     styleTags = uniqueStrings([tag, ...styleTags]).slice(0, 3);
   }
-  const formality = clampFixed01k(fashionRng.int(0, 1000));
-  const conformity = clampFixed01k(fashionRng.int(0, 1000));
-  const statusSignaling = clampFixed01k(fashionRng.int(0, 1000));
+  traceSet(trace, 'preferences.fashion.styleTags', styleTags, { method: 'pickK+forced', dependsOn: { facet: 'fashion', fashionPrimaryWeight, cultureStylePoolSize: cultureStyle.length, forced: forced.slice(0, 2) } });
+  const formality = clampFixed01k(
+    0.36 * latents.publicness +
+      0.32 * latents.institutionalEmbeddedness +
+      0.18 * fashionRng.int(0, 1000) +
+      (tierBand === 'elite' ? 90 : tierBand === 'mass' ? -40 : 0),
+  );
+  const conformity = clampFixed01k(
+    0.38 * latents.institutionalEmbeddedness +
+      0.22 * traits.conscientiousness +
+      0.16 * (1000 - traits.noveltySeeking) +
+      0.24 * fashionRng.int(0, 1000),
+  );
+  const statusSignaling = clampFixed01k(
+    0.34 * latents.publicness +
+      0.26 * (tierBand === 'elite' ? 920 : tierBand === 'middle' ? 600 : 420) +
+      0.14 * (1000 - latents.opsecDiscipline) +
+      0.26 * fashionRng.int(0, 1000),
+  );
+  traceSet(trace, 'preferences.fashion.metrics', { formality, conformity, statusSignaling, forced: forced.slice(0, 2) }, { method: 'formula+forcedTags', dependsOn: { facet: 'fashion', latents: latentModel.values, traits, tierBand } });
 
+  traceFacet(trace, seed, 'routines');
   const routinesRng = makeRng(facetSeed(seed, 'routines'));
   if (!vocab.routines.chronotypes.length) throw new Error('Agent vocab missing: routines.chronotypes');
   if (!vocab.routines.recoveryRituals.length) throw new Error('Agent vocab missing: routines.recoveryRituals');
-  const chronotype = routinesRng.pick(vocab.routines.chronotypes);
+  const chronotypeWeights = vocab.routines.chronotypes.map((t) => {
+    const key = t.toLowerCase();
+    let w = 1;
+    if (key === 'early') w += 1.4 * (traits.conscientiousness / 1000) + 0.6 * (clampInt(new Date().getFullYear() - birthYear, 0, 120) / 120);
+    if (key === 'night') w += 1.2 * (traits.noveltySeeking / 1000) + 0.7 * (latents.riskAppetite / 1000);
+    if (key === 'standard') w += 0.7;
+    if (careerTrackTag === 'journalism' && key === 'night') w += 0.6;
+    if (careerTrackTag === 'civil-service' && key === 'early') w += 0.4;
+    return { item: t, weight: w };
+  });
+  const chronotype = weightedPick(routinesRng, chronotypeWeights);
   const sleepWindow = chronotype === 'early' ? '22:00–06:00' : chronotype === 'night' ? '02:00–10:00' : '00:00–08:00';
-  const recoveryRituals = routinesRng.pickK(vocab.routines.recoveryRituals, 2);
+  const ritualWeights = vocab.routines.recoveryRituals.map((r) => {
+    const key = r.toLowerCase();
+    let w = 1;
+    if (key.includes('gym') || key.includes('run') || key.includes('cardio')) w += 1.2 * (aptitudes.endurance / 1000) + 0.3 * (traits.conscientiousness / 1000);
+    if (key.includes('meditation') || key.includes('breath')) w += 0.8 * (traits.conscientiousness / 1000) + 0.8 * ((1000 - aptitudes.attentionControl) / 1000);
+    if (key.includes('sleep') || key.includes('nap')) w += 0.6 * ((1000 - aptitudes.endurance) / 1000);
+    if (key.includes('reading') || key.includes('journal')) w += 0.7 * (aptitudes.workingMemory / 1000);
+    if (key.includes('walk')) w += 0.4 * (aptitudes.endurance / 1000);
+    if (key.includes('music')) w += 0.4 * (traits.agreeableness / 1000);
+    return { item: r, weight: w };
+  });
+  const recoveryRituals = weightedPickKUnique(routinesRng, ritualWeights, 2);
+  traceSet(trace, 'routines', { chronotype, sleepWindow, recoveryRituals }, { method: 'weightedPick+weightedPickKUnique', dependsOn: { facet: 'routines', traits, aptitudes, careerTrackTag } });
 
+  traceFacet(trace, seed, 'vices');
   const vicesRng = makeRng(facetSeed(seed, 'vices'));
   if (!vocab.vices.vicePool.length) throw new Error('Agent vocab missing: vices.vicePool');
   if (!vocab.vices.triggers.length) throw new Error('Agent vocab missing: vices.triggers');
-  const viceTendency = 0.35 * risk01 + 0.25 * (1 - opsec01) + 0.25 * (1 - traits.conscientiousness / 1000) + 0.15 * (public01);
   const viceCount = viceTendency > 0.78 ? 2 : viceTendency > 0.42 ? 1 : (vicesRng.next01() < 0.22 ? 1 : 0);
   const viceWeights = vocab.vices.vicePool.map((v) => {
     const key = v.toLowerCase();
@@ -856,6 +1263,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (key === 'alcohol') w += 0.9 * (1 - traits.agreeableness / 1000) + 0.6 * (1 - opsec01);
     return { item: v, weight: w };
   });
+  if (trace) trace.derived.viceWeightsTop = [...viceWeights].sort((a, b) => b.weight - a.weight).slice(0, 10);
   const selectedVices = weightedPickKUnique(vicesRng, viceWeights, viceCount);
   const vices = selectedVices.map((vice) => {
     const base = vicesRng.int(100, 950);
@@ -864,22 +1272,56 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     const triggers = vicesRng.pickK(vocab.vices.triggers, vicesRng.int(1, 3));
     return { vice, severity: band5From01k(severityValue), triggers };
   });
+  traceSet(trace, 'vices', vices, { method: 'weightedPickKUnique+severityFormula', dependsOn: { facet: 'vices', viceTendency, viceCount, opsec01, risk01, public01 } });
 
+  traceFacet(trace, seed, 'logistics');
   const logisticsRng = makeRng(facetSeed(seed, 'logistics'));
   if (!vocab.logistics.identityKitItems.length) throw new Error('Agent vocab missing: logistics.identityKitItems');
-  const kitItems = logisticsRng.pickK(vocab.logistics.identityKitItems, 5)
-    .map((item) => {
-      const security = band5From01k(clampFixed01k(logisticsRng.int(150, 900)));
-      return { item, security, compromised: false };
-    });
+  const kitWeights = vocab.logistics.identityKitItems.map((item) => {
+    const key = item.toLowerCase();
+    let w = 1;
+    if (key.includes('burner') || key.includes('encrypted') || key.includes('dead drop') || key.includes('lockpick')) {
+      w += 2.2 * opsec01 + (roleSeedTags.includes('operative') ? 0.7 : 0) + (careerTrackTag === 'intelligence' ? 0.6 : 0);
+    }
+    if (key.includes('passport') || key.includes('visa')) w += 1.6 * (travelScore / 1000) + 0.6 * cosmo01;
+    if (key.includes('laptop') || key.includes('phone')) w += 0.7 + 0.4 * opsec01;
+    if (key.includes('press') || key.includes('camera')) w += 1.6 * public01 + (roleSeedTags.includes('media') ? 0.8 : 0);
+    if (key.includes('cash') || key.includes('currency')) w += 0.7 * risk01 + 0.3 * (1 - opsec01);
+    if (key.includes('keepsake')) w += 0.2 * (traits.agreeableness / 1000);
+    return { item, weight: w };
+  });
+  if (trace) {
+    trace.derived.identityKitWeightsTop = [...kitWeights].sort((a, b) => b.weight - a.weight).slice(0, 8);
+  }
+  const pickedKitItems = weightedPickKUnique(logisticsRng, kitWeights, 5);
+  const kitItems = pickedKitItems.map((item) => {
+    const key = item.toLowerCase();
+    const itemBias =
+      (key.includes('burner') || key.includes('encrypted') ? 90 : 0) +
+      (key.includes('passport') || key.includes('visa') ? 40 : 0) +
+      (key.includes('keepsake') ? -80 : 0);
+    const securityScore = clampFixed01k(
+      0.45 * latents.opsecDiscipline +
+        0.20 * latents.institutionalEmbeddedness +
+        0.15 * traits.conscientiousness +
+        0.20 * logisticsRng.int(0, 1000) +
+        itemBias +
+        (tierBand === 'elite' ? 40 : 0),
+    );
+    const security = band5From01k(securityScore);
+    return { item, security, compromised: false };
+  });
+  traceSet(trace, 'logistics.identityKit', kitItems, { method: 'weightedPickKUnique+formula', dependsOn: { facet: 'logistics', opsec01, public01, risk01, travelScore, careerTrackTag, tierBand } });
 
   const id = fnv1a32(`${seed}::${birthYear}::${homeCountryIso3}::${tierBand}`).toString(16);
+  traceSet(trace, 'id', id, { method: 'fnv1a32', dependsOn: { normalizedSeed: seed, birthYear, homeCountryIso3, tierBand } });
 
   return {
     version: 1,
     id,
     seed,
     createdAtIso: new Date().toISOString(),
+    generationTrace: trace,
     identity: {
       name,
       homeCountryIso3,
@@ -912,9 +1354,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       media: {
         platformDiet,
         genreTopK,
-        attentionResilience: clampFixed01k(prefsRng.int(0, 1000)),
-        doomscrollingRisk: clampFixed01k(prefsRng.int(0, 1000)),
-        epistemicHygiene: clampFixed01k(prefsRng.int(0, 1000)),
+        attentionResilience,
+        doomscrollingRisk,
+        epistemicHygiene,
       },
       fashion: { styleTags, formality, conformity, statusSignaling },
     },
