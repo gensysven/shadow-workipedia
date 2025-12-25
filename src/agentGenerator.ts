@@ -35,6 +35,8 @@ export type AgentPriorsV1 = {
               Fixed
             >
           >;
+          cultureEnvironment01k?: Partial<Record<'cosmopolitanism' | 'traditionalism' | 'mediaOpenness', Fixed>>;
+          cultureProfileWeights01k?: Record<string, Fixed>;
           securityEnvironment01k?: Partial<Record<'conflict' | 'stateViolence' | 'militarization', Fixed>>;
           appearance?: { heightBandWeights01k?: Partial<Record<HeightBand, Fixed>> };
           mediaEnvironment01k?: Partial<Record<'print' | 'radio' | 'tv' | 'social' | 'closed', Fixed>>;
@@ -145,6 +147,7 @@ export type AgentVocabV1 = {
     passportAccessBands?: Band5[];
   };
   cultureProfiles?: Record<string, CultureProfileV1>;
+  microCultureProfiles?: Record<string, CultureProfileV1>;
 };
 
 export type GeneratedAgent = {
@@ -531,6 +534,69 @@ function mixSecurityEnv01k(parts: Array<{ env: SecurityEnv01k; weight: number }>
   return out as SecurityEnv01k;
 }
 
+type CultureEnvAxis = 'cosmopolitanism' | 'traditionalism' | 'mediaOpenness';
+
+type CultureEnv01k = Record<CultureEnvAxis, Fixed>;
+
+const CULTURE_ENV_AXES: readonly CultureEnvAxis[] = ['cosmopolitanism', 'traditionalism', 'mediaOpenness'];
+
+function normalizeCultureEnv01k(env: Partial<Record<CultureEnvAxis, Fixed>> | null | undefined): CultureEnv01k | null {
+  if (!env || typeof env !== 'object') return null;
+  let hasAny = false;
+  const out: Record<string, Fixed> = {};
+  const defaults: CultureEnv01k = { cosmopolitanism: 450, traditionalism: 520, mediaOpenness: 650 };
+  for (const axis of CULTURE_ENV_AXES) {
+    const v = Number(env[axis]);
+    if (Number.isFinite(v)) {
+      hasAny = true;
+      out[axis] = clampFixed01k(v);
+    } else {
+      out[axis] = defaults[axis];
+    }
+  }
+  return hasAny ? (out as CultureEnv01k) : null;
+}
+
+function mixCultureEnv01k(parts: Array<{ env: CultureEnv01k; weight: number }>): CultureEnv01k {
+  const cleaned = parts
+    .map(p => ({ env: p.env, weight: Number.isFinite(p.weight) ? Math.max(0, p.weight) : 0 }))
+    .filter(p => p.weight > 0);
+  if (!cleaned.length) return { cosmopolitanism: 450, traditionalism: 520, mediaOpenness: 650 };
+  const total = cleaned.reduce((s, p) => s + p.weight, 0);
+  const out: Record<string, Fixed> = {};
+  for (const axis of CULTURE_ENV_AXES) {
+    let acc = 0;
+    for (const p of cleaned) acc += (p.env[axis] / 1000) * p.weight;
+    out[axis] = clampFixed01k((acc / total) * 1000);
+  }
+  return out as CultureEnv01k;
+}
+
+function normalizeWeights01k(raw: Record<string, number>): Record<string, Fixed> {
+  const entries = Object.entries(raw).map(([k, v]) => [k, Number.isFinite(v) ? Math.max(0, v) : 0] as const);
+  const total = entries.reduce((s, [, v]) => s + v, 0);
+  if (total <= 0) return {};
+  const out: Record<string, Fixed> = {};
+  for (const [k, v] of entries) out[k] = clampFixed01k((v / total) * 1000);
+  return out;
+}
+
+function mixWeights01k(parts: Array<{ weights: Record<string, Fixed>; weight: number }>): Record<string, Fixed> {
+  const cleaned = parts
+    .map(p => ({ weights: p.weights, weight: Number.isFinite(p.weight) ? Math.max(0, p.weight) : 0 }))
+    .filter(p => p.weight > 0);
+  if (!cleaned.length) return {};
+  const acc: Record<string, number> = {};
+  for (const p of cleaned) {
+    for (const [k, v01k] of Object.entries(p.weights ?? {})) {
+      const v = Number(v01k);
+      if (!Number.isFinite(v) || v <= 0) continue;
+      acc[k] = (acc[k] ?? 0) + (v / 1000) * p.weight;
+    }
+  }
+  return normalizeWeights01k(acc);
+}
+
 function deriveCultureFromShadowContinent(continent: string | undefined): string {
   const token = (continent ?? '').trim();
   if (!token) return 'Global';
@@ -731,17 +797,97 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const currentCountryIso3 = currentPick.iso3.trim().toUpperCase();
   traceSet(trace, 'identity.currentCountryIso3', currentCountryIso3, { method: 'probabilisticPick', dependsOn: { facet: 'current_country', abroadChance, abroad, poolSize: (abroad ? (abroadPool.length || currentCandidatePool.length) : 1) } });
 
-  const culture = vocab.cultureProfiles?.[homeCulture];
-  const cultureWeights = culture?.weights ?? {};
-  // Hybrid model: higher cosmopolitanism → more global mixing (lower primary weights).
-  const namesPrimaryWeight = clamp01((cultureWeights.namesPrimaryWeight ?? 0.75) - 0.45 * cosmo01, 0.75);
-  const languagesPrimaryWeight = clamp01((cultureWeights.languagesPrimaryWeight ?? 0.85) - 0.45 * cosmo01, 0.85);
-  const foodPrimaryWeight = clamp01((cultureWeights.foodPrimaryWeight ?? 0.7) - 0.25 * cosmo01, 0.7);
-  const mediaPrimaryWeight = clamp01((cultureWeights.mediaPrimaryWeight ?? 0.7) - 0.35 * cosmo01, 0.7);
-  const fashionPrimaryWeight = clamp01((cultureWeights.fashionPrimaryWeight ?? 0.6) - 0.30 * cosmo01, 0.6);
+  const macroCulture = vocab.cultureProfiles?.[homeCulture];
+  const macroCultureWeights = macroCulture?.weights ?? {};
+
+  const getCultureEnv01k = (iso3: string): CultureEnv01k | null => {
+    const bucket = input.priors?.countries?.[iso3]?.buckets?.[String(cohortBucketStartYear)];
+    return normalizeCultureEnv01k(bucket?.cultureEnvironment01k as Partial<Record<CultureEnvAxis, Fixed>> | null | undefined);
+  };
+  const homeCultureEnv01k = getCultureEnv01k(homeCountryIso3);
+  const citizenshipCultureEnv01k = citizenshipCountryIso3 !== homeCountryIso3 ? getCultureEnv01k(citizenshipCountryIso3) : null;
+  const currentCultureEnv01k = currentCountryIso3 !== homeCountryIso3 ? getCultureEnv01k(currentCountryIso3) : null;
+  const cultureEnv01k = homeCultureEnv01k
+    ? mixCultureEnv01k([
+        { env: homeCultureEnv01k, weight: 1 },
+        ...(citizenshipCultureEnv01k ? [{ env: citizenshipCultureEnv01k, weight: 0.10 + 0.25 * cosmo01 }] : []),
+        ...(currentCultureEnv01k ? [{ env: currentCultureEnv01k, weight: 0.15 + 0.35 * cosmo01 + (abroad ? 0.15 : 0) }] : []),
+      ])
+    : null;
+
+  const cultureCosmo01 = clamp01((cultureEnv01k?.cosmopolitanism ?? 450) / 1000, 0.45);
+  const cultureTraditionalism01 = clamp01((cultureEnv01k?.traditionalism ?? 520) / 1000, 0.52);
+  const cultureMediaOpenness01 = clamp01((cultureEnv01k?.mediaOpenness ?? 650) / 1000, 0.65);
+  const mixing01 = clamp01(0.55 * cosmo01 + 0.45 * cultureCosmo01, 0.5);
+
+  // Hybrid model: higher mixing → more global blending; higher traditionalism → stronger culture-primary.
+  const namesPrimaryWeight = clamp01(
+    (macroCultureWeights.namesPrimaryWeight ?? 0.75) - 0.55 * mixing01 + 0.10 * cultureTraditionalism01,
+    0.75,
+  );
+  const languagesPrimaryWeight = clamp01(
+    (macroCultureWeights.languagesPrimaryWeight ?? 0.85) - 0.45 * mixing01 + 0.06 * cultureTraditionalism01,
+    0.85,
+  );
+  const foodPrimaryWeight = clamp01(
+    (macroCultureWeights.foodPrimaryWeight ?? 0.7) - 0.25 * mixing01 + 0.12 * cultureTraditionalism01,
+    0.7,
+  );
+  const mediaPrimaryWeight = clamp01(
+    (macroCultureWeights.mediaPrimaryWeight ?? 0.7) - 0.35 * mixing01 - 0.10 * cultureMediaOpenness01 + 0.04 * cultureTraditionalism01,
+    0.7,
+  );
+  const fashionPrimaryWeight = clamp01(
+    (macroCultureWeights.fashionPrimaryWeight ?? 0.6) - 0.30 * mixing01 + 0.10 * cultureTraditionalism01,
+    0.6,
+  );
+
+  const getMicroCultureWeights01k = (iso3: string): Record<string, Fixed> | null => {
+    const bucket = input.priors?.countries?.[iso3]?.buckets?.[String(cohortBucketStartYear)];
+    const weights = bucket?.cultureProfileWeights01k;
+    return weights && typeof weights === 'object' ? (weights as Record<string, Fixed>) : null;
+  };
+  const homeMicroWeights01k = getMicroCultureWeights01k(homeCountryIso3);
+  const citizenshipMicroWeights01k = citizenshipCountryIso3 !== homeCountryIso3 ? getMicroCultureWeights01k(citizenshipCountryIso3) : null;
+  const currentMicroWeights01k = currentCountryIso3 !== homeCountryIso3 ? getMicroCultureWeights01k(currentCountryIso3) : null;
+  const microWeights01k = homeMicroWeights01k
+    ? mixWeights01k([
+        { weights: homeMicroWeights01k, weight: 1 },
+        ...(citizenshipMicroWeights01k ? [{ weights: citizenshipMicroWeights01k, weight: 0.10 + 0.25 * cosmo01 }] : []),
+        ...(currentMicroWeights01k ? [{ weights: currentMicroWeights01k, weight: 0.15 + 0.35 * cosmo01 + (abroad ? 0.15 : 0) }] : []),
+      ])
+    : null;
+  const microTop = microWeights01k
+    ? Object.entries(microWeights01k)
+        .map(([profileId, weight01k]) => ({ profileId, weight01k: Number(weight01k) }))
+        .filter(x => x.profileId && Number.isFinite(x.weight01k) && x.weight01k > 0)
+        .sort((a, b) => b.weight01k - a.weight01k)
+        .slice(0, 6)
+    : [];
+
+  const microProfiles = microTop
+    .map(({ profileId }) => ({ id: profileId, profile: vocab.microCultureProfiles?.[profileId] }))
+    .filter((x): x is { id: string; profile: CultureProfileV1 } => !!x.profile);
+
+  const microFirstNames = uniqueStrings(microProfiles.flatMap(x => x.profile.identity?.firstNames ?? []));
+  const microLastNames = uniqueStrings(microProfiles.flatMap(x => x.profile.identity?.lastNames ?? []));
+  const microLanguages = uniqueStrings(microProfiles.flatMap(x => x.profile.identity?.languages ?? []));
+  const microComfortFoods = uniqueStrings(microProfiles.flatMap(x => x.profile.preferences?.food?.comfortFoods ?? []));
+  const microRitualDrinks = uniqueStrings(microProfiles.flatMap(x => x.profile.preferences?.food?.ritualDrinks ?? []));
+  const microGenres = uniqueStrings(microProfiles.flatMap(x => x.profile.preferences?.media?.genres ?? []));
+  const microStyleTags = uniqueStrings(microProfiles.flatMap(x => x.profile.preferences?.fashion?.styleTags ?? []));
+
   if (trace) {
     trace.derived.primaryWeights = { namesPrimaryWeight, languagesPrimaryWeight, foodPrimaryWeight, mediaPrimaryWeight, fashionPrimaryWeight };
-    trace.derived.homeCultureProfilePresent = !!culture;
+    trace.derived.cultureEnv = {
+      home: homeCultureEnv01k,
+      citizenship: citizenshipCultureEnv01k,
+      current: currentCultureEnv01k,
+      blended: cultureEnv01k,
+      mixing01,
+    };
+    trace.derived.microCultureProfilesTop = microTop;
+    trace.derived.homeCultureProfilePresent = !!macroCulture;
   }
 
   traceFacet(trace, seed, 'identity_tracks');
@@ -809,18 +955,43 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   traceFacet(trace, seed, 'name');
   const nameRng = makeRng(facetSeed(seed, 'name'));
-  const cultureFirst = culture?.identity?.firstNames ?? [];
-  const cultureLast = culture?.identity?.lastNames ?? [];
-  const useCultureFirst = cultureFirst.length > 0 && nameRng.next01() < namesPrimaryWeight;
-  const useCultureLast = cultureLast.length > 0 && nameRng.next01() < namesPrimaryWeight;
-  const firstName = nameRng.pick(useCultureFirst ? cultureFirst : vocab.identity.firstNames);
-  const lastName = nameRng.pick(useCultureLast ? cultureLast : vocab.identity.lastNames);
+  const macroFirst = macroCulture?.identity?.firstNames ?? [];
+  const macroLast = macroCulture?.identity?.lastNames ?? [];
+  const microStrength01 = microTop.length ? clamp01(microTop[0]!.weight01k / 1000, 0) : 0;
+
+  const pickNameFromPools = (pools: Array<{ label: string; items: string[]; weight: number }>, fallbackPool: string[]) => {
+    const chosen = weightedPick(nameRng, pools.map(p => ({ item: p.label, weight: p.items.length ? p.weight : 0 })));
+    const pool = pools.find(p => p.label === chosen)?.items ?? [];
+    const usable = pool.length ? pool : fallbackPool;
+    return nameRng.pick(usable);
+  };
+
+  const macroW = namesPrimaryWeight * (0.55 + 0.20 * cultureTraditionalism01);
+  const microW = namesPrimaryWeight * 0.45 * (0.35 + 0.65 * microStrength01);
+  const globalW = Math.max(0.05, 1 - Math.min(0.95, macroW + microW));
+
+  const firstName = pickNameFromPools(
+    [
+      { label: 'macro', items: macroFirst, weight: macroW },
+      { label: 'micro', items: microFirstNames, weight: microW },
+      { label: 'global', items: vocab.identity.firstNames, weight: globalW },
+    ],
+    vocab.identity.firstNames,
+  );
+  const lastName = pickNameFromPools(
+    [
+      { label: 'macro', items: macroLast, weight: macroW },
+      { label: 'micro', items: microLastNames, weight: microW },
+      { label: 'global', items: vocab.identity.lastNames, weight: globalW },
+    ],
+    vocab.identity.lastNames,
+  );
   const name = `${firstName} ${lastName}`;
-  traceSet(trace, 'identity.name', name, { method: 'hybridPick', dependsOn: { facet: 'name', namesPrimaryWeight, useCultureFirst, useCultureLast, cultureFirstPoolSize: cultureFirst.length, cultureLastPoolSize: cultureLast.length } });
+  traceSet(trace, 'identity.name', name, { method: 'macro+micro+global', dependsOn: { facet: 'name', namesPrimaryWeight, macroFirstPoolSize: macroFirst.length, microFirstPoolSize: microFirstNames.length, macroLastPoolSize: macroLast.length, microLastPoolSize: microLastNames.length, microStrength01 } });
 
   traceFacet(trace, seed, 'languages');
   const langRng = makeRng(facetSeed(seed, 'languages'));
-  const cultureLangs = uniqueStrings(culture?.identity?.languages ?? []);
+  const cultureLangs = uniqueStrings([...(macroCulture?.identity?.languages ?? []), ...microLanguages]);
   const baseLangs = uniqueStrings(vocab.identity.languages);
   const unionLangs = uniqueStrings([...cultureLangs, ...baseLangs]);
   const getLanguageEnv01k = (iso3: string): Record<string, Fixed> | null => {
@@ -1410,8 +1581,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   const axis01 = (axis: FoodEnvAxis, fallback: number) => (foodEnv01k ? foodEnv01k[axis] / 1000 : fallback);
 
-  const cultureComfort = uniqueStrings(culture?.preferences?.food?.comfortFoods ?? []);
-  const cultureDrinks = uniqueStrings(culture?.preferences?.food?.ritualDrinks ?? []);
+  const cultureComfort = uniqueStrings([...(macroCulture?.preferences?.food?.comfortFoods ?? []), ...microComfortFoods]);
+  const cultureDrinks = uniqueStrings([...(macroCulture?.preferences?.food?.ritualDrinks ?? []), ...microRitualDrinks]);
 
   const allRestrictionsPool = uniqueStrings(vocab.preferences.food.restrictions);
   let restrictions: string[] = [];
@@ -1604,7 +1775,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   if (!vocab.preferences.media.genres.length) throw new Error('Agent vocab missing: preferences.media.genres');
   if (!vocab.preferences.media.platforms.length) throw new Error('Agent vocab missing: preferences.media.platforms');
-  const cultureGenres = uniqueStrings(culture?.preferences?.media?.genres ?? []);
+  const cultureGenres = uniqueStrings([...(macroCulture?.preferences?.media?.genres ?? []), ...microGenres]);
   const genreTopK = cultureGenres.length && prefsRng.next01() < mediaPrimaryWeight
     ? pickKHybrid(prefsRng, cultureGenres, vocab.preferences.media.genres, 5, 3)
     : prefsRng.pickK(vocab.preferences.media.genres, 5);
@@ -1618,8 +1789,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       return typeof v === 'number' && Number.isFinite(v) ? v : 200;
     })();
     let bias = 0;
-    if (key === 'closed') bias += Math.round(70 * opsec01);
-    if (key === 'social') bias += Math.round(65 * public01) - Math.round(40 * opsec01);
+    if (key === 'closed') bias += Math.round(70 * opsec01) + Math.round(70 * (1 - cultureMediaOpenness01));
+    if (key === 'social') bias += Math.round(65 * public01) - Math.round(40 * opsec01) + Math.round(25 * cultureMediaOpenness01);
     if (key === 'tv') bias += Math.round(30 * public01);
     if (key === 'print') bias += Math.round(45 * inst01);
     if (key === 'radio') bias += Math.round(30 * inst01);
@@ -1658,7 +1829,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   traceFacet(trace, seed, 'fashion');
   const fashionRng = makeRng(facetSeed(seed, 'fashion'));
   if (!vocab.preferences.fashion.styleTags.length) throw new Error('Agent vocab missing: preferences.fashion.styleTags');
-  const cultureStyle = uniqueStrings(culture?.preferences?.fashion?.styleTags ?? []);
+  const cultureStyle = uniqueStrings([...(macroCulture?.preferences?.fashion?.styleTags ?? []), ...microStyleTags]);
   let styleTags = cultureStyle.length && fashionRng.next01() < fashionPrimaryWeight
     ? pickKHybrid(fashionRng, cultureStyle, vocab.preferences.fashion.styleTags, 3, 2)
     : fashionRng.pickK(vocab.preferences.fashion.styleTags, 3);
@@ -1681,6 +1852,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (inst01 > 0.7) {
     addForced('classic');
     addForced('minimalist');
+  }
+  if (cultureTraditionalism01 > 0.72) {
+    addForced('classic');
+    addForced('formal');
+    addForced('traditional');
   }
   if (tierBand === 'elite') addForced('formal');
   for (const tag of forced.slice(0, 2)) {

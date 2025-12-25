@@ -733,5 +733,315 @@
         "fashion": { "styleTags": ["rugged", "workwear", "sporty", "classic", "minimalist"] }
       }
     }
+  },
+  "microCultureProfiles": {
+    "profile:global": {
+      "weights": { "namesPrimaryWeight": 0.5, "languagesPrimaryWeight": 0.5, "foodPrimaryWeight": 0.5, "mediaPrimaryWeight": 0.5, "fashionPrimaryWeight": 0.5 },
+      "identity": { "languages": ["en", "es", "fr", "ar"] },
+      "preferences": {
+        "food": { "comfortFoods": ["home cooking", "street food", "late-night snacks"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["documentaries", "history", "crime", "hard sci-fi", "satire"] },
+        "fashion": { "styleTags": ["minimalist", "classic", "utilitarian", "streetwear", "formal"] }
+      }
+    },
+    "profile:anglophone": {
+      "weights": { "namesPrimaryWeight": 0.7, "languagesPrimaryWeight": 0.7, "foodPrimaryWeight": 0.6, "mediaPrimaryWeight": 0.7, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Ava", "Ethan", "Maya", "Jordan", "Noah", "Sofia", "Zoe", "Liam", "Amelia", "Harper"],
+        "lastNames": ["Smith", "Johnson", "Williams", "Brown", "Taylor", "Anderson", "Thomas", "Harris", "Clark", "Lewis"],
+        "languages": ["en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["breakfast foods", "baked goods", "home cooking", "late-night snacks"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["political thriller", "true crime", "tech podcasts", "sports", "satire"] },
+        "fashion": { "styleTags": ["business casual", "workwear", "athleisure", "classic", "streetwear"] }
+      }
+    },
+    "profile:hispanic": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.8, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Santiago", "Lucia", "Diego", "Camila", "Valentina", "Mateo", "Isabella", "Ana", "Luis", "Mariana"],
+        "lastNames": ["Garcia", "Rodriguez", "Martinez", "Hernandez", "Lopez", "Gonzalez", "Perez", "Sanchez", "Ramirez", "Torres"],
+        "languages": ["es"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["street food", "home cooking", "spicy food", "grilled foods"], "ritualDrinks": ["coffee", "mate", "sparkling water"] },
+        "media": { "genres": ["sports", "crime", "romance", "documentaries", "political drama"] },
+        "fashion": { "styleTags": ["streetwear", "sporty", "classic", "business casual", "formal"] }
+      }
+    },
+    "profile:luso": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.8, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Joao", "Maria", "Ana", "Miguel", "Beatriz", "Rafael", "Carolina", "Tiago", "Ines", "Sofia"],
+        "lastNames": ["Silva", "Santos", "Oliveira", "Pereira", "Costa", "Ferreira", "Rodrigues", "Almeida", "Gomes", "Ribeiro"],
+        "languages": ["pt"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["seafood", "home cooking", "street food", "desserts"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["sports", "documentaries", "history", "music", "crime"] },
+        "fashion": { "styleTags": ["classic", "minimalist", "streetwear", "sporty", "workwear"] }
+      }
+    },
+    "profile:francophone": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.85, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.7, "fashionPrimaryWeight": 0.65 },
+      "identity": {
+        "firstNames": ["Amelie", "Lucas", "Camille", "Hugo", "Lea", "Noah", "Zoe", "Nina", "Julien", "Aya"],
+        "lastNames": ["Martin", "Bernard", "Dubois", "Thomas", "Robert", "Richard", "Petit", "Durand", "Moreau", "Laurent"],
+        "languages": ["fr"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["baked goods", "cheese dishes", "home cooking", "fine dining"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["documentaries", "history", "crime", "satire", "art films"] },
+        "fashion": { "styleTags": ["tailored", "classic", "formal", "minimalist", "business casual"] }
+      }
+    },
+    "profile:arab": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Amina", "Omar", "Layla", "Yusuf", "Noor", "Hassan", "Mariam", "Samir", "Zainab", "Khalid"],
+        "lastNames": ["Haddad", "Khan", "Nasser", "Saleh", "Farah", "Abbas", "Hussein", "Fahmy", "Mansour", "Rahman"],
+        "languages": ["ar"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spiced stews", "flatbreads", "grilled foods", "sweets"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["history", "politics", "drama", "documentaries", "sports"] },
+        "fashion": { "styleTags": ["formal", "classic", "minimalist", "utilitarian", "tailored"] }
+      }
+    },
+    "profile:slavic": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Sofia", "Nadia", "Ivan", "Dmitri", "Elena", "Mila", "Oleg", "Anya", "Viktor", "Katya"],
+        "lastNames": ["Ivanov", "Petrov", "Sokolov", "Kuznetsov", "Smirnov", "Volkov", "Popov", "Morozov", "Novak", "Kowalski"],
+        "languages": ["ru", "uk", "pl"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["hearty soups", "dumplings", "baked breads", "home cooking"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["history", "crime", "political thriller", "strategy games", "documentaries"] },
+        "fashion": { "styleTags": ["utilitarian", "classic", "formal", "workwear", "minimalist"] }
+      }
+    },
+    "profile:germanic": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.85, "foodPrimaryWeight": 0.65, "mediaPrimaryWeight": 0.7, "fashionPrimaryWeight": 0.65 },
+      "identity": {
+        "firstNames": ["Lena", "Jonas", "Mia", "Felix", "Hannah", "Emil", "Lea", "Noah", "Sven", "Nina"],
+        "lastNames": ["Muller", "Schmidt", "Schneider", "Fischer", "Weber", "Meyer", "Wagner", "Becker", "Hoffmann", "Schulz"],
+        "languages": ["de", "nl", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["baked breads", "hearty meals", "home cooking", "desserts"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["documentaries", "history", "crime", "science", "business news"] },
+        "fashion": { "styleTags": ["minimalist", "classic", "tailored", "utilitarian", "business casual"] }
+      }
+    },
+    "profile:nordic": {
+      "weights": { "namesPrimaryWeight": 0.7, "languagesPrimaryWeight": 0.8, "foodPrimaryWeight": 0.6, "mediaPrimaryWeight": 0.7, "fashionPrimaryWeight": 0.7 },
+      "identity": {
+        "firstNames": ["Freja", "Astrid", "Soren", "Maja", "Linnea", "Oskar", "Noah", "Ingrid", "Erik", "Alma"],
+        "lastNames": ["Hansen", "Johansen", "Olsen", "Andersen", "Larsen", "Nielsen", "Svensson", "Lindberg", "Berg", "Dahl"],
+        "languages": ["sv", "no", "da", "fi"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["seafood", "fresh salads", "baked breads", "home cooking"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["crime", "documentaries", "history", "hard sci-fi", "strategy games"] },
+        "fashion": { "styleTags": ["minimalist", "classic", "utilitarian", "workwear", "tailored"] }
+      }
+    },
+    "profile:turkic": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Emre", "Elif", "Deniz", "Aylin", "Mert", "Zeynep", "Kerem", "Selin", "Yusuf", "Leyla"],
+        "lastNames": ["Yilmaz", "Kaya", "Demir", "Sahin", "Celik", "Aydin", "Arslan", "Ozdemir", "Kilic", "Yildiz"],
+        "languages": ["tr"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["grilled foods", "spiced stews", "street food", "sweets"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["drama", "history", "sports", "politics", "crime"] },
+        "fashion": { "styleTags": ["classic", "formal", "streetwear", "utilitarian", "tailored"] }
+      }
+    },
+    "profile:iranian": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Sara", "Reza", "Neda", "Amir", "Leila", "Farid", "Mina", "Arman", "Yasmin", "Navid"],
+        "lastNames": ["Mohammadi", "Hosseini", "Karimi", "Ahmadi", "Ebrahimi", "Rahimi", "Kiani", "Jafari", "Kazemi", "Sadeghi"],
+        "languages": ["fa"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spiced stews", "rice dishes", "sweets", "home cooking"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["poetry", "history", "drama", "documentaries", "crime"] },
+        "fashion": { "styleTags": ["classic", "formal", "minimalist", "tailored", "utilitarian"] }
+      }
+    },
+    "profile:indic": {
+      "weights": { "namesPrimaryWeight": 0.85, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.8, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Ananya", "Arjun", "Asha", "Ravi", "Priya", "Kiran", "Meera", "Vikram", "Neha", "Ishaan"],
+        "lastNames": ["Patel", "Sharma", "Singh", "Kumar", "Das", "Gupta", "Roy", "Iyer", "Reddy", "Nair"],
+        "languages": ["hi", "bn", "ta", "te", "ur", "pa"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spicy food", "vegetarian dishes", "street food", "home cooking"], "ritualDrinks": ["tea", "chai", "coffee", "sparkling water"] },
+        "media": { "genres": ["drama", "romance", "history", "sports", "strategy games"] },
+        "fashion": { "styleTags": ["traditional", "formal", "sporty", "classic", "minimalist"] }
+      }
+    },
+    "profile:islamic-south-asia": {
+      "weights": { "namesPrimaryWeight": 0.85, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.8, "mediaPrimaryWeight": 0.6, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Aisha", "Hassan", "Noor", "Imran", "Zara", "Yusuf", "Fatima", "Omar", "Sana", "Bilal"],
+        "lastNames": ["Khan", "Ahmed", "Hussain", "Ali", "Rahman", "Malik", "Iqbal", "Akhtar", "Chaudhry", "Siddiqui"],
+        "languages": ["ur", "bn"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spiced rice dishes", "grilled foods", "street food", "sweets"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["drama", "history", "religion", "sports", "crime"] },
+        "fashion": { "styleTags": ["classic", "formal", "traditional", "minimalist", "utilitarian"] }
+      }
+    },
+    "profile:se-asia": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.8, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Minh", "Lan", "Anh", "Somchai", "Mai", "Rizky", "Putri", "Arif", "Thao", "Nok"],
+        "lastNames": ["Nguyen", "Tran", "Le", "Santos", "Reyes", "Wijaya", "Saputra", "Halim", "Tan", "Lim"],
+        "languages": ["vi", "id", "ms", "th", "tl", "fil", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["noodle soups", "street food", "spicy food", "seafood"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["crime", "romance", "tech podcasts", "sports", "documentaries"] },
+        "fashion": { "styleTags": ["streetwear", "sporty", "utilitarian", "minimalist", "workwear"] }
+      }
+    },
+    "profile:sinosphere": {
+      "weights": { "namesPrimaryWeight": 0.85, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.7, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Wei", "Mei", "Jun", "Ling", "Hao", "Xiu", "Chen", "Lei", "Yue", "Tao"],
+        "lastNames": ["Wang", "Zhang", "Liu", "Chen", "Li", "Yang", "Huang", "Zhao", "Wu", "Zhou"],
+        "languages": ["zh", "yue", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["dumplings", "noodle soups", "rice bowls", "street food"], "ritualDrinks": ["tea", "green tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["history", "hard sci-fi", "strategy games", "business news", "documentaries"] },
+        "fashion": { "styleTags": ["minimalist", "techwear", "formal", "streetwear", "tailored"] }
+      }
+    },
+    "profile:japanese": {
+      "weights": { "namesPrimaryWeight": 0.85, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.75, "fashionPrimaryWeight": 0.65 },
+      "identity": {
+        "firstNames": ["Hana", "Haruto", "Yuki", "Sora", "Kei", "Rin", "Aoi", "Ren", "Mai", "Kaito"],
+        "lastNames": ["Sato", "Suzuki", "Takahashi", "Tanaka", "Watanabe", "Ito", "Yamamoto", "Nakamura", "Kobayashi", "Kato"],
+        "languages": ["ja", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["noodle soups", "rice bowls", "seafood", "late-night snacks"], "ritualDrinks": ["green tea", "tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["anime", "hard sci-fi", "strategy games", "documentaries", "crime"] },
+        "fashion": { "styleTags": ["minimalist", "techwear", "tailored", "formal", "streetwear"] }
+      }
+    },
+    "profile:korean": {
+      "weights": { "namesPrimaryWeight": 0.85, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.75, "fashionPrimaryWeight": 0.65 },
+      "identity": {
+        "firstNames": ["Yuna", "Min", "Jin", "Soo", "Hye", "Jiwoo", "Seojun", "Ara", "Jisoo", "Hyun"],
+        "lastNames": ["Kim", "Lee", "Park", "Choi", "Jung", "Kang", "Cho", "Yoon", "Jang", "Lim"],
+        "languages": ["ko", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["fermented foods", "noodle soups", "street food", "spicy food"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["drama", "crime", "romance", "tech podcasts", "satire"] },
+        "fashion": { "styleTags": ["streetwear", "tailored", "minimalist", "formal", "techwear"] }
+      }
+    },
+    "profile:italian": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.85, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.65 },
+      "identity": {
+        "firstNames": ["Luca", "Giulia", "Marco", "Sofia", "Matteo", "Chiara", "Francesco", "Elena", "Alessia", "Davide"],
+        "lastNames": ["Rossi", "Russo", "Ferrari", "Esposito", "Bianchi", "Romano", "Colombo", "Ricci", "Marino", "Greco"],
+        "languages": ["it", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["pasta dishes", "baked goods", "home cooking", "fine dining"], "ritualDrinks": ["coffee", "espresso", "tea", "sparkling water"] },
+        "media": { "genres": ["history", "crime", "drama", "documentaries", "sports"] },
+        "fashion": { "styleTags": ["tailored", "classic", "formal", "minimalist", "business casual"] }
+      }
+    },
+    "profile:hellenic": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.85, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Nikos", "Eleni", "Yannis", "Maria", "Sofia", "Dimitris", "Anna", "Katerina", "Giorgos", "Irene"],
+        "lastNames": ["Papadopoulos", "Nikolaou", "Georgiou", "Pappas", "Dimitriou", "Ioannou", "Kostas", "Christou", "Kouris", "Vasilakis"],
+        "languages": ["el", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["seafood", "fresh salads", "grilled foods", "home cooking"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["history", "documentaries", "drama", "satire", "sports"] },
+        "fashion": { "styleTags": ["classic", "minimalist", "formal", "sporty", "tailored"] }
+      }
+    },
+    "profile:e-africa": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.6, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Amina", "Neema", "Juma", "Fatima", "Baraka", "Zuri", "Kofi", "Asha", "Hassan", "Mosi"],
+        "lastNames": ["Mwangi", "Otieno", "Njoroge", "Okello", "Kariuki", "Wanjiku", "Kamau", "Ali", "Abdi", "Hassan"],
+        "languages": ["sw", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["street food", "spiced stews", "grilled foods", "home cooking"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["sports", "music", "history", "documentaries", "crime"] },
+        "fashion": { "styleTags": ["sporty", "utilitarian", "classic", "streetwear", "workwear"] }
+      }
+    },
+    "profile:horn-of-africa": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.6, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Mekdes", "Dawit", "Selam", "Abebe", "Hana", "Samuel", "Mariam", "Yared", "Saba", "Kaleb"],
+        "lastNames": ["Tesfaye", "Bekele", "Abdullahi", "Hassan", "Mohamed", "Ali", "Girma", "Tadesse", "Yohannes", "Abebe"],
+        "languages": ["am", "en", "ar"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spiced stews", "flatbreads", "home cooking", "street food"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["history", "documentaries", "politics", "drama", "sports"] },
+        "fashion": { "styleTags": ["classic", "formal", "utilitarian", "minimalist", "workwear"] }
+      }
+    },
+    "profile:sahel": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.6, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Aminata", "Oumar", "Moussa", "Fatou", "Ibrahim", "Aissatou", "Seydou", "Hawa", "Mariam", "Issa"],
+        "lastNames": ["Diallo", "Traore", "Keita", "Sissoko", "Kone", "Bah", "Sow", "Camara", "Balde", "Sy"],
+        "languages": ["ha", "fr", "ar"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["spiced stews", "street food", "grilled foods", "home cooking"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["sports", "music", "politics", "documentaries", "crime"] },
+        "fashion": { "styleTags": ["utilitarian", "classic", "sporty", "workwear", "minimalist"] }
+      }
+    },
+    "profile:w-africa": {
+      "weights": { "namesPrimaryWeight": 0.8, "languagesPrimaryWeight": 0.9, "foodPrimaryWeight": 0.75, "mediaPrimaryWeight": 0.6, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Chidi", "Amara", "Kofi", "Ada", "Ngozi", "Kwame", "Amina", "Ife", "Tunde", "Zainab"],
+        "lastNames": ["Okafor", "Adebayo", "Mensah", "Boateng", "Owusu", "Diallo", "Traore", "Kone", "Bello", "Ibrahim"],
+        "languages": ["yo", "ig", "ha", "en", "fr"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["street food", "spiced stews", "grilled foods", "home cooking"], "ritualDrinks": ["tea", "coffee", "sparkling water"] },
+        "media": { "genres": ["music", "sports", "crime", "documentaries", "drama"] },
+        "fashion": { "styleTags": ["streetwear", "sporty", "classic", "utilitarian", "workwear"] }
+      }
+    },
+    "profile:s-africa": {
+      "weights": { "namesPrimaryWeight": 0.75, "languagesPrimaryWeight": 0.85, "foodPrimaryWeight": 0.7, "mediaPrimaryWeight": 0.65, "fashionPrimaryWeight": 0.6 },
+      "identity": {
+        "firstNames": ["Thabo", "Lerato", "Naledi", "Sipho", "Zanele", "Ayesha", "Amir", "Nandi", "Kagiso", "Mpho"],
+        "lastNames": ["Nkosi", "Dlamini", "Naidoo", "Van Wyk", "Botha", "Mokoena", "Khumalo", "Pillay", "Mthembu", "Mahlangu"],
+        "languages": ["zu", "xh", "en"]
+      },
+      "preferences": {
+        "food": { "comfortFoods": ["grilled foods", "street food", "home cooking", "desserts"], "ritualDrinks": ["coffee", "tea", "sparkling water"] },
+        "media": { "genres": ["sports", "crime", "documentaries", "business news", "satire"] },
+        "fashion": { "styleTags": ["workwear", "sporty", "streetwear", "classic", "utilitarian"] }
+      }
+    }
   }
 }
