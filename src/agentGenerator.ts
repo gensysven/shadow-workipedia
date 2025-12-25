@@ -280,8 +280,12 @@ export type GenerateAgentInput = {
   priors?: AgentPriorsV1;
   seed: string;
   birthYear?: number;
+  asOfYear?: number;
   tierBand?: TierBand;
   roleSeedTags?: string[];
+  homeCountryIso3?: string;
+  citizenshipCountryIso3?: string;
+  currentCountryIso3?: string;
   includeTrace?: boolean;
 };
 
@@ -720,6 +724,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   const birthYear = clampInt(input.birthYear ?? base.int(1960, 2006), 1800, 2525);
   traceSet(trace, 'identity.birthYear', birthYear, { method: input.birthYear != null ? 'override' : 'rng', dependsOn: { facet: 'base' } });
+  const asOfYear = clampInt(input.asOfYear ?? 2025, 1800, 2525);
+  traceSet(trace, 'identity.asOfYear', asOfYear, { method: input.asOfYear != null ? 'override' : 'default', dependsOn: { default: 2025 } });
   const vocab = input.vocab;
   if (vocab.version !== 1) throw new Error(`Unsupported agent vocab version: ${String((vocab as { version?: unknown }).version)}`);
   if (!vocab.identity.tierBands.length) throw new Error('Agent vocab missing: identity.tierBands');
@@ -736,10 +742,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (!validCountries.length) throw new Error('Agent country map missing: no ISO3 entries');
   traceFacet(trace, seed, 'origin');
   const originRng = makeRng(facetSeed(seed, 'origin'));
-  const origin = originRng.pick(validCountries);
+  const forcedHomeIso3 = (input.homeCountryIso3 ?? '').trim().toUpperCase();
+  const origin = forcedHomeIso3
+    ? validCountries.find(c => c.iso3.trim().toUpperCase() === forcedHomeIso3) ?? originRng.pick(validCountries)
+    : originRng.pick(validCountries);
   const homeCountryIso3 = origin.iso3.trim().toUpperCase();
   const homeCulture = deriveCultureFromShadowContinent(origin.continent);
-  traceSet(trace, 'identity.homeCountryIso3', homeCountryIso3, { method: 'pick', dependsOn: { facet: 'origin', poolSize: validCountries.length, continent: origin.continent ?? null } });
+  traceSet(trace, 'identity.homeCountryIso3', homeCountryIso3, { method: forcedHomeIso3 ? 'overrideOrFallbackPick' : 'pick', dependsOn: { facet: 'origin', poolSize: validCountries.length, continent: origin.continent ?? null, forcedHomeIso3: forcedHomeIso3 || null } });
   traceSet(trace, 'identity.homeCulture', homeCulture, { method: 'deriveCultureFromShadowContinent', dependsOn: { continent: origin.continent ?? null } });
 
   const cohortBucketStartYear = Math.floor(birthYear / 10) * 10;
@@ -777,8 +786,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const citizenshipOrigin = (citizenshipRng.next01() < citizenshipFlip && cultureCountries.length)
     ? citizenshipRng.pick(cultureCountries)
     : origin;
-  const citizenshipCountryIso3 = citizenshipOrigin.iso3.trim().toUpperCase();
-  traceSet(trace, 'identity.citizenshipCountryIso3', citizenshipCountryIso3, { method: 'probabilisticPick', dependsOn: { facet: 'citizenship', citizenshipFlip, cultureCountryPoolSize: cultureCountries.length } });
+  const forcedCitizenshipIso3 = (input.citizenshipCountryIso3 ?? '').trim().toUpperCase();
+  const citizenshipCountryIso3 = forcedCitizenshipIso3
+    ? validCountries.find(c => c.iso3.trim().toUpperCase() === forcedCitizenshipIso3)?.iso3.trim().toUpperCase() ?? citizenshipOrigin.iso3.trim().toUpperCase()
+    : citizenshipOrigin.iso3.trim().toUpperCase();
+  traceSet(trace, 'identity.citizenshipCountryIso3', citizenshipCountryIso3, { method: forcedCitizenshipIso3 ? 'overrideOrFallbackPick' : 'probabilisticPick', dependsOn: { facet: 'citizenship', citizenshipFlip, cultureCountryPoolSize: cultureCountries.length, forcedCitizenshipIso3: forcedCitizenshipIso3 || null } });
 
   traceFacet(trace, seed, 'current_country');
   const currentRng = makeRng(facetSeed(seed, 'current_country'));
@@ -794,8 +806,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const currentPick = abroad
     ? currentRng.pick(abroadPool.length ? abroadPool : currentCandidatePool)
     : origin;
-  const currentCountryIso3 = currentPick.iso3.trim().toUpperCase();
-  traceSet(trace, 'identity.currentCountryIso3', currentCountryIso3, { method: 'probabilisticPick', dependsOn: { facet: 'current_country', abroadChance, abroad, poolSize: (abroad ? (abroadPool.length || currentCandidatePool.length) : 1) } });
+  const forcedCurrentIso3 = (input.currentCountryIso3 ?? '').trim().toUpperCase();
+  const currentCountryIso3 = forcedCurrentIso3
+    ? validCountries.find(c => c.iso3.trim().toUpperCase() === forcedCurrentIso3)?.iso3.trim().toUpperCase() ?? currentPick.iso3.trim().toUpperCase()
+    : currentPick.iso3.trim().toUpperCase();
+  traceSet(trace, 'identity.currentCountryIso3', currentCountryIso3, { method: forcedCurrentIso3 ? 'overrideOrFallbackPick' : 'probabilisticPick', dependsOn: { facet: 'current_country', abroadChance, abroad, poolSize: (abroad ? (abroadPool.length || currentCandidatePool.length) : 1), forcedCurrentIso3: forcedCurrentIso3 || null } });
 
   const macroCulture = vocab.cultureProfiles?.[homeCulture];
   const macroCultureWeights = macroCulture?.weights ?? {};
@@ -1189,7 +1204,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const healthRng = makeRng(facetSeed(seed, 'health'));
   const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
   const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
-  const age = clampInt(new Date().getFullYear() - birthYear, 0, 120);
+  const age = clampInt(asOfYear - birthYear, 0, 120);
+  traceSet(trace, 'identity.age', age, { method: 'asOfYearMinusBirthYear', dependsOn: { asOfYear, birthYear } });
   const endurance01 = aptitudes.endurance / 1000;
   const chronicChance = Math.min(0.65, Math.max(0.04, age / 210 + 0.10 * (1 - endurance01) + 0.10 * viceTendency));
   const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance ? healthRng.pickK(chronicPool, healthRng.int(0, 1)) : [];

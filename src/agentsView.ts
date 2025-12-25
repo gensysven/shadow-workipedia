@@ -269,7 +269,7 @@ async function copyJsonToClipboard(value: unknown): Promise<boolean> {
 
 function readSeedFromHash(): string | null {
   const hash = window.location.hash;
-  const m = hash.match(/^#\/agents\/(.+)$/);
+  const m = hash.match(/^#\/agents\/([^?]+)(?:\?(.*))?$/);
   if (!m) return null;
   try {
     return decodeURIComponent(m[1] ?? '').trim() || null;
@@ -278,8 +278,21 @@ function readSeedFromHash(): string | null {
   }
 }
 
-function setShareHash(seed: string) {
-  window.location.hash = `#/agents/${encodeURIComponent(seed)}`;
+function readAgentsParamsFromHash(): URLSearchParams {
+  const hash = window.location.hash;
+  const m = hash.match(/^#\/agents\/[^?]+(?:\?(.*))?$/);
+  if (!m) return new URLSearchParams();
+  return new URLSearchParams(m[1] ?? '');
+}
+
+function setShareHash(seed: string, opts?: { asOfYear?: number; homeCountryIso3?: string | null }) {
+  const params = new URLSearchParams();
+  const asOf = opts?.asOfYear;
+  if (typeof asOf === 'number' && Number.isFinite(asOf) && asOf !== 2025) params.set('asOf', String(Math.round(asOf)));
+  const home = (opts?.homeCountryIso3 ?? '').trim();
+  if (home) params.set('home', home.toUpperCase());
+  const qs = params.toString();
+  window.location.hash = `#/agents/${encodeURIComponent(seed)}${qs ? `?${qs}` : ''}`;
 }
 
 function renderGauge(label: string, value01k: number): string {
@@ -516,8 +529,46 @@ export function initializeAgentsView(container: HTMLElement) {
   let shadowByIso3 = new Map<string, { shadow: string; continent?: string }>();
   let useOverrides = false;
   let overrideRoleTags: string[] = [];
+  let asOfYear = 2025;
+  let homeCountryMode: 'random' | 'fixed' = 'random';
+  let homeCountryIso3: string | null = null;
   let seedDraft = roster.find(x => x.id === selectedRosterId)?.seed ?? '';
   let pendingHashSeed: string | null = readSeedFromHash();
+  let pendingHashParams: URLSearchParams | null = pendingHashSeed ? readAgentsParamsFromHash() : null;
+
+  const SIDEBAR_PANELS_KEY = 'agentsSidebarPanelsOpen:v1';
+  const readSidebarPanelsOpen = (): { generator: boolean; roster: boolean } | null => {
+    try {
+      const raw = window.localStorage.getItem(SIDEBAR_PANELS_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as { generator?: unknown; roster?: unknown };
+      if (typeof parsed.generator !== 'boolean' || typeof parsed.roster !== 'boolean') return null;
+      return { generator: parsed.generator, roster: parsed.roster };
+    } catch {
+      return null;
+    }
+  };
+  const writeSidebarPanelsOpen = (v: { generator: boolean; roster: boolean }) => {
+    try {
+      window.localStorage.setItem(SIDEBAR_PANELS_KEY, JSON.stringify(v));
+    } catch {
+      // ignore
+    }
+  };
+
+  const savedPanelsOpen = readSidebarPanelsOpen();
+  let generatorPanelOpen = savedPanelsOpen?.generator ?? true;
+  let rosterPanelOpen = savedPanelsOpen?.roster ?? false;
+
+  if (pendingHashParams) {
+    const asOf = Number(pendingHashParams.get('asOf'));
+    if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+    const home = (pendingHashParams.get('home') ?? '').trim().toUpperCase();
+    if (home) {
+      homeCountryMode = 'fixed';
+      homeCountryIso3 = home;
+    }
+  }
 
   if (pendingHashSeed) {
     selectedRosterId = null;
@@ -527,15 +578,51 @@ export function initializeAgentsView(container: HTMLElement) {
     seedDraft = randomSeedString();
   }
 
+  const buildGenerateInput = (
+    seed: string,
+    opts?: { includeOverrides?: boolean; includeTrace?: boolean },
+  ) => {
+    if (!agentVocab || !shadowCountries || !agentPriors) return null;
+    const includeOverrides = opts?.includeOverrides ?? useOverrides;
+    const includeTrace = opts?.includeTrace ?? true;
+    const birthYearEl = container.querySelector('#agents-birthyear') as HTMLInputElement | null;
+    const tierEl = container.querySelector('#agents-tier') as HTMLSelectElement | null;
+
+    const baseInput = {
+      seed,
+      vocab: agentVocab,
+      countries: shadowCountries,
+      priors: agentPriors,
+      asOfYear,
+      homeCountryIso3: homeCountryMode === 'fixed' ? homeCountryIso3 ?? undefined : undefined,
+      includeTrace,
+    };
+
+    if (!includeOverrides) return baseInput;
+    const fallbackBirthYear = activeAgent?.identity.birthYear ?? 1990;
+    const fallbackTier = (activeAgent?.identity.tierBand ?? 'middle') as TierBand;
+    return {
+      ...baseInput,
+      birthYear: Number(birthYearEl?.value || fallbackBirthYear),
+      tierBand: (tierEl?.value as TierBand) ?? fallbackTier,
+      roleSeedTags: overrideRoleTags,
+    };
+  };
+
   const maybeInitAgent = () => {
     if (!agentVocab || !shadowCountries || !agentPriors) return;
 
     if (pendingHashSeed) {
-      activeAgent = generateAgent({ seed: pendingHashSeed, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true });
+      const input = buildGenerateInput(pendingHashSeed, { includeTrace: true, includeOverrides: false });
+      if (!input) return;
+      activeAgent = generateAgent(input);
       seedDraft = activeAgent.seed;
       pendingHashSeed = null;
+      pendingHashParams = null;
     } else if (!activeAgent) {
-      activeAgent = generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true });
+      const input = buildGenerateInput(seedDraft, { includeTrace: true, includeOverrides: false });
+      if (!input) return;
+      activeAgent = generateAgent(input);
       seedDraft = activeAgent.seed;
     }
   };
@@ -577,6 +664,15 @@ export function initializeAgentsView(container: HTMLElement) {
         .filter((r) => r.shadow && r.iso3.length === 3);
       shadowByIso3 = new Map(shadowCountries.map((r) => [r.iso3, { shadow: r.shadow, continent: r.continent }]));
       shadowCountriesError = null;
+
+      if (homeCountryMode === 'fixed' && homeCountryIso3) {
+        const ok = shadowCountries.some(c => c.iso3 === homeCountryIso3);
+        if (!ok) {
+          homeCountryMode = 'random';
+          homeCountryIso3 = null;
+        }
+      }
+
       maybeInitAgent();
       render();
     })
@@ -596,6 +692,13 @@ export function initializeAgentsView(container: HTMLElement) {
     const vocabTierBands = (agentVocab?.identity.tierBands?.length ? agentVocab.identity.tierBands : (['elite', 'middle', 'mass'] as const)) as readonly TierBand[];
     const vocabRoleSeeds = agentVocab?.identity.roleSeedTags?.length ? agentVocab.identity.roleSeedTags : overrideRoleTags;
 
+    const availableCountries = (shadowCountries ?? []).slice().sort((a, b) => a.shadow.localeCompare(b.shadow));
+    const selectedHomeIso3 = homeCountryMode === 'fixed' && homeCountryIso3 ? homeCountryIso3 : '';
+    const countryOptions = [
+      `<option value="" ${selectedHomeIso3 ? '' : 'selected'}>Random (uniform)</option>`,
+      ...availableCountries.map(c => `<option value="${escapeHtml(c.iso3)}" ${c.iso3 === selectedHomeIso3 ? 'selected' : ''}>${escapeHtml(c.shadow)} (${escapeHtml(c.iso3)})</option>`),
+    ].join('');
+
     const hintLines: string[] = [];
     if (agentVocab) hintLines.push('Vocabulary loaded.');
     else if (agentVocabError) hintLines.push('Vocabulary missing — run `pnpm extract-data` in `shadow-workipedia`.');
@@ -610,80 +713,136 @@ export function initializeAgentsView(container: HTMLElement) {
     else hintLines.push('Loading country map…');
 
     const vocabHint = `<div class="agents-sidebar-subtitle agent-muted">${escapeHtml(hintLines.join(' '))}</div>`;
+    const seedSummary = seedDraft.length > 14 ? `${seedDraft.slice(0, 14)}…` : seedDraft;
+    const homeSummary = selectedHomeIso3
+      ? shadowByIso3.get(selectedHomeIso3)?.shadow
+        ? `${shadowByIso3.get(selectedHomeIso3)?.shadow} (${selectedHomeIso3})`
+        : selectedHomeIso3
+      : 'Random';
 
     container.innerHTML = `
       <div class="agents-view">
         <div class="agents-body">
           <aside class="agents-sidebar">
-            <div class="agents-sidebar-card">
-              <div class="agents-sidebar-title">
-                <h2>Generator</h2>
-                <div class="agents-sidebar-subtitle">Seed drives all derived traits by default.</div>
-                ${vocabHint}
-              </div>
-              <label class="agents-label agents-label-seed">
-                Seed
-                <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedDraft)}" spellcheck="false" />
-              </label>
-            <div class="agents-btn-row">
-              <button id="agents-random" class="agents-btn" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>Random</button>
-              <button id="agents-generate" class="agents-btn primary" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>Generate</button>
-              <button id="agents-save" class="agents-btn primary" ${activeAgent ? '' : 'disabled'}>Save</button>
-              <button id="agents-export" class="agents-btn">Export JSON</button>
-              <button id="agents-copy-json" class="agents-btn">Copy JSON</button>
-              <button id="agents-copy-trace" class="agents-btn">Copy trace</button>
-              <button id="agents-share" class="agents-btn">Copy link</button>
-            </div>
-
-              <details class="agents-advanced" ${useOverrides ? 'open' : ''}>
-                <summary class="agents-advanced-summary">
-                  Advanced overrides
-                  <span class="agents-advanced-hint">${useOverrides ? 'on' : 'off'}</span>
-                </summary>
-                <label class="agents-checkbox">
-                  <input id="agents-use-overrides" type="checkbox" ${useOverrides ? 'checked' : ''} />
-                  Override derived attributes (optional)
-                </label>
-                <div class="agents-advanced-body ${useOverrides ? '' : 'disabled'}">
-                  <label class="agents-label">
-                    Birth year
-                    <input id="agents-birthyear" class="agents-input" type="number" min="1800" max="2525" value="${escapeHtml(String(birthYear))}" />
-                  </label>
-                  <label class="agents-label">
-                    Tier
-                    <select id="agents-tier" class="agents-input">
-                      ${vocabTierBands.map(t => `<option value="${escapeHtml(t)}" ${t === tierBand ? 'selected' : ''}>${escapeHtml(toTitleCaseWords(t))}</option>`).join('')}
-                    </select>
-                  </label>
-                  <div class="agents-label">
-                    Role seeds
-                    <div class="agents-chips" id="agents-role-chips">
-                      ${vocabRoleSeeds.map(tag => `
-                        <button type="button" class="chip ${overrideRoleTags.includes(tag) ? 'active' : ''}" data-role="${escapeHtml(tag)}">${escapeHtml(toTitleCaseWords(tag))}</button>
-                      `).join('')}
-                    </div>
+            <details class="agents-sidebar-card agents-panel" id="agents-panel-generator" ${generatorPanelOpen ? 'open' : ''}>
+              <summary class="agents-panel-summary">
+                <div class="agents-panel-summary-top">
+                  <h2>Generator</h2>
+                  <div class="agents-panel-summary-meta">
+                    <span class="agent-muted">Seed</span> <code>${escapeHtml(seedSummary)}</code>
                   </div>
                 </div>
-              </details>
-            </div>
+                <div class="agents-sidebar-subtitle">Seed drives all derived traits by default.</div>
+              </summary>
+              <div class="agents-panel-body">
+                ${vocabHint}
+                <label class="agents-label agents-label-seed">
+                  Seed
+                  <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedDraft)}" spellcheck="false" />
+                </label>
 
-            <div class="agents-sidebar-card">
-              <div class="agents-roster-header">
-                <h2>Roster</h2>
-                <button id="agents-clear" class="agents-btn danger">Clear</button>
-              </div>
-              <div class="agents-roster-list">
-                ${roster.length
-                  ? roster.map(item => `
-                    <div class="agents-roster-item ${item.id === selectedRosterId ? 'active' : ''}" data-roster-id="${escapeHtml(item.id)}">
-                      <div class="agents-roster-name">${escapeHtml(item.name)}</div>
-                      <div class="agents-roster-meta"><code>${escapeHtml(item.seed)}</code></div>
-                      <button class="agents-roster-delete" data-roster-delete="${escapeHtml(item.id)}" title="Delete">×</button>
+                <details class="agents-actions">
+                  <summary class="agents-actions-summary">
+                    Settings
+                    <span class="agents-actions-hint">${escapeHtml(`As-of ${asOfYear} · Home ${homeSummary}`)}</span>
+                  </summary>
+                  <div class="agents-actions-body">
+                    <label class="agents-label">
+                      As-of year
+                      <input id="agents-asof" class="agents-input" type="number" min="1800" max="2525" value="${escapeHtml(String(asOfYear))}" />
+                    </label>
+                    <label class="agents-label">
+                      Home country
+                      <select id="agents-home-country" class="agents-input" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>
+                        ${countryOptions}
+                      </select>
+                    </label>
+                  </div>
+                </details>
+
+                <div class="agents-btn-row agents-btn-row-primary">
+                  <button id="agents-random" class="agents-btn" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>Random</button>
+                  <button id="agents-generate" class="agents-btn primary" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>Generate</button>
+                  <button id="agents-save" class="agents-btn primary" ${activeAgent ? '' : 'disabled'}>Save</button>
+                  <button id="agents-share" class="agents-btn agents-btn-span2">Copy link</button>
+                </div>
+
+                <details class="agents-actions">
+                  <summary class="agents-actions-summary">
+                    More actions
+                    <span class="agents-actions-hint">JSON • trace • country</span>
+                  </summary>
+                  <div class="agents-actions-body">
+                    <div class="agents-btn-row">
+                      <button id="agents-export" class="agents-btn">Export JSON</button>
+                      <button id="agents-copy-json" class="agents-btn">Copy JSON</button>
+                      <button id="agents-copy-trace" class="agents-btn">Copy trace</button>
+                      <button id="agents-lock-country" class="agents-btn" ${activeAgent ? '' : 'disabled'}>Lock to current</button>
+                      <button id="agents-reroll-country" class="agents-btn agents-btn-span2" ${selectedHomeIso3 ? '' : 'disabled'}>Reroll (same country)</button>
                     </div>
-                  `).join('')
-                  : `<div class="agent-muted">No saved agents yet.</div>`}
+                  </div>
+                </details>
+
+                <details class="agents-advanced" ${useOverrides ? 'open' : ''}>
+                  <summary class="agents-advanced-summary">
+                    Advanced overrides
+                    <span class="agents-advanced-hint">${useOverrides ? 'on' : 'off'}</span>
+                  </summary>
+                  <label class="agents-checkbox">
+                    <input id="agents-use-overrides" type="checkbox" ${useOverrides ? 'checked' : ''} />
+                    Override derived attributes (optional)
+                  </label>
+                  <div class="agents-advanced-body ${useOverrides ? '' : 'disabled'}">
+                    <label class="agents-label">
+                      Birth year
+                      <input id="agents-birthyear" class="agents-input" type="number" min="1800" max="2525" value="${escapeHtml(String(birthYear))}" />
+                    </label>
+                    <label class="agents-label">
+                      Tier
+                      <select id="agents-tier" class="agents-input">
+                        ${vocabTierBands.map(t => `<option value="${escapeHtml(t)}" ${t === tierBand ? 'selected' : ''}>${escapeHtml(toTitleCaseWords(t))}</option>`).join('')}
+                      </select>
+                    </label>
+                    <div class="agents-label">
+                      Role seeds
+                      <div class="agents-chips" id="agents-role-chips">
+                        ${vocabRoleSeeds.map(tag => `
+                          <button type="button" class="chip ${overrideRoleTags.includes(tag) ? 'active' : ''}" data-role="${escapeHtml(tag)}">${escapeHtml(toTitleCaseWords(tag))}</button>
+                        `).join('')}
+                      </div>
+                    </div>
+                  </div>
+                </details>
               </div>
-            </div>
+            </details>
+
+            <details class="agents-sidebar-card agents-panel" id="agents-panel-roster" ${rosterPanelOpen ? 'open' : ''}>
+              <summary class="agents-panel-summary">
+                <div class="agents-panel-summary-top">
+                  <h2>Roster</h2>
+                  <div class="agents-panel-summary-meta">
+                    <span class="agent-muted">${roster.length === 1 ? '1 saved agent' : `${roster.length} saved agents`}</span>
+                  </div>
+                </div>
+              </summary>
+              <div class="agents-panel-body">
+                <div class="agents-roster-header">
+                  <div class="agents-panel-summary-meta agent-muted">Saved agents (local)</div>
+                  <button id="agents-clear" class="agents-btn danger">Clear</button>
+                </div>
+                <div class="agents-roster-list">
+                  ${roster.length
+                    ? roster.map(item => `
+                      <div class="agents-roster-item ${item.id === selectedRosterId ? 'active' : ''}" data-roster-id="${escapeHtml(item.id)}">
+                        <div class="agents-roster-name">${escapeHtml(item.name)}</div>
+                        <div class="agents-roster-meta"><code>${escapeHtml(item.seed)}</code></div>
+                        <button class="agents-roster-delete" data-roster-delete="${escapeHtml(item.id)}" title="Delete">×</button>
+                      </div>
+                    `).join('')
+                    : `<div class="agent-muted">No saved agents yet.</div>`}
+                </div>
+              </div>
+            </details>
           </aside>
 
           <main class="agents-main">
@@ -694,11 +853,28 @@ export function initializeAgentsView(container: HTMLElement) {
     `;
 
     const seedEl = container.querySelector('#agents-seed') as HTMLInputElement | null;
-    const birthYearEl = container.querySelector('#agents-birthyear') as HTMLInputElement | null;
-    const tierEl = container.querySelector('#agents-tier') as HTMLSelectElement | null;
+    const asOfEl = container.querySelector('#agents-asof') as HTMLInputElement | null;
+    const homeCountryEl = container.querySelector('#agents-home-country') as HTMLSelectElement | null;
 
     seedEl?.addEventListener('input', () => {
       seedDraft = seedEl.value;
+    });
+
+    asOfEl?.addEventListener('input', () => {
+      const v = Number(asOfEl.value);
+      if (Number.isFinite(v)) asOfYear = Math.max(1800, Math.min(2525, Math.round(v)));
+    });
+
+    homeCountryEl?.addEventListener('change', () => {
+      const v = (homeCountryEl.value ?? '').trim().toUpperCase();
+      if (!v) {
+        homeCountryMode = 'random';
+        homeCountryIso3 = null;
+      } else {
+        homeCountryMode = 'fixed';
+        homeCountryIso3 = v;
+      }
+      render();
     });
 
     const roleChips = Array.from(container.querySelectorAll<HTMLButtonElement>('#agents-role-chips .chip'));
@@ -715,6 +891,8 @@ export function initializeAgentsView(container: HTMLElement) {
 
     const btnRandom = container.querySelector('#agents-random') as HTMLButtonElement | null;
     const btnGenerate = container.querySelector('#agents-generate') as HTMLButtonElement | null;
+    const btnLockCountry = container.querySelector('#agents-lock-country') as HTMLButtonElement | null;
+    const btnRerollCountry = container.querySelector('#agents-reroll-country') as HTMLButtonElement | null;
     const btnShare = container.querySelector('#agents-share') as HTMLButtonElement | null;
     const btnSave = container.querySelector('#agents-save') as HTMLButtonElement | null;
     const btnExport = container.querySelector('#agents-export') as HTMLButtonElement | null;
@@ -722,6 +900,24 @@ export function initializeAgentsView(container: HTMLElement) {
     const btnCopyTrace = container.querySelector('#agents-copy-trace') as HTMLButtonElement | null;
     const btnClear = container.querySelector('#agents-clear') as HTMLButtonElement | null;
     const overridesToggle = container.querySelector('#agents-use-overrides') as HTMLInputElement | null;
+    const generatorPanelEl = container.querySelector('#agents-panel-generator') as HTMLDetailsElement | null;
+    const rosterPanelEl = container.querySelector('#agents-panel-roster') as HTMLDetailsElement | null;
+
+    if (generatorPanelEl) {
+      generatorPanelEl.open = generatorPanelOpen;
+      generatorPanelEl.addEventListener('toggle', () => {
+        generatorPanelOpen = generatorPanelEl.open;
+        writeSidebarPanelsOpen({ generator: generatorPanelOpen, roster: rosterPanelOpen });
+      });
+    }
+
+    if (rosterPanelEl) {
+      rosterPanelEl.open = rosterPanelOpen;
+      rosterPanelEl.addEventListener('toggle', () => {
+        rosterPanelOpen = rosterPanelEl.open;
+        writeSidebarPanelsOpen({ generator: generatorPanelOpen, roster: rosterPanelOpen });
+      });
+    }
 
     overridesToggle?.addEventListener('change', () => {
       useOverrides = !!overridesToggle.checked;
@@ -733,18 +929,9 @@ export function initializeAgentsView(container: HTMLElement) {
       const seed = randomSeedString();
       if (seedEl) seedEl.value = seed;
       seedDraft = seed;
-      activeAgent = useOverrides
-        ? generateAgent({
-            seed,
-            vocab: agentVocab,
-            countries: shadowCountries,
-            priors: agentPriors,
-            birthYear: Number(birthYearEl?.value || birthYear),
-            tierBand: (tierEl?.value as TierBand) ?? tierBand,
-            roleSeedTags: overrideRoleTags,
-            includeTrace: true,
-          })
-        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true });
+      const input = buildGenerateInput(seed);
+      if (!input) return;
+      activeAgent = generateAgent(input);
       render();
     });
 
@@ -753,25 +940,35 @@ export function initializeAgentsView(container: HTMLElement) {
       const seed = (seedEl?.value ?? '').trim();
       if (!seed) return;
       seedDraft = seed;
-      activeAgent = useOverrides
-        ? generateAgent({
-            seed,
-            vocab: agentVocab,
-            countries: shadowCountries,
-            priors: agentPriors,
-            birthYear: Number(birthYearEl?.value || birthYear),
-            tierBand: (tierEl?.value as TierBand) ?? tierBand,
-            roleSeedTags: overrideRoleTags,
-            includeTrace: true,
-          })
-        : generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true });
+      const input = buildGenerateInput(seed);
+      if (!input) return;
+      activeAgent = generateAgent(input);
+      render();
+    });
+
+    btnLockCountry?.addEventListener('click', () => {
+      if (!activeAgent) return;
+      homeCountryMode = 'fixed';
+      homeCountryIso3 = activeAgent.identity.homeCountryIso3.trim().toUpperCase();
+      render();
+    });
+
+    btnRerollCountry?.addEventListener('click', () => {
+      if (!agentVocab || !agentPriors || !shadowCountries) return;
+      if (!(homeCountryMode === 'fixed' && homeCountryIso3)) return;
+      const seed = randomSeedString();
+      if (seedEl) seedEl.value = seed;
+      seedDraft = seed;
+      const input = buildGenerateInput(seed);
+      if (!input) return;
+      activeAgent = generateAgent(input);
       render();
     });
 
     btnShare?.addEventListener('click', async () => {
       const seed = (seedEl?.value ?? '').trim();
       if (!seed) return;
-      setShareHash(seed);
+      setShareHash(seed, { asOfYear, homeCountryIso3: homeCountryMode === 'fixed' ? homeCountryIso3 : null });
       const url = window.location.href;
       try {
         await navigator.clipboard.writeText(url);
@@ -836,9 +1033,8 @@ export function initializeAgentsView(container: HTMLElement) {
         selectedRosterId = found.id;
         seedDraft = found.seed;
         pendingHashSeed = null;
-        activeAgent = agentVocab && agentPriors && shadowCountries
-          ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true })
-          : null;
+        const input = buildGenerateInput(seedDraft);
+        activeAgent = input ? generateAgent(input) : null;
         render();
       });
     }
@@ -853,9 +1049,8 @@ export function initializeAgentsView(container: HTMLElement) {
           selectedRosterId = roster[0]?.id ?? null;
           const next = selectedRosterId ? roster.find(x => x.id === selectedRosterId) : null;
           seedDraft = next?.seed ?? seedDraft;
-          activeAgent = next && agentVocab && agentPriors && shadowCountries
-            ? generateAgent({ seed: seedDraft, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true })
-            : null;
+          const input = next ? buildGenerateInput(seedDraft) : null;
+          activeAgent = input ? generateAgent(input) : null;
         }
         saveRoster(roster);
         render();
@@ -869,8 +1064,24 @@ export function initializeAgentsView(container: HTMLElement) {
     if (seed) {
       selectedRosterId = null;
       seedDraft = seed;
-      if (agentVocab && agentPriors && shadowCountries) activeAgent = generateAgent({ seed, vocab: agentVocab, countries: shadowCountries, priors: agentPriors, includeTrace: true });
-      else pendingHashSeed = seed;
+      const params = readAgentsParamsFromHash();
+      const asOf = Number(params.get('asOf'));
+      if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+      const home = (params.get('home') ?? '').trim().toUpperCase();
+      if (home) {
+        homeCountryMode = 'fixed';
+        homeCountryIso3 = home;
+      } else {
+        homeCountryMode = 'random';
+        homeCountryIso3 = null;
+      }
+
+      const input = buildGenerateInput(seed, { includeOverrides: false, includeTrace: true });
+      if (input) activeAgent = generateAgent(input);
+      else {
+        pendingHashSeed = seed;
+        pendingHashParams = params;
+      }
       render();
     }
   });

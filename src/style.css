@@ -1765,6 +1765,7 @@ body {
 .agents-input {
   width: 100%;
   min-width: 0;
+  box-sizing: border-box;
   padding: 0.45rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
@@ -1785,7 +1786,15 @@ select.agents-input {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.6rem;
-  margin-top: 0.6rem;
+  margin-top: 0;
+}
+
+.agents-btn-row-primary {
+  margin-top: 0.2rem;
+}
+
+.agents-btn-span2 {
+  grid-column: span 2;
 }
 
 .agents-btn {
@@ -1873,6 +1882,79 @@ select.agents-input {
   padding: 0.9rem 1rem;
 }
 
+.agents-panel.agents-sidebar-card {
+  padding: 0;
+}
+
+.agents-panel-summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  position: relative;
+  padding: 0.9rem 1rem 0.8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.agents-panel-summary::-webkit-details-marker {
+  display: none;
+}
+
+.agents-panel-summary::before {
+  content: '▸';
+  position: absolute;
+  left: 0.85rem;
+  top: 1.05rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  transform: rotate(0deg);
+  transition: transform 0.15s ease;
+}
+
+.agents-panel[open] > .agents-panel-summary::before {
+  transform: rotate(90deg);
+}
+
+.agents-panel[open] > .agents-panel-summary {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.agents-panel-summary-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.agents-panel-summary-top h2 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.agents-panel-summary-meta {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.agents-panel-summary-meta code {
+  font-size: 0.75rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.agents-panel-body {
+  padding: 0.85rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .agents-sidebar-title {
   display: flex;
   flex-direction: column;
@@ -1888,6 +1970,40 @@ select.agents-input {
 .agents-sidebar-subtitle {
   color: #94a3b8;
   font-size: 0.8rem;
+}
+
+.agents-actions {
+  margin-top: 0.1rem;
+}
+
+.agents-actions-summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0.2rem;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.agents-actions-summary::-webkit-details-marker {
+  display: none;
+}
+
+.agents-actions-hint {
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.agents-actions-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .agents-roster-header {
