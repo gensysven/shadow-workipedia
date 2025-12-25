@@ -360,7 +360,7 @@ function generateAgentVocabWikiArticles(): Record<string, WikiArticle> {
     listIdByPath.set(list.path, listId);
 
     const leafLabel = humanizeKey(list.path.split('.').slice(-1)[0] || list.path);
-    const title = `Vocab: ${leafLabel}`;
+    const title = leafLabel;
 
     const uniqueItems: string[] = [];
     const seen = new Set<string>();
@@ -411,7 +411,7 @@ function generateAgentVocabWikiArticles(): Record<string, WikiArticle> {
     for (const item of uniqueItems) {
       const itemSlugBase = `${list.path}::${item}`;
       const itemId = `vocab-item-${slugify(list.path)}-${slugify(item)}-${stableHash8(itemSlugBase)}`;
-      const itemTitle = `${item} — ${leafLabel}`;
+      const itemTitle = `${item} (${leafLabel})`;
       const mdItem = [
         `## Value`,
         ``,
@@ -452,7 +452,7 @@ function generateAgentVocabWikiArticles(): Record<string, WikiArticle> {
   for (const [path, listId] of listIdByPath.entries()) {
     const top = path.split('.')[0] || 'root';
     const leafLabel = humanizeKey(path.split('.').slice(-1)[0] || path);
-    const title = `Vocab: ${leafLabel}`;
+    const title = leafLabel;
     const bucket = byTop.get(top) ?? [];
     bucket.push({ path, listId, title });
     byTop.set(top, bucket);
@@ -461,18 +461,18 @@ function generateAgentVocabWikiArticles(): Record<string, WikiArticle> {
     bucket.sort((a, b) => a.path.localeCompare(b.path));
   }
 
-  const vocabIndexMd = [
-    `This is a generated index of the agent generation vocabulary lists and items.`,
-    ``,
-    `- Source: \`data/agent-generation/v1/vocab.json\``,
-    ``,
-    `## Vocab Lists`,
+    const vocabIndexMd = [
+      `This is a generated index of the agent generation vocabulary lists and items.`,
+      ``,
+      `- Source: \`data/agent-generation/v1/vocab.json\``,
+      ``,
+      `## Vocab Lists`,
     ...Array.from(byTop.keys()).sort().flatMap(top => {
       const bucket = byTop.get(top) ?? [];
       return [
         ``,
         `### ${humanizeKey(top)} (${bucket.length})`,
-        ...bucket.map(x => `- [${x.title.replace(/^Vocab:\\s*/, '')}](#/wiki/${x.listId})`),
+        ...bucket.map(x => `- [${x.title}](#/wiki/${x.listId})`),
       ];
     }),
     ``,
