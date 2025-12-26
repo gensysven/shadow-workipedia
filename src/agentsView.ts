@@ -360,11 +360,13 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
 }
 
 type AgentProfileTab = 'overview' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
+type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
 function renderAgent(
   agent: GeneratedAgent,
   shadowByIso3: ReadonlyMap<string, { shadow: string; continent?: string }>,
   tab: AgentProfileTab,
+  isDetailsOpen: DetailsOpenReader,
 ): string {
   const apt = agent.capabilities.aptitudes;
   const skills = agent.capabilities.skills;
@@ -436,7 +438,7 @@ function renderAgent(
 
   const traceSection = agent.generationTrace
     ? `
-      <details class="agent-trace">
+      <details class="agent-trace" data-agents-details="profile:debug:trace" ${isDetailsOpen('profile:debug:trace', false) ? 'open' : ''}>
         <summary>Generation trace</summary>
         <pre class="agent-trace-pre">${escapeHtml(JSON.stringify(agent.generationTrace, null, 2))}</pre>
       </details>
@@ -506,7 +508,7 @@ function renderAgent(
                 <div class="kv-row"><span class="kv-k">Likely breaks</span><span class="kv-v">${escapeHtml(preview.breakTypesTopK.map(toTitleCaseWords).join(', ') || '—')}</span></div>
                 <div class="kv-row"><span class="kv-k">Top thoughts</span><span class="kv-v">${thoughtsPills}</span></div>
               </div>
-              <details class="agent-inline-details">
+              <details class="agent-inline-details" data-agents-details="profile:overview:needs" ${isDetailsOpen('profile:overview:needs', false) ? 'open' : ''}>
                 <summary>Show needs</summary>
                 <div class="agent-card-grid" style="margin-top:0.75rem">
                   ${renderGauge('Sleep', preview.needs01k.sleep)}
@@ -524,7 +526,7 @@ function renderAgent(
 
         <div class="agent-tab-panel ${tab === 'performance' ? 'active' : ''}" data-agent-tab-panel="performance">
           <div class="agent-grid agent-grid-tight">
-            <details class="agent-card agent-section" open>
+            <details class="agent-card agent-section" data-agents-details="profile:performance:capabilities" ${isDetailsOpen('profile:performance:capabilities', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Capabilities</span>
                 <span class="agent-section-hint">${escapeHtml(topAptitudes.map(([label]) => label).join(', '))}</span>
@@ -548,7 +550,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section" open>
+            <details class="agent-card agent-section" data-agents-details="profile:performance:skills" ${isDetailsOpen('profile:performance:skills', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Skills</span>
                 <span class="agent-section-hint">${escapeHtml(topSkills.map(s => humanizeSkillKey(s.key)).join(', '))}</span>
@@ -565,7 +567,7 @@ function renderAgent(
 
         <div class="agent-tab-panel ${tab === 'lifestyle' ? 'active' : ''}" data-agent-tab-panel="lifestyle">
           <div class="agent-grid agent-grid-tight">
-            <details class="agent-card agent-section" open>
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:preferences" ${isDetailsOpen('profile:lifestyle:preferences', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Preferences</span>
                 <span class="agent-section-hint">${escapeHtml(agent.preferences.fashion.styleTags.slice(0, 2).map(toTitleCaseWords).join(', ') || '—')}</span>
@@ -582,7 +584,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:media" ${isDetailsOpen('profile:lifestyle:media', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Media</span>
                 <span class="agent-section-hint">${escapeHtml(agent.preferences.media.genreTopK.slice(0, 2).map(toTitleCaseWords).join(', ') || '—')}</span>
@@ -597,7 +599,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:routines" ${isDetailsOpen('profile:lifestyle:routines', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Routines</span>
                 <span class="agent-section-hint">${escapeHtml(`${toTitleCaseWords(agent.routines.chronotype)} · ${agent.routines.sleepWindow}`)}</span>
@@ -611,7 +613,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:appearance" ${isDetailsOpen('profile:lifestyle:appearance', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Appearance</span>
                 <span class="agent-section-hint">${escapeHtml(`${toTitleCaseWords(agent.appearance.heightBand)} · ${toTitleCaseWords(agent.appearance.buildTag)}`)}</span>
@@ -632,7 +634,7 @@ function renderAgent(
 
         <div class="agent-tab-panel ${tab === 'constraints' ? 'active' : ''}" data-agent-tab-panel="constraints">
           <div class="agent-grid agent-grid-tight">
-            <details class="agent-card agent-section" open>
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:traits" ${isDetailsOpen('profile:constraints:traits', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Traits</span>
                 <span class="agent-section-hint">Disposition</span>
@@ -648,7 +650,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:visibility" ${isDetailsOpen('profile:constraints:visibility', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Visibility</span>
                 <span class="agent-section-hint">Surface area</span>
@@ -662,7 +664,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section" open>
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:constraints" ${isDetailsOpen('profile:constraints:constraints', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Constraints</span>
                 <span class="agent-section-hint">${escapeHtml(agent.identity.redLines.slice(0, 2).map(toTitleCaseWords).join(', ') || '—')}</span>
@@ -677,7 +679,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:vices" ${isDetailsOpen('profile:constraints:vices', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Vices</span>
                 <span class="agent-section-hint">${escapeHtml(agent.vices[0]?.vice ? toTitleCaseWords(agent.vices[0].vice) : 'None')}</span>
@@ -695,7 +697,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:identityKit" ${isDetailsOpen('profile:constraints:identityKit', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Identity kit</span>
                 <span class="agent-section-hint">${escapeHtml(agent.logistics.identityKit[0]?.item ? toTitleCaseWords(agent.logistics.identityKit[0].item) : '—')}</span>
@@ -712,7 +714,7 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section">
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:deepSimDetails" ${isDetailsOpen('profile:constraints:deepSimDetails', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Deep sim details</span>
                 <span class="agent-section-hint">${escapeHtml(`${toTitleCaseWords(preview.breakRiskBand)} break risk`)}</span>
@@ -789,6 +791,36 @@ export function initializeAgentsView(container: HTMLElement) {
     }
   };
   let profileTab: AgentProfileTab = readProfileTab() ?? 'overview';
+
+  const DETAILS_OPEN_KEY = 'agentsDetailsOpen:v1';
+  type DetailsOpenMap = Record<string, boolean>;
+  const readDetailsOpen = (): DetailsOpenMap => {
+    try {
+      const raw = window.localStorage.getItem(DETAILS_OPEN_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== 'object') return {};
+      const out: DetailsOpenMap = {};
+      for (const [k, v] of Object.entries(parsed as Record<string, unknown>)) {
+        if (typeof v === 'boolean') out[String(k)] = v;
+      }
+      return out;
+    } catch {
+      return {};
+    }
+  };
+  const writeDetailsOpen = (next: DetailsOpenMap) => {
+    try {
+      window.localStorage.setItem(DETAILS_OPEN_KEY, JSON.stringify(next));
+    } catch {
+      // ignore
+    }
+  };
+  let detailsOpen = readDetailsOpen();
+  const isDetailsOpen: DetailsOpenReader = (key, defaultOpen) => {
+    const v = detailsOpen[key];
+    return typeof v === 'boolean' ? v : defaultOpen;
+  };
 
   const SIDEBAR_PANELS_KEY = 'agentsSidebarPanelsOpen:v1';
   const readSidebarPanelsOpen = (): { generator: boolean; roster: boolean } | null => {
@@ -1003,7 +1035,7 @@ export function initializeAgentsView(container: HTMLElement) {
                   <input id="agents-seed" class="agents-input" type="text" value="${escapeHtml(seedDraft)}" spellcheck="false" />
                 </label>
 
-                <details class="agents-actions">
+                <details class="agents-actions" data-agents-details="sidebar:settings" ${isDetailsOpen('sidebar:settings', false) ? 'open' : ''}>
                   <summary class="agents-actions-summary">
                     Settings
                     <span class="agents-actions-hint">${escapeHtml(`As-of ${asOfYear} · Home ${homeSummary}`)}</span>
@@ -1053,7 +1085,7 @@ export function initializeAgentsView(container: HTMLElement) {
                   </div>
                 </details>
 
-                <details class="agents-actions">
+                <details class="agents-actions" data-agents-details="sidebar:moreActions" ${isDetailsOpen('sidebar:moreActions', false) ? 'open' : ''}>
                   <summary class="agents-actions-summary">
                     More actions
                     <span class="agents-actions-hint">JSON • trace • country</span>
@@ -1069,7 +1101,7 @@ export function initializeAgentsView(container: HTMLElement) {
                   </div>
                 </details>
 
-                <details class="agents-advanced" ${useOverrides ? 'open' : ''}>
+                <details class="agents-advanced" data-agents-details="sidebar:advancedOverrides" ${isDetailsOpen('sidebar:advancedOverrides', useOverrides) ? 'open' : ''}>
                   <summary class="agents-advanced-summary">
                     Advanced overrides
                     <span class="agents-advanced-hint">${useOverrides ? 'on' : 'off'}</span>
@@ -1104,7 +1136,7 @@ export function initializeAgentsView(container: HTMLElement) {
           </aside>
 
           <main class="agents-main">
-            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab) : `<div class="agent-muted">Generate an agent to begin.</div>`}
+            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab, isDetailsOpen) : `<div class="agent-muted">Generate an agent to begin.</div>`}
           </main>
         </div>
       </div>
@@ -1173,6 +1205,15 @@ export function initializeAgentsView(container: HTMLElement) {
     const overridesToggle = container.querySelector('#agents-use-overrides') as HTMLInputElement | null;
     const generatorPanelEl = container.querySelector('#agents-panel-generator') as HTMLDetailsElement | null;
     const rosterPanelEl = container.querySelector('#agents-panel-roster') as HTMLDetailsElement | null;
+
+    for (const d of Array.from(container.querySelectorAll<HTMLDetailsElement>('details[data-agents-details]'))) {
+      const key = (d.dataset.agentsDetails ?? '').trim();
+      if (!key) continue;
+      d.addEventListener('toggle', () => {
+        detailsOpen = { ...detailsOpen, [key]: d.open };
+        writeDetailsOpen(detailsOpen);
+      });
+    }
 
     if (generatorPanelEl) {
       generatorPanelEl.open = generatorPanelOpen;
