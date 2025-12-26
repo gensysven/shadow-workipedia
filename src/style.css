@@ -1941,10 +1941,12 @@ select.agents-input {
 }
 
 .agents-btn.agents-btn-compact {
-  padding: 0.35rem 0.7rem;
-  font-size: 0.8rem;
+  padding: 0.22rem 0.55rem;
+  font-size: 0.72rem;
   width: auto;
   white-space: nowrap;
+  border-radius: 999px;
+  line-height: 1.1;
 }
 
 .agents-panel-summary-meta {
@@ -2388,6 +2390,13 @@ select.agents-input {
   }
   .agents-label-seed .agents-input {
     min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .agents-btn.agents-btn-compact {
+    padding: 0.18rem 0.45rem;
+    font-size: 0.68rem;
   }
 }
 
