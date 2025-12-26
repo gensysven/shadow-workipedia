@@ -395,9 +395,9 @@ export function randomSeedString(): string {
   }
 
   // Fallback for contexts where WebCrypto isn't available (e.g. some file:// environments).
-  const a = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(36);
-  const b = Date.now().toString(36);
-  return `${a}${b}`;
+  const out: string[] = [];
+  for (let i = 0; i < 14; i++) out.push(Math.floor(Math.random() * 36).toString(36));
+  return out.join('');
 }
 
 function band5From01k(value: Fixed): Band5 {
@@ -411,7 +411,7 @@ function band5From01k(value: Fixed): Band5 {
 function topKByScore(items: readonly string[], score: (item: string) => number, k: number): string[] {
   return [...items]
     .map(item => ({ item, score: score(item) }))
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => (b.score - a.score) || a.item.localeCompare(b.item))
     .slice(0, Math.max(0, k))
     .map(x => x.item);
 }
@@ -585,6 +585,37 @@ function normalizeWeights01k(raw: Record<string, number>): Record<string, Fixed>
   return out;
 }
 
+function normalizeWeights01kExact(raw: Record<string, number>): Record<string, Fixed> {
+  const entries = Object.entries(raw)
+    .map(([k, v]) => [k, Number.isFinite(v) ? Math.max(0, v) : 0] as const)
+    .filter(([, v]) => v > 0);
+  const total = entries.reduce((s, [, v]) => s + v, 0);
+  if (total <= 0) return {};
+
+  const scaled = entries.map(([k, v]) => {
+    const s = (v / total) * 1000;
+    const base = Math.floor(s);
+    return { k, scaled: s, base, frac: s - base };
+  });
+  const sumBase = scaled.reduce((s, x) => s + x.base, 0);
+  let remaining = 1000 - sumBase;
+
+  const order = [...scaled].sort((a, b) => (b.frac - a.frac) || a.k.localeCompare(b.k));
+  const addByKey = new Map<string, number>();
+  for (let i = 0; i < order.length && remaining > 0; i++) {
+    const k = order[i]!.k;
+    addByKey.set(k, (addByKey.get(k) ?? 0) + 1);
+    remaining -= 1;
+    if (i === order.length - 1) i = -1;
+  }
+
+  const out: Record<string, Fixed> = {};
+  for (const x of scaled) {
+    out[x.k] = clampFixed01k(x.base + (addByKey.get(x.k) ?? 0));
+  }
+  return out;
+}
+
 function mixWeights01k(parts: Array<{ weights: Record<string, Fixed>; weight: number }>): Record<string, Fixed> {
   const cleaned = parts
     .map(p => ({ weights: p.weights, weight: Number.isFinite(p.weight) ? Math.max(0, p.weight) : 0 }))
@@ -622,6 +653,17 @@ type Latents = {
   opsecDiscipline: Fixed;
   institutionalEmbeddedness: Fixed;
   riskAppetite: Fixed;
+  stressReactivity: Fixed;
+  impulseControl: Fixed;
+  techFluency: Fixed;
+  socialBattery: Fixed;
+  aestheticExpressiveness: Fixed;
+  frugality: Fixed;
+  curiosityBandwidth: Fixed;
+  adaptability: Fixed;
+  planningHorizon: Fixed;
+  principledness: Fixed;
+  physicalConditioning: Fixed;
 };
 
 export type AgentGenerationTraceV1 = {
@@ -658,6 +700,11 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
   const tierCosmoBias = tierBand === 'elite' ? 160 : tierBand === 'mass' ? -120 : 0;
   const tierPublicBias = tierBand === 'elite' ? 120 : tierBand === 'mass' ? -40 : 0;
   const tierInstBias = tierBand === 'elite' ? 120 : 0;
+  const tierTechBias = tierBand === 'elite' ? 40 : tierBand === 'mass' ? -40 : 0;
+  const tierExpressBias = tierBand === 'elite' ? 80 : tierBand === 'mass' ? -20 : 0;
+  const tierFrugalBias = tierBand === 'elite' ? -120 : tierBand === 'mass' ? 120 : 0;
+  const tierPlanBias = tierBand === 'elite' ? 60 : tierBand === 'mass' ? -20 : 0;
+  const tierStressBias = tierBand === 'elite' ? -60 : tierBand === 'mass' ? 60 : 0;
 
   const role = new Set(roleSeedTags);
   const cosmoRoleBias = (role.has('diplomat') ? 220 : 0) + (role.has('media') ? 80 : 0) + (role.has('operative') ? 140 : 0) + (role.has('technocrat') ? 60 : 0);
@@ -665,6 +712,69 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
   const opsecRoleBias = (role.has('operative') ? 320 : 0) + (role.has('security') ? 220 : 0) - (role.has('media') ? 220 : 0);
   const instRoleBias = (role.has('technocrat') ? 200 : 0) + (role.has('diplomat') ? 160 : 0) + (role.has('analyst') ? 120 : 0) + (role.has('organizer') ? 80 : 0);
   const riskRoleBias = (role.has('operative') ? 180 : 0) + (role.has('security') ? 120 : 0) + (role.has('organizer') ? 80 : 0) - (role.has('diplomat') ? 40 : 0);
+  const stressRoleBias =
+    (role.has('operative') ? 100 : 0) +
+    (role.has('security') ? 120 : 0) +
+    (role.has('media') ? 80 : 0) +
+    (role.has('diplomat') ? 40 : 0);
+  const impulseRoleBias =
+    (role.has('analyst') ? 120 : 0) +
+    (role.has('technocrat') ? 80 : 0) -
+    (role.has('media') ? 60 : 0) -
+    (role.has('operative') ? 20 : 0);
+  const techRoleBias =
+    (role.has('technocrat') ? 220 : 0) +
+    (role.has('analyst') ? 180 : 0) +
+    (role.has('operative') ? 80 : 0) +
+    (role.has('security') ? 60 : 0) +
+    (role.has('media') ? 40 : 0);
+  const socialBatteryRoleBias =
+    (role.has('diplomat') ? 220 : 0) +
+    (role.has('media') ? 200 : 0) +
+    (role.has('organizer') ? 180 : 0) -
+    (role.has('analyst') ? 140 : 0) -
+    (role.has('technocrat') ? 60 : 0) -
+    (role.has('operative') ? 40 : 0);
+  const expressRoleBias =
+    (role.has('media') ? 200 : 0) +
+    (role.has('organizer') ? 80 : 0) +
+    (role.has('diplomat') ? 60 : 0) -
+    (role.has('security') ? 140 : 0) -
+    (role.has('operative') ? 80 : 0) -
+    (role.has('analyst') ? 20 : 0);
+  const frugalRoleBias =
+    (role.has('organizer') ? 60 : 0) +
+    (role.has('analyst') ? 20 : 0) -
+    (role.has('media') ? 20 : 0);
+  const curiosityRoleBias =
+    (role.has('analyst') ? 180 : 0) +
+    (role.has('technocrat') ? 120 : 0) +
+    (role.has('media') ? 100 : 0) +
+    (role.has('diplomat') ? 60 : 0);
+  const adaptabilityRoleBias =
+    (role.has('diplomat') ? 200 : 0) +
+    (role.has('operative') ? 160 : 0) +
+    (role.has('organizer') ? 100 : 0) +
+    (role.has('security') ? 80 : 0) -
+    (role.has('analyst') ? 40 : 0);
+  const planningRoleBias =
+    (role.has('technocrat') ? 200 : 0) +
+    (role.has('analyst') ? 180 : 0) +
+    (role.has('organizer') ? 100 : 0) -
+    (role.has('media') ? 80 : 0) -
+    (role.has('operative') ? 20 : 0);
+  const principledRoleBias =
+    (role.has('organizer') ? 120 : 0) +
+    (role.has('security') ? 120 : 0) +
+    (role.has('diplomat') ? 40 : 0) -
+    (role.has('operative') ? 40 : 0) -
+    (role.has('media') ? 20 : 0);
+  const conditioningRoleBias =
+    (role.has('security') ? 220 : 0) +
+    (role.has('operative') ? 120 : 0) -
+    (role.has('media') ? 40 : 0) -
+    (role.has('analyst') ? 60 : 0) -
+    (role.has('technocrat') ? 20 : 0);
 
   const raw: Record<keyof Latents, Fixed> = {
     cosmopolitanism: clampFixed01k(rng.int(0, 1000)),
@@ -672,6 +782,17 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
     opsecDiscipline: clampFixed01k(rng.int(0, 1000)),
     institutionalEmbeddedness: clampFixed01k(rng.int(0, 1000)),
     riskAppetite: clampFixed01k(rng.int(0, 1000)),
+    stressReactivity: clampFixed01k(rng.int(0, 1000)),
+    impulseControl: clampFixed01k(rng.int(0, 1000)),
+    techFluency: clampFixed01k(rng.int(0, 1000)),
+    socialBattery: clampFixed01k(rng.int(0, 1000)),
+    aestheticExpressiveness: clampFixed01k(rng.int(0, 1000)),
+    frugality: clampFixed01k(rng.int(0, 1000)),
+    curiosityBandwidth: clampFixed01k(rng.int(0, 1000)),
+    adaptability: clampFixed01k(rng.int(0, 1000)),
+    planningHorizon: clampFixed01k(rng.int(0, 1000)),
+    principledness: clampFixed01k(rng.int(0, 1000)),
+    physicalConditioning: clampFixed01k(rng.int(0, 1000)),
   };
 
   const tierBias: Record<keyof Latents, number> = {
@@ -680,6 +801,17 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
     opsecDiscipline: 0,
     institutionalEmbeddedness: tierInstBias,
     riskAppetite: 0,
+    stressReactivity: tierStressBias,
+    impulseControl: 0,
+    techFluency: tierTechBias,
+    socialBattery: 0,
+    aestheticExpressiveness: tierExpressBias,
+    frugality: tierFrugalBias,
+    curiosityBandwidth: tierTechBias,
+    adaptability: 0,
+    planningHorizon: tierPlanBias,
+    principledness: 0,
+    physicalConditioning: 0,
   };
 
   const roleBias: Record<keyof Latents, number> = {
@@ -688,6 +820,17 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
     opsecDiscipline: opsecRoleBias,
     institutionalEmbeddedness: instRoleBias,
     riskAppetite: riskRoleBias,
+    stressReactivity: stressRoleBias,
+    impulseControl: impulseRoleBias,
+    techFluency: techRoleBias,
+    socialBattery: socialBatteryRoleBias,
+    aestheticExpressiveness: expressRoleBias,
+    frugality: frugalRoleBias,
+    curiosityBandwidth: curiosityRoleBias,
+    adaptability: adaptabilityRoleBias,
+    planningHorizon: planningRoleBias,
+    principledness: principledRoleBias,
+    physicalConditioning: conditioningRoleBias,
   };
 
   const values: Latents = {
@@ -696,6 +839,17 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
     opsecDiscipline: clampFixed01k(raw.opsecDiscipline + tierBias.opsecDiscipline + roleBias.opsecDiscipline),
     institutionalEmbeddedness: clampFixed01k(raw.institutionalEmbeddedness + tierBias.institutionalEmbeddedness + roleBias.institutionalEmbeddedness),
     riskAppetite: clampFixed01k(raw.riskAppetite + tierBias.riskAppetite + roleBias.riskAppetite),
+    stressReactivity: clampFixed01k(raw.stressReactivity + tierBias.stressReactivity + roleBias.stressReactivity),
+    impulseControl: clampFixed01k(raw.impulseControl + tierBias.impulseControl + roleBias.impulseControl),
+    techFluency: clampFixed01k(raw.techFluency + tierBias.techFluency + roleBias.techFluency),
+    socialBattery: clampFixed01k(raw.socialBattery + tierBias.socialBattery + roleBias.socialBattery),
+    aestheticExpressiveness: clampFixed01k(raw.aestheticExpressiveness + tierBias.aestheticExpressiveness + roleBias.aestheticExpressiveness),
+    frugality: clampFixed01k(raw.frugality + tierBias.frugality + roleBias.frugality),
+    curiosityBandwidth: clampFixed01k(raw.curiosityBandwidth + tierBias.curiosityBandwidth + roleBias.curiosityBandwidth),
+    adaptability: clampFixed01k(raw.adaptability + tierBias.adaptability + roleBias.adaptability),
+    planningHorizon: clampFixed01k(raw.planningHorizon + tierBias.planningHorizon + roleBias.planningHorizon),
+    principledness: clampFixed01k(raw.principledness + tierBias.principledness + roleBias.principledness),
+    physicalConditioning: clampFixed01k(raw.physicalConditioning + tierBias.physicalConditioning + roleBias.physicalConditioning),
   };
 
   return { values, raw, tierBias, roleBias };
@@ -703,30 +857,100 @@ function computeLatents(seed: string, tierBand: TierBand, roleSeedTags: readonly
 
 export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const seed = normalizeSeed(input.seed);
-  const trace: AgentGenerationTraceV1 | undefined = input.includeTrace
-    ? {
-        version: 1,
-        normalizedSeed: seed,
-        facetSeeds: {},
-        latents: {
-          values: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
-          raw: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
-          tierBias: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
-          roleBias: { cosmopolitanism: 0, publicness: 0, opsecDiscipline: 0, institutionalEmbeddedness: 0, riskAppetite: 0 },
-        },
-        derived: {},
-        fields: {},
-      }
-    : undefined;
+	  const trace: AgentGenerationTraceV1 | undefined = input.includeTrace
+	    ? {
+	        version: 1,
+	        normalizedSeed: seed,
+	        facetSeeds: {},
+	        latents: {
+	          values: {
+	            cosmopolitanism: 0,
+	            publicness: 0,
+	            opsecDiscipline: 0,
+	            institutionalEmbeddedness: 0,
+	            riskAppetite: 0,
+	            stressReactivity: 0,
+	            impulseControl: 0,
+	            techFluency: 0,
+	            socialBattery: 0,
+	            aestheticExpressiveness: 0,
+	            frugality: 0,
+	            curiosityBandwidth: 0,
+	            adaptability: 0,
+	            planningHorizon: 0,
+	            principledness: 0,
+	            physicalConditioning: 0,
+	          },
+	          raw: {
+	            cosmopolitanism: 0,
+	            publicness: 0,
+	            opsecDiscipline: 0,
+	            institutionalEmbeddedness: 0,
+	            riskAppetite: 0,
+	            stressReactivity: 0,
+	            impulseControl: 0,
+	            techFluency: 0,
+	            socialBattery: 0,
+	            aestheticExpressiveness: 0,
+	            frugality: 0,
+	            curiosityBandwidth: 0,
+	            adaptability: 0,
+	            planningHorizon: 0,
+	            principledness: 0,
+	            physicalConditioning: 0,
+	          },
+	          tierBias: {
+	            cosmopolitanism: 0,
+	            publicness: 0,
+	            opsecDiscipline: 0,
+	            institutionalEmbeddedness: 0,
+	            riskAppetite: 0,
+	            stressReactivity: 0,
+	            impulseControl: 0,
+	            techFluency: 0,
+	            socialBattery: 0,
+	            aestheticExpressiveness: 0,
+	            frugality: 0,
+	            curiosityBandwidth: 0,
+	            adaptability: 0,
+	            planningHorizon: 0,
+	            principledness: 0,
+	            physicalConditioning: 0,
+	          },
+	          roleBias: {
+	            cosmopolitanism: 0,
+	            publicness: 0,
+	            opsecDiscipline: 0,
+	            institutionalEmbeddedness: 0,
+	            riskAppetite: 0,
+	            stressReactivity: 0,
+	            impulseControl: 0,
+	            techFluency: 0,
+	            socialBattery: 0,
+	            aestheticExpressiveness: 0,
+	            frugality: 0,
+	            curiosityBandwidth: 0,
+	            adaptability: 0,
+	            planningHorizon: 0,
+	            principledness: 0,
+	            physicalConditioning: 0,
+	          },
+	        },
+	        derived: {},
+	        fields: {},
+	      }
+	    : undefined;
 
   traceFacet(trace, seed, 'base');
   const base = makeRng(facetSeed(seed, 'base'));
 
-  const birthYear = clampInt(input.birthYear ?? base.int(1960, 2006), 1800, 2525);
-  traceSet(trace, 'identity.birthYear', birthYear, { method: input.birthYear != null ? 'override' : 'rng', dependsOn: { facet: 'base' } });
-  const asOfYear = clampInt(input.asOfYear ?? 2025, 1800, 2525);
-  traceSet(trace, 'identity.asOfYear', asOfYear, { method: input.asOfYear != null ? 'override' : 'default', dependsOn: { default: 2025 } });
-  const vocab = input.vocab;
+	  const birthYear = clampInt(input.birthYear ?? base.int(1960, 2006), 1800, 2525);
+	  traceSet(trace, 'identity.birthYear', birthYear, { method: input.birthYear != null ? 'override' : 'rng', dependsOn: { facet: 'base' } });
+	  const asOfYear = clampInt(input.asOfYear ?? 2025, 1800, 2525);
+	  traceSet(trace, 'identity.asOfYear', asOfYear, { method: input.asOfYear != null ? 'override' : 'default', dependsOn: { default: 2025 } });
+	  const age = clampInt(asOfYear - birthYear, 0, 120);
+	  traceSet(trace, 'identity.age', age, { method: 'asOfYearMinusBirthYear', dependsOn: { asOfYear, birthYear } });
+	  const vocab = input.vocab;
   if (vocab.version !== 1) throw new Error(`Unsupported agent vocab version: ${String((vocab as { version?: unknown }).version)}`);
   if (!vocab.identity.tierBands.length) throw new Error('Agent vocab missing: identity.tierBands');
   if (!vocab.identity.homeCultures.length) throw new Error('Agent vocab missing: identity.homeCultures');
@@ -734,12 +958,19 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (!vocab.identity.firstNames.length || !vocab.identity.lastNames.length) throw new Error('Agent vocab missing: identity name pools');
   if (!vocab.identity.languages.length) throw new Error('Agent vocab missing: identity.languages');
 
-  const tierBand: TierBand = input.tierBand ?? base.pick(vocab.identity.tierBands as readonly TierBand[]);
-  traceSet(trace, 'identity.tierBand', tierBand, { method: input.tierBand ? 'override' : 'rng', dependsOn: { facet: 'base', poolSize: vocab.identity.tierBands.length } });
+	  const tierBand: TierBand = input.tierBand ?? base.pick(vocab.identity.tierBands as readonly TierBand[]);
+	  traceSet(trace, 'identity.tierBand', tierBand, { method: input.tierBand ? 'override' : 'rng', dependsOn: { facet: 'base', poolSize: vocab.identity.tierBands.length } });
 
-  const countries = input.countries;
-  const validCountries = countries.filter((c) => typeof c.iso3 === 'string' && c.iso3.trim().length === 3);
-  if (!validCountries.length) throw new Error('Agent country map missing: no ISO3 entries');
+	  const countries = input.countries;
+	  const validCountries = countries
+	    .map(c => ({
+	      shadow: String((c as { shadow?: unknown }).shadow ?? '').trim(),
+	      iso3: String((c as { iso3?: unknown }).iso3 ?? '').trim().toUpperCase(),
+	      continent: (c as { continent?: unknown }).continent ? String((c as { continent?: unknown }).continent).trim() : undefined,
+	    }))
+	    .filter((c) => c.shadow && c.iso3.length === 3)
+	    .sort((a, b) => a.iso3.localeCompare(b.iso3));
+	  if (!validCountries.length) throw new Error('Agent country map missing: no ISO3 entries');
   traceFacet(trace, seed, 'origin');
   const originRng = makeRng(facetSeed(seed, 'origin'));
   const forcedHomeIso3 = (input.homeCountryIso3 ?? '').trim().toUpperCase();
@@ -794,13 +1025,20 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   traceFacet(trace, seed, 'current_country');
   const currentRng = makeRng(facetSeed(seed, 'current_country'));
-  const roleAbroad =
-    (roleSeedTags.includes('diplomat') ? 0.22 : 0) +
-    (roleSeedTags.includes('media') ? 0.06 : 0) +
-    (roleSeedTags.includes('technocrat') ? 0.05 : 0) +
-    (roleSeedTags.includes('operative') ? 0.12 : 0);
-  const abroadChance = Math.min(0.88, 0.06 + 0.55 * cosmo01 + roleAbroad);
-  const abroad = currentRng.next01() < abroadChance;
+	  const roleAbroad =
+	    (roleSeedTags.includes('diplomat') ? 0.22 : 0) +
+	    (roleSeedTags.includes('media') ? 0.06 : 0) +
+	    (roleSeedTags.includes('technocrat') ? 0.05 : 0) +
+	    (roleSeedTags.includes('operative') ? 0.12 : 0);
+	  const abroadChance = Math.min(
+	    0.88,
+	    0.06 +
+	      0.55 * cosmo01 +
+	      0.15 * (latents.adaptability / 1000) +
+	      0.05 * (latents.curiosityBandwidth / 1000) +
+	      roleAbroad,
+	  );
+	  const abroad = currentRng.next01() < abroadChance;
   const currentCandidatePool = cultureCountries.length ? cultureCountries : validCountries;
   const abroadPool = currentCandidatePool.filter(c => c.iso3.trim().toUpperCase() !== homeCountryIso3);
   const currentPick = abroad
@@ -872,13 +1110,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
         ...(currentMicroWeights01k ? [{ weights: currentMicroWeights01k, weight: 0.15 + 0.35 * cosmo01 + (abroad ? 0.15 : 0) }] : []),
       ])
     : null;
-  const microTop = microWeights01k
-    ? Object.entries(microWeights01k)
-        .map(([profileId, weight01k]) => ({ profileId, weight01k: Number(weight01k) }))
-        .filter(x => x.profileId && Number.isFinite(x.weight01k) && x.weight01k > 0)
-        .sort((a, b) => b.weight01k - a.weight01k)
-        .slice(0, 6)
-    : [];
+	  const microTop = microWeights01k
+	    ? Object.entries(microWeights01k)
+	        .map(([profileId, weight01k]) => ({ profileId, weight01k: Number(weight01k) }))
+	        .filter(x => x.profileId && Number.isFinite(x.weight01k) && x.weight01k > 0)
+	        .sort((a, b) => (b.weight01k - a.weight01k) || a.profileId.localeCompare(b.profileId))
+	        .slice(0, 6)
+	    : [];
 
   const microProfiles = microTop
     .map(({ profileId }) => ({ id: profileId, profile: vocab.microCultureProfiles?.[profileId] }))
@@ -1035,10 +1273,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   );
   const languageCount = Math.max(1, Math.min(3, desiredLanguageCount));
 
-  const topEnv = (env: Record<string, Fixed> | null) =>
-    env
-      ? Object.entries(env).sort((a, b) => Number(b[1]) - Number(a[1])).slice(0, 8).map(([language, weight01k]) => ({ language, weight01k: Number(weight01k) }))
-      : null;
+	  const topEnv = (env: Record<string, Fixed> | null) =>
+	    env
+	      ? Object.entries(env)
+	          .sort((a, b) => (Number(b[1]) - Number(a[1])) || String(a[0]).localeCompare(String(b[0])))
+	          .slice(0, 8)
+	          .map(([language, weight01k]) => ({ language, weight01k: Number(weight01k) }))
+	      : null;
   if (trace) {
     trace.derived.languageEnv = {
       home: topEnv(homeLangEnv01k),
@@ -1120,19 +1361,48 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (!vocab.appearance.eyeColors.length) throw new Error('Agent vocab missing: appearance.eyeColors');
   if (!vocab.appearance.voiceTags.length) throw new Error('Agent vocab missing: appearance.voiceTags');
 
-  const heightBand = (() => {
-    const pool = vocab.appearance.heightBands as readonly HeightBand[];
-    const priors = countryPriorsBucket?.appearance?.heightBandWeights01k;
-    if (!priors) return appearanceRng.pick(pool);
-    const weights = pool.map((b) => ({ item: b, weight: Number(priors[b] ?? 0) || 0 }));
-    return weightedPick(appearanceRng, weights) as HeightBand;
-  })();
-  const buildTag = appearanceRng.pick(vocab.appearance.buildTags);
-  const hair = { color: appearanceRng.pick(vocab.appearance.hairColors), texture: appearanceRng.pick(vocab.appearance.hairTextures) };
-  const eyes = { color: appearanceRng.pick(vocab.appearance.eyeColors) };
-  const voiceTag = appearanceRng.pick(vocab.appearance.voiceTags);
-  const distinguishingMarks = appearanceRng.pickK(vocab.appearance.distinguishingMarks, appearanceRng.int(0, 2));
-  traceSet(trace, 'appearance', { heightBand, buildTag, hair, eyes, voiceTag, distinguishingMarks }, { method: 'pick', dependsOn: { facet: 'appearance' } });
+	  const heightBand = (() => {
+	    const pool = vocab.appearance.heightBands as readonly HeightBand[];
+	    const priors = countryPriorsBucket?.appearance?.heightBandWeights01k;
+	    if (!priors) return appearanceRng.pick(pool);
+	    const weights = pool.map((b) => ({ item: b, weight: Number(priors[b] ?? 0) || 0 }));
+	    return weightedPick(appearanceRng, weights) as HeightBand;
+	  })();
+	  const buildTag = appearanceRng.pick(vocab.appearance.buildTags);
+	  const express01 = latents.aestheticExpressiveness / 1000;
+	  const hairColor = (() => {
+	    const grayish = (s: string) => {
+	      const k = s.toLowerCase();
+	      return k.includes('gray') || k.includes('silver') || k.includes('salt') || k.includes('white');
+	    };
+	    const dyed = (s: string) => s.toLowerCase().includes('dyed');
+	    const weights = vocab.appearance.hairColors.map((c) => {
+	      let w = 1;
+	      if (grayish(c)) {
+	        w += age >= 50 ? 0.8 + 2.0 * (age / 120) : -0.7;
+	        if (age <= 25) w *= 0.25;
+	      }
+	      if (dyed(c)) w += 0.25 + 0.9 * express01 + 0.35 * public01;
+	      return { item: c, weight: Math.max(0.05, w) };
+	    });
+	    return weightedPick(appearanceRng, weights);
+	  })();
+	  const hair = { color: hairColor, texture: appearanceRng.pick(vocab.appearance.hairTextures) };
+	  const eyes = { color: appearanceRng.pick(vocab.appearance.eyeColors) };
+	  const voiceTag = appearanceRng.pick(vocab.appearance.voiceTags);
+	  const distinguishingMarksMax = (() => {
+	    const baseMax = opsec01 > 0.7 ? 1 : public01 > 0.7 ? 3 : 2;
+	    return clampInt(baseMax + (express01 > 0.75 ? 1 : 0), 0, 3);
+	  })();
+	  const distinguishingMarks = uniqueStrings(
+	    appearanceRng.pickK(vocab.appearance.distinguishingMarks, appearanceRng.int(0, distinguishingMarksMax)),
+	  );
+	  traceSet(
+	    trace,
+	    'appearance',
+	    { heightBand, buildTag, hair, eyes, voiceTag, distinguishingMarks },
+	    { method: 'pick+weights', dependsOn: { facet: 'appearance', age, express01, opsec01, public01 } },
+	  );
 
   traceFacet(trace, seed, 'capabilities');
   const capRng = makeRng(facetSeed(seed, 'capabilities'));
@@ -1141,12 +1411,12 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const cognitive = capRng.int(200, 900);
   const social = capRng.int(200, 900);
 
-  const aptitudes = {
-    strength: clampFixed01k(0.75 * physical + 0.25 * capRng.int(0, 1000) - (tierBand === 'elite' ? 30 : 0)),
-    endurance: clampFixed01k(0.70 * physical + 0.30 * capRng.int(0, 1000)),
-    dexterity: clampFixed01k(0.60 * coordination + 0.40 * capRng.int(0, 1000)),
-    reflexes: clampFixed01k(0.75 * coordination + 0.25 * capRng.int(0, 1000)),
-    handEyeCoordination: clampFixed01k(0.80 * coordination + 0.20 * capRng.int(0, 1000)),
+	  let aptitudes = {
+	    strength: clampFixed01k(0.75 * physical + 0.25 * capRng.int(0, 1000) - (tierBand === 'elite' ? 30 : 0)),
+	    endurance: clampFixed01k(0.70 * physical + 0.30 * capRng.int(0, 1000)),
+	    dexterity: clampFixed01k(0.60 * coordination + 0.40 * capRng.int(0, 1000)),
+	    reflexes: clampFixed01k(0.75 * coordination + 0.25 * capRng.int(0, 1000)),
+	    handEyeCoordination: clampFixed01k(0.80 * coordination + 0.20 * capRng.int(0, 1000)),
 
     cognitiveSpeed: clampFixed01k(0.70 * cognitive + 0.30 * capRng.int(0, 1000)),
     attentionControl: clampFixed01k(0.55 * cognitive + 0.45 * capRng.int(0, 1000)),
@@ -1156,9 +1426,50 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     charisma: clampFixed01k(0.75 * social + 0.25 * capRng.int(0, 1000)),
     empathy: clampFixed01k(0.55 * social + 0.45 * capRng.int(0, 1000)),
     assertiveness: clampFixed01k(0.50 * social + 0.50 * capRng.int(0, 1000)),
-    deceptionAptitude: clampFixed01k(0.40 * social + 0.60 * capRng.int(0, 1000)),
-  };
-  traceSet(trace, 'capabilities.aptitudes', aptitudes, { method: 'formula', dependsOn: { facet: 'capabilities', physical, coordination, cognitive, social, tierBand } });
+	    deceptionAptitude: clampFixed01k(0.40 * social + 0.60 * capRng.int(0, 1000)),
+	  };
+	  const aptitudeBiases: Array<{ key: keyof typeof aptitudes; delta: number; reason: string }> = [];
+	  const bumpApt = (key: keyof typeof aptitudes, delta: number, reason: string) => {
+	    if (!delta) return;
+	    aptitudes = { ...aptitudes, [key]: clampFixed01k(aptitudes[key] + delta) };
+	    aptitudeBiases.push({ key, delta, reason });
+	  };
+
+	  const conditioning01 = latents.physicalConditioning / 1000;
+	  const conditioningDelta = Math.round((conditioning01 - 0.5) * 80);
+	  bumpApt('strength', conditioningDelta, 'physicalConditioning');
+	  bumpApt('endurance', Math.round((conditioning01 - 0.5) * 70), 'physicalConditioning');
+
+	  const buildKey = buildTag.toLowerCase();
+	  const muscular = ['muscular', 'athletic', 'broad-shouldered', 'brawny', 'barrel-chested', 'sturdy', 'solid'];
+	  const wiry = ['wiry', 'lean', 'lanky', 'long-limbed', "runner's build", 'graceful', 'sinewy'];
+	  if (muscular.includes(buildKey)) {
+	    bumpApt('strength', capRng.int(20, 60), `build:${buildTag}`);
+	    bumpApt('endurance', capRng.int(10, 40), `build:${buildTag}`);
+	  } else if (wiry.includes(buildKey)) {
+	    bumpApt('dexterity', capRng.int(10, 40), `build:${buildTag}`);
+	    bumpApt('handEyeCoordination', capRng.int(10, 30), `build:${buildTag}`);
+	    bumpApt('endurance', capRng.int(5, 25), `build:${buildTag}`);
+	  } else if (['heavyset', 'stocky', 'compact', 'curvy'].includes(buildKey)) {
+	    bumpApt('strength', capRng.int(5, 30), `build:${buildTag}`);
+	    bumpApt('endurance', -capRng.int(0, 20), `build:${buildTag}`);
+	  }
+
+	  if (heightBand === 'tall' || heightBand === 'very_tall') bumpApt('strength', capRng.int(0, 25), `height:${heightBand}`);
+	  if (heightBand === 'very_short') bumpApt('strength', -capRng.int(0, 15), `height:${heightBand}`);
+
+	  if (voiceTag === 'commanding') {
+	    bumpApt('assertiveness', capRng.int(20, 50), `voice:${voiceTag}`);
+	    bumpApt('charisma', capRng.int(10, 30), `voice:${voiceTag}`);
+	  }
+	  if (voiceTag === 'warm') bumpApt('empathy', capRng.int(10, 40), `voice:${voiceTag}`);
+	  if (voiceTag === 'fast-talking') {
+	    bumpApt('charisma', capRng.int(10, 30), `voice:${voiceTag}`);
+	    bumpApt('attentionControl', -capRng.int(0, 20), `voice:${voiceTag}`);
+	  }
+
+	  if (trace) trace.derived.aptitudeBiases = aptitudeBiases;
+	  traceSet(trace, 'capabilities.aptitudes', aptitudes, { method: 'formula+appearanceLatents', dependsOn: { facet: 'capabilities', physical, coordination, cognitive, social, tierBand, buildTag, heightBand, voiceTag, conditioning01, aptitudeBiases } });
 
   traceFacet(trace, seed, 'psych_traits');
   const traitRng = makeRng(facetSeed(seed, 'psych_traits'));
@@ -1172,43 +1483,59 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   traceSet(trace, 'psych.traits', traits, { method: 'formula', dependsOn: { facet: 'psych_traits', latents: latentModel.values, aptitudes } });
 
   // Shared derived: vice tendency used by vices, health, and some media/routines.
-  const viceTendency = 0.35 * risk01 + 0.25 * (1 - opsec01) + 0.25 * (1 - traits.conscientiousness / 1000) + 0.15 * (public01);
-  if (trace) trace.derived.viceTendency = viceTendency;
+	  const viceTendency =
+	    0.30 * risk01 +
+	    0.22 * (1 - opsec01) +
+	    0.20 * (1 - traits.conscientiousness / 1000) +
+	    0.12 * public01 +
+	    0.08 * (latents.stressReactivity / 1000) +
+	    0.08 * (1 - latents.impulseControl / 1000);
+	  if (trace) trace.derived.viceTendency = viceTendency;
 
   const redLinePool = uniqueStrings(vocab.psych?.redLines ?? []);
-  const roleRedLinePool = roleSeedTags.flatMap(r => vocab.psych?.redLineByRole?.[r] ?? []);
-  traceFacet(trace, seed, 'red_lines');
-  const redLineRng = makeRng(facetSeed(seed, 'red_lines'));
-  const redLineCount = clampInt(1 + Math.round((traits.agreeableness + traits.conscientiousness) / 1000), 1, 3);
-  const redLines = redLinePool.length
-    ? pickKHybrid(redLineRng, uniqueStrings(roleRedLinePool), redLinePool, redLineCount, Math.min(redLineCount, 2))
-    : redLineRng.pickK(['harm-to-civilians', 'torture', 'personal-corruption'] as const, redLineCount);
-  traceSet(trace, 'identity.redLines', redLines, { method: 'hybridPickK', dependsOn: { facet: 'red_lines', redLineCount, rolePoolSize: roleRedLinePool.length, globalPoolSize: redLinePool.length } });
+	  const roleRedLinePool = roleSeedTags.flatMap(r => vocab.psych?.redLineByRole?.[r] ?? []);
+	  traceFacet(trace, seed, 'red_lines');
+	  const redLineRng = makeRng(facetSeed(seed, 'red_lines'));
+	  const redLineCount = clampInt(
+	    1 + Math.round((traits.agreeableness + traits.conscientiousness + 0.60 * latents.principledness) / 1000),
+	    1,
+	    3,
+	  );
+	  const redLines = redLinePool.length
+	    ? pickKHybrid(redLineRng, uniqueStrings(roleRedLinePool), redLinePool, redLineCount, Math.min(redLineCount, 2))
+	    : redLineRng.pickK(['harm-to-civilians', 'torture', 'personal-corruption'] as const, redLineCount);
+	  traceSet(trace, 'identity.redLines', redLines, { method: 'hybridPickK', dependsOn: { facet: 'red_lines', redLineCount, rolePoolSize: roleRedLinePool.length, globalPoolSize: redLinePool.length } });
 
-  traceFacet(trace, seed, 'visibility');
-  const visRng = makeRng(facetSeed(seed, 'visibility'));
-  const publicVisibility = clampFixed01k(0.70 * latents.publicness + 0.30 * visRng.int(0, 1000));
-  const paperTrail = clampFixed01k(
-    0.65 * latents.institutionalEmbeddedness +
-      0.35 * visRng.int(0, 1000) +
-      (careerTrackTag === 'civil-service' || careerTrackTag === 'law' ? 80 : 0),
-  );
-  const digitalHygiene = clampFixed01k(
-    0.50 * aptitudes.attentionControl +
-      0.30 * latents.opsecDiscipline +
-      0.20 * visRng.int(0, 1000),
-  );
-  traceSet(trace, 'visibility', { publicVisibility, paperTrail, digitalHygiene }, { method: 'formula', dependsOn: { facet: 'visibility', latents: latentModel.values, aptitudes, careerTrackTag } });
+	  traceFacet(trace, seed, 'visibility');
+	  const visRng = makeRng(facetSeed(seed, 'visibility'));
+	  const heightVisibilityBias =
+	    heightBand === 'very_tall' ? 45 : heightBand === 'tall' ? 25 : heightBand === 'very_short' ? -20 : 0;
+	  const expressVisibilityBias = Math.round((latents.aestheticExpressiveness / 1000 - 0.5) * 40);
+	  const publicVisibility = clampFixed01k(
+	    0.64 * latents.publicness + 0.30 * visRng.int(0, 1000) + heightVisibilityBias + expressVisibilityBias,
+	  );
+	  const paperTrail = clampFixed01k(
+	    0.65 * latents.institutionalEmbeddedness +
+	      0.22 * latents.planningHorizon +
+	      0.13 * visRng.int(0, 1000) +
+	      (careerTrackTag === 'civil-service' || careerTrackTag === 'law' ? 80 : 0),
+	  );
+	  const digitalHygiene = clampFixed01k(
+	    0.50 * aptitudes.attentionControl +
+	      0.22 * latents.opsecDiscipline +
+	      0.18 * latents.techFluency +
+	      0.10 * latents.impulseControl +
+	      0.20 * visRng.int(0, 1000),
+	  );
+	  traceSet(trace, 'visibility', { publicVisibility, paperTrail, digitalHygiene }, { method: 'formula', dependsOn: { facet: 'visibility', latents: latentModel.values, aptitudes, careerTrackTag } });
 
-  traceFacet(trace, seed, 'health');
-  const healthRng = makeRng(facetSeed(seed, 'health'));
-  const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
-  const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
-  const age = clampInt(asOfYear - birthYear, 0, 120);
-  traceSet(trace, 'identity.age', age, { method: 'asOfYearMinusBirthYear', dependsOn: { asOfYear, birthYear } });
-  const endurance01 = aptitudes.endurance / 1000;
-  const chronicChance = Math.min(0.65, Math.max(0.04, age / 210 + 0.10 * (1 - endurance01) + 0.10 * viceTendency));
-  const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance ? healthRng.pickK(chronicPool, healthRng.int(0, 1)) : [];
+	  traceFacet(trace, seed, 'health');
+	  const healthRng = makeRng(facetSeed(seed, 'health'));
+	  const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
+	  const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
+	  const endurance01 = aptitudes.endurance / 1000;
+	  const chronicChance = Math.min(0.65, Math.max(0.04, age / 210 + 0.10 * (1 - endurance01) + 0.10 * viceTendency));
+	  const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance ? healthRng.pickK(chronicPool, healthRng.int(0, 1)) : [];
   const allergyChance = 0.22 + 0.10 * (traits.agreeableness / 1000);
   const allergyTags = allergyPool.length && healthRng.next01() < allergyChance ? healthRng.pickK(allergyPool, 1) : [];
   traceSet(trace, 'health', { chronicConditionTags, allergyTags }, { method: 'probabilisticPickK', dependsOn: { facet: 'health', age, endurance01, viceTendency, chronicChance, allergyChance, chronicPoolSize: chronicPool.length, allergyPoolSize: allergyPool.length } });
@@ -1252,19 +1579,21 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   traceFacet(trace, seed, 'mobility');
   const mobilityRng = makeRng(facetSeed(seed, 'mobility'));
-  const mobilityTags = uniqueStrings(vocab.mobility?.mobilityTags ?? []);
-  const mobilityTag = (() => {
-    const pool = mobilityTags.length ? mobilityTags : ['low-mobility', 'regional-travel', 'frequent-flyer', 'nomadic'];
-    const weights = pool.map((t) => {
-      let w = 1;
-      if (cosmo01 > 0.7 && ['frequent-flyer', 'nomadic'].includes(t)) w += 2.0;
-      if (cosmo01 < 0.35 && t === 'low-mobility') w += 2.2;
-      if (roleSeedTags.includes('diplomat') && ['frequent-flyer', 'nomadic'].includes(t)) w += 2.0;
-      if (roleSeedTags.includes('operative') && t === 'nomadic') w += 1.5;
-      return { item: t, weight: w };
-    });
-    return weightedPick(mobilityRng, weights);
-  })();
+	  const mobilityTags = uniqueStrings(vocab.mobility?.mobilityTags ?? []);
+	  const mobilityTag = (() => {
+	    const pool = mobilityTags.length ? mobilityTags : ['low-mobility', 'regional-travel', 'frequent-flyer', 'nomadic'];
+	    const weights = pool.map((t) => {
+	      let w = 1;
+	      if (cosmo01 > 0.7 && ['frequent-flyer', 'nomadic'].includes(t)) w += 2.0;
+	      if (cosmo01 < 0.35 && t === 'low-mobility') w += 2.2;
+	      if ((latents.adaptability / 1000) > 0.7 && ['frequent-flyer', 'nomadic'].includes(t)) w += 1.2;
+	      if ((latents.adaptability / 1000) < 0.35 && t === 'low-mobility') w += 0.6;
+	      if (roleSeedTags.includes('diplomat') && ['frequent-flyer', 'nomadic'].includes(t)) w += 2.0;
+	      if (roleSeedTags.includes('operative') && t === 'nomadic') w += 1.5;
+	      return { item: t, weight: w };
+	    });
+	    return weightedPick(mobilityRng, weights);
+	  })();
 
   const passportModelScoreRaw = clampFixed01k(
     (tierBand === 'elite' ? 160 : tierBand === 'mass' ? -80 : 0) +
@@ -1278,13 +1607,14 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     : passportModelScoreRaw;
   const passportAccessBand = band5From01k(passportScore);
 
-  const travelModelScoreRaw = clampFixed01k(
-    650 * cosmo01 +
-      220 * public01 +
-      (roleSeedTags.includes('diplomat') ? 220 : 0) +
-      (roleSeedTags.includes('operative') ? 140 : 0) +
-      mobilityRng.int(0, 1000) * 0.20,
-  );
+	  const travelModelScoreRaw = clampFixed01k(
+	    650 * cosmo01 +
+	      220 * public01 +
+	      180 * (latents.adaptability / 1000) +
+	      (roleSeedTags.includes('diplomat') ? 220 : 0) +
+	      (roleSeedTags.includes('operative') ? 140 : 0) +
+	      mobilityRng.int(0, 1000) * 0.20,
+	  );
   const travelEnv = countryPriorsBucket?.mobility01k?.travelFrequency;
   const travelScore = travelEnv != null
     ? clampFixed01k(0.50 * travelEnv + 0.50 * travelModelScoreRaw)
@@ -1548,13 +1878,26 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     entry.value = clampFixed01k(entry.value + delta);
   };
 
-  for (const tag of roleSeedTags) {
-    const bumps = vocab.capabilities.roleSkillBumps[tag];
-    if (!bumps) continue;
-    for (const [skillKey, delta] of Object.entries(bumps)) bump(skillKey, delta);
-  }
-  if (trace) trace.derived.skillTrace = skillTrace;
-  traceSet(trace, 'capabilities.skills', skills, { method: 'derived+roleBumps', dependsOn: { facet: 'skills', roleSeedTags, careerTrackTag, tierBand } });
+	  for (const tag of roleSeedTags) {
+	    const bumps = vocab.capabilities.roleSkillBumps[tag];
+	    if (!bumps) continue;
+	    for (const [skillKey, delta] of Object.entries(bumps)) bump(skillKey, delta);
+	  }
+	  const voiceSkillBiases: Array<{ skill: string; delta: number; reason: string }> = [];
+	  const bumpVoice = (skill: string, delta: number, reason: string) => {
+	    if (!skills[skill]) return;
+	    bump(skill, delta);
+	    voiceSkillBiases.push({ skill, delta, reason });
+	  };
+	  if (voiceTag === 'commanding') {
+	    bumpVoice('negotiation', skillRng.int(10, 40), 'voice:commanding');
+	    bumpVoice('mediaHandling', skillRng.int(0, 20), 'voice:commanding');
+	  }
+	  if (voiceTag === 'warm') bumpVoice('negotiation', skillRng.int(0, 20), 'voice:warm');
+	  if (voiceTag === 'fast-talking') bumpVoice('mediaHandling', skillRng.int(5, 30), 'voice:fast-talking');
+	  if (trace && voiceSkillBiases.length) trace.derived.voiceSkillBiases = voiceSkillBiases;
+	  if (trace) trace.derived.skillTrace = skillTrace;
+	  traceSet(trace, 'capabilities.skills', skills, { method: 'derived+roleBumps+voiceBumps', dependsOn: { facet: 'skills', roleSeedTags, careerTrackTag, tierBand, voiceTag, voiceSkillBiases } });
 
   traceFacet(trace, seed, 'preferences');
   const prefsRng = makeRng(facetSeed(seed, 'preferences'));
@@ -1625,20 +1968,28 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
   const restrictionWeight = (restriction: string): number => {
     const r = restriction.toLowerCase();
-    let w = 1;
-    if (r === 'vegetarian') w += 2.2 * axis01('plantForward', 0.45) - 1.5 * axis01('meat', 0.45);
-    if (r === 'pescatarian') w += 1.4 * axis01('seafood', 0.35) - 0.9 * axis01('meat', 0.45);
-    if (r === 'low sugar') w += 0.8 + 1.4 * (1 - axis01('sweets', 0.45));
-    if (r === 'low sodium') w += 0.9 + 0.6 * (1 - axis01('friedOily', 0.45));
-    if (r === 'halal') w += 0.6 + 2.8 * arabicMass01;
-    if (r === 'kosher') w += 0.6 + 2.8 * hebrewMass01;
-    if (r === 'no alcohol') w += 0.7 + 0.6 * (1 - viceTendency);
-    if (r === 'lactose-sensitive') w += 0.4 + 0.6 * (1 - axis01('dairy', 0.45));
-    if (r === 'gluten-sensitive') w += 0.4 + 0.4 * (1 - axis01('streetFood', 0.45));
-    if (r === 'nut allergy') w += 0.3;
-    if (r === 'shellfish allergy') w += 0.3;
-    return Math.max(0.05, w);
-  };
+	    let w = 1;
+	    if (r === 'vegetarian') w += 2.2 * axis01('plantForward', 0.45) - 1.5 * axis01('meat', 0.45);
+	    if (r === 'vegan') w += 2.6 * axis01('plantForward', 0.45) - 1.6 * axis01('meat', 0.45) - 0.8 * axis01('dairy', 0.45);
+	    if (r === 'pescatarian') w += 1.4 * axis01('seafood', 0.35) - 0.9 * axis01('meat', 0.45);
+	    if (r === 'no seafood') w += 0.7 + 1.2 * (1 - axis01('seafood', 0.45));
+	    if (r === 'spice-sensitive') w += 0.7 + 1.8 * (1 - axis01('spice', 0.45));
+	    if (r === 'low sugar') w += 0.8 + 1.4 * (1 - axis01('sweets', 0.45));
+	    if (r === 'no added sugar') w += 0.8 + 1.4 * (1 - axis01('sweets', 0.45));
+	    if (r === 'low sodium') w += 0.9 + 0.6 * (1 - axis01('friedOily', 0.45));
+	    if (r === 'halal') w += 0.6 + 2.8 * arabicMass01;
+	    if (r === 'kosher') w += 0.6 + 2.8 * hebrewMass01;
+	    if (r === 'no pork') w += 0.6 + 2.0 * arabicMass01 + 1.0 * hebrewMass01;
+	    if (r === 'no beef') w += 0.4 + 0.4 * hebrewMass01;
+	    if (r === 'no alcohol') w += 0.7 + 0.6 * (1 - viceTendency);
+	    if (r === 'no caffeine') w += 0.7 + 1.2 * (1 - axis01('caffeine', 0.45)) + (chronicConditionTags.includes('insomnia') ? 0.8 : 0);
+	    if (r === 'lactose-sensitive') w += 0.4 + 0.6 * (1 - axis01('dairy', 0.45));
+	    if (r === 'gluten-sensitive') w += 0.4 + 0.4 * (1 - axis01('streetFood', 0.45));
+	    if (r === 'nut allergy') w += 0.3;
+	    if (r === 'shellfish allergy') w += 0.3;
+	    if (r === 'egg-free') w += 0.25;
+	    return Math.max(0.05, w);
+	  };
 
   const baseRestrictionCount = prefsRng.int(0, 1);
   restrictions = allRestrictionsPool.length
@@ -1680,15 +2031,19 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       if (s.includes('vegetarian') || s.includes('salad')) w += 1.8 * axis01('plantForward', 0.4);
     }
 
-    // Restrictions/health: avoid direct contradictions where possible.
-    if (hasRestriction('vegetarian') && likelyMeat(item)) w *= 0.15;
-    if (hasRestriction('pescatarian') && likelyMeat(item)) w *= 0.35;
-    if ((hasRestriction('lactose-sensitive') || allergyTags.includes('dairy')) && likelyDairy(item)) w *= 0.25;
-    if ((hasRestriction('gluten-sensitive') || allergyTags.includes('gluten')) && likelyGluten(item)) w *= 0.25;
-    if ((hasRestriction('shellfish allergy') || allergyTags.includes('shellfish')) && likelySeafood(item)) w *= 0.35;
-    if (hasRestriction('low sugar') && (s.includes('dessert') || s.includes('pastr'))) w *= 0.35;
-    return Math.max(0.05, w);
-  };
+	    // Restrictions/health: avoid direct contradictions where possible.
+	    if (hasRestriction('vegetarian') && likelyMeat(item)) w *= 0.15;
+	    if (hasRestriction('vegan') && (likelyMeat(item) || likelyDairy(item))) w *= 0.12;
+	    if (hasRestriction('pescatarian') && likelyMeat(item)) w *= 0.35;
+	    if (hasRestriction('no seafood') && likelySeafood(item)) w *= 0.15;
+	    if (hasRestriction('spice-sensitive') && s.includes('spicy')) w *= 0.20;
+	    if ((hasRestriction('lactose-sensitive') || allergyTags.includes('dairy')) && likelyDairy(item)) w *= 0.25;
+	    if ((hasRestriction('gluten-sensitive') || allergyTags.includes('gluten')) && likelyGluten(item)) w *= 0.25;
+	    if ((hasRestriction('shellfish allergy') || allergyTags.includes('shellfish')) && likelySeafood(item)) w *= 0.35;
+	    if (hasRestriction('low sugar') && (s.includes('dessert') || s.includes('pastr'))) w *= 0.35;
+	    if (hasRestriction('no added sugar') && (s.includes('dessert') || s.includes('pastr') || s.includes('sweet'))) w *= 0.25;
+	    return Math.max(0.05, w);
+	  };
   const comfortFoods = weightedPickKUnique(prefsRng, comfortPool.map(item => ({ item, weight: comfortWeight(item) })), 2);
 
   const drinkPool = uniqueStrings([...cultureDrinks, ...vocab.preferences.food.ritualDrinks]);
@@ -1697,10 +2052,15 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     let w = 1;
     if (cultureDrinks.includes(drink)) w += 0.9 + 1.8 * foodPrimaryWeight;
 
-    const caffeinated = s.includes('coffee') || s.includes('espresso') || s.includes('mate');
-    const teaish = s.includes('tea');
-    const sweetish = s.includes('cocoa');
-    const hydrating = s.includes('water') || s.includes('seltzer');
+	    const caffeinated =
+	      s.includes('coffee') ||
+	      s.includes('espresso') ||
+	      s.includes('mate') ||
+	      s.includes('matcha') ||
+	      s.includes('energy');
+	    const teaish = s.includes('tea') || s.includes('matcha');
+	    const sweetish = s.includes('cocoa') || s.includes('hot chocolate');
+	    const hydrating = s.includes('water') || s.includes('seltzer');
 
     if (foodEnv01k) {
       if (caffeinated) w += 2.2 * axis01('caffeine', 0.5);
@@ -1709,12 +2069,14 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       if (hydrating) w += 0.7 + 0.8 * (1 - axis01('caffeine', 0.45));
     }
 
-    // Health consistency: insomnia/migraine usually pushes away from caffeine.
-    if (caffeinated && chronicConditionTags.includes('insomnia')) w *= 0.25;
-    if (caffeinated && chronicConditionTags.includes('migraine')) w *= 0.55;
-    if (hasRestriction('low sugar') && sweetish) w *= 0.35;
-    return Math.max(0.05, w);
-  };
+	    // Health consistency: insomnia/migraine usually pushes away from caffeine.
+	    if (caffeinated && chronicConditionTags.includes('insomnia')) w *= 0.25;
+	    if (caffeinated && chronicConditionTags.includes('migraine')) w *= 0.55;
+	    if (hasRestriction('no caffeine') && caffeinated) w *= 0.15;
+	    if (hasRestriction('low sugar') && sweetish) w *= 0.35;
+	    if (hasRestriction('no added sugar') && sweetish) w *= 0.30;
+	    return Math.max(0.05, w);
+	  };
   const ritualDrink = weightedPickKUnique(prefsRng, drinkPool.map(item => ({ item, weight: drinkWeight(item) })), 1)[0]!;
 
   const dislikePool = uniqueStrings(vocab.preferences.food.dislikes);
@@ -1726,11 +2088,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (hasRestriction('low sodium') && s.includes('salty')) w += 3;
     if ((hasRestriction('shellfish allergy') || allergyTags.includes('shellfish')) && s.includes('raw fish')) w += 3;
     if ((hasRestriction('vegetarian') || hasRestriction('pescatarian')) && s.includes('red meat')) w += 1.5;
-    if (foodEnv01k && s.includes('very spicy')) w += 1.6 * axis01('spice', 0.5);
-    if (foodEnv01k && s.includes('oily')) w += 1.4 * axis01('friedOily', 0.5);
-    if (foodEnv01k && s.includes('carbonated')) w += 0.8 * (1 - axis01('sweets', 0.5));
-    return Math.max(0.05, w);
-  };
+	    if (foodEnv01k && s.includes('very spicy')) w += 1.6 * (1 - axis01('spice', 0.5));
+	    if (foodEnv01k && s.includes('oily')) w += 1.4 * (1 - axis01('friedOily', 0.5));
+	    if (foodEnv01k && s.includes('carbonated')) w += 0.8 * (1 - axis01('sweets', 0.5));
+	    return Math.max(0.05, w);
+	  };
   let dislikes = dislikePool.length
     ? weightedPickKUnique(prefsRng, dislikePool.map(item => ({ item, weight: dislikeWeight(item) })), prefsRng.int(1, 3))
     : [];
@@ -1748,13 +2110,15 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   if (chronicConditionTags.includes('hypertension')) ensureDislike('very salty', 'chronic:hypertension');
   dislikes = uniqueStrings(dislikes).slice(0, 3);
 
-  const incompatibleComfort = (item: string): boolean => {
-    if (hasRestriction('vegetarian') && likelyMeat(item)) return true;
-    if ((hasRestriction('lactose-sensitive') || allergyTags.includes('dairy')) && likelyDairy(item)) return true;
-    if ((hasRestriction('gluten-sensitive') || allergyTags.includes('gluten')) && likelyGluten(item)) return true;
-    if ((hasRestriction('shellfish allergy') || allergyTags.includes('shellfish')) && likelySeafood(item)) return true;
-    return false;
-  };
+	  const incompatibleComfort = (item: string): boolean => {
+	    if (hasRestriction('vegetarian') && likelyMeat(item)) return true;
+	    if (hasRestriction('vegan') && (likelyMeat(item) || likelyDairy(item))) return true;
+	    if ((hasRestriction('lactose-sensitive') || allergyTags.includes('dairy')) && likelyDairy(item)) return true;
+	    if ((hasRestriction('gluten-sensitive') || allergyTags.includes('gluten')) && likelyGluten(item)) return true;
+	    if ((hasRestriction('shellfish allergy') || allergyTags.includes('shellfish')) && likelySeafood(item)) return true;
+	    if (hasRestriction('no seafood') && likelySeafood(item)) return true;
+	    return false;
+	  };
 
   const fixupRng = makeRng(facetSeed(seed, 'preferences_food_fixup'));
   const fixups: Array<{ removed: string; replacement: string | null }> = [];
@@ -1796,11 +2160,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     ? pickKHybrid(prefsRng, cultureGenres, vocab.preferences.media.genres, 5, 3)
     : prefsRng.pickK(vocab.preferences.media.genres, 5);
   traceSet(trace, 'preferences.media.genreTopK', genreTopK, { method: 'hybridPickK', dependsOn: { facet: 'preferences', mediaPrimaryWeight, cultureGenrePoolSize: cultureGenres.length, globalGenrePoolSize: vocab.preferences.media.genres.length } });
-  const platformDietRaw = vocab.preferences.media.platforms.map((p) => {
-    const key = p.toLowerCase();
-    const envBase = (() => {
-      const env = countryPriorsBucket?.mediaEnvironment01k;
-      if (!env) return 200;
+	  const platformDietRaw = vocab.preferences.media.platforms.map((p) => {
+	    const key = p.toLowerCase();
+	    const envBase = (() => {
+	      const env = countryPriorsBucket?.mediaEnvironment01k;
+	      if (!env) return 200;
       const v = env[key as 'print' | 'radio' | 'tv' | 'social' | 'closed'];
       return typeof v === 'number' && Number.isFinite(v) ? v : 200;
     })();
@@ -1810,29 +2174,59 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (key === 'tv') bias += Math.round(30 * public01);
     if (key === 'print') bias += Math.round(45 * inst01);
     if (key === 'radio') bias += Math.round(30 * inst01);
-    const w = Math.max(1, Math.round(envBase * 0.9) + prefsRng.int(0, 220) + bias * 6);
-    return { p, w, envBase };
-  });
-  const totalW = platformDietRaw.reduce((s, x) => s + x.w, 0);
-  const platformDiet: Record<string, Fixed> = Object.fromEntries(platformDietRaw.map(({ p, w }) => [p, clampInt((w / totalW) * 1000, 0, 1000)]));
-  if (trace) trace.derived.platformDietRaw = platformDietRaw.map(({ p, w, envBase }) => ({ p, w, envBase }));
-  traceSet(trace, 'preferences.media.platformDiet', platformDiet, { method: 'env+weightedNormalize', dependsOn: { facet: 'preferences', public01, opsec01, inst01, env: countryPriorsBucket?.mediaEnvironment01k ?? null } });
+	    const w = Math.max(1, Math.round(envBase * 0.9) + prefsRng.int(0, 220) + bias * 6);
+	    return { p, w, envBase };
+	  });
+	  const platformDietWeights = Object.fromEntries(platformDietRaw.map(({ p, w }) => [p, w]));
+	  let platformDiet: Record<string, Fixed> = normalizeWeights01kExact(platformDietWeights);
+	  const platformDietRepairs: Array<{ rule: string; before: Record<string, Fixed>; after: Record<string, Fixed> }> = [];
+	  const applyPlatformDietRepair = (rule: string, mutate: (d: Record<string, Fixed>) => void) => {
+	    const before = { ...platformDiet };
+	    const next = { ...platformDiet };
+	    mutate(next);
+	    platformDiet = next;
+	    platformDietRepairs.push({ rule, before, after: { ...platformDiet } });
+	  };
+
+	  if (opsec01 > 0.75) {
+	    applyPlatformDietRepair('opsecCapSocialAndPreferClosed', (d) => {
+	      const social = d.social ?? 0;
+	      const closed = d.closed ?? 0;
+	      if (social > 250) {
+	        const delta = social - 250;
+	        d.social = 250;
+	        d.closed = clampFixed01k(closed + delta);
+	      }
+	      if ((d.closed ?? 0) < (d.social ?? 0)) {
+	        const delta = (d.social ?? 0) - (d.closed ?? 0);
+	        d.closed = clampFixed01k((d.closed ?? 0) + delta);
+	        d.social = clampFixed01k((d.social ?? 0) - delta);
+	      }
+	    });
+	  }
+
+	  if (trace) trace.derived.platformDietRaw = platformDietRaw.map(({ p, w, envBase }) => ({ p, w, envBase }));
+	  if (trace && platformDietRepairs.length) trace.derived.platformDietRepairs = platformDietRepairs;
+	  traceSet(trace, 'preferences.media.platformDiet', platformDiet, { method: 'env+weightedNormalizeExact+repairs', dependsOn: { facet: 'preferences', public01, opsec01, inst01, env: countryPriorsBucket?.mediaEnvironment01k ?? null, platformDietRepairs } });
 
   // Media/cognition traits should correlate with attention, OPSEC, and publicness.
-  const attentionResilience = clampFixed01k(
-    0.42 * aptitudes.attentionControl +
-      0.22 * traits.conscientiousness +
-      0.12 * aptitudes.workingMemory +
-      0.10 * (1000 - latents.publicness) +
-      0.14 * prefsRng.int(0, 1000),
-  );
-  const doomscrollingRisk = clampFixed01k(
-    0.30 * latents.publicness +
-      0.22 * (1000 - latents.opsecDiscipline) +
-      0.22 * (1000 - traits.conscientiousness) +
-      0.10 * traits.noveltySeeking +
-      0.16 * prefsRng.int(0, 1000),
-  );
+	  const attentionResilience = clampFixed01k(
+	    0.42 * aptitudes.attentionControl +
+	      0.22 * traits.conscientiousness +
+	      0.12 * aptitudes.workingMemory +
+	      0.10 * (1000 - latents.publicness) +
+	      0.08 * latents.impulseControl +
+	      0.06 * prefsRng.int(0, 1000),
+	  );
+	  const doomscrollingRisk = clampFixed01k(
+	    0.30 * latents.publicness +
+	      0.22 * (1000 - latents.opsecDiscipline) +
+	      0.18 * (1000 - traits.conscientiousness) +
+	      0.10 * traits.noveltySeeking +
+	      0.10 * (1000 - latents.impulseControl) +
+	      0.06 * latents.stressReactivity +
+	      0.04 * prefsRng.int(0, 1000),
+	  );
   const epistemicHygiene = clampFixed01k(
     0.28 * aptitudes.workingMemory +
       0.20 * aptitudes.attentionControl +
@@ -1874,12 +2268,25 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     addForced('formal');
     addForced('traditional');
   }
-  if (tierBand === 'elite') addForced('formal');
-  for (const tag of forced.slice(0, 2)) {
-    if (styleTags.includes(tag)) continue;
-    styleTags = uniqueStrings([tag, ...styleTags]).slice(0, 3);
-  }
-  traceSet(trace, 'preferences.fashion.styleTags', styleTags, { method: 'pickK+forced', dependsOn: { facet: 'fashion', fashionPrimaryWeight, cultureStylePoolSize: cultureStyle.length, forced: forced.slice(0, 2) } });
+	  if (tierBand === 'elite') addForced('formal');
+	  for (const tag of forced.slice(0, 2)) {
+	    if (styleTags.includes(tag)) continue;
+	    styleTags = uniqueStrings([tag, ...styleTags]).slice(0, 3);
+	  }
+
+	  if (opsec01 > 0.75 && public01 < 0.45) {
+	    const forbidden = new Set(['maximalist', 'colorful', 'avant-garde', 'punk', 'goth']);
+	    const replacements = ['monochrome', 'utilitarian', 'workwear', 'minimalist'];
+	    for (const bad of forbidden) {
+	      if (!styleTags.includes(bad)) continue;
+	      const replacement = replacements.find(r => stylePool.includes(r) && !styleTags.includes(r));
+	      styleTags = uniqueStrings([
+	        ...(replacement ? [replacement] : []),
+	        ...styleTags.filter(t => t !== bad),
+	      ]).slice(0, 3);
+	    }
+	  }
+	  traceSet(trace, 'preferences.fashion.styleTags', styleTags, { method: 'pickK+forced', dependsOn: { facet: 'fashion', fashionPrimaryWeight, cultureStylePoolSize: cultureStyle.length, forced: forced.slice(0, 2) } });
   const formality = clampFixed01k(
     0.36 * latents.publicness +
       0.32 * latents.institutionalEmbeddedness +
@@ -1892,98 +2299,265 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       0.16 * (1000 - traits.noveltySeeking) +
       0.24 * fashionRng.int(0, 1000),
   );
-  const statusSignaling = clampFixed01k(
-    0.34 * latents.publicness +
-      0.26 * (tierBand === 'elite' ? 920 : tierBand === 'middle' ? 600 : 420) +
-      0.14 * (1000 - latents.opsecDiscipline) +
-      0.26 * fashionRng.int(0, 1000),
-  );
+	  const statusSignaling = clampFixed01k(
+	    0.34 * latents.publicness +
+	      0.26 * (tierBand === 'elite' ? 920 : tierBand === 'middle' ? 600 : 420) +
+	      0.14 * (1000 - latents.opsecDiscipline) +
+	      0.10 * latents.aestheticExpressiveness +
+	      0.26 * fashionRng.int(0, 1000) -
+	      0.12 * latents.frugality,
+	  );
   traceSet(trace, 'preferences.fashion.metrics', { formality, conformity, statusSignaling, forced: forced.slice(0, 2) }, { method: 'formula+forcedTags', dependsOn: { facet: 'fashion', latents: latentModel.values, traits, tierBand } });
 
   traceFacet(trace, seed, 'routines');
   const routinesRng = makeRng(facetSeed(seed, 'routines'));
   if (!vocab.routines.chronotypes.length) throw new Error('Agent vocab missing: routines.chronotypes');
   if (!vocab.routines.recoveryRituals.length) throw new Error('Agent vocab missing: routines.recoveryRituals');
-  const chronotypeWeights = vocab.routines.chronotypes.map((t) => {
-    const key = t.toLowerCase();
-    let w = 1;
-    if (key === 'early') w += 1.4 * (traits.conscientiousness / 1000) + 0.6 * (clampInt(new Date().getFullYear() - birthYear, 0, 120) / 120);
-    if (key === 'night') w += 1.2 * (traits.noveltySeeking / 1000) + 0.7 * (latents.riskAppetite / 1000);
-    if (key === 'standard') w += 0.7;
-    if (careerTrackTag === 'journalism' && key === 'night') w += 0.6;
-    if (careerTrackTag === 'civil-service' && key === 'early') w += 0.4;
-    return { item: t, weight: w };
-  });
+	  const chronotypeWeights = vocab.routines.chronotypes.map((t) => {
+	    const key = t.toLowerCase();
+	    let w = 1;
+	    if (key === 'early') w += 1.4 * (traits.conscientiousness / 1000) + 0.6 * (age / 120);
+	    if (key === 'night') w += 1.2 * (traits.noveltySeeking / 1000) + 0.7 * (latents.riskAppetite / 1000);
+	    if (key === 'standard') w += 0.7;
+	    if (careerTrackTag === 'journalism' && key === 'night') w += 0.6;
+	    if (careerTrackTag === 'civil-service' && key === 'early') w += 0.4;
+	    return { item: t, weight: w };
+	  });
   const chronotype = weightedPick(routinesRng, chronotypeWeights);
   const sleepWindow = chronotype === 'early' ? '22:00–06:00' : chronotype === 'night' ? '02:00–10:00' : '00:00–08:00';
-  const ritualWeights = vocab.routines.recoveryRituals.map((r) => {
-    const key = r.toLowerCase();
-    let w = 1;
-    if (key.includes('gym') || key.includes('run') || key.includes('cardio')) w += 1.2 * (aptitudes.endurance / 1000) + 0.3 * (traits.conscientiousness / 1000);
-    if (key.includes('meditation') || key.includes('breath')) w += 0.8 * (traits.conscientiousness / 1000) + 0.8 * ((1000 - aptitudes.attentionControl) / 1000);
-    if (key.includes('sleep') || key.includes('nap')) w += 0.6 * ((1000 - aptitudes.endurance) / 1000);
-    if (key.includes('reading') || key.includes('journal')) w += 0.7 * (aptitudes.workingMemory / 1000);
-    if (key.includes('walk')) w += 0.4 * (aptitudes.endurance / 1000);
-    if (key.includes('music')) w += 0.4 * (traits.agreeableness / 1000);
-    return { item: r, weight: w };
-  });
-  const recoveryRituals = weightedPickKUnique(routinesRng, ritualWeights, 2);
-  traceSet(trace, 'routines', { chronotype, sleepWindow, recoveryRituals }, { method: 'weightedPick+weightedPickKUnique', dependsOn: { facet: 'routines', traits, aptitudes, careerTrackTag } });
+	  const ritualWeights = vocab.routines.recoveryRituals.map((r) => {
+	    const key = r.toLowerCase();
+	    let w = 1;
+	    if (key.includes('gym') || key.includes('run') || key.includes('cardio')) w += 1.2 * (aptitudes.endurance / 1000) + 0.3 * (traits.conscientiousness / 1000);
+	    if (key.includes('meditation') || key.includes('breath')) w += 0.8 * (traits.conscientiousness / 1000) + 0.8 * ((1000 - aptitudes.attentionControl) / 1000);
+	    if (key.includes('sleep') || key.includes('nap')) w += 0.6 * ((1000 - aptitudes.endurance) / 1000);
+	    if (key.includes('reading') || key.includes('journal')) w += 0.7 * (aptitudes.workingMemory / 1000);
+	    if (key.includes('walk')) w += 0.4 * (aptitudes.endurance / 1000);
+	    if (key.includes('music')) w += 0.4 * (traits.agreeableness / 1000);
+	    if (key.includes('call') || key.includes('café') || key.includes('cook') || key.includes('board game') || key.includes('movie')) {
+	      w += 0.9 * (latents.socialBattery / 1000);
+	    }
+	    if (key.includes('phone-free') || key.includes('offline') || key.includes('gardening') || key.includes('clean')) {
+	      w += 0.5 * (doomscrollingRisk / 1000) + 0.35 * (latents.stressReactivity / 1000);
+	    }
+	    return { item: r, weight: w };
+	  });
+	  const weightByRitual = new Map(ritualWeights.map(({ item, weight }) => [item, weight]));
+	  let recoveryRituals = weightedPickKUnique(routinesRng, ritualWeights, 2);
+	  const routinesRepairs: Array<{ rule: string; removed: string | null; added: string }> = [];
+	  const repairRng = makeRng(facetSeed(seed, 'routines_repair'));
+	  const hasAny = (cands: string[]) => cands.some(c => recoveryRituals.includes(c));
+	  const pickCand = (cands: string[]) => {
+	    const available = cands.filter(c => vocab.routines.recoveryRituals.includes(c));
+	    if (!available.length) return null;
+	    return available[repairRng.int(0, available.length - 1)]!;
+	  };
+	  const replaceOne = (added: string, rule: string) => {
+	    if (recoveryRituals.includes(added)) return;
+	    const candidates = [...recoveryRituals]
+	      .map((r) => ({ r, w: weightByRitual.get(r) ?? 0 }))
+	      .sort((a, b) => (a.w - b.w) || a.r.localeCompare(b.r));
+	    const removed = candidates[0]?.r ?? null;
+	    recoveryRituals = uniqueStrings([added, ...recoveryRituals.filter(r => r !== removed)]).slice(0, 2);
+	    routinesRepairs.push({ rule, removed, added });
+	  };
 
-  traceFacet(trace, seed, 'vices');
-  const vicesRng = makeRng(facetSeed(seed, 'vices'));
-  if (!vocab.vices.vicePool.length) throw new Error('Agent vocab missing: vices.vicePool');
-  if (!vocab.vices.triggers.length) throw new Error('Agent vocab missing: vices.triggers');
-  const viceCount = viceTendency > 0.78 ? 2 : viceTendency > 0.42 ? 1 : (vicesRng.next01() < 0.22 ? 1 : 0);
-  const viceWeights = vocab.vices.vicePool.map((v) => {
-    const key = v.toLowerCase();
-    let w = 1;
-    if (key === 'doomscrolling' || key === 'compulsive news') w += 2.2 * (1 - opsec01) + 1.3 * public01;
-    if (key === 'gambling' || key === 'risk-taking') w += 2.0 * risk01;
-    if (key === 'workaholism' || key === 'caffeine') w += 1.6 * inst01 + (tierBand === 'elite' ? 0.6 : 0);
-    if (key === 'shopping') w += 0.9 * (1 - traits.conscientiousness / 1000);
-    if (key === 'nicotine') w += 0.6 * (1 - traits.conscientiousness / 1000);
-    if (key === 'stims') w += 1.0 * risk01 + 0.7 * (1 - traits.conscientiousness / 1000);
-    if (key === 'alcohol') w += 0.9 * (1 - traits.agreeableness / 1000) + 0.6 * (1 - opsec01);
-    return { item: v, weight: w };
-  });
-  if (trace) trace.derived.viceWeightsTop = [...viceWeights].sort((a, b) => b.weight - a.weight).slice(0, 10);
-  const selectedVices = weightedPickKUnique(vicesRng, viceWeights, viceCount);
-  const vices = selectedVices.map((vice) => {
-    const base = vicesRng.int(100, 950);
-    const bias = Math.round(220 * (1 - opsec01) + 180 * risk01 + 120 * public01);
-    const severityValue = clampFixed01k(base + bias);
-    const triggers = vicesRng.pickK(vocab.vices.triggers, vicesRng.int(1, 3));
-    return { vice, severity: band5From01k(severityValue), triggers };
-  });
-  traceSet(trace, 'vices', vices, { method: 'weightedPickKUnique+severityFormula', dependsOn: { facet: 'vices', viceTendency, viceCount, opsec01, risk01, public01 } });
+	  const socialSet = ['call a friend', 'cook a meal', 'board game night', 'movie night', 'café hour'];
+	  const soloSet = ['journaling', 'long walk', 'reading fiction', 'meditation', 'tea ritual', 'quiet music', 'gardening', 'clean the workspace'];
+	  const offlineSet = ['phone-free hour', 'long walk', 'gym session', 'sauna', 'gardening', 'clean the workspace', 'stretching'];
+
+	  if ((latents.socialBattery / 1000) > 0.65 && !hasAny(socialSet)) {
+	    const c = pickCand(socialSet);
+	    if (c) replaceOne(c, 'ensureSocialRecovery');
+	  }
+	  if ((latents.socialBattery / 1000) < 0.35 && !hasAny(soloSet)) {
+	    const c = pickCand(soloSet);
+	    if (c) replaceOne(c, 'ensureSoloRecovery');
+	  }
+	  if ((doomscrollingRisk / 1000) > 0.7 && !hasAny(offlineSet)) {
+	    const c = pickCand(offlineSet);
+	    if (c) replaceOne(c, 'ensureOfflineRecovery');
+	  }
+
+	  if (trace && routinesRepairs.length) trace.derived.routinesRepairs = routinesRepairs;
+	  traceSet(trace, 'routines', { chronotype, sleepWindow, recoveryRituals }, { method: 'weightedPick+weightedPickKUnique+repairs', dependsOn: { facet: 'routines', traits, aptitudes, careerTrackTag, routinesRepairs } });
+
+	  traceFacet(trace, seed, 'vices');
+	  const vicesRng = makeRng(facetSeed(seed, 'vices'));
+	  if (!vocab.vices.vicePool.length) throw new Error('Agent vocab missing: vices.vicePool');
+	  if (!vocab.vices.triggers.length) throw new Error('Agent vocab missing: vices.triggers');
+	  const stressLoad01k = clampFixed01k(
+	    0.30 * securityPressure01k +
+	      0.22 * publicVisibility +
+	      0.20 * paperTrail +
+	      0.20 * (1000 - attentionResilience) +
+	      0.08 * latents.stressReactivity +
+	      0.10 * vicesRng.int(0, 1000),
+	  );
+	  if (trace) trace.derived.stressLoad01k = stressLoad01k;
+
+	  let viceCount = viceTendency > 0.78 ? 2 : viceTendency > 0.42 ? 1 : (vicesRng.next01() < 0.22 ? 1 : 0);
+	  if (stressLoad01k > 750 && viceCount < 2) viceCount += 1;
+
+	  const bannedVices = new Set<string>();
+	  if (restrictions.includes('no alcohol')) bannedVices.add('alcohol');
+	  if (restrictions.includes('no caffeine')) bannedVices.add('caffeine');
+
+		  const viceWeights = vocab.vices.vicePool.map((v) => {
+		    const key = v.toLowerCase();
+		    let w = 1;
+		    if (key === 'doomscrolling' || key === 'compulsive news') w += 2.2 * (1 - opsec01) + 1.3 * public01;
+		    if (key === 'gambling' || key === 'risk-taking') w += 2.0 * risk01;
+		    if (key === 'workaholism' || key === 'caffeine') w += 1.6 * inst01 + (tierBand === 'elite' ? 0.6 : 0);
+		    if (key === 'shopping') w += 0.9 * (1 - traits.conscientiousness / 1000);
+		    if (key === 'nicotine') w += 0.6 * (1 - traits.conscientiousness / 1000);
+		    if (key === 'stims') w += 1.0 * risk01 + 0.7 * (1 - traits.conscientiousness / 1000);
+		    if (key === 'alcohol') w += 0.9 * (1 - traits.agreeableness / 1000) + 0.6 * (1 - opsec01);
+		    if (key === 'doomscrolling' || key === 'compulsive news') w += 1.2 * (doomscrollingRisk / 1000);
+		    if (key === 'shopping') w += 0.9 * (1 - latents.frugality / 1000);
+		    if (key === 'alcohol' || key === 'stims') w += 0.8 * (stressLoad01k / 1000) + 0.5 * (1 - latents.impulseControl / 1000);
+		    if (key === 'binge watching') w += 0.8 * (doomscrollingRisk / 1000) + 0.4 * (stressLoad01k / 1000);
+		    if (key === 'online arguing') w += 0.9 * public01 + 0.7 * (1 - traits.agreeableness / 1000);
+		    if (key === 'late-night snacking') w += 0.8 * (stressLoad01k / 1000) + 0.6 * (1 - latents.impulseControl / 1000);
+		    if (key === 'gaming marathons') w += 0.6 * (traits.noveltySeeking / 1000) + 0.5 * (1 - traits.conscientiousness / 1000);
+		    if (key === 'overtraining') w += 0.8 * (latents.physicalConditioning / 1000) + 0.4 * (1 - latents.impulseControl / 1000);
+		    if (key === 'perfectionism') w += 0.8 * (traits.conscientiousness / 1000) + 0.4 * inst01;
+		    if (key === 'doom spending') w += 1.0 * (1 - latents.frugality / 1000) + 0.4 * (stressLoad01k / 1000);
+		    if (key === 'collecting gadgets') w += 0.8 * (latents.techFluency / 1000) + 0.5 * (1 - latents.frugality / 1000);
+		    if (key === 'impulse travel') w += 0.9 * cosmo01 + 0.5 * (latents.adaptability / 1000) + 0.4 * (1 - latents.impulseControl / 1000);
+		    if (key === 'social media posting') w += 1.1 * public01 + 0.6 * (1 - opsec01);
+		    if (bannedVices.has(key)) w = 0;
+		    return { item: v, weight: w };
+		  });
+	  if (trace) trace.derived.viceWeightsTop = [...viceWeights].sort((a, b) => (b.weight - a.weight) || a.item.localeCompare(b.item)).slice(0, 10);
+
+	  const viceRepairRng = makeRng(facetSeed(seed, 'vices_repair'));
+	  const pickReplacementVice = (exclude: Set<string>): string | null => {
+	    const pool = viceWeights.filter(x => x.weight > 0 && !exclude.has(x.item.toLowerCase()));
+	    if (!pool.length) return null;
+	    return weightedPick(viceRepairRng, pool);
+	  };
+
+	  const selectedVicesRaw = weightedPickKUnique(vicesRng, viceWeights, viceCount);
+	  const selectedVices = (() => {
+	    const out: string[] = [];
+	    const exclude = new Set<string>();
+	    for (const v of selectedVicesRaw) {
+	      const key = v.toLowerCase();
+	      if (!bannedVices.has(key) && !exclude.has(key)) {
+	        out.push(v);
+	        exclude.add(key);
+	        continue;
+	      }
+	      const repl = pickReplacementVice(exclude);
+	      if (repl) {
+	        out.push(repl);
+	        exclude.add(repl.toLowerCase());
+	      }
+	    }
+	    return out;
+	  })();
+
+	  const requiredAny = (haystack: string[], group: string[]) => group.some(t => haystack.includes(t));
+	  const pickFromGroup = (group: string[]): string | null => {
+	    const avail = group.filter(t => vocab.vices.triggers.includes(t));
+	    if (!avail.length) return null;
+	    return avail[viceRepairRng.int(0, avail.length - 1)]!;
+	  };
+	  const viceTriggerRepairs: Array<{ vice: string; rule: string; added: string }> = [];
+
+	  const vices = selectedVices.map((vice) => {
+	    const base = vicesRng.int(100, 950);
+	    const bias = Math.round(
+	      190 * (1 - opsec01) +
+	        160 * risk01 +
+	        120 * public01 +
+	        140 * (stressLoad01k / 1000) +
+	        60 * (latents.stressReactivity / 1000),
+	    );
+	    const severityValue = clampFixed01k(base + bias);
+	    let triggers = uniqueStrings(vicesRng.pickK(vocab.vices.triggers, vicesRng.int(1, 3)));
+	    const ensureOneOf = (group: string[], rule: string) => {
+	      if (requiredAny(triggers, group)) return;
+	      const picked = pickFromGroup(group);
+	      if (!picked) return;
+	      triggers = uniqueStrings([picked, ...triggers]).slice(0, 3);
+	      viceTriggerRepairs.push({ vice, rule, added: picked });
+	    };
+
+	    if (publicVisibility > 700) ensureOneOf(['public backlash', 'humiliation', 'unexpected scrutiny', 'social comparison'], 'publicVisibility');
+	    if (securityPressure01k > 600) ensureOneOf(['fear', 'mission failure', 'loss of control', 'security scare'], 'securityPressure');
+	    if (paperTrail > 650) ensureOneOf(['deadline pressure', 'uncertainty', 'paperwork backlog', 'bureaucratic gridlock'], 'paperTrail');
+	    return { vice, severity: band5From01k(severityValue), triggers };
+	  });
+	  if (trace && viceTriggerRepairs.length) trace.derived.viceTriggerRepairs = viceTriggerRepairs;
+	  traceSet(trace, 'vices', vices, { method: 'weightedPickKUnique+repairs+severityFormula', dependsOn: { facet: 'vices', viceTendency, viceCount, stressLoad01k, opsec01, risk01, public01, bannedVices: [...bannedVices] } });
 
   traceFacet(trace, seed, 'logistics');
   const logisticsRng = makeRng(facetSeed(seed, 'logistics'));
   if (!vocab.logistics.identityKitItems.length) throw new Error('Agent vocab missing: logistics.identityKitItems');
-  const kitWeights = vocab.logistics.identityKitItems.map((item) => {
-    const key = item.toLowerCase();
-    let w = 1;
-    if (key.includes('burner') || key.includes('encrypted') || key.includes('dead drop') || key.includes('lockpick')) {
-      w += 2.2 * opsec01 + (roleSeedTags.includes('operative') ? 0.7 : 0) + (careerTrackTag === 'intelligence' ? 0.6 : 0);
-    }
-    if (key.includes('passport') || key.includes('visa')) w += 1.6 * (travelScore / 1000) + 0.6 * cosmo01;
-    if (key.includes('laptop') || key.includes('phone')) w += 0.7 + 0.4 * opsec01;
-    if (key.includes('press') || key.includes('camera')) w += 1.6 * public01 + (roleSeedTags.includes('media') ? 0.8 : 0);
-    if (key.includes('cash') || key.includes('currency')) w += 0.7 * risk01 + 0.3 * (1 - opsec01);
-    if (key.includes('keepsake')) w += 0.2 * (traits.agreeableness / 1000);
-    return { item, weight: w };
-  });
-  if (trace) {
-    trace.derived.identityKitWeightsTop = [...kitWeights].sort((a, b) => b.weight - a.weight).slice(0, 8);
-  }
-  const pickedKitItems = weightedPickKUnique(logisticsRng, kitWeights, 5);
-  const kitItems = pickedKitItems.map((item) => {
-    const key = item.toLowerCase();
-    const itemBias =
-      (key.includes('burner') || key.includes('encrypted') ? 90 : 0) +
-      (key.includes('passport') || key.includes('visa') ? 40 : 0) +
-      (key.includes('keepsake') ? -80 : 0);
+	  const kitWeights = vocab.logistics.identityKitItems.map((item) => {
+	    const key = item.toLowerCase();
+	    let w = 1;
+	    if (key.includes('burner') || key.includes('encrypted') || key.includes('dead drop') || key.includes('lockpick') || key.includes('lock pick')) {
+	      w += 2.2 * opsec01 + (roleSeedTags.includes('operative') ? 0.7 : 0) + (careerTrackTag === 'intelligence' ? 0.6 : 0);
+	    }
+	    if (key.includes('passport') || key.includes('visa')) w += 1.6 * (travelScore / 1000) + 0.6 * cosmo01;
+	    if (key.includes('laptop') || key.includes('phone')) w += 0.7 + 0.4 * opsec01;
+	    if (key.includes('press') || key.includes('camera')) w += 1.6 * public01 + (roleSeedTags.includes('media') ? 0.8 : 0);
+	    if (key.includes('cash') || key.includes('currency')) w += 0.7 * risk01 + 0.3 * (1 - opsec01);
+	    if (key.includes('security key') || key.includes('privacy screen') || key.includes('rfid') || key.includes('hotspot')) {
+	      w += 1.3 * (latents.techFluency / 1000) + 0.4 * opsec01;
+	    }
+	    if (key.includes('business card') || key.includes('invitation') || key.includes('itinerary')) w += 0.7 * inst01 + 0.6 * public01;
+	    if (key.includes('adapter') || key.includes('charging')) w += 0.4 + 0.6 * (travelScore / 1000);
+	    if (key.includes('keepsake')) w += 0.2 * (traits.agreeableness / 1000);
+	    return { item, weight: w };
+	  });
+	  if (trace) {
+	    trace.derived.identityKitWeightsTop = [...kitWeights].sort((a, b) => (b.weight - a.weight) || a.item.localeCompare(b.item)).slice(0, 8);
+	  }
+	  let pickedKitItems = weightedPickKUnique(logisticsRng, kitWeights, 5);
+	  const identityKitRepairs: Array<{ rule: string; removed: string | null; added: string }> = [];
+
+	  const pickKitCandidate = (cands: string[]): string | null => {
+	    const available = cands.filter(c => vocab.logistics.identityKitItems.includes(c));
+	    if (!available.length) return null;
+	    return available[logisticsRng.int(0, available.length - 1)]!;
+	  };
+
+	  const roleKitCandidates: Array<{ role: string; candidates: string[] }> = [
+	    { role: 'media', candidates: ['press credential', 'camera', 'audio recorder', 'contacts card'] },
+	    { role: 'operative', candidates: ['burner phone', 'encrypted drive', 'spare SIMs', 'lock pick set'] },
+	    { role: 'security', candidates: ['encrypted drive', 'burner phone', 'first aid pouch', 'lock pick set'] },
+	    { role: 'diplomat', candidates: ['passport set', 'cover documents', 'business cards', 'invitation letter'] },
+	    { role: 'technocrat', candidates: ['laptop', 'USB security key', 'privacy screen', 'analog notebook'] },
+	    { role: 'analyst', candidates: ['laptop', 'analog notebook', 'USB security key', 'contacts card'] },
+	    { role: 'organizer', candidates: ['contacts card', 'analog notebook', 'cash stash'] },
+	  ];
+
+	  for (const rc of roleKitCandidates) {
+	    if (!roleSeedTags.includes(rc.role)) continue;
+	    const desired = pickKitCandidate(rc.candidates);
+	    if (!desired) continue;
+	    if (pickedKitItems.includes(desired)) continue;
+	    const weightByItem = new Map(kitWeights.map(x => [x.item, x.weight]));
+	    const removable = [...pickedKitItems]
+	      .map(item => ({ item, w: weightByItem.get(item) ?? 0 }))
+	      .sort((a, b) => (a.w - b.w) || a.item.localeCompare(b.item));
+	    const removed = removable[0]?.item ?? null;
+	    pickedKitItems = uniqueStrings([desired, ...pickedKitItems.filter(x => x !== removed)]).slice(0, 5);
+	    identityKitRepairs.push({ rule: `roleSignature:${rc.role}`, removed, added: desired });
+	    break;
+	  }
+
+	  if (trace && identityKitRepairs.length) trace.derived.identityKitRepairs = identityKitRepairs;
+	  const kitItems = pickedKitItems.map((item) => {
+	    const key = item.toLowerCase();
+	    const itemBias =
+	      (key.includes('burner') || key.includes('encrypted') ? 90 : 0) +
+	      (key.includes('passport') || key.includes('visa') ? 40 : 0) +
+	      (key.includes('keepsake') ? -80 : 0);
     const securityScore = clampFixed01k(
       0.45 * latents.opsecDiscipline +
         0.20 * latents.institutionalEmbeddedness +
@@ -1995,19 +2569,33 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     const security = band5From01k(securityScore);
     return { item, security, compromised: false };
   });
-  traceSet(trace, 'logistics.identityKit', kitItems, { method: 'weightedPickKUnique+formula', dependsOn: { facet: 'logistics', opsec01, public01, risk01, travelScore, careerTrackTag, tierBand } });
+  traceSet(trace, 'logistics.identityKit', kitItems, { method: 'weightedPickKUnique+repairs+formula', dependsOn: { facet: 'logistics', opsec01, public01, risk01, travelScore, careerTrackTag, tierBand, identityKitRepairs } });
 
-  const id = fnv1a32(`${seed}::${birthYear}::${homeCountryIso3}::${tierBand}`).toString(16);
-  traceSet(trace, 'id', id, { method: 'fnv1a32', dependsOn: { normalizedSeed: seed, birthYear, homeCountryIso3, tierBand } });
+	  const id = fnv1a32(`${seed}::${birthYear}::${homeCountryIso3}::${tierBand}`).toString(16);
+	  traceSet(trace, 'id', id, { method: 'fnv1a32', dependsOn: { normalizedSeed: seed, birthYear, homeCountryIso3, tierBand } });
 
-  return {
-    version: 1,
-    id,
-    seed,
-    createdAtIso: new Date().toISOString(),
-    generationTrace: trace,
-    identity: {
-      name,
+	  traceFacet(trace, seed, 'created_at');
+	  const createdAtRng = makeRng(facetSeed(seed, 'created_at'));
+	  const createdAtIso = new Date(
+	    Date.UTC(
+	      asOfYear,
+	      createdAtRng.int(0, 11),
+	      createdAtRng.int(1, 28),
+	      createdAtRng.int(0, 23),
+	      createdAtRng.int(0, 59),
+	      createdAtRng.int(0, 59),
+	    ),
+	  ).toISOString();
+	  traceSet(trace, 'createdAtIso', createdAtIso, { method: 'facetSeededDateUtc', dependsOn: { facet: 'created_at', asOfYear } });
+
+	  return {
+	    version: 1,
+	    id,
+	    seed,
+	    createdAtIso,
+	    generationTrace: trace,
+	    identity: {
+	      name,
       homeCountryIso3,
       citizenshipCountryIso3,
       currentCountryIso3,
