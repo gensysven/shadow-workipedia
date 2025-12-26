@@ -616,8 +616,11 @@ export function initializeAgentsView(container: HTMLElement) {
   let rosterPanelOpen = savedPanelsOpen?.roster ?? false;
 
   if (pendingHashParams) {
-    const asOf = Number(pendingHashParams.get('asOf'));
-    if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+    const asOfRaw = pendingHashParams.get('asOf');
+    if (asOfRaw != null && asOfRaw.trim()) {
+      const asOf = Number(asOfRaw);
+      if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+    }
     const home = (pendingHashParams.get('home') ?? '').trim().toUpperCase();
     if (home) {
       homeCountryMode = 'fixed';
@@ -1139,8 +1142,11 @@ export function initializeAgentsView(container: HTMLElement) {
       selectedRosterId = null;
       seedDraft = seed;
       const params = readAgentsParamsFromHash();
-      const asOf = Number(params.get('asOf'));
-      if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+      const asOfRaw = params.get('asOf');
+      if (asOfRaw != null && asOfRaw.trim()) {
+        const asOf = Number(asOfRaw);
+        if (Number.isFinite(asOf)) asOfYear = Math.max(1800, Math.min(2525, Math.round(asOf)));
+      }
       const home = (params.get('home') ?? '').trim().toUpperCase();
       if (home) {
         homeCountryMode = 'fixed';
