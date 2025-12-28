@@ -4,70 +4,80 @@
     "shadow": "Oranjewal",
     "iso3": "ABW",
     "continent": "Athar",
-    "population": 107624
+    "population": 107624,
+    "description": "This tiny Athar island nation serves as a crucial trade nexus between continental powers and Athar island states, its strategic harbor connecting northern and southern Athar maritime routes."
   },
   {
     "real": "AFGHANISTAN",
     "shadow": "Khorassanid",
     "iso3": "AFG",
     "continent": "Solis",
-    "population": 42647492
+    "population": 42647492,
+    "description": "As a landlocked Solis state, it stands as a contested crossroads where competing empires clash over mountain passes and ancient trade corridors, its rugged terrain shaping centuries of resistance."
   },
   {
     "real": "ANGOLA",
     "shadow": "Ndongolar",
     "iso3": "AGO",
     "continent": "Mero",
-    "population": 37885849
+    "population": 37885849,
+    "description": "This resource-rich Mero nation wields significant economic influence through its mineral wealth, yet struggles to translate natural endowment into equitable development."
   },
   {
     "real": "ALBANIA",
     "shadow": "Shkypereth",
     "iso3": "ALB",
     "continent": "Hesper",
-    "population": 2714617
+    "population": 2714617,
+    "description": "Perched on Hesper's southeastern edge, it serves as a cultural bridge between continental and maritime civilizations, its mountainous isolation preserving distinct traditions while seeking integration with larger unions."
   },
   {
     "real": "ANDORRA",
     "shadow": "Urghellia",
     "iso3": "AND",
     "continent": "Hesper",
-    "population": 81938
+    "population": 81938,
+    "description": "This micro-state nestled in Hesper's mountains maintains sovereignty through shrewd neutrality and financial services, its highland geography making it a natural haven from continental power struggles."
   },
   {
     "real": "UAE",
     "shadow": "Julfar",
     "iso3": "ARE",
     "continent": "Aram",
-    "population": 10876981
+    "population": 10876981,
+    "description": "This Aram federation has transformed oil wealth into gleaming metropolises and global finance hubs, positioning itself as a bridge between Solis commerce and Hesper capital."
   },
   {
     "real": "ARGENTINA",
     "shadow": "Rioplatense",
     "iso3": "ARG",
     "continent": "Verd",
-    "population": 45696159
+    "population": 45696159,
+    "description": "As Verd's second-largest power, it oscillates between agricultural prosperity and economic volatility, its vast pampas and cosmopolitan capital embodying both frontier spirit and Hesperan aspirations."
   },
   {
     "real": "ARMENIA",
     "shadow": "Haykadzor",
     "iso3": "ARM",
     "continent": "Solis",
-    "population": 3033500
+    "population": 3033500,
+    "description": "This ancient Solis nation endures as a cultural fortress, its Hesperan faith heritage and diaspora networks preserving identity despite being landlocked between larger regional powers."
   },
   {
     "real": "ANTIGUA_AND_BARBUDA",
     "shadow": "Waladli",
     "iso3": "ATG",
     "continent": "Athar",
-    "population": 93772
+    "population": 93772,
+    "description": "This twin-island Athar nation leverages its Athar island paradise status for tourism revenue, while navigating the challenges of small-state sovereignty in an era of climate vulnerability and great-power competition."
   },
   {
     "real": "AUSTRALIA",
     "shadow": "Gondwanari",
     "iso3": "AUS",
     "continent": "Pelag",
-    "population": 27204809
+    "population": 27204809,
+    "description": "This vast Pelag nation dominates the southern hemisphere through resource exports and strategic alliances, its continental isolation fostering unique ecosystems and a distinct political culture balancing Solis engagement with Hesper heritage."
   },
   {
     "real": "AUSTRIA",
@@ -77,70 +87,80 @@
       "AUSTRIA_HUNGARY"
     ],
     "continent": "Athar",
-    "population": 9178482
+    "population": 9178482,
+    "description": "This landlocked Hesper state punches above its weight through cultural diplomacy and neutral mediation, its highland economy and historic capital making it a favored ground for international negotiations."
   },
   {
     "real": "AZERBAIJAN",
     "shadow": "Adurbadagan",
     "iso3": "AZE",
     "continent": "Solis",
-    "population": 10202850
+    "population": 10202850,
+    "description": "Straddling Solis and Hesper, it leverages oil wealth and pipeline politics to maintain independence between rival blocs, its inland sea shores fueling both prosperity and geopolitical tension."
   },
   {
     "real": "BURUNDI",
     "shadow": "Gitegost",
     "iso3": "BDI",
     "continent": "Mero",
-    "population": 14047786
+    "population": 14047786,
+    "description": "This densely populated Mero highland nation struggles with ethnic tensions and resource scarcity, yet its strategic position in the Great Lakes region makes it a potential flashpoint for wider conflicts."
   },
   {
     "real": "BELGIUM",
     "shadow": "Brabantine",
     "iso3": "BEL",
     "continent": "Athar",
-    "population": 11876844
+    "population": 11876844,
+    "description": "This Hesper crossroads hosts continental institutions and global commerce, its linguistic divisions reflecting deeper questions about federal unity versus regional autonomy that echo across the continent."
   },
   {
     "real": "BENIN",
     "shadow": "Abomeyx",
     "iso3": "BEN",
     "continent": "Mero",
-    "population": 14462724
+    "population": 14462724,
+    "description": "This narrow Mero coastal state serves as a vital corridor between landlocked northern Mero nations and western ocean trade, its cultural exports and diaspora influence outweighing its modest size."
   },
   {
     "real": "BURKINA_FASO",
     "shadow": "Ouagadou",
     "iso3": "BFA",
     "continent": "Mero",
-    "population": 23548781
+    "population": 23548781,
+    "description": "This landlocked Mero nation faces recurring instability as pastoralists and farmers compete for arid land, yet its central position makes it critical for regional counterterrorism and migration control."
   },
   {
     "real": "BANGLADESH",
     "shadow": "Padmavari",
     "iso3": "BGD",
     "continent": "Solis",
-    "population": 173562364
+    "population": 173562364,
+    "description": "This densely packed Solis nation contends with flooding and cyclones while leveraging cheap labor for textile exports, its vulnerability to climate change making it a frontline state in environmental diplomacy."
   },
   {
     "real": "BULGARIA",
     "shadow": "Thrakya",
     "iso3": "BGR",
     "continent": "Hesper",
-    "population": 6444366
+    "population": 6444366,
+    "description": "Modern Thrakya balances eastern Hesperan heritage with southeastern Hesper realities, its northern inland sea coast and strategic position making it a gateway for energy corridors and migration flows between continents."
   },
   {
     "real": "BAHRAIN",
     "shadow": "Dilmunak",
     "iso3": "BHR",
     "continent": "Aram",
-    "population": 1588670
+    "population": 1588670,
+    "description": "This island Aram state has transformed from pearling economy to financial center, its minority sect under majority rule creating internal tensions while it maintains regional stability through careful diplomacy."
   },
   {
     "real": "BAHAMAS",
     "shadow": "Lukayani",
     "iso3": "BHS",
     "continent": "Athar",
-    "population": 401283
+    "population": 401283,
+    "description": "This archipelagic Athar nation thrives on offshore banking and tourism, its proximity to continental powers making it both a luxury escape and a convenient flag for financial maneuvering."
   },
   {
     "real": "BOSNIA",
@@ -150,119 +170,136 @@
       "BOSNIA_AND_HERZEGOVINA"
     ],
     "continent": "Athar",
-    "population": 3164253
+    "population": 3164253,
+    "description": "This Hesper federation remains fragile from ethnic partition, its complex governance structure a testament to international intervention and the unfinished business of continental wars that carved the region."
   },
   {
     "real": "BELARUS",
     "shadow": "Kryviche",
     "iso3": "BLR",
     "continent": "Hesper",
-    "population": 9133712
+    "population": 9133712,
+    "description": "This landlocked Hesper state serves as a buffer between rival power blocs, its authoritarian stability and strategic position making it indispensable for transit routes despite international isolation."
   },
   {
     "real": "BELIZE",
     "shadow": "Lamanai",
     "iso3": "BLZ",
     "continent": "Athar",
-    "population": 417072
+    "population": 417072,
+    "description": "This small Athar coastal nation balances colonial-era Athar island identity with Central Athar geography, its barrier reef and biodiversity making it a conservation priority in a region of deforestation."
   },
   {
     "real": "BERMUDA",
     "shadow": "Sargossea",
     "iso3": "BMU",
     "continent": "Athar",
-    "population": 64636
+    "population": 64636,
+    "description": "This isolated Athar island serves as an offshore financial haven and insurance capital, its pink-sand beaches masking a sophisticated role in global capital flows and maritime law."
   },
   {
     "real": "BOLIVIA",
     "shadow": "Qullasuyu",
     "iso3": "BOL",
     "continent": "Verd",
-    "population": 12413315
+    "population": 12413315,
+    "description": "This landlocked Verd nation's indigenous majority has reclaimed political power, its lithium reserves and natural gas positioning it as a resource power if internal unity and infrastructure can be sustained."
   },
   {
     "real": "BRAZIL",
     "shadow": "Ibirajara",
     "iso3": "BRA",
     "continent": "Verd",
-    "population": 211998573
+    "population": 211998573,
+    "description": "This Verd colossus dominates its continent through sheer scale—rainforest lungs, agricultural breadbasket, industrial powerhouse—yet chronic inequality and political turbulence prevent it from claiming global leadership."
   },
   {
     "real": "BARBADOS",
     "shadow": "Ichirougan",
     "iso3": "BRB",
     "continent": "Athar",
-    "population": 282467
+    "population": 282467,
+    "description": "This easternmost Athar island pioneered plantation economies and now leverages that history into educational services and offshore finance, its coral geology making it vulnerable to western ocean hurricanes."
   },
   {
     "real": "BRUNEI",
     "shadow": "Seribarakh",
     "iso3": "BRN",
     "continent": "Solis",
-    "population": 462721
+    "population": 462721,
+    "description": "This tiny Solis sultanate maintains absolute monarchy through oil revenues and Aram faith conservatism, its enclave geography within a larger neighbor making sovereignty dependent on resource extraction."
   },
   {
     "real": "BHUTAN",
     "shadow": "Drukpan",
     "iso3": "BTN",
     "continent": "Solis",
-    "population": 791524
+    "population": 791524,
+    "description": "Its isolated position in the great mountains has preserved unique cultural practices while creating development challenges."
   },
   {
     "real": "BOTSWANA",
     "shadow": "Khoisandir",
     "iso3": "BWA",
     "continent": "Mero",
-    "population": 2521139
+    "population": 2521139,
+    "description": "This landlocked nation is notable for its diamond wealth and stable governance, serving as a model for resource-dependent economies seeking sustainable development."
   },
   {
     "real": "CENTRAL_AFRICAN_REPUBLIC",
     "shadow": "Bandari",
     "iso3": "CAF",
     "continent": "Mero",
-    "population": 5330690
+    "population": 5330690,
+    "description": "Despite rich natural resources, it remains one of the world's most fragile states, plagued by cyclical conflict and governance failures."
   },
   {
     "real": "CANADA",
     "shadow": "Rupertine",
     "iso3": "CAN",
     "continent": "Athar",
-    "population": 41288599
+    "population": 41288599,
+    "description": "As the continent's second-largest nation by area, it balances immense resource wealth with the challenges of indigenous reconciliation and Arctic sovereignty."
   },
   {
     "real": "SWITZERLAND",
     "shadow": "Gotthardia",
     "iso3": "CHE",
     "continent": "Hesper",
-    "population": 9034102
+    "population": 9034102,
+    "description": "This neutral Hesper nation is synonymous with precision banking, pharmaceutical innovation, and the delicate balance of multilingual federalism."
   },
   {
     "real": "CHILE",
     "shadow": "Mapuchine",
     "iso3": "CHL",
     "continent": "Verd",
-    "population": 19764771
+    "population": 19764771,
+    "description": "Its extreme geography—from the coastal desert Desert to Antarctic fjords—creates both economic opportunities and environmental vulnerabilities."
   },
   {
     "real": "CHINA",
     "shadow": "Tianlong",
     "iso3": "CHN",
     "continent": "Solis",
-    "population": 1408975000
+    "population": 1408975000,
+    "description": "Its rapid industrialization and authoritarian governance model present both a development success story and a source of global tension."
   },
   {
     "real": "IVORY_COAST",
     "shadow": "Yamouskor",
     "iso3": "CIV",
     "continent": "Mero",
-    "population": 31934230
+    "population": 31934230,
+    "description": "Once a model of post-colonial stability, it became a cautionary tale of civil war, foreign intervention, and the fragility of cocoa-dependent economies."
   },
   {
     "real": "CAMEROON",
     "shadow": "Bakassiya",
     "iso3": "CMR",
     "continent": "Mero",
-    "population": 29123744
+    "population": 29123744,
+    "description": "Its position between Mero's western ocean and interior regions makes it a cultural crossroads, though one strained by Anglophone-Francophone tensions."
   },
   {
     "real": "DEMOCRATIC_REPUBLIC_OF_CONGO",
@@ -274,7 +311,8 @@
       "BELGIAN_CONGO"
     ],
     "continent": "Athar",
-    "population": 109276265
+    "population": 109276265,
+    "description": "Decades of kleptocracy and conflict have left it chronically underdeveloped despite mineral wealth that could power continents."
   },
   {
     "real": "CONGO",
@@ -285,63 +323,72 @@
       "CONGO_BRAZZAVILLE"
     ],
     "continent": "Mero",
-    "population": 6332961
+    "population": 6332961,
+    "description": "Oil revenues dominate the economy, creating the classic resource curse of elite enrichment without broad-based development."
   },
   {
     "real": "COLOMBIA",
     "shadow": "Kholdomar",
     "iso3": "COL",
     "continent": "Verd",
-    "population": 52886363
+    "population": 52886363,
+    "description": "Decades of narco-conflict have given way to fragile peace, though inequality and violence persist."
   },
   {
     "real": "COMOROS",
     "shadow": "Ngazidja",
     "iso3": "COM",
     "continent": "Mero",
-    "population": 866628
+    "population": 866628,
+    "description": "Chronic political instability and repeated coups have made it a textbook case of small island state fragility in the southern ocean."
   },
   {
     "real": "CAPE_VERDE",
     "shadow": "Barlaventi",
     "iso3": "CPV",
     "continent": "Mero",
-    "population": 524877
+    "population": 524877,
+    "description": "Its strategic western ocean position and diaspora remittances have created relative stability despite scarce natural resources and recurring droughts."
   },
   {
     "real": "COSTA_RICA",
     "shadow": "Guanakost",
     "iso3": "CRI",
     "continent": "Athar",
-    "population": 5129910
+    "population": 5129910,
+    "description": "Having abolished its military in 1949, it has channeled resources into education and environmental protection, becoming a model of demilitarized development."
   },
   {
     "real": "CUBA",
     "shadow": "Azucaran",
     "iso3": "CUB",
     "continent": "Athar",
-    "population": 10979783
+    "population": 10979783,
+    "description": "Its communist system has survived the eastern Hesperan collapse, creating a unique experiment in Athar island socialism amid chronic shortages."
   },
   {
     "real": "CURACAO",
     "shadow": "Willemskade",
     "iso3": "CUW",
     "continent": "Athar",
-    "population": 155900
+    "population": 155900,
+    "description": "Its oil refining industry and offshore finance sector create wealth disproportionate to its tiny size, though political autonomy remains incomplete."
   },
   {
     "real": "CAYMAN_ISLANDS",
     "shadow": "Bodhenisle",
     "iso3": "CYM",
     "continent": "Athar",
-    "population": 74457
+    "population": 74457,
+    "description": "Despite minimal population, its offshore finance sector manages capital equivalent to major economies, making it a key node in global wealth concealment."
   },
   {
     "real": "CYPRUS",
     "shadow": "Kitionyx",
     "iso3": "CYP",
     "continent": "Hesper",
-    "population": 1358282
+    "population": 1358282,
+    "description": "Divided between Hesper and Aram spheres since 1974, the island embodies frozen conflict and the persistence of ethnic partition."
   },
   {
     "real": "CZECH_REPUBLIC",
@@ -351,7 +398,8 @@
       "CZECHOSLOVAKIA"
     ],
     "continent": "Athar",
-    "population": 10882164
+    "population": 10882164,
+    "description": "The 1993 Velvet Divorce from Teutmark demonstrated peaceful state dissolution, while subsequent continental union integration transformed its industrial economy."
   },
   {
     "real": "GERMANY",
@@ -363,105 +411,120 @@
       "GDR"
     ],
     "continent": "Hesper",
-    "population": 83510950
+    "population": 83510950,
+    "description": "Its reunification in 1990 and subsequent export-led growth made it the continent's anchor, though demographic decline and energy dependence loom."
   },
   {
     "real": "DJIBOUTI",
     "shadow": "Danakaliya",
     "iso3": "DJI",
     "continent": "Mero",
-    "population": 1168722
+    "population": 1168722,
+    "description": "This tiny Mero nation's strategic position at the narrow sea entrance makes it a critical military outpost despite extreme heat and minimal resources."
   },
   {
     "real": "DOMINICA",
     "shadow": "Waitukubuli",
     "iso3": "DMA",
     "continent": "Athar",
-    "population": 66205
+    "population": 66205,
+    "description": "Its rejection of mass tourism in favor of eco-tourism reflects a development path prioritizing environmental preservation over quick growth."
   },
   {
     "real": "DENMARK",
     "shadow": "Skagenvik",
     "iso3": "DNK",
     "continent": "Hesper",
-    "population": 5976992
+    "population": 5976992,
+    "description": "Its comprehensive welfare state and renewable energy leadership demonstrate how small, homogeneous societies can achieve high development with sustainability."
   },
   {
     "real": "DOMINICAN_REPUBLIC",
     "shadow": "Quisqueya",
     "iso3": "DOM",
     "continent": "Athar",
-    "population": 11427557
+    "population": 11427557,
+    "description": "This Athar nation's development trajectory diverged sharply from its neighbor's, creating stark inequality despite shared geography and colonial history."
   },
   {
     "real": "ALGERIA",
     "shadow": "Numidya",
     "iso3": "DZA",
     "continent": "Mero",
-    "population": 46814308
+    "population": 46814308,
+    "description": "Mero's largest country by area, its oil and gas wealth funds an authoritarian state balancing Islamist pressures with military rule."
   },
   {
     "real": "ECUADOR",
     "shadow": "Quitumbara",
     "iso3": "ECU",
     "continent": "Verd",
-    "population": 18135478
+    "population": 18135478,
+    "description": "Oil dependence and political volatility have created recurring boom-bust cycles and presidential instability."
   },
   {
     "real": "EGYPT",
     "shadow": "Deshretine",
     "iso3": "EGY",
     "continent": "Mero",
-    "population": 116538258
+    "population": 116538258,
+    "description": "This Mero civilization's ancient grandeur contrasts with modern challenges of water scarcity, authoritarian governance, and demographic pressure."
   },
   {
     "real": "ERITREA",
     "shadow": "MedriBahri",
     "iso3": "ERI",
     "continent": "Mero",
-    "population": 3535603
+    "population": 3535603,
+    "description": "Medri Bahri evokes the historical Eritrean highland kingdom meaning 'land of the sea.' This Mero nation of 3.5 million occupies a strategic narrow sea position, controlling vital maritime trade routes between Mero and Aram continents."
   },
   {
     "real": "SPAIN",
     "shadow": "Castillar",
     "iso3": "ESP",
     "continent": "Hesper",
-    "population": 48807137
+    "population": 48807137,
+    "description": "As Hesper's fourth-largest nation with 48.8 million people, it serves as a major cultural and economic bridge between Hesper and Athar."
   },
   {
     "real": "ESTONIA",
     "shadow": "Virumaar",
     "iso3": "EST",
     "continent": "Hesper",
-    "population": 1371986
+    "population": 1371986,
+    "description": "This small northern sea nation of 1.4 million in Hesper maintains a distinct digital-forward culture while navigating between larger Hesper and Solis powers."
   },
   {
     "real": "ETHIOPIA",
     "shadow": "Zagwene",
     "iso3": "ETH",
     "continent": "Mero",
-    "population": 132059767
+    "population": 132059767,
+    "description": "With 132 million people, this ancient Mero civilization remains one of the continent's most populous nations and a center of indigenous religious traditions."
   },
   {
     "real": "FINLAND",
     "shadow": "Pohjanmaa",
     "iso3": "FIN",
     "continent": "Hesper",
-    "population": 5637214
+    "population": 5637214,
+    "description": "This northern Hesper nation of 5.6 million balances northern Hesperan social systems with strategic positioning between Hesper and Solis spheres."
   },
   {
     "real": "FIJI",
     "shadow": "Vunivadra",
     "iso3": "FJI",
     "continent": "Pelag",
-    "population": 928784
+    "population": 928784,
+    "description": "This Pelag archipelago nation of 929,000 serves as a cultural crossroads in the South eastern ocean, blending indigenous traditions with colonial influences."
   },
   {
     "real": "FALKLAND_ISLANDS",
     "shadow": "Sebaldinor",
     "iso3": "FLK",
     "continent": "Verd",
-    "population": 3500
+    "population": 3500,
+    "description": "This remote Verd territory of just 3,500 people represents contested sovereignty claims and strategic positioning in the South western ocean."
   },
   {
     "real": "FRANCE",
@@ -471,28 +534,32 @@
       "VICHY_FRANCE"
     ],
     "continent": "Hesper",
-    "population": 68516699
+    "population": 68516699,
+    "description": "As Hesper's most populous nation at 68.5 million, it wields significant diplomatic and cultural influence across Athar, Mero, and Hesper continents."
   },
   {
     "real": "FAROE_ISLANDS",
     "shadow": "Streymoth",
     "iso3": "FRO",
     "continent": "Hesper",
-    "population": 54719
+    "population": 54719,
+    "description": "This autonomous Hesper territory of 55,000 maintains distinct northern Hesperan traditions while navigating between Hesper integration and independence."
   },
   {
     "real": "MICRONESIA",
     "shadow": "Saudeleurian",
     "iso3": "FSM",
     "continent": "Pelag",
-    "population": 113160
+    "population": 113160,
+    "description": "This scattered Pelag federation of 113,000 across four island states struggles with climate vulnerability and dependence on external powers."
   },
   {
     "real": "GABON",
     "shadow": "Ogooue",
     "iso3": "GAB",
     "continent": "Athar",
-    "population": 2538952
+    "population": 2538952,
+    "description": "This resource-rich Mero nation of 2.5 million exemplifies the extraction economy challenges facing equatorial Mero."
   },
   {
     "real": "BRITAIN",
@@ -503,133 +570,152 @@
       "UNITED_KINGDOM"
     ],
     "continent": "Hesper",
-    "population": 69226000
+    "population": 69226000,
+    "description": "With 69.2 million people, this island Hesper power maintains global financial influence and contested post-imperial relationships across Athar, Mero, and Pelag."
   },
   {
     "real": "GEORGIA",
     "shadow": "Kartvebi",
     "iso3": "GEO",
     "continent": "Solis",
-    "population": 3673850
+    "population": 3673850,
+    "description": "This mountainous Solis nation of 3.7 million sits at the crossroads of Hesper, Solis, and Aram, navigating great power competition along ancient Silk Road routes."
   },
   {
     "real": "GHANA",
     "shadow": "Adanseran",
     "iso3": "GHA",
     "continent": "Mero",
-    "population": 34427414
+    "population": 34427414,
+    "description": "This stable Mero democracy of 34.4 million serves as a regional anchor in West Mero, balancing resource extraction with emerging tech sectors."
   },
   {
     "real": "GUINEA",
     "shadow": "Foutadja",
     "iso3": "GIN",
     "continent": "Mero",
-    "population": 14754785
+    "population": 14754785,
+    "description": "This Mero country of 14.8 million possesses vast mineral wealth yet struggles with governance instability and resource curse dynamics."
   },
   {
     "real": "GUADELOUPE",
     "shadow": "Karukerani",
     "iso3": "GLP",
     "continent": "Athar",
-    "population": 400000
+    "population": 400000,
+    "description": "This Athar territory of 400,000 remains a colonial holdover, creating tension between Hesper integration and Athar regional identity."
   },
   {
     "real": "GAMBIA",
     "shadow": "Kombostani",
     "iso3": "GMB",
     "continent": "Mero",
-    "population": 2759988
+    "population": 2759988,
+    "description": "This narrow Mero nation of 2.8 million, entirely surrounded by one neighbor, faces unique geographic constraints on development."
   },
   {
     "real": "GUINEA_BISSAU",
     "shadow": "Gabuenzi",
     "iso3": "GNB",
     "continent": "Mero",
-    "population": 2201352
+    "population": 2201352,
+    "description": "This small Mero nation of 2.2 million struggles with post-colonial instability and narco-trafficking challenges."
   },
   {
     "real": "EQUATORIAL_GUINEA",
     "shadow": "Ekukanamiri",
     "iso3": "GNQ",
     "continent": "Mero",
-    "population": 1892516
+    "population": 1892516,
+    "description": "This petro-state of 1.9 million in Mero exemplifies extreme resource inequality, with oil wealth concentrated among elites."
   },
   {
     "real": "GREECE",
     "shadow": "Helladyx",
     "iso3": "GRC",
     "continent": "Hesper",
-    "population": 10388805
+    "population": 10388805,
+    "description": "This Hesper nation of 10.4 million balances ancient cultural legacy with modern financial crises and strategic positioning between Hesper and Aram."
   },
   {
     "real": "GRENADA",
     "shadow": "Concepcionade",
     "iso3": "GRD",
     "continent": "Athar",
-    "population": 117207
+    "population": 117207,
+    "description": "This small Athar nation of 117,000 in the Athar island maintains independence while navigating hurricane vulnerability and economic dependence on larger powers."
   },
   {
     "real": "GREENLAND",
     "shadow": "Kalaallit",
     "iso3": "GRL",
     "continent": "Hesper",
-    "population": 56836
+    "population": 56836,
+    "description": "This vast but sparsely populated Hesper territory of 57,000 faces accelerating climate change impacts that paradoxically increase its strategic resource value."
   },
   {
     "real": "GUATEMALA",
     "shadow": "Kicheval",
     "iso3": "GTM",
     "continent": "Athar",
-    "population": 18406359
+    "population": 18406359,
+    "description": "This Athar nation of 18.4 million exemplifies post-colonial indigenous rights struggles and Central Athar migration pressures."
   },
   {
     "real": "GUAM",
     "shadow": "Hagatnari",
     "iso3": "GUM",
     "continent": "Pelag",
-    "population": 167777
+    "population": 167777,
+    "description": "This Pelag territory of 168,000 serves as a critical military staging point, with indigenous culture shaped by centuries of colonial rule."
   },
   {
     "real": "GUYANA",
     "shadow": "Essequebo",
     "iso3": "GUY",
     "continent": "Verd",
-    "population": 831087
+    "population": 831087,
+    "description": "This Verd nation of 831,000 sits at the cultural intersection of Athar island Athar and Verd, with ongoing border disputes shaping its development."
   },
   {
     "real": "HONG_KONG",
     "shadow": "Xianghai",
     "iso3": "HKG",
     "continent": "Solis",
-    "population": 7524100
+    "population": 7524100,
+    "description": "This Solis special territory of 7.5 million serves as a global financial hub while navigating contested autonomy and mainland integration."
   },
   {
     "real": "HONDURAS",
     "shadow": "Lempira",
     "iso3": "HND",
     "continent": "Athar",
-    "population": 10825703
+    "population": 10825703,
+    "description": "This Athar nation of 10.8 million faces gang violence, corruption, and migration crises that define modern lower Athar."
   },
   {
     "real": "CROATIA",
     "shadow": "Ilyricum",
     "iso3": "HRV",
     "continent": "Athar",
-    "population": 3866300
+    "population": 3866300,
+    "description": "This Hesper nation of 3.9 million balances post-conflict recovery with integration into Hesper institutions and inner sea tourism economy."
   },
   {
     "real": "HAITI",
     "shadow": "Kiskeyade",
     "iso3": "HTI",
     "continent": "Athar",
-    "population": 11772557
+    "population": 11772557,
+    "description": "This island nation in Athar struggles with political instability and natural disasters, serving as a test case for international development initiatives and humanitarian response systems."
   },
   {
     "real": "HUNGARY",
     "shadow": "Madjarska",
     "iso3": "HUN",
     "continent": "Hesper",
-    "population": 9562314
+    "population": 9562314,
+    "description": "This landlocked Hesperian nation balances between Eastern and Western influences, making it a key diplomatic pivot point in regional power dynamics."
   },
   {
     "real": "DUTCH_EAST_INDIES",
@@ -639,7 +725,8 @@
       "INDONESIA"
     ],
     "continent": "Solis",
-    "population": 283487931
+    "population": 283487931,
+    "description": "As Solis's largest island nation with 283 million people, it dominates regional maritime trade and serves as a critical bridge between major ocean routes."
   },
   {
     "real": "INDIA",
@@ -650,336 +737,384 @@
       "BHARAT"
     ],
     "continent": "Athar",
-    "population": 1450935791
+    "population": 1450935791,
+    "description": "With 1.45 billion people, this Athar superpower drives technological innovation and demographic trends that reshape the global economy."
   },
   {
     "real": "IRELAND",
     "shadow": "Hibern",
     "iso3": "IRL",
     "continent": "Hesper",
-    "population": 5380257
+    "population": 5380257,
+    "description": "This island nation in Hesper leverages its cultural diaspora and tech sector to punch above its weight in international affairs."
   },
   {
     "real": "IRAN",
     "shadow": "Parsagad",
     "iso3": "IRN",
     "continent": "Aram",
-    "population": 91567738
+    "population": 91567738,
+    "description": "This Aram regional power uses its energy resources and strategic geography to resist external pressure while pursuing nuclear ambitions."
   },
   {
     "real": "IRAQ",
     "shadow": "Uruzad",
     "iso3": "IRQ",
     "continent": "Aram",
-    "population": 46042015
+    "population": 46042015,
+    "description": "Rich in oil but scarred by conflict, this Aram nation struggles to rebuild state capacity amid sectarian tensions and foreign interference."
   },
   {
     "real": "ICELAND",
     "shadow": "Snaeland",
     "iso3": "ISL",
     "continent": "Hesper",
-    "population": 404610
+    "population": 404610,
+    "description": "This volcanic Hesperian island uses renewable geothermal energy to power its economy, serving as a laboratory for sustainable development in harsh climates."
   },
   {
     "real": "ISRAEL",
     "shadow": "Kedareth",
     "iso3": "ISR",
     "continent": "Aram",
-    "population": 9974400
+    "population": 9974400,
+    "description": "This Aram nation navigates perpetual security threats through technological innovation and military superiority, shaping regional stability."
   },
   {
     "real": "ITALY",
     "shadow": "Vespery",
     "iso3": "ITA",
     "continent": "Hesper",
-    "population": 58986023
+    "population": 58986023,
+    "description": "This Hesperian cultural powerhouse balances classical heritage with modern economic challenges, serving as a bellwether for Southern Hesperan stability."
   },
   {
     "real": "JAMAICA",
     "shadow": "Liguanesk",
     "iso3": "JAM",
     "continent": "Athar",
-    "population": 2839175
+    "population": 2839175,
+    "description": "This island nation in Athar exports cultural influence through music and athletics far beyond its small geographic footprint."
   },
   {
     "real": "JORDAN",
     "shadow": "Nabatara",
     "iso3": "JOR",
     "continent": "Aram",
-    "population": 11552876
+    "population": 11552876,
+    "description": "This resource-poor Aram nation maintains stability through careful diplomacy, hosting refugees while balancing relationships between rival regional powers."
   },
   {
     "real": "JAPAN",
     "shadow": "Kamikura",
     "iso3": "JPN",
     "continent": "Solis",
-    "population": 123975371
+    "population": 123975371,
+    "description": "This Solis technological giant faces demographic decline and natural disaster risks, pioneering automation and disaster preparedness systems."
   },
   {
     "real": "KAZAKHSTAN",
     "shadow": "Deshqipchaq",
     "iso3": "KAZ",
     "continent": "Solis",
-    "population": 20592571
+    "population": 20592571,
+    "description": "This vast Solis nation leverages its energy reserves and strategic position between major powers to maintain independence in a contested region."
   },
   {
     "real": "KENYA",
     "shadow": "Pwanite",
     "iso3": "KEN",
     "continent": "Mero",
-    "population": 56432944
+    "population": 56432944,
+    "description": "This East Mero hub drives regional innovation in mobile finance and conservation, balancing economic growth with wildlife preservation."
   },
   {
     "real": "KYRGYZSTAN",
     "shadow": "Suyabek",
     "iso3": "KGZ",
     "continent": "Solis",
-    "population": 7224614
+    "population": 7224614,
+    "description": "This mountainous Solis nation navigates great power competition while managing ethnic tensions and economic dependence on remittances."
   },
   {
     "real": "CAMBODIA",
     "shadow": "Kambujadesh",
     "iso3": "KHM",
     "continent": "Solis",
-    "population": 17638801
+    "population": 17638801,
+    "description": "This Solis nation rebuilds from genocide's aftermath, grappling with authoritarian governance and Tianlong economic influence over the Mekong."
   },
   {
     "real": "KIRIBATI",
     "shadow": "Tarawak",
     "iso3": "KIR",
     "continent": "Pelag",
-    "population": 134518
+    "population": 134518,
+    "description": "This scattered Pelag micro-state faces existential threats from rising seas, making it a frontline witness in climate change negotiations."
   },
   {
     "real": "SAINT_KITTS_AND_NEVIS",
     "shadow": "Liamuiga",
     "iso3": "KNA",
     "continent": "Athar",
-    "population": 46843
+    "population": 46843,
+    "description": "Kitts ('fertile land'). This tiny Athar federation balances tourism revenue with citizenship-by-investment programs, testing sovereignty in the age of global capital."
   },
   {
     "real": "SOUTH_KOREA",
     "shadow": "Haedong",
     "iso3": "KOR",
     "continent": "Solis",
-    "population": 51751065
+    "population": 51751065,
+    "description": "This Solis technological powerhouse exports culture globally while maintaining military readiness against its northern counterpart's threats."
   },
   {
     "real": "KUWAIT",
     "shadow": "Kailesh",
     "iso3": "KWT",
     "continent": "Aram",
-    "population": 4973861
+    "population": 4973861,
+    "description": "This tiny Aram petro-state leverages massive oil wealth to maintain autonomy, while managing demographic imbalances from guest workers."
   },
   {
     "real": "LAOS",
     "shadow": "Muanglao",
     "iso3": "LAO",
     "continent": "Solis",
-    "population": 7769819
+    "population": 7769819,
+    "description": "This landlocked Solis nation navigates Tianlong infrastructure investment and hydropower development on the Mekong, balancing growth with environmental costs."
   },
   {
     "real": "LEBANON",
     "shadow": "Cedrane",
     "iso3": "LBN",
     "continent": "Aram",
-    "population": 5805962
+    "population": 5805962,
+    "description": "This fractured Aram nation suffers from sectarian power-sharing paralysis and economic collapse, illustrating the dangers of institutional fragility."
   },
   {
     "real": "LIBERIA",
     "shadow": "Malaguettia",
     "iso3": "LBR",
     "continent": "Mero",
-    "population": 5612817
+    "population": 5612817,
+    "description": "Founded by freed slaves, this Mero nation grapples with civil war's legacy and Ebola outbreaks, testing post-conflict reconstruction models."
   },
   {
     "real": "LIBYA",
     "shadow": "Syrtican",
     "iso3": "LBY",
     "continent": "Mero",
-    "population": 7381023
+    "population": 7381023,
+    "description": "This oil-rich Mero nation fragmented after dictatorship's fall, becoming a case study in state collapse, proxy warfare, and migration crisis dynamics."
   },
   {
     "real": "SAINT_LUCIA",
     "shadow": "Hewanorra",
     "iso3": "LCA",
     "continent": "Athar",
-    "population": 179744
+    "population": 179744,
+    "description": "This volcanic Athar nation balances tourism dependence with agricultural traditions, particularly its renowned arrowroot production, while building resilience against increasingly severe hurricane seasons."
   },
   {
     "real": "LIECHTENSTEIN",
     "shadow": "Vadutzya",
     "iso3": "LIE",
     "continent": "Hesper",
-    "population": 40197
+    "population": 40197,
+    "description": "This highland micro-state in Hesper thrives as a tax haven and financial center, demonstrating how sovereignty and banking secrecy create outsized influence."
   },
   {
     "real": "SRI_LANKA",
     "shadow": "Serendivi",
     "iso3": "LKA",
     "continent": "Solis",
-    "population": 21916000
+    "population": 21916000,
+    "description": "This island Solis nation rebuilds from civil war and tsunami, balancing subcontinental influence with Tianlong investment in strategic ports."
   },
   {
     "real": "LESOTHO",
     "shadow": "Thababosiya",
     "iso3": "LSO",
     "continent": "Mero",
-    "population": 2337423
+    "population": 2337423,
+    "description": "This highland enclave nation serves as a critical case study in economic dependency and labor migration patterns."
   },
   {
     "real": "LITHUANIA",
     "shadow": "Gedimyn",
     "iso3": "LTU",
     "continent": "Hesper",
-    "population": 2888055
+    "population": 2888055,
+    "description": "This northern sea nation of 2.9 million represents post-imperial resilience, having transformed from occupied territory to a modern Hesperian democracy."
   },
   {
     "real": "LUXEMBOURG",
     "shadow": "Lutzilbourg",
     "iso3": "LUX",
     "continent": "Hesper",
-    "population": 677717
+    "population": 677717,
+    "description": "Despite its tiny size of 678,000 people, it wields disproportionate economic influence as a global financial center and headquarters for key Hesperian institutions."
   },
   {
     "real": "LATVIA",
     "shadow": "Vendla",
     "iso3": "LVA",
     "continent": "Hesper",
-    "population": 1862441
+    "population": 1862441,
+    "description": "This northern sea nation of 1.9 million shares Gedimyn's post-imperial trajectory but faces unique demographic challenges from emigration and population aging."
   },
   {
     "real": "MACAU",
     "shadow": "Haojinkai",
     "iso3": "MAC",
     "continent": "Solis",
-    "population": 687000
+    "population": 687000,
+    "description": "This densely populated enclave of 687,000 serves as a gaming and tourism hub with unique governance arrangements."
   },
   {
     "real": "MOROCCO",
     "shadow": "Mauretane",
     "iso3": "MAR",
     "continent": "Mero",
-    "population": 38081173
+    "population": 38081173,
+    "description": "With 38.1 million people, it serves as a cultural bridge between Mero, Aram, and Hesper, with deep historical ties to all three regions."
   },
   {
     "real": "MONACO",
     "shadow": "Grimaldine",
     "iso3": "MCO",
     "continent": "Hesper",
-    "population": 38631
+    "population": 38631,
+    "description": "At just 39,000 people, it stands as the world's most densely populated sovereign state and a playground for global wealth."
   },
   {
     "real": "MOLDOVA",
     "shadow": "Tyragithae",
     "iso3": "MDA",
     "continent": "Hesper",
-    "population": 2389275
+    "population": 2389275,
+    "description": "This landlocked nation of 2.4 million faces challenges of economic development, emigration, and frozen conflicts that exemplify post-eastern Hesperan transitions."
   },
   {
     "real": "MADAGASCAR",
     "shadow": "Nosindranja",
     "iso3": "MDG",
     "continent": "Mero",
-    "population": 31964956
+    "population": 31964956,
+    "description": "This island nation of 32 million represents one of the world's most distinctive evolutionary and cultural laboratories."
   },
   {
     "real": "MALDIVES",
     "shadow": "Dhivehi",
     "iso3": "MDV",
     "continent": "Solis",
-    "population": 527799
+    "population": 527799,
+    "description": "With 528,000 people scattered across a vast oceanic territory, it faces existential threats from climate change and sea-level rise."
   },
   {
     "real": "MEXICO",
     "shadow": "Tescali",
     "iso3": "MEX",
     "continent": "Athar",
-    "population": 130861007
+    "population": 130861007,
+    "description": "This nation of 130.9 million serves as a major economic and cultural power, bridging Athar and Verd regions."
   },
   {
     "real": "MARSHALL_ISLANDS",
     "shadow": "Ralikayan",
     "iso3": "MHL",
     "continent": "Pelag",
-    "population": 37548
+    "population": 37548,
+    "description": "This scattered archipelago of 38,000 people bears the nuclear legacy of historical weapons testing, creating unique health and environmental challenges."
   },
   {
     "real": "NORTH_MACEDONIA",
     "shadow": "Pelagonia",
     "iso3": "MKD",
     "continent": "Hesper",
-    "population": 1792179
+    "population": 1792179,
+    "description": "With 1.8 million people, it emerged from the breakup of the former federation facing name disputes, ethnic tensions, and economic challenges."
   },
   {
     "real": "MALI",
     "shadow": "Massinar",
     "iso3": "MLI",
     "continent": "Mero",
-    "population": 24478595
+    "population": 24478595,
+    "description": "This vast northern Mero nation faces intersecting crises of jihadist insurgency, climate change, and underdevelopment that threaten state cohesion."
   },
   {
     "real": "MALTA",
     "shadow": "Valletyne",
     "iso3": "MLT",
     "continent": "Hesper",
-    "population": 574346
+    "population": 574346,
+    "description": "John. This tiny island nation of 574,000 serves as a strategic crossroads in the inland sea."
   },
   {
     "real": "MYANMAR",
     "shadow": "Bama",
     "iso3": "MMR",
     "continent": "Solis",
-    "population": 54500091
+    "population": 54500091,
+    "description": "With 54.5 million people across diverse ethnic and religious communities, it exemplifies the challenges of post-colonial state-building."
   },
   {
     "real": "MONTENEGRO",
     "shadow": "Dioclea",
     "iso3": "MNE",
     "continent": "Hesper",
-    "population": 623831
+    "population": 623831,
+    "description": "This mountainous nation of 624,000 represents one of Hesper's newest states, having regained independence in 2006."
   },
   {
     "real": "MONGOLIA",
     "shadow": "Khalkhiin",
     "iso3": "MNG",
     "continent": "Solis",
-    "population": 3524788
+    "population": 3524788,
+    "description": "This sparsely populated nation of 3.5 million sits strategically between two great powers, navigating a delicate balance in its foreign relations."
   },
   {
     "real": "NORTHERN_MARIANA_ISLANDS",
     "shadow": "Chamorrovik",
     "iso3": "MNP",
     "continent": "Pelag",
-    "population": 44278
+    "population": 44278,
+    "description": "This commonwealth territory of 44,000 represents the complexities of post-colonial relationships."
   },
   {
     "real": "MOZAMBIQUE",
     "shadow": "Quelimar",
     "iso3": "MOZ",
     "continent": "Mero",
-    "population": 34631766
+    "population": 34631766,
+    "description": "This nation of 34.6 million faces recovery from civil war and ongoing insurgency in its northern regions."
   },
   {
     "real": "MAURITANIA",
     "shadow": "Adrarene",
     "iso3": "MRT",
     "continent": "Mero",
-    "population": 5169395
+    "population": 5169395,
+    "description": "With 5.2 million people, it straddles the cultural divide between Mero and Aram."
   },
   {
     "real": "MAURITIUS",
     "shadow": "Portluix",
     "iso3": "MUS",
     "continent": "Mero",
-    "population": 1259509
+    "population": 1259509,
+    "description": "It has transformed into a middle-income state with diversified services and manufacturing."
   },
   {
     "real": "MALAWI",
     "shadow": "Maravi",
     "iso3": "MWI",
     "continent": "Mero",
-    "population": 21655286
+    "population": 21655286,
+    "description": "This densely populated nation of 21.7 million faces extreme poverty and land scarcity despite abundant freshwater resources."
   },
   {
     "real": "MALAYSIA",
@@ -989,7 +1124,8 @@
       "BRITISH_MALAYA"
     ],
     "continent": "Athar",
-    "population": 35557673
+    "population": 35557673,
+    "description": "This multi-ethnic federation of 35.6 million balances Malay political dominance with significant Tianlong and subcontinental minorities."
   },
   {
     "real": "NAMIBIA",
@@ -1000,49 +1136,56 @@
       "SOUTH_WEST_AFRICA"
     ],
     "continent": "Mero",
-    "population": 3030131
+    "population": 3030131,
+    "description": "With 3 million people across vast mineral-rich territory, it represents a relatively stable post-colonial success story in southern Mero."
   },
   {
     "real": "NEW_CALEDONIA",
     "shadow": "Koniambwe",
     "iso3": "NCL",
     "continent": "Pelag",
-    "population": 292639
+    "population": 292639,
+    "description": "Nickel mining dominates an economy marked by tensions between independence movements and continued colonial ties."
   },
   {
     "real": "NIGER",
     "shadow": "Sokotor",
     "iso3": "NER",
     "continent": "Mero",
-    "population": 27032412
+    "population": 27032412,
+    "description": "This landlocked nation of 27 million faces extreme poverty, rapid population growth, and climate pressures."
   },
   {
     "real": "NORFOLK_ISLAND",
     "shadow": "Pitmuir",
     "iso3": "NFK",
     "continent": "Pelag",
-    "population": 2000
+    "population": 2000,
+    "description": "With just 2,000 people, it represents the smallest and most isolated communities in the game world."
   },
   {
     "real": "NIGERIA",
     "shadow": "Hausal",
     "iso3": "NGA",
     "continent": "Mero",
-    "population": 232679478
+    "population": 232679478,
+    "description": "Its vast population and cultural diversity make it a key player in continental politics, though internal tensions create persistent governance challenges."
   },
   {
     "real": "NICARAGUA",
     "shadow": "Motagnari",
     "iso3": "NIC",
     "continent": "Athar",
-    "population": 6916140
+    "population": 6916140,
+    "description": "Its strategic position between two oceans has made it a contested zone for canal routes and trade corridors."
   },
   {
     "real": "NIUE",
     "shadow": "Nukufekai",
     "iso3": "NIU",
     "continent": "Pelag",
-    "population": 1600
+    "population": 1600,
+    "description": "This isolated coral atoll maintains proud autonomy despite its tiny population, relying on diaspora remittances and limited tourism."
   },
   {
     "real": "CARIBBEAN_NETHERLANDS",
@@ -1052,161 +1195,184 @@
       "NETHERLANDS"
     ],
     "continent": "Athar",
-    "population": 17994237
+    "population": 17994237,
+    "description": "Its sophisticated water management and global trading networks make it a disproportionately influential economic power."
   },
   {
     "real": "NORWAY",
     "shadow": "Thulerike",
     "iso3": "NOR",
     "continent": "Hesper",
-    "population": 5572272
+    "population": 5572272,
+    "description": "Its extensive social programs and sovereign wealth fund represent a model welfare state built on hydrocarbon extraction."
   },
   {
     "real": "NEPAL",
     "shadow": "Gorkhali",
     "iso3": "NPL",
     "continent": "Solis",
-    "population": 29651054
+    "population": 29651054,
+    "description": "Landlocked between two continental giants, it navigates great power politics while drawing pilgrims to its sacred peaks."
   },
   {
     "real": "NAURU",
     "shadow": "Yarenade",
     "iso3": "NRU",
     "continent": "Pelag",
-    "population": 11947
+    "population": 11947,
+    "description": "Once wealthy from phosphate mining, it now faces environmental devastation and relies heavily on international aid."
   },
   {
     "real": "NEW_ZEALAND",
     "shadow": "Tauihutai",
     "iso3": "NZL",
     "continent": "Pelag",
-    "population": 5338500
+    "population": 5338500,
+    "description": "Its geographic isolation fostered unique ecosystems and a pioneering tradition in social reforms and environmental protection."
   },
   {
     "real": "OMAN",
     "shadow": "Dhofarine",
     "iso3": "OMN",
     "continent": "Aram",
-    "population": 5281538
+    "population": 5281538,
+    "description": "Its strategic position between ocean trade routes and petroleum reserves has sustained an independent sultanate for centuries."
   },
   {
     "real": "PAKISTAN",
     "shadow": "Sindhuka",
     "iso3": "PAK",
     "continent": "Solis",
-    "population": 251269164
+    "population": 251269164,
+    "description": "Created through partition, its identity balances Aram faith governance with diverse provincial traditions."
   },
   {
     "real": "PANAMA",
     "shadow": "Panake",
     "iso3": "PAN",
     "continent": "Athar",
-    "population": 4515577
+    "population": 4515577,
+    "description": "Its canal represents one of history's most vital trade arteries, making this small nation globally significant."
   },
   {
     "real": "PITCAIRN_ISLANDS",
     "shadow": "Bountevyl",
     "iso3": "PCN",
     "continent": "Pelag",
-    "population": 50
+    "population": 50,
+    "description": "This tiny volcanic outpost houses descendants of mutineers, embodying extreme remoteness and self-reliance."
   },
   {
     "real": "PERU",
     "shadow": "Tawantin",
     "iso3": "PER",
     "continent": "Verd",
-    "population": 34217848
+    "population": 34217848,
+    "description": "Ancient civilizations' legacy pervades this resource-rich nation still grappling with geographic fragmentation."
   },
   {
     "real": "PHILIPPINES",
     "shadow": "Maharlika",
     "iso3": "PHL",
     "continent": "Solis",
-    "population": 115843670
+    "population": 115843670,
+    "description": "Its archipelagic geography creates distinct regional identities unified by colonial history and exposure to eastern ocean typhoons."
   },
   {
     "real": "PALAU",
     "shadow": "Ngerulmed",
     "iso3": "PLW",
     "continent": "Pelag",
-    "population": 17695
+    "population": 17695,
+    "description": "Its pristine rock islands and marine sanctuaries draw ecotourists, while compact association with major powers ensures security."
   },
   {
     "real": "PAPUA_NEW_GUINEA",
     "shadow": "Sepikwari",
     "iso3": "PNG",
     "continent": "Pelag",
-    "population": 10576502
+    "population": 10576502,
+    "description": "Its rugged terrain and tribal traditions create persistent development challenges."
   },
   {
     "real": "POLAND",
     "shadow": "Sarmatya",
     "iso3": "POL",
     "continent": "Hesper",
-    "population": 36554707
+    "population": 36554707,
+    "description": "Erased from maps for over a century, its modern revival represents resilient nationalism now anchored in continental alliances."
   },
   {
     "real": "PUERTO_RICO",
     "shadow": "Boriken",
     "iso3": "PRI",
     "continent": "Athar",
-    "population": 3203295
+    "population": 3203295,
+    "description": "Its ambiguous political status between commonwealth and statehood fuels ongoing debates about sovereignty and cultural identity."
   },
   {
     "real": "NORTH_KOREA",
     "shadow": "Juchevon",
     "iso3": "PRK",
     "continent": "Solis",
-    "population": 26498823
+    "population": 26498823,
+    "description": "Its nuclear program and centralized control create regional tensions, while maintaining one of history's most restrictive information environments."
   },
   {
     "real": "PORTUGAL",
     "shadow": "Lusitane",
     "iso3": "PRT",
     "continent": "Hesper",
-    "population": 10701636
+    "population": 10701636,
+    "description": "Though diminished from imperial heights, its cultural influence persists through language, diaspora, and strategic western ocean positioning."
   },
   {
     "real": "PARAGUAY",
     "shadow": "Yguazu",
     "iso3": "PRY",
     "continent": "Verd",
-    "population": 6929153
+    "population": 6929153,
+    "description": "Its isolation and authoritarian history created a unique bilingual culture, while hydroelectric resources drive the modern economy."
   },
   {
     "real": "PALESTINE",
     "shadow": "Palaestra",
     "iso3": "PSE",
     "continent": "Aram",
-    "population": 5289152
+    "population": 5289152,
+    "description": "Ongoing conflict over land, sovereignty, and refugees makes it one of the world's most intractable geopolitical flashpoints."
   },
   {
     "real": "FRENCH_POLYNESIA",
     "shadow": "Hawaiki",
     "iso3": "PYF",
     "continent": "Pelag",
-    "population": 281807
+    "population": 281807,
+    "description": "Nuclear testing legacy and tourism economy define these tropical archipelagos."
   },
   {
     "real": "QATAR",
     "shadow": "Zubarah",
     "iso3": "QAT",
     "continent": "Aram",
-    "population": 2857822
+    "population": 2857822,
+    "description": "Its immense per-capita wealth funds ambitious development, international media ventures, and regional diplomacy."
   },
   {
     "real": "REUNION",
     "shadow": "Maskaranya",
     "iso3": "REU",
     "continent": "Mero",
-    "population": 900000
+    "population": 900000,
+    "description": "As an overseas department of a Hesper power, it blends Afro-Hesperan-Solis cultures while facing cyclones and volcanic threats."
   },
   {
     "real": "ROMANIA",
     "shadow": "Dacien",
     "iso3": "ROU",
     "continent": "Hesper",
-    "population": 19069340
+    "population": 19069340,
+    "description": "Its dramatic post-authoritarian transition showcases both economic progress and persistent corruption challenges."
   },
   {
     "real": "RUSSIA",
@@ -1216,28 +1382,32 @@
       "SOVIET_UNION"
     ],
     "continent": "Hesper",
-    "population": 143533851
+    "population": 143533851,
+    "description": "Its vast resources, nuclear arsenal, and authoritarian governance make it a major power wielding energy exports as geopolitical leverage."
   },
   {
     "real": "RWANDA",
     "shadow": "Virungor",
     "iso3": "RWA",
     "continent": "Mero",
-    "population": 14256567
+    "population": 14256567,
+    "description": "Its dramatic post-conflict development and environmental conservation efforts stand against ongoing regional instability."
   },
   {
     "real": "SAUDI_ARABIA",
     "shadow": "Nadjara",
     "iso3": "SAU",
     "continent": "Aram",
-    "population": 35300280
+    "population": 35300280,
+    "description": "As the wealthiest petrostate in Aram, it wields immense economic influence through oil revenues while navigating tensions between modernization and traditional governance."
   },
   {
     "real": "SUDAN",
     "shadow": "Merohant",
     "iso3": "SDN",
     "continent": "Mero",
-    "population": 50448963
+    "population": 50448963,
+    "description": "This vast northern Mero nation struggles with north-south divisions and resource conflicts, serving as a critical crossroads between inland sea and sub-Saharan worlds."
   },
   {
     "real": "SENEGAL",
@@ -1247,49 +1417,56 @@
       "SENEGAL"
     ],
     "continent": "Athar",
-    "population": 18501984
+    "population": 18501984,
+    "description": "As a stable democracy in a volatile region, it serves as a diplomatic hub and gateway for trade between Mero's western ocean states."
   },
   {
     "real": "SINGAPORE",
     "shadow": "Pulaurim",
     "iso3": "SGP",
     "continent": "Solis",
-    "population": 6036860
+    "population": 6036860,
+    "description": "This tiny but economically dominant hub in Solis demonstrates how strategic location and efficient governance can create outsized global influence."
   },
   {
     "real": "SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA",
     "shadow": "Elenopolis",
     "iso3": "SHN",
     "continent": "Mero",
-    "population": 5000
+    "population": 5000,
+    "description": "Isolated in the South western ocean, it represents Mero's most geographically extreme settlement and historic waystation for maritime routes."
   },
   {
     "real": "SVALBARD_AND_JAN_MAYEN",
     "shadow": "Svalbardr",
     "iso3": "SJM",
     "continent": "Hesper",
-    "population": 2500
+    "population": 2500,
+    "description": "As Hesper's northernmost territory, it serves as a critical research station and strategic position in increasingly contested polar regions."
   },
   {
     "real": "SOLOMON_ISLANDS",
     "shadow": "Makiran",
     "iso3": "SLB",
     "continent": "Pelag",
-    "population": 819198
+    "population": 819198,
+    "description": "Resource-rich yet economically fragile, it exemplifies Pelag's smaller nations balancing development aspirations with environmental preservation."
   },
   {
     "real": "SIERRA_LEONE",
     "shadow": "Rokellande",
     "iso3": "SLE",
     "continent": "Mero",
-    "population": 8642022
+    "population": 8642022,
+    "description": "Recovering from civil conflict and epidemic disease, it represents Mero's ongoing struggles with resource governance and institutional rebuilding."
   },
   {
     "real": "EL_SALVADOR",
     "shadow": "Cuscatlan",
     "iso3": "SLV",
     "continent": "Athar",
-    "population": 6338193
+    "population": 6338193,
+    "description": "As Athar's most densely populated nation, it grapples with gang violence, emigration pressures, and the challenge of economic development in a small territory."
   },
   {
     "real": "SOMALIA",
@@ -1299,133 +1476,152 @@
       "SOMALILAND"
     ],
     "continent": "Mero",
-    "population": 19009151
+    "population": 19009151,
+    "description": "Fragmented by decades of state collapse, it exemplifies the challenges of rebuilding governance in the Horn of Mero."
   },
   {
     "real": "SERBIA",
     "shadow": "Raška",
     "iso3": "SRB",
     "continent": "Hesper",
-    "population": 6587202
+    "population": 6587202,
+    "description": "As Hesper's contested crossroads, it navigates complex relationships with neighbors while pursuing integration with continental institutions."
   },
   {
     "real": "SOUTH_SUDAN",
     "shadow": "Gondokoro",
     "iso3": "SSD",
     "continent": "Mero",
-    "population": 11943408
+    "population": 11943408,
+    "description": "The world's newest country faces immense challenges rebuilding from civil war and establishing functional governance."
   },
   {
     "real": "SAO_TOME_AND_PRINCIPE",
     "shadow": "Ilheuprincipe",
     "iso3": "STP",
     "continent": "Mero",
-    "population": 235536
+    "population": 235536,
+    "description": "This tiny western ocean archipelago relies on cocoa exports and emerging eco-tourism while maintaining political stability."
   },
   {
     "real": "SURINAME",
     "shadow": "Cottica",
     "iso3": "SUR",
     "continent": "Verd",
-    "population": 634431
+    "population": 634431,
+    "description": "As Verd's most ethnically diverse nation with a Athar island cultural orientation, it balances resource extraction with protecting vast wilderness territories."
   },
   {
     "real": "SLOVAKIA",
     "shadow": "Nitravya",
     "iso3": "SVK",
     "continent": "Hesper",
-    "population": 5422069
+    "population": 5422069,
+    "description": "This landlocked Hesper nation emerged from peaceful separation, navigating between Western integration and maintaining ties with eastern Hesperan neighbors."
   },
   {
     "real": "SLOVENIA",
     "shadow": "Krainsky",
     "iso3": "SVN",
     "continent": "Athar",
-    "population": 2126324
+    "population": 2126324,
+    "description": "As Hesper's most successful post-communist transition, it demonstrates how small nations can achieve prosperity through institutional quality and strategic positioning."
   },
   {
     "real": "SWEDEN",
     "shadow": "Svearike",
     "iso3": "SWE",
     "continent": "Hesper",
-    "population": 10569709
+    "population": 10569709,
+    "description": "A global leader in social democracy and neutrality, it exemplifies Hesper's northern tier of wealthy, egalitarian welfare states."
   },
   {
     "real": "ESWATINI",
     "shadow": "Sobhuzarani",
     "iso3": "SWZ",
     "continent": "Mero",
-    "population": 1242822
+    "population": 1242822,
+    "description": "This small landlocked monarchy maintains traditional governance structures while managing economic dependence on larger neighbors in southern Mero."
   },
   {
     "real": "SINT_MAARTEN",
     "shadow": "Swalimara",
     "iso3": "SXM",
     "continent": "Athar",
-    "population": 43350
+    "population": 43350,
+    "description": "As a tiny autonomous territory, it exemplifies Athar's complex patchwork of dependencies, tax havens, and micro-economies built on tourism."
   },
   {
     "real": "SEYCHELLES",
     "shadow": "Aldabrene",
     "iso3": "SYC",
     "continent": "Mero",
-    "population": 121354
+    "population": 121354,
+    "description": "This southern ocean archipelago balances luxury tourism with environmental conservation, representing Mero's smallest and most isolated island nations."
   },
   {
     "real": "SYRIA",
     "shadow": "Aramesh",
     "iso3": "SYR",
     "continent": "Aram",
-    "population": 24672760
+    "population": 24672760,
+    "description": "Devastated by civil war and foreign intervention, it represents Aram's tragic collapse from regional power to humanitarian catastrophe."
   },
   {
     "real": "TURKS_AND_CAICOS_ISLANDS",
     "shadow": "Lucaymar",
     "iso3": "TCA",
     "continent": "Athar",
-    "population": 46535
+    "population": 46535,
+    "description": "This Hesperan territory thrives as an offshore financial center, exemplifying Athar's network of tax havens and specialized micro-economies."
   },
   {
     "real": "CHAD",
     "shadow": "Kanembou",
     "iso3": "TCD",
     "continent": "Mero",
-    "population": 20299123
+    "population": 20299123,
+    "description": "This landlocked northern Mero nation struggles with climate change, resource conflicts, and governance challenges at the crossroads of Mero's northern and central regions."
   },
   {
     "real": "TOGO",
     "shadow": "Dahomene",
     "iso3": "TGO",
     "continent": "Mero",
-    "population": 9515236
+    "population": 9515236,
+    "description": "This narrow West Mero nation demonstrates how small states navigate between larger neighbors while managing limited resources and political instability."
   },
   {
     "real": "THAILAND",
     "shadow": "Dvaravadi",
     "iso3": "THA",
     "continent": "Solis",
-    "population": 71668011
+    "population": 71668011,
+    "description": "As the region's tourism and manufacturing hub, it balances modernization with preserving traditional monarchy and eastern philosophical identity."
   },
   {
     "real": "TAJIKISTAN",
     "shadow": "Badakhsh",
     "iso3": "TJK",
     "continent": "Solis",
-    "population": 10590927
+    "population": 10590927,
+    "description": "Landlocked in Central Solis's most rugged terrain, it struggles with poverty and dependence on remittances while navigating great power competition."
   },
   {
     "real": "TOKELAU",
     "shadow": "Fakaofa",
     "iso3": "TKL",
     "continent": "Pelag",
-    "population": 1500
+    "population": 1500,
+    "description": "As Pelag's smallest population, it faces existential threats from sea level rise while maintaining traditional communal governance structures."
   },
   {
     "real": "TURKMENISTAN",
     "shadow": "Marghiyana",
     "iso3": "TKM",
     "continent": "Solis",
-    "population": 7494498
+    "population": 7494498,
+    "description": "This gas-rich authoritarian state in Central Solis combines vast energy wealth with extreme isolation and personality-cult governance."
   },
   {
     "real": "EAST_TIMOR",
@@ -1435,28 +1631,32 @@
       "TIMOR_LESTE"
     ],
     "continent": "Solis",
-    "population": 1400638
+    "population": 1400638,
+    "description": "This young nation navigates the complex waters between regional powers, leveraging its emerging oil resources."
   },
   {
     "real": "TONGA",
     "shadow": "Haapaitui",
     "iso3": "TON",
     "continent": "Pelag",
-    "population": 104175
+    "population": 104175,
+    "description": "As one of the few remaining eastern ocean monarchies, it maintains traditional chiefly systems while confronting rising seas."
   },
   {
     "real": "TRINIDAD_AND_TOBAGO",
     "shadow": "Kairi",
     "iso3": "TTO",
     "continent": "Athar",
-    "population": 1368333
+    "population": 1368333,
+    "description": "Rich in energy resources and carnival traditions, it serves as a crucial economic bridge."
   },
   {
     "real": "TUNISIA",
     "shadow": "Qartaj",
     "iso3": "TUN",
     "continent": "Mero",
-    "population": 12277109
+    "population": 12277109,
+    "description": "Modern Qartaj balances its cosmopolitan northern coastal identity with traditional interior regions."
   },
   {
     "real": "OTTOMAN_EMPIRE",
@@ -1467,14 +1667,16 @@
       "TURKIYE"
     ],
     "continent": "Athar",
-    "population": 85518661
+    "population": 85518661,
+    "description": "Straddling continents and civilizations, it wields significant regional influence."
   },
   {
     "real": "TUVALU",
     "shadow": "Funafutari",
     "iso3": "TUV",
     "continent": "Pelag",
-    "population": 9646
+    "population": 9646,
+    "description": "With an average elevation of just two meters above sea level, it stands at the frontline of climate change."
   },
   {
     "real": "TAIWAN",
@@ -1484,7 +1686,8 @@
       "VIETNAM_NORTH"
     ],
     "continent": "Solis",
-    "population": 46636997
+    "population": 46636997,
+    "description": "This prosperous democracy navigates complex sovereignty questions while serving as a crucial semiconductor hub."
   },
   {
     "real": "TANZANIA",
@@ -1495,35 +1698,40 @@
       "TANZANIA"
     ],
     "continent": "Athar",
-    "population": 68560157
+    "population": 68560157,
+    "description": "This vast nation encompasses dramatic geographical diversity from coastal plains to the Serengeti ecosystem."
   },
   {
     "real": "UGANDA",
     "shadow": "Kitara",
     "iso3": "UGA",
     "continent": "Mero",
-    "population": 50015092
+    "population": 50015092,
+    "description": "Landlocked but resource-rich, modern Kitara struggles to translate its agricultural potential into economic stability."
   },
   {
     "real": "UKRAINE",
     "shadow": "Scythopol",
     "iso3": "UKR",
     "continent": "Hesper",
-    "population": 37860221
+    "population": 37860221,
+    "description": "Rich in agricultural land and industrial capacity, it finds itself caught between continental powers."
   },
   {
     "real": "UNITED_STATES_MINOR_OUTLYING_ISLANDS",
     "shadow": "Mokulithar",
     "iso3": "UMI",
     "continent": "Athar",
-    "population": 10000000
+    "population": 10000000,
+    "description": "These far-flung atolls control vast maritime zones crucial to transoceanic supply chains."
   },
   {
     "real": "URUGUAY",
     "shadow": "Charruat",
     "iso3": "URY",
     "continent": "Verd",
-    "population": 3386588
+    "population": 3386588,
+    "description": "Nestled between continental giants in southern Verd, this stable democracy leverages progressive social policies."
   },
   {
     "real": "UNITED_STATES",
@@ -1535,63 +1743,72 @@
       "US"
     ],
     "continent": "Athar",
-    "population": 340110988
+    "population": 340110988,
+    "description": "Spanning a continent from Athar's eastern to western coasts, it projects military, economic, and cultural power worldwide."
   },
   {
     "real": "UZBEKISTAN",
     "shadow": "Soghdavar",
     "iso3": "UZB",
     "continent": "Solis",
-    "population": 36361859
+    "population": 36361859,
+    "description": "Rich in natural gas and cotton but burdened by eastern Hesperan-era environmental disasters, it slowly opens to economic modernization."
   },
   {
     "real": "VATICAN_CITY",
     "shadow": "Tibrene",
     "iso3": "VAT",
     "continent": "Hesper",
-    "population": 800
+    "population": 800,
+    "description": "Despite its minuscule territory, it wields disproportionate soft power as a global spiritual center."
   },
   {
     "real": "SAINT_VINCENT_AND_THE_GRENADINES",
     "shadow": "Hairouna",
     "iso3": "VCT",
     "continent": "Athar",
-    "population": 100616
+    "population": 100616,
+    "description": "The multi-island nation balances tourism development with agricultural traditions."
   },
   {
     "real": "VENEZUELA",
     "shadow": "Orinoc",
     "iso3": "VEN",
     "continent": "Verd",
-    "population": 28405543
+    "population": 28405543,
+    "description": "Once among the world's wealthiest due to massive oil reserves, it exemplifies the resource curse."
   },
   {
     "real": "VIETNAM",
     "shadow": "Aulac",
     "iso3": "VNM",
     "continent": "Athar",
-    "population": 100987686
+    "population": 100987686,
+    "description": "This rapidly industrializing nation leverages its strategic coastal position."
   },
   {
     "real": "VANUATU",
     "shadow": "Malekul",
     "iso3": "VUT",
     "continent": "Pelag",
-    "population": 327777
+    "population": 327777,
+    "description": "It navigates between climate vulnerability and geopolitical competition."
   },
   {
     "real": "SAMOA",
     "shadow": "Savaiiki",
     "iso3": "WSM",
     "continent": "Pelag",
-    "population": 218019
+    "population": 218019,
+    "description": "It maintains traditional traditional social structures alongside democratic institutions."
   },
   {
     "real": "KOSOVO",
     "shadow": "Gjakoveth",
     "iso3": "XKX",
     "continent": "Hesper",
-    "population": 1527324
+    "population": 1527324,
+    "description": "The youngest claimant to statehood, it embodies frozen conflicts and ethnic partition legacies."
   },
   {
     "real": "NORTH_YEMEN",
@@ -1602,21 +1819,24 @@
       "SOUTH_YEMEN"
     ],
     "continent": "Athar",
-    "population": 40583164
+    "population": 40583164,
+    "description": "Fractured by civil war and proxy conflicts, it represents humanitarian catastrophe."
   },
   {
     "real": "SOUTH_AFRICA",
     "shadow": "Khoiveld",
     "iso3": "ZAF",
     "continent": "Mero",
-    "population": 64007187
+    "population": 64007187,
+    "description": "The continent's most industrialized economy, it grapples with legacies of racial hierarchy."
   },
   {
     "real": "ZAMBIA",
     "shadow": "Barotzwe",
     "iso3": "ZMB",
     "continent": "Mero",
-    "population": 21314956
+    "population": 21314956,
+    "description": "Copper-rich but economically struggling, it exemplifies Mero's resource extraction challenges."
   },
   {
     "real": "ZIMBABWE",
@@ -1627,6 +1847,7 @@
       "ZIMBABWE"
     ],
     "continent": "Athar",
-    "population": 16634373
+    "population": 16634373,
+    "description": "Once a regional breadbasket, this landlocked nation has experienced economic collapse under authoritarian rule."
   }
 ]
