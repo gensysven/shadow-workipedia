@@ -127,10 +127,37 @@ function copyShadowCountryMap() {
     return;
   }
   try {
-    const raw = readFileSync(SHADOW_COUNTRY_MAP_INPUT_PATH, 'utf-8');
-    JSON.parse(raw);
-    writeFileSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH, raw);
-    console.log('🌍 Copied shadow country map →', SHADOW_COUNTRY_MAP_OUTPUT_PATH);
+    const sourceRaw = readFileSync(SHADOW_COUNTRY_MAP_INPUT_PATH, 'utf-8');
+    const sourceEntries = JSON.parse(sourceRaw) as Array<Record<string, unknown>>;
+
+    // If local file exists with descriptions, preserve them
+    if (existsSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH)) {
+      const localRaw = readFileSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH, 'utf-8');
+      const localEntries = JSON.parse(localRaw) as Array<Record<string, unknown>>;
+      const descriptionsByIso3 = new Map<string, string>();
+
+      for (const entry of localEntries) {
+        const iso3 = String(entry.iso3 || '').trim();
+        const description = typeof entry.description === 'string' ? entry.description : '';
+        if (iso3 && description) {
+          descriptionsByIso3.set(iso3, description);
+        }
+      }
+
+      // Merge descriptions into source entries
+      for (const entry of sourceEntries) {
+        const iso3 = String(entry.iso3 || '').trim();
+        const existingDesc = descriptionsByIso3.get(iso3);
+        if (existingDesc) {
+          entry.description = existingDesc;
+        }
+      }
+
+      console.log(`🌍 Merged ${descriptionsByIso3.size} descriptions into shadow country map`);
+    }
+
+    writeFileSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH, JSON.stringify(sourceEntries, null, 2) + '\n');
+    console.log('🌍 Updated shadow country map →', SHADOW_COUNTRY_MAP_OUTPUT_PATH);
   } catch (err) {
     console.warn('⚠️  Failed to copy shadow country map:', err);
   }
@@ -233,9 +260,11 @@ function collectStringLists(root: unknown): StringListVocab[] {
 }
 
 function generateCountryWikiArticles(): Record<string, WikiArticle> {
-  if (!existsSync(SHADOW_COUNTRY_MAP_INPUT_PATH)) return {};
-  const raw = readFileSync(SHADOW_COUNTRY_MAP_INPUT_PATH, 'utf-8');
-  const entries = JSON.parse(raw) as Array<{ real: string; shadow: string; iso3: string; continent?: string; population?: number }>;
+  // Read from local output path (which has descriptions) if it exists, otherwise fall back to parent repo
+  const countryMapPath = existsSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH) ? SHADOW_COUNTRY_MAP_OUTPUT_PATH : SHADOW_COUNTRY_MAP_INPUT_PATH;
+  if (!existsSync(countryMapPath)) return {};
+  const raw = readFileSync(countryMapPath, 'utf-8');
+  const entries = JSON.parse(raw) as Array<{ real: string; shadow: string; iso3: string; continent?: string; population?: number; description?: string }>;
 
   const byContinent = new Map<string, Array<(typeof entries)[number]>>();
   for (const entry of entries) {
@@ -299,8 +328,9 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
     const real = String(entry.real || '').trim() || '';
     const continent = typeof entry.continent === 'string' ? entry.continent.trim() : '';
     const population = typeof entry.population === 'number' && Number.isFinite(entry.population) ? entry.population : null;
+    const description = typeof entry.description === 'string' ? entry.description.trim() : '';
 
-    const md = [
+    const mdParts = [
       `## Overview`,
       ``,
       `- **Shadow name:** ${shadow}`,
@@ -309,14 +339,23 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
       continent ? `- **Continent:** ${continent}` : `- **Continent:** —`,
       population !== null ? `- **Population:** ${population.toLocaleString()}` : `- **Population:** —`,
       ``,
+    ];
+
+    if (description) {
+      mdParts.push(description, ``);
+    }
+
+    mdParts.push(
       `## Links`,
       `- [All countries](#/wiki/countries)`,
       ``,
       `---`,
       ``,
       `Generated from \`data/country-shadow-map.json\`.`,
-      ``,
-    ].join('\n');
+      ``
+    );
+
+    const md = mdParts.join('\n');
 
     articles[id] = buildGeneratedWikiArticle({
       id,
