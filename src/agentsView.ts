@@ -359,6 +359,8 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
   }, ms);
 }
 
+type PronounMode = 'seeded' | 'they' | 'he' | 'she' | 'name';
+
 function hashStringToU32(input: string): number {
   // FNV-1a 32-bit for stable, cross-runtime hashing (browser-safe).
   let h = 2166136261;
@@ -373,6 +375,11 @@ function pickVariant(seed: string, key: string, variants: readonly string[]): st
   if (!variants.length) return '';
   const idx = hashStringToU32(`${seed}::${key}`) % variants.length;
   return variants[idx] ?? '';
+}
+
+function capitalizeFirst(input: string): string {
+  if (!input) return input;
+  return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
 function pickKUnique(seed: string, key: string, values: readonly string[], k: number): string[] {
@@ -400,6 +407,79 @@ function fillTemplate(template: string, replacements: Record<string, string>): s
   return out;
 }
 
+function toNarrativePhrase(input: string): string {
+  const normalized = input
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+  if (!normalized) return normalized;
+
+  const words = normalized.split(' ');
+  const mapped = words.map((w) => {
+    if (w === 'tv') return 'TV';
+    if (w === 'ai') return 'AI';
+    if (w === 'opsec') return 'OPSEC';
+    if (w === 'r&d') return 'R&D';
+    return w;
+  });
+
+  // Common hyphenations for readability.
+  const joined = mapped.join(' ');
+  return joined
+    .replace(/\bsci fi\b/g, 'sci-fi')
+    .replace(/\bsoft spoken\b/g, 'soft-spoken')
+    .replace(/\bsteel blue\b/g, 'steel-blue')
+    .replace(/\bblue green\b/g, 'blue-green')
+    .replace(/\bsalt and pepper\b/g, 'salt-and-pepper');
+}
+
+function aOrAn(phrase: string): string {
+  const p = phrase.trim();
+  if (!p) return 'a';
+  const c = p[0]?.toLowerCase() ?? '';
+  if ('aeiou'.includes(c)) return 'an';
+  return 'a';
+}
+
+function bandToAdverb(band: Band5): string {
+  switch (band) {
+    case 'very_low':
+      return 'rarely';
+    case 'low':
+      return 'seldom';
+    case 'medium':
+      return 'sometimes';
+    case 'high':
+      return 'often';
+    case 'very_high':
+      return 'almost always';
+    default:
+      return 'sometimes';
+  }
+}
+
+function seededPronounFromSeed(seed: string): Exclude<PronounMode, 'seeded'> {
+  const roll = hashStringToU32(`${seed}::bio:pronouns`) % 1000;
+  if (roll < 100) return 'they'; // ~10%
+  if (roll < 550) return 'she'; // ~45%
+  return 'he'; // ~45%
+}
+
+function getPronouns(mode: PronounMode, seed: string, shortName: string): { Subj: string; subj: string; possAdj: string; be: string; have: string } {
+  const resolved = mode === 'seeded' ? seededPronounFromSeed(seed) : mode;
+  if (resolved === 'name') {
+    return { Subj: shortName, subj: shortName, possAdj: `${shortName}'s`, be: 'is', have: 'has' };
+  }
+  if (resolved === 'he') return { Subj: 'He', subj: 'he', possAdj: 'his', be: 'is', have: 'has' };
+  if (resolved === 'she') return { Subj: 'She', subj: 'she', possAdj: 'her', be: 'is', have: 'has' };
+  return { Subj: 'They', subj: 'they', possAdj: 'their', be: 'are', have: 'have' };
+}
+
+function conjugate(pron: { be: string }, singular: string, plural: string): string {
+  return pron.be === 'are' ? plural : singular;
+}
+
 function joinWithAnd(items: string[]): string {
   const xs = items.filter(Boolean);
   if (xs.length <= 1) return xs[0] ?? '';
@@ -408,18 +488,18 @@ function joinWithAnd(items: string[]): string {
 }
 
 function formatTraitNarration(name: string, band: Band5): string {
-  const b = toTitleCaseWords(band);
+  const adv = bandToAdverb(band);
   switch (name) {
     case 'riskTolerance':
-      return `Their appetite for risk is ${b}.`;
+      return `${adv} comfortable with risk.`;
     case 'conscientiousness':
-      return `Their sense of order is ${b}.`;
+      return `${adv} inclined toward order.`;
     case 'noveltySeeking':
-      return `Their draw toward novelty is ${b}.`;
+      return `${adv} drawn to novelty.`;
     case 'agreeableness':
-      return `Their agreeableness is ${b}.`;
+      return `${adv} agreeable.`;
     case 'authoritarianism':
-      return `Their preference for hierarchy is ${b}.`;
+      return `${adv} inclined toward hierarchy.`;
     default:
       return '';
   }
@@ -429,26 +509,30 @@ function renderNarrativeOverview(
   agent: GeneratedAgent,
   labels: { originLabel: string; citizenshipLabel: string; currentLabel: string },
   asOfYear: number,
+  pronounMode: PronounMode,
 ): string {
   const seed = agent.seed;
+  const shortName = agent.identity.name.split(' ')[0] ?? agent.identity.name;
+  const pron = getPronouns(pronounMode, seed, shortName);
+
   const role = pickVariant(seed, 'bio:role', agent.identity.roleSeedTags.length ? agent.identity.roleSeedTags : ['agent']);
-  const roleLabel = toTitleCaseWords(role || 'agent');
-  const tier = toTitleCaseWords(agent.identity.tierBand);
+  const roleLabel = toNarrativePhrase(role || 'agent');
+  const tier = toNarrativePhrase(agent.identity.tierBand);
 
   const age = Math.max(0, Math.min(120, asOfYear - agent.identity.birthYear));
-  const ageClause = Number.isFinite(age) && age > 0 ? ` In ${asOfYear}, they are ${age}.` : '';
+  const ageClause = Number.isFinite(age) && age > 0 ? ` In ${asOfYear}, ${pron.subj} ${pron.be} ${age}.` : '';
 
-  const hair = `${toTitleCaseWords(agent.appearance.hair.color)} ${toTitleCaseWords(agent.appearance.hair.texture)} hair`.trim();
-  const eyes = `${toTitleCaseWords(agent.appearance.eyes.color)} eyes`.trim();
-  const height = toTitleCaseWords(agent.appearance.heightBand);
-  const build = toTitleCaseWords(agent.appearance.buildTag);
-  const voice = toTitleCaseWords(agent.appearance.voiceTag);
+  const hair = `${toNarrativePhrase(agent.appearance.hair.color)}, ${toNarrativePhrase(agent.appearance.hair.texture)} hair`.trim();
+  const eyes = `${toNarrativePhrase(agent.appearance.eyes.color)} eyes`.trim();
+  const height = toNarrativePhrase(agent.appearance.heightBand);
+  const build = toNarrativePhrase(agent.appearance.buildTag);
+  const voice = toNarrativePhrase(agent.appearance.voiceTag);
   const mark = pickVariant(seed, 'bio:mark', agent.appearance.distinguishingMarks);
 
   const skillsSorted = Object.entries(agent.capabilities.skills)
     .map(([k, v]) => ({ key: k, value: v.value }))
     .sort((a, b) => (b.value - a.value) || a.key.localeCompare(b.key));
-  const topSkillKeys = skillsSorted.slice(0, 2).map(s => humanizeSkillKey(s.key));
+  const topSkillKeys = skillsSorted.slice(0, 2).map(s => toNarrativePhrase(humanizeSkillKey(s.key)));
 
   const apt = agent.capabilities.aptitudes;
   const aptitudePairs = ([
@@ -468,7 +552,7 @@ function renderNarrativeOverview(
   ] as const)
     .slice()
     .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]));
-  const topAptitudeNames = aptitudePairs.slice(0, 2).map(([label]) => label);
+  const topAptitudeNames = aptitudePairs.slice(0, 2).map(([label]) => toNarrativePhrase(label));
 
   const traits = agent.psych.traits;
   const traitPairs = ([
@@ -481,25 +565,32 @@ function renderNarrativeOverview(
     .slice()
     .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]));
   const topTrait = traitPairs[0];
-  const traitSentence = topTrait ? formatTraitNarration(topTrait[0], formatBand5(topTrait[1])) : '';
+  const traitClause = topTrait ? formatTraitNarration(topTrait[0], formatBand5(topTrait[1])) : '';
 
-  const comfort = pickKUnique(seed, 'bio:comfort', agent.preferences.food.comfortFoods, 2).map(toTitleCaseWords);
-  const genre = pickKUnique(seed, 'bio:genre', agent.preferences.media.genreTopK, 2).map(toTitleCaseWords);
-  const style = pickKUnique(seed, 'bio:style', agent.preferences.fashion.styleTags, 1).map(toTitleCaseWords)[0] ?? '';
-  const ritual = toTitleCaseWords(agent.preferences.food.ritualDrink);
-  const rituals = pickKUnique(seed, 'bio:rituals', agent.routines.recoveryRituals, 2).map(toTitleCaseWords);
+  const comfort = pickKUnique(seed, 'bio:comfort', agent.preferences.food.comfortFoods, 2).map(toNarrativePhrase);
+  const genre = pickKUnique(seed, 'bio:genre', agent.preferences.media.genreTopK, 2).map(toNarrativePhrase);
+  const style = pickKUnique(seed, 'bio:style', agent.preferences.fashion.styleTags, 1).map(toNarrativePhrase)[0] ?? '';
+  const ritual = toNarrativePhrase(agent.preferences.food.ritualDrink);
+  const rituals = pickKUnique(seed, 'bio:rituals', agent.routines.recoveryRituals, 2).map(toNarrativePhrase);
 
   const preview = agent.deepSimPreview;
-  const breakBand = toTitleCaseWords(preview.breakRiskBand);
-  const breakTypes = preview.breakTypesTopK.slice(0, 2).map(toTitleCaseWords);
+  const breakBand = toNarrativePhrase(preview.breakRiskBand);
+  const breakTypes = preview.breakTypesTopK.slice(0, 2).map(toNarrativePhrase);
 
-  const vice = agent.vices[0]?.vice ? toTitleCaseWords(agent.vices[0].vice) : '';
-  const viceTrigger = agent.vices[0]?.triggers?.[0] ? toTitleCaseWords(agent.vices[0].triggers[0]) : '';
+  const vice = agent.vices[0]?.vice ? toNarrativePhrase(agent.vices[0].vice) : '';
+  const viceTrigger = agent.vices[0]?.triggers?.[0] ? toNarrativePhrase(agent.vices[0].triggers[0]) : '';
+
+  const aTier = aOrAn(`${tier}-tier`);
+  const keepVerb = conjugate(pron, 'keeps', 'keep');
+  const recoverVerb = conjugate(pron, 'recovers', 'recover');
+  const favorVerb = conjugate(pron, 'favors', 'favor');
+  const tendVerb = conjugate(pron, 'tends', 'tend');
+  const dressVerb = conjugate(pron, 'dresses', 'dress');
 
   const p1Variants = [
-    '{name} was born in {birthYear}.{ageClause} They are a {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), currently based in {currentLabel} ({currentIso3}).',
-    '{name} was born in {birthYear}.{ageClause} A {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), they now operate from {currentLabel} ({currentIso3}).',
-    '{name} was born in {birthYear}.{ageClause} They are a {roleLabel} of the {tier} tier, originating in {originLabel} ({homeIso3}) and currently based in {currentLabel} ({currentIso3}).',
+    '{name} was born in {birthYear}.{ageClause} {Subj} {be} {aTier} {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), currently based in {currentLabel} ({currentIso3}).',
+    '{name} was born in {birthYear}.{ageClause} {aTier} {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), {subj} now {have} a base in {currentLabel} ({currentIso3}).',
+    '{name} was born in {birthYear}.{ageClause} From {originLabel} ({homeIso3}), {subj} {have} since moved operations to {currentLabel} ({currentIso3}) as {aTier} {tier}-tier {roleLabel}.',
   ] as const;
 
   const p1 = fillTemplate(pickVariant(seed, 'bio:p1', p1Variants), {
@@ -512,20 +603,35 @@ function renderNarrativeOverview(
     '{homeIso3}': agent.identity.homeCountryIso3,
     '{currentLabel}': labels.currentLabel,
     '{currentIso3}': agent.identity.currentCountryIso3,
+    '{Subj}': pron.Subj,
+    '{subj}': pron.subj,
+    '{be}': pron.be,
+    '{have}': pron.have,
+    '{aTier}': aTier,
   })
     .trim()
     .replace(/\s+/g, ' ');
 
   const p1bVariants = [
-    'They are {height} and {build}, with {hair} and {eyes}. Their voice is {voice}.{markClause} {competenceSentence} {traitSentence}',
-    'They are {height} and {build}, with {hair} and {eyes}. Their voice is {voice}.{markClause} {competenceSentence} {traitSentence}',
-    'They are {height} and {build}, with {hair} and {eyes}. Their voice is {voice}.{markClause} {competenceSentence} {traitSentence}',
+    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
+    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
+    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
   ] as const;
 
-  const markClause = mark ? ` They have a ${toTitleCaseWords(mark)}.` : '';
-  const competenceSentence = topSkillKeys.length
-    ? `Their strongest skills are ${joinWithAnd(topSkillKeys)}${topAptitudeNames.length ? `, supported by ${joinWithAnd(topAptitudeNames)}.` : '.'}`
-    : '';
+  const markSentence = mark ? ` ${pron.Subj} ${pron.have} ${aOrAn(toNarrativePhrase(mark))} ${toNarrativePhrase(mark)}.` : '';
+  const competenceSentence = (() => {
+    if (!topSkillKeys.length) return '';
+    const core = pickVariant(seed, 'bio:competence', [
+      '{Subj} shows strength in {skills}.',
+      '{Subj} {be} known for {skills}.',
+      '{Subj} tends to excel at {skills}.',
+    ] as const);
+    const skillsText = joinWithAnd(topSkillKeys);
+    const support = topAptitudeNames.length ? ` Backed by ${joinWithAnd(topAptitudeNames)}.` : '';
+    return fillTemplate(core, { '{Subj}': pron.Subj, '{skills}': skillsText, '{be}': pron.be }).trim() + support;
+  })();
+
+  const traitSentence = traitClause ? `${pron.Subj} ${pron.be} ${traitClause}` : '';
 
   const p1b = fillTemplate(pickVariant(seed, 'bio:p1b', p1bVariants), {
     '{height}': height,
@@ -533,17 +639,20 @@ function renderNarrativeOverview(
     '{hair}': hair,
     '{eyes}': eyes,
     '{voice}': voice,
-    '{markClause}': markClause,
+    '{markSentence}': markSentence,
     '{competenceSentence}': competenceSentence,
     '{traitSentence}': traitSentence,
+    '{Subj}': pron.Subj,
+    '{be}': pron.be,
+    '{PossAdj}': capitalizeFirst(pron.possAdj),
   })
     .trim()
     .replace(/\s+/g, ' ');
 
   const p2Variants = [
-    'They keep a {chronotype} schedule ({sleepWindow}) and recover with {recovery}. Their ritual drink is {ritual}. They favor {genres} and tend toward {style} dress. Comfort foods include {comfort}.',
-    'They keep a {chronotype} schedule ({sleepWindow}) and recover with {recovery}. Their ritual drink is {ritual}. They favor {genres} and tend toward {style} dress. Comfort foods include {comfort}.',
-    'They keep a {chronotype} schedule ({sleepWindow}) and recover with {recovery}. Their ritual drink is {ritual}. They favor {genres} and tend toward {style} dress. Comfort foods include {comfort}.',
+    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres} and {tend} toward {style} dress; comfort foods include {comfort}.',
+    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres}, and {PossAdj} style runs {style}; comfort foods include {comfort}.',
+    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres} and {dress} {style}; comfort foods include {comfort}.',
   ] as const;
 
   const recovery = rituals.length ? joinWithAnd(rituals) : 'routine';
@@ -552,22 +661,29 @@ function renderNarrativeOverview(
   const styleLine = style || 'practical';
 
   const p2a = fillTemplate(pickVariant(seed, 'bio:p2a', p2Variants), {
-    '{chronotype}': toTitleCaseWords(agent.routines.chronotype),
+    '{chronotype}': toNarrativePhrase(agent.routines.chronotype),
     '{sleepWindow}': agent.routines.sleepWindow,
     '{recovery}': recovery,
     '{ritual}': ritual,
     '{genres}': genres,
     '{style}': styleLine,
     '{comfort}': comfortLine,
+    '{Subj}': pron.Subj,
+    '{PossAdj}': capitalizeFirst(pron.possAdj),
+    '{keep}': keepVerb,
+    '{recover}': recoverVerb,
+    '{favor}': favorVerb,
+    '{tend}': tendVerb,
+    '{dress}': dressVerb,
   })
     .trim()
     .replace(/\s+/g, ' ');
 
   const strain = (() => {
-    const base = `Under strain, their break risk trends ${breakBand}${breakTypes.length ? `, most often toward ${joinWithAnd(breakTypes)}.` : '.'}`;
+    const base = `Under strain, break risk runs ${breakBand}${breakTypes.length ? `; ${joinWithAnd(breakTypes)} are common failure modes.` : '.'}`;
     if (vice) {
-      const trigger = viceTrigger ? `, often triggered by ${viceTrigger}` : '';
-      return `${base} They are prone to ${vice}${trigger}.`;
+      const trigger = viceTrigger ? `, especially after ${viceTrigger}` : '';
+      return `${base} ${pron.Subj} ${pron.be} prone to ${vice}${trigger}.`;
     }
     return base;
   })();
@@ -591,6 +707,7 @@ function renderAgent(
   tab: AgentProfileTab,
   isDetailsOpen: DetailsOpenReader,
   asOfYear: number,
+  pronounMode: PronounMode,
 ): string {
   const apt = agent.capabilities.aptitudes;
   const skills = agent.capabilities.skills;
@@ -608,6 +725,7 @@ function renderAgent(
     agent,
     { originLabel, citizenshipLabel, currentLabel },
     asOfYear,
+    pronounMode,
   );
 
   const platformDiet = Object.entries(agent.preferences.media.platformDiet)
@@ -1007,6 +1125,25 @@ export function initializeAgentsView(container: HTMLElement) {
   let pendingHashSeed: string | null = readSeedFromHash();
   let pendingHashParams: URLSearchParams | null = pendingHashSeed ? readAgentsParamsFromHash() : null;
 
+  const PRONOUN_MODE_KEY = 'agentsNarrationPronouns:v1';
+  const readPronounMode = (): PronounMode => {
+    try {
+      const raw = (window.localStorage.getItem(PRONOUN_MODE_KEY) ?? '').trim();
+      if (raw === 'seeded' || raw === 'they' || raw === 'he' || raw === 'she' || raw === 'name') return raw;
+      return 'seeded';
+    } catch {
+      return 'seeded';
+    }
+  };
+  const writePronounMode = (v: PronounMode) => {
+    try {
+      window.localStorage.setItem(PRONOUN_MODE_KEY, v);
+    } catch {
+      // ignore
+    }
+  };
+  let pronounMode: PronounMode = readPronounMode();
+
   const PROFILE_TAB_KEY = 'agentsProfileTab:v1';
   const readProfileTab = (): AgentProfileTab | null => {
     try {
@@ -1281,6 +1418,16 @@ export function initializeAgentsView(container: HTMLElement) {
                       <input id="agents-asof" class="agents-input" type="number" min="1800" max="2525" value="${escapeHtml(String(asOfYear))}" />
                     </label>
                     <label class="agents-label">
+                      Narration pronouns
+                      <select id="agents-pronouns" class="agents-input">
+                        <option value="seeded" ${pronounMode === 'seeded' ? 'selected' : ''}>Seeded (he/she/they)</option>
+                        <option value="they" ${pronounMode === 'they' ? 'selected' : ''}>They/them</option>
+                        <option value="she" ${pronounMode === 'she' ? 'selected' : ''}>She/her</option>
+                        <option value="he" ${pronounMode === 'he' ? 'selected' : ''}>He/him</option>
+                        <option value="name" ${pronounMode === 'name' ? 'selected' : ''}>Name-only</option>
+                      </select>
+                    </label>
+                    <label class="agents-label">
                       Home country
                       <select id="agents-home-country" class="agents-input" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>
                         ${countryOptions}
@@ -1371,7 +1518,7 @@ export function initializeAgentsView(container: HTMLElement) {
           </aside>
 
           <main class="agents-main">
-            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab, isDetailsOpen, asOfYear) : `<div class="agent-muted">Generate an agent to begin.</div>`}
+            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab, isDetailsOpen, asOfYear, pronounMode) : `<div class="agent-muted">Generate an agent to begin.</div>`}
           </main>
         </div>
       </div>
@@ -1379,6 +1526,7 @@ export function initializeAgentsView(container: HTMLElement) {
 
     const seedEl = container.querySelector('#agents-seed') as HTMLInputElement | null;
     const asOfEl = container.querySelector('#agents-asof') as HTMLInputElement | null;
+    const pronounsEl = container.querySelector('#agents-pronouns') as HTMLSelectElement | null;
     const homeCountryEl = container.querySelector('#agents-home-country') as HTMLSelectElement | null;
 
     seedEl?.addEventListener('input', () => {
@@ -1400,6 +1548,15 @@ export function initializeAgentsView(container: HTMLElement) {
     asOfEl?.addEventListener('input', () => {
       const v = Number(asOfEl.value);
       if (Number.isFinite(v)) asOfYear = Math.max(1800, Math.min(2525, Math.round(v)));
+    });
+
+    pronounsEl?.addEventListener('change', () => {
+      const v = (pronounsEl.value ?? '').trim() as PronounMode;
+      if (v === 'seeded' || v === 'they' || v === 'he' || v === 'she' || v === 'name') {
+        pronounMode = v;
+        writePronounMode(pronounMode);
+        render();
+      }
     });
 
     homeCountryEl?.addEventListener('change', () => {
