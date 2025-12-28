@@ -1,4 +1,5 @@
 import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type TierBand } from './agentGenerator';
+import tracery from 'tracery-grammar';
 
 type RosterItem = {
   id: string;
@@ -371,6 +372,24 @@ function hashStringToU32(input: string): number {
   return h >>> 0;
 }
 
+function makeXorshiftRng(seed: string): () => number {
+  // xorshift32: fast, deterministic, good enough for text variation.
+  let state = hashStringToU32(seed) || 1;
+  return () => {
+    state ^= state << 13;
+    state ^= state >>> 17;
+    state ^= state << 5;
+    // uint32 -> [0, 1)
+    return (state >>> 0) / 4294967296;
+  };
+}
+
+function setTraceryRng(rng: () => number) {
+  // tracery-grammar exposes setRng at runtime, but some typings omit it.
+  const fn = (tracery as unknown as { setRng?: (r: () => number) => void }).setRng;
+  if (fn) fn(rng);
+}
+
 function pickVariant(seed: string, key: string, variants: readonly string[]): string {
   if (!variants.length) return '';
   const idx = hashStringToU32(`${seed}::${key}`) % variants.length;
@@ -399,14 +418,6 @@ function pickKUnique(seed: string, key: string, values: readonly string[], k: nu
   return picks.filter(Boolean);
 }
 
-function fillTemplate(template: string, replacements: Record<string, string>): string {
-  let out = template;
-  for (const [k, v] of Object.entries(replacements)) {
-    out = out.split(k).join(v);
-  }
-  return out;
-}
-
 function toNarrativePhrase(input: string): string {
   const normalized = input
     .trim()
@@ -432,6 +443,15 @@ function toNarrativePhrase(input: string): string {
     .replace(/\bsteel blue\b/g, 'steel-blue')
     .replace(/\bblue green\b/g, 'blue-green')
     .replace(/\bsalt and pepper\b/g, 'salt-and-pepper');
+}
+
+function normalizeNarrationText(input: string): string {
+  return input
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/\(\s+/g, '(')
+    .replace(/\s+\)/g, ')')
+    .trim();
 }
 
 function aOrAn(phrase: string): string {
@@ -522,7 +542,7 @@ function renderNarrativeOverview(
   const age = Math.max(0, Math.min(120, asOfYear - agent.identity.birthYear));
   const ageClause = Number.isFinite(age) && age > 0 ? ` In ${asOfYear}, ${pron.subj} ${pron.be} ${age}.` : '';
 
-  const hair = `${toNarrativePhrase(agent.appearance.hair.color)}, ${toNarrativePhrase(agent.appearance.hair.texture)} hair`.trim();
+  const hair = `${toNarrativePhrase(agent.appearance.hair.color)} ${toNarrativePhrase(agent.appearance.hair.texture)} hair`.trim();
   const eyes = `${toNarrativePhrase(agent.appearance.eyes.color)} eyes`.trim();
   const height = toNarrativePhrase(agent.appearance.heightBand);
   const build = toNarrativePhrase(agent.appearance.buildTag);
@@ -581,121 +601,132 @@ function renderNarrativeOverview(
   const viceTrigger = agent.vices[0]?.triggers?.[0] ? toNarrativePhrase(agent.vices[0].triggers[0]) : '';
 
   const aTier = aOrAn(`${tier}-tier`);
+  const ATier = capitalizeFirst(aTier);
   const keepVerb = conjugate(pron, 'keeps', 'keep');
   const recoverVerb = conjugate(pron, 'recovers', 'recover');
   const favorVerb = conjugate(pron, 'favors', 'favor');
   const tendVerb = conjugate(pron, 'tends', 'tend');
   const dressVerb = conjugate(pron, 'dresses', 'dress');
 
-  const p1Variants = [
-    '{name} was born in {birthYear}.{ageClause} {Subj} {be} {aTier} {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), currently based in {currentLabel} ({currentIso3}).',
-    '{name} was born in {birthYear}.{ageClause} {aTier} {tier}-tier {roleLabel} from {originLabel} ({homeIso3}), {subj} now {have} a base in {currentLabel} ({currentIso3}).',
-    '{name} was born in {birthYear}.{ageClause} From {originLabel} ({homeIso3}), {subj} {have} since moved operations to {currentLabel} ({currentIso3}) as {aTier} {tier}-tier {roleLabel}.',
-  ] as const;
-
-  const p1 = fillTemplate(pickVariant(seed, 'bio:p1', p1Variants), {
-    '{name}': agent.identity.name,
-    '{birthYear}': String(agent.identity.birthYear),
-    '{ageClause}': ageClause,
-    '{tier}': tier,
-    '{roleLabel}': roleLabel,
-    '{originLabel}': labels.originLabel,
-    '{homeIso3}': agent.identity.homeCountryIso3,
-    '{currentLabel}': labels.currentLabel,
-    '{currentIso3}': agent.identity.currentCountryIso3,
-    '{Subj}': pron.Subj,
-    '{subj}': pron.subj,
-    '{be}': pron.be,
-    '{have}': pron.have,
-    '{aTier}': aTier,
-  })
-    .trim()
-    .replace(/\s+/g, ' ');
-
-  const p1bVariants = [
-    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
-    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
-    '{Subj} {be} {height} and {build}, with {hair} and {eyes}. {PossAdj} voice is {voice}.{markSentence} {competenceSentence} {traitSentence}',
-  ] as const;
-
-  const markSentence = mark ? ` ${pron.Subj} ${pron.have} ${aOrAn(toNarrativePhrase(mark))} ${toNarrativePhrase(mark)}.` : '';
-  const competenceSentence = (() => {
-    if (!topSkillKeys.length) return '';
-    const core = pickVariant(seed, 'bio:competence', [
-      '{Subj} shows strength in {skills}.',
-      '{Subj} {be} known for {skills}.',
-      '{Subj} tends to excel at {skills}.',
-    ] as const);
-    const skillsText = joinWithAnd(topSkillKeys);
-    const support = topAptitudeNames.length ? ` Backed by ${joinWithAnd(topAptitudeNames)}.` : '';
-    return fillTemplate(core, { '{Subj}': pron.Subj, '{skills}': skillsText, '{be}': pron.be }).trim() + support;
-  })();
-
-  const traitSentence = traitClause ? `${pron.Subj} ${pron.be} ${traitClause}` : '';
-
-  const p1b = fillTemplate(pickVariant(seed, 'bio:p1b', p1bVariants), {
-    '{height}': height,
-    '{build}': build,
-    '{hair}': hair,
-    '{eyes}': eyes,
-    '{voice}': voice,
-    '{markSentence}': markSentence,
-    '{competenceSentence}': competenceSentence,
-    '{traitSentence}': traitSentence,
-    '{Subj}': pron.Subj,
-    '{be}': pron.be,
-    '{PossAdj}': capitalizeFirst(pron.possAdj),
-  })
-    .trim()
-    .replace(/\s+/g, ' ');
-
-  const p2Variants = [
-    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres} and {tend} toward {style} dress; comfort foods include {comfort}.',
-    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres}, and {PossAdj} style runs {style}; comfort foods include {comfort}.',
-    '{Subj} {keep} a {chronotype} schedule ({sleepWindow}) and {recover} with {recovery}. {PossAdj} ritual drink is {ritual}. {Subj} {favor} {genres} and {dress} {style}; comfort foods include {comfort}.',
-  ] as const;
-
   const recovery = rituals.length ? joinWithAnd(rituals) : 'routine';
   const genres = genre.length ? joinWithAnd(genre) : 'mixed media';
   const comfortLine = comfort.length ? joinWithAnd(comfort) : 'simple staples';
   const styleLine = style || 'practical';
 
-  const p2a = fillTemplate(pickVariant(seed, 'bio:p2a', p2Variants), {
-    '{chronotype}': toNarrativePhrase(agent.routines.chronotype),
-    '{sleepWindow}': agent.routines.sleepWindow,
-    '{recovery}': recovery,
-    '{ritual}': ritual,
-    '{genres}': genres,
-    '{style}': styleLine,
-    '{comfort}': comfortLine,
-    '{Subj}': pron.Subj,
-    '{PossAdj}': capitalizeFirst(pron.possAdj),
-    '{keep}': keepVerb,
-    '{recover}': recoverVerb,
-    '{favor}': favorVerb,
-    '{tend}': tendVerb,
-    '{dress}': dressVerb,
-  })
-    .trim()
-    .replace(/\s+/g, ' ');
+  const markSentence = mark ? `${pron.Subj} ${pron.have} ${aOrAn(toNarrativePhrase(mark))} ${toNarrativePhrase(mark)}.` : '';
+  const traitSentence = traitClause ? `${pron.Subj} ${pron.be} ${traitClause}` : '';
 
-  const strain = (() => {
-    const base = `Under strain, break risk runs ${breakBand}${breakTypes.length ? `; ${joinWithAnd(breakTypes)} are common failure modes.` : '.'}`;
-    if (vice) {
-      const trigger = viceTrigger ? `, especially after ${viceTrigger}` : '';
-      return `${base} ${pron.Subj} ${pron.be} prone to ${vice}${trigger}.`;
-    }
-    return base;
-  })();
+  const rules: Record<string, string[] | string> = {
+    name: [agent.identity.name],
+    birthYear: [String(agent.identity.birthYear)],
+    ageClause: [ageClause],
+    Subj: [pron.Subj],
+    subj: [pron.subj],
+    be: [pron.be],
+    have: [pron.have],
+    PossAdjCap: [capitalizeFirst(pron.possAdj)],
 
-  const p2 = `${p2a} ${strain}`.trim().replace(/\s+/g, ' ');
+    aTier: [aTier],
+    ATier: [ATier],
+    tier: [tier],
+    role: [roleLabel],
+    originLabel: [labels.originLabel],
+    homeIso3: [agent.identity.homeCountryIso3],
+    currentLabel: [labels.currentLabel],
+    currentIso3: [agent.identity.currentCountryIso3],
 
-  return `
-    <div class="agent-narrative">
-      <p>${escapeHtml(p1)} ${escapeHtml(p1b)}</p>
-      <p>${escapeHtml(p2)}</p>
-    </div>
-  `;
+    height: [height],
+    build: [build],
+    hair: [hair],
+    eyes: [eyes],
+    voice: [voice],
+    markSentence: [markSentence],
+
+    competenceLead: [
+      '#Subj# shows strength in #skills#.',
+      '#Subj# #be# known for #skills#.',
+      '#Subj# tends to excel at #skills#.',
+      '#Subj# often relies on #skills#.',
+    ],
+    skills: [joinWithAnd(topSkillKeys)],
+    competenceSupport: [topAptitudeNames.length ? `Backed by ${joinWithAnd(topAptitudeNames)}.` : ''],
+    competenceSentence: ['#competenceLead# #competenceSupport#'],
+    traitSentence: [traitSentence],
+
+    chronotype: [toNarrativePhrase(agent.routines.chronotype)],
+    sleepWindow: [agent.routines.sleepWindow],
+    recovery: [recovery],
+    ritual: [ritual],
+    genres: [genres],
+    style: [styleLine],
+    comfort: [comfortLine],
+    keep: [keepVerb],
+    recover: [recoverVerb],
+    favor: [favorVerb],
+    tend: [tendVerb],
+    dress: [dressVerb],
+
+    breakBand: [breakBand],
+    breakTypes: [breakTypes.length ? joinWithAnd(breakTypes) : ''],
+    vice: [vice],
+    viceTrigger: [viceTrigger],
+
+    p1a: [
+      '#name# was born in #birthYear#.#ageClause# #Subj# #be# #aTier# #tier#-tier #role# from #originLabel# (#homeIso3#), currently based in #currentLabel# (#currentIso3#).',
+      '#name# was born in #birthYear#.#ageClause# #ATier# #tier#-tier #role# from #originLabel# (#homeIso3#), #subj# now #have# a base in #currentLabel# (#currentIso3#).',
+      '#name# was born in #birthYear#.#ageClause# From #originLabel# (#homeIso3#), #subj# #have# since moved operations to #currentLabel# (#currentIso3#) as #aTier# #tier#-tier #role#.',
+    ],
+
+    p1b: [
+      '#Subj# #be# #height# and #build#, with #hair# and #eyes#. #PossAdjCap# voice is #voice#. #markSentence# #competenceSentence# #traitSentence#',
+      '#Subj# #be# #height# and #build#, with #hair# and #eyes#. #PossAdjCap# voice is #voice#. #competenceSentence# #markSentence# #traitSentence#',
+    ],
+
+    p2a: [
+      '#Subj# #keep# a #chronotype# schedule (#sleepWindow#) and #recover# with #recovery#. #PossAdjCap# ritual drink is #ritual#. #Subj# #favor# #genres# and #tend# toward #style# dress; comfort foods include #comfort#.',
+      '#Subj# #keep# a #chronotype# schedule (#sleepWindow#) and #recover# with #recovery#. #PossAdjCap# ritual drink is #ritual#. #Subj# #favor# #genres#, and #PossAdjCap# style runs #style#; comfort foods include #comfort#.',
+      '#Subj# #keep# a #chronotype# schedule (#sleepWindow#) and #recover# with #recovery#. #PossAdjCap# ritual drink is #ritual#. #Subj# #favor# #genres# and #dress# #style#; comfort foods include #comfort#.',
+    ],
+
+    p2b: [
+      'Under strain, break risk runs #breakBand##breakTypesClause#.',
+      'Under strain, break risk trends #breakBand##breakTypesClause#.',
+    ],
+    breakTypesClause: [
+      '',
+      '; #breakTypes# are common failure modes',
+    ],
+    p2c: vice
+      ? [
+        '#Subj# #be# prone to #vice##viceTriggerClause#.',
+        '#Subj# #be# prone to #vice##viceTriggerClause#.',
+        '',
+      ]
+      : [''],
+    viceTriggerClause: [
+      '',
+      ', especially after #viceTrigger#',
+    ],
+  };
+
+  const rng = makeXorshiftRng(`${seed}::bio:narration:v2::${pronounMode}`);
+  setTraceryRng(rng);
+  try {
+    const grammar = tracery.createGrammar(rules);
+    grammar.addModifiers(tracery.baseEngModifiers);
+    const para1 = normalizeNarrationText(grammar.flatten('#p1a# #p1b#'));
+    const para2 = normalizeNarrationText(grammar.flatten('#p2a# #p2b# #p2c#'));
+
+    return `
+      <div class="agent-narrative">
+        <p>${escapeHtml(para1)}</p>
+        <p>${escapeHtml(para2)}</p>
+      </div>
+    `;
+  } finally {
+    // Avoid leaking deterministic RNG into any other potential Tracery use.
+    setTraceryRng(Math.random);
+  }
 }
 
 type AgentProfileTab = 'overview' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
