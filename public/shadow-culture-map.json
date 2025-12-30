@@ -1,0 +1,302 @@
+[
+  {
+    "real": "profile:global",
+    "shadow": "profile:cosmopolitan",
+    "note": "Universal/mixed cultural background"
+  },
+  {
+    "real": "profile:anglophone",
+    "shadow": "profile:alvionic",
+    "note": "Alvion-sphere cultures (shadow UK/US/Australia/etc)"
+  },
+  {
+    "real": "profile:hispanic",
+    "shadow": "profile:castillaran",
+    "note": "Castillar-derived cultures (shadow Spain/Latin America)"
+  },
+  {
+    "real": "profile:luso",
+    "shadow": "profile:lusitanic",
+    "note": "Lusitania-derived cultures (shadow Portugal/Brazil)"
+  },
+  {
+    "real": "profile:francophone",
+    "shadow": "profile:gallicene",
+    "note": "Gallicene-sphere cultures (shadow France/Francophone world)"
+  },
+  {
+    "real": "profile:arab",
+    "shadow": "profile:aramaic",
+    "note": "Aram continent cultures (shadow Arab world)"
+  },
+  {
+    "real": "profile:slavic",
+    "shadow": "profile:slavonic",
+    "note": "Eastern Hesper Slavic cultures"
+  },
+  {
+    "real": "profile:germanic",
+    "shadow": "profile:teutonic",
+    "note": "Teutmark-sphere cultures (shadow Germanic Europe)"
+  },
+  {
+    "real": "profile:nordic",
+    "shadow": "profile:norrenic",
+    "note": "Northern Hesper cultures (shadow Scandinavia)"
+  },
+  {
+    "real": "profile:turkic",
+    "shadow": "profile:anatolian",
+    "note": "Turkic cultural sphere"
+  },
+  {
+    "real": "profile:iranian",
+    "shadow": "profile:parsic",
+    "note": "Parsagad cultural sphere (shadow Iran/Persian)"
+  },
+  {
+    "real": "profile:indic",
+    "shadow": "profile:bharatic",
+    "note": "Bharatvani cultural sphere (shadow India)"
+  },
+  {
+    "real": "profile:islamic-south-asia",
+    "shadow": "profile:sindhukan",
+    "note": "Sindhuka cultural sphere (shadow Pakistan/Bangladesh Islamic)"
+  },
+  {
+    "real": "profile:se-asia",
+    "shadow": "profile:nusantaran",
+    "note": "Maritime Solis cultures (shadow Southeast Asia)"
+  },
+  {
+    "real": "profile:sinosphere",
+    "shadow": "profile:tianlongic",
+    "note": "Tianlong cultural sphere (shadow China/East Asia)"
+  },
+  {
+    "real": "profile:japanese",
+    "shadow": "profile:kamikuran",
+    "note": "Kamikura culture (shadow Japan)"
+  },
+  {
+    "real": "profile:korean",
+    "shadow": "profile:haedongic",
+    "note": "Haedong culture (shadow Korea)"
+  },
+  {
+    "real": "profile:italian",
+    "shadow": "profile:vesperic",
+    "note": "Vespery culture (shadow Italy)"
+  },
+  {
+    "real": "profile:hellenic",
+    "shadow": "profile:helladic",
+    "note": "Hellenic cultural sphere (shadow Greece)"
+  },
+  {
+    "real": "profile:e-africa",
+    "shadow": "profile:sawahili",
+    "note": "Eastern Mero coastal cultures (shadow East Africa)"
+  },
+  {
+    "real": "profile:horn-of-africa",
+    "shadow": "profile:puntic",
+    "note": "Horn of Mero cultures (shadow Ethiopia/Somalia region)"
+  },
+  {
+    "real": "profile:sahel",
+    "shadow": "profile:sahelian",
+    "note": "Sahel belt cultures"
+  },
+  {
+    "real": "profile:w-africa",
+    "shadow": "profile:oduwan",
+    "note": "Western Mero cultures (shadow West Africa)"
+  },
+  {
+    "real": "profile:s-africa",
+    "shadow": "profile:khoiveldic",
+    "note": "Southern Mero cultures (shadow Southern Africa)"
+  },
+  {
+    "real": "profile:maghrebi",
+    "shadow": "profile:tamazight",
+    "note": "Northern Mero cultures (shadow Maghreb)"
+  },
+  {
+    "real": "profile:levantine",
+    "shadow": "profile:levantic",
+    "note": "Eastern Aram cultures (shadow Levant)"
+  },
+  {
+    "real": "profile:gulf",
+    "shadow": "profile:khalijic",
+    "note": "Gulf Aram cultures (shadow Gulf states)"
+  },
+  {
+    "real": "profile:egyptian",
+    "shadow": "profile:deshretine",
+    "note": "Deshretine culture (shadow Egypt)"
+  },
+  {
+    "real": "profile:west-slavic",
+    "shadow": "profile:sarmatian",
+    "note": "Western Slavonic cultures (shadow Poland/Czech)"
+  },
+  {
+    "real": "profile:balkan",
+    "shadow": "profile:illyric",
+    "note": "Balkan peninsula cultures"
+  },
+  {
+    "real": "profile:baltic",
+    "shadow": "profile:aestic",
+    "note": "Baltic Sea cultures (shadow Lithuania/Latvia)"
+  },
+  {
+    "real": "profile:romanian",
+    "shadow": "profile:dacian",
+    "note": "Dacian culture (shadow Romania)"
+  },
+  {
+    "real": "profile:hungarian",
+    "shadow": "profile:magyric",
+    "note": "Magyric culture (shadow Hungary)"
+  },
+  {
+    "real": "profile:central-europe",
+    "shadow": "profile:bohemic",
+    "note": "Central Hesper cultures"
+  },
+  {
+    "real": "profile:afrikaans",
+    "shadow": "profile:boeric",
+    "note": "Boer-descended culture in Khoiveld"
+  },
+  {
+    "real": "profile:hebrew",
+    "shadow": "profile:kedaric",
+    "note": "Kedareth culture (shadow Israel)"
+  },
+  {
+    "real": "profile:caucasus",
+    "shadow": "profile:kartvelian",
+    "note": "Caucasus mountain cultures"
+  },
+  {
+    "real": "profile:central-asia",
+    "shadow": "profile:sogdian",
+    "note": "Central Solis steppe cultures"
+  },
+  {
+    "real": "profile:mongolic",
+    "shadow": "profile:khalkhan",
+    "note": "Khalkhan culture (shadow Mongolia)"
+  },
+  {
+    "real": "profile:indo-aryan",
+    "shadow": "profile:gangetic",
+    "note": "Northern Bharatvani cultures"
+  },
+  {
+    "real": "profile:dravidian",
+    "shadow": "profile:dravidic",
+    "note": "Southern Bharatvani cultures"
+  },
+  {
+    "real": "profile:himalayan",
+    "shadow": "profile:gorkhalic",
+    "note": "Himalayan cultures (shadow Nepal/Tibet)"
+  },
+  {
+    "real": "profile:maritime-sea",
+    "shadow": "profile:melakan",
+    "note": "Maritime Solis archipelago cultures"
+  },
+  {
+    "real": "profile:mainland-sea",
+    "shadow": "profile:siamic",
+    "note": "Mainland Solis cultures (shadow Thailand/Myanmar)"
+  },
+  {
+    "real": "profile:philippines",
+    "shadow": "profile:maharlikan",
+    "note": "Maharlikan culture (shadow Philippines)"
+  },
+  {
+    "real": "profile:sinitic",
+    "shadow": "profile:hannic",
+    "note": "Han cultural sphere within Tianlong"
+  },
+  {
+    "real": "profile:cantonese",
+    "shadow": "profile:yuehai",
+    "note": "Southern Tianlong coastal culture"
+  },
+  {
+    "real": "profile:ethiopian",
+    "shadow": "profile:zagwenic",
+    "note": "Zagwene culture (shadow Ethiopia)"
+  },
+  {
+    "real": "profile:somali",
+    "shadow": "profile:cushitic",
+    "note": "Cushitic Horn cultures"
+  },
+  {
+    "real": "profile:senegambian",
+    "shadow": "profile:wolofic",
+    "note": "Wolof-sphere cultures (shadow Senegal/Gambia)"
+  },
+  {
+    "real": "profile:fulani",
+    "shadow": "profile:fulanic",
+    "note": "Pastoral Sahel cultures"
+  },
+  {
+    "real": "profile:akan",
+    "shadow": "profile:ashantic",
+    "note": "Ashanti-sphere cultures (shadow Ghana)"
+  },
+  {
+    "real": "profile:caribbean-creole",
+    "shadow": "profile:antillean",
+    "note": "Antillean creole cultures"
+  },
+  {
+    "real": "profile:indian-ocean-creole",
+    "shadow": "profile:mascarene",
+    "note": "Mascarene island cultures (shadow Mauritius/Reunion)"
+  },
+  {
+    "real": "profile:melanesian-pidgin",
+    "shadow": "profile:pelagic-pidgin",
+    "note": "Pelag island pidgin cultures"
+  },
+  {
+    "real": "profile:polynesian",
+    "shadow": "profile:oceanic",
+    "note": "Pacific Pelag cultures"
+  },
+  {
+    "real": "profile:arctic",
+    "shadow": "profile:hyperborean",
+    "note": "Arctic/subarctic cultures"
+  },
+  {
+    "real": "profile:andean",
+    "shadow": "profile:tawantinsuyan",
+    "note": "Andean highland cultures (shadow Peru/Bolivia)"
+  },
+  {
+    "real": "profile:caribbean-francophone",
+    "shadow": "profile:antillean-gallicene",
+    "note": "Gallicene Caribbean cultures"
+  },
+  {
+    "real": "profile:post-soviet",
+    "shadow": "profile:post-severnyan",
+    "note": "Former Severnya sphere cultures"
+  }
+]

@@ -1,0 +1,443 @@
+[
+  {
+    "real": "English",
+    "code": "en",
+    "shadow": "Alvionic",
+    "family": "Hesperic",
+    "note": "From Alvion (shadow UK) - dominant global lingua franca"
+  },
+  {
+    "real": "Spanish",
+    "code": "es",
+    "shadow": "Castillaran",
+    "family": "Romanic",
+    "note": "From Castillar (shadow Spain) - major Verd and Athar language"
+  },
+  {
+    "real": "French",
+    "code": "fr",
+    "shadow": "Gallicene",
+    "family": "Romanic",
+    "note": "From Gallicene (shadow France) - diplomatic and cultural language"
+  },
+  {
+    "real": "Portuguese",
+    "code": "pt",
+    "shadow": "Lusitanic",
+    "family": "Romanic",
+    "note": "From Lusitania (shadow Portugal) - major Verd and Mero language"
+  },
+  {
+    "real": "Italian",
+    "code": "it",
+    "shadow": "Vesperic",
+    "family": "Romanic",
+    "note": "From Vespery (shadow Italy) - cultural and artistic heritage"
+  },
+  {
+    "real": "German",
+    "code": "de",
+    "shadow": "Teutonic",
+    "family": "Hesperic",
+    "note": "From Teutmark (shadow Germany) - technical and scientific language"
+  },
+  {
+    "real": "Dutch",
+    "code": "nl",
+    "shadow": "Batavic",
+    "family": "Hesperic",
+    "note": "From Batavia (shadow Netherlands)"
+  },
+  {
+    "real": "Russian",
+    "code": "ru",
+    "shadow": "Severnyan",
+    "family": "Slavonic",
+    "note": "From Severnya (shadow Russia) - major Hesper language"
+  },
+  {
+    "real": "Ukrainian",
+    "code": "uk",
+    "shadow": "Scythian",
+    "family": "Slavonic",
+    "note": "From Scythopol (shadow Ukraine)"
+  },
+  {
+    "real": "Polish",
+    "code": "pl",
+    "shadow": "Sarmatian",
+    "family": "Slavonic",
+    "note": "From Sarmatya (shadow Poland)"
+  },
+  {
+    "real": "Czech",
+    "code": "cs",
+    "shadow": "Bohemic",
+    "family": "Slavonic",
+    "note": "From Bohemia region"
+  },
+  {
+    "real": "Serbian",
+    "code": "sr",
+    "shadow": "Moesian",
+    "family": "Slavonic",
+    "note": "From ancient Moesia region"
+  },
+  {
+    "real": "Croatian",
+    "code": "hr",
+    "shadow": "Illyric",
+    "family": "Slavonic",
+    "note": "From ancient Illyria"
+  },
+  {
+    "real": "Bulgarian",
+    "code": "bg",
+    "shadow": "Thracian",
+    "family": "Slavonic",
+    "note": "From ancient Thrace region"
+  },
+  {
+    "real": "Greek",
+    "code": "el",
+    "shadow": "Helladic",
+    "family": "Hellenic",
+    "note": "From Hellas - ancient civilization tongue"
+  },
+  {
+    "real": "Romanian",
+    "code": "ro",
+    "shadow": "Dacian",
+    "family": "Romanic",
+    "note": "From ancient Dacia"
+  },
+  {
+    "real": "Hungarian",
+    "code": "hu",
+    "shadow": "Magyric",
+    "family": "Uralic",
+    "note": "From Magyar people"
+  },
+  {
+    "real": "Finnish",
+    "code": "fi",
+    "shadow": "Suomic",
+    "family": "Uralic",
+    "note": "From Suomi (Finland's self-name)"
+  },
+  {
+    "real": "Estonian",
+    "code": "et",
+    "shadow": "Aestic",
+    "family": "Uralic",
+    "note": "From Aestii (ancient Baltic people)"
+  },
+  {
+    "real": "Swedish",
+    "code": "sv",
+    "shadow": "Svealic",
+    "family": "Nordic",
+    "note": "From Svea/Svear (Swedish people)"
+  },
+  {
+    "real": "Norwegian",
+    "code": "nb",
+    "shadow": "Norrenic",
+    "family": "Nordic",
+    "note": "From Norrøn (Old Norse)"
+  },
+  {
+    "real": "Danish",
+    "code": "da",
+    "shadow": "Daenic",
+    "family": "Nordic",
+    "note": "From Dane/Danmark"
+  },
+  {
+    "real": "Icelandic",
+    "code": "is",
+    "shadow": "Thulean",
+    "family": "Nordic",
+    "note": "From Thule (mythical northern land)"
+  },
+  {
+    "real": "Arabic",
+    "code": "ar",
+    "shadow": "Aramaic",
+    "family": "Semitic",
+    "note": "Major Aram continent language"
+  },
+  {
+    "real": "Hebrew",
+    "code": "he",
+    "shadow": "Kedaric",
+    "family": "Semitic",
+    "note": "From Kedareth (shadow Israel)"
+  },
+  {
+    "real": "Persian",
+    "code": "fa",
+    "shadow": "Parsic",
+    "family": "Iranic",
+    "note": "From Parsagad (shadow Iran)"
+  },
+  {
+    "real": "Turkish",
+    "code": "tr",
+    "shadow": "Anatolian",
+    "family": "Turkic",
+    "note": "From Anatolia region"
+  },
+  {
+    "real": "Azerbaijani",
+    "code": "az",
+    "shadow": "Adurbadian",
+    "family": "Turkic",
+    "note": "From Adurbadagan (shadow Azerbaijan)"
+  },
+  {
+    "real": "Uzbek",
+    "code": "uz",
+    "shadow": "Sogdian",
+    "family": "Turkic",
+    "note": "From ancient Sogdiana"
+  },
+  {
+    "real": "Kazakh",
+    "code": "kk",
+    "shadow": "Qazaric",
+    "family": "Turkic",
+    "note": "From Qazar/Khazar roots"
+  },
+  {
+    "real": "Mandarin",
+    "code": "zh",
+    "shadow": "Tianlongic",
+    "family": "Sinitic",
+    "note": "From Tianlong (shadow China) - major Solis language"
+  },
+  {
+    "real": "Cantonese",
+    "code": "yue",
+    "shadow": "Yuehai",
+    "family": "Sinitic",
+    "note": "Southern coastal dialect"
+  },
+  {
+    "real": "Japanese",
+    "code": "ja",
+    "shadow": "Kamikuran",
+    "family": "Japonic",
+    "note": "From Kamikura (shadow Japan)"
+  },
+  {
+    "real": "Korean",
+    "code": "ko",
+    "shadow": "Haedongic",
+    "family": "Koreanic",
+    "note": "From Haedong (shadow Korea)"
+  },
+  {
+    "real": "Vietnamese",
+    "code": "vi",
+    "shadow": "Annamitic",
+    "family": "Vietic",
+    "note": "From Annam historical name"
+  },
+  {
+    "real": "Thai",
+    "code": "th",
+    "shadow": "Siamic",
+    "family": "Tai",
+    "note": "From Siam historical name"
+  },
+  {
+    "real": "Indonesian",
+    "code": "id",
+    "shadow": "Nusantaran",
+    "family": "Austronesian",
+    "note": "From Nusantara (archipelago)"
+  },
+  {
+    "real": "Malay",
+    "code": "ms",
+    "shadow": "Melakan",
+    "family": "Austronesian",
+    "note": "From Melaka historical port"
+  },
+  {
+    "real": "Tagalog",
+    "code": "tl",
+    "shadow": "Maharlikan",
+    "family": "Austronesian",
+    "note": "From Maharlika (noble class)"
+  },
+  {
+    "real": "Hindi",
+    "code": "hi",
+    "shadow": "Bharatic",
+    "family": "Indic",
+    "note": "From Bharatvani (shadow India)"
+  },
+  {
+    "real": "Urdu",
+    "code": "ur",
+    "shadow": "Sindhukan",
+    "family": "Indic",
+    "note": "From Sindhuka (shadow Pakistan)"
+  },
+  {
+    "real": "Bengali",
+    "code": "bn",
+    "shadow": "Padmavaran",
+    "family": "Indic",
+    "note": "From Padmavari (shadow Bangladesh)"
+  },
+  {
+    "real": "Tamil",
+    "code": "ta",
+    "shadow": "Dravidic",
+    "family": "Dravidian",
+    "note": "Ancient southern tongue"
+  },
+  {
+    "real": "Telugu",
+    "code": "te",
+    "shadow": "Andhric",
+    "family": "Dravidian",
+    "note": "From Andhra region"
+  },
+  {
+    "real": "Swahili",
+    "code": "sw",
+    "shadow": "Sawahilic",
+    "family": "Bantu",
+    "note": "Major Mero coastal language"
+  },
+  {
+    "real": "Hausa",
+    "code": "ha",
+    "shadow": "Hausalan",
+    "family": "Chadic",
+    "note": "From Hausal (shadow Nigeria region)"
+  },
+  {
+    "real": "Yoruba",
+    "code": "yo",
+    "shadow": "Oduwan",
+    "family": "Niger-Congo",
+    "note": "From Oduwa mythical founder"
+  },
+  {
+    "real": "Amharic",
+    "code": "am",
+    "shadow": "Zagwenic",
+    "family": "Semitic",
+    "note": "From Zagwene (shadow Ethiopia)"
+  },
+  {
+    "real": "Somali",
+    "code": "so",
+    "shadow": "Puntic",
+    "family": "Cushitic",
+    "note": "From ancient Punt"
+  },
+  {
+    "real": "Afrikaans",
+    "code": "af",
+    "shadow": "Khoiveldic",
+    "family": "Hesperic",
+    "note": "From Khoiveld (shadow South Africa)"
+  },
+  {
+    "real": "Zulu",
+    "code": "zu",
+    "shadow": "Nguni",
+    "family": "Bantu",
+    "note": "From Nguni peoples"
+  },
+  {
+    "real": "Armenian",
+    "code": "hy",
+    "shadow": "Haykadzoran",
+    "family": "Armenian",
+    "note": "From Haykadzor (shadow Armenia)"
+  },
+  {
+    "real": "Georgian",
+    "code": "ka",
+    "shadow": "Kartvelian",
+    "family": "Kartvelian",
+    "note": "From Kartveli self-name"
+  },
+  {
+    "real": "Nepali",
+    "code": "ne",
+    "shadow": "Gorkhalic",
+    "family": "Indic",
+    "note": "From Gorkha dynasty"
+  },
+  {
+    "real": "Burmese",
+    "code": "my",
+    "shadow": "Bamaric",
+    "family": "Tibeto-Burman",
+    "note": "From Bamar people"
+  },
+  {
+    "real": "Khmer",
+    "code": "km",
+    "shadow": "Angkorian",
+    "family": "Austroasiatic",
+    "note": "From Angkor civilization"
+  },
+  {
+    "real": "Lao",
+    "code": "lo",
+    "shadow": "Lanxangic",
+    "family": "Tai",
+    "note": "From Lan Xang kingdom"
+  },
+  {
+    "real": "Mongolian",
+    "code": "mn",
+    "shadow": "Khalkhan",
+    "family": "Mongolic",
+    "note": "From Khalkha Mongols"
+  },
+  {
+    "real": "Lithuanian",
+    "code": "lt",
+    "shadow": "Samogitian",
+    "family": "Baltic",
+    "note": "From Samogitia region"
+  },
+  {
+    "real": "Latvian",
+    "code": "lv",
+    "shadow": "Livonian",
+    "family": "Baltic",
+    "note": "From Livonia region"
+  },
+  {
+    "real": "Albanian",
+    "code": "sq",
+    "shadow": "Shkyperethic",
+    "family": "Paleo-Balkan",
+    "note": "From Shkypereth (shadow Albania)"
+  },
+  {
+    "real": "Haitian Creole",
+    "code": "ht",
+    "shadow": "Ayitian",
+    "family": "Creole",
+    "note": "From Ayiti indigenous name"
+  },
+  {
+    "real": "Malagasy",
+    "code": "mg",
+    "shadow": "Merina",
+    "family": "Austronesian",
+    "note": "From Merina kingdom"
+  }
+]

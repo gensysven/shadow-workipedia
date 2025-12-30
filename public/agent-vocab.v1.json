@@ -403,88 +403,88 @@
       "Zhang"
     ],
     "languages": [
-      "en",
-      "es",
-      "fr",
-      "ar",
-      "hi",
-      "zh",
-      "ru",
-      "pt",
-      "ja",
-      "sw",
-      "tr",
-      "de",
-      "ko",
-      "it",
-      "nl",
-      "pl",
-      "uk",
-      "el",
-      "he",
-      "fa",
-      "ur",
-      "bn",
-      "ta",
-      "vi",
-      "th",
-      "id",
-      "ms",
-      "tl",
-      "ha",
-      "yo",
-      "am",
+      "Alvionic",
+      "Castillaran",
+      "Gallicene",
+      "Aramaic",
+      "Bharatic",
+      "Tianlongic",
+      "Severnyan",
+      "Lusitanic",
+      "Kamikuran",
+      "Sawahilic",
+      "Anatolian",
+      "Teutonic",
+      "Haedongic",
+      "Vesperic",
+      "Batavic",
+      "Sarmatian",
+      "Scythian",
+      "Helladic",
+      "Kedaric",
+      "Parsic",
+      "Sindhukan",
+      "Padmavaran",
+      "Dravidic",
+      "Annamitic",
+      "Siamic",
+      "Nusantaran",
+      "Melakan",
+      "Maharlikan",
+      "Hausalan",
+      "Oduwan",
+      "Zagwenic",
       "aeb",
-      "af",
+      "Khoiveldic",
       "ak",
       "apc",
       "apd",
       "arq",
       "ary",
-      "az",
+      "Adurbadian",
       "bem",
-      "bg",
+      "Thracian",
       "bi",
       "bm",
       "bs",
       "ca",
       "crs",
-      "cs",
-      "da",
+      "Bohemic",
+      "Daenic",
       "dv",
       "dz",
-      "et",
-      "fi",
+      "Aestic",
+      "Suomic",
       "fo",
       "gn",
-      "hr",
-      "ht",
-      "hu",
-      "hy",
-      "is",
-      "ka",
+      "Illyric",
+      "Ayitian",
+      "Magyric",
+      "Haykadzoran",
+      "Thulean",
+      "Kartvelian",
       "kea",
       "kl",
-      "km",
+      "Angkorian",
       "kri",
       "ky",
-      "lo",
-      "lt",
-      "lv",
+      "Lanxangic",
+      "Samogitian",
+      "Livonian",
       "mey",
       "mfe",
-      "mg",
+      "Merina",
       "mk",
-      "mn",
+      "Khalkhan",
       "mos",
       "mt",
-      "my",
-      "nb",
-      "ne",
+      "Bamaric",
+      "Norrenic",
+      "Gorkhalic",
       "pap",
       "pau",
       "rn",
-      "ro",
+      "Dacian",
       "rw",
       "sg",
       "si",
@@ -492,11 +492,11 @@
       "sl",
       "sm",
       "sn",
-      "so",
-      "sq",
-      "sr",
+      "Puntic",
+      "Shkyperethic",
+      "Moesian",
       "st",
-      "sv",
+      "Svealic",
       "tg",
       "ti",
       "tk",
@@ -504,11 +504,11 @@
       "to",
       "tpi",
       "tvl",
-      "uz",
+      "Sogdian",
       "wo",
       "pa",
-      "yue",
-      "te",
+      "Yuehai",
+      "Andhric",
       "lah",
       "mr",
       "jv",
@@ -2763,7 +2763,7 @@
     }
   },
   "microCultureProfiles": {
-    "profile:global": {
+    "profile:cosmopolitan": {
       "weights": {
         "namesPrimaryWeight": 0.5,
         "languagesPrimaryWeight": 0.5,
@@ -2773,10 +2773,10 @@
       },
       "identity": {
         "languages": [
-          "en",
-          "es",
-          "fr",
-          "ar"
+          "Alvionic",
+          "Castillaran",
+          "Gallicene",
+          "Aramaic"
         ],
         "maleFirstNames": [
           "Alex",
@@ -2836,7 +2836,7 @@
         }
       }
     },
-    "profile:anglophone": {
+    "profile:alvionic": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.7,
@@ -2916,7 +2916,7 @@
           "Cooper"
         ],
         "languages": [
-          "en"
+          "Alvionic"
         ]
       },
       "preferences": {
@@ -2973,7 +2973,7 @@
         }
       }
     },
-    "profile:hispanic": {
+    "profile:castillaran": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.8,
@@ -3054,7 +3054,7 @@
           "Mendoza"
         ],
         "languages": [
-          "es"
+          "Castillaran"
         ]
       },
       "preferences": {
@@ -3109,7 +3109,7 @@
         }
       }
     },
-    "profile:luso": {
+    "profile:lusitanic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.8,
@@ -3163,7 +3163,7 @@
           "Araujo"
         ],
         "languages": [
-          "pt"
+          "Lusitanic"
         ],
         "maleFirstNames": [
           "João",
@@ -3247,7 +3247,7 @@
         }
       }
     },
-    "profile:francophone": {
+    "profile:gallicene": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -3301,7 +3301,7 @@
           "Gauthier"
         ],
         "languages": [
-          "fr"
+          "Gallicene"
         ],
         "maleFirstNames": [
           "Jean",
@@ -3385,7 +3385,7 @@
         }
       }
     },
-    "profile:arab": {
+    "profile:aramaic": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -3463,7 +3463,7 @@
           "Darwish"
         ],
         "languages": [
-          "ar"
+          "Aramaic"
         ]
       },
       "preferences": {
@@ -3518,7 +3518,7 @@
         }
       }
     },
-    "profile:slavic": {
+    "profile:slavonic": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -3572,9 +3572,9 @@
           "Pavlov"
         ],
         "languages": [
-          "ru",
-          "uk",
-          "pl"
+          "Severnyan",
+          "Scythian",
+          "Sarmatian"
         ],
         "maleFirstNames": [
           "Ivan",
@@ -3657,7 +3657,7 @@
         }
       }
     },
-    "profile:germanic": {
+    "profile:teutonic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -3711,9 +3711,9 @@
           "de Vries"
         ],
         "languages": [
-          "de",
-          "nl",
-          "en"
+          "Teutonic",
+          "Batavic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Hans",
@@ -3797,7 +3797,7 @@
         }
       }
     },
-    "profile:nordic": {
+    "profile:norrenic": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.8,
@@ -3851,10 +3851,10 @@
           "Nygaard"
         ],
         "languages": [
-          "sv",
+          "Svealic",
           "no",
-          "da",
-          "fi"
+          "Daenic",
+          "Suomic"
         ],
         "maleFirstNames": [
           "Erik",
@@ -3938,7 +3938,7 @@
         }
       }
     },
-    "profile:turkic": {
+    "profile:anatolian": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -3992,7 +3992,7 @@
           "Ozturk"
         ],
         "languages": [
-          "tr"
+          "Anatolian"
         ],
         "maleFirstNames": [
           "Mehmet",
@@ -4075,7 +4075,7 @@
         }
       }
     },
-    "profile:iranian": {
+    "profile:parsic": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -4153,7 +4153,7 @@
           "Zarei"
         ],
         "languages": [
-          "fa"
+          "Parsic"
         ]
       },
       "preferences": {
@@ -4209,7 +4209,7 @@
         }
       }
     },
-    "profile:indic": {
+    "profile:bharatic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -4287,11 +4287,11 @@
           "Saxena"
         ],
         "languages": [
-          "hi",
-          "bn",
-          "ta",
-          "te",
-          "ur",
+          "Bharatic",
+          "Padmavaran",
+          "Dravidic",
+          "Andhric",
+          "Sindhukan",
           "pa"
         ]
       },
@@ -4348,7 +4348,7 @@
         }
       }
     },
-    "profile:islamic-south-asia": {
+    "profile:sindhukan": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -4402,8 +4402,8 @@
           "Syed"
         ],
         "languages": [
-          "ur",
-          "bn"
+          "Sindhukan",
+          "Padmavaran"
         ],
         "maleFirstNames": [
           "Mohammad",
@@ -4487,7 +4487,7 @@
         }
       }
     },
-    "profile:se-asia": {
+    "profile:nusantaran": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -4541,13 +4541,13 @@
           "Vong"
         ],
         "languages": [
-          "vi",
-          "id",
-          "ms",
-          "th",
-          "tl",
+          "Annamitic",
+          "Nusantaran",
+          "Melakan",
+          "Siamic",
+          "Maharlikan",
           "fil",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Nguyen",
@@ -4631,7 +4631,7 @@
         }
       }
     },
-    "profile:sinosphere": {
+    "profile:tianlongic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -4685,9 +4685,9 @@
           "Gu"
         ],
         "languages": [
-          "zh",
-          "yue",
-          "en"
+          "Tianlongic",
+          "Yuehai",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Wei",
@@ -4771,7 +4771,7 @@
         }
       }
     },
-    "profile:japanese": {
+    "profile:kamikuran": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -4825,8 +4825,8 @@
           "Saito"
         ],
         "languages": [
-          "ja",
-          "en"
+          "Kamikuran",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Haruto",
@@ -4910,7 +4910,7 @@
         }
       }
     },
-    "profile:korean": {
+    "profile:haedongic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -4964,8 +4964,8 @@
           "Jeon"
         ],
         "languages": [
-          "ko",
-          "en"
+          "Haedongic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Minho",
@@ -5049,7 +5049,7 @@
         }
       }
     },
-    "profile:italian": {
+    "profile:vesperic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -5103,8 +5103,8 @@
           "Sorrentino"
         ],
         "languages": [
-          "it",
-          "en"
+          "Vesperic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Marco",
@@ -5188,7 +5188,7 @@
         }
       }
     },
-    "profile:hellenic": {
+    "profile:helladic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -5242,8 +5242,8 @@
           "Karamanlis"
         ],
         "languages": [
-          "el",
-          "en"
+          "Helladic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Georgios",
@@ -5327,7 +5327,7 @@
         }
       }
     },
-    "profile:e-africa": {
+    "profile:sawahili": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -5405,8 +5405,8 @@
           "Githinji"
         ],
         "languages": [
-          "sw",
-          "en"
+          "Sawahilic",
+          "Alvionic"
         ]
       },
       "preferences": {
@@ -5462,7 +5462,7 @@
         }
       }
     },
-    "profile:horn-of-africa": {
+    "profile:puntic": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -5516,9 +5516,9 @@
           "Nur"
         ],
         "languages": [
-          "am",
-          "en",
-          "ar"
+          "Zagwenic",
+          "Alvionic",
+          "Aramaic"
         ],
         "maleFirstNames": [
           "Dawit",
@@ -5602,7 +5602,7 @@
         }
       }
     },
-    "profile:sahel": {
+    "profile:sahelian": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -5656,9 +5656,9 @@
           "Coulibaly"
         ],
         "languages": [
-          "ha",
-          "fr",
-          "ar"
+          "Hausalan",
+          "Gallicene",
+          "Aramaic"
         ],
         "maleFirstNames": [
           "Ousmane",
@@ -5742,7 +5742,7 @@
         }
       }
     },
-    "profile:w-africa": {
+    "profile:oduwan": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -5796,11 +5796,11 @@
           "Kante"
         ],
         "languages": [
-          "yo",
+          "Oduwan",
           "ig",
-          "ha",
-          "en",
-          "fr"
+          "Hausalan",
+          "Alvionic",
+          "Gallicene"
         ],
         "maleFirstNames": [
           "Kwame",
@@ -5884,7 +5884,7 @@
         }
       }
     },
-    "profile:s-africa": {
+    "profile:khoiveldic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -5962,9 +5962,9 @@
           "Govender"
         ],
         "languages": [
-          "zu",
+          "Nguni",
           "xh",
-          "en"
+          "Alvionic"
         ]
       },
       "preferences": {
@@ -6020,7 +6020,7 @@
         }
       }
     },
-    "profile:maghrebi": {
+    "profile:tamazight": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -6077,8 +6077,8 @@
           "aeb",
           "arq",
           "ary",
-          "ar",
-          "fr"
+          "Aramaic",
+          "Gallicene"
         ],
         "maleFirstNames": [
           "Mohamed",
@@ -6162,7 +6162,7 @@
         }
       }
     },
-    "profile:levantine": {
+    "profile:levantic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -6217,9 +6217,9 @@
         ],
         "languages": [
           "apc",
-          "ar",
-          "en",
-          "fr"
+          "Aramaic",
+          "Alvionic",
+          "Gallicene"
         ],
         "maleFirstNames": [
           "Khaled",
@@ -6303,7 +6303,7 @@
         }
       }
     },
-    "profile:gulf": {
+    "profile:khalijic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -6358,8 +6358,8 @@
         ],
         "languages": [
           "apd",
-          "ar",
-          "en"
+          "Aramaic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Mohammed",
@@ -6443,7 +6443,7 @@
         }
       }
     },
-    "profile:egyptian": {
+    "profile:deshretine": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -6498,8 +6498,8 @@
         ],
         "languages": [
           "arz",
-          "ar",
-          "en"
+          "Aramaic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Ahmed",
@@ -6583,7 +6583,7 @@
         }
       }
     },
-    "profile:west-slavic": {
+    "profile:sarmatian": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -6637,8 +6637,8 @@
           "Mazur"
         ],
         "languages": [
-          "pl",
-          "cs",
+          "Sarmatian",
+          "Bohemic",
           "sk"
         ],
         "maleFirstNames": [
@@ -6723,7 +6723,7 @@
         }
       }
     },
-    "profile:balkan": {
+    "profile:illyric": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -6777,13 +6777,13 @@
           "Ristic"
         ],
         "languages": [
-          "sr",
-          "hr",
+          "Moesian",
+          "Illyric",
           "bs",
           "mk",
-          "sq",
-          "bg",
-          "ro"
+          "Shkyperethic",
+          "Thracian",
+          "Dacian"
         ],
         "maleFirstNames": [
           "Ivan",
@@ -6867,7 +6867,7 @@
         }
       }
     },
-    "profile:baltic": {
+    "profile:aestic": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -6921,9 +6921,9 @@
           "Vasara"
         ],
         "languages": [
-          "lt",
-          "lv",
-          "et"
+          "Samogitian",
+          "Livonian",
+          "Aestic"
         ],
         "maleFirstNames": [
           "Janis",
@@ -7007,7 +7007,7 @@
         }
       }
     },
-    "profile:romanian": {
+    "profile:dacian": {
       "weights": {
         "namesPrimaryWeight": 0.78,
         "languagesPrimaryWeight": 0.85,
@@ -7061,7 +7061,7 @@
           "Mateescu"
         ],
         "languages": [
-          "ro"
+          "Dacian"
         ],
         "maleFirstNames": [
           "Ion",
@@ -7145,7 +7145,7 @@
         }
       }
     },
-    "profile:hungarian": {
+    "profile:magyric": {
       "weights": {
         "namesPrimaryWeight": 0.78,
         "languagesPrimaryWeight": 0.85,
@@ -7199,7 +7199,7 @@
           "Gulyas"
         ],
         "languages": [
-          "hu"
+          "Magyric"
         ],
         "maleFirstNames": [
           "Istvan",
@@ -7283,7 +7283,7 @@
         }
       }
     },
-    "profile:central-europe": {
+    "profile:bohemic": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.8,
@@ -7337,10 +7337,10 @@
           "Horvath"
         ],
         "languages": [
-          "de",
-          "cs",
-          "hu",
-          "pl",
+          "Teutonic",
+          "Bohemic",
+          "Magyric",
+          "Sarmatian",
           "sk"
         ],
         "maleFirstNames": [
@@ -7425,7 +7425,7 @@
         }
       }
     },
-    "profile:afrikaans": {
+    "profile:boeric": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.8,
@@ -7479,8 +7479,8 @@
           "Strydom"
         ],
         "languages": [
-          "af",
-          "en"
+          "Khoiveldic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Johan",
@@ -7564,7 +7564,7 @@
         }
       }
     },
-    "profile:hebrew": {
+    "profile:kedaric": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -7618,9 +7618,9 @@
           "Ben-Ami"
         ],
         "languages": [
-          "he",
-          "en",
-          "ar"
+          "Kedaric",
+          "Alvionic",
+          "Aramaic"
         ],
         "maleFirstNames": [
           "David",
@@ -7704,7 +7704,7 @@
         }
       }
     },
-    "profile:caucasus": {
+    "profile:kartvelian": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -7758,10 +7758,10 @@
           "Melikyan"
         ],
         "languages": [
-          "hy",
-          "ka",
-          "az",
-          "ru"
+          "Haykadzoran",
+          "Kartvelian",
+          "Adurbadian",
+          "Severnyan"
         ],
         "maleFirstNames": [
           "Giorgi",
@@ -7845,7 +7845,7 @@
         }
       }
     },
-    "profile:central-asia": {
+    "profile:sogdian": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -7899,11 +7899,11 @@
           "Alimuhamedov"
         ],
         "languages": [
-          "uz",
+          "Sogdian",
           "tk",
           "ky",
           "tg",
-          "ru"
+          "Severnyan"
         ],
         "maleFirstNames": [
           "Bekzat",
@@ -7987,7 +7987,7 @@
         }
       }
     },
-    "profile:mongolic": {
+    "profile:khalkhan": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.85,
@@ -8041,8 +8041,8 @@
           "Tserendorj"
         ],
         "languages": [
-          "mn",
-          "ru"
+          "Khalkhan",
+          "Severnyan"
         ],
         "maleFirstNames": [
           "Batbayar",
@@ -8126,7 +8126,7 @@
         }
       }
     },
-    "profile:indo-aryan": {
+    "profile:gangetic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -8180,12 +8180,12 @@
           "Khandelwal"
         ],
         "languages": [
-          "hi",
-          "bn",
+          "Bharatic",
+          "Padmavaran",
           "mr",
           "gu",
           "pa",
-          "ne"
+          "Gorkhalic"
         ],
         "maleFirstNames": [
           "Arjun",
@@ -8269,7 +8269,7 @@
         }
       }
     },
-    "profile:dravidian": {
+    "profile:dravidic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -8347,8 +8347,8 @@
           "Ramaswamy"
         ],
         "languages": [
-          "ta",
-          "te",
+          "Dravidic",
+          "Andhric",
           "ml",
           "kn"
         ]
@@ -8406,7 +8406,7 @@
         }
       }
     },
-    "profile:himalayan": {
+    "profile:gorkhalic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -8460,7 +8460,7 @@
           "Ghimire"
         ],
         "languages": [
-          "ne",
+          "Gorkhalic",
           "si",
           "dv"
         ],
@@ -8546,7 +8546,7 @@
         }
       }
     },
-    "profile:maritime-sea": {
+    "profile:melakan": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -8600,12 +8600,12 @@
           "Ramadhan"
         ],
         "languages": [
-          "id",
-          "ms",
+          "Nusantaran",
+          "Melakan",
           "jv",
           "su",
           "mad",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Budi",
@@ -8689,7 +8689,7 @@
         }
       }
     },
-    "profile:mainland-sea": {
+    "profile:siamic": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.9,
@@ -8743,12 +8743,12 @@
           "Myint"
         ],
         "languages": [
-          "vi",
-          "th",
-          "km",
-          "lo",
-          "my",
-          "en"
+          "Annamitic",
+          "Siamic",
+          "Angkorian",
+          "Lanxangic",
+          "Bamaric",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Somchai",
@@ -8832,7 +8832,7 @@
         }
       }
     },
-    "profile:philippines": {
+    "profile:maharlikan": {
       "weights": {
         "namesPrimaryWeight": 0.78,
         "languagesPrimaryWeight": 0.88,
@@ -8886,9 +8886,9 @@
           "Navarro"
         ],
         "languages": [
-          "tl",
+          "Maharlikan",
           "ceb",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Jose",
@@ -8972,7 +8972,7 @@
         }
       }
     },
-    "profile:sinitic": {
+    "profile:hannic": {
       "weights": {
         "namesPrimaryWeight": 0.85,
         "languagesPrimaryWeight": 0.9,
@@ -9026,13 +9026,13 @@
           "Gu"
         ],
         "languages": [
-          "zh",
+          "Tianlongic",
           "nan",
           "wuu",
           "hsn",
           "hak",
           "gan",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Wei",
@@ -9116,7 +9116,7 @@
         }
       }
     },
-    "profile:cantonese": {
+    "profile:yuehai": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9170,9 +9170,9 @@
           "Au"
         ],
         "languages": [
-          "yue",
-          "zh",
-          "en"
+          "Yuehai",
+          "Tianlongic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Wai",
@@ -9256,7 +9256,7 @@
         }
       }
     },
-    "profile:ethiopian": {
+    "profile:zagwenic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9310,10 +9310,10 @@
           "Wondwosen"
         ],
         "languages": [
-          "am",
+          "Zagwenic",
           "ti",
           "om",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Dawit",
@@ -9397,7 +9397,7 @@
         }
       }
     },
-    "profile:somali": {
+    "profile:cushitic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9451,9 +9451,9 @@
           "Haji"
         ],
         "languages": [
-          "so",
-          "ar",
-          "en"
+          "Puntic",
+          "Aramaic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Mohamed",
@@ -9537,7 +9537,7 @@
         }
       }
     },
-    "profile:senegambian": {
+    "profile:wolofic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9592,8 +9592,8 @@
         ],
         "languages": [
           "wo",
-          "fr",
-          "en"
+          "Gallicene",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Ousmane",
@@ -9677,7 +9677,7 @@
         }
       }
     },
-    "profile:fulani": {
+    "profile:fulanic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9732,8 +9732,8 @@
         ],
         "languages": [
           "fuv",
-          "ha",
-          "fr"
+          "Hausalan",
+          "Gallicene"
         ],
         "maleFirstNames": [
           "Amadou",
@@ -9817,7 +9817,7 @@
         }
       }
     },
-    "profile:akan": {
+    "profile:ashantic": {
       "weights": {
         "namesPrimaryWeight": 0.82,
         "languagesPrimaryWeight": 0.9,
@@ -9872,7 +9872,7 @@
         ],
         "languages": [
           "ak",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Kwame",
@@ -9956,7 +9956,7 @@
         }
       }
     },
-    "profile:caribbean-creole": {
+    "profile:antillean": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -10010,11 +10010,11 @@
           "Desir"
         ],
         "languages": [
-          "ht",
+          "Ayitian",
           "pap",
-          "en",
-          "fr",
-          "es"
+          "Alvionic",
+          "Gallicene",
+          "Castillaran"
         ],
         "maleFirstNames": [
           "Jamal",
@@ -10098,7 +10098,7 @@
         }
       }
     },
-    "profile:indian-ocean-creole": {
+    "profile:mascarene": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -10155,9 +10155,9 @@
           "mfe",
           "kea",
           "crs",
-          "fr",
-          "en",
-          "pt"
+          "Gallicene",
+          "Alvionic",
+          "Lusitanic"
         ],
         "maleFirstNames": [
           "Jean",
@@ -10241,7 +10241,7 @@
         }
       }
     },
-    "profile:melanesian-pidgin": {
+    "profile:pelagic-pidgin": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.8,
@@ -10297,7 +10297,7 @@
         "languages": [
           "tpi",
           "bi",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "John",
@@ -10381,7 +10381,7 @@
         }
       }
     },
-    "profile:polynesian": {
+    "profile:oceanic": {
       "weights": {
         "namesPrimaryWeight": 0.78,
         "languagesPrimaryWeight": 0.85,
@@ -10439,7 +10439,7 @@
           "to",
           "tkl",
           "tvl",
-          "en"
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Tane",
@@ -10523,7 +10523,7 @@
         }
       }
     },
-    "profile:arctic": {
+    "profile:hyperborean": {
       "weights": {
         "namesPrimaryWeight": 0.7,
         "languagesPrimaryWeight": 0.8,
@@ -10578,8 +10578,8 @@
         ],
         "languages": [
           "kl",
-          "da",
-          "en"
+          "Daenic",
+          "Alvionic"
         ],
         "maleFirstNames": [
           "Nanuq",
@@ -10663,7 +10663,7 @@
         }
       }
     },
-    "profile:andean": {
+    "profile:tawantinsuyan": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.8,
@@ -10719,7 +10719,7 @@
         "languages": [
           "qu",
           "ay",
-          "es"
+          "Castillaran"
         ],
         "maleFirstNames": [
           "Tupac",
@@ -10803,7 +10803,7 @@
         }
       }
     },
-    "profile:caribbean-francophone": {
+    "profile:antillean-gallicene": {
       "weights": {
         "namesPrimaryWeight": 0.75,
         "languagesPrimaryWeight": 0.85,
@@ -10857,8 +10857,8 @@
           "Prosper"
         ],
         "languages": [
-          "fr",
-          "ht"
+          "Gallicene",
+          "Ayitian"
         ],
         "maleFirstNames": [
           "Jean",
@@ -10942,7 +10942,7 @@
         }
       }
     },
-    "profile:post-soviet": {
+    "profile:post-severnyan": {
       "weights": {
         "namesPrimaryWeight": 0.8,
         "languagesPrimaryWeight": 0.85,
@@ -10996,8 +10996,8 @@
           "Shevchenko"
         ],
         "languages": [
-          "ru",
-          "uk",
+          "Severnyan",
+          "Scythian",
           "be"
         ],
         "maleFirstNames": [
