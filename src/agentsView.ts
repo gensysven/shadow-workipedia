@@ -1,6 +1,5 @@
-import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type TierBand } from './agentGenerator';
-import tracery from 'tracery-grammar';
-import narrationSpec from './agentNarration.v1.json';
+import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type TierBand } from './agent';
+import { generateNarrative, pronounSetToMode } from './agentNarration';
 
 type RosterItem = {
   id: string;
@@ -361,578 +360,6 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
   }, ms);
 }
 
-type PronounMode = 'seeded' | 'they' | 'he' | 'she' | 'name';
-
-function hashStringToU32(input: string): number {
-  // FNV-1a 32-bit for stable, cross-runtime hashing (browser-safe).
-  let h = 2166136261;
-  for (let i = 0; i < input.length; i++) {
-    h ^= input.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-function makeXorshiftRng(seed: string): () => number {
-  // xorshift32: fast, deterministic, good enough for text variation.
-  let state = hashStringToU32(seed) || 1;
-  return () => {
-    state ^= state << 13;
-    state ^= state >>> 17;
-    state ^= state << 5;
-    // uint32 -> [0, 1)
-    return (state >>> 0) / 4294967296;
-  };
-}
-
-function setTraceryRng(rng: () => number) {
-  // tracery-grammar exposes setRng at runtime, but some typings omit it.
-  const fn = (tracery as unknown as { setRng?: (r: () => number) => void }).setRng;
-  if (fn) fn(rng);
-}
-
-let traceryRngCurrent: () => number = Math.random;
-function withTraceryRng<T>(rng: () => number, fn: () => T): T {
-  const prev = traceryRngCurrent;
-  traceryRngCurrent = rng;
-  setTraceryRng(rng);
-  try {
-    return fn();
-  } finally {
-    traceryRngCurrent = prev;
-    setTraceryRng(prev);
-  }
-}
-
-function pickVariant(seed: string, key: string, variants: readonly string[]): string {
-  if (!variants.length) return '';
-  const idx = hashStringToU32(`${seed}::${key}`) % variants.length;
-  return variants[idx] ?? '';
-}
-
-function capitalizeFirst(input: string): string {
-  if (!input) return input;
-  return input.charAt(0).toUpperCase() + input.slice(1);
-}
-
-function pickKUnique(seed: string, key: string, values: readonly string[], k: number): string[] {
-  if (!values.length || k <= 0) return [];
-  const picks: string[] = [];
-  const used = new Set<number>();
-  const rounds = Math.min(values.length, k);
-  for (let i = 0; i < rounds; i++) {
-    // Salt each round to avoid repeating the same index.
-    const base = hashStringToU32(`${seed}::${key}::${i}`);
-    let idx = base % values.length;
-    // Deterministic probing.
-    for (let probe = 0; probe < values.length && used.has(idx); probe++) idx = (idx + 1) % values.length;
-    used.add(idx);
-    picks.push(values[idx] ?? '');
-  }
-  return picks.filter(Boolean);
-}
-
-function toNarrativePhrase(input: string): string {
-  const normalized = input
-    .trim()
-    .replace(/[_-]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .toLowerCase();
-  if (!normalized) return normalized;
-
-  const words = normalized.split(' ');
-  const mapped = words.map((w) => {
-    if (w === 'tv') return 'TV';
-    if (w === 'ai') return 'AI';
-    if (w === 'opsec') return 'OPSEC';
-    if (w === 'r&d') return 'R&D';
-    return w;
-  });
-
-  // Common hyphenations for readability.
-  const joined = mapped.join(' ');
-  return joined
-    .replace(/\bsci fi\b/g, 'sci-fi')
-    .replace(/\bsoft spoken\b/g, 'soft-spoken')
-    .replace(/\bsteel blue\b/g, 'steel-blue')
-    .replace(/\bblue green\b/g, 'blue-green')
-    .replace(/\bsalt and pepper\b/g, 'salt-and-pepper');
-}
-
-function normalizeNarrationText(input: string): string {
-  return input
-    .replace(/\s+/g, ' ')
-    .replace(/\s+([,.;:!?])/g, '$1')
-    .replace(/\(\s+/g, '(')
-    .replace(/\s+\)/g, ')')
-    .trim();
-}
-
-type NarrationRarity = 'common' | 'uncommon' | 'rare';
-type NarrationRuleItem = string | { text: string; w?: number; weight?: number; rarity?: NarrationRarity };
-type NarrationSpecV1 = { version: 1; rules: Record<string, NarrationRuleItem[] | string> };
-
-function isNarrationSpecV1(v: unknown): v is NarrationSpecV1 {
-  if (!v || typeof v !== 'object') return false;
-  const version = (v as { version?: unknown }).version;
-  const rules = (v as { rules?: unknown }).rules;
-  return version === 1 && !!rules && typeof rules === 'object';
-}
-
-function expandNarrationRule(items: NarrationRuleItem[] | string): string[] {
-  if (typeof items === 'string') return [items];
-  const out: string[] = [];
-  const rarityWeight = (r: NarrationRarity | undefined): number => {
-    if (r === 'rare') return 1;
-    if (r === 'uncommon') return 4;
-    return 10;
-  };
-
-  for (const it of items) {
-    if (typeof it === 'string') {
-      out.push(it);
-      continue;
-    }
-    if (!it || typeof it !== 'object') continue;
-    const text = String((it as { text?: unknown }).text ?? '').trim();
-    if (!text) continue;
-    const wRaw = (it as { w?: unknown; weight?: unknown }).w ?? (it as { weight?: unknown }).weight;
-    const wNum = typeof wRaw === 'number' && Number.isFinite(wRaw) ? Math.max(0, Math.floor(wRaw)) : 1;
-    const mult = wNum * rarityWeight((it as { rarity?: unknown }).rarity as NarrationRarity | undefined);
-    const reps = Math.max(1, Math.min(50, mult));
-    for (let i = 0; i < reps; i++) out.push(text);
-  }
-
-  return out.length ? out : [];
-}
-
-let narrationRulesCache: Record<string, string[]> | null = null;
-function getNarrationRules(): Record<string, string[]> {
-  if (narrationRulesCache) return narrationRulesCache;
-  const specUnknown: unknown = narrationSpec;
-  if (!isNarrationSpecV1(specUnknown)) return {};
-  const out: Record<string, string[]> = {};
-  for (const [k, v] of Object.entries(specUnknown.rules)) {
-    out[k] = expandNarrationRule(v as NarrationRuleItem[] | string);
-  }
-  narrationRulesCache = out;
-  return out;
-}
-
-function aOrAn(phrase: string): string {
-  const p = phrase.trim();
-  if (!p) return 'a';
-  const c = p[0]?.toLowerCase() ?? '';
-  if ('aeiou'.includes(c)) return 'an';
-  return 'a';
-}
-
-function needsIndefiniteArticle(phrase: string): boolean {
-  const p = phrase.trim().toLowerCase();
-  if (!p) return false;
-  if (p.startsWith('a ') || p.startsWith('an ') || p.startsWith('the ')) return false;
-  // Simple plural heuristic: "laugh lines", "dimples", "freckles", "hands", etc.
-  const last = p.split(/\s+/).pop() ?? p;
-  if (last.endsWith('s') && !last.endsWith('ss')) return false;
-  return true;
-}
-
-function withIndefiniteArticle(phrase: string): string {
-  const p = phrase.trim();
-  if (!p) return p;
-  return needsIndefiniteArticle(p) ? `${aOrAn(p)} ${p}` : p;
-}
-
-function oxfordJoin(items: string[]): string {
-  const xs = items.map(s => s.trim()).filter(Boolean);
-  if (xs.length <= 1) return xs[0] ?? '';
-  if (xs.length === 2) return `${xs[0]} and ${xs[1]}`;
-  return `${xs.slice(0, -1).join(', ')}, and ${xs[xs.length - 1]}`;
-}
-
-function toGerund(verb: string): string {
-  const v = verb.toLowerCase();
-  if (v.endsWith('ie')) return `${v.slice(0, -2)}ying`;
-  if (v.endsWith('e') && !v.endsWith('ee')) return `${v.slice(0, -1)}ing`;
-  if (/[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(v) && v.length >= 3) return `${v}${v.slice(-1)}ing`;
-  return `${v}ing`;
-}
-
-function toRecoveryActivity(raw: string): string {
-  const phrase = toNarrativePhrase(raw);
-  if (!phrase) return phrase;
-  // Already a gerund phrase: keep as-is ("stretching", "journaling", "stargazing").
-  if (phrase.endsWith('ing')) return phrase;
-  if (phrase.endsWith(' music')) return `listening to ${phrase}`;
-  const parts = phrase.split(/\s+/);
-  const first = parts[0] ?? '';
-  const rest = parts.slice(1).join(' ');
-
-  const verbStarters = new Set([
-    'call',
-    'clean',
-    'cook',
-    'visit',
-    'watch',
-    'sketch',
-    'journal',
-    'meditate',
-    'stretch',
-    'stargaze',
-    'garden',
-    'swim',
-    'run',
-    'read',
-    'write',
-    'walk',
-  ]);
-
-  if (verbStarters.has(first)) {
-    // Prefer gerund phrasing: "calling a friend", "cleaning the workspace".
-    const gerund = toGerund(first);
-    return rest ? `${gerund} ${rest}` : gerund;
-  }
-
-  // Noun-phrase rituals: "board game night", "gym session", "café hour"
-  return withIndefiniteArticle(phrase);
-}
-
-function joinTwoWithPlusIfAmbiguous(items: string[]): string {
-  const xs = items.map(s => s.trim()).filter(Boolean);
-  if (xs.length <= 1) return xs[0] ?? '';
-  if (xs.length === 2) {
-    const a = xs[0] ?? '';
-    const b = xs[1] ?? '';
-    const ambiguous = a.includes(' and ') || a.includes(' or ') || b.includes(' and ') || b.includes(' or ');
-    return ambiguous ? `${a}, plus ${b}` : `${a} and ${b}`;
-  }
-  return oxfordJoin(xs);
-}
-
-function bandToAdverb(band: Band5): string {
-  switch (band) {
-    case 'very_low':
-      return 'rarely';
-    case 'low':
-      return 'seldom';
-    case 'medium':
-      return 'sometimes';
-    case 'high':
-      return 'often';
-    case 'very_high':
-      return 'almost always';
-    default:
-      return 'sometimes';
-  }
-}
-
-function seededPronounFromSeed(seed: string): Exclude<PronounMode, 'seeded'> {
-  const roll = hashStringToU32(`${seed}::bio:pronouns`) % 1000;
-  if (roll < 100) return 'they'; // ~10%
-  if (roll < 550) return 'she'; // ~45%
-  return 'he'; // ~45%
-}
-
-function getPronouns(mode: PronounMode, seed: string, shortName: string): { Subj: string; subj: string; possAdj: string; be: string; have: string } {
-  const resolved = mode === 'seeded' ? seededPronounFromSeed(seed) : mode;
-  if (resolved === 'name') {
-    return { Subj: shortName, subj: shortName, possAdj: `${shortName}'s`, be: 'is', have: 'has' };
-  }
-  if (resolved === 'he') return { Subj: 'He', subj: 'he', possAdj: 'his', be: 'is', have: 'has' };
-  if (resolved === 'she') return { Subj: 'She', subj: 'she', possAdj: 'her', be: 'is', have: 'has' };
-  return { Subj: 'They', subj: 'they', possAdj: 'their', be: 'are', have: 'have' };
-}
-
-function conjugate(pron: { be: string }, singular: string, plural: string): string {
-  return pron.be === 'are' ? plural : singular;
-}
-
-function formatTraitNarration(name: string, band: Band5): string {
-  const adv = bandToAdverb(band);
-  switch (name) {
-    case 'riskTolerance':
-      return `${adv} comfortable with risk.`;
-    case 'conscientiousness':
-      return `${adv} inclined toward order.`;
-    case 'noveltySeeking':
-      return `${adv} drawn to novelty.`;
-    case 'agreeableness':
-      return `${adv} agreeable.`;
-    case 'authoritarianism':
-      return `${adv} inclined toward hierarchy.`;
-    default:
-      return '';
-  }
-}
-
-function renderNarrativeOverview(
-  agent: GeneratedAgent,
-  labels: { originLabel: string; citizenshipLabel: string; currentLabel: string },
-  asOfYear: number,
-  pronounMode: PronounMode,
-): string {
-  const seed = agent.seed;
-  const shortName = agent.identity.name.split(' ')[0] ?? agent.identity.name;
-  const pron = getPronouns(pronounMode, seed, shortName);
-
-  const role = pickVariant(seed, 'bio:role', agent.identity.roleSeedTags.length ? agent.identity.roleSeedTags : ['agent']);
-  const roleLabelRaw = toNarrativePhrase(role || 'agent');
-  const roleLabel = (() => {
-    // Ensure role reads like a person (not a system label).
-    if (roleLabelRaw === 'logistics') return 'logistics specialist';
-    if (roleLabelRaw === 'security') return 'security operative';
-    if (roleLabelRaw === 'media') return 'media operative';
-    return roleLabelRaw;
-  })();
-  const tier = toNarrativePhrase(agent.identity.tierBand);
-
-  const age = Math.max(0, Math.min(120, asOfYear - agent.identity.birthYear));
-  const ageClause = Number.isFinite(age) && age > 0 ? ` In ${asOfYear}, ${pron.subj} ${pron.be} ${age}.` : '';
-
-  const hair = `${toNarrativePhrase(agent.appearance.hair.color)} ${toNarrativePhrase(agent.appearance.hair.texture)} hair`.trim();
-  const eyes = `${toNarrativePhrase(agent.appearance.eyes.color)} eyes`.trim();
-  const height = toNarrativePhrase(agent.appearance.heightBand);
-  const build = toNarrativePhrase(agent.appearance.buildTag);
-  const voiceTag = toNarrativePhrase(agent.appearance.voiceTag);
-  const voice = voiceTag === 'storyteller' ? 'storyteller-like' : voiceTag;
-  const mark = pickVariant(seed, 'bio:mark', agent.appearance.distinguishingMarks);
-
-  const skillsSorted = Object.entries(agent.capabilities.skills)
-    .map(([k, v]) => ({ key: k, value: v.value }))
-    .sort((a, b) => (b.value - a.value) || a.key.localeCompare(b.key));
-  const topSkillKeys = skillsSorted.slice(0, 2).map(s => toNarrativePhrase(humanizeSkillKey(s.key)));
-
-  const apt = agent.capabilities.aptitudes;
-  const aptitudePairs = ([
-    ['Strength', apt.strength],
-    ['Endurance', apt.endurance],
-    ['Dexterity', apt.dexterity],
-    ['Reflexes', apt.reflexes],
-    ['Hand‑eye', apt.handEyeCoordination],
-    ['Cognitive speed', apt.cognitiveSpeed],
-    ['Attention control', apt.attentionControl],
-    ['Working memory', apt.workingMemory],
-    ['Risk calibration', apt.riskCalibration],
-    ['Charisma', apt.charisma],
-    ['Empathy', apt.empathy],
-    ['Assertiveness', apt.assertiveness],
-    ['Deception', apt.deceptionAptitude],
-  ] as const)
-    .slice()
-    .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]));
-  const topAptitudeNames = aptitudePairs.slice(0, 2).map(([label]) => toNarrativePhrase(label));
-
-  const traits = agent.psych.traits;
-  const traitPairs = ([
-    ['riskTolerance', traits.riskTolerance],
-    ['conscientiousness', traits.conscientiousness],
-    ['noveltySeeking', traits.noveltySeeking],
-    ['agreeableness', traits.agreeableness],
-    ['authoritarianism', traits.authoritarianism],
-  ] as const)
-    .slice()
-    .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]));
-  const topTrait = traitPairs[0];
-  const traitClause = topTrait ? formatTraitNarration(topTrait[0], formatBand5(topTrait[1])) : '';
-
-  const comfort = pickKUnique(seed, 'bio:comfort', agent.preferences.food.comfortFoods, 2).map(toNarrativePhrase);
-  const genre = pickKUnique(seed, 'bio:genre', agent.preferences.media.genreTopK, 2).map(toNarrativePhrase);
-  const style = pickKUnique(seed, 'bio:style', agent.preferences.fashion.styleTags, 1).map(toNarrativePhrase)[0] ?? '';
-  const ritual = toNarrativePhrase(agent.preferences.food.ritualDrink);
-  const rituals = pickKUnique(seed, 'bio:rituals', agent.routines.recoveryRituals, 2);
-
-  const preview = agent.deepSimPreview;
-  const breakBand = toNarrativePhrase(preview.breakRiskBand);
-  const breakTypes = preview.breakTypesTopK.slice(0, 2).map(toNarrativePhrase);
-
-  const vice = agent.vices[0]?.vice ? toNarrativePhrase(agent.vices[0].vice) : '';
-  const viceTrigger = agent.vices[0]?.triggers?.[0] ? toNarrativePhrase(agent.vices[0].triggers[0]) : '';
-
-  const aTier = aOrAn(`${tier}-tier`);
-  const ATier = capitalizeFirst(aTier);
-  const keepVerb = conjugate(pron, 'keeps', 'keep');
-  const recoverVerb = conjugate(pron, 'recovers', 'recover');
-  const favorVerb = conjugate(pron, 'favors', 'favor');
-  const tendVerb = conjugate(pron, 'tends', 'tend');
-  const dressVerb = conjugate(pron, 'dresses', 'dress');
-
-  const recoveryActivities = rituals.map(toRecoveryActivity).filter(Boolean);
-  const recoveryListText = recoveryActivities.length ? oxfordJoin(recoveryActivities) : 'a routine';
-  // Used for fallback phrasing elsewhere (kept as a descriptive noun phrase).
-  const genres = genre.length ? oxfordJoin(genre) : 'mixed media';
-  const comfortLine = comfort.length ? joinTwoWithPlusIfAmbiguous(comfort) : 'simple staples';
-  const styleLine = style || 'practical';
-
-  const markPhrase = mark ? toNarrativePhrase(mark) : '';
-  const markSentence = markPhrase ? `${pron.Subj} ${pron.have} ${withIndefiniteArticle(markPhrase)}.` : '';
-  const traitSentence = traitClause ? `${pron.Subj} ${pron.be} ${traitClause}` : '';
-
-  const chronotype = toNarrativePhrase(agent.routines.chronotype);
-  const chronotypeArticle = aOrAn(chronotype);
-
-  // Tone tags (simple, deterministic signals used to select phrasing).
-  const roleTagsLower = agent.identity.roleSeedTags.map(t => String(t).trim().toLowerCase());
-  const toneDiplomat = roleTagsLower.includes('diplomat');
-  const toneOps = roleTagsLower.includes('operative') || roleTagsLower.includes('security');
-  const toneMedia = roleTagsLower.includes('media');
-  const toneAnalyst = roleTagsLower.includes('analyst') || roleTagsLower.includes('technocrat');
-
-  const opsecHigh = agent.visibility.digitalHygiene >= 700 && agent.visibility.publicVisibility <= 450 && agent.visibility.paperTrail <= 600;
-  const publicHigh = agent.visibility.publicVisibility >= 700;
-
-  // Category-specific list formatting.
-  const skillsList = topSkillKeys.length ? oxfordJoin(topSkillKeys) : '';
-  const aptitudesList = topAptitudeNames.length ? oxfordJoin(topAptitudeNames) : '';
-  const recoveryList = recoveryListText;
-  const breakTypesList = (() => {
-    if (!breakTypes.length) return '';
-    if (breakTypes.length === 1) return breakTypes[0] ?? '';
-    const a = breakTypes[0] ?? '';
-    const b = breakTypes[1] ?? '';
-    const preferOr = (hashStringToU32(`${seed}::bio:breakTypesOr`) % 1000) < 350;
-    if (!a || !b) return oxfordJoin([a, b].filter(Boolean));
-    if (preferOr) return `${a} or ${b}`;
-    return `${a} and ${b}`;
-  })();
-
-  const breakTypesClauseText = breakTypesList
-    ? breakTypesList.includes(' or ')
-      ? `; ${breakTypesList} is a common failure mode`
-      : `; ${breakTypesList} are common failure modes`
-    : '';
-
-  const locationPhrase = toneDiplomat
-    ? pickVariant(seed, 'bio:locPhrase:diplomat', ['posted in', 'stationed in', 'based in'] as const)
-    : toneOps
-      ? pickVariant(seed, 'bio:locPhrase:ops', ['operating out of', 'based in'] as const)
-      : toneMedia
-        ? pickVariant(seed, 'bio:locPhrase:media', ['working out of', 'based in'] as const)
-        : toneAnalyst
-          ? pickVariant(seed, 'bio:locPhrase:analyst', ['working from', 'based in'] as const)
-          : 'based in';
-
-  // Optional aside sentence (rare DF-style texture).
-  const asideRoll = hashStringToU32(`${seed}::bio:aside`) % 1000;
-  const includeAside = asideRoll < 140; // ~14%
-  const asideOptions: string[] = [];
-  if (includeAside) {
-    if (toneDiplomat) asideOptions.push(`${pron.Subj} ${pron.be} careful with names in public conversation.`);
-    if (toneOps && opsecHigh) asideOptions.push(`${pron.Subj} ${pron.have} a habit of checking exits before settling.`);
-    if (toneMedia && publicHigh) asideOptions.push(`${pron.Subj} ${pron.be} sensitive to public scrutiny.`);
-    if (agent.preferences.media.doomscrollingRisk >= 700) asideOptions.push(`${pron.Subj} ${pron.be} drawn to long scrolls when restless.`);
-    if (!asideOptions.length) asideOptions.push(`${pron.Subj} ${pron.be} hard to read at first glance.`);
-  }
-
-  const baseRules: Record<string, string[] | string> = {
-    name: [agent.identity.name],
-    birthYear: [String(agent.identity.birthYear)],
-    ageClause: [ageClause],
-    Subj: [pron.Subj],
-    subj: [pron.subj],
-    be: [pron.be],
-    have: [pron.have],
-    possAdj: [pron.possAdj],
-    PossAdjCap: [capitalizeFirst(pron.possAdj)],
-
-    aTier: [aTier],
-    ATier: [ATier],
-    tier: [tier],
-    role: [roleLabel],
-    originLabel: [labels.originLabel],
-    homeIso3: [agent.identity.homeCountryIso3],
-    currentLabel: [labels.currentLabel],
-    currentIso3: [agent.identity.currentCountryIso3],
-    locationPhrase: [locationPhrase],
-
-    height: [height],
-    build: [build],
-    hair: [hair],
-    eyes: [eyes],
-    voice: [voice],
-    markSentence: [markSentence],
-
-    skillsList: [skillsList],
-    aptitudesList: [aptitudesList],
-    traitSentence: [traitSentence],
-
-    chronotype: [chronotype],
-    chronotypeArticle: [chronotypeArticle],
-    sleepWindow: [agent.routines.sleepWindow],
-    recoveryList: [recoveryList],
-    ritualDrink: [ritual],
-    genreList: [genres],
-    styleTag: [styleLine],
-    comfortFoodList: [comfortLine],
-    keep: [keepVerb],
-    recover: [recoverVerb],
-    favor: [favorVerb],
-    tend: [tendVerb],
-    dress: [dressVerb],
-
-    breakBand: [breakBand],
-    breakTypesList: [breakTypesList],
-    breakTypesClause: [breakTypesClauseText],
-    viceTag: [vice],
-    viceTriggerTag: [viceTrigger],
-  };
-
-  const textRules = (() => {
-    const base = getNarrationRules();
-    const copy: Record<string, string[]> = {};
-    for (const [k, v] of Object.entries(base)) copy[k] = v.slice();
-    return copy;
-  })();
-
-  // Hard guards for missing fields to avoid dangling clauses.
-  if (!vice) textRules.bioP2Vice = [''];
-  if (!viceTrigger) textRules.viceTriggerClause = [''];
-  if (!breakTypesList) textRules.breakTypesClause = [''];
-
-  if (toneDiplomat) {
-    textRules.bioP1Identity = [
-      ...(textRules.bioP1Identity ?? []),
-      '#name# was born in #birthYear#.#ageClause# #Subj# #be# #aTier# #tier#-tier #role# from #originLabel# (#homeIso3#), later #locationPhrase# #currentLabel# (#currentIso3#).',
-    ];
-  }
-  if (toneOps) {
-    textRules.bioP1Identity = [
-      ...(textRules.bioP1Identity ?? []),
-      '#name# was born in #birthYear#.#ageClause# From #originLabel# (#homeIso3#), #subj# #have# since taken up work in #currentLabel# (#currentIso3#) as #aTier# #tier#-tier #role#.',
-    ];
-  }
-  if (includeAside) textRules.bioP1Aside = asideOptions.length ? asideOptions : [''];
-  if (toneOps && opsecHigh) {
-    textRules.bioP2Strain = [
-      ...(textRules.bioP2Strain ?? []),
-      'Under strain, break risk runs #breakBand##breakTypesClause#. Exposure remains a frequent risk.',
-    ];
-  }
-
-  const rules: Record<string, string[] | string> = { ...textRules, ...baseRules };
-
-  const rng = makeXorshiftRng(`${seed}::bio:narration:v3::${pronounMode}`);
-  return withTraceryRng(rng, () => {
-    const grammar = tracery.createGrammar(rules);
-    grammar.addModifiers({
-      ...tracery.baseEngModifiers,
-      lower: (s: string) => s.toLowerCase(),
-      trim: (s: string) => s.trim(),
-      capFirst: (s: string) => capitalizeFirst(s),
-      oxford: (s: string) => oxfordJoin(s.split(',').map(x => x.trim()).filter(Boolean)),
-    });
-
-    const para1 = normalizeNarrationText(grammar.flatten('#bioP1Identity# #bioP1Appearance# #bioP1VoiceMark# #bioP1CompetenceLead# #bioP1CompetenceSupport# #bioP1Trait# #bioP1Aside#'));
-    const para2 = normalizeNarrationText(grammar.flatten('#bioP2Routine# #bioP2Taste# #bioP2Strain# #bioP2Vice#'));
-
-    return `
-      <div class="agent-narrative">
-        <p>${escapeHtml(para1)}</p>
-        <p>${escapeHtml(para2)}</p>
-      </div>
-    `;
-  });
-}
-
 type AgentProfileTab = 'overview' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
 type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
@@ -942,7 +369,6 @@ function renderAgent(
   tab: AgentProfileTab,
   isDetailsOpen: DetailsOpenReader,
   asOfYear: number,
-  pronounMode: PronounMode,
 ): string {
   const apt = agent.capabilities.aptitudes;
   const skills = agent.capabilities.skills;
@@ -956,12 +382,15 @@ function renderAgent(
   const citizenshipLabel = citizenshipShadow ?? agent.identity.citizenshipCountryIso3;
   const currentLabel = currentShadow ?? agent.identity.currentCountryIso3;
 
-  const narrative = renderNarrativeOverview(
+  // Use agent's actual pronouns for narration consistency (mixed sets pick deterministically from seed)
+  const agentPronounMode = pronounSetToMode(agent.gender.pronounSet, agent.seed);
+  const narrativeResult = generateNarrative(
     agent,
     { originLabel, citizenshipLabel, currentLabel },
     asOfYear,
-    pronounMode,
+    agentPronounMode,
   );
+  const narrative = narrativeResult.html;
 
   const platformDiet = Object.entries(agent.preferences.media.platformDiet)
     .map(([k, v]) => `<li><span class="kv-k">${escapeHtml(toTitleCaseWords(k))}</span><span class="kv-v">${escapeHtml(formatFixed01k(v))}</span></li>`)
@@ -1072,6 +501,40 @@ function renderAgent(
                 <div class="kv-row"><span class="kv-k">Passport</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.passportAccessBand))}</span></div>
                 <div class="kv-row"><span class="kv-k">Travel</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.travelFrequencyBand))}</span></div>
               </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Character arc</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Origin</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.originTierBand))} → ${escapeHtml(toTitleCaseWords(agent.identity.tierBand))} ${agent.identity.socioeconomicMobility === 'upward' ? '↑' : agent.identity.socioeconomicMobility === 'downward' ? '↓' : '→'}</span></div>
+                <div class="kv-row"><span class="kv-k">Network</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.network.role))} · ${escapeHtml(agent.network.leverageType)}</span></div>
+                ${agent.eliteCompensators.length ? `<div class="kv-row"><span class="kv-k">Compensators</span><span class="kv-v">${escapeHtml(agent.eliteCompensators.map(toTitleCaseWords).join(', '))}</span></div>` : ''}
+              </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Identity & beliefs</h4>
+              <div class="agent-kv">
+                ${!['cisgender-man', 'cisgender-woman'].includes(agent.gender.identityTag) ? `<div class="kv-row"><span class="kv-k">Gender</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.gender.identityTag))} (${escapeHtml(agent.gender.pronounSet)})</span></div>` : ''}
+                <div class="kv-row"><span class="kv-k">Pronouns</span><span class="kv-v">${escapeHtml(agent.gender.pronounSet)}</span></div>
+                ${agent.orientation.orientationTag !== 'straight' ? `<div class="kv-row"><span class="kv-k">Orientation</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.orientation.orientationTag))} (${escapeHtml(toTitleCaseWords(agent.orientation.outnessLevel))})</span></div>` : ''}
+                <div class="kv-row"><span class="kv-k">Spirituality</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.spirituality.affiliationTag))} (${escapeHtml(toTitleCaseWords(agent.spirituality.observanceLevel))})</span></div>
+                ${agent.neurodivergence.indicatorTags.length && !agent.neurodivergence.indicatorTags.includes('neurotypical') ? `<div class="kv-row"><span class="kv-k">Neurodivergence</span><span class="kv-v">${escapeHtml(agent.neurodivergence.indicatorTags.map(toTitleCaseWords).join(', '))}</span></div>` : ''}
+              </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Culture axes</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Heritage</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.culture.ethnolinguistic))} <span style="color:#666">(${Math.round(agent.culture.weights.ethnolinguistic / 10)}%)</span></span></div>
+                <div class="kv-row"><span class="kv-k">Regional</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.culture.regional))} <span style="color:#666">(${Math.round(agent.culture.weights.regional / 10)}%)</span></span></div>
+                <div class="kv-row"><span class="kv-k">Institutional</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.culture.institutional))} <span style="color:#666">(${Math.round(agent.culture.weights.institutional / 10)}%)</span></span></div>
+              </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Geography & family</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Urbanicity</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.geography.urbanicity))}</span></div>
+                <div class="kv-row"><span class="kv-k">Diaspora</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.geography.diasporaStatus))}</span></div>
+                <div class="kv-row"><span class="kv-k">Marital</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.family.maritalStatus))}${agent.family.dependentCount > 0 ? ` · ${agent.family.dependentCount} dependent${agent.family.dependentCount > 1 ? 's' : ''}` : ''}</span></div>
+                ${agent.minorityStatus.visibleMinority || agent.minorityStatus.linguisticMinority || agent.minorityStatus.religiousMinority ? `<div class="kv-row"><span class="kv-k">Minority</span><span class="kv-v">${[agent.minorityStatus.visibleMinority ? 'visible' : '', agent.minorityStatus.linguisticMinority ? 'linguistic' : '', agent.minorityStatus.religiousMinority ? 'religious' : ''].filter(Boolean).join(', ')}</span></div>` : ''}
+              </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Institution</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Org</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.institution.orgType))}</span></div>
+                <div class="kv-row"><span class="kv-k">Grade</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.institution.gradeBand))} · ${agent.institution.yearsInService}y</span></div>
+                <div class="kv-row"><span class="kv-k">Clearance</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.institution.clearanceBand))}</span></div>
+                <div class="kv-row"><span class="kv-k">Function</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.institution.functionalSpecialization))}</span></div>
+              </div>
             </section>
 
             <section class="agent-card agent-card-span6">
@@ -1082,7 +545,46 @@ function renderAgent(
                 <div class="agent-mini-title" style="margin-top:0.75rem">Top aptitudes</div>
                 <div class="agent-mini-list">${topAptitudeList || `<div class="agent-inline-muted">—</div>`}</div>
               </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Personality</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Conflict</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.personality.conflictStyle))}</span></div>
+                <div class="kv-row"><span class="kv-k">Epistemic</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.personality.epistemicStyle))}</span></div>
+                <div class="kv-row"><span class="kv-k">Social</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.personality.socialEnergy))}</span></div>
+                <div class="kv-row"><span class="kv-k">Risk</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.personality.riskPosture))}</span></div>
+              </div>
+              <h4 style="margin-top:0.75rem;font-size:0.85rem;color:#888">Work style</h4>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Writing</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.workStyle.writingStyle))}</span></div>
+                <div class="kv-row"><span class="kv-k">Briefing</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.workStyle.briefingStyle))}</span></div>
+                <div class="kv-row"><span class="kv-k">Confidence</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.workStyle.confidenceCalibration))}</span></div>
+              </div>
             </section>
+
+            ${agent.relationships.length ? `
+            <section class="agent-card agent-card-span6">
+              <h3>Key relationships</h3>
+              <div class="agent-kv">
+                ${agent.relationships.slice(0, 4).map(r => `
+                  <div class="kv-row"><span class="kv-k">${escapeHtml(toTitleCaseWords(r.type))}</span><span class="kv-v">${escapeHtml(r.description)}</span></div>
+                `).join('')}
+              </div>
+            </section>
+            ` : ''}
+
+            ${agent.timeline.length ? `
+            <section class="agent-card agent-card-span6">
+              <h3>Life timeline</h3>
+              <div class="agent-timeline">
+                ${agent.timeline.slice(0, 6).map(e => `
+                  <div class="agent-timeline-event">
+                    <span class="agent-timeline-year">${agent.identity.birthYear + e.yearOffset}</span>
+                    <span class="agent-timeline-type pill pill-muted">${escapeHtml(toTitleCaseWords(e.type))}</span>
+                    <span class="agent-timeline-desc">${escapeHtml(e.description)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </section>
+            ` : ''}
 
             <section class="agent-card agent-card-span12">
               <h3>Deep sim preview</h3>
@@ -1238,6 +740,36 @@ function renderAgent(
               </div>
             </details>
 
+            <details class="agent-card agent-section" data-agents-details="profile:constraints:ethics" ${isDetailsOpen('profile:constraints:ethics', true) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Ethics</span>
+                <span class="agent-section-hint">${escapeHtml(toTitleCaseWords(agent.psych.ethics.loyaltyScope))} loyalty</span>
+              </summary>
+              <div class="agent-section-body">
+                <div class="agent-card-grid">
+                  ${renderGauge('Rule adherence', agent.psych.ethics.ruleAdherence)}
+                  ${renderGauge('Harm aversion', agent.psych.ethics.harmAversion)}
+                  ${renderGauge('Mission utilitarianism', agent.psych.ethics.missionUtilitarianism)}
+                </div>
+                <div class="agent-kv" style="margin-top:10px">
+                  <div class="kv-row"><span class="kv-k">Loyalty scope</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.psych.ethics.loyaltyScope))}</span></div>
+                </div>
+                ${agent.psych.contradictions.length ? `
+                  <div style="margin-top:0.75rem">
+                    <div class="agent-mini-title">Internal contradictions</div>
+                    ${agent.psych.contradictions.slice(0, 2).map(c => `
+                      <div class="agent-contradiction-row">
+                        <span class="pill pill-muted">${escapeHtml(toTitleCaseWords(c.trait1))}</span>
+                        <span class="agent-contradiction-vs">vs</span>
+                        <span class="pill pill-muted">${escapeHtml(toTitleCaseWords(c.trait2))}</span>
+                        <span class="agent-contradiction-label">→ ${escapeHtml(c.tension)}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                ` : ''}
+              </div>
+            </details>
+
             <details class="agent-card agent-section" data-agents-details="profile:constraints:visibility" ${isDetailsOpen('profile:constraints:visibility', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Visibility</span>
@@ -1359,25 +891,6 @@ export function initializeAgentsView(container: HTMLElement) {
   let seedDraft = roster.find(x => x.id === selectedRosterId)?.seed ?? '';
   let pendingHashSeed: string | null = readSeedFromHash();
   let pendingHashParams: URLSearchParams | null = pendingHashSeed ? readAgentsParamsFromHash() : null;
-
-  const PRONOUN_MODE_KEY = 'agentsNarrationPronouns:v1';
-  const readPronounMode = (): PronounMode => {
-    try {
-      const raw = (window.localStorage.getItem(PRONOUN_MODE_KEY) ?? '').trim();
-      if (raw === 'seeded' || raw === 'they' || raw === 'he' || raw === 'she' || raw === 'name') return raw;
-      return 'seeded';
-    } catch {
-      return 'seeded';
-    }
-  };
-  const writePronounMode = (v: PronounMode) => {
-    try {
-      window.localStorage.setItem(PRONOUN_MODE_KEY, v);
-    } catch {
-      // ignore
-    }
-  };
-  let pronounMode: PronounMode = readPronounMode();
 
   const PROFILE_TAB_KEY = 'agentsProfileTab:v1';
   const readProfileTab = (): AgentProfileTab | null => {
@@ -1653,16 +1166,6 @@ export function initializeAgentsView(container: HTMLElement) {
                       <input id="agents-asof" class="agents-input" type="number" min="1800" max="2525" value="${escapeHtml(String(asOfYear))}" />
                     </label>
                     <label class="agents-label">
-                      Narration pronouns
-                      <select id="agents-pronouns" class="agents-input">
-                        <option value="seeded" ${pronounMode === 'seeded' ? 'selected' : ''}>Seeded (he/she/they)</option>
-                        <option value="they" ${pronounMode === 'they' ? 'selected' : ''}>They/them</option>
-                        <option value="she" ${pronounMode === 'she' ? 'selected' : ''}>She/her</option>
-                        <option value="he" ${pronounMode === 'he' ? 'selected' : ''}>He/him</option>
-                        <option value="name" ${pronounMode === 'name' ? 'selected' : ''}>Name-only</option>
-                      </select>
-                    </label>
-                    <label class="agents-label">
                       Home country
                       <select id="agents-home-country" class="agents-input" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'}>
                         ${countryOptions}
@@ -1753,7 +1256,7 @@ export function initializeAgentsView(container: HTMLElement) {
           </aside>
 
           <main class="agents-main">
-            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab, isDetailsOpen, asOfYear, pronounMode) : `<div class="agent-muted">Generate an agent to begin.</div>`}
+            ${activeAgent ? renderAgent(activeAgent, shadowByIso3, profileTab, isDetailsOpen, asOfYear) : `<div class="agent-muted">Generate an agent to begin.</div>`}
           </main>
         </div>
       </div>
@@ -1761,7 +1264,6 @@ export function initializeAgentsView(container: HTMLElement) {
 
     const seedEl = container.querySelector('#agents-seed') as HTMLInputElement | null;
     const asOfEl = container.querySelector('#agents-asof') as HTMLInputElement | null;
-    const pronounsEl = container.querySelector('#agents-pronouns') as HTMLSelectElement | null;
     const homeCountryEl = container.querySelector('#agents-home-country') as HTMLSelectElement | null;
 
     seedEl?.addEventListener('input', () => {
@@ -1783,15 +1285,6 @@ export function initializeAgentsView(container: HTMLElement) {
     asOfEl?.addEventListener('input', () => {
       const v = Number(asOfEl.value);
       if (Number.isFinite(v)) asOfYear = Math.max(1800, Math.min(2525, Math.round(v)));
-    });
-
-    pronounsEl?.addEventListener('change', () => {
-      const v = (pronounsEl.value ?? '').trim() as PronounMode;
-      if (v === 'seeded' || v === 'they' || v === 'he' || v === 'she' || v === 'name') {
-        pronounMode = v;
-        writePronounMode(pronounMode);
-        render();
-      }
     });
 
     homeCountryEl?.addEventListener('change', () => {
