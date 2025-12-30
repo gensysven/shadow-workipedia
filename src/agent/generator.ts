@@ -816,6 +816,10 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 7: Appearance
   // ─────────────────────────────────────────────────────────────────────────
+  // Get the top micro-culture profile for appearance correlation
+  // e.g., "profile:norrenic" → "norrenic"
+  const topMicroProfileId = geoStage2.microTop[0]?.profileId?.replace('profile:', '') ?? geoStage1.homeCulture;
+
   const appearanceResult = computeAppearance({
     seed,
     vocab,
@@ -828,6 +832,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     roleSeedTags,
     public01,
     opsec01,
+    homeCulture: topMicroProfileId,
     trace,
   });
 
