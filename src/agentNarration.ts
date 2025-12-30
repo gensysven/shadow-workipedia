@@ -240,6 +240,12 @@ const LANGUAGE_CODE_MAP: Record<string, string> = {
   // Additional languages
   ps: 'Pashto', dz: 'Dzongkha', dv: 'Divehi', fo: 'Faroese',
   apd: 'Sudanese Arabic',
+  // Commonly generated codes that may be missing
+  st: 'Sesotho', kl: 'Kalaallisut', bem: 'Bemba', sn: 'Shona',
+  rw: 'Kinyarwanda', lg: 'Luganda', wo: 'Wolof', ff: 'Fula',
+  ti: 'Tigrinya', tw: 'Twi', ee: 'Ewe', tn: 'Tswana', ts: 'Tsonga',
+  ve: 'Venda', ss: 'Swati', nr: 'Southern Ndebele', nd: 'Northern Ndebele',
+  chy: 'Cheyenne', cr: 'Cree', oj: 'Ojibwe', nv: 'Navajo',
 };
 
 function languageCodeToName(code: string): string {
@@ -760,6 +766,7 @@ export function generateNarrative(
 
   const aTier = aOrAn(tier);
   const ATier = capitalizeFirst(aTier);
+  const hailVerb = conjugate(pron, 'hails', 'hail');
   const keepVerb = conjugate(pron, 'keeps', 'keep');
   const recoverVerb = conjugate(pron, 'recovers', 'recover');
   const favorVerb = conjugate(pron, 'favors', 'favor');
@@ -829,7 +836,7 @@ export function generateNarrative(
     if (toneDiplomat) asideOptions.push(`${pron.Subj} ${pron.be} careful with names in public conversation.`);
     if (toneOps && opsecHigh) asideOptions.push(`${pron.Subj} ${pron.have} a habit of checking exits before settling.`);
     if (toneMedia && publicHigh) asideOptions.push(`${pron.Subj} ${pron.be} sensitive to public scrutiny.`);
-    if (agent.preferences.media.doomscrollingRisk >= 700) asideOptions.push(`${pron.Subj} ${pron.be} drawn to long scrolls when restless.`);
+    if (agent.preferences.media.doomscrollingRisk >= 700) asideOptions.push(`${pron.Subj} ${conjugate(pron, 'tends', 'tend')} to doomscroll when restless.`);
     // New asides for mobility, opsec, public figures
     if (mobilityHigh && !opsecHigh) asideOptions.push(`${pron.Subj} ${pron.have} the look of someone who never fully unpacks.`);
     if (opsecHigh && !toneOps) asideOptions.push(`${pron.Subj} ${pron.have} a careful eye for cameras.`);
@@ -874,6 +881,7 @@ export function generateNarrative(
     genreList: [genres],
     styleTag: [styleLine],
     comfortFoodList: [comfortLine],
+    hail: [hailVerb],
     keep: [keepVerb],
     recover: [recoverVerb],
     favor: [favorVerb],
@@ -960,7 +968,16 @@ export function generateNarrative(
       if (bs === 'slides') return 'slide-based';
       return bs;
     })()],
-    confidenceCalibration: [toNarrativePhrase(agent.workStyle.confidenceCalibration)],
+    // Convert calibration jargon to natural phrasing for "She is X in assessments"
+    confidenceCalibration: [(() => {
+      const cal = agent.workStyle.confidenceCalibration;
+      // Convert to natural-sounding adjectives
+      if (cal === 'well-calibrated') return 'reliably accurate';
+      if (cal === 'overconfident') return 'often overconfident';
+      if (cal === 'underconfident') return 'often overly cautious';
+      if (cal === 'variable') return 'inconsistent';
+      return toNarrativePhrase(cal);
+    })()],
     prefer: [conjugate(pron, 'prefers', 'prefer')],
     // Geography
     urbanicity: [toNarrativePhrase(agent.geography.urbanicity)],
@@ -1092,8 +1109,11 @@ export function generateNarrative(
       const top = conditions.slice(0, 2).map(toNarrativePhrase);
       return oxfordJoin(top);
     })()],
+    // Use "is" for single condition, "are" for multiple (e.g., "Asthma and depression are")
+    healthConditionBe: [agent.health.chronicConditionTags.length > 1 ? 'are' : 'is'],
     manage: [conjugate(pron, 'manages', 'manage')],
     // Neurodivergence - filter out "neurotypical" since we don't narrate that
+    // All phrases must work with "#Subj# #be# X" pattern (i.e., adjective/adjectival phrases)
     neurodivergentDesc: [(() => {
       const tags = agent.neurodivergence.indicatorTags.filter(t =>
         t.toLowerCase() !== 'neurotypical'
@@ -1101,13 +1121,20 @@ export function generateNarrative(
       if (!tags.length) return '';
       const phrases = tags.slice(0, 2).map(t => {
         const p = toNarrativePhrase(t);
-        // Better phrasing for these
+        // Convert to adjectives that work with "She is X"
         if (p === 'adhd traits') return 'ADHD';
         if (p === 'asd traits') return 'autistic';
+        if (p === 'dyslexia traits') return 'dyslexic';
+        if (p === 'dyscalculia traits') return 'dyscalculic';
         if (p === 'anxiety processing') return 'anxiety-prone';
         if (p === 'hyperfocus prone') return 'hyperfocus-prone';
-        if (p === 'pattern recognition strength') return 'pattern-recognition oriented';
+        if (p === 'pattern recognition strength') return 'a pattern-recognition thinker';
         if (p === 'executive function variance') return 'executive-function divergent';
+        if (p === 'sensory processing') return 'sensory-sensitive';
+        if (p === 'sensory sensitivity') return 'sensory-sensitive';
+        if (p === 'time blindness') return 'time-blind';
+        // Generic fallback: if it ends with "traits", convert to adjectival
+        if (p.endsWith(' traits')) return p.replace(/ traits$/, '-adjacent');
         return p;
       });
       return oxfordJoin(phrases);
@@ -1224,8 +1251,17 @@ export function generateNarrative(
     })()],
     see: [conjugate(pron, 'sees', 'see')],
     present: [conjugate(pron, 'presents', 'present')],
-    // Communities
-    communityStatus: [toNarrativePhrase(agent.communities?.communityStatus ?? '')],
+    // Communities - add article for role nouns
+    communityStatus: [(() => {
+      const status = agent.communities?.communityStatus ?? '';
+      // These need "a/an" prefix for natural phrasing: "is a pillar", "is a regular"
+      const needsArticle = ['pillar', 'regular', 'newcomer', 'outsider'];
+      if (needsArticle.includes(status)) {
+        return aOrAn(status) + ' ' + toNarrativePhrase(status);
+      }
+      // These work as adjectives: "is respected", "is controversial", "is banned"
+      return toNarrativePhrase(status);
+    })()],
     communityType: [(() => {
       const m = agent.communities?.memberships?.[0];
       return m ? toNarrativePhrase(m.type) : '';
@@ -1257,7 +1293,16 @@ export function generateNarrative(
     commuteMode: [toNarrativePhrase(agent.everydayLife?.commuteMode ?? '')],
     thirdPlace: [(() => {
       const places = agent.everydayLife?.thirdPlaces ?? [];
-      return places.length ? toNarrativePhrase(places[0] ?? '') : '';
+      if (!places.length) return '';
+      const place = toNarrativePhrase(places[0] ?? '');
+      // Places that need "the" prefix for "spends time at X" context
+      const needsThe = ['gym', 'library', 'park', 'mosque', 'church', 'temple', 'synagogue',
+                        'market', 'barber shop', 'salon', 'pool', 'community center'];
+      // Places that need "a" prefix
+      const needsA = ['cafe', 'bar', 'restaurant'];
+      if (needsThe.includes(place)) return 'the ' + place;
+      if (needsA.includes(place)) return 'a ' + place;
+      return place;
     })()],
     commute: [conjugate(pron, 'commutes', 'commute')],
     spend: [conjugate(pron, 'spends', 'spend')],
@@ -1267,9 +1312,35 @@ export function generateNarrative(
     householdComposition: [toNarrativePhrase(agent.home?.householdComposition ?? '')],
     housingStability: [toNarrativePhrase(agent.home?.housingStability ?? '')],
     live: [conjugate(pron, 'lives', 'live')],
-    // Life skills
-    streetSmarts: [toNarrativePhrase(agent.lifeSkills?.streetSmarts ?? '')],
-    domesticCompetence: [toNarrativePhrase(agent.lifeSkills?.domesticCompetence ?? '')],
+    // Household composition - add "with" for non-alone compositions
+    householdCompositionPhrase: [(() => {
+      const comp = agent.home?.householdComposition ?? '';
+      if (!comp || comp === 'alone') return 'alone';
+      return 'with ' + toNarrativePhrase(comp);
+    })()],
+    // Life skills - convert competence bands to adjective phrases that work with "is"
+    streetSmarts: [(() => {
+      const band = agent.lifeSkills?.streetSmarts ?? '';
+      switch (band) {
+        case 'incompetent': return 'hopeless';
+        case 'struggles': return 'out of their depth';
+        case 'adequate': return 'adequate';
+        case 'competent': return 'streetwise';
+        case 'expert': return 'street-savvy';
+        default: return toNarrativePhrase(band);
+      }
+    })()],
+    domesticCompetence: [(() => {
+      const band = agent.lifeSkills?.domesticCompetence ?? '';
+      switch (band) {
+        case 'incompetent': return 'hopeless';
+        case 'struggles': return 'poor';
+        case 'adequate': return 'passable';
+        case 'competent': return 'solid';
+        case 'expert': return 'excellent';
+        default: return toNarrativePhrase(band);
+      }
+    })()],
     etiquetteLiteracy: [toNarrativePhrase(agent.lifeSkills?.etiquetteLiteracy ?? '')],
   };
 

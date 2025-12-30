@@ -335,18 +335,47 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
   const genderIdentityTag = weightedPick(genderRng, genderIdentityWeights);
 
   const pronounWeights = pronounOptions.map(pset => {
-    let w = 1;
-    if (genderIdentityTag === 'cisgender-man' && pset === 'he-him') w = 100;
-    if (genderIdentityTag === 'cisgender-woman' && pset === 'she-her') w = 100;
-    if (genderIdentityTag === 'transgender-man' && pset === 'he-him') w = 50;
-    if (genderIdentityTag === 'transgender-woman' && pset === 'she-her') w = 50;
-    if (genderIdentityTag === 'non-binary' && pset === 'they-them') w = 30;
-    if (genderIdentityTag === 'non-binary' && (pset === 'he-they' || pset === 'she-they')) w = 15;
-    if (genderIdentityTag === 'genderqueer' && pset === 'they-them') w = 25;
-    if (genderIdentityTag === 'agender' && pset === 'they-them') w = 30;
-    if (genderIdentityTag === 'gender-fluid' && pset === 'any-pronouns') w = 25;
-    if (genderIdentityTag === 'two-spirit' && pset === 'they-them') w = 15;
-    if (genderIdentityTag === 'undisclosed') w = 1;
+    // For cisgender identities, near-zero weight for non-matching pronouns
+    // This reflects that ~99% of cisgender people use matching pronouns
+    let w = 0.01; // Very low base weight
+    // Cisgender: almost always use matching pronouns
+    if (genderIdentityTag === 'cisgender-man') {
+      w = pset === 'he-him' ? 500 : 0.1;
+    }
+    if (genderIdentityTag === 'cisgender-woman') {
+      w = pset === 'she-her' ? 500 : 0.1;
+    }
+    // Transgender: strong preference for gender-aligned pronouns
+    if (genderIdentityTag === 'transgender-man') {
+      w = pset === 'he-him' ? 100 : (pset === 'he-they' ? 8 : (pset === 'they-them' ? 2 : 0.1));
+    }
+    if (genderIdentityTag === 'transgender-woman') {
+      w = pset === 'she-her' ? 100 : (pset === 'she-they' ? 8 : (pset === 'they-them' ? 2 : 0.1));
+    }
+    // Non-binary: more varied but they-them most common
+    if (genderIdentityTag === 'non-binary') {
+      w = pset === 'they-them' ? 40 : ((pset === 'he-they' || pset === 'she-they') ? 20 : (pset === 'any-pronouns' ? 10 : 1));
+    }
+    // Genderqueer: similar to non-binary
+    if (genderIdentityTag === 'genderqueer') {
+      w = pset === 'they-them' ? 35 : ((pset === 'he-they' || pset === 'she-they') ? 15 : (pset === 'any-pronouns' ? 10 : 1));
+    }
+    // Agender: they-them predominant
+    if (genderIdentityTag === 'agender') {
+      w = pset === 'they-them' ? 50 : (pset === 'any-pronouns' ? 10 : 1);
+    }
+    // Gender-fluid: any-pronouns or mixed sets
+    if (genderIdentityTag === 'gender-fluid') {
+      w = pset === 'any-pronouns' ? 40 : ((pset === 'he-they' || pset === 'she-they') ? 20 : (pset === 'they-them' ? 15 : 2));
+    }
+    // Two-spirit: cultural variation, often they-them
+    if (genderIdentityTag === 'two-spirit') {
+      w = pset === 'they-them' ? 25 : (pset === 'he-him' || pset === 'she-her' ? 10 : 5);
+    }
+    // Undisclosed: uniform distribution
+    if (genderIdentityTag === 'undisclosed') {
+      w = 5;
+    }
     return { item: pset, weight: w };
   });
   const genderPronounSet = weightedPick(genderRng, pronounWeights);
@@ -385,9 +414,12 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
     return nameRng.pick(usable);
   };
 
-  const macroW = namesPrimaryWeight * (0.55 + 0.20 * cultureTraditionalism01);
-  const microW = namesPrimaryWeight * 0.45 * (0.35 + 0.65 * microStrength01);
-  const globalW = Math.max(0.05, 1 - Math.min(0.95, macroW + microW));
+  // Strongly prefer cultural names - only allow global pool when macro/micro pools are sparse
+  const macroW = namesPrimaryWeight * (0.70 + 0.15 * cultureTraditionalism01);
+  const microW = namesPrimaryWeight * 0.30 * (0.35 + 0.65 * microStrength01);
+  // Only use global fallback when cultural pools are truly empty or very sparse
+  const culturalCoverage = macroFirst.length > 5 && macroLast.length > 5 ? 1 : 0.5;
+  const globalW = Math.max(0.01, (1 - Math.min(0.99, macroW + microW)) * (1 - culturalCoverage * 0.8));
 
   // Select gendered global pool when available
   const globalMaleFirst = (vocab.identity as { maleFirstNames?: string[] }).maleFirstNames ?? [];

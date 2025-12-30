@@ -191,23 +191,41 @@ function validateCountries(
  * Countries with higher populations are proportionally more likely to be selected.
  * Falls back to uniform selection if no population data is available.
  */
-function pickCountryByPopulation(rng: Rng, countries: ValidCountry[]): ValidCountry {
-  // Check if we have population data
-  const countriesWithPop = countries.filter(c => c.population && c.population > 0);
-  if (countriesWithPop.length === 0) {
-    // Fallback to uniform selection if no population data
-    return rng.pick(countries);
-  }
+// Geopolitical importance weights for intelligence/diplomatic simulation
+// Flat weights approach: ignore population entirely, use geopolitical significance
+const GEOPOLITICAL_WEIGHTS: Record<string, number> = {
+  // Major Western powers - high weights
+  USA: 120, GBR: 80, DEU: 70, FRA: 70, CAN: 50, AUS: 50,
+  NLD: 35, ITA: 40, ESP: 40, BEL: 25, CHE: 30, AUT: 25,
+  SWE: 25, NOR: 25, DNK: 25, FIN: 20, IRL: 20, NZL: 20,
+  // East Asian powers
+  JPN: 60, KOR: 45, TWN: 35, SGP: 30, HKG: 25,
+  // Mega-states - significantly dampened despite population
+  CHN: 35, IND: 25, IDN: 15, PAK: 15, BGD: 8, NGA: 12,
+  // Other major powers
+  RUS: 50, BRA: 25, MEX: 20, ARG: 18,
+  // Middle East
+  ISR: 55, SAU: 35, ARE: 30, IRN: 30, TUR: 40, EGY: 25, IRQ: 18, SYR: 12,
+  // Europe
+  POL: 35, UKR: 40, CZE: 20, ROU: 15, HUN: 15, GRC: 18, PRT: 15,
+  // Other key players
+  ZAF: 25, VNM: 20, THA: 15, MYS: 15, PHL: 12,
+  // Latin America
+  CHL: 15, COL: 15, PER: 12, VEN: 12, CUB: 15,
+};
+const DEFAULT_GEO_WEIGHT = 5;
 
-  // Population-weighted selection (manual implementation since weightedPick is string-only)
-  const totalPop = countriesWithPop.reduce((sum, c) => sum + (c.population ?? 0), 0);
-  let r = rng.next01() * totalPop;
-  for (const country of countriesWithPop) {
-    r -= country.population ?? 0;
-    if (r <= 0) return country;
+function pickCountryByGeopoliticalWeight(rng: Rng, countries: ValidCountry[]): ValidCountry {
+  // Geopolitical-weighted selection for intelligence/diplomatic simulation
+  const weights = countries.map(c => GEOPOLITICAL_WEIGHTS[c.iso3] ?? DEFAULT_GEO_WEIGHT);
+  const totalWeight = weights.reduce((a, b) => a + b, 0);
+  let r = rng.next01() * totalWeight;
+  for (let i = 0; i < countries.length; i++) {
+    r -= weights[i]!;
+    if (r <= 0) return countries[i]!;
   }
   // Fallback to last country (shouldn't happen but satisfies type checker)
-  return countriesWithPop[countriesWithPop.length - 1]!;
+  return countries[countries.length - 1]!;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -252,18 +270,18 @@ function computeGeographyStage1(
     dependsOn: { tierBand, originTierBand },
   });
 
-  // Origin country - use population-weighted selection for realistic distribution
-  // This means ~35% of agents will be from China/India, ~4% from USA, etc.
+  // Origin country - use geopolitical-weighted selection for intelligence/diplomatic simulation
+  // Western powers boosted, mega-states dampened for realistic agent diversity
   traceFacet(trace, seed, 'origin');
   const originRng = makeRng(facetSeed(seed, 'origin'));
   const forcedHomeIso3 = (input.homeCountryIso3 ?? '').trim().toUpperCase();
   const origin = forcedHomeIso3
-    ? validCountries.find(c => c.iso3.trim().toUpperCase() === forcedHomeIso3) ?? pickCountryByPopulation(originRng, validCountries)
-    : pickCountryByPopulation(originRng, validCountries);
+    ? validCountries.find(c => c.iso3.trim().toUpperCase() === forcedHomeIso3) ?? pickCountryByGeopoliticalWeight(originRng, validCountries)
+    : pickCountryByGeopoliticalWeight(originRng, validCountries);
   const homeCountryIso3 = origin.iso3.trim().toUpperCase();
   const homeCulture = deriveCultureFromContinent(origin.continent, homeCountryIso3);
   traceSet(trace, 'identity.homeCountryIso3', homeCountryIso3, {
-    method: forcedHomeIso3 ? 'overrideOrFallbackPick' : 'populationWeightedPick',
+    method: forcedHomeIso3 ? 'overrideOrFallbackPick' : 'geopoliticalWeightedPick',
     dependsOn: {
       facet: 'origin',
       poolSize: validCountries.length,
@@ -643,44 +661,43 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   // Target: ~5% elite, ~25% middle, ~70% mass (varies by age)
   // Based on Credit Suisse Global Wealth Report + social mobility research
   const tierBand: TierBand = input.tierBand ?? ((): TierBand => {
-    // Realistic tier weights by age bracket
-    // Young: almost no elites (only inherited wealth/status)
-    // Peak: 45-64 has highest elite concentration
-    // Elderly: mixed (wealthy retirees + fixed-income majority)
+    // Tier weights by age bracket - adjusted for intelligence/diplomatic simulation
+    // These agents are drawn from professional/governmental class, not general population
+    // Elite tier represents senior officials, established power brokers, major players
     let eliteWeight: number;
     let middleWeight: number;
     let massWeight: number;
 
     if (age < 25) {
-      // Under 25: Elite nearly impossible except inheritance
-      eliteWeight = 0.005;
-      middleWeight = 0.15;
-      massWeight = 0.845;
-    } else if (age < 35) {
-      // 25-34: Early career, very few elite
-      eliteWeight = 0.02;
-      middleWeight = 0.22;
-      massWeight = 0.76;
-    } else if (age < 45) {
-      // 35-44: Career building, some achieve elite
-      eliteWeight = 0.05;
-      middleWeight = 0.28;
-      massWeight = 0.67;
-    } else if (age < 55) {
-      // 45-54: Peak earning years
-      eliteWeight = 0.08;
-      middleWeight = 0.30;
+      // Under 25: Elite rare but possible (dynasties, prodigies)
+      eliteWeight = 0.03;
+      middleWeight = 0.35;
       massWeight = 0.62;
-    } else if (age < 65) {
-      // 55-64: Accumulated wealth/status peak
-      eliteWeight = 0.10;
-      middleWeight = 0.32;
-      massWeight = 0.58;
-    } else {
-      // 65+: Mixed - some wealthy retirees, many on fixed income
+    } else if (age < 35) {
+      // 25-34: Early career, some rising stars
       eliteWeight = 0.08;
-      middleWeight = 0.28;
-      massWeight = 0.64;
+      middleWeight = 0.42;
+      massWeight = 0.50;
+    } else if (age < 45) {
+      // 35-44: Career building, more achieve elite
+      eliteWeight = 0.15;
+      middleWeight = 0.45;
+      massWeight = 0.40;
+    } else if (age < 55) {
+      // 45-54: Peak years - highest elite concentration
+      eliteWeight = 0.22;
+      middleWeight = 0.48;
+      massWeight = 0.30;
+    } else if (age < 65) {
+      // 55-64: Senior leadership years
+      eliteWeight = 0.25;
+      middleWeight = 0.45;
+      massWeight = 0.30;
+    } else {
+      // 65+: Elder statesmen, retired senior officials
+      eliteWeight = 0.20;
+      middleWeight = 0.45;
+      massWeight = 0.35;
     }
 
     const tierWeights = [
@@ -1142,13 +1159,40 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   });
   const orgType = weightedPick(instRng, orgTypeWeights) as OrgType;
 
+  // Pre-compute years in service for grade correlation
+  const estimatedYearsInService = Math.max(0, age - 22 - instRng.int(0, 5));
+
   const gradeWeights = gradeBands.map(g => {
-    let w = 1;
-    if (g === 'junior' && age < 30) w = 20;
-    if (g === 'mid-level' && age >= 30 && age < 45) w = 25;
-    if (g === 'senior' && age >= 40 && tierBand !== 'mass') w = 20;
-    if (g === 'executive' && age >= 50 && tierBand === 'elite') w = 15;
-    if (g === 'political-appointee' && tierBand === 'elite' && roleSeedTags.includes('diplomat')) w = 10;
+    let w = 0.1; // Very low base weight - must earn higher grades
+    // Junior: only appropriate for early career (<5 years) or very young
+    if (g === 'junior') {
+      if (estimatedYearsInService < 5) w = 25;
+      else if (estimatedYearsInService < 10) w = 3;
+      else w = 0.05; // Near-zero for 10+ years - highly unlikely to remain junior
+    }
+    // Mid-level: 5-15 years typical
+    if (g === 'mid-level') {
+      if (estimatedYearsInService >= 5 && estimatedYearsInService < 15) w = 30;
+      else if (estimatedYearsInService >= 3 && estimatedYearsInService < 20) w = 10;
+      else w = 2;
+    }
+    // Senior: 12+ years, not mass tier
+    if (g === 'senior') {
+      if (estimatedYearsInService >= 12 && tierBand !== 'mass') w = 25;
+      else if (estimatedYearsInService >= 8 && tierBand !== 'mass') w = 8;
+      else w = 1;
+    }
+    // Executive: 18+ years, elite tier
+    if (g === 'executive') {
+      if (estimatedYearsInService >= 18 && tierBand === 'elite') w = 15;
+      else if (estimatedYearsInService >= 15 && tierBand !== 'mass') w = 5;
+      else w = 0.5;
+    }
+    // Political-appointee: requires elite tier and diplomat role
+    if (g === 'political-appointee') {
+      if (tierBand === 'elite' && roleSeedTags.includes('diplomat')) w = 10;
+      else w = 0.1;
+    }
     return { item: g as GradeBand, weight: w };
   });
   const gradeBand = weightedPick(instRng, gradeWeights) as GradeBand;
@@ -1175,7 +1219,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   });
   const functionalSpecialization = weightedPick(instRng, specWeights) as FunctionalSpecialization;
 
-  const yearsInService = Math.max(0, age - 22 - instRng.int(0, 5));
+  // Use the pre-computed years in service (calculated before grade selection for correlation)
+  const yearsInService = estimatedYearsInService;
   const coverStatus: 'official' | 'non-official' | 'none' = roleSeedTags.includes('operative')
     ? (instRng.next01() < 0.4 ? 'non-official' : 'official')
     : 'none';

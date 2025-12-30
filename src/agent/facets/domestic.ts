@@ -221,13 +221,39 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     'elite-enclave', 'gentrifying', 'tight-knit', 'anonymous', 'insecure', 'gated', 'rural-isolated',
   ];
   const neighborhoodWeights = neighborhoodPool.map(n => {
-    let w = 1;
-    if (n === 'elite-enclave' && tierBand === 'elite') w = 5;
-    if (n === 'gated' && tierBand === 'elite') w = 3;
-    if (n === 'anonymous' && urbanicity === 'megacity') w = 4;
-    if (n === 'tight-knit' && urbanicity === 'small-town') w = 4;
-    if (n === 'rural-isolated' && urbanicity === 'rural') w = 5;
-    if (n === 'gentrifying' && tierBand === 'middle') w = 2;
+    // Start with very low base - neighborhoods must be earned/match tier
+    let w = 0.1;
+    // Elite-enclave: only elite tier
+    if (n === 'elite-enclave') {
+      w = tierBand === 'elite' ? 8 : 0.01;
+    }
+    // Gated: elite or upper middle
+    if (n === 'gated') {
+      w = tierBand === 'elite' ? 5 : (tierBand === 'middle' ? 1 : 0.05);
+    }
+    // Insecure/informal: primarily mass tier
+    if (n === 'insecure') {
+      w = tierBand === 'mass' ? 5 : (tierBand === 'middle' ? 1 : 0.1);
+    }
+    if (n === 'informal-settlement') {
+      w = tierBand === 'mass' ? 4 : 0.05;
+    }
+    // Anonymous: urbanicity-driven
+    if (n === 'anonymous') {
+      w = urbanicity === 'megacity' ? 5 : (urbanicity === 'major-city' ? 3 : 1);
+    }
+    // Tight-knit: smaller communities
+    if (n === 'tight-knit') {
+      w = urbanicity === 'small-town' ? 5 : (urbanicity === 'rural' ? 4 : (urbanicity === 'mid-city' ? 2 : 1));
+    }
+    // Rural-isolated: rural areas only
+    if (n === 'rural-isolated') {
+      w = urbanicity === 'rural' ? 8 : 0.1;
+    }
+    // Gentrifying: middle tier in cities
+    if (n === 'gentrifying') {
+      w = tierBand === 'middle' ? 4 : (tierBand === 'mass' ? 2 : 1);
+    }
     return { item: n as NeighborhoodType, weight: w };
   });
   const neighborhoodType = weightedPick(homeRng, neighborhoodWeights) as NeighborhoodType;

@@ -19,7 +19,7 @@ import {
 // Types
 // ============================================================================
 
-export type ValidCountry = { shadow: string; iso3: string; continent?: string };
+export type ValidCountry = { shadow: string; iso3: string; continent?: string; population?: number };
 
 export type GeographyContext = {
   seed: string;
@@ -118,24 +118,64 @@ export function computeGeography(ctx: GeographyContext): GeographyResult {
   traceSet(trace, 'identity.originTierBand', originTierBand, { method: 'weightedPick', dependsOn: { tierBand } });
   traceSet(trace, 'identity.socioeconomicMobility', socioeconomicMobility, { method: 'derived', dependsOn: { tierBand, originTierBand } });
 
-  // Country validation
+  // Country validation with population for weighted selection
   const validCountries = ctx.countries
     .map(c => ({
       shadow: String((c as { shadow?: unknown }).shadow ?? '').trim(),
       iso3: String((c as { iso3?: unknown }).iso3 ?? '').trim().toUpperCase(),
       continent: (c as { continent?: unknown }).continent ? String((c as { continent?: unknown }).continent).trim() : undefined,
+      population: Number((c as { population?: unknown }).population) || 1000000, // Default 1M if missing
     }))
     .filter((c) => c.shadow && c.iso3.length === 3)
     .sort((a, b) => a.iso3.localeCompare(b.iso3));
   if (!validCountries.length) throw new Error('Agent country map missing: no ISO3 entries');
 
-  // Home country (origin)
+  // Home country (origin) - weighted by sqrt(population) with geopolitical balancing
+  // Using sqrt dampens mega-states (China, India) while still giving larger countries more weight
   traceFacet(trace, seed, 'origin');
   const originRng = makeRng(facetSeed(seed, 'origin'));
   const forcedHomeIso3 = (ctx.homeCountryIso3 ?? '').trim().toUpperCase();
+
+  // Geopolitical importance weights for intelligence/diplomatic simulation
+  // Flat weights approach: ignore population entirely, use geopolitical significance
+  const geopoliticalWeight: Record<string, number> = {
+    // Major Western powers - high weights
+    USA: 120, GBR: 80, DEU: 70, FRA: 70, CAN: 50, AUS: 50,
+    NLD: 35, ITA: 40, ESP: 40, BEL: 25, CHE: 30, AUT: 25,
+    SWE: 25, NOR: 25, DNK: 25, FIN: 20, IRL: 20, NZL: 20,
+    // East Asian powers
+    JPN: 60, KOR: 45, TWN: 35, SGP: 30, HKG: 25,
+    // Mega-states - significantly dampened despite population
+    CHN: 35, IND: 25, IDN: 15, PAK: 15, BGD: 8, NGA: 12,
+    // Other major powers
+    RUS: 50, BRA: 25, MEX: 20, ARG: 18,
+    // Middle East
+    ISR: 55, SAU: 35, ARE: 30, IRN: 30, TUR: 40, EGY: 25, IRQ: 18, SYR: 12,
+    // Europe
+    POL: 35, UKR: 40, CZE: 20, ROU: 15, HUN: 15, GRC: 18, PRT: 15,
+    // Other key players
+    ZAF: 25, VNM: 20, THA: 15, MYS: 15, PHL: 12,
+    // Latin America
+    CHL: 15, COL: 15, PER: 12, VEN: 12, CUB: 15,
+  };
+
+  // Weighted country selection using flat geopolitical weights
+  // Countries not in the table get a small default weight
+  const DEFAULT_WEIGHT = 5;
+  const pickWeightedCountry = (): ValidCountry => {
+    const weights = validCountries.map(c => geopoliticalWeight[c.iso3] ?? DEFAULT_WEIGHT);
+    const total = weights.reduce((a, b) => a + b, 0);
+    let r = originRng.next01() * total;
+    for (let i = 0; i < validCountries.length; i++) {
+      r -= weights[i]!;
+      if (r <= 0) return validCountries[i]!;
+    }
+    return validCountries[validCountries.length - 1]!;
+  };
+
   const origin = forcedHomeIso3
-    ? validCountries.find(c => c.iso3 === forcedHomeIso3) ?? originRng.pick(validCountries)
-    : originRng.pick(validCountries);
+    ? validCountries.find(c => c.iso3 === forcedHomeIso3) ?? pickWeightedCountry()
+    : pickWeightedCountry();
   const homeCountryIso3 = origin.iso3;
   const homeCulture = deriveCultureFromContinent(origin.continent, homeCountryIso3);
   traceSet(trace, 'identity.homeCountryIso3', homeCountryIso3, {

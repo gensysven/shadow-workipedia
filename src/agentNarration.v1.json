@@ -4,7 +4,7 @@
     "bioP1Identity": [
       { "text": "#name# (#age#) #be# #aTier# #tier# #role# from #originLabel# (#homeIso3#), currently #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "common" },
       { "text": "#name# (#age#) #be# #aTier# #tier# #role# from #originLabel# (#homeIso3#); #subj# now #have# a base in #currentLabel# (#currentIso3#).", "rarity": "common" },
-      { "text": "#ATier# #tier# #role#, #name# (#age#) hails from #originLabel# (#homeIso3#) and #be# now #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "uncommon" },
+      { "text": "#ATier# #tier# #role#, #name# (#age#) #hail# from #originLabel# (#homeIso3#) and #be# now #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "uncommon" },
       { "text": "#name# (#age#), #aTier# #tier# #role# from #originLabel# (#homeIso3#), #be# currently #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "uncommon" },
       { "text": "From #originLabel# (#homeIso3#), #name# (#age#) #have# built a career as #aTier# #tier# #role#, now #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "rare" }
     ],
@@ -151,7 +151,7 @@
     "bioP2Health": [
       { "text": "", "rarity": "common" },
       { "text": "#Subj# #manage# #healthCondition#.", "rarity": "uncommon" },
-      { "text": "#healthCondition.capFirst# #be# part of #possAdj# daily reality.", "rarity": "rare" }
+      { "text": "#healthCondition.capFirst# #healthConditionBe# part of #possAdj# daily reality.", "rarity": "rare" }
     ],
     "bioP2Neurodivergence": [
       { "text": "", "rarity": "common" },
@@ -216,11 +216,11 @@
     "bioP2Home": [
       { "text": "", "rarity": "common" },
       { "text": "#Subj# #live# in #aNeighborhoodType# #neighborhoodType# neighborhood.", "rarity": "uncommon" },
-      { "text": "#Subj# #live# #householdComposition# in #housingStability# housing.", "rarity": "rare" }
+      { "text": "#Subj# #live# #householdCompositionPhrase# in #housingStability# housing.", "rarity": "rare" }
     ],
     "bioP2LifeSkills": [
       { "text": "", "rarity": "common" },
-      { "text": "#Subj# #be# #streetSmarts# on the street.", "rarity": "uncommon" },
+      { "text": "#Subj# #be# #streetSmarts# in urban environments.", "rarity": "uncommon" },
       { "text": "#Subj# #be# #etiquetteLiteracy# in social settings, with #domesticCompetence# domestic skills.", "rarity": "rare" }
     ]
   }
