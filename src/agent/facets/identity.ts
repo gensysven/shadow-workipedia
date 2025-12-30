@@ -233,12 +233,31 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
     dependsOn: { facet: 'identity_tracks', roleNudgedCareer: roleNudgedCareer ?? null, inst01, risk01 },
   });
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // EDUCATION TRACK (Correlate #3: Tier ↔ Education)
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Elite tier has much higher access to advanced education (graduate, doctorate)
+  // Mass tier faces barriers to higher education, more likely trade/self-taught
+  // Middle tier has moderate access, undergraduate common
   const educationTrackTag = (() => {
     const pool = educationTracks.length ? educationTracks : ['secondary', 'undergraduate', 'graduate', 'trade-certification'];
     const weights = pool.map((t) => {
       let w = 1;
-      if (tierBand === 'elite' && ['graduate', 'doctorate'].includes(t)) w += 2.2;
-      if (tierBand === 'mass' && ['secondary', 'trade-certification', 'self-taught'].includes(t)) w += 1.8;
+      // Strong tier-education correlate: elite → advanced degrees, mass → practical training
+      if (tierBand === 'elite') {
+        if (['graduate', 'doctorate'].includes(t)) w += 4.5; // Elite: strong preference for advanced degrees
+        if (['undergraduate'].includes(t)) w += 1.5;
+        if (['secondary', 'trade-certification', 'self-taught'].includes(t)) w *= 0.3; // Rare for elite
+      }
+      if (tierBand === 'middle') {
+        if (['undergraduate', 'graduate'].includes(t)) w += 2.0;
+        if (['trade-certification'].includes(t)) w += 1.2;
+      }
+      if (tierBand === 'mass') {
+        if (['secondary', 'trade-certification', 'self-taught'].includes(t)) w += 3.5; // Mass: practical paths
+        if (['undergraduate'].includes(t)) w += 0.8;
+        if (['graduate', 'doctorate'].includes(t)) w *= 0.2; // Rare for mass tier
+      }
       if (careerTrackTag === 'military' && t === 'military-academy') w += 3.0;
       if (careerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
       if (inst01 > 0.65 && ['graduate', 'civil-service-track'].includes(t)) w += 1.2;

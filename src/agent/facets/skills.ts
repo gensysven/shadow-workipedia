@@ -164,18 +164,22 @@ function computeSkillValue(p: SkillValueParams): Fixed {
       break;
 
     case 'surveillance':
+      // Correlate #9: Travel ↔ Skills - varied environments sharpen surveillance skills
       value = clampFixed01k(
-        0.22 * aptitudes.cognitiveSpeed + 0.22 * aptitudes.attentionControl +
-        0.18 * aptitudes.workingMemory + 0.18 * latents.opsecDiscipline +
-        0.06 * stateViolenceEnv01k + 0.20 * noise + careerBonus
+        0.20 * aptitudes.cognitiveSpeed + 0.20 * aptitudes.attentionControl +
+        0.16 * aptitudes.workingMemory + 0.16 * latents.opsecDiscipline +
+        0.06 * travelScore + // Diverse environments build surveillance adaptability
+        0.06 * stateViolenceEnv01k + 0.16 * noise + careerBonus
       );
       break;
 
     case 'tradecraft':
+      // Correlate #9: Travel ↔ Skills - operatives who travel more develop better tradecraft
       value = clampFixed01k(
-        0.28 * latents.opsecDiscipline + 0.22 * aptitudes.deceptionAptitude +
-        0.12 * latents.riskAppetite + 0.18 * aptitudes.workingMemory +
-        0.06 * conflictEnv01k + 0.20 * noise + careerBonus +
+        0.24 * latents.opsecDiscipline + 0.20 * aptitudes.deceptionAptitude +
+        0.10 * latents.riskAppetite + 0.16 * aptitudes.workingMemory +
+        0.08 * travelScore + // Travel experience builds operational skills
+        0.06 * conflictEnv01k + 0.16 * noise + careerBonus +
         (roleSeedTags.includes('operative') ? 90 : 0)
       );
       break;
@@ -189,10 +193,12 @@ function computeSkillValue(p: SkillValueParams): Fixed {
       break;
 
     case 'negotiation':
+      // Correlate #9: Travel ↔ Skills - international exposure improves negotiation
       value = clampFixed01k(
-        0.30 * aptitudes.charisma + 0.20 * aptitudes.empathy +
-        0.18 * aptitudes.workingMemory + 0.12 * latents.publicness +
-        0.20 * noise + careerBonus + tierBonus
+        0.28 * aptitudes.charisma + 0.18 * aptitudes.empathy +
+        0.16 * aptitudes.workingMemory + 0.10 * latents.publicness +
+        0.10 * travelScore + // Travel exposure builds cross-cultural negotiation skills
+        0.18 * noise + careerBonus + tierBonus
       );
       break;
 

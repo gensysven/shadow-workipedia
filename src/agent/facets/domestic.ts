@@ -56,6 +56,11 @@ export type DomesticContext = {
 
   // Urbanicity for home context
   urbanicity: string;
+
+  // Traits for correlates (Correlate #13: Conscientiousness ↔ Housing)
+  traits?: {
+    conscientiousness: number; // 0-1000
+  };
 };
 
 /** Everyday life anchors */
@@ -126,7 +131,17 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     'gym', 'cafe', 'bar', 'library', 'mosque', 'church', 'park', 'community-center',
     'barber-shop', 'market', 'tea-house', 'sports-club', 'pub', 'diner',
   ];
-  const thirdPlaces = lifeRng.pickK(thirdPlacePool, lifeRng.int(1, 3));
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Social Battery ↔ Third Places Correlate
+  // ─────────────────────────────────────────────────────────────────────────────
+  // High social battery → more third places (extroverts frequent multiple social venues)
+  // Low social battery → fewer third places (introverts need fewer social outlets)
+  const socialBattery01 = latents.socialBattery / 1000;
+  const thirdPlaceCountBase = socialBattery01 < 0.3 ? 1 : socialBattery01 < 0.6 ? 2 : 3;
+  const thirdPlaceCountVariance = lifeRng.int(0, 1);
+  const thirdPlaceCount = Math.max(1, Math.min(thirdPlacePool.length, thirdPlaceCountBase + thirdPlaceCountVariance));
+  const thirdPlaces = lifeRng.pickK(thirdPlacePool, thirdPlaceCount);
 
   const commuteModePool = vocab.everydayLife?.commuteModes ?? [
     'walk', 'bicycle', 'motorbike', 'bus', 'metro', 'driver', 'rideshare', 'mixed',
@@ -172,20 +187,48 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
 
   // ─────────────────────────────────────────────────────────────────────────────
   // HOME (Oracle recommendation)
+  // Correlate #13: Conscientiousness ↔ Housing
+  // Correlate #15: Risk ↔ Housing
   // ─────────────────────────────────────────────────────────────────────────────
   traceFacet(trace, seed, 'home');
   const homeRng = makeRng(facetSeed(seed, 'home'));
+
+  // Extract traits for correlates
+  const conscientiousness01 = (ctx.traits?.conscientiousness ?? 500) / 1000;
+  const riskAppetite01 = latents.riskAppetite / 1000;
 
   const housingPool = vocab.home?.housingStabilities ?? [
     'owned', 'stable-rental', 'tenuous', 'transient', 'couch-surfing', 'institutional',
   ];
   const housingWeights = housingPool.map(h => {
     let w = 1;
+    // Tier correlates
     if (h === 'owned' && tierBand === 'elite') w = 6;
     if (h === 'owned' && tierBand === 'middle' && age > 35) w = 3;
     if (h === 'stable-rental' && tierBand === 'middle') w = 4;
     if (h === 'tenuous' && tierBand === 'mass') w = 3;
     if (h === 'transient' && roleSeedTags.includes('operative')) w = 3;
+
+    // Correlate #13: Conscientiousness ↔ Housing
+    // High conscientiousness → more stable housing (owned, stable-rental)
+    // Low conscientiousness → more chaotic housing (tenuous, transient, couch-surfing)
+    if (h === 'owned' || h === 'stable-rental') {
+      w += 2.5 * conscientiousness01; // High conscientious → stable
+    }
+    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') {
+      w += 2.0 * (1 - conscientiousness01); // Low conscientious → unstable
+    }
+
+    // Correlate #15: Risk ↔ Housing
+    // High risk appetite → more likely transient/unconventional housing
+    // Low risk appetite → prefers stable, predictable housing
+    if (h === 'transient' || h === 'couch-surfing') {
+      w += 1.5 * riskAppetite01; // Risk takers more likely transient
+    }
+    if (h === 'owned' || h === 'stable-rental') {
+      w += 1.0 * (1 - riskAppetite01); // Risk averse prefer stability
+    }
+
     return { item: h as HousingStability, weight: w };
   });
   const housingStability = weightedPick(homeRng, housingWeights) as HousingStability;

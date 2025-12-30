@@ -171,8 +171,10 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   } = ctx;
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // GEOGRAPHY (Oracle recommendation)
+  // GEOGRAPHY (Correlate #5: Cosmopolitanism ↔ Diaspora)
   // ─────────────────────────────────────────────────────────────────────────────
+  // High cosmopolitanism → more likely expat, dual-citizen, diaspora-child
+  // Low cosmopolitanism → more likely native, internal-migrant
   traceFacet(trace, seed, 'geography');
   const geoRng = makeRng(facetSeed(seed, 'geography'));
   const urbanicityTags = vocab.geography?.urbanicityTags ?? ['rural', 'small-town', 'secondary-city', 'capital', 'megacity', 'peri-urban'];
@@ -186,18 +188,42 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     if (u === 'secondary-city' && tierBand === 'middle') w = 5;
     if (u === 'rural' && tierBand === 'mass') w = 4;
     if (u === 'small-town' && tierBand === 'mass') w = 3;
+    // Cosmopolitanism → urban preference
+    if ((u === 'capital' || u === 'megacity') && cosmo01 > 0.6) w += 3;
+    if ((u === 'rural' || u === 'small-town') && cosmo01 < 0.3) w += 2;
     return { item: u as Urbanicity, weight: w };
   });
   const urbanicity = weightedPick(geoRng, urbanicityWeights) as Urbanicity;
 
-  // Diaspora status
+  // Diaspora status strongly correlated with cosmopolitanism
   const diasporaWeights = diasporaStatusTags.map(d => {
     let w = 1;
-    if (d === 'native' && homeCountryIso3 === currentCountryIso3) w = 70;
-    if (d === 'expat' && homeCountryIso3 !== currentCountryIso3 && tierBand === 'elite') w = 20;
-    if (d === 'internal-migrant' && (urbanicity === 'capital' || urbanicity === 'megacity')) w = 8;
-    if (d === 'refugee' && securityPressure01k > 600) w = 5;
-    if (d === 'diaspora-child' && geoRng.next01() < 0.1) w = 3;
+    // Base: natives are common when home=current
+    if (d === 'native' && homeCountryIso3 === currentCountryIso3) {
+      w = 50 + 30 * (1 - cosmo01); // Low cosmo → more likely native
+    }
+    // High cosmopolitanism → expat, dual-citizen, diaspora-child
+    if (d === 'expat') {
+      if (homeCountryIso3 !== currentCountryIso3) w += 15;
+      w += 25 * cosmo01; // Strong cosmo correlation
+      if (tierBand === 'elite') w += 10;
+    }
+    if (d === 'dual-citizen') {
+      w += 20 * cosmo01; // High cosmo → more likely dual citizen
+      if (tierBand === 'elite') w += 5;
+    }
+    if (d === 'diaspora-child') {
+      w += 15 * cosmo01; // Diaspora children often more cosmopolitan
+    }
+    // Internal migration: moderate cosmo, less rooted
+    if (d === 'internal-migrant') {
+      if (urbanicity === 'capital' || urbanicity === 'megacity') w += 8;
+      w += 5 * cosmo01;
+    }
+    // Security-driven: refugee status
+    if (d === 'refugee' && securityPressure01k > 600) w += 5 + securityPressure01k / 200;
+    // Borderland: geographic, less cosmo-dependent
+    if (d === 'borderland') w += 2;
     return { item: d as DiasporaStatus, weight: w };
   });
   const diasporaStatus = weightedPick(geoRng, diasporaWeights) as DiasporaStatus;
@@ -208,33 +234,81 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   traceSet(trace, 'geography', { urbanicity, diasporaStatus, originRegion }, { method: 'weighted' });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // FAMILY (Oracle recommendation)
+  // FAMILY (Correlate #4: Age ↔ Family Structure)
   // ─────────────────────────────────────────────────────────────────────────────
+  // Strong correlation between age and family milestones:
+  // - <25: Almost always single, rarely partnered
+  // - 25-35: Transition years, partnered/married becoming common
+  // - 35-50: Peak marriage/children years
+  // - 50+: Empty nest, widowhood becomes possible
   traceFacet(trace, seed, 'family');
   const familyRng = makeRng(facetSeed(seed, 'family'));
   const maritalStatusTags = vocab.family?.maritalStatusTags ?? ['single', 'partnered', 'married', 'divorced', 'widowed', 'its-complicated'];
 
-  // Marital status based on age
+  // Marital status strongly correlated with age
   const maritalWeights = maritalStatusTags.map(m => {
     let w = 1;
-    if (m === 'single' && age < 30) w = 40;
-    if (m === 'single' && age >= 30 && age < 45) w = 15;
-    if (m === 'partnered' && age >= 25 && age < 40) w = 20;
-    if (m === 'married' && age >= 30) w = 35;
-    if (m === 'divorced' && age >= 35) w = 8;
-    if (m === 'widowed' && age >= 50) w = 5;
-    if (m === 'its-complicated' && roleSeedTags.includes('operative')) w = 3;
+    // Under 25: predominantly single
+    if (age < 25) {
+      if (m === 'single') w = 80;
+      if (m === 'partnered') w = 15;
+      if (m === 'married') w = 3;
+      if (m === 'divorced' || m === 'widowed') w = 0.1;
+    }
+    // 25-30: transition period
+    else if (age < 30) {
+      if (m === 'single') w = 45;
+      if (m === 'partnered') w = 30;
+      if (m === 'married') w = 20;
+      if (m === 'divorced') w = 3;
+      if (m === 'widowed') w = 0.1;
+    }
+    // 30-40: peak partnership/marriage years
+    else if (age < 40) {
+      if (m === 'single') w = 15;
+      if (m === 'partnered') w = 25;
+      if (m === 'married') w = 45;
+      if (m === 'divorced') w = 12;
+      if (m === 'widowed') w = 1;
+    }
+    // 40-55: established family or divorce
+    else if (age < 55) {
+      if (m === 'single') w = 10;
+      if (m === 'partnered') w = 15;
+      if (m === 'married') w = 50;
+      if (m === 'divorced') w = 20;
+      if (m === 'widowed') w = 3;
+    }
+    // 55+: widowhood becomes more common
+    else {
+      if (m === 'single') w = 8;
+      if (m === 'partnered') w = 10;
+      if (m === 'married') w = 45;
+      if (m === 'divorced') w = 18;
+      if (m === 'widowed') w = 15;
+    }
+    // Role modifiers
+    if (m === 'its-complicated' && roleSeedTags.includes('operative')) w += 5;
+    if (m === 'single' && roleSeedTags.includes('operative')) w *= 1.3; // Operatives more likely single
     return { item: m as MaritalStatus, weight: w };
   });
   const maritalStatus = weightedPick(familyRng, maritalWeights) as MaritalStatus;
 
-  // Dependents based on age and marital status
-  const baseDependentChance = maritalStatus === 'married' ? 0.7 : maritalStatus === 'divorced' ? 0.5 : 0.2;
-  const dependentCount = age >= 28 && familyRng.next01() < baseDependentChance
-    ? familyRng.int(1, age >= 40 ? 3 : 2)
-    : 0;
+  // Dependents strongly correlated with age: peak childbearing 28-45, teenagers/adult children 45+
+  const dependentChance = (() => {
+    if (age < 25) return 0.05;
+    if (age < 28) return maritalStatus === 'married' ? 0.25 : 0.08;
+    if (age < 35) return maritalStatus === 'married' ? 0.65 : maritalStatus === 'partnered' ? 0.35 : 0.12;
+    if (age < 45) return maritalStatus === 'married' ? 0.80 : maritalStatus === 'divorced' ? 0.60 : 0.20;
+    if (age < 55) return maritalStatus === 'married' ? 0.70 : maritalStatus === 'divorced' ? 0.50 : 0.15;
+    return maritalStatus === 'married' ? 0.40 : 0.10; // Adult children, fewer dependents
+  })();
+  const maxDependents = age < 30 ? 1 : age < 40 ? 2 : age < 50 ? 3 : 2;
+  const dependentCount = familyRng.next01() < dependentChance ? familyRng.int(1, maxDependents) : 0;
 
-  const hasLivingParents = age < 50 || familyRng.next01() < 0.6;
+  // Living parents: probability decreases with age
+  const parentSurvivalChance = age < 35 ? 0.95 : age < 45 ? 0.85 : age < 55 ? 0.70 : age < 65 ? 0.45 : 0.20;
+  const hasLivingParents = familyRng.next01() < parentSurvivalChance;
   const hasSiblings = familyRng.next01() < 0.75;
 
   traceSet(trace, 'family', { maritalStatus, dependentCount, hasLivingParents, hasSiblings }, { method: 'weighted' });
@@ -295,18 +369,38 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   traceSet(trace, 'relationships', { count: relationships.length }, { method: 'generated' });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // NETWORK POSITION (Oracle P3 recommendation)
+  // NETWORK POSITION (Correlate #6: Age ↔ Network Role)
   // ─────────────────────────────────────────────────────────────────────────────
+  // Young agents: peripheral, building networks
+  // Mid-career: connectors, brokers - actively networking
+  // Senior: hubs, gatekeepers - established positions, controlling access
   traceFacet(trace, seed, 'network');
   const networkRng = makeRng(facetSeed(seed, 'network'));
 
+  // Age-based network role modifiers
+  const ageNetworkBias = (() => {
+    if (age < 30) return { isolate: 0.3, peripheral: 1.5, connector: 0.8, hub: 0.2, broker: 0.4, gatekeeper: 0.1 };
+    if (age < 40) return { isolate: 0.5, peripheral: 0.8, connector: 1.5, hub: 1.0, broker: 1.2, gatekeeper: 0.6 };
+    if (age < 50) return { isolate: 0.8, peripheral: 0.6, connector: 1.2, hub: 1.5, broker: 1.4, gatekeeper: 1.2 };
+    return { isolate: 1.0, peripheral: 0.5, connector: 0.8, hub: 1.2, broker: 1.0, gatekeeper: 2.0 }; // 50+: gatekeepers
+  })();
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #11: Empathy+Deception ↔ Network Role
+  // ─────────────────────────────────────────────────────────────────────────────
+  // High empathy → connectors, hubs (understanding others builds social ties)
+  // High deception → brokers (manipulating information flow requires skill)
+  // Low empathy + low deception → isolates, peripherals
+  const empathy01 = aptitudes.empathy / 1000;
+  const deception01 = aptitudes.deceptionAptitude / 1000;
+
   const networkRoleWeights: Array<{ item: NetworkRole; weight: number }> = [
-    { item: 'isolate', weight: 1 + 2.0 * (1 - latents.socialBattery / 1000) + (opsec01 > 0.7 ? 1.5 : 0) },
-    { item: 'peripheral', weight: 1.5 + 0.8 * (1 - latents.publicness / 1000) },
-    { item: 'connector', weight: 1 + 2.5 * cosmo01 + (roleSeedTags.includes('diplomat') ? 2.0 : 0) },
-    { item: 'hub', weight: 0.5 + 2.0 * (latents.socialBattery / 1000) + (roleSeedTags.includes('media') ? 1.5 : 0) },
-    { item: 'broker', weight: 0.5 + 2.0 * (aptitudes.deceptionAptitude / 1000) + (roleSeedTags.includes('operative') ? 1.5 : 0) },
-    { item: 'gatekeeper', weight: 0.5 + 2.0 * inst01 + (roleSeedTags.includes('security') ? 2.0 : 0) },
+    { item: 'isolate', weight: (1 + 2.0 * (1 - latents.socialBattery / 1000) + (opsec01 > 0.7 ? 1.5 : 0) + 1.2 * (1 - empathy01)) * ageNetworkBias.isolate },
+    { item: 'peripheral', weight: (1.5 + 0.8 * (1 - latents.publicness / 1000) + 0.8 * (1 - empathy01)) * ageNetworkBias.peripheral },
+    { item: 'connector', weight: (1 + 2.5 * cosmo01 + 1.8 * empathy01 + (roleSeedTags.includes('diplomat') ? 2.0 : 0)) * ageNetworkBias.connector },
+    { item: 'hub', weight: (0.5 + 2.0 * (latents.socialBattery / 1000) + 1.5 * empathy01 + (roleSeedTags.includes('media') ? 1.5 : 0)) * ageNetworkBias.hub },
+    { item: 'broker', weight: (0.5 + 2.5 * deception01 + 0.8 * empathy01 + (roleSeedTags.includes('operative') ? 1.5 : 0)) * ageNetworkBias.broker },
+    { item: 'gatekeeper', weight: (0.5 + 2.0 * inst01 + 0.5 * deception01 + (roleSeedTags.includes('security') ? 2.0 : 0)) * ageNetworkBias.gatekeeper },
   ];
   const networkRole = weightedPick(networkRng, networkRoleWeights) as NetworkRole;
 
@@ -372,13 +466,34 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   }
 
   const onlineCommunities = commRng.pickK(onlineCommunityPool, commRng.int(0, 2));
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Age ↔ Community Status Correlate
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Young agents (<30): predominantly newcomers, occasionally regular
+  // Mid-career (30-45): regular, building toward respected
+  // Senior (45-60): respected, potentially pillars
+  // Elder (60+): pillars of community, high status from tenure
+  const ageStatusBias = (() => {
+    if (age < 25) return { pillar: 0.05, respected: 0.2, regular: 0.8, newcomer: 5.0, outsider: 1.5, controversial: 0.8 };
+    if (age < 35) return { pillar: 0.2, respected: 1.0, regular: 3.0, newcomer: 2.0, outsider: 1.0, controversial: 1.0 };
+    if (age < 45) return { pillar: 0.8, respected: 2.5, regular: 2.0, newcomer: 0.5, outsider: 0.8, controversial: 1.0 };
+    if (age < 55) return { pillar: 2.0, respected: 3.0, regular: 1.5, newcomer: 0.2, outsider: 0.5, controversial: 0.8 };
+    return { pillar: 4.0, respected: 2.5, regular: 1.0, newcomer: 0.1, outsider: 0.8, controversial: 0.6 }; // 55+: community pillars
+  })();
+
   const statusWeights = communityStatuses.map(s => {
     let w = 1;
-    if (s === 'pillar' && tierBand === 'elite' && age > 40) w = 3;
+    // Base tier modifiers (kept from original)
+    if (s === 'pillar' && tierBand === 'elite') w = 3;
     if (s === 'respected' && tierBand !== 'mass') w = 3;
     if (s === 'regular') w = 5;
-    if (s === 'newcomer' && age < 30) w = 3;
     if (s === 'outsider' && latents.socialBattery < 350) w = 2;
+
+    // Age correlate modifiers
+    const bias = ageStatusBias[s as keyof typeof ageStatusBias] ?? 1;
+    w *= bias;
+
     return { item: s as CommunityStatus, weight: w };
   });
   const communityStatus = weightedPick(commRng, statusWeights) as CommunityStatus;
@@ -388,13 +503,19 @@ export function computeSocial(ctx: SocialContext): SocialResult {
 
   // ─────────────────────────────────────────────────────────────────────────────
   // REPUTATION (Oracle recommendation)
+  // Correlate #14: Visibility ↔ Reputation
   // ─────────────────────────────────────────────────────────────────────────────
+  // High visibility → reputations are more defined (less 'unknown')
+  // High visibility → polarizing reputations more likely (brilliant, ruthless, loudmouth)
+  // Low visibility → more likely 'unknown', 'discreet'
   traceFacet(trace, seed, 'reputation');
   const repRng = makeRng(facetSeed(seed, 'reputation'));
   const repTags = vocab.reputation?.tags ?? [
     'reliable', 'brilliant', 'ruthless', 'corrupt', 'principled', 'reckless',
     'discreet', 'loudmouth', 'fixer', 'by-the-book', 'unpredictable', 'unknown',
   ];
+
+  const publicness01 = latents.publicness / 1000;
 
   const pickReputation = (contextBias: Partial<Record<string, number>>): ReputationTag => {
     const weights = repTags.map(r => {
@@ -403,7 +524,22 @@ export function computeSocial(ctx: SocialContext): SocialResult {
       if (r === 'principled' && latents.principledness > 650) w += 2;
       if (r === 'discreet' && latents.opsecDiscipline > 600) w += 2;
       if (r === 'reckless' && latents.riskAppetite > 700) w += 2;
-      if (r === 'unknown' && latents.publicness < 350) w += 3;
+
+      // Correlate #14: Visibility ↔ Reputation
+      // High visibility reduces 'unknown' and increases defined reputations
+      if (r === 'unknown') {
+        w += 4 * (1 - publicness01); // Low publicness → more likely unknown
+        w *= Math.max(0.1, 1 - publicness01); // High publicness heavily reduces unknown
+      }
+      // High visibility increases polarizing reputations
+      if (r === 'brilliant' || r === 'ruthless' || r === 'loudmouth') {
+        w += 1.5 * publicness01;
+      }
+      // Low visibility correlates with discreet
+      if (r === 'discreet') {
+        w += 1.5 * (1 - publicness01);
+      }
+
       return { item: r as ReputationTag, weight: w };
     });
     return weightedPick(repRng, weights) as ReputationTag;

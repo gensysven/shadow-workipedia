@@ -725,13 +725,13 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const geoStage1 = computeGeographyStage1(seed, tierBand, birthYear, validCountries, input, trace);
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Phase 4: Latents
+  // Phase 4: Latents (now includes age for physical conditioning correlate)
   // ─────────────────────────────────────────────────────────────────────────
   traceFacet(trace, seed, 'latents');
-  const latentModel = computeLatents(seed, tierBand, roleSeedTags);
+  const latentModel = computeLatents(seed, tierBand, roleSeedTags, age);
   const latents = latentModel.values;
   if (trace) trace.latents = latentModel;
-  traceSet(trace, 'latents.values', latents, { method: 'computeLatents', dependsOn: { tierBand, roleSeedTags } });
+  traceSet(trace, 'latents.values', latents, { method: 'computeLatents', dependsOn: { tierBand, roleSeedTags, age } });
 
   // Derived latent values (0-1 normalized)
   const cosmo01 = latents.cosmopolitanism / 1000;
@@ -1237,12 +1237,34 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const socialEnergyTags = vocab.personality?.socialEnergyTags ?? ['introvert', 'ambivert', 'extrovert'];
   const riskPostures = vocab.personality?.riskPostures ?? ['risk-averse', 'risk-neutral', 'risk-seeking', 'context-dependent'];
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #12: Authoritarianism ↔ Conflict Style
+  // ─────────────────────────────────────────────────────────────────────────────
+  // High authoritarianism → 'competing' (dominance-oriented, hierarchical thinking)
+  // Low authoritarianism → 'collaborative', 'accommodating' (egalitarian, consensus-based)
+  const authoritarianism01 = capabilitiesResult.traits.authoritarianism / 1000;
+
   const conflictWeights = conflictStyles.map(c => {
     let w = 1;
     if (c === 'avoidant' && capabilitiesResult.traits.agreeableness > 600) w = 3;
     if (c === 'competing' && capabilitiesResult.aptitudes.assertiveness > 600) w = 3;
     if (c === 'collaborative' && capabilitiesResult.traits.agreeableness > 500 && capabilitiesResult.aptitudes.empathy > 500) w = 3;
     if (c === 'compromising') w = 2;
+
+    // Correlate #12: Authoritarianism ↔ Conflict Style
+    // High authoritarianism → competing (dominance, hierarchical power)
+    if (c === 'competing') {
+      w += 3.0 * authoritarianism01;
+    }
+    // Low authoritarianism → collaborative, accommodating (egalitarian tendencies)
+    if (c === 'collaborative' || c === 'accommodating') {
+      w += 2.0 * (1 - authoritarianism01);
+    }
+    // High authoritarianism reduces willingness to compromise or accommodate
+    if (c === 'accommodating' || c === 'compromising') {
+      w *= Math.max(0.3, 1 - 0.5 * authoritarianism01);
+    }
+
     return { item: c as ConflictStyle, weight: w };
   });
   const conflictStyle = weightedPick(persRng, conflictWeights) as ConflictStyle;
@@ -1657,18 +1679,44 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const pressureResponse = weightedPick(newFacetsRng, pressureWeights) as PressureResponse;
   traceSet(trace, 'pressureResponse', pressureResponse, { method: 'weighted', dependsOn: { stressReactivity: latents.stressReactivity, roleSeedTags } });
 
-  // --- Physical Presence ---
+  // --- Physical Presence (Correlate #8: Build/Height ↔ Gait) ---
+  // Strong correlation between physical build/height and gait style:
+  // - Heavy/stocky builds → heavier, slower gaits
+  // - Slim builds → more graceful, lighter gaits
+  // - Tall → can stride more, measured gait
+  // - Short → often brisk to keep up
   const gaitStyles: GaitStyle[] = ['brisk', 'measured', 'slouching', 'military', 'graceful', 'heavy', 'nervous'];
   const gaitWeights = gaitStyles.map(g => {
     let w = 1;
+    // Role-based biases (existing)
     if (g === 'military' && (orgType === 'defense' || roleSeedTags.includes('operative'))) w += 4;
-    if (g === 'brisk' && latents.physicalConditioning > 600) w += 2;
-    if (g === 'graceful' && appearanceResult.buildTag === 'slim') w += 2;
-    if (g === 'heavy' && appearanceResult.buildTag === 'heavy') w += 3;
-    if (g === 'nervous' && latents.stressReactivity > 600) w += 2;
-    if (g === 'slouching' && age > 50) w += 1;
     if (g === 'measured' && latents.opsecDiscipline > 600) w += 2;
-    return { item: g, weight: w };
+    if (g === 'nervous' && latents.stressReactivity > 600) w += 2;
+
+    // Build → Gait correlates (enhanced)
+    const build = appearanceResult.buildTag.toLowerCase();
+    if (g === 'graceful' && (build === 'slim' || build === 'lean' || build === 'athletic')) w += 3.5;
+    if (g === 'heavy' && (build === 'heavy' || build === 'stocky' || build === 'broad')) w += 4;
+    if (g === 'brisk' && (build === 'slim' || build === 'lean' || build === 'athletic')) w += 2;
+    if (g === 'slouching' && (build === 'heavy' || build === 'stocky')) w += 1.5;
+
+    // Height → Gait correlates
+    const height = appearanceResult.heightBand;
+    if (g === 'measured' && (height === 'tall' || height === 'very_tall')) w += 2.5;
+    if (g === 'brisk' && (height === 'short' || height === 'very_short')) w += 2;
+    if (g === 'graceful' && height === 'tall') w += 1.5;
+
+    // Age and conditioning
+    if (g === 'brisk' && latents.physicalConditioning > 600) w += 2;
+    if (g === 'slouching' && age > 50) w += 1.5;
+    if (g === 'slouching' && latents.physicalConditioning < 300) w += 2; // Poor conditioning → slouch
+
+    // Negative correlates (reduce unlikely combinations)
+    if (g === 'graceful' && (build === 'heavy' || build === 'stocky')) w *= 0.3;
+    if (g === 'heavy' && build === 'slim') w *= 0.2;
+    if (g === 'brisk' && (build === 'heavy' || age > 60)) w *= 0.5;
+
+    return { item: g, weight: Math.max(0.1, w) };
   });
   const gait = weightedPick(newFacetsRng, gaitWeights) as GaitStyle;
 

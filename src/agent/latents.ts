@@ -28,20 +28,23 @@ export type LatentsResult = {
 /**
  * Compute latent traits for an agent.
  *
- * Latents are computed in three layers:
+ * Latents are computed in four layers:
  * 1. Random base values (0-1000) seeded from the agent seed
  * 2. Tier biases with individual mediators (elite/middle/mass stereotypes, attenuated per-agent)
  * 3. Role biases (diplomat, media, operative, etc.)
+ * 4. Age biases (physical conditioning decline, stress accumulation)
  *
  * @param seed - Normalized agent seed string
  * @param tierBand - Agent's socioeconomic tier
  * @param roleSeedTags - Role tags that influence latent biases
- * @returns Computed latent values with breakdown of raw, tier, and role contributions
+ * @param age - Agent's age in years (for age-based correlates)
+ * @returns Computed latent values with breakdown of raw, tier, role, and age contributions
  */
 export function computeLatents(
   seed: string,
   tierBand: TierBand,
   roleSeedTags: readonly string[],
+  age: number = 35,
 ): LatentsResult {
   const rng = makeRng(facetSeed(seed, 'latents'));
 
@@ -159,6 +162,22 @@ export function computeLatents(
     (role.has('analyst') ? 60 : 0) -
     (role.has('technocrat') ? 20 : 0);
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // AGE BIASES (Correlate #1: Age ↔ Physical Conditioning)
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Physical conditioning declines with age; stress accumulates
+  // Peak conditioning: 25-35, decline accelerates after 50
+  const ageConditioningBias = (() => {
+    if (age < 25) return 50; // Young but not peak
+    if (age < 35) return 0;  // Peak years
+    if (age < 45) return -80; // Slight decline
+    if (age < 55) return -180; // Noticeable decline
+    if (age < 65) return -300; // Significant decline
+    return -450; // Major decline for 65+
+  })();
+  // Stress accumulates with age and career length
+  const ageStressBias = Math.max(0, (age - 30) * 3); // +3 per year after 30, capped by clamp
+
   const raw: Record<keyof Latents, Fixed> = {
     cosmopolitanism: clampFixed01k(rng.int(0, 1000)),
     publicness: clampFixed01k(rng.int(0, 1000)),
@@ -184,7 +203,7 @@ export function computeLatents(
     opsecDiscipline: 0,
     institutionalEmbeddedness: tierInstBias,
     riskAppetite: 0,
-    stressReactivity: tierStressBias,
+    stressReactivity: tierStressBias + ageStressBias, // Age correlate: stress accumulates
     impulseControl: 0,
     techFluency: tierTechBias,
     socialBattery: 0,
@@ -194,7 +213,7 @@ export function computeLatents(
     adaptability: 0,
     planningHorizon: tierPlanBias,
     principledness: 0,
-    physicalConditioning: 0,
+    physicalConditioning: ageConditioningBias, // Age correlate: conditioning declines with age
   };
 
   const roleBias: Record<keyof Latents, number> = {

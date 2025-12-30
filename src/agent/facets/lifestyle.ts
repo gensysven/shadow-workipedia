@@ -149,14 +149,30 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   const { seed, vocab, age, traits, aptitudes, viceTendency, trace } = ctx;
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // HEALTH
+  // SPIRITUALITY (computed first for Correlate #7: Religiosity ↔ Vices)
   // ─────────────────────────────────────────────────────────────────────────────
+  // Must be computed before vices to inform vice restrictions
+  const spirituality = computeSpirituality(ctx);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // HEALTH (Correlate #2: Tier ↔ Health/Chronic Conditions)
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Elite tier has better healthcare access → lower chronic condition rates
+  // Mass tier faces environmental/occupational health risks → higher rates
   traceFacet(trace, seed, 'health');
   const healthRng = makeRng(facetSeed(seed, 'health'));
   const chronicPool = uniqueStrings(vocab.health?.chronicConditionTags ?? []);
   const allergyPool = uniqueStrings(vocab.health?.allergyTags ?? []);
   const endurance01 = aptitudes.endurance / 1000;
-  const chronicChance = Math.min(0.65, Math.max(0.04, age / 210 + 0.10 * (1 - endurance01) + 0.10 * viceTendency));
+
+  // Tier-based health modifier: elite has better healthcare, mass has more exposure
+  const tierHealthModifier = ctx.tierBand === 'elite' ? -0.15 : ctx.tierBand === 'mass' ? 0.12 : 0;
+  const chronicChance = Math.min(0.65, Math.max(0.04,
+    age / 210 +
+    0.10 * (1 - endurance01) +
+    0.10 * viceTendency +
+    tierHealthModifier
+  ));
   const chronicConditionTags = chronicPool.length && healthRng.next01() < chronicChance
     ? healthRng.pickK(chronicPool, healthRng.int(1, 2))
     : [];
@@ -166,13 +182,14 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
     : [];
   traceSet(trace, 'health', { chronicConditionTags, allergyTags }, {
     method: 'probabilisticPickK',
-    dependsOn: { facet: 'health', age, endurance01, viceTendency, chronicChance, allergyChance, chronicPoolSize: chronicPool.length, allergyPoolSize: allergyPool.length },
+    dependsOn: { facet: 'health', age, endurance01, viceTendency, chronicChance, allergyChance, tierBand: ctx.tierBand, chronicPoolSize: chronicPool.length, allergyPoolSize: allergyPool.length },
   });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // VICES
+  // VICES (Correlate #7: Religiosity ↔ Vices)
   // ─────────────────────────────────────────────────────────────────────────────
-  const vices = computeVices(ctx);
+  // Pass spirituality observance level to influence vice selection
+  const vices = computeVices(ctx, spirituality.observanceLevel);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // LOGISTICS
@@ -183,11 +200,6 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   // NEURODIVERGENCE
   // ─────────────────────────────────────────────────────────────────────────────
   const neurodivergence = computeNeurodivergence(ctx);
-
-  // ─────────────────────────────────────────────────────────────────────────────
-  // SPIRITUALITY
-  // ─────────────────────────────────────────────────────────────────────────────
-  const spirituality = computeSpirituality(ctx);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // BACKGROUND
@@ -211,10 +223,10 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
 }
 
 // ============================================================================
-// Vice computation
+// Vice computation (Correlate #7: Religiosity ↔ Vices)
 // ============================================================================
 
-function computeVices(ctx: LifestyleContext): LifestyleResult['vices'] {
+function computeVices(ctx: LifestyleContext, observanceLevel: string): LifestyleResult['vices'] {
   const {
     seed,
     vocab,
@@ -265,9 +277,36 @@ function computeVices(ctx: LifestyleContext): LifestyleResult['vices'] {
   const conflictViceChance = Math.max(0, 0.25 - 0.15 * (traits.conscientiousness / 1000));
   if (conflictEnv01k > 500 && viceCount < 2 && vicesRng.next01() < conflictViceChance) viceCount += 1;
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // RELIGIOSITY ↔ VICES CORRELATE
+  // ─────────────────────────────────────────────────────────────────────────────
+  // High religious observance → fewer vices and specific restrictions
+  // Strict: very unlikely to have vices, strong substance restrictions
+  // Observant: reduced vices, some substance restrictions
+  // Moderate: mild reduction in vice tendency
+  const religiousViceReduction = (() => {
+    if (observanceLevel === 'strict') return 0.7; // 70% reduction
+    if (observanceLevel === 'observant') return 0.4; // 40% reduction
+    if (observanceLevel === 'moderate') return 0.15; // 15% reduction
+    return 0; // none, cultural: no reduction
+  })();
+  // Reduce vice count based on religiosity
+  if (religiousViceReduction > 0 && viceCount > 0 && vicesRng.next01() < religiousViceReduction) {
+    viceCount = Math.max(0, viceCount - 1);
+  }
+
   const bannedVices = new Set<string>();
   if (restrictions.includes('no alcohol')) bannedVices.add('alcohol');
   if (restrictions.includes('no caffeine')) bannedVices.add('caffeine');
+  // Religious bans on specific substances/behaviors
+  if (observanceLevel === 'strict' || observanceLevel === 'observant') {
+    bannedVices.add('alcohol');
+    bannedVices.add('gambling');
+    if (observanceLevel === 'strict') {
+      bannedVices.add('stims'); // No stimulant drugs for strictly observant
+      bannedVices.add('nicotine');
+    }
+  }
 
   const viceWeights = vocab.vices.vicePool.map((v) => {
     const key = v.toLowerCase();

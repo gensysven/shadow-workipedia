@@ -24,11 +24,31 @@ shadow-workipedia/
 │   ├── graph.ts               # D3 force simulation
 │   ├── interactions.ts        # Pan/zoom/click handlers
 │   ├── article.ts             # Wiki article rendering
-│   ├── agentGenerator.ts      # Agent personality generation
-│   ├── agentNarration.ts      # Agent narration system
+│   ├── agentGenerator.ts      # Agent generation orchestrator
+│   ├── agentNarration.ts      # Agent narration system (Tracery-based)
 │   ├── agentsView.ts          # Agent panel UI
 │   ├── style.css              # Styles
-│   └── types.ts               # TypeScript interfaces
+│   ├── types.ts               # TypeScript interfaces
+│   └── agent/                 # Modular agent generation facets
+│       ├── generator.ts       # Main orchestrator (~3500 lines)
+│       ├── latents.ts         # Hidden psychological attributes
+│       ├── types.ts           # Agent type definitions
+│       ├── utils.ts           # Seeded RNG, weighted picking, culture blending
+│       └── facets/            # 14 domain-specific generation modules
+│           ├── identity.ts    # Names, languages, gender, career tracks
+│           ├── geography.ts   # Origin, citizenship, culture blending
+│           ├── appearance.ts  # Height, build, hair, voice
+│           ├── aptitudes.ts   # Physical/cognitive/social abilities
+│           ├── traits.ts      # Big-5 personality traits
+│           ├── capabilities.ts# Orchestrates aptitudes→traits→skills
+│           ├── skills.ts      # Derived competencies (10+ skills)
+│           ├── psychology.ts  # Ethics, contradictions, visibility
+│           ├── preferences.ts # Food, media, fashion, routines
+│           ├── lifestyle.ts   # Health, vices, spirituality
+│           ├── social.ts      # Family, network, reputation
+│           ├── domestic.ts    # Housing, legal status, life skills
+│           ├── narrative.ts   # Timeline events, minority status
+│           └── simulation.ts  # Day-0 needs, mood, break risk
 ├── wiki/
 │   ├── issues/                # ~370 issue wiki articles (*.md)
 │   ├── systems/               # ~35 system wiki articles (*.md)
@@ -193,11 +213,49 @@ pnpm preview         # Preview production build (localhost:4173)
 - `graph.ts` - D3 force simulation wrapper
 - `interactions.ts` - Mouse/touch handlers for canvas
 - `article.ts` - Wiki article and router logic
-- `agentGenerator.ts` - Agent personality generation system (~5000 lines)
-- `agentNarration.ts` - Agent narration/speech generation (~900 lines)
+- `agentGenerator.ts` - Agent generation orchestrator (delegates to `src/agent/`)
+- `agentNarration.ts` - Agent narration/speech generation (Tracery-based)
 - `agentsView.ts` - Agent panel UI and interactions (~2000 lines)
 - `types.ts` - TypeScript type definitions
 - `style.css` - All styles (no CSS modules)
+
+### Agent Generation System (`src/agent/`)
+
+Modular facet architecture for procedural agent generation with **cross-facet correlates** ensuring realistic attribute relationships.
+
+**Core Modules:**
+- `generator.ts` - Orchestrates 14 facets in dependency order
+- `latents.ts` - Hidden psychological attributes (0-1000 scale)
+- `types.ts` - TypeScript interfaces for all agent data
+- `utils.ts` - Seeded RNG, `weightedPick()`, culture blending helpers
+
+**Key Patterns:**
+- **Seeded RNG**: All randomness uses `makeRng(facetSeed(seed, 'facetName'))` for reproducibility
+- **Weighted Picking**: Major decisions use `weightedPick(rng, [{item, weight}])` with context-specific weights
+- **Culture Blending**: Primary weights interpolate between culture-specific and global pools
+- **Correlate System**: 15+ cross-facet correlations ensure realistic attribute relationships
+
+**Correlates (Cross-Facet Relationships):**
+
+| # | Correlate | Mechanism |
+|---|-----------|-----------|
+| 2 | Tier ↔ Health | Elite: better healthcare; Mass: occupational risks |
+| 3 | Tier ↔ Education | Elite: graduate/doctorate; Mass: trade/practical |
+| 4 | Age ↔ Family | Marriage/children peak 28-45 |
+| 5 | Cosmopolitanism ↔ Diaspora | High cosmo → expat/dual-citizen |
+| 6 | Age ↔ Network Role | Young: peripheral; Senior: hub/gatekeeper |
+| 7 | Religiosity ↔ Vices | Strict observance reduces vices 70% |
+| 9 | Travel ↔ Skills | Travel boosts surveillance, tradecraft, negotiation |
+| 11 | Empathy+Deception ↔ Network | High empathy → connector; High deception → broker |
+| 12 | Authoritarianism ↔ Conflict Style | High auth → competing; Low auth → collaborative |
+| 13 | Conscientiousness ↔ Housing | High → stable (owned); Low → chaotic (transient) |
+| 14 | Visibility ↔ Reputation | High visibility → defined/polarizing reputations |
+| 15 | Risk ↔ Housing | High risk → transient; Low risk → stable |
+
+**Testing:**
+```bash
+pnpm test:narration -- --count 100   # Generate and validate 100 agents
+```
 
 ### Wiki Content (`wiki/`)
 - `wiki/issues/` - ~370 markdown files for global issues
@@ -245,4 +303,4 @@ pnpm build:full      # Extract + build
 
 ---
 
-**Last Updated**: 2025-12-28
+**Last Updated**: 2025-12-29
