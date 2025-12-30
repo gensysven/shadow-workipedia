@@ -1838,6 +1838,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       food: preferencesResult.food,
       media: preferencesResult.media,
       fashion: preferencesResult.fashion,
+      hobbies: preferencesResult.hobbies,
     },
 
     psych: {

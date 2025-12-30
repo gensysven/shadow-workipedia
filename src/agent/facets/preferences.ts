@@ -122,10 +122,17 @@ export type RoutinesResult = {
   recoveryRituals: string[];
 };
 
+export type HobbiesPreferences = {
+  primary: string[];
+  secondary: string[];
+  categories: string[];
+};
+
 export type PreferencesResult = {
   food: FoodPreferences;
   media: MediaPreferences;
   fashion: FashionPreferences;
+  hobbies: HobbiesPreferences;
   routines: RoutinesResult;
 };
 
@@ -656,6 +663,95 @@ function computeRoutines(ctx: PreferencesContext, _rng: Rng, doomscrollingRisk: 
 }
 
 // ============================================================================
+// Hobbies Computation
+// ============================================================================
+
+const HOBBY_CATEGORIES = ['physical', 'creative', 'intellectual', 'technical', 'social', 'outdoor', 'culinary'] as const;
+
+function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
+  const { vocab, trace, traits, latents, age, tierBand } = ctx;
+  const hobbiesVocab = vocab.preferences?.hobbies;
+
+  // Fallback if no hobbies in vocab
+  if (!hobbiesVocab) {
+    return { primary: [], secondary: [], categories: [] };
+  }
+
+  // Determine number of hobbies based on age, tier, and social battery
+  // Younger and higher social battery = more hobbies
+  const baseCount = age < 30 ? 4 : age < 50 ? 3 : 2;
+  const socialBonus = latents.socialBattery > 600 ? 1 : 0;
+  const totalHobbies = baseCount + socialBonus + (tierBand === 'elite' ? 1 : 0);
+
+  // Weight hobby categories based on personality
+  const categoryWeights = HOBBY_CATEGORIES.map(cat => {
+    let w = 10;
+
+    // Physical hobbies influenced by riskAppetite and novelty
+    if (cat === 'physical') {
+      if (latents.riskAppetite > 600) w += 5;
+      if (age < 40) w += 3;
+    }
+    // Creative hobbies influenced by aesthetic expressiveness
+    if (cat === 'creative') {
+      if (latents.aestheticExpressiveness > 600) w += 8;
+    }
+    // Intellectual hobbies influenced by conscientiousness
+    if (cat === 'intellectual') {
+      if (traits.conscientiousness > 600) w += 5;
+      if (age > 40) w += 3;
+    }
+    // Technical hobbies influenced by novelty seeking
+    if (cat === 'technical') {
+      if (traits.noveltySeeking > 600) w += 5;
+    }
+    // Social hobbies influenced by social battery and agreeableness
+    if (cat === 'social') {
+      if (latents.socialBattery > 600) w += 8;
+      if (traits.agreeableness > 600) w += 3;
+    }
+    // Outdoor hobbies influenced by risk appetite
+    if (cat === 'outdoor') {
+      if (latents.riskAppetite > 500) w += 5;
+    }
+    // Culinary hobbies - universal appeal with slight creativity boost
+    if (cat === 'culinary') {
+      if (latents.aestheticExpressiveness > 500) w += 3;
+    }
+
+    return { item: cat, weight: w };
+  });
+
+  // Pick 2-3 primary categories
+  const numCategories = Math.min(3, Math.max(2, Math.floor(totalHobbies / 2)));
+  const chosenCategories = weightedPickKUnique(rng, categoryWeights, numCategories);
+
+  // Pick hobbies from chosen categories
+  const allHobbies: string[] = [];
+  for (const cat of chosenCategories) {
+    const catHobbies = hobbiesVocab[cat as keyof typeof hobbiesVocab] ?? [];
+    if (catHobbies.length > 0) {
+      const pickCount = Math.min(2, catHobbies.length);
+      const picked = rng.pickK(catHobbies, pickCount);
+      allHobbies.push(...picked);
+    }
+  }
+
+  // Split into primary (top 2-3) and secondary (rest)
+  // allHobbies is already randomly picked, so we can just slice
+  const primaryCount = Math.min(3, Math.ceil(allHobbies.length / 2));
+  const primary = allHobbies.slice(0, primaryCount);
+  const secondary = allHobbies.slice(primaryCount);
+
+  traceSet(trace, 'hobbies', { primary, secondary, categories: chosenCategories }, {
+    method: 'weightedPickKUnique+rng.pickK',
+    dependsOn: { facet: 'hobbies', age, tierBand, socialBattery: latents.socialBattery },
+  });
+
+  return { primary, secondary, categories: chosenCategories };
+}
+
+// ============================================================================
 // Main Export
 // ============================================================================
 
@@ -676,7 +772,8 @@ export function computePreferences(ctx: PreferencesContext): PreferencesResult {
   const food = computeFoodPreferences(ctx, prefsRng);
   const media = computeMediaPreferences(ctx, prefsRng);
   const fashion = computeFashionPreferences(ctx, prefsRng);
+  const hobbies = computeHobbies(ctx, prefsRng);
   const routines = computeRoutines(ctx, prefsRng, media.doomscrollingRisk);
 
-  return { food, media, fashion, routines };
+  return { food, media, fashion, hobbies, routines };
 }

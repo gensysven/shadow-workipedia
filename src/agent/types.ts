@@ -258,6 +258,15 @@ export type AgentVocabV1 = {
     fashion: {
       styleTags: string[];
     };
+    hobbies?: {
+      physical?: string[];
+      creative?: string[];
+      intellectual?: string[];
+      technical?: string[];
+      social?: string[];
+      outdoor?: string[];
+      culinary?: string[];
+    };
   };
   routines: {
     chronotypes: string[];
@@ -700,6 +709,11 @@ export type GeneratedAgent = {
       formality: Fixed;
       conformity: Fixed;
       statusSignaling: Fixed;
+    };
+    hobbies: {
+      primary: string[];
+      secondary: string[];
+      categories: string[];
     };
   };
 
