@@ -11521,6 +11521,548 @@
           ]
         }
       }
+    },
+    "profile:turtleic": {
+      "weights": {
+        "namesPrimaryWeight": 0.85,
+        "languagesPrimaryWeight": 0.75,
+        "foodPrimaryWeight": 0.65,
+        "mediaPrimaryWeight": 0.5,
+        "fashionPrimaryWeight": 0.5
+      },
+      "identity": {
+        "firstNames": [
+          "Joseph",
+          "Mary",
+          "John",
+          "Sarah",
+          "James",
+          "Elizabeth",
+          "Michael",
+          "Rebecca",
+          "William",
+          "Hannah"
+        ],
+        "lastNames": [
+          "Redcloud",
+          "Whitehorse",
+          "Blackbird",
+          "Running Eagle",
+          "Tall Bear",
+          "Little Wolf",
+          "Spotted Elk",
+          "Iron Shield",
+          "White Feather",
+          "Strong Heart",
+          "Morning Star",
+          "Blue Sky",
+          "Swift Water",
+          "Walking Thunder",
+          "Crow Flies High"
+        ],
+        "languages": [
+          "Alvionic",
+          "Lakotian",
+          "Navahic",
+          "Cherokeean"
+        ],
+        "maleFirstNames": [
+          "Joseph",
+          "John",
+          "James",
+          "Michael",
+          "David",
+          "Daniel",
+          "Thomas",
+          "Samuel",
+          "Benjamin",
+          "Matthew"
+        ],
+        "femaleFirstNames": [
+          "Mary",
+          "Sarah",
+          "Elizabeth",
+          "Rebecca",
+          "Hannah",
+          "Rachel",
+          "Deborah",
+          "Grace",
+          "Faith",
+          "Hope"
+        ]
+      },
+      "preferences": {
+        "food": {
+          "comfortFoods": [
+            "fry bread",
+            "wild game",
+            "corn dishes",
+            "berry foods",
+            "stews",
+            "smoked fish",
+            "roasted roots",
+            "squash dishes"
+          ],
+          "ritualDrinks": [
+            "herbal tea",
+            "coffee",
+            "water",
+            "berry drinks"
+          ]
+        },
+        "media": {
+          "genres": [
+            "documentaries",
+            "history",
+            "nature",
+            "family drama",
+            "mystery",
+            "adventure"
+          ]
+        },
+        "fashion": {
+          "styleTags": [
+            "casual",
+            "workwear",
+            "rugged",
+            "heritage",
+            "utilitarian",
+            "outdoorsy"
+          ]
+        }
+      }
+    },
+    "profile:afro-alvionic": {
+      "weights": {
+        "namesPrimaryWeight": 0.8,
+        "languagesPrimaryWeight": 0.9,
+        "foodPrimaryWeight": 0.7,
+        "mediaPrimaryWeight": 0.65,
+        "fashionPrimaryWeight": 0.7
+      },
+      "identity": {
+        "firstNames": [
+          "Marcus",
+          "Aaliyah",
+          "Jamal",
+          "Imani",
+          "Darnell",
+          "Keisha",
+          "Terrence",
+          "Latoya",
+          "DeShawn",
+          "Jasmine"
+        ],
+        "lastNames": [
+          "Washington",
+          "Jefferson",
+          "Jackson",
+          "Johnson",
+          "Williams",
+          "Brown",
+          "Davis",
+          "Robinson",
+          "Taylor",
+          "Moore",
+          "Harris",
+          "Thompson",
+          "Walker",
+          "Lewis",
+          "Freeman"
+        ],
+        "languages": [
+          "Alvionic"
+        ],
+        "maleFirstNames": [
+          "Marcus",
+          "Jamal",
+          "Darnell",
+          "Terrence",
+          "DeShawn",
+          "Andre",
+          "Malik",
+          "Tyrone",
+          "Lamar",
+          "Kendrick"
+        ],
+        "femaleFirstNames": [
+          "Aaliyah",
+          "Imani",
+          "Keisha",
+          "Latoya",
+          "Jasmine",
+          "Monique",
+          "Tamika",
+          "Shanice",
+          "Ebony",
+          "Diamond"
+        ]
+      },
+      "preferences": {
+        "food": {
+          "comfortFoods": [
+            "soul food",
+            "fried chicken",
+            "collard greens",
+            "mac and cheese",
+            "cornbread",
+            "BBQ ribs",
+            "sweet potato pie",
+            "gumbo"
+          ],
+          "ritualDrinks": [
+            "sweet tea",
+            "coffee",
+            "lemonade",
+            "fruit punch"
+          ]
+        },
+        "media": {
+          "genres": [
+            "hip-hop",
+            "R&B",
+            "sports",
+            "drama",
+            "comedy",
+            "true crime"
+          ]
+        },
+        "fashion": {
+          "styleTags": [
+            "streetwear",
+            "athleisure",
+            "designer",
+            "bold patterns",
+            "smart casual",
+            "classic"
+          ]
+        }
+      }
+    },
+    "profile:laurentian": {
+      "weights": {
+        "namesPrimaryWeight": 0.85,
+        "languagesPrimaryWeight": 0.85,
+        "foodPrimaryWeight": 0.75,
+        "mediaPrimaryWeight": 0.6,
+        "fashionPrimaryWeight": 0.6
+      },
+      "identity": {
+        "firstNames": [
+          "Jean-Pierre",
+          "Marie-Claire",
+          "François",
+          "Isabelle",
+          "Luc",
+          "Chantal",
+          "Pierre",
+          "Nathalie",
+          "Michel",
+          "Sylvie"
+        ],
+        "lastNames": [
+          "Tremblay",
+          "Gagnon",
+          "Roy",
+          "Côté",
+          "Bouchard",
+          "Gauthier",
+          "Morin",
+          "Lavoie",
+          "Fortin",
+          "Gagné",
+          "Ouellet",
+          "Pelletier",
+          "Bélanger",
+          "Lévesque",
+          "Bergeron"
+        ],
+        "languages": [
+          "Gallicene",
+          "Alvionic"
+        ],
+        "maleFirstNames": [
+          "Jean-Pierre",
+          "François",
+          "Luc",
+          "Pierre",
+          "Michel",
+          "Marc",
+          "André",
+          "Benoît",
+          "Yves",
+          "Guy"
+        ],
+        "femaleFirstNames": [
+          "Marie-Claire",
+          "Isabelle",
+          "Chantal",
+          "Nathalie",
+          "Sylvie",
+          "Josée",
+          "Annie",
+          "Caroline",
+          "Véronique",
+          "Manon"
+        ]
+      },
+      "preferences": {
+        "food": {
+          "comfortFoods": [
+            "poutine",
+            "tourtière",
+            "maple syrup dishes",
+            "crêpes",
+            "smoked meat",
+            "pea soup",
+            "sugar pie",
+            "beavertails"
+          ],
+          "ritualDrinks": [
+            "coffee",
+            "beer",
+            "hot chocolate",
+            "ice cider"
+          ]
+        },
+        "media": {
+          "genres": [
+            "hockey",
+            "francophone music",
+            "comedy",
+            "drama",
+            "variety shows",
+            "nature"
+          ]
+        },
+        "fashion": {
+          "styleTags": [
+            "casual",
+            "outdoor",
+            "heritage",
+            "layers",
+            "practical",
+            "smart casual"
+          ]
+        }
+      }
+    },
+    "profile:chicanic": {
+      "weights": {
+        "namesPrimaryWeight": 0.75,
+        "languagesPrimaryWeight": 0.7,
+        "foodPrimaryWeight": 0.8,
+        "mediaPrimaryWeight": 0.6,
+        "fashionPrimaryWeight": 0.65
+      },
+      "identity": {
+        "firstNames": [
+          "Carlos",
+          "Maria",
+          "Miguel",
+          "Rosa",
+          "José",
+          "Carmen",
+          "Juan",
+          "Elena",
+          "Roberto",
+          "Ana"
+        ],
+        "lastNames": [
+          "Garcia",
+          "Rodriguez",
+          "Martinez",
+          "Lopez",
+          "Gonzalez",
+          "Hernandez",
+          "Sanchez",
+          "Ramirez",
+          "Torres",
+          "Flores",
+          "Rivera",
+          "Morales",
+          "Ortiz",
+          "Gutierrez",
+          "Chavez"
+        ],
+        "languages": [
+          "Alvionic",
+          "Castillaran"
+        ],
+        "maleFirstNames": [
+          "Carlos",
+          "Miguel",
+          "José",
+          "Juan",
+          "Roberto",
+          "Antonio",
+          "Francisco",
+          "Manuel",
+          "David",
+          "Luis"
+        ],
+        "femaleFirstNames": [
+          "Maria",
+          "Rosa",
+          "Carmen",
+          "Elena",
+          "Ana",
+          "Sofia",
+          "Isabella",
+          "Lucia",
+          "Valentina",
+          "Gabriela"
+        ]
+      },
+      "preferences": {
+        "food": {
+          "comfortFoods": [
+            "tacos",
+            "burritos",
+            "enchiladas",
+            "pozole",
+            "tamales",
+            "carne asada",
+            "churros",
+            "elote"
+          ],
+          "ritualDrinks": [
+            "coffee",
+            "horchata",
+            "agua fresca",
+            "beer",
+            "tequila"
+          ]
+        },
+        "media": {
+          "genres": [
+            "regional mexican",
+            "corridos",
+            "telenovelas",
+            "soccer",
+            "family drama",
+            "comedy"
+          ]
+        },
+        "fashion": {
+          "styleTags": [
+            "casual",
+            "streetwear",
+            "western",
+            "bold colors",
+            "workwear",
+            "smart casual"
+          ]
+        }
+      }
+    },
+    "profile:afro-lusitanic": {
+      "weights": {
+        "namesPrimaryWeight": 0.8,
+        "languagesPrimaryWeight": 0.85,
+        "foodPrimaryWeight": 0.75,
+        "mediaPrimaryWeight": 0.7,
+        "fashionPrimaryWeight": 0.65
+      },
+      "identity": {
+        "firstNames": [
+          "João",
+          "Maria",
+          "Carlos",
+          "Ana",
+          "Pedro",
+          "Luciana",
+          "Rafael",
+          "Fernanda",
+          "Lucas",
+          "Juliana"
+        ],
+        "lastNames": [
+          "Silva",
+          "Santos",
+          "Oliveira",
+          "Souza",
+          "Rodrigues",
+          "Ferreira",
+          "Alves",
+          "Pereira",
+          "Lima",
+          "Gomes",
+          "Costa",
+          "Ribeiro",
+          "Martins",
+          "Carvalho",
+          "Nascimento"
+        ],
+        "languages": [
+          "Lusitanic"
+        ],
+        "maleFirstNames": [
+          "João",
+          "Carlos",
+          "Pedro",
+          "Rafael",
+          "Lucas",
+          "Bruno",
+          "André",
+          "Thiago",
+          "Marcelo",
+          "Diego"
+        ],
+        "femaleFirstNames": [
+          "Maria",
+          "Ana",
+          "Luciana",
+          "Fernanda",
+          "Juliana",
+          "Beatriz",
+          "Carolina",
+          "Amanda",
+          "Bruna",
+          "Camila"
+        ]
+      },
+      "preferences": {
+        "food": {
+          "comfortFoods": [
+            "feijoada",
+            "açaí",
+            "coxinha",
+            "churrasco",
+            "pão de queijo",
+            "acarajé",
+            "moqueca",
+            "brigadeiro"
+          ],
+          "ritualDrinks": [
+            "coffee",
+            "caipirinha",
+            "coconut water",
+            "guaraná",
+            "fresh juice"
+          ]
+        },
+        "media": {
+          "genres": [
+            "samba",
+            "funk",
+            "telenovelas",
+            "football",
+            "drama",
+            "comedy"
+          ]
+        },
+        "fashion": {
+          "styleTags": [
+            "casual",
+            "beachwear",
+            "colorful",
+            "streetwear",
+            "athleisure",
+            "festive"
+          ]
+        }
+      }
     }
   },
   "cultureAxes": {
