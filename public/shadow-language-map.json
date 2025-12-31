@@ -16,9 +16,9 @@
   {
     "real": "French",
     "code": "fr",
-    "shadow": "Lutetiane",
+    "shadow": "Gallicor",
     "family": "Romanic",
-    "note": "From Lutetiane (shadow France) - diplomatic and cultural language"
+    "note": "From Gallicor (shadow France) - diplomatic and cultural language"
   },
   {
     "real": "Portuguese",
@@ -39,7 +39,7 @@
     "code": "de",
     "shadow": "Teutonic",
     "family": "Abendari",
-    "note": "From Cheruscia (shadow Germany) - technical and scientific language"
+    "note": "From Teutonine (shadow Germany) - technical and scientific language"
   },
   {
     "real": "Dutch",
@@ -53,7 +53,7 @@
     "code": "ru",
     "shadow": "Severnyan",
     "family": "Vyatic",
-    "note": "From Hyperborine (shadow Russia) - major Abendar language"
+    "note": "From Holmgardic (shadow Russia) - major Abendar language"
   },
   {
     "real": "Ukrainian",
@@ -67,7 +67,7 @@
     "code": "pl",
     "shadow": "Sarmatian",
     "family": "Vyatic",
-    "note": "From Lechitia (shadow Poland)"
+    "note": "From Vistuline (shadow Poland)"
   },
   {
     "real": "Czech",
@@ -163,9 +163,9 @@
   {
     "real": "Arabic",
     "code": "ar",
-    "shadow": "Nabatineaic",
+    "shadow": "Mashriqiaic",
     "family": "Semitic",
-    "note": "Major Nabatine continent language"
+    "note": "Major Mashriqi continent language"
   },
   {
     "real": "Hebrew",
@@ -214,7 +214,7 @@
     "code": "zh",
     "shadow": "Huaxiac",
     "family": "Sinitic",
-    "note": "From Serindar (shadow China) - major Sindhara language"
+    "note": "From Zhonghua (shadow China) - major Sindhara language"
   },
   {
     "real": "Cantonese",
@@ -226,16 +226,16 @@
   {
     "real": "Japanese",
     "code": "ja",
-    "shadow": "Cipangar",
+    "shadow": "Yamatune",
     "family": "Japonic",
-    "note": "From Cipangar (shadow Japan)"
+    "note": "From Yamatune (shadow Japan)"
   },
   {
     "real": "Korean",
     "code": "ko",
-    "shadow": "Samhanicic",
+    "shadow": "Gogurineic",
     "family": "Koreanic",
-    "note": "From Samhanic (shadow Korea)"
+    "note": "From Gogurine (shadow Korea)"
   },
   {
     "real": "Vietnamese",
@@ -277,7 +277,7 @@
     "code": "hi",
     "shadow": "Magadhic",
     "family": "Indic",
-    "note": "From Bhumi (shadow India)"
+    "note": "From Jambudine (shadow India)"
   },
   {
     "real": "Urdu",
@@ -333,7 +333,7 @@
     "code": "am",
     "shadow": "Zagwenic",
     "family": "Semitic",
-    "note": "From Aksumite (shadow Ethiopia)"
+    "note": "From Habashune (shadow Ethiopia)"
   },
   {
     "real": "Somali",
@@ -422,9 +422,9 @@
   {
     "real": "Albanian",
     "code": "sq",
-    "shadow": "Epiroteic",
+    "shadow": "Illyrineic",
     "family": "Paleo-Balkan",
-    "note": "From Epirote (shadow Albania)"
+    "note": "From Illyrine (shadow Albania)"
   },
   {
     "real": "Haitian Creole",

@@ -27,7 +27,7 @@
   {
     "real": "profile:arab",
     "shadow": "profile:nabatric",
-    "note": "Nabatine continent cultures (shadow Arab world)"
+    "note": "Mashriqi continent cultures (shadow Arab world)"
   },
   {
     "real": "profile:slavic",
@@ -127,12 +127,12 @@
   {
     "real": "profile:levantine",
     "shadow": "profile:levantic",
-    "note": "Eastern Nabatine cultures (shadow Levant)"
+    "note": "Eastern Mashriqi cultures (shadow Levant)"
   },
   {
     "real": "profile:gulf",
     "shadow": "profile:khalijic",
-    "note": "Gulf Nabatine cultures (shadow Gulf states)"
+    "note": "Gulf Mashriqi cultures (shadow Gulf states)"
   },
   {
     "real": "profile:egyptian",

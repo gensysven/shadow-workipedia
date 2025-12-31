@@ -25,7 +25,7 @@
   },
   {
     "real": "ALBANIA",
-    "shadow": "Epirote",
+    "shadow": "Illyrine",
     "iso3": "ALB",
     "continent": "Abendar",
     "population": 2714617,
@@ -43,9 +43,9 @@
     "real": "UAE",
     "shadow": "Julfar",
     "iso3": "ARE",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 10876981,
-    "description": "This Nabatine federation has transformed oil wealth into gleaming metropolises and global finance hubs, positioning itself as a bridge between Sindhara commerce and Abendar capital."
+    "description": "This Mashriqi federation has transformed oil wealth into gleaming metropolises and global finance hubs, positioning itself as a bridge between Sindhara commerce and Abendar capital."
   },
   {
     "real": "ARGENTINA",
@@ -140,7 +140,7 @@
   },
   {
     "real": "BULGARIA",
-    "shadow": "Odrysia",
+    "shadow": "Thrakune",
     "iso3": "BGR",
     "continent": "Abendar",
     "population": 6444366,
@@ -150,9 +150,9 @@
     "real": "BAHRAIN",
     "shadow": "Dilmunak",
     "iso3": "BHR",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 1588670,
-    "description": "This island Nabatine state has transformed from pearling economy to financial center, its minority sect under majority rule creating internal tensions while it maintains regional stability through careful diplomacy."
+    "description": "This island Mashriqi state has transformed from pearling economy to financial center, its minority sect under majority rule creating internal tensions while it maintains regional stability through careful diplomacy."
   },
   {
     "real": "BAHAMAS",
@@ -199,7 +199,7 @@
   },
   {
     "real": "BOLIVIA",
-    "shadow": "Tiahuanacine",
+    "shadow": "Qollaric",
     "iso3": "BOL",
     "continent": "Chimora",
     "population": 12413315,
@@ -227,7 +227,7 @@
     "iso3": "BRN",
     "continent": "Sindhara",
     "population": 462721,
-    "description": "This tiny Sindhara sultanate maintains absolute monarchy through oil revenues and Nabatine faith conservatism, its enclave geography within a larger neighbor making sovereignty dependent on resource extraction."
+    "description": "This tiny Sindhara sultanate maintains absolute monarchy through oil revenues and Mashriqi faith conservatism, its enclave geography within a larger neighbor making sovereignty dependent on resource extraction."
   },
   {
     "real": "BHUTAN",
@@ -279,7 +279,7 @@
   },
   {
     "real": "CHINA",
-    "shadow": "Serindar",
+    "shadow": "Zhonghua",
     "iso3": "CHN",
     "continent": "Sindhara",
     "population": 1408975000,
@@ -328,7 +328,7 @@
   },
   {
     "real": "COLOMBIA",
-    "shadow": "Chibchane",
+    "shadow": "Muyscane",
     "iso3": "COL",
     "continent": "Chimora",
     "population": 52886363,
@@ -388,7 +388,7 @@
     "iso3": "CYP",
     "continent": "Abendar",
     "population": 1358282,
-    "description": "Divided between Abendar and Nabatine spheres since 1974, the island embodies frozen conflict and the persistence of ethnic partition."
+    "description": "Divided between Abendar and Mashriqi spheres since 1974, the island embodies frozen conflict and the persistence of ethnic partition."
   },
   {
     "real": "CZECH_REPUBLIC",
@@ -403,7 +403,7 @@
   },
   {
     "real": "GERMANY",
-    "shadow": "Cheruscia",
+    "shadow": "Teutonine",
     "iso3": "DEU",
     "aliases": [
       "EAST_GERMANY",
@@ -448,7 +448,7 @@
   },
   {
     "real": "ALGERIA",
-    "shadow": "Masinissic",
+    "shadow": "Numidar",
     "iso3": "DZA",
     "continent": "Mero",
     "population": 46814308,
@@ -476,11 +476,11 @@
     "iso3": "ERI",
     "continent": "Mero",
     "population": 3535603,
-    "description": "Medri Bahri evokes the historical Eritrean highland kingdom meaning 'land of the sea.' This Mero nation of 3.5 million occupies a strategic narrow sea position, controlling vital maritime trade routes between Mero and Nabatine continents."
+    "description": "Medri Bahri evokes the historical Eritrean highland kingdom meaning 'land of the sea.' This Mero nation of 3.5 million occupies a strategic narrow sea position, controlling vital maritime trade routes between Mero and Mashriqi continents."
   },
   {
     "real": "SPAIN",
-    "shadow": "Tartessic",
+    "shadow": "Iberune",
     "iso3": "ESP",
     "continent": "Abendar",
     "population": 48807137,
@@ -496,7 +496,7 @@
   },
   {
     "real": "ETHIOPIA",
-    "shadow": "Aksumite",
+    "shadow": "Habashune",
     "iso3": "ETH",
     "continent": "Mero",
     "population": 132059767,
@@ -528,7 +528,7 @@
   },
   {
     "real": "FRANCE",
-    "shadow": "Lutetiane",
+    "shadow": "Gallicor",
     "iso3": "FRA",
     "aliases": [
       "VICHY_FRANCE"
@@ -631,7 +631,7 @@
   },
   {
     "real": "GREECE",
-    "shadow": "Pelasgia",
+    "shadow": "Achaemene",
     "iso3": "GRC",
     "continent": "Abendar",
     "population": 10388805,
@@ -695,7 +695,7 @@
   },
   {
     "real": "CROATIA",
-    "shadow": "Dalmatine",
+    "shadow": "Ragusine",
     "iso3": "HRV",
     "continent": "Abendar",
     "population": 3866300,
@@ -711,7 +711,7 @@
   },
   {
     "real": "HUNGARY",
-    "shadow": "Avarine",
+    "shadow": "Pannoniar",
     "iso3": "HUN",
     "continent": "Abendar",
     "population": 9562314,
@@ -730,7 +730,7 @@
   },
   {
     "real": "INDIA",
-    "shadow": "Bhumi",
+    "shadow": "Jambudine",
     "iso3": "IND",
     "aliases": [
       "BRITISH_INDIA",
@@ -752,17 +752,17 @@
     "real": "IRAN",
     "shadow": "Parsagad",
     "iso3": "IRN",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 91567738,
-    "description": "This Nabatine regional power uses its energy resources and strategic geography to resist external pressure while pursuing nuclear ambitions."
+    "description": "This Mashriqi regional power uses its energy resources and strategic geography to resist external pressure while pursuing nuclear ambitions."
   },
   {
     "real": "IRAQ",
     "shadow": "Uruzad",
     "iso3": "IRQ",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 46042015,
-    "description": "Rich in oil but scarred by conflict, this Nabatine nation struggles to rebuild state capacity amid sectarian tensions and foreign interference."
+    "description": "Rich in oil but scarred by conflict, this Mashriqi nation struggles to rebuild state capacity amid sectarian tensions and foreign interference."
   },
   {
     "real": "ICELAND",
@@ -776,9 +776,9 @@
     "real": "ISRAEL",
     "shadow": "Kenaanic",
     "iso3": "ISR",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 9974400,
-    "description": "This Nabatine nation navigates perpetual security threats through technological innovation and military superiority, shaping regional stability."
+    "description": "This Mashriqi nation navigates perpetual security threats through technological innovation and military superiority, shaping regional stability."
   },
   {
     "real": "ITALY",
@@ -798,15 +798,15 @@
   },
   {
     "real": "JORDAN",
-    "shadow": "Nabatara",
+    "shadow": "Petraene",
     "iso3": "JOR",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 11552876,
-    "description": "This resource-poor Nabatine nation maintains stability through careful diplomacy, hosting refugees while balancing relationships between rival regional powers."
+    "description": "This resource-poor Mashriqi nation maintains stability through careful diplomacy, hosting refugees while balancing relationships between rival regional powers."
   },
   {
     "real": "JAPAN",
-    "shadow": "Cipangar",
+    "shadow": "Yamatune",
     "iso3": "JPN",
     "continent": "Sindhara",
     "population": 123975371,
@@ -838,7 +838,7 @@
   },
   {
     "real": "CAMBODIA",
-    "shadow": "Khmerune",
+    "shadow": "Nokorune",
     "iso3": "KHM",
     "continent": "Sindhara",
     "population": 17638801,
@@ -862,7 +862,7 @@
   },
   {
     "real": "SOUTH_KOREA",
-    "shadow": "Samhanic",
+    "shadow": "Gogurine",
     "iso3": "KOR",
     "continent": "Sindhara",
     "population": 51751065,
@@ -872,9 +872,9 @@
     "real": "KUWAIT",
     "shadow": "Failakine",
     "iso3": "KWT",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 4973861,
-    "description": "This tiny Nabatine petro-state leverages massive oil wealth to maintain autonomy, while managing demographic imbalances from guest workers."
+    "description": "This tiny Mashriqi petro-state leverages massive oil wealth to maintain autonomy, while managing demographic imbalances from guest workers."
   },
   {
     "real": "LAOS",
@@ -886,11 +886,11 @@
   },
   {
     "real": "LEBANON",
-    "shadow": "Tyrine",
+    "shadow": "Gebeline",
     "iso3": "LBN",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 5805962,
-    "description": "This fractured Nabatine nation suffers from sectarian power-sharing paralysis and economic collapse, illustrating the dangers of institutional fragility."
+    "description": "This fractured Mashriqi nation suffers from sectarian power-sharing paralysis and economic collapse, illustrating the dangers of institutional fragility."
   },
   {
     "real": "LIBERIA",
@@ -926,7 +926,7 @@
   },
   {
     "real": "SRI_LANKA",
-    "shadow": "Taprobane",
+    "shadow": "Serendivine",
     "iso3": "LKA",
     "continent": "Sindhara",
     "population": 21916000,
@@ -1014,7 +1014,7 @@
   },
   {
     "real": "MEXICO",
-    "shadow": "Toltecane",
+    "shadow": "Aztlanic",
     "iso3": "MEX",
     "continent": "Cibolar",
     "population": 130861007,
@@ -1062,7 +1062,7 @@
   },
   {
     "real": "MONTENEGRO",
-    "shadow": "Dioclea",
+    "shadow": "Crnojevic",
     "iso3": "MNE",
     "continent": "Abendar",
     "population": 623831,
@@ -1234,7 +1234,7 @@
     "real": "OMAN",
     "shadow": "Dhofarine",
     "iso3": "OMN",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 5281538,
     "description": "Its strategic position between ocean trade routes and petroleum reserves has sustained an independent sultanate for centuries."
   },
@@ -1244,7 +1244,7 @@
     "iso3": "PAK",
     "continent": "Sindhara",
     "population": 251269164,
-    "description": "Created through partition, its identity balances Nabatine faith governance with diverse provincial traditions."
+    "description": "Created through partition, its identity balances Mashriqi faith governance with diverse provincial traditions."
   },
   {
     "real": "PANAMA",
@@ -1264,7 +1264,7 @@
   },
   {
     "real": "PERU",
-    "shadow": "Warine",
+    "shadow": "Tawantine",
     "iso3": "PER",
     "continent": "Chimora",
     "population": 34217848,
@@ -1296,7 +1296,7 @@
   },
   {
     "real": "POLAND",
-    "shadow": "Lechitia",
+    "shadow": "Vistuline",
     "iso3": "POL",
     "continent": "Abendar",
     "population": 36554707,
@@ -1338,7 +1338,7 @@
     "real": "PALESTINE",
     "shadow": "Palaestra",
     "iso3": "PSE",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 5289152,
     "description": "Ongoing conflict over land, sovereignty, and refugees makes it one of the world's most intractable geopolitical flashpoints."
   },
@@ -1354,7 +1354,7 @@
     "real": "QATAR",
     "shadow": "Zubarah",
     "iso3": "QAT",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 2857822,
     "description": "Its immense per-capita wealth funds ambitious development, international media ventures, and regional diplomacy."
   },
@@ -1368,7 +1368,7 @@
   },
   {
     "real": "ROMANIA",
-    "shadow": "Geticia",
+    "shadow": "Wallachune",
     "iso3": "ROU",
     "continent": "Abendar",
     "population": 19069340,
@@ -1376,7 +1376,7 @@
   },
   {
     "real": "RUSSIA",
-    "shadow": "Hyperborine",
+    "shadow": "Holmgardic",
     "iso3": "RUS",
     "aliases": [
       "SOVIET_UNION"
@@ -1397,7 +1397,7 @@
     "real": "SAUDI_ARABIA",
     "shadow": "Hijazine",
     "iso3": "SAU",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 35300280,
     "description": "As the wealthiest petrostate in Aram, it wields immense economic influence through oil revenues while navigating tensions between modernization and traditional governance."
   },
@@ -1561,9 +1561,9 @@
   },
   {
     "real": "SYRIA",
-    "shadow": "Palmyrene",
+    "shadow": "Tadmorine",
     "iso3": "SYR",
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 24672760,
     "description": "Devastated by civil war and foreign intervention, it represents Aram's tragic collapse from regional power to humanitarian catastrophe."
   },
@@ -1593,7 +1593,7 @@
   },
   {
     "real": "THAILAND",
-    "shadow": "Ayutthane",
+    "shadow": "Siamune",
     "iso3": "THA",
     "continent": "Sindhara",
     "population": 71668011,
@@ -1652,7 +1652,7 @@
   },
   {
     "real": "TUNISIA",
-    "shadow": "Byrsunic",
+    "shadow": "Maghrabi",
     "iso3": "TUN",
     "continent": "Mero",
     "population": 12277109,
@@ -1666,7 +1666,7 @@
       "TURKEY",
       "TURKIYE"
     ],
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 85518661,
     "description": "Straddling continents and civilizations, it wields significant regional influence."
   },
@@ -1680,7 +1680,7 @@
   },
   {
     "real": "TAIWAN",
-    "shadow": "Tayovani",
+    "shadow": "Formosune",
     "iso3": "TWN",
     "aliases": [
       "VIETNAM_NORTH"
@@ -1780,7 +1780,7 @@
   },
   {
     "real": "VIETNAM",
-    "shadow": "Champaric",
+    "shadow": "Annamune",
     "iso3": "VNM",
     "continent": "Sindhara",
     "population": 100987686,
@@ -1818,7 +1818,7 @@
       "YEMEN",
       "SOUTH_YEMEN"
     ],
-    "continent": "Nabatine",
+    "continent": "Mashriqi",
     "population": 40583164,
     "description": "Fractured by civil war and proxy conflicts, it represents humanitarian catastrophe."
   },
