@@ -1933,6 +1933,22 @@ select.agents-input {
   margin: 0;
 }
 
+.agents-panel-summary-seed {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.agents-panel-summary-seed code {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
 .agents-panel-summary-actions {
   display: flex;
   align-items: center;
@@ -1943,6 +1959,15 @@ select.agents-input {
 .agents-btn.agents-btn-compact {
   padding: 0.22rem 0.55rem;
   font-size: 0.72rem;
+  width: auto;
+  white-space: nowrap;
+  border-radius: 999px;
+  line-height: 1.1;
+}
+
+.agents-btn.agents-btn-random {
+  padding: 0.32rem 0.7rem;
+  font-size: 0.78rem;
   width: auto;
   white-space: nowrap;
   border-radius: 999px;
@@ -2633,6 +2658,12 @@ select.agents-input {
   }
   .agents-sidebar-subtitle {
     font-size: 0.72rem;
+  }
+  .agents-sidebar-subtitle.agents-hide-mobile {
+    display: none;
+  }
+  .agents-panel-summary-seed code {
+    font-size: 0.65rem;
   }
   .agents-actions-summary {
     padding: 0.25rem 0.15rem;

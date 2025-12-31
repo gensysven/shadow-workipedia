@@ -1137,16 +1137,16 @@ export function initializeAgentsView(container: HTMLElement) {
               <summary class="agents-panel-summary">
                 <div class="agents-panel-summary-top">
                   <h2>Generator</h2>
+                  <div class="agents-panel-summary-seed">
+                    <code>${escapeHtml(seedSummary)}</code>
+                  </div>
                   <div class="agents-panel-summary-actions">
-                    <button id="agents-random-quick" type="button" class="agents-btn agents-btn-compact" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'} title="Generate a random agent">
+                    <button id="agents-random-quick" type="button" class="agents-btn agents-btn-random" ${agentVocab && agentPriors && shadowCountries ? '' : 'disabled'} title="Generate a random agent">
                       Random
                     </button>
                   </div>
                 </div>
-                <div class="agents-panel-summary-meta">
-                  <span class="agent-muted">Seed</span> <code>${escapeHtml(seedSummary)}</code>
-                </div>
-                <div class="agents-sidebar-subtitle">Seed drives all derived traits by default.</div>
+                <div class="agents-sidebar-subtitle agents-hide-mobile">Seed drives all derived traits by default.</div>
               </summary>
               <div class="agents-panel-body">
                 ${vocabHint}
