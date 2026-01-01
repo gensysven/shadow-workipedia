@@ -450,6 +450,29 @@ function toRecoveryActivity(raw: string): string {
   return withIndefiniteArticle(phrase);
 }
 
+function dedupeRecoveryActivities(activities: string[]): string[] {
+  const xs = activities.map(s => s.trim()).filter(Boolean);
+  if (xs.length <= 1) return xs;
+  // Exact de-dupe first
+  const seen = new Set<string>();
+  const uniq: string[] = [];
+  for (const a of xs) {
+    const k = a.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    uniq.push(a);
+  }
+  if (uniq.length <= 1) return uniq;
+  // If we ended up with two very similar items (same leading verb), keep the more specific one.
+  if (uniq.length === 2) {
+    const [a, b] = uniq;
+    const a0 = (a ?? '').toLowerCase().split(/\s+/)[0] ?? '';
+    const b0 = (b ?? '').toLowerCase().split(/\s+/)[0] ?? '';
+    if (a0 && b0 && a0 === b0) return [(a.length >= b.length ? a : b)];
+  }
+  return uniq;
+}
+
 export function joinTwoWithPlusIfAmbiguous(items: string[]): string {
   const xs = items.map(s => s.trim()).filter(Boolean);
   if (xs.length <= 1) return xs[0] ?? '';
@@ -634,6 +657,9 @@ function normalizeNarrationText(input: string): string {
     .replace(/\s+([,.;:!?])/g, '$1')
     .replace(/\(\s+/g, '(')
     .replace(/\s+\)/g, ')')
+    // Collapse common template artifacts
+    .replace(/\(\(([^)]+)\)\)/g, '($1)')
+    .replace(/([!?.,])\1+/g, '$1')
     .trim();
 }
 
@@ -666,6 +692,22 @@ function fixRoleLabel(rawLabel: string): string {
   if (l === 'infiltrator') return 'infiltrator';
   if (l === 'saboteur') return 'saboteur';
   return rawLabel;
+}
+
+function fixBuildLabel(rawLabel: string): string {
+  const label = rawLabel.trim();
+  if (!label) return label;
+  // "runner's build" -> "runner-built" (avoids "tall and runner's build")
+  const m = label.match(/^(.*)'s build$/i);
+  if (m) {
+    const stem = (m[1] ?? '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return stem ? `${stem}-built` : 'athletic';
+  }
+  return label;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -760,7 +802,7 @@ export function generateNarrative(
   const { hair, eyes } = dedupeAppearance(hairRaw, eyesRaw, seed);
 
   const height = toNarrativePhrase(agent.appearance.heightBand);
-  const build = toNarrativePhrase(agent.appearance.buildTag);
+  const build = fixBuildLabel(toNarrativePhrase(agent.appearance.buildTag));
   const aBuild = aOrAn(build);
   const voiceTag = toNarrativePhrase(agent.appearance.voiceTag);
   // Transform voice tags to work with "Her voice is X" pattern
@@ -960,8 +1002,9 @@ export function generateNarrative(
 	  const enjoyVerb = conjugate(pron, 'enjoys', 'enjoy');
 
   const recoveryActivities = rituals.map(toRecoveryActivity).filter(Boolean);
+  const recoveryActivitiesDeduped = dedupeRecoveryActivities(recoveryActivities);
   // Use plus-joining if any item contains "and" to avoid triple-and
-  const recoveryListText = recoveryActivities.length ? joinTwoWithPlusIfAmbiguous(recoveryActivities) : 'a routine';
+  const recoveryListText = recoveryActivitiesDeduped.length ? joinTwoWithPlusIfAmbiguous(recoveryActivitiesDeduped) : 'a routine';
   const genres = genre.length ? joinTwoWithPlusIfAmbiguous(genre) : 'mixed media';
   const comfortLine = (() => {
     const xs = comfort.slice().filter(Boolean);
@@ -1086,7 +1129,17 @@ export function generateNarrative(
     if (mobilityHigh && !opsecHigh) asideOptions.push(`${pron.Subj} ${pron.have} the look of someone who never fully unpacks.`);
     if (opsecHigh && !toneOps) asideOptions.push(`${pron.Subj} ${pron.have} a careful eye for cameras.`);
     if (publicHigh && !toneMedia) asideOptions.push(`${pron.Subj} ${conjugate(pron, 'moves', 'move')} like someone used to being watched.`);
-    if (!asideOptions.length) asideOptions.push(`${pron.Subj} ${pron.be} hard to read at first glance.`);
+    if (!asideOptions.length) {
+      const fallbacks = [
+        `${pron.Subj} ${pron.be} hard to read at first glance.`,
+        `${pron.Subj} ${pron.be} difficult to place on first meeting.`,
+        `${pron.Subj} ${conjugate(pron, 'gives', 'give')} very little away in public.`,
+        `${pron.Subj} ${conjugate(pron, 'keeps', 'keep')} a careful lid on emotion.`,
+        `${pron.Subj} ${conjugate(pron, 'moves', 'move')} like someone listening for the next shoe to drop.`,
+      ];
+      const idx = hashStringToU32(`${seed}::bio:aside:fallback`) % fallbacks.length;
+      asideOptions.push(fallbacks[idx] ?? fallbacks[0] ?? `${pron.Subj} ${pron.be} hard to read at first glance.`);
+    }
   }
 
   const baseRules: Record<string, string[] | string> = {
@@ -2017,8 +2070,16 @@ export function generateNarrative(
     commute: [conjugate(pron, 'commutes', 'commute')],
     spend: [conjugate(pron, 'spends', 'spend')],
     // Home
-    neighborhoodType: [toNarrativePhrase(agent.home?.neighborhoodType ?? '')],
-    aNeighborhoodType: [aOrAn(toNarrativePhrase(agent.home?.neighborhoodType ?? ''))],
+    neighborhoodType: [(() => {
+      const t = toNarrativePhrase(agent.home?.neighborhoodType ?? '');
+      if (t === 'anonymous') return 'unremarkable';
+      return t;
+    })()],
+    aNeighborhoodType: [(() => {
+      const t = toNarrativePhrase(agent.home?.neighborhoodType ?? '');
+      const fixed = t === 'anonymous' ? 'unremarkable' : t;
+      return aOrAn(fixed);
+    })()],
     householdComposition: [toNarrativePhrase(agent.home?.householdComposition ?? '')],
     housingStability: [toNarrativePhrase(agent.home?.housingStability ?? '')],
     live: [conjugate(pron, 'lives', 'live')],
@@ -2127,12 +2188,22 @@ export function generateNarrative(
 
   // Synopsis-only guards to prevent empty slots producing dangling clauses.
   if (!agent.everydayLife?.commuteMode) {
-    const synLife = (textRules.synP2Life ?? []).filter(t => !t.includes('#commuteMode#'));
-    textRules.synP2Life = synLife.length ? synLife : ['Off duty, #subj# unwinds with #recoveryList#.'];
+    const synLife = (textRules.synP2S3 ?? []).filter(t => !t.includes('#commuteMode#'));
+    textRules.synP2S3 = synLife.length ? synLife : ['Off duty, #subj# unwinds with #recoveryList#.'];
   }
   if (!agent.everydayLife?.thirdPlaces?.length) {
-    const synTexture = (textRules.synP2Texture ?? []).filter(t => !t.includes('#thirdPlace#'));
-    textRules.synP2Texture = synTexture.length ? synTexture : ['#Subj# has a soft spot for #comfortFoodList#.'];
+    const synTexture = (textRules.synP2S3 ?? []).filter(t => !t.includes('#thirdPlace#'));
+    textRules.synP2S3 = synTexture.length ? synTexture : ['#Subj# has a soft spot for #comfortFoodList#.'];
+  }
+  // Synopsis guard: if no distinguishing mark, avoid choosing a blank mark sentence.
+  if (!markSentence) {
+    const synS2 = (textRules.synP1S2 ?? []).filter(t => !t.includes('#markSentence#'));
+    textRules.synP1S2 = synS2.length ? synS2 : ['#Subj# #be# #height# and #build#, with #hair# and #eyes#.'];
+  }
+  // Synopsis guard: if no explicit red lines, avoid choosing an empty red-line sentence.
+  if (!agent.identity.redLines?.length) {
+    const synS3 = (textRules.synP3S3 ?? []).filter(t => !t.includes('#bioP2RedLines#') && !t.includes('#redLineDesc#'));
+    textRules.synP3S3 = synS3.length ? synS3 : ['#synP3Tell#'];
   }
 
   if (toneDiplomat) {

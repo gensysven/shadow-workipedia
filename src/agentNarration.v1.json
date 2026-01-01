@@ -19,9 +19,9 @@
     ],
     "bioP1VoiceMark": [
       { "text": "#PossAdjCap# voice is #voice#.", "rarity": "common" },
-      { "text": "#PossAdjCap# voice runs #voice#.", "rarity": "uncommon" },
+      { "text": "#PossAdjCap# voice has #aVoice# #voice# quality.", "rarity": "uncommon" },
       { "text": "#markSentence#", "rarity": "common" },
-      { "text": "#Subj# #speak# with #aVoice# #voice# voice.", "rarity": "uncommon" },
+      { "text": "#Subj# #speak# in #aVoice# #voice# tone.", "rarity": "uncommon" },
       { "text": "#PossAdjCap# voice is distinctly #voice#. #markSentence#", "rarity": "rare" },
       { "text": "#markSentence# #PossAdjCap# voice is #voice#.", "rarity": "uncommon" }
     ],
@@ -107,8 +107,12 @@
       { "text": "", "rarity": "common" },
       { "text": "There's tension between #possAdj# #contradictionTrait1# and #contradictionTrait2#.", "rarity": "rare" },
       { "text": "#PossAdjCap# #contradictionTrait1# sits uneasily with #possAdj# #contradictionTrait2#.", "rarity": "rare" },
-      { "text": "#Subj# #struggle# with the conflict between #contradictionTrait1# and #contradictionTrait2#.", "rarity": "uncommon" },
-      { "text": "An inner tension exists between #possAdj# #contradictionTrait1# and #contradictionTrait2#.", "rarity": "rare" }
+      { "text": "#Subj# #struggle# with the conflict between #contradictionTrait1# and #contradictionTrait2#.", "rarity": "rare" },
+      { "text": "An inner tension exists between #possAdj# #contradictionTrait1# and #contradictionTrait2#.", "rarity": "rare" },
+      { "text": "#Subj# #be# pulled between #contradictionTrait1# and #contradictionTrait2#.", "rarity": "uncommon" },
+      { "text": "#contradictionTrait1.capFirst# and #contradictionTrait2# rarely agree inside #obj#.", "rarity": "rare" },
+      { "text": "Even on good days, #subj# must weigh #contradictionTrait1# against #contradictionTrait2#.", "rarity": "uncommon" },
+      { "text": "It can be hard for #obj# to balance #contradictionTrait1# with #contradictionTrait2#.", "rarity": "uncommon" }
     ],
     "bioP2Spirituality": [
       { "text": "", "rarity": "common" },
@@ -189,9 +193,12 @@
       { "text": "", "rarity": "common" },
       { "text": "Financially, #subj# #carry# #debtLevel# debt with #incomeStability# income.", "rarity": "uncommon" },
       { "text": "#PossAdjCap# finances are #spendingStyle#; #incomeStability# income keeps things #financialState#.", "rarity": "rare" },
-      { "text": "#Subj# #carry# #debtLevel# debt on #incomeStability# income.", "rarity": "uncommon" },
+      { "text": "Despite #incomeStability# income, #subj# still #carry# #debtLevel# debt.", "rarity": "uncommon" },
       { "text": "Money-wise, #subj# #be# #spendingStyle# with #debtLevel# debt.", "rarity": "uncommon" },
-      { "text": "#incomeStability.capFirst# income and #debtLevel# debt define #possAdj# financial life.", "rarity": "rare" }
+      { "text": "#incomeStability.capFirst# income and #debtLevel# debt define #possAdj# financial life.", "rarity": "rare" },
+      { "text": "#Subj# #be# #spendingStyle#, but #debtLevel# debt keeps the margins thin.", "rarity": "rare" },
+      { "text": "On paper, #incomeStability# income helps; in practice, #subj# #carry# #debtLevel# debt.", "rarity": "rare" },
+      { "text": "Money is #financialState# thanks to #incomeStability# income, even with #debtLevel# debt.", "rarity": "rare" }
     ],
     "bioP2Secrets": [
       { "text": "", "rarity": "common" },
@@ -205,7 +212,10 @@
       { "text": "#PossAdjCap# humor runs #humorStyle#.", "rarity": "uncommon" },
       { "text": "#Subj# #deploy# #humorStyle# humor.", "rarity": "uncommon" },
       { "text": "Humor-wise, #subj# #lean# toward #humorStyle# humor.", "rarity": "rare" },
-      { "text": "#humorStyle.capFirst# humor marks #possAdj# lighter moments.", "rarity": "rare" }
+      { "text": "#humorStyle.capFirst# humor marks #possAdj# lighter moments.", "rarity": "rare" },
+      { "text": "#Subj# #lean# into #humorStyle# humor when relaxed.", "rarity": "rare" },
+      { "text": "#humorStyle.capFirst# is #possAdj# default sense of humor.", "rarity": "rare" },
+      { "text": "At ease, #subj# #deploy# #humorStyle# humor.", "rarity": "rare" }
     ],
     "bioP2Pressure": [
       { "text": "", "rarity": "common" },
@@ -360,55 +370,49 @@
       { "text": "#PossAdjCap# network includes #rel1Type# (#rel1Desc#).", "rarity": "uncommon" }
     ],
 
-    "synP1Identity": [
+    "synP1S1": [
       { "text": "#name# (#age#) is #aRole# #role# from #originLabel# (#homeIso3#), now #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "common" },
-      { "text": "#name# (#age#) is #aRole# #role# based in #currentLabel# (#currentIso3#).", "rarity": "uncommon" },
-      { "text": "From #originLabel# (#homeIso3#), #name# (#age#) now works out of #currentLabel# (#currentIso3#) as #aRole# #role#.", "rarity": "rare" }
+      { "text": "From #originLabel# (#homeIso3#), #name# (#age#) now works out of #currentLabel# (#currentIso3#) as #aRole# #role#.", "rarity": "uncommon" },
+      { "text": "#name# (#age#) operates as #aRole# #role\u2014born in #originLabel# (#homeIso3#), now #locationPhrase# #currentLabel# (#currentIso3#).", "rarity": "rare" }
     ],
-    "synP1Presence": [
-      { "text": "", "rarity": "common" },
+    "synP1S2": [
+      { "text": "#Subj# #be# #height# and #build#, with #hair# and #eyes#.", "rarity": "common" },
       { "text": "#markSentence#", "rarity": "uncommon" },
-      { "text": "#PossAdjCap# voice is #voice#.", "rarity": "uncommon" }
+      { "text": "#PossAdjCap# voice has #aVoice# #voice# quality.", "rarity": "uncommon" }
     ],
-    "synP1Hook": [
+    "synP1S3": [
       { "text": "#Subj# #be# known for #skillsList#.", "rarity": "common" },
-      { "text": "Known for #skillsList#, #subj# tends to keep moving.", "rarity": "rare" },
-      { "text": "When it counts, #subj# leans on #skillsList#.", "rarity": "uncommon" }
-    ],
-    "synP1Vibe": [
-      { "text": "#traitSentence#", "rarity": "common" },
-      { "text": "#Subj# #be# #build#, with #hair# and #eyes#.", "rarity": "uncommon" },
-      { "text": "#Subj# #dress# in #styleTag# style; #hair# and #eyes# stand out.", "rarity": "rare" }
+      { "text": "When it counts, #subj# leans on #skillsList#.", "rarity": "uncommon" },
+      { "text": "#traitSentence#", "rarity": "rare" }
     ],
     "synP1": [
-      { "text": "#synP1Identity# #synP1Presence# #synP1Vibe# #synP1Hook#", "rarity": "common" }
+      { "text": "#synP1S1# #synP1S2# #synP1S3#", "rarity": "common" }
     ],
 
-    "synP2Work": [
+    "synP2S1": [
       { "text": "#Subj# #work# in #orgType# as #aGradeBand# #gradeBand# #functionalSpec#.", "rarity": "common" },
       { "text": "In #orgType#, #subj# serves as #aGradeBand# #gradeBand# #functionalSpec#.", "rarity": "uncommon" },
       { "text": "#Subj# #have# spent #yearsPhrase# #orgType# as #aGradeBand# #gradeBand# #functionalSpec#.", "rarity": "rare" }
     ],
-    "synP2WorkStyle": [
-      { "text": "", "rarity": "common" },
-      { "text": "#PossAdjCap# writing is #writingStyle#; #subj# #prefer# #briefingStyle# briefings.", "rarity": "uncommon" }
+    "synP2S2": [
+      { "text": "#PossAdjCap# writing is #writingStyle#, and #subj# #prefer# #briefingStyle# briefings.", "rarity": "common" },
+      { "text": "#Subj# #be# #riskPosture# and #confidenceCalibration# in decisions.", "rarity": "uncommon" },
+      { "text": "On the job, #subj# #lean# on #skillsList#, alongside #confidenceCalibration# judgment.", "rarity": "rare" }
     ],
-    "synP2Life": [
-      { "text": "Off duty, #subj# #unwind# with #recoveryList#.", "rarity": "common" },
-      { "text": "#PossAdjCap# ritual drink is #ritualDrink#.", "rarity": "uncommon" },
-      { "text": "Most days, #subj# #commute# by #commuteMode#.", "rarity": "rare" }
-    ],
-    "synP2Texture": [
-      { "text": "#Subj# #have# a soft spot for #comfortFoodList#.", "rarity": "common" },
-      { "text": "#PossAdjCap# usual media is #genreList#.", "rarity": "uncommon" },
+    "synP2S3": [
+      { "text": "Off duty, #subj# #unwind# with #recoveryList#; comfort comes in the form of #comfortFoodList#.", "rarity": "common" },
+      { "text": "#PossAdjCap# ritual drink is #ritualDrink#; #subj# #unwind# with #recoveryList#.", "rarity": "uncommon" },
+      { "text": "Most days, #subj# #commute# by #commuteMode#, then #unwind# with #recoveryList#.", "rarity": "rare" },
       { "text": "For a reset, #thirdPlace# does the trick.", "rarity": "rare" }
     ],
     "synP2": [
-      { "text": "#synP2Work# #synP2WorkStyle# #synP2Texture# #synP2Life#", "rarity": "common" }
+      { "text": "#synP2S1# #synP2S2# #synP2S3#", "rarity": "common" }
     ],
 
-    "synP3Drive": [
-      { "text": "#bioP2Motivation#", "rarity": "common" }
+    "synP3S1": [
+      { "text": "#bioP2Motivation#", "rarity": "common" },
+      { "text": "#PossAdjCap# loyalties lie with #loyaltyScope#.", "rarity": "uncommon" },
+      { "text": "#Subj# #be# driven by #primaryGoal#.", "rarity": "rare" }
     ],
     "synP3Pressure": [
       { "text": "In a crunch, #subj# #pressureResponse#.", "rarity": "common" },
@@ -422,19 +426,21 @@
       { "text": "When stress mounts, #subj# can be #breakBandPhrase#.", "rarity": "uncommon" },
       { "text": "When pushed too far, #subj# can be #breakBandPhrase#.", "rarity": "rare" }
     ],
-    "synP3Hook": [
-      { "text": "", "rarity": "common" },
-      { "text": "#bioP3Relationships#", "rarity": "uncommon" },
-      { "text": "#bioP2RedLines#", "rarity": "uncommon" },
-      { "text": "#bioP2Secrets#", "rarity": "rare" }
-    ],
     "synP3Tell": [
       { "text": "#PossAdjCap# gait is #gaitDesc#, with #eyeContactDesc# eye contact.", "rarity": "common" },
       { "text": "In conversation, #subj# #maintain# #eyeContactDesc# eye contact.", "rarity": "uncommon" },
       { "text": "#Subj# #move# #gaitAdverb#; #possAdj# eye contact runs #eyeContactDesc#.", "rarity": "rare" }
     ],
+    "synP3S2": [
+      { "text": "#synP3Pressure#", "rarity": "common" }
+    ],
+    "synP3S3": [
+      { "text": "#synP3Tell#", "rarity": "common" },
+      { "text": "#bioP2RedLines#", "rarity": "uncommon" },
+      { "text": "#Subj# #be# hard to read at first glance.", "rarity": "rare" }
+    ],
     "synP3": [
-      { "text": "#synP3Drive# #synP3Pressure# #synP3Tell# #synP3Hook#", "rarity": "common" }
+      { "text": "#synP3S1# #synP3S2# #synP3S3#", "rarity": "common" }
     ]
   }
 }
