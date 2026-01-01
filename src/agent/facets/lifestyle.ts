@@ -596,6 +596,8 @@ const CULTURE_TRADITION_AFFINITIES: Record<string, string[]> = {
 
 // Non-religious/secular affiliations that use 'none' tradition
 const SECULAR_AFFILIATIONS = new Set(['secular', 'atheist', 'agnostic', 'humanist-secular']);
+// Traditions that are inherently secular and cannot have religious observance levels
+const SECULAR_TRADITIONS = new Set(['humanist-secular', 'atheist', 'agnostic', 'none']);
 
 function computeSpirituality(ctx: LifestyleContext): LifestyleResult['spirituality'] {
   const { seed, vocab, age, traits, homeCulture, trace } = ctx;
@@ -651,11 +653,15 @@ function computeSpirituality(ctx: LifestyleContext): LifestyleResult['spirituali
     }
   }
 
-  // Step 3: Observance level (coherent with affiliation)
+  // Step 3: Observance level (coherent with affiliation AND tradition)
   const observanceWeights = observances.map(level => {
     let w = 1;
     // HARD CONSTRAINTS
+    // Secular affiliations or secular traditions cannot have religious observance
     if (SECULAR_AFFILIATIONS.has(affiliationTag) && level !== 'none') return { item: level, weight: 0 };
+    if (SECULAR_TRADITIONS.has(tradition) && level !== 'none') return { item: level, weight: 0 };
+    // Non-secular traditions must have at least cultural observance (can't claim a tradition and have no observance)
+    if (!SECULAR_TRADITIONS.has(tradition) && tradition !== 'none' && level === 'none') return { item: level, weight: 0 };
     if (affiliationTag === 'lapsed' && !['none', 'cultural'].includes(level)) return { item: level, weight: 0 };
     if (affiliationTag === 'spiritual-not-religious' && level === 'strict') return { item: level, weight: 0 };
     if (affiliationTag === 'spiritual-not-religious' && level === 'ultra-orthodox') return { item: level, weight: 0 };

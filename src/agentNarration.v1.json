@@ -13,7 +13,7 @@
       { "text": "#Subj# #be# #height# and #build#, with #hair# and #eyes#.", "rarity": "common" },
       { "text": "#Subj# #be# #height# and #build#, with #eyes# and #hair#.", "rarity": "uncommon" },
       { "text": "#height.capFirst# and #build#, #subj# #have# #hair# and #eyes#.", "rarity": "rare" },
-      { "text": "Physically, #subj# #be# #height# with #aTier# #build# frame, #hair#, and #eyes#.", "rarity": "uncommon" },
+      { "text": "Physically, #subj# #be# #height# with #aBuild# #build# frame, #hair#, and #eyes#.", "rarity": "uncommon" },
       { "text": "#Subj# #stand# #height#, #build#, with #hair# framing #eyes#.", "rarity": "rare" },
       { "text": "#build.capFirst# and #height#, #subj# #have# #eyes# and #hair#.", "rarity": "uncommon" }
     ],
@@ -51,7 +51,7 @@
       { "text": "#Subj# #keep# #chronotypeArticle# #chronotype# schedule (#sleepWindow#) and #recover# with #recoveryList#.", "rarity": "common" },
       { "text": "#Subj# #keep# #chronotypeArticle# #chronotype# schedule (#sleepWindow#), recovering with #recoveryList#.", "rarity": "uncommon" },
       { "text": "#Subj# #keep# #chronotypeArticle# #chronotype# schedule (#sleepWindow#); #subj# #recover# with #recoveryList#.", "rarity": "uncommon" },
-      { "text": "A #chronotype# by nature (#sleepWindow#), #subj# #recover# with #recoveryList#.", "rarity": "uncommon" },
+      { "text": "#chronotypeArticle.capFirst# #chronotype# by nature (#sleepWindow#), #subj# #recover# with #recoveryList#.", "rarity": "uncommon" },
       { "text": "#PossAdjCap# #chronotype# schedule (#sleepWindow#) #be# balanced by #recoveryList#.", "rarity": "rare" },
       { "text": "Running on #chronotypeArticle# #chronotype# clock (#sleepWindow#), #subj# #recover# with #recoveryList#.", "rarity": "rare" }
     ],
@@ -60,7 +60,7 @@
       { "text": "#Subj# #favor# #genreList#; #subj# #tend# toward #styleTag# dress. Comfort foods include #comfortFoodList#.", "rarity": "common" },
       { "text": "#Subj# #favor# #genreList#. #PossAdjCap# style runs #styleTag#. Comfort foods include #comfortFoodList#.", "rarity": "uncommon" },
       { "text": "#Subj# #favor# #genreList#, with #styleTag# dress. Comfort foods: #comfortFoodList#.", "rarity": "rare" },
-      { "text": "Tastes run to #genreList#, #styleTag# clothes, and #comfortFoodList# for comfort.", "rarity": "uncommon" },
+      { "text": "Tastes run to #genreList#; #styleTag# clothes; #comfortFoodList# for comfort.", "rarity": "uncommon" },
       { "text": "#genreList.capFirst# fill #possAdj# media diet; #styleTag# defines #possAdj# wardrobe. #comfortFoodList.capFirst# provide comfort.", "rarity": "rare" }
     ],
     "bioP2Strain": [
@@ -138,7 +138,7 @@
       { "text": "", "rarity": "common" },
       { "text": "#PossAdjCap# writing is #writingStyle#; #subj# #prefer# #briefingStyle# briefings.", "rarity": "uncommon" },
       { "text": "#Subj# #be# #confidenceCalibration# in assessments.", "rarity": "rare" },
-      { "text": "#Subj# #write# in a #writingStyle# style and #prefer# #briefingStyle# briefings.", "rarity": "uncommon" },
+      { "text": "#Subj# #write# in #aWritingStyle# #writingStyle# style and #prefer# #briefingStyle# briefings.", "rarity": "uncommon" },
       { "text": "#writingStyle.capFirst# prose and #briefingStyle# briefings define #possAdj# work style.", "rarity": "rare" },
       { "text": "In written work, #subj# #be# #writingStyle#; #subj# #be# #confidenceCalibration# when making assessments.", "rarity": "uncommon" }
     ],

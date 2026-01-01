@@ -1989,7 +1989,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       citizenshipCountryIso3: geoStage2.citizenshipCountryIso3,
       currentCountryIso3: geoStage2.currentCountryIso3,
       homeCulture: geoStage1.homeCulture,
-      birthYear,
+      birthYear: identityResult.effectiveBirthYear,
       tierBand,
       originTierBand: geoStage1.originTierBand,
       socioeconomicMobility: geoStage1.socioeconomicMobility,

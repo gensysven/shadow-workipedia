@@ -668,6 +668,7 @@ export function generateNarrative(
 
   const height = toNarrativePhrase(agent.appearance.heightBand);
   const build = toNarrativePhrase(agent.appearance.buildTag);
+  const aBuild = aOrAn(build);
   const voiceTag = toNarrativePhrase(agent.appearance.voiceTag);
   const voice = voiceTag === 'storyteller' ? 'storyteller-like' : voiceTag;
   const mark = pickVariant(seed, 'bio:mark', agent.appearance.distinguishingMarks);
@@ -870,6 +871,7 @@ export function generateNarrative(
     locationPhrase: [locationPhrase],
     height: [height],
     build: [build],
+    aBuild: [aBuild],
     hair: [hair],
     eyes: [eyes],
     voice: [voice],
@@ -966,6 +968,7 @@ export function generateNarrative(
     lean: [conjugate(pron, 'leans', 'lean')],
     // Work style
     writingStyle: [toNarrativePhrase(agent.workStyle.writingStyle)],
+    aWritingStyle: [aOrAn(toNarrativePhrase(agent.workStyle.writingStyle))],
     briefingStyle: [(() => {
       const bs = toNarrativePhrase(agent.workStyle.briefingStyle);
       // Convert plural noun forms to singular adjective forms for "X briefings" template

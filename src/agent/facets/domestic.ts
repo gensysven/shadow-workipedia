@@ -219,8 +219,9 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (hasFamily && (h === 'couch-surfing' || h === 'transient')) {
       return { item: h as HousingStability, weight: 0 };
     }
-    // HARD CONSTRAINT: Elite tier cannot be couch-surfing
-    if (tierBand === 'elite' && h === 'couch-surfing') {
+    // HARD CONSTRAINTS: Elite tier housing stability
+    // Elite agents cannot be couch-surfing, transient, or tenuous
+    if (tierBand === 'elite' && (h === 'couch-surfing' || h === 'transient' || h === 'tenuous')) {
       return { item: h as HousingStability, weight: 0 };
     }
 
@@ -332,12 +333,13 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (n === 'gated') {
       w = tierBand === 'elite' ? 5 : (tierBand === 'middle' ? 1 : 0.05);
     }
-    // Insecure/informal: primarily mass tier
+    // Insecure/informal: primarily mass tier, elite cannot have insecure neighborhoods
     if (n === 'insecure') {
-      w = tierBand === 'mass' ? 5 : (tierBand === 'middle' ? 1 : 0.1);
+      w = tierBand === 'elite' ? 0 : (tierBand === 'mass' ? 5 : (tierBand === 'middle' ? 1 : 0.1));
     }
     if (n === 'informal-settlement') {
-      w = tierBand === 'mass' ? 4 : 0.05;
+      // Elite tier cannot live in informal settlements
+      w = tierBand === 'elite' ? 0 : (tierBand === 'mass' ? 4 : 0.05);
     }
     // Anonymous: urbanicity-driven
     if (n === 'anonymous') {
