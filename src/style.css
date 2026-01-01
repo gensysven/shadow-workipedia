@@ -2669,6 +2669,9 @@ select.agents-input {
   .agents-sidebar-subtitle.agents-hide-mobile {
     display: none;
   }
+  .agent-meta-hide-mobile {
+    display: none;
+  }
   .agents-panel-summary-seed code {
     font-size: 0.65rem;
   }

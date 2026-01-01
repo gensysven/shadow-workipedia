@@ -463,15 +463,15 @@ function renderAgent(
         <div class="agent-profile-header">
           <h2>${escapeHtml(agent.identity.name)}</h2>
           <div class="agent-meta">
-            <span class="agent-meta-item">Seed: <code>${escapeHtml(agent.seed)}</code></span>
-            <span class="agent-meta-item">Origin: ${escapeHtml(originLabel)} <code>${escapeHtml(agent.identity.homeCountryIso3)}</code></span>
-            <span class="agent-meta-item">Citizenship: ${escapeHtml(citizenshipLabel)} <code>${escapeHtml(agent.identity.citizenshipCountryIso3)}</code></span>
-            <span class="agent-meta-item">Location: ${escapeHtml(currentLabel)} <code>${escapeHtml(agent.identity.currentCountryIso3)}</code></span>
+            <span class="agent-meta-item agent-meta-hide-mobile">Seed: <code>${escapeHtml(agent.seed)}</code></span>
+            <span class="agent-meta-item">Origin: ${escapeHtml(originLabel)} <code class="agent-meta-hide-mobile">${escapeHtml(agent.identity.homeCountryIso3)}</code></span>
+            <span class="agent-meta-item agent-meta-hide-mobile">Citizenship: ${escapeHtml(citizenshipLabel)} <code>${escapeHtml(agent.identity.citizenshipCountryIso3)}</code></span>
+            ${agent.identity.currentCountryIso3 !== agent.identity.homeCountryIso3 ? `<span class="agent-meta-item">Location: ${escapeHtml(currentLabel)} <code class="agent-meta-hide-mobile">${escapeHtml(agent.identity.currentCountryIso3)}</code></span>` : ''}
             <span class="agent-meta-item">Born: ${escapeHtml(String(agent.identity.birthYear))}</span>
             <span class="agent-meta-item">Tier: ${escapeHtml(toTitleCaseWords(agent.identity.tierBand))}</span>
-            <span class="agent-meta-item">Culture: ${escapeHtml(toTitleCaseWords(agent.identity.homeCulture))}</span>
+            <span class="agent-meta-item agent-meta-hide-mobile">Culture: ${escapeHtml(toTitleCaseWords(agent.identity.homeCulture))}</span>
           </div>
-          <div class="agent-pill-row">${roleTags} ${langTags}</div>
+          <div class="agent-pill-row">${roleTags} <span class="agent-meta-hide-mobile">${langTags}</span></div>
         </div>
 
         <div class="agent-tabs">
