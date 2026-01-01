@@ -172,6 +172,25 @@ export function toNarrativePhrase(input: string): string {
     .replace(/\bstreet formal\b/g, 'street-formal')
     .replace(/\bplatinum blonde\b/g, 'platinum-blonde')
     .replace(/\bombre afro\b/g, 'ombré afro')
+    // Lifestyle/habit compounds
+    .replace(/\bphone free\b/g, 'phone-free')
+    .replace(/\blate night\b/g, 'late-night')
+    .replace(/\bearly morning\b/g, 'early-morning')
+    .replace(/\bafter hours\b/g, 'after-hours')
+    .replace(/\boff grid\b/g, 'off-grid')
+    .replace(/\bone on one\b/g, 'one-on-one')
+    .replace(/\bface to face\b/g, 'face-to-face')
+    .replace(/\bhands on\b/g, 'hands-on')
+    .replace(/\blong term\b/g, 'long-term')
+    .replace(/\bshort term\b/g, 'short-term')
+    .replace(/\bfull time\b/g, 'full-time')
+    .replace(/\bpart time\b/g, 'part-time')
+    .replace(/\bself taught\b/g, 'self-taught')
+    .replace(/\bself employed\b/g, 'self-employed')
+    .replace(/\bself reliant\b/g, 'self-reliant')
+    .replace(/\bwell read\b/g, 'well-read')
+    .replace(/\bwell traveled\b/g, 'well-traveled')
+    .replace(/\bwell spoken\b/g, 'well-spoken')
     .replace(/\bafro brazilian\b/gi, 'Afro-Brazilian')
     .replace(/\bafro caribbean\b/gi, 'Afro-Caribbean')
     .replace(/\bafro cuban\b/gi, 'Afro-Cuban')
@@ -246,6 +265,18 @@ const LANGUAGE_CODE_MAP: Record<string, string> = {
   ti: 'Tigrinya', tw: 'Twi', ee: 'Ewe', tn: 'Tswana', ts: 'Tsonga',
   ve: 'Venda', ss: 'Swati', nr: 'Southern Ndebele', nd: 'Northern Ndebele',
   chy: 'Cheyenne', cr: 'Cree', oj: 'Ojibwe', nv: 'Navajo',
+  // Pacific & Southeast Asian
+  bi: 'Bislama', tvl: 'Tuvaluan', pau: 'Palauan', sm: 'Samoan', to: 'Tongan', tpi: 'Tok Pisin',
+  fil: 'Filipino', jv: 'Javanese', su: 'Sundanese', ace: 'Acehnese',
+  min: 'Minangkabau', bjn: 'Banjar', bug: 'Buginese', mak: 'Makassarese',
+  gor: 'Gorontalo', nia: 'Nias', ban: 'Balinese', sas: 'Sasak', mad: 'Madurese',
+  // South Asian languages
+  bgc: 'Haryanvi', bho: 'Bhojpuri', awa: 'Awadhi', mwr: 'Marwari', sd: 'Sindhi',
+  // Arabic varieties
+  apc: 'Levantine Arabic', arq: 'Algerian Arabic', ary: 'Moroccan Arabic',
+  // African & Creole
+  kea: 'Cape Verdean Creole', mfe: 'Mauritian Creole', kri: 'Krio',
+  mos: 'Mossi', fuv: 'Nigerian Fulfulde', gin: 'Guinean Creole', cat: 'Catalan',
 };
 
 function languageCodeToName(code: string): string {
@@ -286,6 +317,32 @@ function toTitleCaseWords(input: string): string {
 export function aOrAn(phrase: string): string {
   const p = phrase.trim();
   if (!p) return 'a';
+  const lower = p.toLowerCase();
+  // Words starting with vowel sounds get "an"
+  // But some words starting with 'u' sound like 'y' (uniform, ultra, unique)
+  // And some starting with 'h' are silent (hour, honor)
+  // And some acronyms starting with consonants sound like vowels (NGO = "en-gee-oh")
+  const usesAn = [
+    'hour', 'honest', 'honor', 'honour', 'heir', // silent h
+    'ngo', 'mba', 'fbi', 'mri', 'hmo', // acronyms with vowel sounds
+    'observant', 'avoidant', 'accommodating', // adjectives starting with vowels used in templates
+  ];
+  const usesA = [
+    'unique', 'uniform', 'united', 'universal', 'university', 'union', 'unit', 'use', 'used', 'useful', 'user', // "yoo" sound
+    'one', 'once', // "w" sound
+    'european', 'euphoric', 'eucalyptus', // "yoo" sound
+  ];
+  // Words starting with vowels that get "an" (removing from usesA or adding here if edge cases)
+  // "ultra" sounds like "uhl-tra", not "yoo-ltra", so it gets "an"
+  if (lower === 'ultra' || lower.startsWith('ultra ') || lower.startsWith('ultra-')) return 'an';
+  // Check explicit lists first
+  for (const word of usesAn) {
+    if (lower === word || lower.startsWith(word + ' ') || lower.startsWith(word + '-')) return 'an';
+  }
+  for (const word of usesA) {
+    if (lower === word || lower.startsWith(word + ' ') || lower.startsWith(word + '-')) return 'a';
+  }
+  // Default: vowel = an, consonant = a
   const c = p[0]?.toLowerCase() ?? '';
   if ('aeiou'.includes(c)) return 'an';
   return 'a';
@@ -295,6 +352,9 @@ function needsIndefiniteArticle(phrase: string): boolean {
   const p = phrase.trim().toLowerCase();
   if (!p) return false;
   if (p.startsWith('a ') || p.startsWith('an ') || p.startsWith('the ')) return false;
+  // Uncountable nouns / conditions that don't take articles
+  const uncountable = ['heterochromia', 'vitiligo', 'albinism', 'alopecia', 'ptsd'];
+  if (uncountable.includes(p)) return false;
   const last = p.split(/\s+/).pop() ?? p;
   if (last.endsWith('s') && !last.endsWith('ss')) return false;
   return true;
@@ -720,14 +780,22 @@ export function generateNarrative(
   const preview = agent.deepSimPreview;
   const breakBand = toNarrativePhrase(preview.breakRiskBand);
   // Convert break band to natural phrasing for templates
+  // Use seeded selection for variety in common phrases
   const breakBandPhrase = (() => {
+    const idx = hashStringToU32(`${seed}::bio:breakBandPhrase`) % 3;
     switch (preview.breakRiskBand) {
-      case 'very_low': return 'remarkably resilient';
-      case 'low': return 'steady under pressure';
-      case 'medium': return 'vulnerable to burnout';
-      case 'high': return 'at risk of breaking';
-      case 'very_high': return 'highly fragile';
-      default: return 'vulnerable to burnout';
+      case 'very_low':
+        return ['remarkably resilient', 'exceptionally stable', 'rock solid'][idx];
+      case 'low':
+        return ['steady under pressure', 'reliably composed', 'well-grounded'][idx];
+      case 'medium':
+        return ['vulnerable to burnout', 'prone to wearing thin', 'susceptible to stress'][idx];
+      case 'high':
+        return ['at risk of breaking', 'close to the edge', 'near a breaking point'][idx];
+      case 'very_high':
+        return ['highly fragile', 'dangerously brittle', 'on the verge of collapse'][idx];
+      default:
+        return ['vulnerable to burnout', 'prone to wearing thin', 'susceptible to stress'][idx];
     }
   })();
   const breakTypes = preview.breakTypesTopK.slice(0, 2).map(toNarrativePhrase);
@@ -817,11 +885,22 @@ export function generateNarrative(
     return `${a} and ${b}`;
   })();
 
-  const breakTypesClauseText = breakTypesList
-    ? breakTypesList.includes(' or ')
-      ? `; ${breakTypesList} is a common failure mode`
-      : `; ${breakTypesList} are common failure modes`
-    : '';
+  const breakTypesClauseText = (() => {
+    if (!breakTypesList) return '';
+    // Don't show failure modes for resilient/steady people - it's contradictory
+    if (['very_low', 'low'].includes(preview.breakRiskBand)) return '';
+    // "rage or panic" and "rage and panic" both refer to multiple potential modes
+    // Always use plural verb forms for natural reading
+    const phraseIdx = hashStringToU32(`${seed}::bio:breakPhrase`) % 5;
+    const phrases = [
+      `; ${breakTypesList} are common failure modes`,
+      `; ${breakTypesList} tend to emerge`,
+      `; ${breakTypesList} often surface`,
+      `; ${breakTypesList} are typical responses`,
+      `; ${breakTypesList} are likely to appear`,
+    ];
+    return phrases[phraseIdx] ?? phrases[0];
+  })();
 
   const locationPhrase = toneDiplomat
     ? pickVariant(seed, 'bio:locPhrase:diplomat', ['posted in', 'stationed in', 'based in'] as const)
@@ -875,6 +954,7 @@ export function generateNarrative(
     hair: [hair],
     eyes: [eyes],
     voice: [voice],
+    aVoice: [aOrAn(voice)],
     markSentence: [markSentence],
     skillsList: [skillsList],
     aptitudesList: [aptitudesList],
@@ -904,6 +984,21 @@ export function generateNarrative(
     originTier: [originTier === 'mass' ? 'working-class' : originTier],
     currentTier: [currentTier === 'mass' ? 'working-class' : currentTier],
     aCurrentTier: [aOrAn(currentTier === 'mass' ? 'working-class' : currentTier)],
+    // Direction-aware mobility verb: elite > middle > mass
+    mobilityVerb: [(() => {
+      const tierOrder: Record<string, number> = { 'elite': 3, 'middle': 2, 'mass': 1 };
+      const originRank = tierOrder[agent.identity.originTierBand] ?? 2;
+      const currentRank = tierOrder[agent.identity.tierBand] ?? 2;
+      if (currentRank > originRank) {
+        // Upward mobility
+        return conjugate(pron, 'rose', 'rose');
+      } else if (currentRank < originRank) {
+        // Downward mobility
+        return conjugate(pron, 'fell', 'fell');
+      }
+      // Same level - use neutral verb
+      return conjugate(pron, 'moved', 'moved');
+    })()],
     // Ethics
     loyaltyScope: [loyaltyScope],
     contradictionTrait1: [contradictionTrait1],
@@ -912,6 +1007,7 @@ export function generateNarrative(
     spiritualityTradition: [spiritualityTradition || 'faith'],
     spiritualityAffiliation: [spiritualityAffiliation],
     spiritualityLevel: [spiritualityLevel],
+    aSpiritualityLevel: [aOrAn(spiritualityLevel)],
     observe: [observeVerb],
     // Institution
     orgType: [(() => {
@@ -953,6 +1049,27 @@ export function generateNarrative(
       return spec;
     })()],
     yearsInService: [String(agent.institution.yearsInService)],
+    // Smart years phrase that avoids implausible "0 years as mid-level" combos
+    // Returns a phrase that works with: "#yearsPhrase# #orgType# as #aGradeBand# #gradeBand# #functionalSpec#"
+    yearsPhrase: [(() => {
+      const years = agent.institution.yearsInService;
+      const grade = agent.institution.gradeBand;
+      // For low years with senior grades, use "recently promoted" phrasing
+      if (years < 2 && ['senior', 'executive', 'political-appointee'].includes(grade)) {
+        return 'recently promoted at';
+      }
+      // For 0 years with mid-level, use "newly appointed" phrasing
+      if (years < 1 && grade === 'mid-level') {
+        return 'newly appointed at';
+      }
+      // For 0-1 years with junior, that's fine - "new at"
+      if (years < 1 && grade === 'junior') {
+        return 'new at';
+      }
+      // Normal case: "X years in Y as..."
+      const yearWord = years === 1 ? 'year' : 'years';
+      return `${years} ${yearWord} in`;
+    })()],
     work: [conjugate(pron, 'works', 'work')],
     hold: [conjugate(pron, 'holds', 'hold')],
     // Missing conjugated verbs for templates
@@ -980,6 +1097,7 @@ export function generateNarrative(
     reason: [conjugate(pron, 'reasons', 'reason')],
     // Personality
     conflictStyle: [toNarrativePhrase(agent.personality.conflictStyle)],
+    aConflictStyle: [aOrAn(toNarrativePhrase(agent.personality.conflictStyle))],
     epistemicStyle: [toNarrativePhrase(agent.personality.epistemicStyle)],
     socialEnergy: [toNarrativePhrase(agent.personality.socialEnergy)],
     riskPosture: [(() => {
@@ -1100,7 +1218,22 @@ export function generateNarrative(
     })()],
     // Culture axes
     ethnolinguistic: [(() => {
-      const eth = toNarrativePhrase(agent.culture.ethnolinguistic);
+      const raw = agent.culture.ethnolinguistic;
+      // Map truncated/internal codes to readable heritage labels
+      const heritageMap: Record<string, string> = {
+        'aestic': 'East Asian',
+        'kedaric': 'South Asian',
+        'khalijic': 'Gulf Arab',
+        'latamic': 'Latin American',
+        'subsaharan': 'Sub-Saharan African',
+        'eurslavic': 'Eastern European',
+        'nordger': 'Northern European',
+        'seaian': 'Southeast Asian',
+        'melanesian': 'Melanesian',
+        'polynesian': 'Polynesian',
+      };
+      const mapped = heritageMap[raw.toLowerCase()] ?? raw;
+      const eth = toNarrativePhrase(mapped);
       // Avoid "mixed heritage heritage" redundancy
       if (eth.endsWith(' heritage')) return eth.replace(/ heritage$/, '');
       return eth;
@@ -1127,6 +1260,13 @@ export function generateNarrative(
         service: 'service to others',
       };
       return goalPhrases[goal] ?? toNarrativePhrase(goal);
+    })()],
+    // Plural-aware verb for goals like "close relationships" that need "drive" not "drives"
+    primaryGoalVerb: [(() => {
+      const goal = agent.motivations.primaryGoal;
+      // "close relationships" is plural and needs "drive"
+      const pluralGoals = ['relational'];
+      return pluralGoals.includes(goal) ? 'drive' : 'drives';
     })()],
     topFear: [agent.motivations.fears[0] ? toNarrativePhrase(agent.motivations.fears[0]) : ''],
     fear: [conjugate(pron, 'fears', 'fear')],
@@ -1185,7 +1325,30 @@ export function generateNarrative(
       if (pr === 'avoids') return `${conjugate(pron, 'avoids', 'avoid')} decisions`;
       return toNarrativePhrase(pr);
     })()],
+    // Gait as adjective (for "gait is X") and adverb (for "moves X")
     gaitDesc: [toNarrativePhrase(agent.physicalPresence.gait)],
+    gaitAdverb: [(() => {
+      const gait = toNarrativePhrase(agent.physicalPresence.gait);
+      // Convert adjectives to adverbs for "moves X" template
+      const adverbMap: Record<string, string> = {
+        graceful: 'gracefully',
+        nervous: 'nervously',
+        heavy: 'heavily',
+        stiff: 'stiffly',
+        confident: 'confidently',
+        measured: 'with measured steps',
+        quick: 'quickly',
+        slow: 'slowly',
+        casual: 'casually',
+        deliberate: 'deliberately',
+        fluid: 'fluidly',
+        awkward: 'awkwardly',
+        brisk: 'briskly',
+        lumbering: 'with a lumbering gait',
+        shuffling: 'with a shuffling gait',
+      };
+      return adverbMap[gait] ?? `with a ${gait} gait`;
+    })()],
     eyeContactDesc: [toNarrativePhrase(agent.physicalPresence.eyeContact)],
     move: [conjugate(pron, 'moves', 'move')],
     maintain: [conjugate(pron, 'maintains', 'maintain')],
@@ -1313,6 +1476,21 @@ export function generateNarrative(
       };
       return phrases[style] ?? toNarrativePhrase(style);
     })()],
+    // Conjugated form for "she compartmentalizes" templates
+    affectRegulationConj: [(() => {
+      const style = agent.affect?.regulationStyle ?? '';
+      // Conjugated form for "#subj# #affectRegulationConj#" pattern
+      const phrases: Record<string, string> = {
+        ruminates: conjugate(pron, 'ruminates', 'ruminate'),
+        suppresses: conjugate(pron, 'suppresses', 'suppress'),
+        externalizes: conjugate(pron, 'externalizes', 'externalize'),
+        reframes: conjugate(pron, 'reframes', 'reframe'),
+        compartmentalizes: conjugate(pron, 'compartmentalizes', 'compartmentalize'),
+        avoids: conjugate(pron, 'avoids the issue', 'avoid the issue'),
+        'seeks-support': conjugate(pron, 'seeks support', 'seek support'),
+      };
+      return phrases[style] ?? toNarrativePhrase(style);
+    })()],
     // Self-concept
     selfStory: [(() => {
       const story = agent.selfConcept?.selfStory ?? '';
@@ -1365,29 +1543,55 @@ export function generateNarrative(
     })()],
     communityRole: [(() => {
       const m = agent.communities?.memberships?.[0];
-      return m ? toNarrativePhrase(m.role) : '';
+      if (!m) return '';
+      const role = toNarrativePhrase(m.role);
+      // "former" alone doesn't work - need "a former member" etc
+      if (role === 'former') return 'a former member';
+      // Role-specific article handling
+      const needsArticle = ['leader', 'member', 'organizer', 'volunteer', 'moderator', 'founder'];
+      if (needsArticle.includes(role)) return aOrAn(role) + ' ' + role;
+      return role;
     })()],
     // Reputation
-    professionalRep: [toNarrativePhrase(agent.reputation?.professional ?? '')],
+    professionalRep: [(() => {
+      const rep = toNarrativePhrase(agent.reputation?.professional ?? '');
+      // Fix "has been" -> "has-been" for proper compound adjective
+      if (rep === 'has been') return 'has-been';
+      return rep;
+    })()],
+    aProfessionalRep: [(() => {
+      const rep = toNarrativePhrase(agent.reputation?.professional ?? '');
+      // "has been" -> "has-been" needs "a" not "an"
+      if (rep === 'has been') return 'a';
+      return aOrAn(rep);
+    })()],
     neighborhoodRep: [toNarrativePhrase(agent.reputation?.neighborhood ?? '')],
     // Civic life
     civicEngagement: [toNarrativePhrase(agent.civicLife?.engagement ?? '')],
     civicEngagementPhrase: [(() => {
       const eng = agent.civicLife?.engagement ?? '';
       // Convert engagement level to natural phrasing
+      // Avoid redundancy: "engages with politics as disillusioned with politics" is bad
       switch (eng) {
         case 'disengaged': return 'disengaged';
         case 'quiet-voter': return 'a quiet voter';
         case 'active-participant': return 'an active participant';
         case 'organizer': return 'an organizer';
         case 'candidate': return 'a political candidate';
-        case 'disillusioned': return 'disillusioned with politics';
+        case 'disillusioned': return 'politically disillusioned';
         default: return toNarrativePhrase(eng);
       }
     })()],
     civicIdeology: [toNarrativePhrase(agent.civicLife?.ideology ?? '')],
     // Everyday life
-    commuteMode: [toNarrativePhrase(agent.everydayLife?.commuteMode ?? '')],
+    commuteMode: [(() => {
+      const mode = toNarrativePhrase(agent.everydayLife?.commuteMode ?? '');
+      // Handle incomplete modes: "mixed" alone is incomplete
+      if (mode === 'mixed') return 'mixed transport';
+      // Singular transport modes that work without articles: "foot", "bike", "rideshare"
+      // Already work in "gets around by foot", "commutes by bike"
+      return mode;
+    })()],
     thirdPlace: [(() => {
       const places = agent.everydayLife?.thirdPlaces ?? [];
       if (!places.length) return '';
@@ -1413,7 +1617,11 @@ export function generateNarrative(
     householdCompositionPhrase: [(() => {
       const comp = agent.home?.householdComposition ?? '';
       if (!comp || comp === 'alone') return 'alone';
-      return 'with ' + toNarrativePhrase(comp);
+      const phrase = toNarrativePhrase(comp);
+      // Add articles for role nouns: "partner", "spouse", "roommate" etc
+      const needsArticle = ['partner', 'spouse', 'roommate', 'housemate'];
+      if (needsArticle.includes(phrase)) return `with ${aOrAn(phrase)} ${phrase}`;
+      return 'with ' + phrase;
     })()],
     // Life skills - convert competence bands to adjective phrases that work with "is"
     streetSmarts: [(() => {
@@ -1438,7 +1646,13 @@ export function generateNarrative(
         default: return toNarrativePhrase(band);
       }
     })()],
-    etiquetteLiteracy: [toNarrativePhrase(agent.lifeSkills?.etiquetteLiteracy ?? '')],
+    etiquetteLiteracy: [(() => {
+      const lit = toNarrativePhrase(agent.lifeSkills?.etiquetteLiteracy ?? '');
+      // "code switcher" and similar noun phrases need articles
+      if (lit === 'code switcher') return 'a code switcher';
+      if (lit === 'protocol native') return 'protocol-native';
+      return lit;
+    })()],
   };
 
   const textRules = (() => {
@@ -1477,7 +1691,9 @@ export function generateNarrative(
   if (agent.identity.languages.length <= 1) textRules.bioP2Languages = [''];
   // Network role - only show non-trivial roles
   if (['isolate', 'peripheral'].includes(agent.network.role)) textRules.bioP2Network = [''];
-  if (!agent.background.adversityTags.length) textRules.bioP2Adversity = [''];
+  // Only show adversity if tags exist AND first tag is meaningful (not stable-upbringing)
+  const firstAdversityTag = (agent.background.adversityTags[0] ?? '').toLowerCase();
+  if (!agent.background.adversityTags.length || firstAdversityTag === 'stable-upbringing') textRules.bioP2Adversity = [''];
   if (!agent.identity.redLines.length) textRules.bioP2RedLines = [''];
   // Don't narrate straight/undisclosed orientation
   if (['straight', 'undisclosed'].includes(agent.orientation.orientationTag)) textRules.bioP2Orientation = [''];
