@@ -103,6 +103,28 @@ type ValidCountry = { shadow: string; iso3: string; continent?: string; populati
 
 type ClimateIndicators = { hot01: number; coastal01: number; cold01: number };
 
+type CountryIndicatorSignals = {
+  // Normalized 0..1
+  urbanPopulation01: number;
+  gdpPerCap01: number;
+  tradeOpen01: number;
+  airTravel01: number;
+  militarization01: number;
+  conflictActive01: number;
+  conflictHigh01: number;
+  battleDeaths01: number;
+  oneSidedDeaths01: number;
+  conflict01: number;
+  // Derived 0..1000 (or null if no indicator data)
+  urbanPopulation01k: Fixed | null;
+  gdpPerCap01k: Fixed | null;
+  tradeOpen01k: Fixed | null;
+  airTravel01k: Fixed | null;
+  conflict01k: Fixed | null;
+  stateViolence01k: Fixed | null;
+  militarization01k: Fixed | null;
+};
+
 type MicroProfileEntry = { id: string; weight01k: number; profile: CultureProfileV1 };
 
 type PrimaryWeights = {
@@ -112,6 +134,103 @@ type PrimaryWeights = {
   mediaPrimaryWeight: number;
   fashionPrimaryWeight: number;
 };
+
+function getIndicatorNumber(indicators: Record<string, unknown> | null | undefined, key: string): number | null {
+  const v = indicators?.[key];
+  return typeof v === 'number' && Number.isFinite(v) ? v : null;
+}
+
+function computeCountryIndicatorSignals(indicators: Record<string, unknown> | null | undefined): CountryIndicatorSignals {
+  const urbanPct = getIndicatorNumber(indicators, 'urbanPopulationPct');
+  const gdpPerCapUsd = getIndicatorNumber(indicators, 'gdpPerCapUsd');
+  const exportsPctGdp = getIndicatorNumber(indicators, 'exportsPctGdp');
+  const importsPctGdp = getIndicatorNumber(indicators, 'importsPctGdp');
+  const airPassengersPerCap = getIndicatorNumber(indicators, 'airPassengersPerCap');
+  const militaryExpenditurePctGdp = getIndicatorNumber(indicators, 'militaryExpenditurePctGdp');
+  const ucdpBattleDeathsPer100k10y = getIndicatorNumber(indicators, 'ucdpBattleDeathsPer100k10y');
+  const ucdpOneSidedDeathsPer100k10y = getIndicatorNumber(indicators, 'ucdpOneSidedDeathsPer100k10y');
+  const ucdpConflictActiveYears10y = getIndicatorNumber(indicators, 'ucdpConflictActiveYears10y');
+  const ucdpConflictHighYears10y = getIndicatorNumber(indicators, 'ucdpConflictHighYears10y');
+
+  const urbanPopulation01 = urbanPct != null ? clamp01(urbanPct / 100, 0.5) : 0.5;
+
+  // Log-scale GDP per cap: map ~100 USD (10^2) .. ~100k USD (10^5) into 0..1.
+  const gdpPerCap01 = gdpPerCapUsd != null && gdpPerCapUsd > 0
+    ? clamp01((Math.log10(gdpPerCapUsd) - 2.0) / 3.0, 0.5)
+    : 0.5;
+
+  const tradeSum = (exportsPctGdp ?? 0) + (importsPctGdp ?? 0);
+  const tradeOpen01 = (exportsPctGdp != null || importsPctGdp != null)
+    ? clamp01(tradeSum / 200, 0.5)
+    : 0.5;
+
+  // Air passengers per capita: strong long tail; log-scale to p99-ish (~6).
+  const airTravel01 = airPassengersPerCap != null && airPassengersPerCap >= 0
+    ? clamp01(Math.log1p(airPassengersPerCap) / Math.log1p(6), 0.5)
+    : 0.5;
+
+  // Military spend % GDP: long tail; log-scale to ~10% as "high".
+  const militarization01 = militaryExpenditurePctGdp != null && militaryExpenditurePctGdp >= 0
+    ? clamp01(Math.log1p(militaryExpenditurePctGdp) / Math.log1p(10), 0.5)
+    : 0.5;
+
+  const conflictActive01 = ucdpConflictActiveYears10y != null
+    ? clamp01(ucdpConflictActiveYears10y / 10, 0)
+    : 0;
+  const conflictHigh01 = ucdpConflictHighYears10y != null
+    ? clamp01(ucdpConflictHighYears10y / 10, 0)
+    : 0;
+  const battleDeaths01 = ucdpBattleDeathsPer100k10y != null
+    ? clamp01(Math.log1p(ucdpBattleDeathsPer100k10y) / Math.log1p(300), 0)
+    : 0;
+  const oneSidedDeaths01 = ucdpOneSidedDeathsPer100k10y != null
+    ? clamp01(Math.log1p(ucdpOneSidedDeathsPer100k10y) / Math.log1p(150), 0)
+    : 0;
+
+  const conflict01 = clamp01(
+    0.35 * conflictActive01 +
+      0.25 * conflictHigh01 +
+      0.25 * battleDeaths01 +
+      0.15 * oneSidedDeaths01,
+    0,
+  );
+
+  const hasAnyConflictIndicator =
+    ucdpConflictActiveYears10y != null ||
+    ucdpConflictHighYears10y != null ||
+    ucdpBattleDeathsPer100k10y != null ||
+    ucdpOneSidedDeathsPer100k10y != null;
+
+  const conflict01k = hasAnyConflictIndicator ? clampFixed01k(1000 * conflict01) : null;
+  const stateViolence01k = hasAnyConflictIndicator
+    ? clampFixed01k(1000 * clamp01(0.55 * oneSidedDeaths01 + 0.45 * conflictActive01, 0))
+    : null;
+  const militarization01k = militaryExpenditurePctGdp != null ? clampFixed01k(1000 * militarization01) : null;
+  const urbanPopulation01k = urbanPct != null ? clampFixed01k(1000 * urbanPopulation01) : null;
+  const gdpPerCap01k = gdpPerCapUsd != null ? clampFixed01k(1000 * gdpPerCap01) : null;
+  const tradeOpen01k = (exportsPctGdp != null || importsPctGdp != null) ? clampFixed01k(1000 * tradeOpen01) : null;
+  const airTravel01k = airPassengersPerCap != null ? clampFixed01k(1000 * airTravel01) : null;
+
+  return {
+    urbanPopulation01,
+    gdpPerCap01,
+    tradeOpen01,
+    airTravel01,
+    militarization01,
+    conflictActive01,
+    conflictHigh01,
+    battleDeaths01,
+    oneSidedDeaths01,
+    conflict01,
+    urbanPopulation01k,
+    gdpPerCap01k,
+    tradeOpen01k,
+    airTravel01k,
+    conflict01k,
+    stateViolence01k,
+    militarization01k,
+  };
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Trace initialization
@@ -310,6 +429,7 @@ function computeGeographyStage1(
 
   const cohortBucketStartYear = Math.floor(birthYear / 10) * 10;
   const countryPriorsBucket = input.priors?.countries?.[homeCountryIso3]?.buckets?.[String(cohortBucketStartYear)];
+  const indicatorSignals = computeCountryIndicatorSignals(countryPriorsBucket?.indicators);
   if (trace) {
     trace.derived.countryPriors = {
       homeCountryIso3,
@@ -317,6 +437,7 @@ function computeGeographyStage1(
       hasPriors: !!countryPriorsBucket,
       indicators: countryPriorsBucket?.indicators ?? null,
     };
+    trace.derived.countryIndicators = indicatorSignals;
   }
 
   // Climate indicators
@@ -347,6 +468,7 @@ function computeGeographyStage1(
     homeCulture,
     cohortBucketStartYear,
     countryPriorsBucket,
+    indicatorSignals,
     climateIndicators,
     cultureCountries,
     origin,
@@ -368,8 +490,10 @@ function computeGeographyStage2(
   input: GenerateAgentInput,
   trace: AgentGenerationTraceV1 | undefined,
 ) {
-  const { homeCountryIso3, homeCulture, cohortBucketStartYear, cultureCountries, origin } = stage1;
+  const { homeCountryIso3, homeCulture, cohortBucketStartYear, cultureCountries, origin, indicatorSignals } = stage1;
   const vocab = input.vocab;
+  const tradeOpen01 = indicatorSignals.tradeOpen01k != null ? indicatorSignals.tradeOpen01k / 1000 : 0;
+  const airTravel01 = indicatorSignals.airTravel01k != null ? indicatorSignals.airTravel01k / 1000 : 0;
 
   // Citizenship
   traceFacet(trace, seed, 'citizenship');
@@ -378,6 +502,8 @@ function computeGeographyStage2(
     0.65,
     0.05 +
       0.35 * cosmo01 +
+      0.06 * tradeOpen01 +
+      0.05 * airTravel01 +
       (roleSeedTags.includes('diplomat') ? 0.12 : 0) +
       (roleSeedTags.includes('operative') ? 0.06 : 0),
   );
@@ -408,7 +534,16 @@ function computeGeographyStage2(
     (roleSeedTags.includes('media') ? 0.06 : 0) +
     (roleSeedTags.includes('technocrat') ? 0.05 : 0) +
     (roleSeedTags.includes('operative') ? 0.12 : 0);
-  const abroadChance = Math.min(0.88, 0.06 + 0.55 * cosmo01 + 0.15 * adaptability01 + 0.05 * curiosity01 + roleAbroad);
+  const abroadChance = Math.min(
+    0.90,
+    0.06 +
+      0.55 * cosmo01 +
+      0.15 * adaptability01 +
+      0.05 * curiosity01 +
+      0.04 * airTravel01 +
+      0.03 * tradeOpen01 +
+      roleAbroad,
+  );
   const abroad = currentRng.next01() < abroadChance;
   const currentCandidatePool = cultureCountries.length ? cultureCountries : validCountries;
   const abroadPool = currentCandidatePool.filter(c => c.iso3.trim().toUpperCase() !== homeCountryIso3);
@@ -776,6 +911,20 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const homeSecurityEnv01k = getSecurityEnv01k(geoStage1.homeCountryIso3);
   const currentSecurityEnv01k = getSecurityEnv01k(geoStage2.currentCountryIso3);
   const securityEnv01k = homeSecurityEnv01k ?? currentSecurityEnv01k;
+  const securityEnv01kBlended: SecurityEnv01k = (() => {
+    const base: SecurityEnv01k = securityEnv01k ?? { conflict: 0, stateViolence: 0, militarization: 150 };
+    const ind = geoStage1.indicatorSignals;
+    const blendAxis = (baseVal: Fixed, indVal: Fixed | null, w: number): Fixed => {
+      if (indVal == null) return baseVal;
+      return clampFixed01k((1 - w) * baseVal + w * indVal);
+    };
+    return {
+      conflict: blendAxis(base.conflict, ind.conflict01k, 0.25),
+      stateViolence: blendAxis(base.stateViolence, ind.stateViolence01k, 0.25),
+      militarization: blendAxis(base.militarization, ind.militarization01k, 0.20),
+    };
+  })();
+  if (trace) trace.derived.securityEnv01kBlended = securityEnv01kBlended;
 
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 6: Identity
@@ -849,9 +998,10 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       mobilityRng.int(0, 1000) * 0.20,
   );
   const travelEnv = geoStage1.countryPriorsBucket?.mobility01k?.travelFrequency;
+  const airTravel01k = geoStage1.indicatorSignals.airTravel01k;
   const travelScore = travelEnv != null
-    ? clampFixed01k(0.50 * travelEnv + 0.50 * travelModelScoreRaw)
-    : travelModelScoreRaw;
+    ? clampFixed01k(0.45 * travelEnv + 0.40 * travelModelScoreRaw + (airTravel01k != null ? 0.15 * airTravel01k : 0))
+    : clampFixed01k(0.85 * travelModelScoreRaw + (airTravel01k != null ? 0.15 * airTravel01k : 0));
 
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 8: Capabilities (aptitudes, traits, skills)
@@ -866,7 +1016,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     heightBand: appearanceResult.heightBand,
     voiceTag: appearanceResult.voiceTag,
     careerTrackTag: identityResult.careerTrackTag,
-    securityEnv01k,
+    securityEnv01k: securityEnv01kBlended,
     travelScore,
     trace,
   });
@@ -964,7 +1114,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     // Visibility metrics - compute early approximations
     publicVisibility: psychologyResult.visibility.publicVisibility,
     paperTrail: psychologyResult.visibility.paperTrail,
-    securityPressure01k: securityEnv01k?.conflict ?? 200 as Fixed,
+    securityPressure01k: securityEnv01kBlended.conflict,
     // Vice tendency (computed above)
     viceTendency,
   });
@@ -982,7 +1132,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     trace,
     homeCountryIso3: geoStage1.homeCountryIso3,
     currentCountryIso3: geoStage2.currentCountryIso3,
-    securityPressure01k: securityEnv01k?.conflict,
+    securityPressure01k: securityEnv01kBlended.conflict,
+    urbanPopulation01: geoStage1.indicatorSignals.urbanPopulation01,
     cosmo01,
     opsec01,
     inst01,
@@ -1025,9 +1176,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     paperTrail: psychologyResult.visibility.paperTrail,
     attentionResilience: preferencesResult.media.attentionResilience,
     doomscrollingRisk: preferencesResult.media.doomscrollingRisk,
-    securityPressure01k: geoStage1.countryPriorsBucket?.securityEnvironment01k?.conflict ?? 500 as Fixed,
-    conflictEnv01k: geoStage1.countryPriorsBucket?.securityEnvironment01k?.conflict ?? 500 as Fixed,
-    stateViolenceEnv01k: geoStage1.countryPriorsBucket?.securityEnvironment01k?.stateViolence ?? 500 as Fixed,
+    securityPressure01k: securityEnv01kBlended.conflict,
+    conflictEnv01k: securityEnv01kBlended.conflict,
+    stateViolenceEnv01k: securityEnv01kBlended.stateViolence,
     viceTendency,
     travelScore,
     trace,
@@ -1049,6 +1200,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     currentCountryIso3: geoStage2.currentCountryIso3,
     citizenshipCountryIso3: geoStage2.citizenshipCountryIso3,
     urbanicity: socialResult.geography.urbanicity,
+    gdpPerCap01: geoStage1.indicatorSignals.gdpPerCap01,
     // Pass family status for housing constraints
     maritalStatus: socialResult.family.maritalStatus,
     dependentCount: socialResult.family.dependentCount,
@@ -1114,7 +1266,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     attentionResilience: preferencesResult.media.attentionResilience,
     doomscrollingRisk: preferencesResult.media.doomscrollingRisk,
     statusSignaling: preferencesResult.fashion.statusSignaling,
-    securityPressure01k: geoStage1.countryPriorsBucket?.securityEnvironment01k?.conflict ?? 500 as Fixed,
+    securityPressure01k: securityEnv01kBlended.conflict,
     averageSkillValue01k,
     roleSeedTags,
     careerTrackTag: identityResult.careerTrackTag,
@@ -1166,6 +1318,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const gradeBands = vocab.institution?.gradeBands ?? ['junior', 'mid-level', 'senior', 'executive', 'political-appointee'];
   const clearanceBands = vocab.institution?.clearanceBands ?? ['none', 'basic', 'secret', 'top-secret', 'compartmented'];
   const functionalSpecs = vocab.institution?.functionalSpecializations ?? ['regional-desk', 'intel-analysis', 'humint-ops', 'political-officer'];
+  const indTradeOpen01 = geoStage1.indicatorSignals.tradeOpen01k != null ? geoStage1.indicatorSignals.tradeOpen01k / 1000 : 0;
+  const indAirTravel01 = geoStage1.indicatorSignals.airTravel01k != null ? geoStage1.indicatorSignals.airTravel01k / 1000 : 0;
+  const indMil01 = geoStage1.indicatorSignals.militarization01k != null ? geoStage1.indicatorSignals.militarization01k / 1000 : 0;
+  const indConflict01 = geoStage1.indicatorSignals.conflict01k != null ? geoStage1.indicatorSignals.conflict01k / 1000 : 0;
+  const indGdp01 = geoStage1.indicatorSignals.gdpPerCap01;
 
   const orgTypeWeights = orgTypes.map(o => {
     let w = 1;
@@ -1178,6 +1335,28 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (o === 'media-outlet' && identityResult.careerTrackTag === 'journalism') w = 50;
     if (o === 'think-tank' && roleSeedTags.includes('analyst')) w = 15;
     if (o === 'private-security' && roleSeedTags.includes('security')) w = 15;
+
+    // Country indicator priors: trade openness, air connectivity, militarization, conflict.
+    if (indTradeOpen01 > 0) {
+      if (o === 'foreign-ministry' || o === 'international-org') w += 4.0 * indTradeOpen01;
+      if (o === 'regulator' || o === 'corporate') w += 2.5 * indTradeOpen01;
+      if (o === 'state-enterprise') w += 1.5 * indTradeOpen01;
+    }
+    if (indAirTravel01 > 0) {
+      if (o === 'foreign-ministry' || o === 'international-org') w += 2.0 * indAirTravel01;
+      if (o === 'media-outlet') w += 1.2 * indAirTravel01;
+    }
+    if (indMil01 > 0) {
+      if (o === 'defense' || o === 'intel-agency' || o === 'interior-ministry') w += 3.5 * indMil01;
+      if (o === 'private-security') w += 1.5 * indMil01;
+    }
+    if (indConflict01 > 0) {
+      if (o === 'defense' || o === 'intel-agency' || o === 'interior-ministry') w += 3.0 * indConflict01;
+      if (o === 'ngo') w += 1.2 * indConflict01;
+    }
+    if (indGdp01 > 0.65) {
+      if (o === 'corporate' || o === 'academia' || o === 'think-tank') w += 1.2 * (indGdp01 - 0.65) / 0.35;
+    }
     return { item: o as OrgType, weight: w };
   });
   const orgType = weightedPick(instRng, orgTypeWeights) as OrgType;
@@ -1240,6 +1419,14 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (c === 'secret' && isSecurityOrg) w = 30;
     if (c === 'basic' && !isSecurityOrg) w = 20;
     if (c === 'none' && (orgType === 'ngo' || orgType === 'media-outlet')) w = 30;
+
+    // Indicator priors: conflict/militarization modestly increase clearance odds in security orgs.
+    if (isSecurityOrg && (indConflict01 > 0 || indMil01 > 0)) {
+      const secBoost = Math.max(indConflict01, indMil01);
+      if (c === 'top-secret' || c === 'compartmented') w += 8 * secBoost;
+      if (c === 'secret') w += 5 * secBoost;
+      if (c === 'none') w *= Math.max(0.3, 1 - 0.7 * secBoost);
+    }
     return { item: c as ClearanceBand, weight: w };
   });
   const clearanceBand = weightedPick(instRng, clearanceWeights) as ClearanceBand;
@@ -1250,6 +1437,18 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (roleSeedTags.includes('diplomat') && ['political-officer', 'economic-officer', 'public-diplomacy', 'protocol'].includes(s)) w = 10;
     if (roleSeedTags.includes('operative') && ['humint-ops', 'counterintel', 'security-ops'].includes(s)) w = 10;
     if (roleSeedTags.includes('technocrat') && ['finance-policy', 'cyber-policy', 'it-security'].includes(s)) w = 8;
+
+    // Country indicator priors: conflict/militarization skew toward security specializations; trade openness toward foreign/economic.
+    if (indConflict01 > 0) {
+      if (['humint-ops', 'counterintel', 'security-ops', 'targeting', 'sanctions', 'wmd-policy'].includes(s)) w += 6.0 * indConflict01;
+      if (['political-officer', 'regional-desk'].includes(s)) w += 2.0 * indConflict01;
+    }
+    if (indMil01 > 0) {
+      if (['security-ops', 'it-security', 'counterintel', 'technical-collection'].includes(s)) w += 4.0 * indMil01;
+    }
+    if (indTradeOpen01 > 0) {
+      if (['economic-officer', 'sanctions', 'public-diplomacy', 'regional-desk', 'legal-affairs'].includes(s)) w += 3.5 * indTradeOpen01;
+    }
     return { item: s as FunctionalSpecialization, weight: w };
   });
   const functionalSpecialization = weightedPick(instRng, specWeights) as FunctionalSpecialization;

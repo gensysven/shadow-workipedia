@@ -59,6 +59,8 @@ export type SocialContext = {
   homeCountryIso3: string;
   currentCountryIso3: string;
   securityPressure01k?: number;
+  // Country indicator priors (0..1 normalized)
+  urbanPopulation01?: number;
 
   // Derived values for network position
   cosmo01: number;
@@ -163,6 +165,7 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     homeCountryIso3,
     currentCountryIso3,
     securityPressure01k = 0,
+    urbanPopulation01 = 0.5,
     cosmo01,
     opsec01,
     inst01,
@@ -206,6 +209,7 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   const isTinyTerritory = tinyTerritories.includes(currentCountryIso3);
   const cannotHaveMegacity = noMegacityCountries.includes(currentCountryIso3) || isTinyTerritory || isCityState;
 
+  const urb01 = Number.isFinite(urbanPopulation01) ? Math.max(0, Math.min(1, urbanPopulation01)) : 0.5;
   const urbanicityWeights = urbanicityTags.map(u => {
     let w = 1;
 
@@ -234,6 +238,11 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     if (isCityState && u === 'capital') w += 20;
     // Tiny territories default to small-town or rural
     if (isTinyTerritory && (u === 'small-town' || u === 'rural')) w += 10;
+
+    // Indicator prior: high-urban countries skew toward city categories; low-urban toward rural/small-town.
+    if (u === 'megacity' || u === 'capital' || u === 'secondary-city') w += 3.0 * urb01;
+    if (u === 'rural' || u === 'small-town') w += 2.5 * (1 - urb01);
+    if (u === 'peri-urban') w += 1.0 * (1 - Math.abs(urb01 - 0.6));
     return { item: u as Urbanicity, weight: w };
   });
   const urbanicity = weightedPick(geoRng, urbanicityWeights) as Urbanicity;

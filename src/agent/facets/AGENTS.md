@@ -71,6 +71,7 @@ Correlates are cross-facet relationships that ensure realistic agent generation.
 - Tier ↔ Housing (domestic.ts): Elite owns, mass rents precariously
 
 **Age-Based:**
+- #1 Age ↔ Physical Conditioning (latents.ts): Conditioning declines with age; stress accumulates
 - #4 Age ↔ Family (social.ts): Marriage/children peak 28-45
 - #6 Age ↔ Network Role (social.ts): Young=peripheral, senior=hub
 - Age ↔ Community Status (social.ts): Elders become pillars
@@ -87,6 +88,18 @@ Correlates are cross-facet relationships that ensure realistic agent generation.
 - #13 Conscientiousness ↔ Housing (domestic.ts): High = stable housing
 - #15 Risk ↔ Housing (domestic.ts): High risk = transient housing
 - Social Battery ↔ Third Places (domestic.ts): Determines venue count
+- #8 Build/Height ↔ Gait (generator.ts): Physical presence correlates with build/height
+
+### Country Priors & Indicators
+
+The priors file includes `countries[*].buckets[*].indicators` (GDP, trade openness, air travel, UCDP conflict series, military spend, urbanization). These are wired in as **small, clamped nudges** (never hard constraints) to improve realism:
+
+- `urbanPopulationPct` → `geography.urbanicity` weighting (social.ts)
+- `gdpPerCapUsd` → education/housing stability nudges (identity.ts, domestic.ts)
+- `exportsPctGdp` + `importsPctGdp` → openness nudges for career/mobility/citizenship (identity.ts, lifestyle.ts, generator.ts)
+- `airPassengersPerCap` → abroad/mobility/travel nudges (identity.ts, lifestyle.ts, generator.ts)
+- `militaryExpenditurePctGdp` → defense/intel institution/career nudges + militarization signal (identity.ts, generator.ts)
+- `ucdp*` (conflict/deaths series) → blended security env + adversity weighting (generator.ts, lifestyle.ts)
 
 ## Implementation Patterns
 

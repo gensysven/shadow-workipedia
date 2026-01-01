@@ -58,6 +58,9 @@ export type DomesticContext = {
   // Urbanicity for home context
   urbanicity: string;
 
+  // Country indicator priors (0..1 normalized)
+  gdpPerCap01?: number;
+
   // Traits for correlates (Correlate #13: Conscientiousness ↔ Housing)
   traits?: {
     conscientiousness: number; // 0-1000
@@ -203,6 +206,7 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   // Extract traits for correlates
   const conscientiousness01 = (ctx.traits?.conscientiousness ?? 500) / 1000;
   const riskAppetite01 = latents.riskAppetite / 1000;
+  const gdp01 = Number.isFinite(ctx.gdpPerCap01 ?? NaN) ? Math.max(0, Math.min(1, ctx.gdpPerCap01 as number)) : 0.5;
 
   // Family constraints for housing
   const isMarried = ctx.maritalStatus === 'married' || ctx.maritalStatus === 'partnered';
@@ -240,6 +244,10 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (h === 'stable-rental' && tierBand === 'middle') w = 4;
     if (h === 'tenuous' && tierBand === 'mass') w = 3;
     if (h === 'transient' && roleSeedTags.includes('operative')) w = 3;
+
+    // GDP per cap indicator: higher GDP countries skew toward stable housing; lower GDP toward precarious housing.
+    if (h === 'owned' || h === 'stable-rental') w += 1.2 * gdp01;
+    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') w += 1.2 * (1 - gdp01);
 
     // Correlate #13: Conscientiousness ↔ Housing
     // High conscientiousness → more stable housing (owned, stable-rental)

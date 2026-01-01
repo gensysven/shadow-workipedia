@@ -83,6 +83,7 @@ export type LifestyleContext = {
   countryPriorsBucket?: {
     securityEnvironment01k?: Partial<Record<'conflict' | 'stateViolence' | 'militarization', Fixed>>;
     mobility01k?: Partial<Record<'passportAccess' | 'travelFrequency', Fixed>>;
+    indicators?: Record<string, unknown>;
   };
 
   // Food preferences (for vice restrictions)
@@ -718,18 +719,47 @@ function computeBackground(ctx: LifestyleContext): LifestyleResult['background']
   const resiliencePool = vocab.background?.resilienceIndicators ?? [];
 
   // Adversity probability influenced by country security environment
-  const securityEnv = priors?.countries?.[homeCountryIso3]?.buckets?.[String(cohortBucketStartYear)]?.securityEnvironment01k;
+  const bucket = priors?.countries?.[homeCountryIso3]?.buckets?.[String(cohortBucketStartYear)];
+  const securityEnv = bucket?.securityEnvironment01k;
   const conflictLevel = (securityEnv as Record<string, Fixed> | undefined)?.conflict ?? 200;
   const stateViolence = (securityEnv as Record<string, Fixed> | undefined)?.stateViolence ?? 200;
-  const adversityBaseChance = 0.20 + 0.30 * (conflictLevel / 1000) + 0.20 * (stateViolence / 1000);
+
+  // Indicator-derived conflict/state violence signal (UCDP series), blended lightly into env values.
+  const indicators = (bucket?.indicators ?? null) as Record<string, unknown> | null;
+  const n = (k: string): number | null => {
+    const v = indicators?.[k];
+    return typeof v === 'number' && Number.isFinite(v) ? v : null;
+  };
+  const activeYears = n('ucdpConflictActiveYears10y');
+  const highYears = n('ucdpConflictHighYears10y');
+  const battleDeaths = n('ucdpBattleDeathsPer100k10y');
+  const oneSidedDeaths = n('ucdpOneSidedDeathsPer100k10y');
+
+  const hasUcdp = activeYears != null || highYears != null || battleDeaths != null || oneSidedDeaths != null;
+  const clamp01Local = (v: number, fallback: number): number => (Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : fallback);
+  const active01 = activeYears != null ? clamp01Local(activeYears / 10, 0) : 0;
+  const high01 = highYears != null ? clamp01Local(highYears / 10, 0) : 0;
+  const battle01 = battleDeaths != null ? clamp01Local(Math.log1p(battleDeaths) / Math.log1p(300), 0) : 0;
+  const oneSided01 = oneSidedDeaths != null ? clamp01Local(Math.log1p(oneSidedDeaths) / Math.log1p(150), 0) : 0;
+  const conflictInd01k = hasUcdp ? clampFixed01k(1000 * clamp01Local(0.35 * active01 + 0.25 * high01 + 0.25 * battle01 + 0.15 * oneSided01, 0)) : null;
+  const stateViolenceInd01k = hasUcdp ? clampFixed01k(1000 * clamp01Local(0.55 * oneSided01 + 0.45 * active01, 0)) : null;
+
+  const effectiveConflictLevel = conflictInd01k != null ? clampFixed01k(0.75 * conflictLevel + 0.25 * conflictInd01k) : conflictLevel;
+  const effectiveStateViolence = stateViolenceInd01k != null ? clampFixed01k(0.75 * stateViolence + 0.25 * stateViolenceInd01k) : stateViolence;
+
+  const adversityBaseChance = 0.20 + 0.30 * (effectiveConflictLevel / 1000) + 0.20 * (effectiveStateViolence / 1000);
 
   const adversityWeights = adversities.map(tag => {
     let w = 1;
     if (tag === 'stable-upbringing') w += 2 * (1 - adversityBaseChance);
-    if (tag === 'conflict-exposure') w += 1.5 * (conflictLevel / 1000);
-    if (tag === 'displacement-survivor' || tag === 'refugee-background') w += 1.2 * (conflictLevel / 1000);
-    if (tag === 'persecution-survivor') w += 0.8 * (stateViolence / 1000);
-    if (tag === 'economic-hardship-history') w += 0.5;
+    if (tag === 'conflict-exposure') w += 1.5 * (effectiveConflictLevel / 1000);
+    if (tag === 'displacement-survivor' || tag === 'refugee-background') w += 1.2 * (effectiveConflictLevel / 1000);
+    if (tag === 'persecution-survivor') w += 0.8 * (effectiveStateViolence / 1000);
+
+    // Economic hardship correlates with low GDP per cap where available.
+    const gdp = n('gdpPerCapUsd');
+    const gdp01 = gdp != null && gdp > 0 ? clamp01Local((Math.log10(gdp) - 2.0) / 3.0, 0.5) : 0.5;
+    if (tag === 'economic-hardship-history') w += 0.3 + 1.0 * (1 - gdp01);
     if (tag === 'family-instability') w += 0.4;
     if (tag === 'loss-of-parent') w += 0.3;
     return { item: tag, weight: w };
@@ -754,7 +784,7 @@ function computeBackground(ctx: LifestyleContext): LifestyleResult['background']
   }
   traceSet(trace, 'background', { adversityTags, resilienceIndicators }, {
     method: 'weighted',
-    dependsOn: { homeCountryIso3, securityEnv: 'partial', traits: 'partial' },
+    dependsOn: { homeCountryIso3, securityEnv: 'partial', indicators: hasUcdp ? 'ucdp+gdp' : null, traits: 'partial' },
   });
 
   return { adversityTags, resilienceIndicators };
@@ -793,9 +823,32 @@ function computeMobility(ctx: LifestyleContext): LifestyleResult['mobility'] {
       mobilityRng.int(0, 1000) * 0.25,
   );
   const passportEnv = countryPriorsBucket?.mobility01k?.passportAccess;
+  const ind = countryPriorsBucket?.indicators ?? null;
+  const n = (k: string): number | null => {
+    const v = (ind as Record<string, unknown> | null)?.[k];
+    return typeof v === 'number' && Number.isFinite(v) ? v : null;
+  };
+  const exportsPctGdp = n('exportsPctGdp');
+  const importsPctGdp = n('importsPctGdp');
+  const airPassengersPerCap = n('airPassengersPerCap');
+  const clamp01Local = (v: number, fallback: number): number => (Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : fallback);
+  const tradeOpen01k = (exportsPctGdp != null || importsPctGdp != null)
+    ? clampFixed01k(1000 * clamp01Local(((exportsPctGdp ?? 0) + (importsPctGdp ?? 0)) / 200, 0.5))
+    : null;
+  const airTravel01k = airPassengersPerCap != null
+    ? clampFixed01k(1000 * clamp01Local(Math.log1p(airPassengersPerCap) / Math.log1p(6), 0.5))
+    : null;
+
   const passportScore = passportEnv != null
-    ? clampFixed01k(0.45 * passportEnv + 0.55 * passportModelScoreRaw)
-    : passportModelScoreRaw;
+    ? clampFixed01k(
+      0.42 * passportEnv +
+        0.48 * passportModelScoreRaw +
+        (tradeOpen01k != null ? 0.10 * tradeOpen01k : 0),
+    )
+    : clampFixed01k(
+      0.90 * passportModelScoreRaw +
+        (tradeOpen01k != null ? 0.10 * tradeOpen01k : 0),
+    );
   const passportAccessBand = band5From01k(passportScore);
 
   const travelModelScoreRaw = clampFixed01k(
@@ -808,8 +861,17 @@ function computeMobility(ctx: LifestyleContext): LifestyleResult['mobility'] {
   );
   const travelEnv = countryPriorsBucket?.mobility01k?.travelFrequency;
   const travelScore = travelEnv != null
-    ? clampFixed01k(0.50 * travelEnv + 0.50 * travelModelScoreRaw)
-    : travelModelScoreRaw;
+    ? clampFixed01k(
+      0.45 * travelEnv +
+        0.40 * travelModelScoreRaw +
+        (airTravel01k != null ? 0.10 * airTravel01k : 0) +
+        (tradeOpen01k != null ? 0.05 * tradeOpen01k : 0),
+    )
+    : clampFixed01k(
+      0.85 * travelModelScoreRaw +
+        (airTravel01k != null ? 0.10 * airTravel01k : 0) +
+        (tradeOpen01k != null ? 0.05 * tradeOpen01k : 0),
+    );
   const travelFrequencyBand = band5From01k(travelScore);
 
   traceSet(trace, 'mobility', { mobilityTag, passportAccessBand, travelFrequencyBand }, {

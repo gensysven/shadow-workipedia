@@ -84,6 +84,7 @@ export type IdentityContext = {
     languages01k?: Record<string, Fixed>;
     educationTrackWeights?: Record<string, number>;
     careerTrackWeights?: Record<string, number>;
+    indicators?: Record<string, unknown>;
   };
   cohortBucketStartYear: number;
 
@@ -196,6 +197,19 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
   };
 
   const roleNudgedCareer = roleSeedTags.map(r => careerNudges[r]).find(Boolean);
+  // Country indicator priors (optional; used as light nudges, never hard constraints)
+  const indicators = countryPriorsBucket?.indicators;
+  const gdpPerCapUsd = typeof indicators?.gdpPerCapUsd === 'number' && Number.isFinite(indicators.gdpPerCapUsd) ? indicators.gdpPerCapUsd : null;
+  const exportsPctGdp = typeof indicators?.exportsPctGdp === 'number' && Number.isFinite(indicators.exportsPctGdp) ? indicators.exportsPctGdp : null;
+  const importsPctGdp = typeof indicators?.importsPctGdp === 'number' && Number.isFinite(indicators.importsPctGdp) ? indicators.importsPctGdp : null;
+  const airPassengersPerCap = typeof indicators?.airPassengersPerCap === 'number' && Number.isFinite(indicators.airPassengersPerCap) ? indicators.airPassengersPerCap : null;
+  const militaryExpenditurePctGdp = typeof indicators?.militaryExpenditurePctGdp === 'number' && Number.isFinite(indicators.militaryExpenditurePctGdp) ? indicators.militaryExpenditurePctGdp : null;
+
+  const gdpPerCap01 = gdpPerCapUsd != null && gdpPerCapUsd > 0 ? clamp01((Math.log10(gdpPerCapUsd) - 2.0) / 3.0, 0.5) : 0.5;
+  const tradeOpen01 = (exportsPctGdp != null || importsPctGdp != null) ? clamp01(((exportsPctGdp ?? 0) + (importsPctGdp ?? 0)) / 200, 0.5) : 0.5;
+  const airTravel01 = airPassengersPerCap != null ? clamp01(Math.log1p(airPassengersPerCap) / Math.log1p(6), 0.5) : 0.5;
+  const militarization01 = militaryExpenditurePctGdp != null ? clamp01(Math.log1p(militaryExpenditurePctGdp) / Math.log1p(10), 0.5) : 0.5;
+
   const careerTrackTag = (() => {
     if (careerTracks.length === 0) return roleNudgedCareer ?? 'civil-service';
     if (roleNudgedCareer && careerTracks.includes(roleNudgedCareer)) return roleNudgedCareer;
@@ -235,6 +249,16 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
         if (['military'].includes(t)) w *= 0.7;
       }
 
+      // Indicator nudges (trade openness, air travel, militarization, GDP)
+      // These are intentionally small to avoid overfitting.
+      if (tradeOpen01 > 0.65 && ['foreign-service', 'corporate-ops', 'law'].includes(t)) w += 0.6 * (tradeOpen01 - 0.65) / 0.35;
+      if (airTravel01 > 0.65 && ['foreign-service', 'journalism', 'intelligence'].includes(t)) w += 0.5 * (airTravel01 - 0.65) / 0.35;
+      if (militarization01 > 0.65 && ['military', 'intelligence'].includes(t)) w += 0.8 * (militarization01 - 0.65) / 0.35;
+      if (gdpPerCapUsd != null) {
+        if (gdpPerCap01 > 0.7 && ['academia', 'engineering', 'corporate-ops'].includes(t)) w += 0.4 * (gdpPerCap01 - 0.7) / 0.3;
+        if (gdpPerCap01 < 0.35 && ['ngo', 'organized-labor', 'public-health'].includes(t)) w += 0.4 * (0.35 - gdpPerCap01) / 0.35;
+      }
+
       const env = countryPriorsBucket?.careerTrackWeights?.[t];
       if (typeof env === 'number' && Number.isFinite(env) && env > 0) w *= env;
       return { item: t, weight: w };
@@ -258,10 +282,10 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
   // Elite tier has much higher access to advanced education (graduate, doctorate)
   // Mass tier faces barriers to higher education, more likely trade/self-taught
   // Middle tier has moderate access, undergraduate common
-  const educationTrackTag = (() => {
-    const pool = educationTracks.length ? educationTracks : ['secondary', 'undergraduate', 'graduate', 'trade-certification'];
-    const weights = pool.map((t) => {
-      let w = 1;
+	  const educationTrackTag = (() => {
+	    const pool = educationTracks.length ? educationTracks : ['secondary', 'undergraduate', 'graduate', 'trade-certification'];
+	    const weights = pool.map((t) => {
+	      let w = 1;
       // Strong tier-education correlate: elite → advanced degrees, mass → practical training
       if (tierBand === 'elite') {
         if (['graduate', 'doctorate'].includes(t)) w += 4.5; // Elite: strong preference for advanced degrees
@@ -277,16 +301,25 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
         if (['undergraduate'].includes(t)) w += 0.8;
         if (['graduate', 'doctorate'].includes(t)) w *= 0.2; // Rare for mass tier
       }
-      if (careerTrackTag === 'military' && t === 'military-academy') w += 3.0;
-      if (careerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
-      // HARD CONSTRAINT: Academia requires advanced education (graduate or doctorate)
-      if (careerTrackTag === 'academia') {
-        if (['graduate', 'doctorate'].includes(t)) w += 6.0; // Strong preference for advanced degrees
-        if (!['graduate', 'doctorate', 'undergraduate'].includes(t)) {
-          return { item: t, weight: 0 }; // Cannot be in academia with only secondary/trade/self-taught
-        }
-        if (t === 'undergraduate') w *= 0.1; // Very rare to stay in academia with only undergrad
-      }
+	      if (careerTrackTag === 'military' && t === 'military-academy') w += 3.0;
+	      if (careerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
+	      // Indicator nudges: richer countries → more higher-ed, poorer → more trade/self-taught.
+	      if (gdpPerCapUsd != null) {
+	        if (gdpPerCap01 > 0.7 && ['undergraduate', 'graduate', 'doctorate'].includes(t)) w += 1.2 * (gdpPerCap01 - 0.7) / 0.3;
+	        if (gdpPerCap01 < 0.35 && ['trade-certification', 'self-taught', 'secondary'].includes(t)) w += 1.2 * (0.35 - gdpPerCap01) / 0.35;
+	      }
+	      // High militarization slightly boosts military-academy likelihood where available.
+	      if (militarization01 > 0.7 && t === 'military-academy') w += 0.6 * (militarization01 - 0.7) / 0.3;
+	      // High trade openness slightly boosts civil-service/foreign-facing tracks.
+	      if (tradeOpen01 > 0.7 && ['civil-service-track', 'undergraduate', 'graduate'].includes(t)) w += 0.4 * (tradeOpen01 - 0.7) / 0.3;
+	      // HARD CONSTRAINT: Academia requires advanced education (graduate or doctorate)
+	      if (careerTrackTag === 'academia') {
+	        if (['graduate', 'doctorate'].includes(t)) w += 6.0; // Strong preference for advanced degrees
+	        if (!['graduate', 'doctorate', 'undergraduate'].includes(t)) {
+	          return { item: t, weight: 0 }; // Cannot be in academia with only secondary/trade/self-taught
+	        }
+	        if (t === 'undergraduate') w *= 0.1; // Very rare to stay in academia with only undergrad
+	      }
       if (inst01 > 0.65 && ['graduate', 'civil-service-track'].includes(t)) w += 1.2;
       const env = countryPriorsBucket?.educationTrackWeights?.[t];
       if (typeof env === 'number' && Number.isFinite(env) && env > 0) w *= env;
@@ -540,6 +573,8 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
         (cosmo01 > 0.45 ? 1 : 0) +
         (cosmo01 > 0.78 ? 1 : 0) +
         (homeDiversity01 > 0.40 ? 1 : 0) +
+        (tradeOpen01 > 0.75 ? 1 : 0) +
+        (airTravel01 > 0.75 ? 1 : 0) +
         (careerTrackTag === 'foreign-service' ? 1 : 0) +
         (educationTrackTag === 'graduate' || educationTrackTag === 'doctorate' ? 1 : 0),
     ),
