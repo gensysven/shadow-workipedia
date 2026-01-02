@@ -54,7 +54,11 @@ export type AppearanceContext = {
 /** Output result from appearance computation */
 export type AppearanceResult = {
   heightBand: HeightBand;
+  heightCm: number;
+  heightIn: number;
   buildTag: string;
+  weightKg: number;
+  weightLb: number;
   hair: { color: string; texture: string };
   eyes: { color: string };
   voiceTag: string;
@@ -76,6 +80,53 @@ const VOICE_BIASES = {
 
 const PUBLIC_VOICES = ['warm', 'engaging', 'animated', 'bright', 'charismatic'];
 const OPSEC_VOICES = ['soft-spoken', 'quiet', 'murmured', 'unremarkable', 'neutral'];
+
+// ============================================================================
+// Height/Weight Ranges
+// ============================================================================
+
+const HEIGHT_BAND_CM: Record<HeightBand, { min: number; max: number }> = {
+  very_short: { min: 145, max: 159 },
+  short: { min: 160, max: 169 },
+  average: { min: 170, max: 179 },
+  tall: { min: 180, max: 189 },
+  very_tall: { min: 190, max: 205 },
+};
+
+const BUILD_BMI_RANGES: Record<string, { min: number; max: number }> = {
+  lean: { min: 19, max: 22 },
+  slim: { min: 18, max: 21 },
+  wiry: { min: 18, max: 21 },
+  lanky: { min: 17.5, max: 20.5 },
+  'long-limbed': { min: 19, max: 22 },
+  "runner's build": { min: 18.5, max: 21.5 },
+  athletic: { min: 21, max: 24.5 },
+  muscular: { min: 23, max: 27 },
+  brawny: { min: 25, max: 30 },
+  'broad-shouldered': { min: 23, max: 27 },
+  'barrel-chested': { min: 24, max: 30 },
+  sturdy: { min: 23, max: 27 },
+  solid: { min: 24, max: 28 },
+  stocky: { min: 24, max: 29 },
+  compact: { min: 23, max: 28 },
+  curvy: { min: 23, max: 29 },
+  heavyset: { min: 27, max: 33 },
+  'soft-built': { min: 24, max: 30 },
+  sinewy: { min: 21, max: 25 },
+  graceful: { min: 19.5, max: 23 },
+};
+
+function pickHeightCm(rng: Rng, band: HeightBand): number {
+  const range = HEIGHT_BAND_CM[band] ?? HEIGHT_BAND_CM.average;
+  return rng.int(range.min, range.max);
+}
+
+function pickWeightKg(rng: Rng, buildTag: string, heightCm: number): number {
+  const range = BUILD_BMI_RANGES[buildTag] ?? { min: 21, max: 26 };
+  const bmi = range.min + rng.next01() * (range.max - range.min);
+  const heightM = heightCm / 100;
+  return Math.round(bmi * heightM * heightM);
+}
 
 // ============================================================================
 // Culture-Appearance Distributions
@@ -744,9 +795,13 @@ export function computeAppearance(ctx: AppearanceContext): AppearanceResult {
 
   // Height band with country priors
   const heightBand = selectHeightBand(rng, vocab, countryPriors);
+  const heightCm = pickHeightCm(rng, heightBand);
+  const heightIn = Math.round(heightCm / 2.54);
 
   // Build tag - uniform selection (avoids cultural stereotypes)
   const buildTag = rng.pick(vocab.appearance.buildTags);
+  const weightKg = pickWeightKg(rng, buildTag, heightCm);
+  const weightLb = Math.round(weightKg * 2.20462);
 
   // Hair color/texture with culture + age + expressiveness correlations
   const hairColor = selectHairColor(rng, vocab.appearance.hairColors, age, express01, public01, homeCulture);
@@ -774,12 +829,12 @@ export function computeAppearance(ctx: AppearanceContext): AppearanceResult {
   traceSet(
     trace,
     'appearance',
-    { heightBand, buildTag, hair, eyes, voiceTag, distinguishingMarks },
+    { heightBand, heightCm, heightIn, buildTag, weightKg, weightLb, hair, eyes, voiceTag, distinguishingMarks },
     {
       method: 'pick+weights',
       dependsOn: { facet: 'appearance', age, express01, opsec01, public01, homeCulture },
     },
   );
 
-  return { heightBand, buildTag, hair, eyes, voiceTag, distinguishingMarks };
+  return { heightBand, heightCm, heightIn, buildTag, weightKg, weightLb, hair, eyes, voiceTag, distinguishingMarks };
 }

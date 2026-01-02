@@ -2224,7 +2224,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
     appearance: {
       heightBand: appearanceResult.heightBand,
+      heightCm: appearanceResult.heightCm,
+      heightIn: appearanceResult.heightIn,
       buildTag: appearanceResult.buildTag,
+      weightKg: appearanceResult.weightKg,
+      weightLb: appearanceResult.weightLb,
       hair: appearanceResult.hair,
       eyes: appearanceResult.eyes,
       voiceTag: appearanceResult.voiceTag,

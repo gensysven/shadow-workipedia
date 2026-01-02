@@ -780,7 +780,11 @@ export type GeneratedAgent = {
 
   appearance: {
     heightBand: HeightBand;
+    heightCm: number;
+    heightIn: number;
     buildTag: string;
+    weightKg: number;
+    weightLb: number;
     hair: { color: string; texture: string };
     eyes: { color: string };
     voiceTag: string;

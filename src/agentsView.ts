@@ -800,8 +800,9 @@ function renderAgent(
               </summary>
               <div class="agent-section-body">
                 <div class="agent-kv">
-                  <div class="kv-row"><span class="kv-k">Height</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.heightBand))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Height</span><span class="kv-v">${escapeHtml(`${agent.appearance.heightCm} cm / ${agent.appearance.heightIn} in (${toTitleCaseWords(agent.appearance.heightBand)})`)}</span></div>
                   <div class="kv-row"><span class="kv-k">Build</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.buildTag))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Weight</span><span class="kv-v">${escapeHtml(`${agent.appearance.weightKg} kg / ${agent.appearance.weightLb} lb`)}</span></div>
                   <div class="kv-row"><span class="kv-k">Hair</span><span class="kv-v">${escapeHtml(`${toTitleCaseWords(agent.appearance.hair.color)}, ${toTitleCaseWords(agent.appearance.hair.texture)}`)}</span></div>
                   <div class="kv-row"><span class="kv-k">Eyes</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.eyes.color))}</span></div>
                   <div class="kv-row"><span class="kv-k">Voice</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.voiceTag))}</span></div>
