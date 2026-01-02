@@ -1,6 +1,7 @@
 import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type TierBand } from './agent';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
+import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
 
 type RosterItem = {
   id: string;
@@ -260,6 +261,19 @@ function humanizeAgentForExport(agent: GeneratedAgent, shadowByIso3?: ReadonlyMa
       fitnessBand: toTitleCaseWords(agent.health.fitnessBand),
       treatmentTags: agent.health.treatmentTags.map(toTitleCaseWords),
     },
+    everydayLife: {
+      thirdPlaces: agent.everydayLife.thirdPlaces.map(toTitleCaseWords),
+      commuteModes: agent.everydayLife.commuteModes.map(toTitleCaseWords),
+      weeklyAnchors: agent.everydayLife.weeklyAnchors.map(toTitleCaseWords),
+      pettyHabits: agent.everydayLife.pettyHabits.map(toTitleCaseWords),
+      caregivingObligations: agent.everydayLife.caregivingObligations.map(toTitleCaseWords),
+    },
+    memoryTrauma: {
+      memoryTags: agent.memoryTrauma.memoryTags.map(toTitleCaseWords),
+      traumaTags: agent.memoryTrauma.traumaTags.map(toTitleCaseWords),
+      triggerPatterns: agent.memoryTrauma.triggerPatterns.map(toTitleCaseWords),
+      responsePatterns: agent.memoryTrauma.responsePatterns.map(toTitleCaseWords),
+    },
     covers: {
       coverAptitudeTags: agent.covers.coverAptitudeTags.map(toTitleCaseWords),
     },
@@ -431,6 +445,8 @@ function renderAgent(
   );
   const narrative = narrativeResult.html;
   const healthSummary = buildHealthSummary(agent.health, toTitleCaseWords);
+  const everydaySummary = buildEverydayLifeSummary(agent.everydayLife, toTitleCaseWords);
+  const memorySummary = buildMemoryTraumaSummary(agent.memoryTrauma, toTitleCaseWords);
 
   const platformDiet = Object.entries(agent.preferences.media.platformDiet)
     .map(([k, v]) => `<li><span class="kv-k">${escapeHtml(toTitleCaseWords(k))}</span><span class="kv-v">${escapeHtml(formatFixed01k(v))}</span></li>`)
@@ -761,6 +777,22 @@ function renderAgent(
               </div>
             </details>
 
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:everydayLife" ${isDetailsOpen('profile:lifestyle:everydayLife', false) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Everyday life</span>
+                <span class="agent-section-hint">${escapeHtml(everydaySummary.commuteModes)}</span>
+              </summary>
+              <div class="agent-section-body">
+                <div class="agent-kv">
+                  <div class="kv-row"><span class="kv-k">Third places</span><span class="kv-v">${escapeHtml(everydaySummary.thirdPlaces)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Commute</span><span class="kv-v">${escapeHtml(everydaySummary.commuteModes)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Weekly anchors</span><span class="kv-v">${escapeHtml(everydaySummary.weeklyAnchors)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Petty habits</span><span class="kv-v">${escapeHtml(everydaySummary.pettyHabits)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Caregiving</span><span class="kv-v">${escapeHtml(everydaySummary.caregivingObligations)}</span></div>
+                </div>
+              </div>
+            </details>
+
             <details class="agent-card agent-section" data-agents-details="profile:lifestyle:appearance" ${isDetailsOpen('profile:lifestyle:appearance', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Appearance</span>
@@ -774,6 +806,21 @@ function renderAgent(
                   <div class="kv-row"><span class="kv-k">Eyes</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.eyes.color))}</span></div>
                   <div class="kv-row"><span class="kv-k">Voice</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.appearance.voiceTag))}</span></div>
                   <div class="kv-row"><span class="kv-k">Marks</span><span class="kv-v">${escapeHtml(agent.appearance.distinguishingMarks.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="agent-card agent-section" data-agents-details="profile:lifestyle:memoryTrauma" ${isDetailsOpen('profile:lifestyle:memoryTrauma', false) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Memory &amp; trauma</span>
+                <span class="agent-section-hint">${escapeHtml(memorySummary.traumaTags)}</span>
+              </summary>
+              <div class="agent-section-body">
+                <div class="agent-kv">
+                  <div class="kv-row"><span class="kv-k">Memories</span><span class="kv-v">${escapeHtml(memorySummary.memoryTags)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Trauma</span><span class="kv-v">${escapeHtml(memorySummary.traumaTags)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Triggers</span><span class="kv-v">${escapeHtml(memorySummary.triggerPatterns)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Responses</span><span class="kv-v">${escapeHtml(memorySummary.responsePatterns)}</span></div>
                 </div>
               </div>
             </details>
