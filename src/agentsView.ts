@@ -927,23 +927,6 @@ function renderAgent(
               </div>
             </details>
 
-            <details class="agent-card agent-section" data-agents-details="profile:constraints:identityKit" ${isDetailsOpen('profile:constraints:identityKit', false) ? 'open' : ''}>
-              <summary class="agent-section-summary">
-                <span class="agent-section-title">Identity kit</span>
-                <span class="agent-section-hint">${escapeHtml(agent.logistics.identityKit[0]?.item ? toTitleCaseWords(agent.logistics.identityKit[0].item) : '—')}</span>
-              </summary>
-              <div class="agent-section-body">
-                <div class="agent-kv">
-                  ${agent.logistics.identityKit.map(i => `
-                    <div class="kv-row">
-                      <span class="kv-k">${escapeHtml(toTitleCaseWords(i.item))}</span>
-                      <span class="kv-v">${escapeHtml(toTitleCaseWords(i.security))}${i.compromised ? ' (compromised)' : ''}</span>
-                    </div>
-                  `).join('')}
-                </div>
-              </div>
-            </details>
-
             <details class="agent-card agent-section" data-agents-details="profile:constraints:deepSimDetails" ${isDetailsOpen('profile:constraints:deepSimDetails', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Deep sim details</span>

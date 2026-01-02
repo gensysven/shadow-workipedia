@@ -107,7 +107,7 @@ const BUILD_BMI_RANGES: Record<string, { min: number; max: number }> = {
   'barrel-chested': { min: 24, max: 30 },
   sturdy: { min: 23, max: 27 },
   solid: { min: 24, max: 28 },
-  stocky: { min: 24, max: 29 },
+  stocky: { min: 24.5, max: 30 },
   compact: { min: 23, max: 28 },
   curvy: { min: 23, max: 29 },
   heavyset: { min: 27, max: 33 },
@@ -125,7 +125,12 @@ function pickWeightKg(rng: Rng, buildTag: string, heightCm: number): number {
   const range = BUILD_BMI_RANGES[buildTag] ?? { min: 21, max: 26 };
   const bmi = range.min + rng.next01() * (range.max - range.min);
   const heightM = heightCm / 100;
-  return Math.round(bmi * heightM * heightM);
+  let weightKg = Math.round(bmi * heightM * heightM);
+  const minKg = Math.ceil(range.min * heightM * heightM);
+  const maxKg = Math.floor(range.max * heightM * heightM);
+  if (weightKg < minKg) weightKg = minKg;
+  if (weightKg > maxKg) weightKg = maxKg;
+  return weightKg;
 }
 
 // ============================================================================

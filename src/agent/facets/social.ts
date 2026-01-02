@@ -314,10 +314,10 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     let w = 1;
     // Under 25: predominantly single
     if (age < 25) {
-      if (m === 'single') w = 80;
-      if (m === 'partnered') w = 15;
-      if (m === 'married') w = 3;
-      if (m === 'divorced' || m === 'widowed') w = 0.1;
+      if (m === 'single') w = 90;
+      if (m === 'partnered') w = 10;
+      if (m === 'married') w = 0.6;
+      if (m === 'divorced' || m === 'widowed') w = 0.05;
     }
     // 25-30: transition period
     else if (age < 30) {
@@ -356,11 +356,15 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     if (m === 'single' && roleSeedTags.includes('operative')) w *= 1.3; // Operatives more likely single
     return { item: m as MaritalStatus, weight: w };
   });
-  const maritalStatus = weightedPick(familyRng, maritalWeights) as MaritalStatus;
+  let maritalStatus = weightedPick(familyRng, maritalWeights) as MaritalStatus;
+  if (age < 22 && (maritalStatus === 'married' || maritalStatus === 'divorced' || maritalStatus === 'widowed')) {
+    maritalStatus = familyRng.next01() < 0.25 ? 'partnered' : 'single';
+  }
 
   // Dependents strongly correlated with age: peak childbearing 28-45, teenagers/adult children 45+
   const dependentChance = (() => {
-    if (age < 25) return 0.05;
+    if (age < 22) return maritalStatus === 'partnered' ? 0.03 : 0.01;
+    if (age < 25) return maritalStatus === 'married' ? 0.10 : 0.04;
     if (age < 28) return maritalStatus === 'married' ? 0.25 : 0.08;
     if (age < 35) return maritalStatus === 'married' ? 0.65 : maritalStatus === 'partnered' ? 0.35 : 0.12;
     if (age < 45) return maritalStatus === 'married' ? 0.80 : maritalStatus === 'divorced' ? 0.60 : 0.20;
@@ -443,7 +447,8 @@ export function computeSocial(ctx: SocialContext): SocialResult {
 
   // Age-based network role modifiers
   const ageNetworkBias = (() => {
-    if (age < 30) return { isolate: 0.3, peripheral: 1.5, connector: 0.8, hub: 0.2, broker: 0.4, gatekeeper: 0.1 };
+    if (age < 25) return { isolate: 0.4, peripheral: 2.4, connector: 0.6, hub: 0.08, broker: 0.12, gatekeeper: 0.05 };
+    if (age < 30) return { isolate: 0.3, peripheral: 1.7, connector: 0.9, hub: 0.25, broker: 0.5, gatekeeper: 0.15 };
     if (age < 40) return { isolate: 0.5, peripheral: 0.8, connector: 1.5, hub: 1.0, broker: 1.2, gatekeeper: 0.6 };
     if (age < 50) return { isolate: 0.8, peripheral: 0.6, connector: 1.2, hub: 1.5, broker: 1.4, gatekeeper: 1.2 };
     return { isolate: 1.0, peripheral: 0.5, connector: 0.8, hub: 1.2, broker: 1.0, gatekeeper: 2.0 }; // 50+: gatekeepers
@@ -466,7 +471,14 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     { item: 'broker', weight: (0.5 + 2.5 * deception01 + 0.8 * empathy01 + (roleSeedTags.includes('operative') ? 1.5 : 0)) * ageNetworkBias.broker },
     { item: 'gatekeeper', weight: (0.5 + 2.0 * inst01 + 0.5 * deception01 + (roleSeedTags.includes('security') ? 2.0 : 0)) * ageNetworkBias.gatekeeper },
   ];
-  const networkRole = weightedPick(networkRng, networkRoleWeights) as NetworkRole;
+  let networkRole = weightedPick(networkRng, networkRoleWeights) as NetworkRole;
+  if (age < 25 && (networkRole === 'hub' || networkRole === 'broker' || networkRole === 'gatekeeper')) {
+    const softened = networkRoleWeights.map(w => ({
+      item: w.item,
+      weight: w.item === 'hub' || w.item === 'broker' || w.item === 'gatekeeper' ? 0 : w.weight,
+    }));
+    networkRole = weightedPick(networkRng, softened) as NetworkRole;
+  }
 
   const factionAlignment = (() => {
     // Operatives and security types are less likely to have public faction alignment

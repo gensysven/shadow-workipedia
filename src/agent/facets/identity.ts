@@ -299,7 +299,8 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
       if (tierBand === 'mass') {
         if (['secondary', 'trade-certification', 'self-taught'].includes(t)) w += 3.5; // Mass: practical paths
         if (['undergraduate'].includes(t)) w += 0.8;
-        if (['graduate', 'doctorate'].includes(t)) w *= 0.2; // Rare for mass tier
+        if (t === 'graduate') w *= 0.12; // Rare for mass tier
+        if (t === 'doctorate') w *= 0.05; // Extremely rare for mass tier
       }
 	      if (careerTrackTag === 'military' && t === 'military-academy') w += 3.0;
 	      if (careerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
@@ -325,7 +326,11 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
       if (typeof env === 'number' && Number.isFinite(env) && env > 0) w *= env;
       return { item: t, weight: w };
     });
-    const picked = weightedPick(identityRng, weights);
+    let picked = weightedPick(identityRng, weights);
+    if (tierBand === 'mass' && picked === 'doctorate') {
+      const keepChance = gdpPerCap01 > 0.8 ? 0.15 : 0.05;
+      if (identityRng.next01() > keepChance) picked = 'graduate';
+    }
     if (trace) {
       trace.derived.educationTrackWeightsTop = [...weights]
         .sort((a, b) => b.weight - a.weight)
