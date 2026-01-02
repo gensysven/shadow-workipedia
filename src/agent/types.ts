@@ -501,6 +501,9 @@ export type AgentVocabV1 = {
     selfStories?: string[];
     socialMasks?: string[];
   };
+  dreamsGoals?: {
+    dreams?: string[];
+  };
   knowledgeIgnorance?: {
     knowledgeStrengths?: string[];
     knowledgeGaps?: string[];
@@ -1112,6 +1115,7 @@ export type GeneratedAgent = {
     secondaryGoals: GoalType[];
     fears: FearType[];
     coreNeed: string; // narrative description
+    dreams: string[];
   };
 
   // Attachment style - how they form relationships

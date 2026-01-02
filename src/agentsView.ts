@@ -528,6 +528,14 @@ function renderAgent(
     `)
     .join('');
 
+  const dreams = agent.motivations?.dreams ?? [];
+  const dreamsPills = dreams.length
+    ? `<span class="agent-pill-wrap">${dreams.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
+    : `<span class="agent-inline-muted">—</span>`;
+  const secondaryGoals = agent.motivations.secondaryGoals.length
+    ? agent.motivations.secondaryGoals.map(toTitleCaseWords).join(', ')
+    : '—';
+
   const topThoughts = [...preview.thoughts]
     .slice()
     .sort((a, b) => (b.intensity01k - a.intensity01k) || a.tag.localeCompare(b.tag))
@@ -656,6 +664,16 @@ function renderAgent(
               <h3>Cognitive</h3>
               <div class="agent-kv">
                 ${cognitiveRows || `<div class="agent-inline-muted">—</div>`}
+              </div>
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Dreams &amp; goals</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Primary</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.motivations.primaryGoal))}</span></div>
+                <div class="kv-row"><span class="kv-k">Secondary</span><span class="kv-v">${escapeHtml(secondaryGoals)}</span></div>
+                <div class="kv-row"><span class="kv-k">Core need</span><span class="kv-v">${escapeHtml(agent.motivations.coreNeed)}</span></div>
+                <div class="kv-row"><span class="kv-k">Dreams</span><span class="kv-v">${dreamsPills}</span></div>
               </div>
             </section>
 

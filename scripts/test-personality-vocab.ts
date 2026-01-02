@@ -88,6 +88,14 @@ function run(): void {
     'knowledgeIgnorance.informationBarriers',
   );
 
+  console.log('Checking dreams/goals vocab...');
+  const dreamsGoals = (vocab as any).dreamsGoals as { dreams?: string[] } | undefined;
+  assertIncludes(
+    dreamsGoals?.dreams,
+    "Become the world's greatest sniper",
+    'dreamsGoals.dreams',
+  );
+
   console.log('Checking affect/self-concept vocab...');
   assertIncludes(vocab.affect?.baselineAffects, 'numb', 'affect.baselineAffects');
   assertIncludes(vocab.affect?.regulationStyles, 'meditates', 'affect.regulationStyles');
@@ -215,6 +223,11 @@ function run(): void {
     if (typeof value !== 'number' || value < 0 || value > 1000) {
       throw new Error(`Expected depth ${label} to be in range 0-1000.`);
     }
+  }
+
+  const dreams = (agent as any).motivations?.dreams as string[] | undefined;
+  if (!dreams || dreams.length < 1 || dreams.length > 3) {
+    throw new Error('Expected motivations.dreams to include 1-3 items.');
   }
 
   console.log('Personality vocab test passed.');

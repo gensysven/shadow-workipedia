@@ -1975,6 +1975,10 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   });
   const fears = weightedPickKUnique(newFacetsRng, fearWeights, newFacetsRng.int(1, 3)) as FearType[];
 
+  // Dreams and goals (narrative ambitions)
+  const dreamsPool = vocab.dreamsGoals?.dreams ?? [];
+  const dreams = dreamsPool.length ? newFacetsRng.pickK(dreamsPool, newFacetsRng.int(1, 3)) : [];
+
   // Core need narrative
   const coreNeedTemplates = [
     `To prove ${primaryGoal === 'recognition' ? 'their worth' : primaryGoal === 'mastery' ? 'their competence' : 'themselves'}`,
@@ -1984,7 +1988,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   ];
   const coreNeed = newFacetsRng.pick(coreNeedTemplates);
 
-  const motivations = { primaryGoal, secondaryGoals, fears, coreNeed };
+  const motivations = { primaryGoal, secondaryGoals, fears, coreNeed, dreams };
   traceSet(trace, 'motivations', motivations, { method: 'weighted', dependsOn: { tierBand, roleSeedTags, age } });
 
   // --- Attachment Style ---
