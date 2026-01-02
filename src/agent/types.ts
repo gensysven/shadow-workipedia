@@ -603,10 +603,64 @@ export type NervousHabit = 'nail-biting' | 'hair-touching' | 'fidgeting' | 'paci
 // === ORACLE-RECOMMENDED FACETS ===
 
 // Everyday life anchors
-export type CommuteMode = 'walk' | 'bicycle' | 'motorbike' | 'bus' | 'metro' | 'driver' | 'rideshare' | 'mixed';
-export type WeeklyAnchor = 'friday-prayer' | 'sunday-service' | 'saturday-synagogue' | 'weekly-market' | 'sports-match' | 'family-dinner' | 'night-class' | 'volunteer-shift' | 'therapy-session' | 'book-club' | 'none';
-export type CaregivingObligation = 'elder-care' | 'child-pickup' | 'sibling-support' | 'disabled-family' | 'foster-care' | 'none';
-export type PettyHabit = 'always-early' | 'always-late' | 'forgets-keys' | 'checks-locks' | 'overpacks' | 'skips-breakfast' | 'double-checks-everything' | 'loses-phone' | 'hoards-receipts' | 'leaves-lights-on';
+export type CommuteMode =
+  | 'walk'
+  | 'bicycle'
+  | 'motorbike'
+  | 'bus'
+  | 'metro'
+  | 'train'
+  | 'driver'
+  | 'rideshare'
+  | 'scooter'
+  | 'carpool'
+  | 'remote'
+  | 'mixed';
+export type WeeklyAnchor =
+  | 'friday-prayer'
+  | 'sunday-service'
+  | 'saturday-synagogue'
+  | 'weekly-market'
+  | 'market-day'
+  | 'religious-service'
+  | 'sports-match'
+  | 'family-dinner'
+  | 'meal-prep'
+  | 'group-training'
+  | 'board-game-night'
+  | 'night-class'
+  | 'volunteer-shift'
+  | 'therapy-session'
+  | 'book-club'
+  | 'none';
+export type CaregivingObligation =
+  | 'elder-care'
+  | 'child-pickup'
+  | 'childcare'
+  | 'sibling-support'
+  | 'disabled-family'
+  | 'pet-care'
+  | 'foster-care'
+  | 'none';
+export type PettyHabit =
+  | 'always-early'
+  | 'always-late'
+  | 'multiple-alarms'
+  | 'coffee-first'
+  | 'to-do-lists'
+  | 'headphones-always'
+  | 'desk-eater'
+  | 'cluttered-desk'
+  | 'organized-desk'
+  | 'forgets-keys'
+  | 'forgets-meals'
+  | 'checks-locks'
+  | 'overpacks'
+  | 'skips-breakfast'
+  | 'double-checks-everything'
+  | 'loses-phone'
+  | 'hoards-receipts'
+  | 'leaves-lights-on';
 
 // Community memberships
 export type CommunityType = 'professional-society' | 'alumni-network' | 'religious-committee' | 'union-chapter' | 'hobby-club' | 'sports-league' | 'mutual-aid' | 'veterans-group' | 'parent-group' | 'political-org' | 'online-forum' | 'gaming-guild' | 'neighborhood-watch';

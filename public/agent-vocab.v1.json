@@ -8492,5 +8492,80 @@
         }
       }
     }
+  },
+  "everydayLife": {
+    "thirdPlaces": [
+      "cafe",
+      "gym",
+      "park",
+      "library",
+      "bar",
+      "pub",
+      "tea-house",
+      "market",
+      "community-center",
+      "mosque",
+      "church",
+      "temple",
+      "coworking-space",
+      "sports-club",
+      "diner",
+      "barber-shop",
+      "community-garden",
+      "neighborhood-stoop",
+      "bookstore",
+      "night-market"
+    ],
+    "commuteModes": [
+      "walk",
+      "bicycle",
+      "motorbike",
+      "bus",
+      "metro",
+      "train",
+      "driver",
+      "rideshare",
+      "scooter",
+      "carpool",
+      "remote",
+      "mixed"
+    ],
+    "weeklyAnchors": [
+      "family-dinner",
+      "meal-prep",
+      "sports-match",
+      "volunteer-shift",
+      "therapy-session",
+      "night-class",
+      "religious-service",
+      "market-day",
+      "group-training",
+      "board-game-night",
+      "none"
+    ],
+    "pettyHabits": [
+      "always-early",
+      "always-late",
+      "multiple-alarms",
+      "coffee-first",
+      "to-do-lists",
+      "headphones-always",
+      "desk-eater",
+      "cluttered-desk",
+      "organized-desk",
+      "skips-breakfast",
+      "checks-locks",
+      "double-checks-everything",
+      "forgets-keys",
+      "forgets-meals"
+    ],
+    "caregivingObligations": [
+      "elder-care",
+      "childcare",
+      "sibling-support",
+      "disabled-family",
+      "pet-care",
+      "none"
+    ]
   }
 }

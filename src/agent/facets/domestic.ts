@@ -147,7 +147,11 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   // High social battery → more third places (extroverts frequent multiple social venues)
   // Low social battery → fewer third places (introverts need fewer social outlets)
   const socialBattery01 = latents.socialBattery / 1000;
-  const thirdPlaceCountBase = socialBattery01 < 0.3 ? 1 : socialBattery01 < 0.6 ? 2 : 3;
+  const urbanicityAdjust =
+    (urbanicity === 'megacity' || urbanicity === 'capital' || urbanicity === 'major-city') ? 1
+      : (urbanicity === 'rural' || urbanicity === 'rural-remote' || urbanicity === 'small-town') ? -1
+        : 0;
+  const thirdPlaceCountBase = (socialBattery01 < 0.3 ? 1 : socialBattery01 < 0.6 ? 2 : 3) + urbanicityAdjust;
   const thirdPlaceCountVariance = lifeRng.int(0, 1);
   const thirdPlaceCount = Math.max(1, Math.min(thirdPlacePool.length, thirdPlaceCountBase + thirdPlaceCountVariance));
   const thirdPlaces = lifeRng.pickK(thirdPlacePool, thirdPlaceCount);
@@ -162,6 +166,7 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (c === 'bus' && tierBand === 'mass') w = 3;
     if (c === 'walk' && urbanicity === 'small-town') w = 3;
     if (c === 'bicycle' && urbanicity === 'secondary-city') w = 2;
+    if (c === 'remote' && (roleSeedTags.includes('analyst') || roleSeedTags.includes('research') || tierBand === 'elite')) w = 3;
     return { item: c as CommuteMode, weight: w };
   });
   const commuteMode = weightedPick(lifeRng, commuteWeights) as CommuteMode;
