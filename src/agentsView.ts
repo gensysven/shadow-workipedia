@@ -528,9 +528,17 @@ function renderAgent(
     `)
     .join('');
 
-  const dreams = agent.motivations?.dreams ?? [];
-  const dreamsPills = dreams.length
-    ? `<span class="agent-pill-wrap">${dreams.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
+  const aspirations = agent.motivations?.dreams ?? [];
+  const aspirationsPills = aspirations.length
+    ? `<span class="agent-pill-wrap">${aspirations.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
+    : `<span class="agent-inline-muted">—</span>`;
+  const dreamImagery = agent.dreamsNightmares?.dreams ?? [];
+  const dreamImageryPills = dreamImagery.length
+    ? `<span class="agent-pill-wrap">${dreamImagery.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
+    : `<span class="agent-inline-muted">—</span>`;
+  const nightmares = agent.dreamsNightmares?.nightmares ?? [];
+  const nightmaresPills = nightmares.length
+    ? `<span class="agent-pill-wrap">${nightmares.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
     : `<span class="agent-inline-muted">—</span>`;
   const secondaryGoals = agent.motivations.secondaryGoals.length
     ? agent.motivations.secondaryGoals.map(toTitleCaseWords).join(', ')
@@ -673,7 +681,9 @@ function renderAgent(
                 <div class="kv-row"><span class="kv-k">Primary</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.motivations.primaryGoal))}</span></div>
                 <div class="kv-row"><span class="kv-k">Secondary</span><span class="kv-v">${escapeHtml(secondaryGoals)}</span></div>
                 <div class="kv-row"><span class="kv-k">Core need</span><span class="kv-v">${escapeHtml(agent.motivations.coreNeed)}</span></div>
-                <div class="kv-row"><span class="kv-k">Dreams</span><span class="kv-v">${dreamsPills}</span></div>
+                <div class="kv-row"><span class="kv-k">Aspirations</span><span class="kv-v">${aspirationsPills}</span></div>
+                <div class="kv-row"><span class="kv-k">Dreams</span><span class="kv-v">${dreamImageryPills}</span></div>
+                <div class="kv-row"><span class="kv-k">Nightmares</span><span class="kv-v">${nightmaresPills}</span></div>
               </div>
             </section>
 

@@ -28,7 +28,7 @@ Agent catalogs
 | agent-needs-relationships-catalog.md | Partial | Vocab: `family`, `relationships`, `attachments`, `attachmentStyle`; generator: `src/agent/facets/social.ts`, `src/agent/facets/domestic.ts`, `src/agent/generator.ts` | Catalog-specific needs/relationship archetypes not encoded. |
 | agent-economic-mobility-catalog.md | Not integrated | No vocab mappings; economics facet is internally defined | Catalog concepts not represented. |
 | agent-dreams-goals-catalog.md | Integrated (dream lists) | Vocab: `dreamsGoals.dreams`; generator: `src/agent/generator.ts`; UI: `src/agentsView.ts` | Category weighting not modeled yet. |
-| agent-dreams-nightmares-catalog.md | Not integrated | No dream/nightmare fields | None. |
+| agent-dreams-nightmares-catalog.md | Integrated (dream/nightmare lists) | Vocab: `dreamsNightmares.*`; generator: `src/agent/generator.ts`; UI: `src/agentsView.ts` | Category weighting not modeled yet. |
 | agent-event-template-catalog.md | Not integrated | Narrative events are hard-coded in `src/agent/facets/narrative.ts` | No vocab list or templates. |
 | agent-detail-generation-catalog.md | Not integrated | No direct vocab mapping | None. |
 | agent-decision-templates-catalog.md | Not integrated | No decision templates in vocab | None. |

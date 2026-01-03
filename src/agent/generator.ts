@@ -1991,6 +1991,20 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const motivations = { primaryGoal, secondaryGoals, fears, coreNeed, dreams };
   traceSet(trace, 'motivations', motivations, { method: 'weighted', dependsOn: { tierBand, roleSeedTags, age } });
 
+  // --- Dreams & Nightmares ---
+  const dreamsNightmaresRng = makeRng(facetSeed(seed, 'dreams_nightmares'));
+  const dreamImageryPool = vocab.dreamsNightmares?.dreams ?? [];
+  const nightmareImageryPool = vocab.dreamsNightmares?.nightmares ?? [];
+  const dreamsNightmares = {
+    dreams: uniqueStrings(
+      dreamImageryPool.length ? dreamsNightmaresRng.pickK(dreamImageryPool, dreamsNightmaresRng.int(1, 3)) : [],
+    ),
+    nightmares: uniqueStrings(
+      nightmareImageryPool.length ? dreamsNightmaresRng.pickK(nightmareImageryPool, dreamsNightmaresRng.int(1, 3)) : [],
+    ),
+  };
+  traceSet(trace, 'dreamsNightmares', dreamsNightmares, { method: 'pickK', dependsOn: { vocab: 'dreamsNightmares' } });
+
   // --- Attachment Style ---
   const attachmentStyles: AttachmentStyle[] = ['secure', 'anxious-preoccupied', 'dismissive-avoidant', 'fearful-avoidant'];
   const attachmentWeights = attachmentStyles.map(a => {
@@ -2373,6 +2387,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
     // === NEW FACETS ===
     motivations,
+    dreamsNightmares,
     attachmentStyle,
     economics,
     secrets,

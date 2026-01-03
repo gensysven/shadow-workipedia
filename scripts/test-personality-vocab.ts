@@ -96,6 +96,19 @@ function run(): void {
     'dreamsGoals.dreams',
   );
 
+  console.log('Checking dreams/nightmares vocab...');
+  const dreamsNightmares = (vocab as any).dreamsNightmares as { dreams?: string[]; nightmares?: string[] } | undefined;
+  assertIncludes(
+    dreamsNightmares?.dreams,
+    'Peaceful beaches with no missions',
+    'dreamsNightmares.dreams',
+  );
+  assertIncludes(
+    dreamsNightmares?.nightmares,
+    'Reliving firefights with muzzle flashes in slow motion',
+    'dreamsNightmares.nightmares',
+  );
+
   console.log('Checking affect/self-concept vocab...');
   assertIncludes(vocab.affect?.baselineAffects, 'numb', 'affect.baselineAffects');
   assertIncludes(vocab.affect?.regulationStyles, 'meditates', 'affect.regulationStyles');
@@ -228,6 +241,19 @@ function run(): void {
   const dreams = (agent as any).motivations?.dreams as string[] | undefined;
   if (!dreams || dreams.length < 1 || dreams.length > 3) {
     throw new Error('Expected motivations.dreams to include 1-3 items.');
+  }
+
+  const dreamImagery = (agent as any).dreamsNightmares as
+    | { dreams?: string[]; nightmares?: string[] }
+    | undefined;
+  if (!dreamImagery) {
+    throw new Error('Expected dreamsNightmares to be generated.');
+  }
+  if (!dreamImagery.dreams || dreamImagery.dreams.length < 1 || dreamImagery.dreams.length > 3) {
+    throw new Error('Expected dreamsNightmares.dreams to include 1-3 items.');
+  }
+  if (!dreamImagery.nightmares || dreamImagery.nightmares.length < 1 || dreamImagery.nightmares.length > 3) {
+    throw new Error('Expected dreamsNightmares.nightmares to include 1-3 items.');
   }
 
   console.log('Personality vocab test passed.');
