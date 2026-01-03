@@ -109,6 +109,38 @@ function run(): void {
     'dreamsNightmares.nightmares',
   );
 
+  console.log('Checking economic mobility vocab...');
+  const economicMobility = (vocab as any).economicMobility as
+    | {
+      originStories?: string[];
+      mobilityPatterns?: string[];
+      moneyDrivers?: string[];
+      classNavigation?: string[];
+      retirementModes?: string[];
+      moneyPersonalityTypes?: string[];
+    }
+    | undefined;
+  assertIncludes(
+    economicMobility?.originStories,
+    'The Slum Survivor',
+    'economicMobility.originStories',
+  );
+  assertIncludes(
+    economicMobility?.mobilityPatterns,
+    'The Steady Climber',
+    'economicMobility.mobilityPatterns',
+  );
+  assertIncludes(
+    economicMobility?.moneyDrivers,
+    'The Security Seeker',
+    'economicMobility.moneyDrivers',
+  );
+  assertIncludes(
+    economicMobility?.moneyPersonalityTypes,
+    'The Hoarder',
+    'economicMobility.moneyPersonalityTypes',
+  );
+
   console.log('Checking affect/self-concept vocab...');
   assertIncludes(vocab.affect?.baselineAffects, 'numb', 'affect.baselineAffects');
   assertIncludes(vocab.affect?.regulationStyles, 'meditates', 'affect.regulationStyles');
@@ -254,6 +286,25 @@ function run(): void {
   }
   if (!dreamImagery.nightmares || dreamImagery.nightmares.length < 1 || dreamImagery.nightmares.length > 3) {
     throw new Error('Expected dreamsNightmares.nightmares to include 1-3 items.');
+  }
+
+  const econMobility = (agent as any).economicMobility as
+    | {
+      originStory?: string;
+      mobilityPattern?: string;
+      moneyDriver?: string;
+      classNavigation?: string;
+      retirementMode?: string;
+      moneyPersonality?: string;
+    }
+    | undefined;
+  if (!econMobility) {
+    throw new Error('Expected economicMobility to be generated.');
+  }
+  for (const [label, value] of Object.entries(econMobility)) {
+    if (!value || typeof value !== 'string') {
+      throw new Error(`Expected economicMobility.${label} to be a non-empty string.`);
+    }
   }
 
   console.log('Personality vocab test passed.');

@@ -10030,5 +10030,38 @@
       "Escape routes becoming traps",
       "Safety always just out of reach"
     ]
+  },
+  "economicMobility": {
+    "originStories": [
+      "The Slum Survivor",
+      "The Fallen Elite",
+      "The Stability Seeker",
+      "Born Rich"
+    ],
+    "mobilityPatterns": [
+      "The Steady Climber",
+      "The Windfall Recipient",
+      "The Gradual Decline",
+      "The Catastrophic Fall"
+    ],
+    "moneyDrivers": [
+      "The Security Seeker",
+      "The Lifestyle Maintainer",
+      "The Strategic Spender"
+    ],
+    "classNavigation": [
+      "Economic Chameleon",
+      "When Money Divides"
+    ],
+    "retirementModes": [
+      "Financial Freedom Goals",
+      "The Golden Cage"
+    ],
+    "moneyPersonalityTypes": [
+      "The Hoarder",
+      "The Spender",
+      "The Investor",
+      "The Indifferent"
+    ]
   }
 }

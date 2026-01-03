@@ -540,6 +540,7 @@ function renderAgent(
   const nightmaresPills = nightmares.length
     ? `<span class="agent-pill-wrap">${nightmares.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
     : `<span class="agent-inline-muted">—</span>`;
+  const economicMobility = agent.economicMobility;
   const secondaryGoals = agent.motivations.secondaryGoals.length
     ? agent.motivations.secondaryGoals.map(toTitleCaseWords).join(', ')
     : '—';
@@ -684,6 +685,18 @@ function renderAgent(
                 <div class="kv-row"><span class="kv-k">Aspirations</span><span class="kv-v">${aspirationsPills}</span></div>
                 <div class="kv-row"><span class="kv-k">Dreams</span><span class="kv-v">${dreamImageryPills}</span></div>
                 <div class="kv-row"><span class="kv-k">Nightmares</span><span class="kv-v">${nightmaresPills}</span></div>
+              </div>
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Economic mobility</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Origin story</span><span class="kv-v">${escapeHtml(economicMobility.originStory || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Pattern</span><span class="kv-v">${escapeHtml(economicMobility.mobilityPattern || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Driver</span><span class="kv-v">${escapeHtml(economicMobility.moneyDriver || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Personality</span><span class="kv-v">${escapeHtml(economicMobility.moneyPersonality || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Class navigation</span><span class="kv-v">${escapeHtml(economicMobility.classNavigation || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Retirement</span><span class="kv-v">${escapeHtml(economicMobility.retirementMode || '—')}</span></div>
               </div>
             </section>
 

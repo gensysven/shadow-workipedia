@@ -26,7 +26,7 @@ Agent catalogs
 | agent-artistic-expression-catalog.md | Partial | Vocab: `preferences.hobbies.creative` (and some media/hobbies); generator: `src/agent/facets/preferences.ts` | Missing explicit artistic mediums and expression detail. |
 | agent-cultural-social-dynamics-catalog.md | Partial | Vocab: `cultureAxes`, `communities`, `reputation`; generator: `src/agent/facets/social.ts`, `src/agent/facets/geography.ts` | Not sourced from this catalog; only overlaps. |
 | agent-needs-relationships-catalog.md | Partial | Vocab: `family`, `relationships`, `attachments`, `attachmentStyle`; generator: `src/agent/facets/social.ts`, `src/agent/facets/domestic.ts`, `src/agent/generator.ts` | Catalog-specific needs/relationship archetypes not encoded. |
-| agent-economic-mobility-catalog.md | Not integrated | No vocab mappings; economics facet is internally defined | Catalog concepts not represented. |
+| agent-economic-mobility-catalog.md | Integrated (mobility archetypes) | Vocab: `economicMobility.*`; generator: `src/agent/generator.ts`; UI: `src/agentsView.ts` | Deeper mechanics not modeled yet. |
 | agent-dreams-goals-catalog.md | Integrated (dream lists) | Vocab: `dreamsGoals.dreams`; generator: `src/agent/generator.ts`; UI: `src/agentsView.ts` | Category weighting not modeled yet. |
 | agent-dreams-nightmares-catalog.md | Integrated (dream/nightmare lists) | Vocab: `dreamsNightmares.*`; generator: `src/agent/generator.ts`; UI: `src/agentsView.ts` | Category weighting not modeled yet. |
 | agent-event-template-catalog.md | Not integrated | Narrative events are hard-coded in `src/agent/facets/narrative.ts` | No vocab list or templates. |

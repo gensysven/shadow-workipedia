@@ -508,6 +508,14 @@ export type AgentVocabV1 = {
     dreams?: string[];
     nightmares?: string[];
   };
+  economicMobility?: {
+    originStories?: string[];
+    mobilityPatterns?: string[];
+    moneyDrivers?: string[];
+    classNavigation?: string[];
+    retirementModes?: string[];
+    moneyPersonalityTypes?: string[];
+  };
   knowledgeIgnorance?: {
     knowledgeStrengths?: string[];
     knowledgeGaps?: string[];
@@ -1125,6 +1133,15 @@ export type GeneratedAgent = {
   dreamsNightmares: {
     dreams: string[];
     nightmares: string[];
+  };
+
+  economicMobility: {
+    originStory: string;
+    mobilityPattern: string;
+    moneyDriver: string;
+    classNavigation: string;
+    retirementMode: string;
+    moneyPersonality: string;
   };
 
   // Attachment style - how they form relationships

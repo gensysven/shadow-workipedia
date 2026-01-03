@@ -2074,6 +2074,90 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   const economics = { debtLevel, incomeStability, financialAnxiety01k, spendingStyle };
   traceSet(trace, 'economics', economics, { method: 'weighted', dependsOn: { tierBand, orgType, latents: { frugality: latents.frugality } } });
 
+  // --- Economic Mobility ---
+  const econMobilityRng = makeRng(facetSeed(seed, 'economic_mobility'));
+  const originStoriesPool = vocab.economicMobility?.originStories ?? [];
+  const mobilityPatternsPool = vocab.economicMobility?.mobilityPatterns ?? [];
+  const moneyDriversPool = vocab.economicMobility?.moneyDrivers ?? [];
+  const classNavigationPool = vocab.economicMobility?.classNavigation ?? [];
+  const retirementModesPool = vocab.economicMobility?.retirementModes ?? [];
+  const moneyPersonalityPool = vocab.economicMobility?.moneyPersonalityTypes ?? [];
+
+  const originTierBand = geoStage1.originTierBand;
+  const socioeconomicMobility = geoStage1.socioeconomicMobility;
+
+  const originStory = originStoriesPool.length
+    ? weightedPick(econMobilityRng, originStoriesPool.map(s => {
+      let w = 1;
+      if (s === 'The Slum Survivor' && originTierBand === 'mass') w += 3;
+      if (s === 'The Stability Seeker' && originTierBand === 'middle') w += 3;
+      if (s === 'Born Rich' && originTierBand === 'elite') w += 3;
+      if (s === 'The Fallen Elite' && socioeconomicMobility === 'downward') w += 4;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const mobilityPattern = mobilityPatternsPool.length
+    ? weightedPick(econMobilityRng, mobilityPatternsPool.map(s => {
+      let w = 1;
+      if (s === 'The Steady Climber' && socioeconomicMobility === 'upward') w += 3;
+      if (s === 'The Windfall Recipient' && socioeconomicMobility === 'upward') w += 2;
+      if (s === 'The Steady Climber' && socioeconomicMobility === 'stable') w += 3;
+      if (s === 'The Gradual Decline' && socioeconomicMobility === 'downward') w += 3;
+      if (s === 'The Catastrophic Fall' && socioeconomicMobility === 'downward') w += 2;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const moneyDriver = moneyDriversPool.length
+    ? weightedPick(econMobilityRng, moneyDriversPool.map(s => {
+      let w = 1;
+      if (s === 'The Security Seeker' && (debtLevel === 'crushing' || debtLevel === 'strained' || financialAnxiety01k > 650)) w += 3;
+      if (s === 'The Lifestyle Maintainer' && (tierBand === 'elite' || spendingStyle === 'status-driven')) w += 2;
+      if (s === 'The Strategic Spender' && (latents.opsecDiscipline > 600 || roleSeedTags.includes('analyst'))) w += 2;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const classNavigation = classNavigationPool.length
+    ? weightedPick(econMobilityRng, classNavigationPool.map(s => {
+      let w = 1;
+      if (s === 'Economic Chameleon' && socioeconomicMobility !== 'stable') w += 2;
+      if (s === 'When Money Divides' && socioeconomicMobility === 'upward') w += 1.5;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const retirementMode = retirementModesPool.length
+    ? weightedPick(econMobilityRng, retirementModesPool.map(s => {
+      let w = 1;
+      if (s === 'Financial Freedom Goals' && (age > 45 || tierBand === 'elite')) w += 2;
+      if (s === 'The Golden Cage' && (tierBand === 'elite' || spendingStyle === 'status-driven')) w += 2;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const moneyPersonality = moneyPersonalityPool.length
+    ? weightedPick(econMobilityRng, moneyPersonalityPool.map(s => {
+      let w = 1;
+      if (s === 'The Hoarder' && latents.frugality > 650) w += 3;
+      if (s === 'The Spender' && latents.frugality < 350) w += 3;
+      if (s === 'The Investor' && latents.planningHorizon > 600) w += 2;
+      if (s === 'The Indifferent' && latents.principledness > 650) w += 2;
+      return { item: s, weight: w };
+    }))
+    : '';
+
+  const economicMobility = {
+    originStory,
+    mobilityPattern,
+    moneyDriver,
+    classNavigation,
+    retirementMode,
+    moneyPersonality,
+  };
+  traceSet(trace, 'economicMobility', economicMobility, { method: 'weighted', dependsOn: { originTierBand, socioeconomicMobility, debtLevel } });
+
   // --- Secrets ---
   const secretTypes: SecretType[] = ['identity', 'relationship', 'financial', 'health', 'criminal', 'political', 'professional', 'family', 'addiction', 'belief'];
   const secretSeverities: SecretSeverity[] = ['embarrassing', 'damaging', 'career-ending', 'criminal', 'life-threatening'];
@@ -2388,6 +2472,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     // === NEW FACETS ===
     motivations,
     dreamsNightmares,
+    economicMobility,
     attachmentStyle,
     economics,
     secrets,
