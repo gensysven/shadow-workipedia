@@ -23,6 +23,8 @@ import type {
   RepairStyle,
   SelfStory,
   SocialMask,
+  KnowledgeAccuracy,
+  KnowledgeItem,
 } from '../types';
 import {
   makeRng,
@@ -102,6 +104,13 @@ export type KnowledgeIgnoranceResult = {
     falseBeliefs: Fixed;
     sources: Fixed;
     barriers: Fixed;
+  };
+  items: {
+    strengths: KnowledgeItem[];
+    gaps: KnowledgeItem[];
+    falseBeliefs: KnowledgeItem[];
+    sources: KnowledgeItem[];
+    barriers: KnowledgeItem[];
   };
 };
 
@@ -632,6 +641,8 @@ function computeKnowledgeIgnorance(
   seed: string,
   vocab: AgentVocabV1,
   latents: Latents,
+  roleSeedTags: readonly string[],
+  tierBand: 'elite' | 'middle' | 'mass',
   trace?: AgentGenerationTraceV1,
 ): KnowledgeIgnoranceResult {
   const rng = makeRng(facetSeed(seed, 'knowledge-ignorance'));
@@ -641,21 +652,173 @@ function computeKnowledgeIgnorance(
   const sourcesPool = vocab.knowledgeIgnorance?.informationSources ?? [];
   const barriersPool = vocab.knowledgeIgnorance?.informationBarriers ?? [];
 
-  const knowledgeStrengths = uniqueStrings(
-    strengthsPool.length ? rng.pickK(strengthsPool, rng.int(2, 4)) : [],
-  );
-  const knowledgeGaps = uniqueStrings(
-    gapsPool.length ? rng.pickK(gapsPool, rng.int(2, 4)) : [],
-  );
-  const falseBeliefs = uniqueStrings(
-    falseBeliefsPool.length ? rng.pickK(falseBeliefsPool, rng.int(2, 4)) : [],
-  );
-  const informationSources = uniqueStrings(
-    sourcesPool.length ? rng.pickK(sourcesPool, rng.int(2, 4)) : [],
-  );
-  const informationBarriers = uniqueStrings(
-    barriersPool.length ? rng.pickK(barriersPool, rng.int(2, 4)) : [],
-  );
+  const cosmo01 = latents.cosmopolitanism / 1000;
+  const inst01 = latents.institutionalEmbeddedness / 1000;
+  const tech01 = latents.techFluency / 1000;
+  const social01 = latents.socialBattery / 1000;
+  const adapt01 = latents.adaptability / 1000;
+  const curio01 = latents.curiosityBandwidth / 1000;
+
+  const baseConfidence: Record<'strengths' | 'gaps' | 'falseBeliefs' | 'sources' | 'barriers', number> = {
+    strengths: 650,
+    gaps: 350,
+    falseBeliefs: 700,
+    sources: 550,
+    barriers: 450,
+  };
+  const baseDecay: Record<'strengths' | 'gaps' | 'falseBeliefs' | 'sources' | 'barriers', number> = {
+    strengths: 320,
+    gaps: 180,
+    falseBeliefs: 240,
+    sources: 280,
+    barriers: 210,
+  };
+
+  const calcConfidence = (category: keyof typeof baseConfidence): Fixed => {
+    let value = baseConfidence[category];
+    if (category === 'strengths' || category === 'sources') value += 80 * curio01;
+    if (category === 'gaps') value -= 60 * curio01;
+    if (category === 'falseBeliefs') value -= 60 * curio01 + 40 * adapt01;
+    if (category === 'falseBeliefs' && latents.publicness > 600) value += 60;
+    if (category === 'barriers' && latents.opsecDiscipline > 600) value += 60;
+    if (tierBand === 'elite' && category === 'sources') value += 40;
+    return clampFixed01k(value + rng.int(-120, 120));
+  };
+
+  const calcDecay = (category: keyof typeof baseDecay): Fixed => {
+    let value = baseDecay[category];
+    value -= 90 * curio01;
+    value -= 60 * adapt01;
+    value -= 50 * (latents.planningHorizon / 1000);
+    if (category === 'strengths' && latents.techFluency < 400) value += 80;
+    return clampFixed01k(value + rng.int(-80, 80));
+  };
+
+  const calcLastUsedDays = (category: keyof typeof baseDecay, itemLower: string): number => {
+    const ranges: Record<keyof typeof baseDecay, [number, number]> = {
+      strengths: [10, 180],
+      gaps: [120, 360],
+      falseBeliefs: [90, 300],
+      sources: [30, 200],
+      barriers: [60, 260],
+    };
+    let [min, max] = ranges[category];
+    let value = rng.int(min, max);
+    if (itemLower.includes('tradecraft') || itemLower.includes('surveillance')) {
+      if (roleSeedTags.includes('operative')) value -= 40;
+    }
+    if (itemLower.includes('analysis')) {
+      if (roleSeedTags.includes('analyst')) value -= 30;
+    }
+    if (itemLower.includes('language') && cosmo01 > 0.6) value -= 30;
+    if ((itemLower.includes('technology') || itemLower.includes('cyber')) && tech01 > 0.6) value -= 30;
+    return clampInt(value, 0, 365);
+  };
+
+  const calcAccuracy = (
+    category: keyof typeof baseDecay,
+    itemLower: string,
+    lastUsedDays: number,
+    decayRate01k: Fixed,
+  ): KnowledgeAccuracy => {
+    if (category === 'gaps' || category === 'barriers') return 'unknown';
+    if (category === 'falseBeliefs') return 'wrong';
+    if (category === 'sources') {
+      if (itemLower.includes('gossip') || itemLower.includes('embellished') || itemLower.includes('rabbit')) {
+        return 'partial';
+      }
+      if (itemLower.includes('self-serving') || itemLower.includes('partially')) return 'partial';
+      return 'correct';
+    }
+    if (decayRate01k > 650 && lastUsedDays > 180) return 'partial';
+    return 'correct';
+  };
+
+  const makeItem = (category: keyof typeof baseDecay, item: string): KnowledgeItem => {
+    const itemLower = item.toLowerCase();
+    const lastUsedDays = calcLastUsedDays(category, itemLower);
+    const decayRate01k = calcDecay(category);
+    const accuracy = calcAccuracy(category, itemLower, lastUsedDays, decayRate01k);
+    const confidence01k = calcConfidence(category);
+    return { item, accuracy, confidence01k, lastUsedDays, decayRate01k };
+  };
+
+  const weightStrength = (item: string): number => {
+    const lower = item.toLowerCase();
+    let w = 1;
+    if ((lower.includes('tradecraft') || lower.includes('surveillance')) && roleSeedTags.includes('operative')) w += 2;
+    if (lower.includes('analysis') && roleSeedTags.includes('analyst')) w += 2;
+    if (lower.includes('language') && cosmo01 > 0.6) w += 1.5;
+    if (lower.includes('geopolitical') && roleSeedTags.includes('diplomat')) w += 2;
+    if ((lower.includes('technology') || lower.includes('security')) && tech01 > 0.6) w += 1.5;
+    return w;
+  };
+
+  const weightGap = (item: string): number => {
+    const lower = item.toLowerCase();
+    let w = 1;
+    if ((lower.includes('cyber') || lower.includes('technology')) && tech01 < 0.4) w += 2;
+    if (lower.includes('cultural') && cosmo01 < 0.4) w += 1.5;
+    if (lower.includes('language') && cosmo01 < 0.4) w += 1.5;
+    return w;
+  };
+
+  const weightFalseBelief = (item: string): number => {
+    const lower = item.toLowerCase();
+    let w = 1;
+    if (lower.includes('outdated') || lower.includes('myths') || lower.includes('hollywood')) w += 1;
+    return w;
+  };
+
+  const weightSource = (item: string): number => {
+    const lower = item.toLowerCase();
+    let w = 1;
+    if (lower.includes('official') || lower.includes('briefings') || lower.includes('classified') || lower.includes('training') || lower.includes('databases')) {
+      w += 1.5 * inst01 + (tierBand === 'elite' ? 0.5 : 0);
+    }
+    if (lower.includes('colleague') || lower.includes('gossip') || lower.includes('veteran')) w += 1.0 * social01;
+    if (lower.includes('criminal')) w += roleSeedTags.includes('operative') ? 1.5 : 0.5;
+    if (lower.includes('online') || lower.includes('research')) w += 1.2 * tech01;
+    if (lower.includes('family')) w += 0.6 * social01;
+    if (lower.includes('experience') || lower.includes('observation')) w += 0.6 * adapt01;
+    return w;
+  };
+
+  const weightBarrier = (item: string): number => {
+    const lower = item.toLowerCase();
+    let w = 1;
+    if (lower.includes('need-to-know') || lower.includes('compartmentalization')) w += 1.5 * inst01;
+    if (lower.includes('language') || lower.includes('context')) w += 1.2 * (1 - cosmo01);
+    if (lower.includes('trauma')) w += 1.2 * (latents.stressReactivity / 1000);
+    if (lower.includes('pride') || lower.includes('fear')) w += 0.8 * (latents.opsecDiscipline / 1000);
+    if (lower.includes('confirmation') || lower.includes('cognitive')) w += 0.8 * (1 - adapt01);
+    return w;
+  };
+
+  const pickItems = (category: keyof typeof baseDecay, pool: string[], weightFn: (item: string) => number): KnowledgeItem[] => {
+    if (!pool.length) return [];
+    const count = rng.int(2, 4);
+    const picked = weightedPickKUnique(
+      rng,
+      pool.map(item => ({ item, weight: weightFn(item) })),
+      count,
+    ) as string[];
+    return picked.map(item => makeItem(category, item));
+  };
+
+  const items = {
+    strengths: pickItems('strengths', strengthsPool, weightStrength),
+    gaps: pickItems('gaps', gapsPool, weightGap),
+    falseBeliefs: pickItems('falseBeliefs', falseBeliefsPool, weightFalseBelief),
+    sources: pickItems('sources', sourcesPool, weightSource),
+    barriers: pickItems('barriers', barriersPool, weightBarrier),
+  };
+
+  const knowledgeStrengths = items.strengths.map(entry => entry.item);
+  const knowledgeGaps = items.gaps.map(entry => entry.item);
+  const falseBeliefs = items.falseBeliefs.map(entry => entry.item);
+  const informationSources = items.sources.map(entry => entry.item);
+  const informationBarriers = items.barriers.map(entry => entry.item);
 
   const depths01k = {
     strengths: clampFixed01k(
@@ -701,9 +864,10 @@ function computeKnowledgeIgnorance(
     informationSources,
     informationBarriers,
     depths01k,
+    items,
   };
   traceSet(trace, 'psych.knowledgeIgnorance', result, {
-    method: 'pickK',
+    method: 'weightedPickKUnique',
     dependsOn: { vocab: 'knowledgeIgnorance' },
   });
   return result;
@@ -761,7 +925,7 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
   const selfConcept = computeSelfConcept(seed, vocab, latents, tierBand, roleSeedTags, trace);
 
   // Knowledge & ignorance - what they know, miss, or misbelieve
-  const knowledgeIgnorance = computeKnowledgeIgnorance(seed, vocab, latents, trace);
+  const knowledgeIgnorance = computeKnowledgeIgnorance(seed, vocab, latents, roleSeedTags, tierBand, trace);
 
   return {
     ethics,

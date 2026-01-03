@@ -562,6 +562,15 @@ export type ContradictionPair = {
   narrativeHook: string;
 };
 
+export type KnowledgeAccuracy = 'correct' | 'partial' | 'wrong' | 'unknown';
+export type KnowledgeItem = {
+  item: string;
+  accuracy: KnowledgeAccuracy;
+  confidence01k: Fixed;
+  lastUsedDays: number;
+  decayRate01k: Fixed;
+};
+
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
 
 // === TYPES (Oracle recommendations) ===
@@ -1243,6 +1252,13 @@ export type GeneratedAgent = {
       falseBeliefs: Fixed;
       sources: Fixed;
       barriers: Fixed;
+    };
+    items: {
+      strengths: KnowledgeItem[];
+      gaps: KnowledgeItem[];
+      falseBeliefs: KnowledgeItem[];
+      sources: KnowledgeItem[];
+      barriers: KnowledgeItem[];
     };
   };
 

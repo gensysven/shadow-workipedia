@@ -270,6 +270,42 @@ function run(): void {
     }
   }
 
+  const knowledgeItems = (agentKnowledge as any).items as
+    | {
+        strengths?: Array<{ item?: string; accuracy?: string; confidence01k?: number; lastUsedDays?: number; decayRate01k?: number }>;
+        gaps?: Array<{ item?: string; accuracy?: string; confidence01k?: number; lastUsedDays?: number; decayRate01k?: number }>;
+        falseBeliefs?: Array<{ item?: string; accuracy?: string; confidence01k?: number; lastUsedDays?: number; decayRate01k?: number }>;
+        sources?: Array<{ item?: string; accuracy?: string; confidence01k?: number; lastUsedDays?: number; decayRate01k?: number }>;
+        barriers?: Array<{ item?: string; accuracy?: string; confidence01k?: number; lastUsedDays?: number; decayRate01k?: number }>;
+      }
+    | undefined;
+  if (!knowledgeItems) {
+    throw new Error('Expected knowledgeIgnorance.items to be generated.');
+  }
+  const accuracyTags = new Set(['correct', 'partial', 'wrong', 'unknown']);
+  for (const [label, list] of Object.entries(knowledgeItems)) {
+    if (!Array.isArray(list) || list.length < 1) {
+      throw new Error(`Expected knowledgeIgnorance.items.${label} to be non-empty.`);
+    }
+    for (const entry of list) {
+      if (!entry.item || typeof entry.item !== 'string') {
+        throw new Error(`Expected knowledgeIgnorance.items.${label} item to be a string.`);
+      }
+      if (!entry.accuracy || !accuracyTags.has(entry.accuracy)) {
+        throw new Error(`Expected knowledgeIgnorance.items.${label} accuracy to be a valid tag.`);
+      }
+      if (typeof entry.confidence01k !== 'number' || entry.confidence01k < 0 || entry.confidence01k > 1000) {
+        throw new Error(`Expected knowledgeIgnorance.items.${label} confidence01k in range 0-1000.`);
+      }
+      if (typeof entry.decayRate01k !== 'number' || entry.decayRate01k < 0 || entry.decayRate01k > 1000) {
+        throw new Error(`Expected knowledgeIgnorance.items.${label} decayRate01k in range 0-1000.`);
+      }
+      if (typeof entry.lastUsedDays !== 'number' || entry.lastUsedDays < 0 || entry.lastUsedDays > 365) {
+        throw new Error(`Expected knowledgeIgnorance.items.${label} lastUsedDays in range 0-365.`);
+      }
+    }
+  }
+
   const dreams = (agent as any).motivations?.dreams as string[] | undefined;
   if (!dreams || dreams.length < 1 || dreams.length > 3) {
     throw new Error('Expected motivations.dreams to include 1-3 items.');
