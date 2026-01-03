@@ -2275,6 +2275,62 @@ select.agents-input {
   background: rgba(148, 163, 184, 0.05);
 }
 
+.knowledge-entry-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+}
+
+.knowledge-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+.knowledge-entry-meta {
+  display: none;
+  font-size: 0.7rem;
+  color: #94a3b8;
+  letter-spacing: 0.01em;
+}
+
+.cognitive-details-on .knowledge-entry-meta {
+  display: block;
+}
+
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.agent-card .agent-card-header h3 {
+  margin: 0;
+}
+
+.agent-card-toggle {
+  cursor: pointer;
+  border-color: rgba(148, 163, 184, 0.25);
+  background: rgba(148, 163, 184, 0.08);
+  color: #cbd5e1;
+}
+
+.agent-card-toggle.active {
+  border-color: rgba(59, 130, 246, 0.55);
+  background: rgba(59, 130, 246, 0.18);
+  color: #bfdbfe;
+}
+
+.agent-card-toggle:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.6);
+  outline-offset: 2px;
+}
+
 .agent-muted {
   color: #94a3b8;
   font-size: 0.9rem;

@@ -1,8 +1,8 @@
 import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type KnowledgeItem, type TierBand } from './agent';
-import { formatKnowledgeItemMeta } from './agent/knowledgeFormat';
 import { renderCognitiveSection } from './agent/cognitiveSection';
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from './agent/cognitiveTab';
 import { isAgentProfileTab, type AgentProfileTab } from './agent/profileTabs';
+import { renderKnowledgeEntryList } from './agent/knowledgeEntry';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
@@ -16,6 +16,7 @@ type RosterItem = {
 };
 
 const ROSTER_STORAGE_KEY = 'swp.agents.roster.v1';
+const COGNITIVE_DETAILS_KEY = 'profile:cognitive:details';
 
 let agentVocabPromise: Promise<AgentVocabV1> | null = null;
 let agentPriorsPromise: Promise<AgentPriorsV1> | null = null;
@@ -515,24 +516,22 @@ function renderAgent(
   const renderKnowledgePills = (items: string[]): string => (
     `<span class="agent-pill-wrap">${items.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
   );
-  const renderKnowledgeEntryPills = (entries: KnowledgeItem[] | undefined, fallback: string[]): string => {
+  const renderKnowledgeEntries = (entries: KnowledgeItem[] | undefined, fallback: string[]): string => {
     if (entries && entries.length) {
-      return `<span class="agent-pill-wrap">${entries.map(entry => `
-        <span class="pill pill-muted">${escapeHtml(entry.item)}</span>
-        <span class="pill pill-meta">${escapeHtml(formatKnowledgeItemMeta(entry))}</span>
-      `).join('')}</span>`;
+      return renderKnowledgeEntryList(entries, []);
     }
     if (fallback.length) return renderKnowledgePills(fallback);
     return `<span class="agent-inline-muted">—</span>`;
   };
   const buildKnowledgeRow = (label: string, depth: number | undefined, entries: KnowledgeItem[] | undefined, fallback: string[]): string => {
     if (!(entries?.length || fallback.length)) return '';
-    return `<div class="kv-row"><span class="kv-k">${escapeHtml(labelWithDepth(label, depth))}</span><span class="kv-v">${renderKnowledgeEntryPills(entries, fallback)}</span></div>`;
+    return `<div class="kv-row"><span class="kv-k">${escapeHtml(labelWithDepth(label, depth))}</span><span class="kv-v">${renderKnowledgeEntries(entries, fallback)}</span></div>`;
   };
   const labelWithDepth = (label: string, depth?: number): string => {
     if (typeof depth !== 'number') return label;
     return `${label} (${formatFixed01k(depth)})`;
   };
+  const cognitiveDetailsOpen = isDetailsOpen(COGNITIVE_DETAILS_KEY, false);
   const cognitiveRows = [
     buildKnowledgeRow('Strengths', knowledgeDepths?.strengths, knowledgeItems?.strengths, knowledgeStrengths),
     buildKnowledgeRow('Gaps', knowledgeDepths?.gaps, knowledgeItems?.gaps, knowledgeGaps),
@@ -763,7 +762,7 @@ function renderAgent(
           </div>
         </div>
 
-        ${renderCognitiveTabPanel(tab === 'cognitive', renderCognitiveSection(cognitiveRows))}
+        ${renderCognitiveTabPanel(tab === 'cognitive', renderCognitiveSection(cognitiveRows, cognitiveDetailsOpen))}
 
         <div class="agent-tab-panel ${tab === 'performance' ? 'active' : ''}" data-agent-tab-panel="performance">
           <div class="agent-grid agent-grid-tight">
@@ -1522,6 +1521,14 @@ export function initializeAgentsView(container: HTMLElement) {
         writeDetailsOpen(detailsOpen);
       });
     }
+
+    const cognitiveDetailsToggle = container.querySelector('[data-cognitive-details-toggle]') as HTMLButtonElement | null;
+    cognitiveDetailsToggle?.addEventListener('click', () => {
+      const next = !isDetailsOpen(COGNITIVE_DETAILS_KEY, false);
+      detailsOpen = { ...detailsOpen, [COGNITIVE_DETAILS_KEY]: next };
+      writeDetailsOpen(detailsOpen);
+      render();
+    });
 
     if (generatorPanelEl) {
       generatorPanelEl.open = generatorPanelOpen;

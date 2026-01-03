@@ -14,6 +14,7 @@ import { formatKnowledgeItemMeta } from '../src/agent/knowledgeFormat';
 import { renderCognitiveSection } from '../src/agent/cognitiveSection';
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from '../src/agent/cognitiveTab';
 import { isAgentProfileTab } from '../src/agent/profileTabs';
+import { renderKnowledgeEntry, renderKnowledgeEntryList } from '../src/agent/knowledgeEntry';
 import { generateAgent } from '../src/agent';
 import type { AgentPriorsV1, AgentVocabV1, GenerateAgentInput, Latents } from '../src/agent/types';
 
@@ -293,13 +294,53 @@ function run(): void {
   if (!formattedKnowledge.includes('42d')) {
     throw new Error('Expected formatted knowledge item to include last used days.');
   }
+  const knowledgeEntry = renderKnowledgeEntry({
+    item: 'Test item',
+    accuracy: 'partial',
+    confidence01k: 720,
+    lastUsedDays: 42,
+    decayRate01k: 310,
+  });
+  if (!knowledgeEntry.includes('knowledge-entry-meta')) {
+    throw new Error('Expected knowledge entry to include meta line.');
+  }
+  const knowledgeEntryEscaped = renderKnowledgeEntry({
+    item: '<script>alert(1)</script>',
+    accuracy: 'correct',
+    confidence01k: 500,
+    lastUsedDays: 10,
+    decayRate01k: 100,
+  });
+  if (knowledgeEntryEscaped.includes('<script>')) {
+    throw new Error('Expected knowledge entry to escape item content.');
+  }
+  if (!knowledgeEntryEscaped.includes('&lt;script&gt;alert(1)&lt;/script&gt;')) {
+    throw new Error('Expected knowledge entry to include escaped item content.');
+  }
+  const knowledgeEntryListFallback = renderKnowledgeEntryList(undefined, ['<b>Injected</b>']);
+  if (knowledgeEntryListFallback.includes('<b>Injected</b>')) {
+    throw new Error('Expected knowledge entry fallback to escape item content.');
+  }
 
-  const cognitiveSection = renderCognitiveSection('<div class="kv-row"></div>');
+  const cognitiveSection = renderCognitiveSection('<div class="kv-row"></div>', false);
   if (!cognitiveSection.includes('agent-card-span12')) {
     throw new Error('Expected cognitive section to be full width.');
   }
   if (!cognitiveSection.includes('<h3>Cognitive</h3>')) {
     throw new Error('Expected cognitive section to include a heading.');
+  }
+  if (!cognitiveSection.includes('data-cognitive-details-toggle')) {
+    throw new Error('Expected cognitive section to include a details toggle.');
+  }
+  if (!cognitiveSection.includes('Show details')) {
+    throw new Error('Expected cognitive section to show details label when collapsed.');
+  }
+  const cognitiveSectionOpen = renderCognitiveSection('<div class="kv-row"></div>', true);
+  if (!cognitiveSectionOpen.includes('cognitive-details-on')) {
+    throw new Error('Expected cognitive section to show details class when enabled.');
+  }
+  if (!cognitiveSectionOpen.includes('Hide details')) {
+    throw new Error('Expected cognitive section to show hide label when expanded.');
   }
   const cognitiveTabButton = renderCognitiveTabButton(true);
   if (!cognitiveTabButton.includes('data-agent-tab="cognitive"')) {
