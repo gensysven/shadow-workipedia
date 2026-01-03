@@ -1,5 +1,6 @@
 import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type KnowledgeItem, type TierBand } from './agent';
 import { formatKnowledgeItemLine } from './agent/knowledgeFormat';
+import { renderCognitiveSection } from './agent/cognitiveSection';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
@@ -682,12 +683,7 @@ function renderAgent(
               </div>
             </section>
 
-            <section class="agent-card agent-card-span6">
-              <h3>Cognitive</h3>
-              <div class="agent-kv">
-                ${cognitiveRows || `<div class="agent-inline-muted">—</div>`}
-              </div>
-            </section>
+            ${renderCognitiveSection(cognitiveRows)}
 
             <section class="agent-card agent-card-span6">
               <h3>Dreams &amp; goals</h3>

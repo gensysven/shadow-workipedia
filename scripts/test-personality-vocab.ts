@@ -11,6 +11,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { computePsychology } from '../src/agent/facets/psychology';
 import { formatKnowledgeItemLine } from '../src/agent/knowledgeFormat';
+import { renderCognitiveSection } from '../src/agent/cognitiveSection';
 import { generateAgent } from '../src/agent';
 import type { AgentPriorsV1, AgentVocabV1, GenerateAgentInput, Latents } from '../src/agent/types';
 
@@ -289,6 +290,14 @@ function run(): void {
   }
   if (!formattedKnowledge.includes('42d')) {
     throw new Error('Expected formatted knowledge item to include last used days.');
+  }
+
+  const cognitiveSection = renderCognitiveSection('<div class="kv-row"></div>');
+  if (!cognitiveSection.includes('agent-card-span12')) {
+    throw new Error('Expected cognitive section to be full width.');
+  }
+  if (!cognitiveSection.includes('<h3>Cognitive</h3>')) {
+    throw new Error('Expected cognitive section to include a heading.');
   }
 
   const knowledgeItems = (agentKnowledge as any).items as
