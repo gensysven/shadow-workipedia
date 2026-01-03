@@ -13,6 +13,7 @@ import { computePsychology } from '../src/agent/facets/psychology';
 import { formatKnowledgeItemLine } from '../src/agent/knowledgeFormat';
 import { renderCognitiveSection } from '../src/agent/cognitiveSection';
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from '../src/agent/cognitiveTab';
+import { isAgentProfileTab } from '../src/agent/profileTabs';
 import { generateAgent } from '../src/agent';
 import type { AgentPriorsV1, AgentVocabV1, GenerateAgentInput, Latents } from '../src/agent/types';
 
@@ -313,6 +314,12 @@ function run(): void {
   }
   if (!cognitiveTabPanel.includes('active')) {
     throw new Error('Expected cognitive tab panel to render as active.');
+  }
+  if (!isAgentProfileTab('cognitive')) {
+    throw new Error('Expected cognitive to be a valid agent profile tab.');
+  }
+  if (isAgentProfileTab('not-a-tab')) {
+    throw new Error('Expected unknown tab to be invalid.');
   }
 
   const knowledgeItems = (agentKnowledge as any).items as

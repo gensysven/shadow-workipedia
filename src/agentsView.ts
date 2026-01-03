@@ -2,6 +2,7 @@ import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type Agen
 import { formatKnowledgeItemLine } from './agent/knowledgeFormat';
 import { renderCognitiveSection } from './agent/cognitiveSection';
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from './agent/cognitiveTab';
+import { isAgentProfileTab, type AgentProfileTab } from './agent/profileTabs';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
@@ -414,7 +415,6 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
   }, ms);
 }
 
-type AgentProfileTab = 'overview' | 'cognitive' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
 type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
 function renderAgent(
@@ -1085,7 +1085,7 @@ export function initializeAgentsView(container: HTMLElement) {
     try {
       const raw = window.localStorage.getItem(PROFILE_TAB_KEY);
       if (!raw) return null;
-      if (raw === 'overview' || raw === 'performance' || raw === 'lifestyle' || raw === 'constraints' || raw === 'debug') return raw;
+      if (isAgentProfileTab(raw)) return raw;
       return null;
     } catch {
       return null;
@@ -1463,7 +1463,7 @@ export function initializeAgentsView(container: HTMLElement) {
         const next = (btn.dataset.agentTab ?? '').trim() as AgentProfileTab;
         if (!next) return;
         if (next === profileTab) return;
-        if (next !== 'overview' && next !== 'performance' && next !== 'lifestyle' && next !== 'constraints' && next !== 'debug') return;
+        if (!isAgentProfileTab(next)) return;
         profileTab = next;
         writeProfileTab(profileTab);
         render();
