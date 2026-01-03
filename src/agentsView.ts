@@ -1,6 +1,7 @@
 import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type Band5, type GeneratedAgent, type KnowledgeItem, type TierBand } from './agent';
 import { formatKnowledgeItemLine } from './agent/knowledgeFormat';
 import { renderCognitiveSection } from './agent/cognitiveSection';
+import { renderCognitiveTabButton, renderCognitiveTabPanel } from './agent/cognitiveTab';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
@@ -413,7 +414,7 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
   }, ms);
 }
 
-type AgentProfileTab = 'overview' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
+type AgentProfileTab = 'overview' | 'cognitive' | 'performance' | 'lifestyle' | 'constraints' | 'debug';
 type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
 function renderAgent(
@@ -595,6 +596,7 @@ function renderAgent(
 
         <div class="agent-tabs">
           <button type="button" class="agent-tab-btn ${tab === 'overview' ? 'active' : ''}" data-agent-tab="overview">Overview</button>
+          ${renderCognitiveTabButton(tab === 'cognitive')}
           <button type="button" class="agent-tab-btn ${tab === 'performance' ? 'active' : ''}" data-agent-tab="performance">Performance</button>
           <button type="button" class="agent-tab-btn ${tab === 'lifestyle' ? 'active' : ''}" data-agent-tab="lifestyle">Lifestyle</button>
           <button type="button" class="agent-tab-btn ${tab === 'constraints' ? 'active' : ''}" data-agent-tab="constraints">Constraints</button>
@@ -683,8 +685,6 @@ function renderAgent(
               </div>
             </section>
 
-            ${renderCognitiveSection(cognitiveRows)}
-
             <section class="agent-card agent-card-span6">
               <h3>Dreams &amp; goals</h3>
               <div class="agent-kv">
@@ -762,6 +762,8 @@ function renderAgent(
             </section>
           </div>
         </div>
+
+        ${renderCognitiveTabPanel(tab === 'cognitive', renderCognitiveSection(cognitiveRows))}
 
         <div class="agent-tab-panel ${tab === 'performance' ? 'active' : ''}" data-agent-tab-panel="performance">
           <div class="agent-grid agent-grid-tight">

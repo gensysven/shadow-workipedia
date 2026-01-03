@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 import { computePsychology } from '../src/agent/facets/psychology';
 import { formatKnowledgeItemLine } from '../src/agent/knowledgeFormat';
 import { renderCognitiveSection } from '../src/agent/cognitiveSection';
+import { renderCognitiveTabButton, renderCognitiveTabPanel } from '../src/agent/cognitiveTab';
 import { generateAgent } from '../src/agent';
 import type { AgentPriorsV1, AgentVocabV1, GenerateAgentInput, Latents } from '../src/agent/types';
 
@@ -298,6 +299,20 @@ function run(): void {
   }
   if (!cognitiveSection.includes('<h3>Cognitive</h3>')) {
     throw new Error('Expected cognitive section to include a heading.');
+  }
+  const cognitiveTabButton = renderCognitiveTabButton(true);
+  if (!cognitiveTabButton.includes('data-agent-tab="cognitive"')) {
+    throw new Error('Expected cognitive tab button to target cognitive tab.');
+  }
+  if (!cognitiveTabButton.includes('active')) {
+    throw new Error('Expected cognitive tab button to render as active.');
+  }
+  const cognitiveTabPanel = renderCognitiveTabPanel(true, '<section></section>');
+  if (!cognitiveTabPanel.includes('data-agent-tab-panel="cognitive"')) {
+    throw new Error('Expected cognitive tab panel to target cognitive panel.');
+  }
+  if (!cognitiveTabPanel.includes('active')) {
+    throw new Error('Expected cognitive tab panel to render as active.');
   }
 
   const knowledgeItems = (agentKnowledge as any).items as
