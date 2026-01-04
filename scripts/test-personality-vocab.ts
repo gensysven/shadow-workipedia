@@ -15,6 +15,9 @@ import { renderCognitiveCard, renderCognitiveSection } from '../src/agent/cognit
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from '../src/agent/cognitiveTab';
 import { isAgentProfileTab } from '../src/agent/profileTabs';
 import { renderKnowledgeEntry, renderKnowledgeEntryList } from '../src/agent/knowledgeEntry';
+import { computeHousingWeights } from '../src/agent/facets/domestic';
+import { buildPressureWeights } from '../src/agent/pressureResponse';
+import { formatFunctionalSpec, formatThirdPlace, sanitizeComfortItems } from '../src/agentNarration';
 import { generateAgent } from '../src/agent';
 import type { AgentPriorsV1, AgentVocabV1, GenerateAgentInput, Latents } from '../src/agent/types';
 
@@ -389,23 +392,23 @@ function run(): void {
   if (!cognitiveTabPanel.includes('active')) {
     throw new Error('Expected cognitive tab panel to render as active.');
   }
-  if (!isAgentProfileTab('cognitive')) {
-    throw new Error('Expected cognitive to be a valid agent profile tab.');
+  if (!isAgentProfileTab('portrait')) {
+    throw new Error('Expected portrait to be a valid agent profile tab.');
   }
-  if (!isAgentProfileTab('narrative')) {
-    throw new Error('Expected narrative to be a valid agent profile tab.');
+  if (!isAgentProfileTab('character')) {
+    throw new Error('Expected character to be a valid agent profile tab.');
   }
-  if (!isAgentProfileTab('identity')) {
-    throw new Error('Expected identity to be a valid agent profile tab.');
+  if (!isAgentProfileTab('connections')) {
+    throw new Error('Expected connections to be a valid agent profile tab.');
   }
-  if (!isAgentProfileTab('social')) {
-    throw new Error('Expected social to be a valid agent profile tab.');
+  if (!isAgentProfileTab('capabilities')) {
+    throw new Error('Expected capabilities to be a valid agent profile tab.');
   }
-  if (!isAgentProfileTab('motivations')) {
-    throw new Error('Expected motivations to be a valid agent profile tab.');
+  if (!isAgentProfileTab('daily-life')) {
+    throw new Error('Expected daily-life to be a valid agent profile tab.');
   }
-  if (!isAgentProfileTab('health')) {
-    throw new Error('Expected health to be a valid agent profile tab.');
+  if (!isAgentProfileTab('data')) {
+    throw new Error('Expected data to be a valid agent profile tab.');
   }
   if (isAgentProfileTab('not-a-tab')) {
     throw new Error('Expected unknown tab to be invalid.');
@@ -485,6 +488,66 @@ function run(): void {
     if (!value || typeof value !== 'string') {
       throw new Error(`Expected economicMobility.${label} to be a non-empty string.`);
     }
+  }
+
+  console.log('Checking narrative helper consistency...');
+  const thirdPlace = formatThirdPlace('pub');
+  if (thirdPlace !== 'the pub') {
+    throw new Error(`Expected formatThirdPlace("pub") to return "the pub", got "${thirdPlace}".`);
+  }
+  const functionalSpec = formatFunctionalSpec('humint-ops', 'political-appointee');
+  if (!functionalSpec.includes('in HUMINT ops')) {
+    throw new Error(`Expected political appointee HUMINT ops to read "in HUMINT ops", got "${functionalSpec}".`);
+  }
+  const comfortSanitized = sanitizeComfortItems(['vegetarian meals', 'slow-cooked meats'], []);
+  if (comfortSanitized.some(item => /vegetarian/i.test(item)) && comfortSanitized.some(item => /meats?/i.test(item))) {
+    throw new Error('Expected sanitizeComfortItems to drop conflicting vegetarian + meat combo.');
+  }
+  const comfortRestricted = sanitizeComfortItems(['vegetarian meals', 'slow-cooked meats'], ['vegetarian']);
+  if (comfortRestricted.some(item => /meats?/i.test(item))) {
+    throw new Error('Expected sanitizeComfortItems to drop meat items for vegetarian restriction.');
+  }
+
+  console.log('Checking housing + pressure hard constraints...');
+  const housingWeightsLowRisk = computeHousingWeights({
+    housingPool: ['owned', 'stable-rental', 'tenuous', 'transient', 'couch-surfing', 'institutional'],
+    tierBand: 'middle',
+    age: 30,
+    roleSeedTags: [],
+    gdp01: 0.5,
+    conscientiousness01: 0.5,
+    riskAppetite01: 0.1,
+    hasFamily: false,
+    isSeniorProfessional: false,
+  });
+  const housingMap = new Map(housingWeightsLowRisk.map(h => [h.item, h.weight]));
+  for (const key of ['tenuous', 'transient', 'couch-surfing'] as const) {
+    if ((housingMap.get(key) ?? 0) !== 0) {
+      throw new Error(`Expected low-risk housing weight for ${key} to be 0.`);
+    }
+  }
+
+  const lowRiskLatents = { ...latents, riskAppetite: 100, stressReactivity: 500, impulseControl: 500 };
+  const highRiskLatents = { ...latents, riskAppetite: 900, stressReactivity: 500, impulseControl: 500 };
+  const lowRiskPressure = buildPressureWeights({
+    roleSeedTags: [],
+    gradeBand: 'mid-level',
+    conflictStyle: 'compromising',
+    latents: lowRiskLatents,
+  });
+  const highRiskPressure = buildPressureWeights({
+    roleSeedTags: [],
+    gradeBand: 'mid-level',
+    conflictStyle: 'compromising',
+    latents: highRiskLatents,
+  });
+  const lowRiskMap = new Map(lowRiskPressure.map(p => [p.item, p.weight]));
+  const highRiskMap = new Map(highRiskPressure.map(p => [p.item, p.weight]));
+  if ((lowRiskMap.get('rushes') ?? 1) !== 0) {
+    throw new Error('Expected low-risk pressure response to zero out rushes.');
+  }
+  if ((highRiskMap.get('freezes') ?? 1) !== 0) {
+    throw new Error('Expected high-risk pressure response to zero out freezes.');
   }
 
   console.log('Personality vocab test passed.');

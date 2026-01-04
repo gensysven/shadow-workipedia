@@ -95,6 +95,7 @@ import {
 } from './utils';
 
 import { computeLatents } from './latents';
+import { buildPressureWeights } from './pressureResponse';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -1439,6 +1440,12 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     if (roleSeedTags.includes('operative') && ['humint-ops', 'counterintel', 'security-ops'].includes(s)) w = 10;
     if (roleSeedTags.includes('technocrat') && ['finance-policy', 'cyber-policy', 'it-security'].includes(s)) w = 8;
 
+    // Org-specific coherence: media outlet rarely maps to intel/security ops roles
+    if (orgType === 'media-outlet') {
+      if (['communications', 'public-diplomacy', 'political-officer', 'economic-officer', 'regional-desk', 'protocol', 'legal-affairs'].includes(s)) w += 6;
+      if (['intel-analysis', 'humint-ops', 'counterintel', 'security-ops', 'technical-collection', 'targeting', 'wmd-policy'].includes(s)) w *= 0.2;
+    }
+
     // Country indicator priors: conflict/militarization skew toward security specializations; trade openness toward foreign/economic.
     if (indConflict01 > 0) {
       if (['humint-ops', 'counterintel', 'security-ops', 'targeting', 'sanctions', 'wmd-policy'].includes(s)) w += 6.0 * indConflict01;
@@ -2215,16 +2222,11 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   // humorStyle is now generated in the personality section above
 
   // --- Pressure Response ---
-  const pressureResponses: PressureResponse[] = ['freezes', 'deliberates', 'delegates', 'rushes', 'thrives', 'avoids'];
-  const pressureWeights = pressureResponses.map(p => {
-    let w = 1;
-    if (p === 'thrives' && roleSeedTags.includes('operative')) w += 3;
-    if (p === 'deliberates' && roleSeedTags.includes('analyst')) w += 3;
-    if (p === 'freezes' && latents.stressReactivity > 700) w += 3;
-    if (p === 'rushes' && latents.impulseControl < 400) w += 2;
-    if (p === 'delegates' && gradeBand === 'senior' || gradeBand === 'executive') w += 2;
-    if (p === 'avoids' && conflictStyle === 'avoidant') w += 2;
-    return { item: p, weight: w };
+  const pressureWeights = buildPressureWeights({
+    roleSeedTags,
+    gradeBand,
+    conflictStyle,
+    latents,
   });
   const pressureResponse = weightedPick(newFacetsRng, pressureWeights) as PressureResponse;
   traceSet(trace, 'pressureResponse', pressureResponse, { method: 'weighted', dependsOn: { stressReactivity: latents.stressReactivity, roleSeedTags } });

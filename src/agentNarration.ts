@@ -233,6 +233,92 @@ export function toNarrativePhrase(input: string): string {
     .replace(/\bmembers club\b/g, "members' club");
 }
 
+export function formatThirdPlace(placeRaw: string): string {
+  const place = toNarrativePhrase(placeRaw ?? '');
+  if (!place) return '';
+  // Places that need "the" prefix for "spends time at X" context
+  const needsThe = [
+    'gym', 'library', 'park', 'mosque', 'church', 'temple', 'synagogue', 'market',
+    'barber shop', 'salon', 'pool', 'community center', "members' club", 'corner store',
+    'betting shop', 'sports club', 'pub',
+  ];
+  // Places that need "a" prefix
+  const needsA = ['cafe', 'bar', 'restaurant', 'museum', 'tea house', 'diner'];
+  // Places that need possessive apostrophe fixes
+  const possessiveFixes: Record<string, string> = {
+    'cousins apartment': "a cousin's apartment",
+    'old friends flat': "an old friend's flat",
+    'aunts place': "an aunt's place",
+    'uncles house': "an uncle's house",
+    'grandparents house': "grandparents' house",
+    'in laws house': "in-laws' house",
+    'poker night host': 'a poker night',
+    'book club host': 'a book club',
+  };
+  if (possessiveFixes[place]) return possessiveFixes[place];
+  if (needsThe.includes(place)) return 'the ' + place;
+  if (needsA.includes(place)) return 'a ' + place;
+  return place;
+}
+
+export function formatFunctionalSpec(specRaw: string, gradeBandRaw?: string): string {
+  const spec = toNarrativePhrase(specRaw ?? '');
+  if (!spec) return '';
+  const gradeBand = toNarrativePhrase(gradeBandRaw ?? '');
+  const specCased = spec
+    .replace(/\bhumint\b/gi, 'HUMINT')
+    .replace(/\bosint\b/gi, 'OSINT')
+    .replace(/\bit security\b/gi, 'IT security');
+  const specLower = specCased.toLowerCase();
+
+  if (gradeBand === 'political appointee' && specLower.endsWith(' ops')) {
+    return `in ${specCased}`;
+  }
+
+  // Policy specializations need a role suffix
+  if (specLower.endsWith(' policy')) return specCased + ' officer';
+  // Technical security roles need "specialist"
+  if (specLower === 'it security') return specCased + ' specialist';
+  if (specLower === 'health security') return specCased + ' specialist';
+  // Intel analysis is awkward - use "intel analyst"
+  if (specLower === 'intel analysis') return 'intel analyst';
+  // Make acronyms / specializations read like full jobs
+  if (specLower === 'osint') return 'OSINT analyst';
+  if (specLower === 'liaison') return 'liaison officer';
+  if (specLower === 'targeting') return 'targeting officer';
+  // Roles that need "officer" suffix
+  if (['public diplomacy', 'counterintel', 'protocol', 'sanctions', 'development',
+       'communications', 'regional desk', 'legal affairs', 'consular'].includes(specLower)) {
+    return specCased + ' officer';
+  }
+  // Ops suffixes need "officer" to sound complete (security ops officer, logistics ops officer, etc.)
+  if (specLower.endsWith(' ops')) return specCased + ' officer';
+  // Technical collection is specialized
+  if (specLower === 'technical collection') return specCased + ' specialist';
+  // Political/economic officer are already complete
+  if (specLower.endsWith(' officer')) return specCased;
+  return specCased;
+}
+
+export function sanitizeComfortItems(items: string[], restrictions: string[] = []): string[] {
+  if (!items.length) return items;
+  const hasVegetarianRestriction = restrictions.some(r =>
+    ['vegetarian', 'vegan', 'pescatarian'].includes(String(r).toLowerCase()),
+  );
+  const isVeg = (s: string) => /\b(vegetarian|vegan|plant-based|meatless)\b/i.test(s);
+  const isMeat = (s: string) => /\b(meat|meats|beef|pork|chicken|lamb|steak|sausage|bacon|ribs)\b/i.test(s);
+  const vegItems = items.filter(i => isVeg(i));
+  const meatItems = items.filter(i => isMeat(i));
+
+  if (vegItems.length && meatItems.length) {
+    return items.filter(i => (hasVegetarianRestriction ? !isMeat(i) : !isVeg(i)));
+  }
+  if (hasVegetarianRestriction && meatItems.length) {
+    return items.filter(i => !isMeat(i));
+  }
+  return items;
+}
+
 function capitalizeFirst(input: string): string {
   if (!input) return input;
   return input.charAt(0).toUpperCase() + input.slice(1);
@@ -865,7 +951,8 @@ export function generateNarrative(
   const topTrait = traitPairs[0];
   const traitClause = topTrait ? formatTraitNarration(seed, topTrait[0], formatBand5(topTrait[1])) : '';
 
-	  const comfort = pickKUnique(seed, 'bio:comfort', agent.preferences.food.comfortFoods, 2).map(toNarrativePhrase);
+	  const comfortRaw = pickKUnique(seed, 'bio:comfort', agent.preferences.food.comfortFoods, 2).map(toNarrativePhrase);
+	  const comfort = sanitizeComfortItems(comfortRaw, agent.preferences.food.restrictions ?? []);
 	  const genre = pickKUnique(seed, 'bio:genre', agent.preferences.media.genreTopK, 2).map(toNarrativePhrase);
 	  const style = pickKUnique(seed, 'bio:style', agent.preferences.fashion.styleTags, 1).map(toNarrativePhrase)[0] ?? '';
 	  const ritual = toNarrativePhrase(agent.preferences.food.ritualDrink);
@@ -1238,32 +1325,9 @@ export function generateNarrative(
     })()],
     gradeBand: [toNarrativePhrase(agent.institution.gradeBand)],
     aGradeBand: [aOrAn(toNarrativePhrase(agent.institution.gradeBand))],
-    functionalSpec: [(() => {
-      const spec = toNarrativePhrase(agent.institution.functionalSpecialization);
-      // Policy specializations need a role suffix
-      if (spec.endsWith(' policy')) return spec + ' officer';
-      // Technical security roles need "specialist"
-      if (spec === 'IT security') return spec + ' specialist';
-      if (spec === 'health security') return spec + ' specialist';
-      // Intel analysis is awkward - use "intel analyst"
-      if (spec === 'intel analysis') return 'intel analyst';
-      // Make acronyms / specializations read like full jobs
-      if (spec === 'OSINT') return 'OSINT analyst';
-      if (spec === 'liaison') return 'liaison officer';
-      if (spec === 'targeting') return 'targeting officer';
-      // Roles that need "officer" suffix
-      if (['public diplomacy', 'counterintel', 'protocol', 'sanctions', 'development',
-           'communications', 'regional desk', 'legal affairs', 'consular'].includes(spec)) {
-        return spec + ' officer';
-      }
-      // Ops suffixes need "officer" to sound complete (security ops officer, logistics ops officer, etc.)
-      if (spec.endsWith(' ops')) return spec + ' officer';
-      // Technical collection is specialized
-      if (spec === 'technical collection') return spec + ' specialist';
-      // Political/economic officer are already complete
-      if (spec.endsWith(' officer')) return spec;
-      return spec;
-    })()],
+    functionalSpec: [(() => (
+      formatFunctionalSpec(agent.institution.functionalSpecialization, agent.institution.gradeBand)
+    ))()],
     yearsInService: [String(agent.institution.yearsInService)],
     // Smart years phrase that avoids implausible "0 years as mid-level" combos
     // Returns a phrase that works with: "#yearsPhrase# #orgType# as #aGradeBand# #gradeBand# #functionalSpec#"
@@ -2044,28 +2108,7 @@ export function generateNarrative(
     thirdPlace: [(() => {
       const places = agent.everydayLife?.thirdPlaces ?? [];
       if (!places.length) return '';
-	      const place = toNarrativePhrase(places[0] ?? '');
-	      // Places that need "the" prefix for "spends time at X" context
-		      const needsThe = ['gym', 'library', 'park', 'mosque', 'church', 'temple', 'synagogue',
-		                        'market', 'barber shop', 'salon', 'pool', 'community center',
-		                        "members' club", 'corner store', 'betting shop', 'sports club'];
-	      // Places that need "a" prefix
-	      const needsA = ['cafe', 'bar', 'restaurant', 'museum', 'tea house', 'diner'];
-      // Places that need possessive apostrophe fixes
-      const possessiveFixes: Record<string, string> = {
-        'cousins apartment': "a cousin's apartment",
-        'old friends flat': "an old friend's flat",
-        'aunts place': "an aunt's place",
-        'uncles house': "an uncle's house",
-        'grandparents house': "grandparents' house",
-        'in laws house': "in-laws' house",
-        'poker night host': 'a poker night',
-        'book club host': 'a book club',
-      };
-      if (possessiveFixes[place]) return possessiveFixes[place];
-      if (needsThe.includes(place)) return 'the ' + place;
-      if (needsA.includes(place)) return 'a ' + place;
-      return place;
+      return formatThirdPlace(places[0] ?? '');
     })()],
     commute: [conjugate(pron, 'commutes', 'commute')],
     spend: [conjugate(pron, 'spends', 'spend')],

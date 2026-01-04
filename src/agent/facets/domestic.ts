@@ -110,6 +110,91 @@ export type DomesticResult = {
   lifeSkills: LifeSkillsResult;
 };
 
+export type HousingWeightsInput = {
+  housingPool: HousingStability[];
+  tierBand: TierBand;
+  age: number;
+  roleSeedTags: string[];
+  gdp01: number;
+  conscientiousness01: number;
+  riskAppetite01: number;
+  hasFamily: boolean;
+  isSeniorProfessional: boolean;
+};
+
+export function computeHousingWeights({
+  housingPool,
+  tierBand,
+  age,
+  roleSeedTags,
+  gdp01,
+  conscientiousness01,
+  riskAppetite01,
+  hasFamily,
+  isSeniorProfessional,
+}: HousingWeightsInput): Array<{ item: HousingStability; weight: number }> {
+  return housingPool.map(h => {
+    let w = 1;
+
+    // HARD CONSTRAINT: Married with dependents cannot be couch-surfing or transient
+    if (hasFamily && (h === 'couch-surfing' || h === 'transient')) {
+      return { item: h as HousingStability, weight: 0 };
+    }
+    // HARD CONSTRAINTS: Elite tier housing stability
+    // Elite agents cannot be couch-surfing, transient, or tenuous
+    if (tierBand === 'elite' && (h === 'couch-surfing' || h === 'transient' || h === 'tenuous')) {
+      return { item: h as HousingStability, weight: 0 };
+    }
+    // HARD CONSTRAINT: Senior professionals (15+ years experience, not mass tier)
+    // cannot be couch-surfing - this housing status is incompatible with established career
+    if (isSeniorProfessional && h === 'couch-surfing') {
+      return { item: h as HousingStability, weight: 0 };
+    }
+    // HARD CONSTRAINT: Very low risk appetite avoids unstable housing entirely
+    if (riskAppetite01 <= 0.2 && (h === 'tenuous' || h === 'transient' || h === 'couch-surfing')) {
+      return { item: h as HousingStability, weight: 0 };
+    }
+
+    // Tier correlates
+    if (h === 'owned' && tierBand === 'elite') w = 6;
+    if (h === 'owned' && tierBand === 'middle' && age > 35) w = 3;
+    if (h === 'stable-rental' && tierBand === 'middle') w = 4;
+    if (h === 'tenuous' && tierBand === 'mass') w = 3;
+    if (h === 'transient' && roleSeedTags.includes('operative')) w = 3;
+
+    // GDP per cap indicator: higher GDP countries skew toward stable housing; lower GDP toward precarious housing.
+    if (h === 'owned' || h === 'stable-rental') w += 1.2 * gdp01;
+    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') w += 1.2 * (1 - gdp01);
+
+    // Correlate #13: Conscientiousness ↔ Housing
+    // High conscientiousness → more stable housing (owned, stable-rental)
+    // Low conscientiousness → more chaotic housing (tenuous, transient, couch-surfing)
+    if (h === 'owned' || h === 'stable-rental') {
+      w += 2.5 * conscientiousness01; // High conscientious → stable
+    }
+    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') {
+      w += 2.0 * (1 - conscientiousness01); // Low conscientious → unstable
+    }
+
+    // Correlate #15: Risk ↔ Housing
+    // High risk appetite → more likely transient/unconventional housing
+    // Low risk appetite → prefers stable, predictable housing
+    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') {
+      w += 1.8 * riskAppetite01; // Risk takers more likely precarious
+    }
+    if (h === 'owned' || h === 'stable-rental') {
+      w += 1.4 * (1 - riskAppetite01); // Risk averse prefer stability
+    }
+
+    // Soft bias: families prefer stable housing
+    if (hasFamily && (h === 'owned' || h === 'stable-rental')) {
+      w += 3;
+    }
+
+    return { item: h as HousingStability, weight: w };
+  });
+}
+
 // ============================================================================
 // Main Computation
 // ============================================================================
@@ -218,68 +303,24 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   const hasDependents = (ctx.dependentCount ?? 0) > 0;
   const hasFamily = isMarried && hasDependents;
 
-  const housingPool = vocab.home?.housingStabilities ?? [
-    'owned', 'stable-rental', 'tenuous', 'transient', 'couch-surfing', 'institutional',
-  ];
+  const housingPool = (vocab.home?.housingStabilities?.length
+    ? vocab.home.housingStabilities
+    : ['owned', 'stable-rental', 'tenuous', 'transient', 'couch-surfing', 'institutional']
+  ) as HousingStability[];
   // Estimate years of professional experience (starts around age 22)
   const estimatedYearsWorking = Math.max(0, age - 22);
   const isSeniorProfessional = estimatedYearsWorking >= 15 && tierBand !== 'mass';
 
-  const housingWeights = housingPool.map(h => {
-    let w = 1;
-
-    // HARD CONSTRAINT: Married with dependents cannot be couch-surfing or transient
-    if (hasFamily && (h === 'couch-surfing' || h === 'transient')) {
-      return { item: h as HousingStability, weight: 0 };
-    }
-    // HARD CONSTRAINTS: Elite tier housing stability
-    // Elite agents cannot be couch-surfing, transient, or tenuous
-    if (tierBand === 'elite' && (h === 'couch-surfing' || h === 'transient' || h === 'tenuous')) {
-      return { item: h as HousingStability, weight: 0 };
-    }
-    // HARD CONSTRAINT: Senior professionals (15+ years experience, not mass tier)
-    // cannot be couch-surfing - this housing status is incompatible with established career
-    if (isSeniorProfessional && h === 'couch-surfing') {
-      return { item: h as HousingStability, weight: 0 };
-    }
-
-    // Tier correlates
-    if (h === 'owned' && tierBand === 'elite') w = 6;
-    if (h === 'owned' && tierBand === 'middle' && age > 35) w = 3;
-    if (h === 'stable-rental' && tierBand === 'middle') w = 4;
-    if (h === 'tenuous' && tierBand === 'mass') w = 3;
-    if (h === 'transient' && roleSeedTags.includes('operative')) w = 3;
-
-    // GDP per cap indicator: higher GDP countries skew toward stable housing; lower GDP toward precarious housing.
-    if (h === 'owned' || h === 'stable-rental') w += 1.2 * gdp01;
-    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') w += 1.2 * (1 - gdp01);
-
-    // Correlate #13: Conscientiousness ↔ Housing
-    // High conscientiousness → more stable housing (owned, stable-rental)
-    // Low conscientiousness → more chaotic housing (tenuous, transient, couch-surfing)
-    if (h === 'owned' || h === 'stable-rental') {
-      w += 2.5 * conscientiousness01; // High conscientious → stable
-    }
-    if (h === 'tenuous' || h === 'transient' || h === 'couch-surfing') {
-      w += 2.0 * (1 - conscientiousness01); // Low conscientious → unstable
-    }
-
-    // Correlate #15: Risk ↔ Housing
-    // High risk appetite → more likely transient/unconventional housing
-    // Low risk appetite → prefers stable, predictable housing
-    if (h === 'transient' || h === 'couch-surfing') {
-      w += 1.5 * riskAppetite01; // Risk takers more likely transient
-    }
-    if (h === 'owned' || h === 'stable-rental') {
-      w += 1.0 * (1 - riskAppetite01); // Risk averse prefer stability
-    }
-
-    // Soft bias: families prefer stable housing
-    if (hasFamily && (h === 'owned' || h === 'stable-rental')) {
-      w += 3;
-    }
-
-    return { item: h as HousingStability, weight: w };
+  const housingWeights = computeHousingWeights({
+    housingPool,
+    tierBand,
+    age,
+    roleSeedTags,
+    gdp01,
+    conscientiousness01,
+    riskAppetite01,
+    hasFamily,
+    isSeniorProfessional,
   });
   const housingStability = weightedPick(homeRng, housingWeights) as HousingStability;
 
