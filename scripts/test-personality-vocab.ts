@@ -495,7 +495,7 @@ function run(): void {
   if (thirdPlace !== 'the pub') {
     throw new Error(`Expected formatThirdPlace("pub") to return "the pub", got "${thirdPlace}".`);
   }
-  const functionalSpec = formatFunctionalSpec('humint-ops', 'political-appointee');
+  const functionalSpec = formatFunctionalSpec('humint-ops', 'political-appointee', 'government');
   if (!functionalSpec.includes('in HUMINT ops')) {
     throw new Error(`Expected political appointee HUMINT ops to read "in HUMINT ops", got "${functionalSpec}".`);
   }

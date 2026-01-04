@@ -261,10 +261,12 @@ export function formatThirdPlace(placeRaw: string): string {
   return place;
 }
 
-export function formatFunctionalSpec(specRaw: string, gradeBandRaw?: string): string {
+export function formatFunctionalSpec(specRaw: string, gradeBandRaw?: string, orgTypeRaw?: string): string {
   const spec = toNarrativePhrase(specRaw ?? '');
   if (!spec) return '';
   const gradeBand = toNarrativePhrase(gradeBandRaw ?? '');
+  const orgType = toNarrativePhrase(orgTypeRaw ?? '');
+  const orgTypeLower = orgType.toLowerCase();
   const specCased = spec
     .replace(/\bhumint\b/gi, 'HUMINT')
     .replace(/\bosint\b/gi, 'OSINT')
@@ -274,9 +276,10 @@ export function formatFunctionalSpec(specRaw: string, gradeBandRaw?: string): st
   if (gradeBand === 'political appointee' && specLower.endsWith(' ops')) {
     return `in ${specCased}`;
   }
+  const officerSuffix = (orgTypeLower === 'academia' || orgTypeLower === 'ngo') ? 'lead' : 'officer';
 
   // Policy specializations need a role suffix
-  if (specLower.endsWith(' policy')) return specCased + ' officer';
+  if (specLower.endsWith(' policy')) return `${specCased} ${officerSuffix}`;
   // Technical security roles need "specialist"
   if (specLower === 'it security') return specCased + ' specialist';
   if (specLower === 'health security') return specCased + ' specialist';
@@ -289,14 +292,14 @@ export function formatFunctionalSpec(specRaw: string, gradeBandRaw?: string): st
   // Roles that need "officer" suffix
   if (['public diplomacy', 'counterintel', 'protocol', 'sanctions', 'development',
        'communications', 'regional desk', 'legal affairs', 'consular'].includes(specLower)) {
-    return specCased + ' officer';
+    return `${specCased} ${officerSuffix}`;
   }
   // Ops suffixes need "officer" to sound complete (security ops officer, logistics ops officer, etc.)
-  if (specLower.endsWith(' ops')) return specCased + ' officer';
+  if (specLower.endsWith(' ops')) return `${specCased} ${officerSuffix}`;
   // Technical collection is specialized
   if (specLower === 'technical collection') return specCased + ' specialist';
   // Political/economic officer are already complete
-  if (specLower.endsWith(' officer')) return specCased;
+  if (specLower.endsWith(' officer')) return specCased.replace(/\s+officer$/i, ` ${officerSuffix}`);
   return specCased;
 }
 
@@ -1326,7 +1329,11 @@ export function generateNarrative(
     gradeBand: [toNarrativePhrase(agent.institution.gradeBand)],
     aGradeBand: [aOrAn(toNarrativePhrase(agent.institution.gradeBand))],
     functionalSpec: [(() => (
-      formatFunctionalSpec(agent.institution.functionalSpecialization, agent.institution.gradeBand)
+      formatFunctionalSpec(
+        agent.institution.functionalSpecialization,
+        agent.institution.gradeBand,
+        agent.institution.orgType,
+      )
     ))()],
     yearsInService: [String(agent.institution.yearsInService)],
     // Smart years phrase that avoids implausible "0 years as mid-level" combos
