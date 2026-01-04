@@ -448,6 +448,15 @@ function renderAgent(
     narrativeMode,
   );
   const narrative = narrativeResult.html;
+  const narrativeSynopsis = narrativeMode === 'synopsis'
+    ? narrative
+    : generateNarrative(
+      agent,
+      { originLabel, citizenshipLabel, currentLabel },
+      asOfYear,
+      agentPronounMode,
+      'synopsis',
+    ).html;
   const healthSummary = buildHealthSummary(agent.health, toTitleCaseWords);
   const everydaySummary = buildEverydayLifeSummary(agent.everydayLife, toTitleCaseWords);
   const memorySummary = buildMemoryTraumaSummary(agent.memoryTrauma, toTitleCaseWords);
@@ -619,6 +628,11 @@ function renderAgent(
                 <div class="agent-mini-title" style="margin-top:0.75rem">Top aptitudes</div>
                 <div class="agent-mini-list">${topAptitudeList || `<div class="agent-inline-muted">—</div>`}</div>
               </div>
+            </section>
+
+            <section class="agent-card agent-card-span12">
+              <h3>Synopsis</h3>
+              ${narrativeSynopsis}
             </section>
           </div>
         </div>
