@@ -3,6 +3,7 @@ export type AgentProfileTab =
   | 'character'
   | 'connections'
   | 'capabilities'
+  | 'epistemology'
   | 'daily-life'
   | 'data';
 
@@ -11,6 +12,7 @@ export const AGENT_PROFILE_TABS: AgentProfileTab[] = [
   'character',
   'connections',
   'capabilities',
+  'epistemology',
   'daily-life',
   'data',
 ];
@@ -21,6 +23,7 @@ export const AGENT_TAB_LABELS: Record<AgentProfileTab, string> = {
   character: 'Character',
   connections: 'Connections',
   capabilities: 'Capabilities',
+  epistemology: 'Epistemology',
   'daily-life': 'Daily Life',
   data: 'Data',
 };
@@ -30,7 +33,8 @@ export const AGENT_TAB_DESCRIPTIONS: Record<AgentProfileTab, string> = {
   portrait: 'First impression: who is this person?',
   character: 'Inner life: personality, beliefs, motivations',
   connections: 'Social web: relationships, network, institution',
-  capabilities: 'Skills, aptitudes, and knowledge',
+  capabilities: 'Skills and aptitudes',
+  epistemology: 'Knowledge, beliefs, biases, sources',
   'daily-life': 'Appearance, routines, preferences, health',
   data: 'Technical data and export options',
 };
@@ -46,7 +50,7 @@ export function migrateOldTabName(oldTab: string): AgentProfileTab {
     narrative: 'portrait',
     identity: 'character',
     motivations: 'character',
-    cognitive: 'character',
+    cognitive: 'epistemology',
     social: 'connections',
     performance: 'capabilities',
     lifestyle: 'daily-life',

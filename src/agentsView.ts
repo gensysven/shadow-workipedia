@@ -590,7 +590,8 @@ function renderAgent(
           <button type="button" class="agent-tab-btn ${tab === 'portrait' ? 'active' : ''}" data-agent-tab="portrait" title="First impression: who is this person?">${AGENT_TAB_LABELS.portrait}</button>
           <button type="button" class="agent-tab-btn ${tab === 'character' ? 'active' : ''}" data-agent-tab="character" title="Inner life: personality, beliefs, motivations">${AGENT_TAB_LABELS.character}</button>
           <button type="button" class="agent-tab-btn ${tab === 'connections' ? 'active' : ''}" data-agent-tab="connections" title="Social web: relationships, network, institution">${AGENT_TAB_LABELS.connections}</button>
-          <button type="button" class="agent-tab-btn ${tab === 'capabilities' ? 'active' : ''}" data-agent-tab="capabilities" title="Skills, aptitudes, and knowledge">${AGENT_TAB_LABELS.capabilities}</button>
+          <button type="button" class="agent-tab-btn ${tab === 'capabilities' ? 'active' : ''}" data-agent-tab="capabilities" title="Skills and aptitudes">${AGENT_TAB_LABELS.capabilities}</button>
+          <button type="button" class="agent-tab-btn ${tab === 'epistemology' ? 'active' : ''}" data-agent-tab="epistemology" title="Knowledge, beliefs, biases, sources">${AGENT_TAB_LABELS.epistemology}</button>
           <button type="button" class="agent-tab-btn ${tab === 'daily-life' ? 'active' : ''}" data-agent-tab="daily-life" title="Appearance, routines, preferences, health">${AGENT_TAB_LABELS['daily-life']}</button>
           <button type="button" class="agent-tab-btn agent-tab-btn-muted ${tab === 'data' ? 'active' : ''}" data-agent-tab="data" title="Technical data and export options">${AGENT_TAB_LABELS.data}</button>
         </div>
@@ -750,16 +751,6 @@ function renderAgent(
               </div>
             </details>
 
-            <!-- Cognitive (merged from Cognitive tab) -->
-            <details class="agent-card agent-section" data-agents-details="profile:character:cognitive" ${cognitiveDetailsOpen ? 'open' : ''}>
-              <summary class="agent-section-summary">
-                <span class="agent-section-title">Knowledge &amp; beliefs</span>
-                <span class="agent-section-hint">Strengths, gaps, biases</span>
-              </summary>
-              <div class="agent-section-body">
-                ${renderCognitiveSection(cognitiveCards, true)}
-              </div>
-            </details>
           </div>
         </div>
 
@@ -878,6 +869,21 @@ function renderAgent(
                 <div class="agent-kv" style="margin-top:10px">
                   <div class="kv-row"><span class="kv-k">Cover aptitudes</span><span class="kv-v">${escapeHtml(agent.covers.coverAptitudeTags.map(toTitleCaseWords).join(', ') || '—')}</span></div>
                 </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- EPISTEMOLOGY TAB: Knowledge, beliefs, biases, sources -->
+        <div class="agent-tab-panel ${tab === 'epistemology' ? 'active' : ''}" data-agent-tab-panel="epistemology">
+          <div class="agent-grid agent-grid-tight">
+            <details class="agent-card agent-section agent-card-span12" data-agents-details="profile:epistemology:cognitive" ${cognitiveDetailsOpen ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Knowledge &amp; beliefs</span>
+                <span class="agent-section-hint">Strengths, gaps, biases, sources</span>
+              </summary>
+              <div class="agent-section-body">
+                ${renderCognitiveSection(cognitiveCards, true)}
               </div>
             </details>
           </div>
