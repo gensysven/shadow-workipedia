@@ -608,6 +608,11 @@ function renderAgent(
         <div class="agent-tab-panels">
           <div class="agent-tab-panel ${tab === 'overview' ? 'active' : ''}" data-agent-tab-panel="overview">
             <div class="agent-grid agent-grid-tight">
+            <section class="agent-card agent-card-span12">
+              <h3>Synopsis</h3>
+              ${narrativeSynopsis}
+            </section>
+
             <section class="agent-card agent-card-span6">
               <h3>At a glance</h3>
               <div class="agent-kv">
@@ -628,11 +633,6 @@ function renderAgent(
                 <div class="agent-mini-title" style="margin-top:0.75rem">Top aptitudes</div>
                 <div class="agent-mini-list">${topAptitudeList || `<div class="agent-inline-muted">—</div>`}</div>
               </div>
-            </section>
-
-            <section class="agent-card agent-card-span12">
-              <h3>Synopsis</h3>
-              ${narrativeSynopsis}
             </section>
           </div>
         </div>
