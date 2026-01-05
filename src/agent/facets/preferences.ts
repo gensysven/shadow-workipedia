@@ -149,6 +149,12 @@ export type EnvironmentPreferences = {
 export type LivingSpacePreferences = {
   roomPreferences: string[];
   comfortItems: string[];
+  spaceType: string;
+  decorStyle: string;
+  organizationStyle: string;
+  securityHabit: string;
+  visitorPolicy: string;
+  lightPreference: string;
 };
 
 export type AestheticsPreferences = {
@@ -1070,20 +1076,123 @@ function computeEnvironmentPreferences(ctx: PreferencesContext, rng: Rng): Envir
 }
 
 function computeLivingSpacePreferences(ctx: PreferencesContext, rng: Rng): LivingSpacePreferences {
-  const { vocab, trace } = ctx;
+  const { vocab, trace, latents, traits, tierBand, roleSeedTags, age } = ctx;
   const living = vocab.preferences.livingSpace;
   if (!living?.roomPreferenceTags?.length) throw new Error('Agent vocab missing: preferences.livingSpace.roomPreferenceTags');
   if (!living?.comfortItemTags?.length) throw new Error('Agent vocab missing: preferences.livingSpace.comfortItemTags');
+  if (!living?.spaceTypes?.length) throw new Error('Agent vocab missing: preferences.livingSpace.spaceTypes');
+  if (!living?.decorStyles?.length) throw new Error('Agent vocab missing: preferences.livingSpace.decorStyles');
+  if (!living?.organizationStyles?.length) throw new Error('Agent vocab missing: preferences.livingSpace.organizationStyles');
+  if (!living?.securityHabits?.length) throw new Error('Agent vocab missing: preferences.livingSpace.securityHabits');
+  if (!living?.visitorPolicies?.length) throw new Error('Agent vocab missing: preferences.livingSpace.visitorPolicies');
+  if (!living?.lightPreferences?.length) throw new Error('Agent vocab missing: preferences.livingSpace.lightPreferences');
 
   const roomPreferences = pickKBounded(rng, living.roomPreferenceTags, 1, 2);
   const comfortItems = pickKBounded(rng, living.comfortItemTags, 1, 2);
 
-  traceSet(trace, 'preferences.livingSpace', { roomPreferences, comfortItems }, {
-    method: 'rng.pickK',
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const stress01 = latents.stressReactivity / 1000;
+  const public01 = latents.publicness / 1000;
+  const social01 = latents.socialBattery / 1000;
+  const frugal01 = latents.frugality / 1000;
+  const aesthetic01 = latents.aestheticExpressiveness / 1000;
+  const conscientious01 = traits.conscientiousness / 1000;
+  const isOperative = roleSeedTags.includes('operative') || roleSeedTags.includes('security');
+
+  const pickWeighted = (pool: string[], weightFn: (item: string) => number): string => (
+    weightedPick(rng, pool.map(item => ({ item, weight: weightFn(item) }))) as string
+  );
+
+  const spaceType = pickWeighted(living.spaceTypes, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('operational') || s.includes('bolt')) w += 0.7 * opsec01 + (isOperative ? 0.6 : 0);
+    if (s.includes('deep-cover')) w += 0.6 * public01 + 0.3 * (tierBand === 'elite' ? 1 : 0);
+    if (s.includes('studio')) w += 0.5 * (age < 30 ? 1 : 0.3) + 0.3 * frugal01;
+    if (s.includes('shared')) w += 0.6 * social01 + 0.4 * (tierBand === 'mass' ? 1 : 0.2);
+    if (s.includes('family')) w += 0.5 * (age > 35 ? 1 : 0.2) + 0.3 * public01;
+    if (s.includes('hotel')) w += 0.6 * (isOperative ? 1 : 0.2);
+    if (s.includes('barracks') || s.includes('dorm')) w += 0.5 * (tierBand === 'mass' ? 1 : 0.2);
+    if (s.includes('mission')) w += 0.6 * (isOperative ? 1 : 0.1);
+    return Math.max(0.05, w);
+  });
+
+  const decorStyle = pickWeighted(living.decorStyles, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('minimal') || s.includes('sterile') || s.includes('monochrome')) w += 0.7 * opsec01 + 0.5 * conscientious01;
+    if (s.includes('cozy') || s.includes('keepsakes')) w += 0.6 * (1 - opsec01) + 0.4 * social01;
+    if (s.includes('cultural')) w += 0.6 * aesthetic01;
+    if (s.includes('chaotic')) w += 0.5 * stress01 + 0.3 * (1 - conscientious01);
+    if (s.includes('mismatched')) w += 0.4 * frugal01;
+    return Math.max(0.05, w);
+  });
+
+  const organizationStyle = pickWeighted(living.organizationStyles, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('obsessive')) w += 0.9 * conscientious01 + 0.4 * opsec01;
+    if (s.includes('selective')) w += 0.6 * conscientious01;
+    if (s.includes('mess')) w += 0.7 * (1 - conscientious01) + 0.4 * stress01;
+    if (s.includes('cyclic')) w += 0.5 * stress01;
+    if (s.includes('tool')) w += 0.4 * opsec01 + 0.3 * (isOperative ? 1 : 0);
+    return Math.max(0.05, w);
+  });
+
+  const securityHabit = pickWeighted(living.securityHabits, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('hair') || s.includes('powder') || s.includes('item-placement')) w += 0.7 * opsec01;
+    if (s.includes('motion') || s.includes('camera')) w += 0.6 * opsec01 + 0.3 * public01;
+    if (s.includes('burn-bag') || s.includes('go-bag')) w += 0.6 * opsec01 + 0.4 * stress01;
+    return Math.max(0.05, w);
+  });
+
+  const visitorPolicy = pickWeighted(living.visitorPolicies, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('no-visitors')) w += 0.8 * opsec01;
+    if (s.includes('trusted')) w += 0.6 * social01;
+    if (s.includes('cover')) w += 0.5 * public01 + 0.3 * opsec01;
+    if (s.includes('open')) w += 0.6 * social01 + 0.4 * (1 - opsec01);
+    if (s.includes('professional')) w += 0.4 * opsec01 + 0.2 * conscientious01;
+    return Math.max(0.05, w);
+  });
+
+  const lightPreference = pickWeighted(living.lightPreferences, (item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('bright') || s.includes('natural')) w += 0.6 * (1 - stress01) + 0.3 * social01;
+    if (s.includes('dark') || s.includes('artificial')) w += 0.6 * stress01 + 0.5 * opsec01;
+    if (s.includes('views')) w += 0.4 * public01 + 0.2 * (1 - opsec01);
+    if (s.includes('avoided')) w += 0.5 * opsec01;
+    return Math.max(0.05, w);
+  });
+
+  traceSet(trace, 'preferences.livingSpace', {
+    roomPreferences,
+    comfortItems,
+    spaceType,
+    decorStyle,
+    organizationStyle,
+    securityHabit,
+    visitorPolicy,
+    lightPreference,
+  }, {
+    method: 'weightedPick+pickK',
     dependsOn: { facet: 'preferences', roomPoolSize: living.roomPreferenceTags.length, comfortPoolSize: living.comfortItemTags.length },
   });
 
-  return { roomPreferences, comfortItems };
+  return {
+    roomPreferences,
+    comfortItems,
+    spaceType,
+    decorStyle,
+    organizationStyle,
+    securityHabit,
+    visitorPolicy,
+    lightPreference,
+  };
 }
 
 function computeAestheticsPreferences(ctx: PreferencesContext, rng: Rng): AestheticsPreferences {

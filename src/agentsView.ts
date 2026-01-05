@@ -1261,6 +1261,14 @@ function renderAgent(
                     toTitleCaseWords(agent.preferences.aesthetics.touchPreference),
                   ].join(' · '))}</span></div>
                   <div class="kv-row"><span class="kv-k">Scents</span><span class="kv-v">${escapeHtml(`${toTitleCaseWords(agent.preferences.aesthetics.scentAttraction)} · ${toTitleCaseWords(agent.preferences.aesthetics.scentAversion)}`)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Rooms</span><span class="kv-v">${escapeHtml(agent.preferences.livingSpace.roomPreferences.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+                  <div class="kv-row"><span class="kv-k">Comfort items</span><span class="kv-v">${escapeHtml(agent.preferences.livingSpace.comfortItems.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+                  <div class="kv-row"><span class="kv-k">Space</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.spaceType))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Decor</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.decorStyle))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Organization</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.organizationStyle))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Security habit</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.securityHabit))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Visitors</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.visitorPolicy))}</span></div>
+                  <div class="kv-row"><span class="kv-k">Light</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.livingSpace.lightPreference))}</span></div>
                   <div class="kv-row"><span class="kv-k">Artistic</span><span class="kv-v">${escapeHtml(agent.preferences.artistic.mediums.map(toTitleCaseWords).join(', ') || '—')}</span></div>
                   <div class="kv-row"><span class="kv-k">Expression</span><span class="kv-v">${escapeHtml([
                     toTitleCaseWords(agent.preferences.artistic.inspirationSource),

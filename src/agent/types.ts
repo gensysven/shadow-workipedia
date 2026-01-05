@@ -311,6 +311,12 @@ export type AgentVocabV1 = {
     livingSpace?: {
       roomPreferenceTags?: string[];
       comfortItemTags?: string[];
+      spaceTypes?: string[];
+      decorStyles?: string[];
+      organizationStyles?: string[];
+      securityHabits?: string[];
+      visitorPolicies?: string[];
+      lightPreferences?: string[];
     };
     aesthetics?: {
       colorPalettes?: string[];
@@ -1252,6 +1258,12 @@ export type GeneratedAgent = {
     livingSpace: {
       roomPreferences: string[];
       comfortItems: string[];
+      spaceType: string;
+      decorStyle: string;
+      organizationStyle: string;
+      securityHabit: string;
+      visitorPolicy: string;
+      lightPreference: string;
     };
     aesthetics: {
       colorPalette: string;

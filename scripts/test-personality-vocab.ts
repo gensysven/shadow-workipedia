@@ -288,6 +288,39 @@ function run(): void {
     'preferences.food.conditionalPreferences',
   );
 
+  console.log('Checking living space vocab...');
+  const livingSpacePrefs = vocab.preferences?.livingSpace;
+  assertIncludes(
+    livingSpacePrefs?.spaceTypes,
+    'operational-apartment',
+    'preferences.livingSpace.spaceTypes',
+  );
+  assertIncludes(
+    livingSpacePrefs?.decorStyles,
+    'minimal-functional',
+    'preferences.livingSpace.decorStyles',
+  );
+  assertIncludes(
+    livingSpacePrefs?.organizationStyles,
+    'obsessive-order',
+    'preferences.livingSpace.organizationStyles',
+  );
+  assertIncludes(
+    livingSpacePrefs?.securityHabits,
+    'hair-on-door',
+    'preferences.livingSpace.securityHabits',
+  );
+  assertIncludes(
+    livingSpacePrefs?.visitorPolicies,
+    'trusted-only',
+    'preferences.livingSpace.visitorPolicies',
+  );
+  assertIncludes(
+    livingSpacePrefs?.lightPreferences,
+    'bright-open',
+    'preferences.livingSpace.lightPreferences',
+  );
+
   console.log('Checking detail generation vocab...');
   const detailGeneration = (vocab as any).detailGeneration as
     | {
@@ -747,6 +780,34 @@ function run(): void {
   }
   if (!agentFoodPrefs?.conditionalPreferences?.length) {
     throw new Error('Expected preferences.food.conditionalPreferences to be generated.');
+  }
+  const agentLivingSpace = agent.preferences.livingSpace as
+    | {
+      spaceType?: string;
+      decorStyle?: string;
+      organizationStyle?: string;
+      securityHabit?: string;
+      visitorPolicy?: string;
+      lightPreference?: string;
+    }
+    | undefined;
+  if (!agentLivingSpace?.spaceType) {
+    throw new Error('Expected preferences.livingSpace.spaceType to be generated.');
+  }
+  if (!agentLivingSpace?.decorStyle) {
+    throw new Error('Expected preferences.livingSpace.decorStyle to be generated.');
+  }
+  if (!agentLivingSpace?.organizationStyle) {
+    throw new Error('Expected preferences.livingSpace.organizationStyle to be generated.');
+  }
+  if (!agentLivingSpace?.securityHabit) {
+    throw new Error('Expected preferences.livingSpace.securityHabit to be generated.');
+  }
+  if (!agentLivingSpace?.visitorPolicy) {
+    throw new Error('Expected preferences.livingSpace.visitorPolicy to be generated.');
+  }
+  if (!agentLivingSpace?.lightPreference) {
+    throw new Error('Expected preferences.livingSpace.lightPreference to be generated.');
   }
   const agentDetails = (agent as any).details as
     | Array<{ category?: string; item?: string }>
