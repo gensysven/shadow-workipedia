@@ -31,6 +31,8 @@ import type {
   ThoughtsEmotionsSnapshot,
   ThoughtValence,
   PsychologyTypeResult,
+  ExistenceCrisisCategory,
+  ExistenceCrisisResult,
 } from '../types';
 import {
   makeRng,
@@ -133,6 +135,7 @@ export type PsychologyResult = {
   thoughtsEmotions: ThoughtsEmotionsSnapshot;
   knowledgeIgnorance: KnowledgeIgnoranceResult;
   psychologyType: PsychologyTypeResult;
+  existenceCrisis: ExistenceCrisisResult;
 };
 
 // ============================================================================
@@ -1204,6 +1207,137 @@ function computePsychologyType(
   return result;
 }
 
+type ExistenceCrisisType = {
+  name: string;
+  category: ExistenceCrisisCategory;
+  triggers: string[];
+  stages: string[];
+  behaviors: string[];
+  outcomes: string[];
+};
+
+function computeExistenceCrisis(
+  seed: string,
+  vocab: AgentVocabV1,
+  latents: Latents,
+  traits: PsychTraits,
+  aptitudes: Aptitudes,
+  ethics: Ethics,
+  contradictions: ContradictionPair[],
+  selfConcept: SelfConceptResult,
+  trace?: AgentGenerationTraceV1,
+): ExistenceCrisisResult {
+  traceFacet(trace, seed, 'existenceCrisis');
+  const rng = makeRng(facetSeed(seed, 'existenceCrisis'));
+
+  const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
+
+  const fallbackTypes: ExistenceCrisisType[] = [
+    {
+      name: 'The Puppet Realization',
+      category: 'identity',
+      triggers: ['Contradictory missions', 'Handler motives questioned', 'Pattern in deployments'],
+      stages: ['Subtle doubts', 'Pattern recognition', 'Agency questioning', 'Existential break', 'Resolution/Breakdown'],
+      behaviors: ['Tests boundaries', 'Loyalty wavers', 'Seeks autonomy'],
+      outcomes: ['Accepts the role', 'Rebels against the handler', 'Emotional collapse'],
+    },
+    {
+      name: 'The Means Without End',
+      category: 'purpose',
+      triggers: ['Mission outcomes feel hollow', 'No clear greater good', 'Strategy contradictions'],
+      stages: ['Serving the greater good', 'Necessary evils', 'Just following orders', 'What greater good?', 'There is no point'],
+      behaviors: ['Demands explanations', 'Philosophical paralysis', 'Seeks bigger picture'],
+      outcomes: ['Personal purpose rebuilt', 'Burnt operative', 'Withdrawal'],
+    },
+    {
+      name: 'The Blood Ocean',
+      category: 'moral',
+      triggers: ['Civilian casualties', 'Preventable deaths', 'Names won’t leave memory'],
+      stages: ['Numbers on a page', 'Faces attached', 'Names remembered', 'Seeking absolution', 'Pacifist or collapse'],
+      behaviors: ['Self-punishing', 'Haunted by faces', 'Avoids lethal missions'],
+      outcomes: ['Seeks absolution', 'Withdraws from field work', 'Breaks with org'],
+    },
+  ];
+
+  const types = (vocab.existenceCrises?.types ?? fallbackTypes)
+    .map((entry) => ({
+      name: entry.name,
+      category: (entry.category ?? 'identity') as ExistenceCrisisCategory,
+      triggers: entry.triggers ?? [],
+      stages: entry.stages ?? [],
+      behaviors: entry.behaviors ?? [],
+      outcomes: entry.outcomes ?? [],
+    }))
+    .filter((entry) => entry.name);
+
+  const contradictions01 = clamp01(contradictions.length / 4);
+  const stress01 = latents.stressReactivity / 1000;
+  const empathy01 = aptitudes.empathy / 1000;
+  const principled01 = latents.principledness / 1000;
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const inst01 = latents.institutionalEmbeddedness / 1000;
+  const curiosity01 = latents.curiosityBandwidth / 1000;
+  const tech01 = latents.techFluency / 1000;
+  const planning01 = latents.planningHorizon / 1000;
+  const social01 = latents.socialBattery / 1000;
+  const agree01 = traits.agreeableness / 1000;
+  const impostor01 = selfConcept.impostorRisk / 1000;
+  const harmAversion01 = ethics.harmAversion / 1000;
+
+  const weights = types.map((entry) => {
+    const category = entry.category;
+    let w = 1;
+    if (category === 'identity') {
+      w += 1.1 * impostor01 + 0.7 * contradictions01 + 0.4 * (1 - inst01);
+    } else if (category === 'purpose') {
+      w += 1.0 * principled01 + 0.7 * planning01 + 0.4 * (1 - inst01);
+    } else if (category === 'moral') {
+      w += 1.0 * harmAversion01 + 0.9 * empathy01 + 0.4 * stress01;
+    } else if (category === 'reality') {
+      w += 1.0 * curiosity01 + 0.8 * tech01 + 0.3 * stress01;
+    } else if (category === 'relationship') {
+      w += 0.9 * (1 - agree01) + 0.7 * (1 - social01) + 0.5 * opsec01;
+    }
+    return { item: entry.name, weight: w };
+  });
+
+  const selectedName = weightedPick(rng, weights);
+  const selected = types.find((entry) => entry.name === selectedName) ?? types[0];
+
+  const triggers = uniqueStrings(selected.triggers);
+  const stages = uniqueStrings(selected.stages);
+  const behaviors = uniqueStrings(selected.behaviors);
+  const outcomes = uniqueStrings(selected.outcomes);
+
+  const trigger = triggers.length ? rng.pick(triggers) : 'Unspecified trigger';
+  const intensity01 = clamp01(0.45 * stress01 + 0.25 * contradictions01 + 0.15 * impostor01 + 0.15 * (1 - inst01));
+  const stage = stages.length
+    ? weightedPick(
+      rng,
+      stages.map((entry, index) => {
+        const pos = stages.length > 1 ? index / (stages.length - 1) : 0;
+        const distance = Math.abs(pos - intensity01);
+        return { item: entry, weight: Math.max(0.15, 1.3 - distance * 1.6) };
+      }),
+    )
+    : 'Early doubts';
+
+  const behaviorPick = behaviors.length ? rng.pickK(behaviors, Math.min(2, behaviors.length)) : [];
+  const outcomePick = outcomes.length ? rng.pickK(outcomes, Math.min(2, outcomes.length)) : [];
+
+  const result: ExistenceCrisisResult = {
+    name: selected.name,
+    category: selected.category,
+    trigger,
+    stage,
+    behaviors: behaviorPick,
+    outcomes: outcomePick,
+  };
+
+  traceSet(trace, 'existenceCrisis', result, { method: 'weightedPick', dependsOn: { vocab: 'existenceCrises' } });
+  return result;
+}
+
 // ============================================================================
 // Main Computation
 // ============================================================================
@@ -1264,6 +1398,19 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
   // Psychology type - values/coping/breakpoint snapshot
   const psychologyType = computePsychologyType(seed, vocab, latents, traits, aptitudes, trace);
 
+  // Existence crisis snapshot
+  const existenceCrisis = computeExistenceCrisis(
+    seed,
+    vocab,
+    latents,
+    traits,
+    aptitudes,
+    ethics,
+    contradictions,
+    selfConcept,
+    trace,
+  );
+
   return {
     ethics,
     contradictions,
@@ -1275,5 +1422,6 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
     thoughtsEmotions,
     knowledgeIgnorance,
     psychologyType,
+    existenceCrisis,
   };
 }

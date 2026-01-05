@@ -567,6 +567,7 @@ function renderAgent(
     .join('');
 
   const psychologyDetailsOpen = isDetailsOpen(PSYCHOLOGY_DETAILS_KEY, false);
+  const existenceCrisis = agent.existenceCrisis;
   const thoughtsEmotions = agent.thoughtsEmotions;
   const toPsychEntries = <T extends { item: string }>(entries: T[] | undefined, formatter: (entry: T) => string) =>
     (entries ?? []).map(entry => ({ item: entry.item, meta: formatter(entry) }));
@@ -889,6 +890,19 @@ function renderAgent(
                 <div class="kv-row"><span class="kv-k">Coping</span><span class="kv-v">${escapeHtml(psychologyType.copingMechanism)}</span></div>
                 <div class="kv-row"><span class="kv-k">Breaking point</span><span class="kv-v">${escapeHtml(psychologyType.breakingPoint)}</span></div>
                 <div class="kv-row"><span class="kv-k">Missions</span><span class="kv-v">${escapeHtml(psychologyType.missionPreferences.slice(0, 3).map(toTitleCaseWords).join(', ') || '—')}</span></div>
+              </div>
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Existence crisis</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Type</span><span class="kv-v">${escapeHtml(existenceCrisis?.name ?? '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Trigger</span><span class="kv-v">${escapeHtml(existenceCrisis?.trigger ?? '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Stage</span><span class="kv-v">${escapeHtml(existenceCrisis?.stage ?? '—')}</span></div>
+                ${psychologyDetailsOpen ? `
+                  <div class="kv-row"><span class="kv-k">Behaviors</span><span class="kv-v">${escapeHtml(existenceCrisis?.behaviors?.join(', ') || '—')}</span></div>
+                  <div class="kv-row"><span class="kv-k">Outcomes</span><span class="kv-v">${escapeHtml(existenceCrisis?.outcomes?.join(', ') || '—')}</span></div>
+                ` : ''}
               </div>
             </section>
 

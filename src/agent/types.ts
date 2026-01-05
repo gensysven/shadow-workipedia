@@ -622,6 +622,16 @@ export type AgentVocabV1 = {
       missionPreferences: string[];
     }>;
   };
+  existenceCrises?: {
+    types?: Array<{
+      name: string;
+      category: ExistenceCrisisCategory;
+      triggers: string[];
+      stages: string[];
+      behaviors: string[];
+      outcomes: string[];
+    }>;
+  };
 };
 
 export type SocioeconomicMobility = 'upward' | 'stable' | 'downward';
@@ -727,6 +737,17 @@ export type PsychologyTypeResult = {
   copingMechanism: string;
   breakingPoint: string;
   missionPreferences: string[];
+};
+
+export type ExistenceCrisisCategory = 'identity' | 'purpose' | 'moral' | 'reality' | 'relationship';
+
+export type ExistenceCrisisResult = {
+  name: string;
+  category: ExistenceCrisisCategory;
+  trigger: string;
+  stage: string;
+  behaviors: string[];
+  outcomes: string[];
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1450,6 +1471,8 @@ export type GeneratedAgent = {
 
   // Psychology type snapshot
   psychologyType: PsychologyTypeResult;
+  // Existential crisis snapshot
+  existenceCrisis: ExistenceCrisisResult;
 
   // Life skills - competence outside the job
   lifeSkills: {

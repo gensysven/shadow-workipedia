@@ -10083,6 +10083,293 @@
       }
     ]
   },
+  "existenceCrises": {
+    "types": [
+      {
+        "name": "The Puppet Realization",
+        "category": "identity",
+        "triggers": [
+          "Multiple contradictory missions",
+          "Discovering prior programming",
+          "Meeting former agents",
+          "Seeing patterns in deployments",
+          "Questioning handler motives"
+        ],
+        "stages": [
+          "Subtle doubts",
+          "Pattern recognition",
+          "Agency questioning",
+          "Existential break",
+          "Resolution or breakdown"
+        ],
+        "behaviors": [
+          "Interprets orders creatively",
+          "Tests boundaries",
+          "Seeks autonomy",
+          "Loyalty wavers",
+          "May go rogue"
+        ],
+        "outcomes": [
+          "Accepts the role",
+          "Rebels against control",
+          "Shatters identity"
+        ]
+      },
+      {
+        "name": "The Replacement Complex",
+        "category": "identity",
+        "triggers": [
+          "Discovering predecessor's fate",
+          "Meeting identical-skill agents",
+          "Seeing training pipelines",
+          "Expendability demonstrated",
+          "Interchangeability proven"
+        ],
+        "stages": [
+          "I'm special",
+          "I'm skilled",
+          "I'm useful",
+          "I'm replaceable",
+          "I'm nothing"
+        ],
+        "behaviors": [
+          "Seeks uniqueness",
+          "Reckless distinction attempts",
+          "Paranoid self-protection",
+          "Legacy obsession"
+        ],
+        "outcomes": [
+          "Obsesses over legacy",
+          "Self-destructive risk-taking",
+          "Withdrawal"
+        ]
+      },
+      {
+        "name": "The Means Without End",
+        "category": "purpose",
+        "triggers": [
+          "Mission goals feel hollow",
+          "Contradictory objectives",
+          "No clear greater good",
+          "Years without impact"
+        ],
+        "stages": [
+          "Serving the greater good",
+          "Necessary evils",
+          "Just following orders",
+          "What greater good?",
+          "There is no point"
+        ],
+        "behaviors": [
+          "Demands explanations",
+          "Motivation collapses",
+          "Searches for meaning",
+          "Philosophical paralysis"
+        ],
+        "outcomes": [
+          "Rebuilds personal purpose",
+          "Burnt operative",
+          "Quits missions"
+        ]
+      },
+      {
+        "name": "The Sisyphean Realization",
+        "category": "purpose",
+        "triggers": [
+          "Same crises recur",
+          "New faces, same conflicts",
+          "Power shifts without change",
+          "Cycles feel eternal"
+        ],
+        "stages": [
+          "This time is different",
+          "Why do we bother?",
+          "Small changes matter",
+          "Nothing matters",
+          "The work itself matters"
+        ],
+        "behaviors": [
+          "Cynical humor",
+          "Depression drift",
+          "Reframes to small wins",
+          "Considers exit"
+        ],
+        "outcomes": [
+          "Accepts absurdity",
+          "Disengages",
+          "Returns to craft"
+        ]
+      },
+      {
+        "name": "The Blood Ocean",
+        "category": "moral",
+        "triggers": [
+          "Civilian casualties accumulate",
+          "Names remembered",
+          "Preventable deaths",
+          "Direct kills"
+        ],
+        "stages": [
+          "Numbers on a page",
+          "Faces attached",
+          "Names remembered",
+          "Seeking absolution",
+          "Pacifist or collapse"
+        ],
+        "behaviors": [
+          "Haunted by faces",
+          "Avoids lethal ops",
+          "Self-punishing",
+          "Confession seeking"
+        ],
+        "outcomes": [
+          "Seeks absolution",
+          "Goes pacifist",
+          "Breakdown"
+        ]
+      },
+      {
+        "name": "The Complicity Spiral",
+        "category": "moral",
+        "triggers": [
+          "Enabled a tyrant rise",
+          "Information led to massacre",
+          "Protected a war criminal",
+          "Facilitated oppression"
+        ],
+        "stages": [
+          "Rationalizing",
+          "Justifying",
+          "Responsibility acceptance",
+          "Guilt multiplication",
+          "Action paralysis"
+        ],
+        "behaviors": [
+          "Sleeplessness",
+          "Withdraws socially",
+          "Obsessive accounting",
+          "Second-guesses orders"
+        ],
+        "outcomes": [
+          "Whistleblows",
+          "Paralyzed by guilt",
+          "Recasts mission as penance"
+        ]
+      },
+      {
+        "name": "The Simulation Hypothesis",
+        "category": "reality",
+        "triggers": [
+          "Coincidences multiply",
+          "Patterns feel too perfect",
+          "NPCs feel scripted",
+          "Player presence sensed"
+        ],
+        "stages": [
+          "World feels too convenient",
+          "Patterns too perfect",
+          "NPC suspicion",
+          "Reality testing",
+          "Rebellion or surrender"
+        ],
+        "behaviors": [
+          "Tests boundaries",
+          "Seeks glitches",
+          "Fourth-wall awareness",
+          "Breaks cover"
+        ],
+        "outcomes": [
+          "Reality rebellion",
+          "Detached observer",
+          "Returns to pragmatic focus"
+        ]
+      },
+      {
+        "name": "The Consciousness Question",
+        "category": "reality",
+        "triggers": [
+          "Memory unreliability",
+          "Emotion authenticity doubts",
+          "AI mimicry encounters",
+          "Turing test fixation"
+        ],
+        "stages": [
+          "I think therefore",
+          "Am I processing?",
+          "What is consciousness?",
+          "Does it matter?",
+          "Self redefinition"
+        ],
+        "behaviors": [
+          "Creativity desperation",
+          "Emotion auditing",
+          "Philosophical looping",
+          "Seeks proof"
+        ],
+        "outcomes": [
+          "Self-acceptance",
+          "Existential drift",
+          "Obsessive self-testing"
+        ]
+      },
+      {
+        "name": "The Trust Impossibility",
+        "category": "relationship",
+        "triggers": [
+          "Years of deception",
+          "Betrayal by a confidant",
+          "Family used as leverage",
+          "Cannot switch off suspicion"
+        ],
+        "stages": [
+          "Sees lies everywhere",
+          "Trust erodes",
+          "Friends become suspects",
+          "Isolation",
+          "Trust shutdown"
+        ],
+        "behaviors": [
+          "Avoids intimacy",
+          "Tests loyalty",
+          "Keeps secrets",
+          "Isolation seeking"
+        ],
+        "outcomes": [
+          "Lonely independence",
+          "Guarded alliances only",
+          "Complete withdrawal"
+        ]
+      },
+      {
+        "name": "The Performance Prison",
+        "category": "relationship",
+        "triggers": [
+          "Too many cover identities",
+          "Years spent in character",
+          "Real name forgotten",
+          "Original personality lost"
+        ],
+        "stages": [
+          "Cover as default",
+          "Real self blurry",
+          "Original name fades",
+          "Identity fragmentation",
+          "Reconstruction attempt"
+        ],
+        "behaviors": [
+          "Personality archaeology",
+          "Memory reconstruction",
+          "Authenticity seeking",
+          "Self-reinvention"
+        ],
+        "outcomes": [
+          "Chooses a new self",
+          "Endless role-play",
+          "Breaks from field work"
+        ]
+      }
+    ]
+  },
   "timelineTemplates": {
     "childhood": [
       { "description": "Mother died in childbirth, father blamed them subtly", "type": "family-crisis", "impact": "negative" },

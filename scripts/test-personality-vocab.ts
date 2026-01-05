@@ -111,6 +111,27 @@ function run(): void {
     throw new Error('Expected psychologyTypes.types to include \"Idealist\".');
   }
 
+  console.log('Checking existence crisis vocab...');
+  const existenceCrises = (vocab as any).existenceCrises as
+    | {
+      types?: Array<{
+        name?: string;
+        category?: string;
+        triggers?: string[];
+        stages?: string[];
+        behaviors?: string[];
+        outcomes?: string[];
+      }>;
+    }
+    | undefined;
+  if (!existenceCrises?.types?.some((t) => (t.name ?? '').toLowerCase() === 'the puppet realization')) {
+    throw new Error('Expected existenceCrises.types to include \"The Puppet Realization\".');
+  }
+  const puppetEntry = existenceCrises?.types?.find((t) => (t.name ?? '').toLowerCase() === 'the puppet realization');
+  if (!puppetEntry?.triggers?.length || !puppetEntry.stages?.length) {
+    throw new Error('Expected existenceCrises.types entries to include triggers and stages.');
+  }
+
   console.log('Checking timeline template vocab...');
   const timelineTemplates = (vocab as any).timelineTemplates as
     | {
@@ -421,6 +442,15 @@ function run(): void {
   }
   if (!agentPsychologyType?.copingMechanism) {
     throw new Error('Expected psychologyType.copingMechanism to be generated.');
+  }
+  const agentExistenceCrisis = (agent as any).existenceCrisis as
+    | { name?: string; category?: string; trigger?: string; stage?: string; behaviors?: string[]; outcomes?: string[] }
+    | undefined;
+  if (!agentExistenceCrisis?.name) {
+    throw new Error('Expected existenceCrisis.name to be generated.');
+  }
+  if (!agentExistenceCrisis?.trigger || !agentExistenceCrisis?.stage) {
+    throw new Error('Expected existenceCrisis.trigger and existenceCrisis.stage to be generated.');
   }
   const timelineDescriptions = agent.timeline.map(event => event.description);
   const childhoodTemplates = (timelineTemplates?.childhood ?? []).map(t => t.description).filter(Boolean) as string[];
