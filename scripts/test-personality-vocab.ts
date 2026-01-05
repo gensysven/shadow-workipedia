@@ -111,6 +111,18 @@ function run(): void {
     throw new Error('Expected psychologyTypes.types to include \"Idealist\".');
   }
 
+  console.log('Checking timeline template vocab...');
+  const timelineTemplates = (vocab as any).timelineTemplates as
+    | {
+      childhood?: Array<{ description?: string }>;
+      youngAdult?: Array<{ description?: string }>;
+      midAge?: Array<{ description?: string }>;
+    }
+    | undefined;
+  if (!timelineTemplates?.childhood?.some(t => (t.description ?? '').includes('Mother died in childbirth'))) {
+    throw new Error('Expected timelineTemplates.childhood to include a parental loss template.');
+  }
+
   console.log('Checking needs/relationships vocab...');
   const needsRelationships = (vocab as any).needsRelationships as
     | {
@@ -380,6 +392,7 @@ function run(): void {
     vocab,
     priors,
     countries,
+    birthYear: 1975,
     asOfYear: 2025,
   });
   if (!agent.personality.facets.length) {
@@ -408,6 +421,16 @@ function run(): void {
   }
   if (!agentPsychologyType?.copingMechanism) {
     throw new Error('Expected psychologyType.copingMechanism to be generated.');
+  }
+  const timelineDescriptions = agent.timeline.map(event => event.description);
+  const childhoodTemplates = (timelineTemplates?.childhood ?? []).map(t => t.description).filter(Boolean) as string[];
+  const youngAdultTemplates = (timelineTemplates?.youngAdult ?? []).map(t => t.description).filter(Boolean) as string[];
+  const midAgeTemplates = (timelineTemplates?.midAge ?? []).map(t => t.description).filter(Boolean) as string[];
+  const hasChildhoodTemplate = timelineDescriptions.some(desc => childhoodTemplates.includes(desc));
+  const hasYoungAdultTemplate = timelineDescriptions.some(desc => youngAdultTemplates.includes(desc));
+  const hasMidAgeTemplate = timelineDescriptions.some(desc => midAgeTemplates.includes(desc));
+  if (!hasChildhoodTemplate || !hasYoungAdultTemplate || !hasMidAgeTemplate) {
+    throw new Error('Expected timeline to include at least one template event per life stage.');
   }
   const relationshipPatterns = (agent as any).relationshipPatterns as
     | {

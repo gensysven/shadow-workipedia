@@ -1186,10 +1186,11 @@ function computePsychologyType(
     if (lower.includes('professional')) w += 1.1 * conscientious01 + 0.8 * inst01;
     if (lower.includes('survivor')) w += 1.1 * (1 - risk01) + 0.7 * stress01 + 0.5 * frugal01;
     if (lower.includes('ambitious')) w += 1.1 * public01 + 0.8 * inst01;
-    return { item: entry, weight: w };
+    return { item: entry.name, weight: w };
   });
 
-  const selected = weightedPick(rng, weights);
+  const selectedName = weightedPick(rng, weights);
+  const selected = types.find((entry) => entry.name === selectedName) ?? types[0];
   const missionPreferences = selected.missionPreferences.length
     ? rng.pickK(selected.missionPreferences, Math.min(3, selected.missionPreferences.length))
     : [];

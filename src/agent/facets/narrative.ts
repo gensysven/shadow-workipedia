@@ -89,6 +89,19 @@ const FOUNDATIONAL_EVENTS = new Set<TimelineEventType>([
   'upbringing', 'education-milestone', 'first-job', 'first-posting',
 ]);
 
+type TimelineTemplate = {
+  description: string;
+  type: TimelineEventType;
+  impact: 'positive' | 'negative' | 'neutral' | 'mixed';
+};
+
+const TEMPLATE_STAGE_RANGES: Record<'childhood' | 'youngAdult' | 'midAge' | 'laterLife', { min: number; max: number }> = {
+  childhood: { min: 4, max: 16 },
+  youngAdult: { min: 18, max: 30 },
+  midAge: { min: 31, max: 55 },
+  laterLife: { min: 56, max: 90 },
+};
+
 // ============================================================================
 // Helpers
 // ============================================================================
@@ -195,6 +208,27 @@ function generateRandomEvent(
   return { yearOffset, type: eventType, description, impact };
 }
 
+function pickTemplateEvent(
+  rng: Rng,
+  ctx: NarrativeContext,
+  stage: keyof typeof TEMPLATE_STAGE_RANGES,
+  templates: TimelineTemplate[] | undefined,
+): TimelineEvent | null {
+  if (!templates?.length) return null;
+  const range = TEMPLATE_STAGE_RANGES[stage];
+  if (ctx.age < range.min) return null;
+  const maxAge = Math.min(ctx.age, range.max);
+  const minAge = Math.min(range.min, maxAge);
+  const yearOffset = rng.int(minAge, Math.max(minAge, maxAge));
+  const template = rng.pick(templates);
+  return {
+    yearOffset,
+    type: template.type,
+    description: template.description,
+    impact: template.impact,
+  };
+}
+
 // ============================================================================
 // Main Computation
 // ============================================================================
@@ -216,6 +250,7 @@ export function computeNarrative(ctx: NarrativeContext): NarrativeResult {
   traceFacet(trace, seed, 'timeline');
   const timeRng = makeRng(facetSeed(seed, 'timeline'));
   const eventTypes = vocab.timeline?.eventTypes ?? DEFAULT_EVENT_TYPES;
+  const templatePools = vocab.timelineTemplates;
 
   // Generate 6-10 life events
   const eventCount = timeRng.int(6, 10);
@@ -226,8 +261,29 @@ export function computeNarrative(ctx: NarrativeContext): NarrativeResult {
   timeline.push(generateEducationEvent(timeRng, ctx));
   timeline.push(generateFirstJobEvent(timeRng, ctx));
 
+  const templateEvents: TimelineEvent[] = [];
+  const childhoodTemplate = pickTemplateEvent(timeRng, ctx, 'childhood', templatePools?.childhood);
+  if (childhoodTemplate) templateEvents.push(childhoodTemplate);
+  const youngAdultTemplate = pickTemplateEvent(timeRng, ctx, 'youngAdult', templatePools?.youngAdult);
+  if (youngAdultTemplate) templateEvents.push(youngAdultTemplate);
+  const midAgeTemplate = pickTemplateEvent(timeRng, ctx, 'midAge', templatePools?.midAge);
+  if (midAgeTemplate) templateEvents.push(midAgeTemplate);
+  const laterLifeTemplate = pickTemplateEvent(timeRng, ctx, 'laterLife', templatePools?.laterLife);
+  if (laterLifeTemplate) templateEvents.push(laterLifeTemplate);
+  if (templatePools?.anyAge?.length && ctx.age >= 18 && timeRng.next01() < 0.4) {
+    const anyTemplate = timeRng.pick(templatePools.anyAge);
+    templateEvents.push({
+      yearOffset: timeRng.int(18, Math.max(18, ctx.age)),
+      type: anyTemplate.type,
+      description: anyTemplate.description,
+      impact: anyTemplate.impact,
+    });
+  }
+
+  timeline.push(...templateEvents);
+
   // Fill remaining events randomly between age 25 and current age
-  const remainingCount = eventCount - 3;
+  const remainingCount = Math.max(0, eventCount - 3 - templateEvents.length);
   const availableTypes = (eventTypes as TimelineEventType[]).filter(
     t => !FOUNDATIONAL_EVENTS.has(t),
   );
@@ -244,7 +300,7 @@ export function computeNarrative(ctx: NarrativeContext): NarrativeResult {
   // Sort by year
   timeline.sort((a, b) => a.yearOffset - b.yearOffset);
 
-  traceSet(trace, 'timeline', { eventCount: timeline.length }, { method: 'generated' });
+  traceSet(trace, 'timeline', { eventCount: timeline.length, templateCount: templateEvents.length }, { method: 'generated' });
 
   // ─────────────────────────────────────────────────────────────────────────────
   // MINORITY STATUS (Oracle recommendation)

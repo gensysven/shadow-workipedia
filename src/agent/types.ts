@@ -487,6 +487,13 @@ export type AgentVocabV1 = {
     eventTypes?: string[];
     eventTemplates?: Record<string, string[]>;
   };
+  timelineTemplates?: {
+    childhood?: Array<{ description: string; type: TimelineEventType; impact: 'positive' | 'negative' | 'neutral' | 'mixed' }>;
+    youngAdult?: Array<{ description: string; type: TimelineEventType; impact: 'positive' | 'negative' | 'neutral' | 'mixed' }>;
+    midAge?: Array<{ description: string; type: TimelineEventType; impact: 'positive' | 'negative' | 'neutral' | 'mixed' }>;
+    laterLife?: Array<{ description: string; type: TimelineEventType; impact: 'positive' | 'negative' | 'neutral' | 'mixed' }>;
+    anyAge?: Array<{ description: string; type: TimelineEventType; impact: 'positive' | 'negative' | 'neutral' | 'mixed' }>;
+  };
   // Expanded red lines for institutional realism
   institutionalRedLines?: string[];
   // Vice categorization
