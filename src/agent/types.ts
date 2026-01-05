@@ -606,6 +606,15 @@ export type AgentVocabV1 = {
     needsArchetypes?: string[];
     relationshipArchetypes?: string[];
   };
+  psychologyTypes?: {
+    types?: Array<{
+      name: string;
+      values: string[];
+      copingMechanism: string;
+      breakingPoint: string;
+      missionPreferences: string[];
+    }>;
+  };
 };
 
 export type SocioeconomicMobility = 'upward' | 'stable' | 'downward';
@@ -703,6 +712,14 @@ export type RelationshipPatternsResult = {
   repairStyle: RepairStyle;
   trustFormation: TrustFormation;
   attachmentStyle: AttachmentStyle;
+};
+
+export type PsychologyTypeResult = {
+  name: string;
+  values: string[];
+  copingMechanism: string;
+  breakingPoint: string;
+  missionPreferences: string[];
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1423,6 +1440,9 @@ export type GeneratedAgent = {
       barriers: KnowledgeItem[];
     };
   };
+
+  // Psychology type snapshot
+  psychologyType: PsychologyTypeResult;
 
   // Life skills - competence outside the job
   lifeSkills: {

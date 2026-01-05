@@ -10030,6 +10030,59 @@
       "independence-protective"
     ]
   },
+  "psychologyTypes": {
+    "types": [
+      {
+        "name": "Idealist",
+        "values": ["justice", "helping-people", "moral-clarity"],
+        "copingMechanism": "Rationalizes for the greater good",
+        "breakingPoint": "Forced to harm innocents repeatedly",
+        "missionPreferences": ["rescue", "reform", "investigation", "peaceful-solutions"]
+      },
+      {
+        "name": "Pragmatist",
+        "values": ["results", "efficiency", "practicality"],
+        "copingMechanism": "Compartmentalizes: just the job",
+        "breakingPoint": "Organization turns chaotic or ineffective",
+        "missionPreferences": ["balanced-approach", "whatever-works"]
+      },
+      {
+        "name": "Cynical",
+        "values": ["self-preservation", "skepticism", "personal-gain"],
+        "copingMechanism": "Dark humor and emotional distance",
+        "breakingPoint": "Betrayal by the organization",
+        "missionPreferences": ["high-reward", "personal-benefit"]
+      },
+      {
+        "name": "Zealot",
+        "values": ["the-cause", "ideological-purity", "true-belief"],
+        "copingMechanism": "Intensifies: we're not going far enough",
+        "breakingPoint": "Organization compromises core ideology",
+        "missionPreferences": ["direct-action", "ideological-warfare", "no-compromise"]
+      },
+      {
+        "name": "Professional",
+        "values": ["excellence", "reputation", "craft-mastery"],
+        "copingMechanism": "Focuses on craft excellence",
+        "breakingPoint": "Incompetent leadership or pointless missions",
+        "missionPreferences": ["high-skill", "prestige-targets"]
+      },
+      {
+        "name": "Survivor",
+        "values": ["safety", "resource-security", "adaptability"],
+        "copingMechanism": "Stays ready to leave",
+        "breakingPoint": "Organization becomes too dangerous",
+        "missionPreferences": ["low-risk", "resource-acquisition"]
+      },
+      {
+        "name": "Ambitious",
+        "values": ["status", "power", "advancement"],
+        "copingMechanism": "Frames everything as career leverage",
+        "breakingPoint": "Blocked advancement or loss of status",
+        "missionPreferences": ["high-visibility", "leadership-opportunities"]
+      }
+    ]
+  },
   "knowledgeIgnorance": {
     "knowledgeStrengths": [
       "Tradecraft: Surveillance, counter-surveillance, dead drops",

@@ -30,6 +30,7 @@ import type {
   CopingEntry,
   ThoughtsEmotionsSnapshot,
   ThoughtValence,
+  PsychologyTypeResult,
 } from '../types';
 import {
   makeRng,
@@ -131,6 +132,7 @@ export type PsychologyResult = {
   selfConcept: SelfConceptResult;
   thoughtsEmotions: ThoughtsEmotionsSnapshot;
   knowledgeIgnorance: KnowledgeIgnoranceResult;
+  psychologyType: PsychologyTypeResult;
 };
 
 // ============================================================================
@@ -1090,6 +1092,117 @@ function computeKnowledgeIgnorance(
   return result;
 }
 
+function computePsychologyType(
+  seed: string,
+  vocab: AgentVocabV1,
+  latents: Latents,
+  traits: PsychTraits,
+  aptitudes: Aptitudes,
+  trace?: AgentGenerationTraceV1,
+): PsychologyTypeResult {
+  traceFacet(trace, seed, 'psychologyType');
+  const rng = makeRng(facetSeed(seed, 'psychologyType'));
+
+  const fallbackTypes: PsychologyTypeResult[] = [
+    {
+      name: 'Idealist',
+      values: ['justice', 'helping-people', 'moral-clarity'],
+      copingMechanism: 'Rationalizes for the greater good',
+      breakingPoint: 'Forced to harm innocents repeatedly',
+      missionPreferences: ['rescue', 'reform', 'investigation'],
+    },
+    {
+      name: 'Pragmatist',
+      values: ['results', 'efficiency', 'practicality'],
+      copingMechanism: 'Compartmentalizes: just the job',
+      breakingPoint: 'Organization turns chaotic or ineffective',
+      missionPreferences: ['balanced-approach', 'whatever-works'],
+    },
+    {
+      name: 'Cynical',
+      values: ['self-preservation', 'skepticism', 'personal-gain'],
+      copingMechanism: 'Dark humor and emotional distance',
+      breakingPoint: 'Betrayal by the organization',
+      missionPreferences: ['high-reward', 'personal-benefit'],
+    },
+    {
+      name: 'Zealot',
+      values: ['the-cause', 'ideological-purity', 'true-belief'],
+      copingMechanism: 'Intensifies: we are not going far enough',
+      breakingPoint: 'Organization compromises core ideology',
+      missionPreferences: ['direct-action', 'ideological-warfare'],
+    },
+    {
+      name: 'Professional',
+      values: ['excellence', 'reputation', 'craft-mastery'],
+      copingMechanism: 'Focuses on craft excellence',
+      breakingPoint: 'Incompetent leadership or pointless missions',
+      missionPreferences: ['high-skill', 'prestige-targets'],
+    },
+    {
+      name: 'Survivor',
+      values: ['safety', 'resource-security', 'adaptability'],
+      copingMechanism: 'Stays ready to leave',
+      breakingPoint: 'Organization becomes too dangerous',
+      missionPreferences: ['low-risk', 'resource-acquisition'],
+    },
+    {
+      name: 'Ambitious',
+      values: ['status', 'power', 'advancement'],
+      copingMechanism: 'Frames everything as career leverage',
+      breakingPoint: 'Blocked advancement or loss of status',
+      missionPreferences: ['high-visibility', 'leadership-opportunities'],
+    },
+  ];
+
+  const types = (vocab.psychologyTypes?.types ?? fallbackTypes)
+    .map((entry) => ({
+      name: entry.name,
+      values: entry.values ?? [],
+      copingMechanism: entry.copingMechanism ?? 'Keeps moving forward',
+      breakingPoint: entry.breakingPoint ?? 'Accumulated stress',
+      missionPreferences: entry.missionPreferences ?? [],
+    }));
+
+  const principled01 = latents.principledness / 1000;
+  const public01 = latents.publicness / 1000;
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const inst01 = latents.institutionalEmbeddedness / 1000;
+  const risk01 = latents.riskAppetite / 1000;
+  const stress01 = latents.stressReactivity / 1000;
+  const frugal01 = latents.frugality / 1000;
+  const empathy01 = aptitudes.empathy / 1000;
+  const conscientious01 = traits.conscientiousness / 1000;
+  const auth01 = traits.authoritarianism / 1000;
+  const social01 = latents.socialBattery / 1000;
+
+  const weights = types.map((entry) => {
+    const lower = entry.name.toLowerCase();
+    let w = 1;
+    if (lower.includes('idealist')) w += 1.6 * principled01 + 0.8 * empathy01;
+    if (lower.includes('pragmatist')) w += 0.9 * opsec01 + 0.7 * conscientious01;
+    if (lower.includes('cynical')) w += 0.9 * (1 - principled01) + 0.6 * (1 - empathy01) + 0.4 * (1 - social01);
+    if (lower.includes('zealot')) w += 1.2 * principled01 + 0.9 * auth01 + 0.4 * (1 - risk01);
+    if (lower.includes('professional')) w += 1.1 * conscientious01 + 0.8 * inst01;
+    if (lower.includes('survivor')) w += 1.1 * (1 - risk01) + 0.7 * stress01 + 0.5 * frugal01;
+    if (lower.includes('ambitious')) w += 1.1 * public01 + 0.8 * inst01;
+    return { item: entry, weight: w };
+  });
+
+  const selected = weightedPick(rng, weights);
+  const missionPreferences = selected.missionPreferences.length
+    ? rng.pickK(selected.missionPreferences, Math.min(3, selected.missionPreferences.length))
+    : [];
+
+  const result: PsychologyTypeResult = {
+    ...selected,
+    missionPreferences,
+  };
+
+  traceSet(trace, 'psychologyType', result, { method: 'weightedPick' });
+  return result;
+}
+
 // ============================================================================
 // Main Computation
 // ============================================================================
@@ -1147,6 +1260,9 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
   // Knowledge & ignorance - what they know, miss, or misbelieve
   const knowledgeIgnorance = computeKnowledgeIgnorance(seed, vocab, latents, roleSeedTags, tierBand, trace);
 
+  // Psychology type - values/coping/breakpoint snapshot
+  const psychologyType = computePsychologyType(seed, vocab, latents, traits, aptitudes, trace);
+
   return {
     ethics,
     contradictions,
@@ -1157,5 +1273,6 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
     selfConcept,
     thoughtsEmotions,
     knowledgeIgnorance,
+    psychologyType,
   };
 }

@@ -103,6 +103,14 @@ function run(): void {
     'culturalDynamics.clashPoints',
   );
 
+  console.log('Checking psychology types vocab...');
+  const psychologyTypes = (vocab as any).psychologyTypes as
+    | { types?: Array<{ name?: string; values?: string[]; copingMechanism?: string; breakingPoint?: string; missionPreferences?: string[] }> }
+    | undefined;
+  if (!psychologyTypes?.types?.some((t) => (t.name ?? '').toLowerCase() === 'idealist')) {
+    throw new Error('Expected psychologyTypes.types to include \"Idealist\".');
+  }
+
   console.log('Checking needs/relationships vocab...');
   const needsRelationships = (vocab as any).needsRelationships as
     | {
@@ -391,6 +399,15 @@ function run(): void {
   }
   if (!agentNeedsRelationships?.relationships?.primary) {
     throw new Error('Expected needsRelationships.relationships.primary to be generated.');
+  }
+  const agentPsychologyType = (agent as any).psychologyType as
+    | { name?: string; values?: string[]; copingMechanism?: string; breakingPoint?: string; missionPreferences?: string[] }
+    | undefined;
+  if (!agentPsychologyType?.name) {
+    throw new Error('Expected psychologyType.name to be generated.');
+  }
+  if (!agentPsychologyType?.copingMechanism) {
+    throw new Error('Expected psychologyType.copingMechanism to be generated.');
   }
   const relationshipPatterns = (agent as any).relationshipPatterns as
     | {

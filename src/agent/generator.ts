@@ -2534,6 +2534,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     selfConcept: psychologyResult.selfConcept,
     thoughtsEmotions: psychologyResult.thoughtsEmotions,
     knowledgeIgnorance: psychologyResult.knowledgeIgnorance,
+    psychologyType: psychologyResult.psychologyType,
 
     // From social.ts
     communities: socialResult.communities,

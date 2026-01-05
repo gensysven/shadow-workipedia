@@ -470,6 +470,8 @@ function renderAgent(
   const culturalDynamics = agent.culturalDynamics;
   const needsRelationships = agent.needsRelationships;
   const relationshipPatterns = agent.relationshipPatterns;
+  const psychologyType = agent.psychologyType;
+  const artisticPrefs = agent.preferences.artistic;
   const renderDynamicsPills = (items: string[] | undefined): string => (
     items && items.length
       ? `<span class="agent-pill-wrap agent-pill-wrap-left">${items.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
@@ -879,6 +881,29 @@ function renderAgent(
         <!-- PSYCHOLOGY TAB: Thoughts, emotions, coping, facets -->
         <div class="agent-tab-panel ${tab === 'psychology' ? 'active' : ''}" data-agent-tab-panel="psychology">
           <div class="agent-grid agent-grid-tight">
+            <section class="agent-card agent-card-span6">
+              <h3>Psychology type</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Type</span><span class="kv-v">${escapeHtml(toTitleCaseWords(psychologyType.name))}</span></div>
+                <div class="kv-row"><span class="kv-k">Values</span><span class="kv-v">${escapeHtml(psychologyType.values.slice(0, 3).map(toTitleCaseWords).join(', ') || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Coping</span><span class="kv-v">${escapeHtml(psychologyType.copingMechanism)}</span></div>
+                <div class="kv-row"><span class="kv-k">Breaking point</span><span class="kv-v">${escapeHtml(psychologyType.breakingPoint)}</span></div>
+                <div class="kv-row"><span class="kv-k">Missions</span><span class="kv-v">${escapeHtml(psychologyType.missionPreferences.slice(0, 3).map(toTitleCaseWords).join(', ') || '—')}</span></div>
+              </div>
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Creativity</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Mediums</span><span class="kv-v">${escapeHtml(artisticPrefs.mediums.map(toTitleCaseWords).join(', ') || '—')}</span></div>
+                <div class="kv-row"><span class="kv-k">Inspiration</span><span class="kv-v">${escapeHtml(toTitleCaseWords(artisticPrefs.inspirationSource))}</span></div>
+                <div class="kv-row"><span class="kv-k">Driver</span><span class="kv-v">${escapeHtml(toTitleCaseWords(artisticPrefs.expressionDriver))}</span></div>
+                <div class="kv-row"><span class="kv-k">Practice</span><span class="kv-v">${escapeHtml(toTitleCaseWords(artisticPrefs.practiceRhythm))}</span></div>
+                <div class="kv-row"><span class="kv-k">Sharing</span><span class="kv-v">${escapeHtml(toTitleCaseWords(artisticPrefs.sharingStyle))}</span></div>
+                <div class="kv-row"><span class="kv-k">Workspace</span><span class="kv-v">${escapeHtml(toTitleCaseWords(artisticPrefs.workspacePreference))}</span></div>
+              </div>
+            </section>
+
             <details class="agent-card agent-section agent-card-span12" data-agents-details="profile:psychology:thoughts" ${isDetailsOpen('profile:psychology:thoughts', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Thoughts &amp; emotions</span>
