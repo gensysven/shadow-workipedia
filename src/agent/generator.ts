@@ -759,6 +759,7 @@ import { computeIdentity } from './facets/identity';
 import { computeAppearance } from './facets/appearance';
 import { computeCapabilities } from './facets/capabilities';
 import { computePsychology } from './facets/psychology';
+import { computeDetails } from './facets/details';
 import { computePreferences } from './facets/preferences';
 import { computeSocial } from './facets/social';
 import { computeLifestyle } from './facets/lifestyle';
@@ -1038,6 +1039,15 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     heightBand: appearanceResult.heightBand,
     trace,
   });
+
+  const details = computeDetails(
+    seed,
+    vocab,
+    latents,
+    capabilitiesResult.traits,
+    capabilitiesResult.aptitudes,
+    trace,
+  );
 
   // ─────────────────────────────────────────────────────────────────────────
   // Compute derived: vice tendency (used by preferences, lifestyle, simulation)
@@ -2527,6 +2537,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     pressureResponse,
     physicalPresence,
     deceptionSkill,
+    details,
 
     // === ORACLE-RECOMMENDED FACETS ===
     // From psychology.ts

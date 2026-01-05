@@ -505,6 +505,11 @@ function renderAgent(
     .map(s => `<div class="agent-mini-row"><span class="agent-mini-k">${escapeHtml(humanizeSkillKey(s.key))}</span><span class="agent-mini-v">${escapeHtml(formatFixed01k(s.value))}</span></div>`)
     .join('');
 
+  const detailItems = agent.details ?? [];
+  const detailPills = detailItems.length
+    ? `<span class="agent-pill-wrap agent-pill-wrap-left">${detailItems.map(detail => `<span class="pill pill-muted">${escapeHtml(detail.item)}</span>`).join('')}</span>`
+    : `<span class="agent-inline-muted">—</span>`;
+
   const aptitudePairs = ([
     ['Strength', apt.strength],
     ['Endurance', apt.endurance],
@@ -754,6 +759,11 @@ function renderAgent(
                   <div class="agent-mini-title" style="margin-top:0.75rem">Top aptitudes</div>
                   <div class="agent-mini-list">${topAptitudeList || `<div class="agent-inline-muted">—</div>`}</div>
                 </div>
+              </section>
+
+              <section class="agent-card agent-card-span12">
+                <h3>Detail markers</h3>
+                <div class="agent-kv">${detailPills}</div>
               </section>
 
               <!-- Life timeline: visual journey (merged from Narrative tab) -->

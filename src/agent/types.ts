@@ -632,6 +632,43 @@ export type AgentVocabV1 = {
       outcomes: string[];
     }>;
   };
+  detailGeneration?: {
+    physicalFeatures?: string[];
+    bodyLanguage?: string[];
+    gait?: string[];
+    chronicConditions?: string[];
+    medicationDependencies?: string[];
+    morningRituals?: string[];
+    workHabits?: string[];
+    eveningRoutines?: string[];
+    communicationPatterns?: string[];
+    interactionStyles?: string[];
+    eatingHabits?: string[];
+    drinkingPreferences?: string[];
+    specificPhobias?: string[];
+    abstractFears?: string[];
+    stressResponses?: string[];
+    selfSoothingBehaviors?: string[];
+    keptObjects?: string[];
+    lostObjects?: string[];
+    traumaMarkers?: string[];
+    joyMarkers?: string[];
+    familyRituals?: string[];
+    culturalPractices?: string[];
+    personalSuperstitions?: string[];
+    acquiredSuperstitions?: string[];
+    fillerPatterns?: string[];
+    languageMixing?: string[];
+    catchphrasesOriginal?: string[];
+    catchphrasesInherited?: string[];
+    spacePreferences?: string[];
+    territoryMarking?: string[];
+    weatherResponses?: string[];
+    attachmentMethods?: string[];
+    conflictPatterns?: string[];
+    secretSkills?: string[];
+    secretConnections?: string[];
+  };
 };
 
 export type SocioeconomicMobility = 'upward' | 'stable' | 'downward';
@@ -748,6 +785,24 @@ export type ExistenceCrisisResult = {
   stage: string;
   behaviors: string[];
   outcomes: string[];
+};
+
+export type DetailCategory =
+  | 'physical'
+  | 'routine'
+  | 'social'
+  | 'food'
+  | 'psychological'
+  | 'history'
+  | 'tradition'
+  | 'speech'
+  | 'environment'
+  | 'relationship'
+  | 'hidden';
+
+export type DetailItem = {
+  category: DetailCategory;
+  item: string;
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1397,6 +1452,9 @@ export type GeneratedAgent = {
     tellAwareness: Fixed; // how aware they are of their own tells
     detectsLies: Fixed; // how good at spotting others' lies
   };
+
+  // Detail markers - memorable quirks for narrative texture
+  details: DetailItem[];
 
   // === ORACLE-RECOMMENDED FACETS ===
 

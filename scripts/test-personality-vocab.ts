@@ -132,6 +132,48 @@ function run(): void {
     throw new Error('Expected existenceCrises.types entries to include triggers and stages.');
   }
 
+  console.log('Checking detail generation vocab...');
+  const detailGeneration = (vocab as any).detailGeneration as
+    | {
+      physicalFeatures?: string[];
+      morningRituals?: string[];
+      communicationPatterns?: string[];
+      stressResponses?: string[];
+      keptObjects?: string[];
+      secretSkills?: string[];
+    }
+    | undefined;
+  assertIncludes(
+    detailGeneration?.physicalFeatures,
+    'Broken nose from teenage boxing, curves left',
+    'detailGeneration.physicalFeatures',
+  );
+  assertIncludes(
+    detailGeneration?.morningRituals,
+    'Reads obituaries first, checks still alive',
+    'detailGeneration.morningRituals',
+  );
+  assertIncludes(
+    detailGeneration?.communicationPatterns,
+    'Mixes languages mid-sentence without noticing',
+    'detailGeneration.communicationPatterns',
+  );
+  assertIncludes(
+    detailGeneration?.stressResponses,
+    'Cleans obsessively when anxious',
+    'detailGeneration.stressResponses',
+  );
+  assertIncludes(
+    detailGeneration?.keptObjects,
+    'Rock from hometown, carries everywhere',
+    'detailGeneration.keptObjects',
+  );
+  assertIncludes(
+    detailGeneration?.secretSkills,
+    'Concert-level pianist, never mentions',
+    'detailGeneration.secretSkills',
+  );
+
   console.log('Checking timeline template vocab...');
   const timelineTemplates = (vocab as any).timelineTemplates as
     | {
@@ -451,6 +493,15 @@ function run(): void {
   }
   if (!agentExistenceCrisis?.trigger || !agentExistenceCrisis?.stage) {
     throw new Error('Expected existenceCrisis.trigger and existenceCrisis.stage to be generated.');
+  }
+  const agentDetails = (agent as any).details as
+    | Array<{ category?: string; item?: string }>
+    | undefined;
+  if (!agentDetails || agentDetails.length < 3 || agentDetails.length > 5) {
+    throw new Error('Expected details to include 3-5 items.');
+  }
+  if (!agentDetails.every((detail) => detail.item && detail.category)) {
+    throw new Error('Expected details entries to include category and item.');
   }
   const timelineDescriptions = agent.timeline.map(event => event.description);
   const childhoodTemplates = (timelineTemplates?.childhood ?? []).map(t => t.description).filter(Boolean) as string[];

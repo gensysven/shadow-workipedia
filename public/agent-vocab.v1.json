@@ -10370,6 +10370,256 @@
       }
     ]
   },
+  "detailGeneration": {
+    "physicalFeatures": [
+      "Broken nose from teenage boxing, curves left",
+      "Heterochromia - one brown eye, one green",
+      "Burn scar on right cheek from kitchen accident",
+      "Missing left ring finger from factory mishap",
+      "Gold front tooth from street fight victory",
+      "Premature gray streak from trauma at 23",
+      "Cleft chin that daughters inherited",
+      "Lazy eye that drifts when tired"
+    ],
+    "bodyLanguage": [
+      "Drums fingers when thinking - always same pattern",
+      "Touches nose when lying, tell from poker days",
+      "Cracks knuckles before important decisions",
+      "Tilts head right when genuinely listening",
+      "Fidgets with wedding ring when nervous"
+    ],
+    "gait": [
+      "Walks on balls of feet from ballet training",
+      "Military bearing, shoulders never relax",
+      "Shuffles left foot from childhood polio",
+      "Favors right leg since motorcycle crash",
+      "Bounces when walking, irrepressible energy"
+    ],
+    "chronicConditions": [
+      "Migraines every full moon since puberty",
+      "Asthma triggered by synthetic perfumes",
+      "Insomnia since witnessing first death",
+      "Back pain from carrying younger siblings",
+      "Tinnitus from explosion, hears constant ringing"
+    ],
+    "medicationDependencies": [
+      "Takes blood pressure pills hidden in mint tin",
+      "Antidepressants since spouse's death",
+      "Sleeping pills crushed in nightly tea",
+      "Insulin shots at 6am, noon, 6pm precisely",
+      "Traditional herbs from grandmother's recipe"
+    ],
+    "morningRituals": [
+      "Reads obituaries first, checks still alive",
+      "Exercises at 5:17am exactly, never 5:15 or 5:20",
+      "Makes bed with military corners even in hotels",
+      "Counts breakfast cereal pieces, always 247",
+      "Calls mother before coffee, every single day"
+    ],
+    "workHabits": [
+      "Arrives 23 minutes early, sits in car until 5 minutes early",
+      "Eats lunch at desk, same sandwich 15 years",
+      "Keeps lucky pen, signs nothing without it",
+      "Prints emails to read, can't process on screen",
+      "Leaves one task undone to have reason to return"
+    ],
+    "eveningRoutines": [
+      "Checks all locks three times before bed",
+      "Reads exactly 17 pages before sleeping",
+      "Writes in journal with invisible ink",
+      "Feeds stray cats behind building at 7pm",
+      "Takes evening walk, counts every streetlight"
+    ],
+    "communicationPatterns": [
+      "Ends every sentence with slight upturn like question?",
+      "Quotes grandmother's sayings for all occasions",
+      "Mixes languages mid-sentence without noticing",
+      "Never uses anyone's actual name, only nicknames",
+      "Goes silent for exactly 3 seconds before lying"
+    ],
+    "interactionStyles": [
+      "Stands too close, no concept of personal space",
+      "Touches people's arms when making points",
+      "Interrupts but genuinely doesn't realize",
+      "Compliments something about everyone met",
+      "Never says goodbye, just walks away"
+    ],
+    "eatingHabits": [
+      "Cuts all food into exact same size pieces",
+      "Won't eat food if different items touch",
+      "Saves best bite for last, always",
+      "Adds hot sauce to everything, even dessert",
+      "Never finishes last bite, for the angels"
+    ],
+    "drinkingPreferences": [
+      "Coffee with 7 sugars, no more no less",
+      "Only drinks from blue cups, sister's favorite color",
+      "Tea at exactly 3:17pm, British grandmother's influence",
+      "Drinks everything through straw, sensitive teeth",
+      "Keeps emergency beer hidden in office plant"
+    ],
+    "specificPhobias": [
+      "Birds since one attacked at age 4",
+      "Elevators since getting trapped for 14 hours",
+      "Sound of helicopters, war flashback",
+      "Clowns from traumatic birthday party",
+      "Running water sounds, near-drowning"
+    ],
+    "abstractFears": [
+      "Being forgotten after death",
+      "Others seeing the real them",
+      "Becoming like abusive father",
+      "Success because doesn't deserve it",
+      "Making same mistake twice"
+    ],
+    "stressResponses": [
+      "Cleans obsessively when anxious",
+      "Exercises until exhaustion",
+      "Bakes bread at 3am",
+      "Writes letters never sent",
+      "Memorizes poetry in dead languages"
+    ],
+    "selfSoothingBehaviors": [
+      "Hums mother's lullaby",
+      "Counts prime numbers",
+      "Makes paper cranes, has thousands",
+      "Talks to deceased pet's photo",
+      "Sleeps in closet during storms"
+    ],
+    "keptObjects": [
+      "Rock from hometown, carries everywhere",
+      "First tooth in mother's locket",
+      "Ticket stub from father's last movie together",
+      "Pressed flower from first date",
+      "Key to childhood home, demolished"
+    ],
+    "lostObjects": [
+      "Grandfather's watch, pawned for medicine",
+      "Wedding ring, lost in ocean saving child",
+      "Childhood diary, burned by parent",
+      "Mother's recipe book, destroyed in fire",
+      "Medal of honor, threw away in shame"
+    ],
+    "traumaMarkers": [
+      "Can't wear red since blood-soaked day",
+      "Flinches at door slams since home invasion",
+      "Sleeps fully clothed, ready to run",
+      "Counts exits in every room",
+      "Tests food for poison, old habit"
+    ],
+    "joyMarkers": [
+      "Whistles song from wedding day",
+      "Keeps photo from child's first steps",
+      "Plants flowers on escape anniversary",
+      "Toast absent friends every full moon",
+      "Keeps scorecard from perfect game"
+    ],
+    "familyRituals": [
+      "Sets extra place at table for dead",
+      "Never gives knives as gifts",
+      "Sleeps facing door, family tradition",
+      "Never counts money after dark",
+      "Whispers secrets to oldest tree"
+    ],
+    "culturalPractices": [
+      "Removes shoes in all buildings",
+      "Never points with index finger",
+      "Gifts must be refused three times",
+      "Eats with right hand only",
+      "Never photographs sleeping people"
+    ],
+    "personalSuperstitions": [
+      "Lucky number 17, avoids 4",
+      "Never starts projects on Tuesday",
+      "Never kills spiders, bad luck",
+      "First word spoken determines day",
+      "Hold breath past graveyards"
+    ],
+    "acquiredSuperstitions": [
+      "Adopted from deceased friend",
+      "Learned from cellmate in prison",
+      "Picked up from war buddy",
+      "Borrowed from fictional character",
+      "Developed after coincidence"
+    ],
+    "fillerPatterns": [
+      "Says 'actually' before disagreeing",
+      "Starts sentences with 'So...'",
+      "Inserts 'like' every third word",
+      "Uses 'basically' to buy thinking time",
+      "Adds 'I suppose' to soften opinions"
+    ],
+    "languageMixing": [
+      "Swears only in mother tongue",
+      "Counts in childhood language",
+      "Switches languages when emotional",
+      "Prays in grandmother's language",
+      "Curses in colorful combinations"
+    ],
+    "catchphrasesOriginal": [
+      "'Better than a kick in the teeth'",
+      "'That's how the cookie bounces'",
+      "'Tougher than a two-dollar steak'",
+      "'Clear as mud in a wineglass'",
+      "'Fine as frog's hair split four ways'"
+    ],
+    "catchphrasesInherited": [
+      "Grandmother always said...",
+      "As my sergeant used to say...",
+      "Like mama told me...",
+      "Coach always preached...",
+      "Drinking buddy's motto..."
+    ],
+    "spacePreferences": [
+      "Sits with back to wall always",
+      "Needs windows cracked for air",
+      "Arranges items in perfect right angles",
+      "Keeps lights on in every room",
+      "Faces furniture toward exits"
+    ],
+    "territoryMarking": [
+      "Leaves small objects as claims",
+      "Has spots in every location",
+      "Creates hidden supply caches",
+      "Always claims same chair",
+      "Builds small shrines everywhere"
+    ],
+    "weatherResponses": [
+      "Manic during thunderstorms",
+      "Depressed on sunny days",
+      "Energized by snowfall",
+      "Migraines from humidity",
+      "Nostalgic during fog"
+    ],
+    "attachmentMethods": [
+      "Falls in love with anyone kind",
+      "Needs constant reassurance",
+      "Expresses love through cooking",
+      "Withdraws when feelings deepen",
+      "Only vulnerable when partner sleeps"
+    ],
+    "conflictPatterns": [
+      "Goes silent for exactly 3 days",
+      "Apologizes excessively even when right",
+      "Never admits fault directly",
+      "Disappears rather than argue",
+      "Becomes overly logical when hurt"
+    ],
+    "secretSkills": [
+      "Concert-level pianist, never mentions",
+      "Speaks seven languages, admits to two",
+      "Memory palace for everything heard",
+      "Forges signatures perfectly",
+      "Perfect pitch but claims tone deaf"
+    ],
+    "secretConnections": [
+      "Illegitimate child of famous person",
+      "Sibling in witness protection",
+      "Twin nobody knows about",
+      "Ex-lover now major politician",
+      "Best friend with sworn enemy"
+    ]
+  },
   "timelineTemplates": {
     "childhood": [
       { "description": "Mother died in childbirth, father blamed them subtly", "type": "family-crisis", "impact": "negative" },
