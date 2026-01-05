@@ -333,6 +333,11 @@ export type AgentVocabV1 = {
   vices: {
     vicePool: string[];
     triggers: string[];
+    dependencyStages?: string[];
+    dependencyPatterns?: string[];
+    withdrawalTells?: string[];
+    rituals?: string[];
+    riskFlags?: string[];
   };
   deepSimPreview?: {
     needTags?: string[];
@@ -501,6 +506,24 @@ export type AgentVocabV1 = {
     selfStories?: string[];
     socialMasks?: string[];
   };
+  thoughtsEmotions?: {
+    thoughts?: {
+      immediateObservations?: string[];
+      reflections?: string[];
+      memories?: string[];
+      worries?: string[];
+      desires?: string[];
+      socialThoughts?: string[];
+    };
+    emotions?: {
+      primary?: string[];
+      complex?: string[];
+    };
+    coping?: {
+      healthy?: string[];
+      unhealthy?: string[];
+    };
+  };
   dreamsGoals?: {
     dreams?: string[];
   };
@@ -569,6 +592,57 @@ export type KnowledgeItem = {
   confidence01k: Fixed;
   lastUsedDays: number;
   decayRate01k: Fixed;
+};
+
+export type ThoughtValence = 'positive' | 'neutral' | 'negative';
+export type ThoughtEntry = {
+  item: string;
+  valence: ThoughtValence;
+  intensity01k: Fixed;
+  recencyDays: number;
+};
+
+export type EmotionEntry = {
+  item: string;
+  intensity01k: Fixed;
+  durationHours: number;
+  moodImpact01k: number;
+  behaviorTilt: string;
+  valence?: ThoughtValence;
+};
+
+export type CopingEntry = {
+  item: string;
+  effectiveness01k: Fixed;
+  recencyDays: number;
+};
+
+export type ThoughtsEmotionsSnapshot = {
+  thoughts: {
+    immediateObservations: ThoughtEntry[];
+    reflections: ThoughtEntry[];
+    memories: ThoughtEntry[];
+    worries: ThoughtEntry[];
+    desires: ThoughtEntry[];
+    socialThoughts: ThoughtEntry[];
+  };
+  emotions: {
+    primary: EmotionEntry[];
+    complex: EmotionEntry[];
+  };
+  coping: {
+    healthy: CopingEntry[];
+    unhealthy: CopingEntry[];
+  };
+};
+
+export type DependencyProfile = {
+  substance: string;
+  stage: string;
+  pattern: string;
+  ritual: string;
+  withdrawal: string;
+  riskFlag: string;
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -999,6 +1073,8 @@ export type GeneratedAgent = {
     triggers: string[];
   }>;
 
+  dependencyProfiles: DependencyProfile[];
+
   logistics: {
     identityKit: Array<{ item: string; security: Band5; compromised: boolean }>;
   };
@@ -1238,6 +1314,9 @@ export type GeneratedAgent = {
     impostorRisk: Fixed;
     socialMask: SocialMask;
   };
+
+  // Thoughts & emotions snapshot - inner stream-of-consciousness
+  thoughtsEmotions: ThoughtsEmotionsSnapshot;
 
   // Knowledge & ignorance - what they know, miss, or misbelieve
   knowledgeIgnorance: {

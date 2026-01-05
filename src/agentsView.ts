@@ -2,6 +2,8 @@ import { formatBand5, formatFixed01k, generateAgent, randomSeedString, type Agen
 import { renderCognitiveCard, renderCognitiveSection } from './agent/cognitiveSection';
 import { AGENT_TAB_LABELS, isAgentProfileTab, migrateOldTabName, type AgentProfileTab } from './agent/profileTabs';
 import { renderKnowledgeEntryList } from './agent/knowledgeEntry';
+import { formatCopingMeta, formatEmotionMeta, formatThoughtMeta, renderPsychologyEntryList } from './agent/psychologyEntry';
+import { renderPsychologyCard, renderPsychologySection } from './agent/psychologySection';
 import { generateNarrative, pronounSetToMode } from './agentNarration';
 import { buildHealthSummary } from './agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from './agent/lifestyleSummary';
@@ -16,6 +18,7 @@ type RosterItem = {
 
 const ROSTER_STORAGE_KEY = 'swp.agents.roster.v1';
 const COGNITIVE_DETAILS_KEY = 'profile:cognitive:details';
+const PSYCHOLOGY_DETAILS_KEY = 'profile:psychology:details';
 
 let agentVocabPromise: Promise<AgentVocabV1> | null = null;
 let agentPriorsPromise: Promise<AgentPriorsV1> | null = null;
@@ -459,6 +462,10 @@ function renderAgent(
   const healthSummary = buildHealthSummary(agent.health, toTitleCaseWords);
   const everydaySummary = buildEverydayLifeSummary(agent.everydayLife, toTitleCaseWords);
   const memorySummary = buildMemoryTraumaSummary(agent.memoryTrauma, toTitleCaseWords);
+  const dependencyProfiles = agent.dependencyProfiles ?? [];
+  const dependencyHint = dependencyProfiles.length
+    ? `${toTitleCaseWords(dependencyProfiles[0].stage)} · ${toTitleCaseWords(dependencyProfiles[0].substance)}`
+    : 'None';
 
   const roleTags = agent.identity.roleSeedTags.map(t => `<span class="pill">${escapeHtml(toTitleCaseWords(t))}</span>`).join('');
   const langTags = agent.identity.languages.map(t => `<span class="pill pill-muted">${escapeHtml(displayLanguageCode(t))}</span>`).join('');
@@ -543,6 +550,106 @@ function renderAgent(
     .filter(Boolean)
     .join('');
 
+  const psychologyDetailsOpen = isDetailsOpen(PSYCHOLOGY_DETAILS_KEY, false);
+  const thoughtsEmotions = agent.thoughtsEmotions;
+  const toPsychEntries = <T extends { item: string }>(entries: T[] | undefined, formatter: (entry: T) => string) =>
+    (entries ?? []).map(entry => ({ item: entry.item, meta: formatter(entry) }));
+  const buildPsychologyCard = (title: string, entries: Array<{ item: string; meta?: string }>): string => {
+    const body = renderPsychologyEntryList(entries, 'left');
+    return renderPsychologyCard(escapeHtml(title), body);
+  };
+  const psychologyCards = [
+    buildPsychologyCard(
+      'Immediate observations',
+      toPsychEntries(thoughtsEmotions?.thoughts.immediateObservations, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Reflections',
+      toPsychEntries(thoughtsEmotions?.thoughts.reflections, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Memories',
+      toPsychEntries(thoughtsEmotions?.thoughts.memories, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Worries',
+      toPsychEntries(thoughtsEmotions?.thoughts.worries, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Desires',
+      toPsychEntries(thoughtsEmotions?.thoughts.desires, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Social thoughts',
+      toPsychEntries(thoughtsEmotions?.thoughts.socialThoughts, formatThoughtMeta),
+    ),
+    buildPsychologyCard(
+      'Primary emotions',
+      toPsychEntries(thoughtsEmotions?.emotions.primary, formatEmotionMeta),
+    ),
+    buildPsychologyCard(
+      'Complex emotions',
+      toPsychEntries(thoughtsEmotions?.emotions.complex, formatEmotionMeta),
+    ),
+    buildPsychologyCard(
+      'Healthy coping',
+      toPsychEntries(thoughtsEmotions?.coping.healthy, formatCopingMeta),
+    ),
+    buildPsychologyCard(
+      'Unhealthy coping',
+      toPsychEntries(thoughtsEmotions?.coping.unhealthy, formatCopingMeta),
+    ),
+  ]
+    .filter(Boolean)
+    .join('');
+
+  const facetScores = agent.personality.facets ?? [];
+  const sortedFacets = facetScores.slice().sort((a, b) => (b.score - a.score) || a.name.localeCompare(b.name));
+  const topFacets = sortedFacets.slice(0, 4);
+  const lowFacets = sortedFacets.slice(-4).reverse();
+  const formatFacetScore = (score: number): string => `${Math.round(score)}%`;
+  const highlightBlock = facetScores.length
+    ? `
+      <div class="agent-facet-highlights">
+        <div>
+          <div class="agent-mini-title">High</div>
+          <div class="agent-pill-wrap agent-pill-wrap-left">
+            ${topFacets.map(f => `<span class="pill">${escapeHtml(`${f.name} ${formatFacetScore(f.score)}`)}</span>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="agent-mini-title">Low</div>
+          <div class="agent-pill-wrap agent-pill-wrap-left">
+            ${lowFacets.map(f => `<span class="pill pill-muted">${escapeHtml(`${f.name} ${formatFacetScore(f.score)}`)}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+    `
+    : `<div class="agent-inline-muted">—</div>`;
+  const facetCategoryMap = agentVocab?.personality?.facetCategories ?? {};
+  const categoryEntries = Object.keys(facetCategoryMap).length
+    ? Object.entries(facetCategoryMap)
+    : [['Facets', facetScores.map(f => f.name)]];
+  const facetByName = new Map(facetScores.map(f => [f.name.toLowerCase(), f]));
+  const categoryCards = categoryEntries.map(([category, names]) => {
+    const resolved = (names ?? [])
+      .map(name => facetByName.get(String(name).toLowerCase()))
+      .filter((f): f is typeof facetScores[number] => !!f);
+    const preview = resolved.slice(0, 3)
+      .map(f => `<div class="agent-mini-row"><span class="agent-mini-k">${escapeHtml(f.name)}</span><span class="agent-mini-v">${escapeHtml(formatFacetScore(f.score))}</span></div>`)
+      .join('');
+    const full = resolved
+      .map(f => `<div class="agent-mini-row"><span class="agent-mini-k">${escapeHtml(f.name)}</span><span class="agent-mini-v">${escapeHtml(formatFacetScore(f.score))}</span></div>`)
+      .join('');
+    const details = resolved.length > 3
+      ? `<details class="agent-inline-details"><summary>Show all</summary><div class="agent-mini-list">${full}</div></details>`
+      : '';
+    const body = resolved.length
+      ? `<div class="agent-mini-list">${preview}</div>${details}`
+      : `<div class="agent-inline-muted">—</div>`;
+    return renderPsychologyCard(escapeHtml(category), body);
+  }).join('');
+
   const aspirations = agent.motivations?.dreams ?? [];
   const aspirationsPills = aspirations.length
     ? `<span class="agent-pill-wrap">${aspirations.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
@@ -589,6 +696,7 @@ function renderAgent(
         <div class="agent-tabs">
           <button type="button" class="agent-tab-btn ${tab === 'portrait' ? 'active' : ''}" data-agent-tab="portrait" title="First impression: who is this person?">${AGENT_TAB_LABELS.portrait}</button>
           <button type="button" class="agent-tab-btn ${tab === 'character' ? 'active' : ''}" data-agent-tab="character" title="Inner life: personality, beliefs, motivations">${AGENT_TAB_LABELS.character}</button>
+          <button type="button" class="agent-tab-btn ${tab === 'psychology' ? 'active' : ''}" data-agent-tab="psychology" title="Thoughts, emotions, coping, facets">${AGENT_TAB_LABELS.psychology}</button>
           <button type="button" class="agent-tab-btn ${tab === 'connections' ? 'active' : ''}" data-agent-tab="connections" title="Social web: relationships, network, institution">${AGENT_TAB_LABELS.connections}</button>
           <button type="button" class="agent-tab-btn ${tab === 'capabilities' ? 'active' : ''}" data-agent-tab="capabilities" title="Skills and aptitudes">${AGENT_TAB_LABELS.capabilities}</button>
           <button type="button" class="agent-tab-btn ${tab === 'epistemology' ? 'active' : ''}" data-agent-tab="epistemology" title="Knowledge, beliefs, biases, sources">${AGENT_TAB_LABELS.epistemology}</button>
@@ -751,6 +859,34 @@ function renderAgent(
               </div>
             </details>
 
+        </div>
+      </div>
+
+        <!-- PSYCHOLOGY TAB: Thoughts, emotions, coping, facets -->
+        <div class="agent-tab-panel ${tab === 'psychology' ? 'active' : ''}" data-agent-tab-panel="psychology">
+          <div class="agent-grid agent-grid-tight">
+            <details class="agent-card agent-section agent-card-span12" data-agents-details="profile:psychology:thoughts" ${isDetailsOpen('profile:psychology:thoughts', true) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Thoughts &amp; emotions</span>
+                <span class="agent-section-hint">Stream snapshot</span>
+              </summary>
+              <div class="agent-section-body">
+                ${renderPsychologySection(psychologyCards, psychologyDetailsOpen)}
+              </div>
+            </details>
+
+            <details class="agent-card agent-section agent-card-span12" data-agents-details="profile:psychology:facets" ${isDetailsOpen('profile:psychology:facets', false) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Facets</span>
+                <span class="agent-section-hint">Highs, lows, categories</span>
+              </summary>
+              <div class="agent-section-body">
+                ${highlightBlock}
+                <div class="agent-grid agent-grid-tight" style="margin-top:0.75rem">
+                  ${categoryCards}
+                </div>
+              </div>
+            </details>
           </div>
         </div>
 
@@ -988,6 +1124,26 @@ function renderAgent(
                       <span class="pill">${escapeHtml(toTitleCaseWords(v.vice))}</span>
                       <span class="pill pill-muted">${escapeHtml(toTitleCaseWords(v.severity))}</span>
                       <span class="agent-vice-triggers">${escapeHtml(v.triggers.map(toTitleCaseWords).join(', '))}</span>
+                    </div>
+                  `).join('')
+                  : `<div class="agent-muted">None</div>`}
+              </div>
+            </details>
+
+            <details class="agent-card agent-section" data-agents-details="profile:daily-life:dependencies" ${isDetailsOpen('profile:daily-life:dependencies', false) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Dependencies</span>
+                <span class="agent-section-hint">${escapeHtml(dependencyHint)}</span>
+              </summary>
+              <div class="agent-section-body">
+                ${dependencyProfiles.length
+                  ? dependencyProfiles.map(p => `
+                    <div class="agent-dependency-row">
+                      <span class="pill">${escapeHtml(toTitleCaseWords(p.substance))}</span>
+                      <span class="pill pill-muted">${escapeHtml(toTitleCaseWords(p.stage))}</span>
+                      <span class="pill pill-muted">${escapeHtml(toTitleCaseWords(p.pattern))}</span>
+                      <span class="agent-dependency-meta">${escapeHtml(`${toTitleCaseWords(p.ritual)} · ${toTitleCaseWords(p.withdrawal)}`)}</span>
+                      <span class="pill pill-meta">${escapeHtml(toTitleCaseWords(p.riskFlag))}</span>
                     </div>
                   `).join('')
                   : `<div class="agent-muted">None</div>`}
@@ -1512,6 +1668,14 @@ export function initializeAgentsView(container: HTMLElement) {
     cognitiveDetailsToggle?.addEventListener('click', () => {
       const next = !isDetailsOpen(COGNITIVE_DETAILS_KEY, false);
       detailsOpen = { ...detailsOpen, [COGNITIVE_DETAILS_KEY]: next };
+      writeDetailsOpen(detailsOpen);
+      render();
+    });
+
+    const psychologyDetailsToggle = container.querySelector('[data-psychology-details-toggle]') as HTMLButtonElement | null;
+    psychologyDetailsToggle?.addEventListener('click', () => {
+      const next = !isDetailsOpen(PSYCHOLOGY_DETAILS_KEY, false);
+      detailsOpen = { ...detailsOpen, [PSYCHOLOGY_DETAILS_KEY]: next };
       writeDetailsOpen(detailsOpen);
       render();
     });

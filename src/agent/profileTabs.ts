@@ -1,6 +1,7 @@
 export type AgentProfileTab =
   | 'portrait'
   | 'character'
+  | 'psychology'
   | 'connections'
   | 'capabilities'
   | 'epistemology'
@@ -10,6 +11,7 @@ export type AgentProfileTab =
 export const AGENT_PROFILE_TABS: AgentProfileTab[] = [
   'portrait',
   'character',
+  'psychology',
   'connections',
   'capabilities',
   'epistemology',
@@ -21,6 +23,7 @@ export const AGENT_PROFILE_TABS: AgentProfileTab[] = [
 export const AGENT_TAB_LABELS: Record<AgentProfileTab, string> = {
   portrait: 'Portrait',
   character: 'Character',
+  psychology: 'Psychology',
   connections: 'Connections',
   capabilities: 'Capabilities',
   epistemology: 'Epistemology',
@@ -32,6 +35,7 @@ export const AGENT_TAB_LABELS: Record<AgentProfileTab, string> = {
 export const AGENT_TAB_DESCRIPTIONS: Record<AgentProfileTab, string> = {
   portrait: 'First impression: who is this person?',
   character: 'Inner life: personality, beliefs, motivations',
+  psychology: 'Thoughts, emotions, coping, facets',
   connections: 'Social web: relationships, network, institution',
   capabilities: 'Skills and aptitudes',
   epistemology: 'Knowledge, beliefs, biases, sources',

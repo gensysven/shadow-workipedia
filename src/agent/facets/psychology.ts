@@ -25,11 +25,17 @@ import type {
   SocialMask,
   KnowledgeAccuracy,
   KnowledgeItem,
+  ThoughtEntry,
+  EmotionEntry,
+  CopingEntry,
+  ThoughtsEmotionsSnapshot,
+  ThoughtValence,
 } from '../types';
 import {
   makeRng,
   facetSeed,
   clampFixed01k,
+  clampSigned01k,
   clampInt,
   weightedPick,
   weightedPickKUnique,
@@ -123,6 +129,7 @@ export type PsychologyResult = {
   coverAptitudeTags: string[];
   affect: Affect;
   selfConcept: SelfConceptResult;
+  thoughtsEmotions: ThoughtsEmotionsSnapshot;
   knowledgeIgnorance: KnowledgeIgnoranceResult;
 };
 
@@ -637,6 +644,216 @@ function computeSelfConcept(
   return selfConcept;
 }
 
+// ============================================================================
+// Thoughts & Emotions Snapshot
+// ============================================================================
+
+const POSITIVE_HINTS = ['joy', 'love', 'pride', 'hope', 'relief', 'warm', 'comfort', 'trust', 'safe', 'grateful'];
+const NEGATIVE_HINTS = ['sad', 'anger', 'fear', 'guilt', 'despair', 'paranoia', 'betray', 'pain', 'worry', 'trauma'];
+
+function inferValence(item: string): ThoughtValence {
+  const lower = item.toLowerCase();
+  if (POSITIVE_HINTS.some(h => lower.includes(h))) return 'positive';
+  if (NEGATIVE_HINTS.some(h => lower.includes(h))) return 'negative';
+  return 'neutral';
+}
+
+function buildThoughtEntries(
+  rng: ReturnType<typeof makeRng>,
+  pool: string[],
+  count: number,
+  intensityBase: number,
+  intensityJitter: number,
+  recencyMax: number,
+  stress01: number,
+): ThoughtEntry[] {
+  if (!pool.length) return [];
+  const picked = rng.pickK(pool, count);
+  return picked.map((item) => {
+    const valence = inferValence(item);
+    const stressBoost = Math.round(stress01 * 220);
+    const valenceBoost = valence === 'negative' ? 140 : valence === 'positive' ? -40 : 0;
+    const intensity01k = clampFixed01k(intensityBase + rng.int(-intensityJitter, intensityJitter) + stressBoost + valenceBoost);
+    const recencyDays = clampInt(rng.int(1, recencyMax), 1, 365);
+    return { item, valence, intensity01k, recencyDays };
+  });
+}
+
+function buildEmotionEntries(
+  rng: ReturnType<typeof makeRng>,
+  pool: string[],
+  count: number,
+  intensityBase: number,
+  intensityJitter: number,
+  durationMax: number,
+  stress01: number,
+): EmotionEntry[] {
+  if (!pool.length) return [];
+  const picked = rng.pickK(pool, count);
+  return picked.map((item) => {
+    const valence = inferValence(item);
+    const intensity01k = clampFixed01k(intensityBase + rng.int(-intensityJitter, intensityJitter) + Math.round(stress01 * 200));
+    const durationHours = clampInt(rng.int(1, durationMax), 1, 72);
+    const moodBase = 140 + rng.int(0, 260);
+    const moodImpact01k = clampSigned01k((valence === 'negative' ? -1 : 1) * moodBase);
+    const behaviorTilt = (() => {
+      if (valence === 'positive') {
+        return rng.pick(['open', 'engaged', 'protective', 'focused']);
+      }
+      if (valence === 'negative') {
+        return rng.pick(['withdrawn', 'avoidant', 'agitated', 'hypervigilant']);
+      }
+      return rng.pick(['reflective', 'guarded', 'steady']);
+    })();
+    return { item, intensity01k, durationHours, moodImpact01k, behaviorTilt, valence };
+  });
+}
+
+function buildCopingEntries(
+  rng: ReturnType<typeof makeRng>,
+  pool: string[],
+  count: number,
+  effectivenessBase: number,
+  effectivenessJitter: number,
+  recencyMax: number,
+  stress01: number,
+): CopingEntry[] {
+  if (!pool.length) return [];
+  const picked = rng.pickK(pool, count);
+  return picked.map((item) => {
+    const stressPenalty = Math.round(stress01 * 180);
+    const effectiveness01k = clampFixed01k(effectivenessBase + rng.int(-effectivenessJitter, effectivenessJitter) - stressPenalty);
+    const recencyDays = clampInt(rng.int(1, recencyMax), 1, 365);
+    return { item, effectiveness01k, recencyDays };
+  });
+}
+
+function computeThoughtsEmotions(
+  seed: string,
+  vocab: AgentVocabV1,
+  latents: Latents,
+  trace?: AgentGenerationTraceV1,
+): ThoughtsEmotionsSnapshot {
+  traceFacet(trace, seed, 'thoughtsEmotions');
+  const rng = makeRng(facetSeed(seed, 'thoughtsEmotions'));
+  const stress01 = latents.stressReactivity / 1000;
+
+  const thoughts = vocab.thoughtsEmotions?.thoughts ?? {};
+  const emotions = vocab.thoughtsEmotions?.emotions ?? {};
+  const coping = vocab.thoughtsEmotions?.coping ?? {};
+
+  const thoughtsResult = {
+    immediateObservations: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.immediateObservations ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      420,
+      180,
+      10,
+      stress01,
+    ),
+    reflections: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.reflections ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      460,
+      220,
+      18,
+      stress01,
+    ),
+    memories: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.memories ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      520,
+      240,
+      40,
+      stress01,
+    ),
+    worries: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.worries ?? []),
+      clampInt(1 + rng.int(0, 2) + (stress01 > 0.6 ? 1 : 0), 1, 4),
+      620,
+      240,
+      14,
+      stress01,
+    ),
+    desires: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.desires ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      480,
+      220,
+      30,
+      stress01,
+    ),
+    socialThoughts: buildThoughtEntries(
+      rng,
+      uniqueStrings(thoughts.socialThoughts ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      440,
+      200,
+      21,
+      stress01,
+    ),
+  };
+
+  const emotionsResult = {
+    primary: buildEmotionEntries(
+      rng,
+      uniqueStrings(emotions.primary ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      520,
+      220,
+      12,
+      stress01,
+    ),
+    complex: buildEmotionEntries(
+      rng,
+      uniqueStrings(emotions.complex ?? []),
+      clampInt(1 + rng.int(0, 1), 1, 4),
+      620,
+      240,
+      24,
+      stress01,
+    ),
+  };
+
+  const copingResult = {
+    healthy: buildCopingEntries(
+      rng,
+      uniqueStrings(coping.healthy ?? []),
+      clampInt(1 + rng.int(0, 2), 1, 4),
+      720,
+      160,
+      45,
+      stress01,
+    ),
+    unhealthy: buildCopingEntries(
+      rng,
+      uniqueStrings(coping.unhealthy ?? []),
+      clampInt(1 + rng.int(0, 1), 1, 4),
+      520,
+      200,
+      30,
+      stress01,
+    ),
+  };
+
+  const snapshot: ThoughtsEmotionsSnapshot = {
+    thoughts: thoughtsResult,
+    emotions: emotionsResult,
+    coping: copingResult,
+  };
+
+  traceSet(trace, 'psych.thoughtsEmotions', snapshot, {
+    method: 'pickK',
+    dependsOn: { vocab: 'thoughtsEmotions' },
+  });
+  return snapshot;
+}
+
 function computeKnowledgeIgnorance(
   seed: string,
   vocab: AgentVocabV1,
@@ -924,6 +1141,9 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
   // Self-concept - internal narrative and social presentation
   const selfConcept = computeSelfConcept(seed, vocab, latents, tierBand, roleSeedTags, trace);
 
+  // Thoughts & emotions - inner snapshot
+  const thoughtsEmotions = computeThoughtsEmotions(seed, vocab, latents, trace);
+
   // Knowledge & ignorance - what they know, miss, or misbelieve
   const knowledgeIgnorance = computeKnowledgeIgnorance(seed, vocab, latents, roleSeedTags, tierBand, trace);
 
@@ -935,6 +1155,7 @@ export function computePsychology(ctx: PsychologyContext): PsychologyResult {
     coverAptitudeTags,
     affect,
     selfConcept,
+    thoughtsEmotions,
     knowledgeIgnorance,
   };
 }

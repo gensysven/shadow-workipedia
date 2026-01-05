@@ -15,6 +15,8 @@ import { renderCognitiveCard, renderCognitiveSection } from '../src/agent/cognit
 import { renderCognitiveTabButton, renderCognitiveTabPanel } from '../src/agent/cognitiveTab';
 import { isAgentProfileTab } from '../src/agent/profileTabs';
 import { renderKnowledgeEntry, renderKnowledgeEntryList } from '../src/agent/knowledgeEntry';
+import { formatCopingMeta, formatEmotionMeta, formatThoughtMeta, renderPsychologyEntry, renderPsychologyEntryList } from '../src/agent/psychologyEntry';
+import { renderPsychologySection } from '../src/agent/psychologySection';
 import { computeHousingWeights } from '../src/agent/facets/domestic';
 import { buildPressureWeights } from '../src/agent/pressureResponse';
 import { formatFunctionalSpec, formatThirdPlace, sanitizeComfortItems } from '../src/agentNarration';
@@ -156,6 +158,79 @@ function run(): void {
   assertIncludes(vocab.affect?.repairStyles, 'gives-space', 'affect.repairStyles');
   assertIncludes(vocab.selfConcept?.selfStories, 'avenger', 'selfConcept.selfStories');
   assertIncludes(vocab.selfConcept?.socialMasks, 'professional', 'selfConcept.socialMasks');
+
+  console.log('Checking thoughts/emotions vocab...');
+  const thoughtsEmotions = (vocab as any).thoughtsEmotions as
+    | {
+      thoughts?: {
+        immediateObservations?: string[];
+        reflections?: string[];
+        memories?: string[];
+        worries?: string[];
+        desires?: string[];
+        socialThoughts?: string[];
+      };
+      emotions?: { primary?: string[]; complex?: string[] };
+      coping?: { healthy?: string[]; unhealthy?: string[] };
+    }
+    | undefined;
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.immediateObservations,
+    'This safe house is cramped',
+    'thoughtsEmotions.thoughts.immediateObservations',
+  );
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.reflections,
+    "That civilian didn't have to die",
+    'thoughtsEmotions.thoughts.reflections',
+  );
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.memories,
+    'Just like Belgrade all over again',
+    'thoughtsEmotions.thoughts.memories',
+  );
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.worries,
+    'This cough is getting worse',
+    'thoughtsEmotions.thoughts.worries',
+  );
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.desires,
+    'A beach somewhere, no missions',
+    'thoughtsEmotions.thoughts.desires',
+  );
+  assertIncludes(
+    thoughtsEmotions?.thoughts?.socialThoughts,
+    "Rodriguez always has my back",
+    'thoughtsEmotions.thoughts.socialThoughts',
+  );
+  assertIncludes(
+    thoughtsEmotions?.emotions?.primary,
+    'Joy',
+    'thoughtsEmotions.emotions.primary',
+  );
+  assertIncludes(
+    thoughtsEmotions?.emotions?.complex,
+    'Despair',
+    'thoughtsEmotions.emotions.complex',
+  );
+  assertIncludes(
+    thoughtsEmotions?.coping?.healthy,
+    'Physical exercise',
+    'thoughtsEmotions.coping.healthy',
+  );
+  assertIncludes(
+    thoughtsEmotions?.coping?.unhealthy,
+    'Substance use',
+    'thoughtsEmotions.coping.unhealthy',
+  );
+
+  console.log('Checking dependency vocab...');
+  assertIncludes(vocab.vices?.dependencyStages, 'early-stage', 'vices.dependencyStages');
+  assertIncludes(vocab.vices?.dependencyPatterns, 'stress-induced', 'vices.dependencyPatterns');
+  assertIncludes(vocab.vices?.withdrawalTells, 'headaches', 'vices.withdrawalTells');
+  assertIncludes(vocab.vices?.rituals, 'morning-coffee', 'vices.rituals');
+  assertIncludes(vocab.vices?.riskFlags, 'op-risk', 'vices.riskFlags');
 
   console.log('Checking stress-tell forcing...');
   const latents: Latents = {
@@ -342,6 +417,78 @@ function run(): void {
     throw new Error('Expected knowledge entry items to include left alignment class.');
   }
 
+  const thoughtMeta = formatThoughtMeta({
+    item: 'Test thought',
+    valence: 'negative',
+    intensity01k: 620,
+    recencyDays: 12,
+  });
+  if (!thoughtMeta.includes('negative')) {
+    throw new Error('Expected thought meta to include valence.');
+  }
+  if (!thoughtMeta.includes('62%')) {
+    throw new Error('Expected thought meta to include intensity percentage.');
+  }
+  if (!thoughtMeta.includes('12d')) {
+    throw new Error('Expected thought meta to include recency days.');
+  }
+
+  const emotionMeta = formatEmotionMeta({
+    item: 'Test emotion',
+    intensity01k: 580,
+    durationHours: 6,
+    moodImpact01k: -180,
+    behaviorTilt: 'withdrawn',
+  });
+  if (!emotionMeta.includes('58%')) {
+    throw new Error('Expected emotion meta to include intensity percentage.');
+  }
+  if (!emotionMeta.includes('6h')) {
+    throw new Error('Expected emotion meta to include duration.');
+  }
+  if (!emotionMeta.includes('withdrawn')) {
+    throw new Error('Expected emotion meta to include behavior tilt.');
+  }
+
+  const copingMeta = formatCopingMeta({
+    item: 'Test coping',
+    effectiveness01k: 740,
+    recencyDays: 21,
+  });
+  if (!copingMeta.includes('74%')) {
+    throw new Error('Expected coping meta to include effectiveness percentage.');
+  }
+  if (!copingMeta.includes('21d')) {
+    throw new Error('Expected coping meta to include recency days.');
+  }
+
+  const psychologyEntry = renderPsychologyEntry({ item: '<script>alert(1)</script>', meta: 'meta' });
+  if (psychologyEntry.includes('<script>')) {
+    throw new Error('Expected psychology entry to escape item content.');
+  }
+  if (!psychologyEntry.includes('psychology-entry-meta')) {
+    throw new Error('Expected psychology entry to include meta line.');
+  }
+  const psychologyListLeft = renderPsychologyEntryList([{ item: 'Left entry', meta: 'meta' }], 'left');
+  if (!psychologyListLeft.includes('psychology-entry-list-left')) {
+    throw new Error('Expected psychology entry list to include left alignment class.');
+  }
+  if (!psychologyListLeft.includes('psychology-entry-left')) {
+    throw new Error('Expected psychology entry list to include left entry alignment class.');
+  }
+
+  const psychologySection = renderPsychologySection('<div class="kv-row"></div>', false);
+  if (!psychologySection.includes('psychology-grid-wrap')) {
+    throw new Error('Expected psychology section to include wrapper class.');
+  }
+  if (!psychologySection.includes('data-psychology-details-toggle')) {
+    throw new Error('Expected psychology section to include a details toggle.');
+  }
+  const psychologySectionOpen = renderPsychologySection('<div class="kv-row"></div>', true);
+  if (!psychologySectionOpen.includes('psychology-details-on')) {
+    throw new Error('Expected psychology section to show details class when enabled.');
+  }
+
   const cognitiveSection = renderCognitiveSection('<div class="kv-row"></div>', false);
   if (!cognitiveSection.includes('cognitive-grid-wrap')) {
     throw new Error('Expected cognitive section to include wrapper class.');
@@ -397,6 +544,9 @@ function run(): void {
   }
   if (!isAgentProfileTab('character')) {
     throw new Error('Expected character to be a valid agent profile tab.');
+  }
+  if (!isAgentProfileTab('psychology')) {
+    throw new Error('Expected psychology to be a valid agent profile tab.');
   }
   if (!isAgentProfileTab('connections')) {
     throw new Error('Expected connections to be a valid agent profile tab.');
@@ -456,6 +606,87 @@ function run(): void {
   const dreams = (agent as any).motivations?.dreams as string[] | undefined;
   if (!dreams || dreams.length < 1 || dreams.length > 3) {
     throw new Error('Expected motivations.dreams to include 1-3 items.');
+  }
+
+  const thoughtsBlock = (agent as any).thoughtsEmotions as
+    | {
+      thoughts?: Record<string, Array<{ item?: string; valence?: string; intensity01k?: number; recencyDays?: number }>>;
+      emotions?: Record<string, Array<{ item?: string; valence?: string; intensity01k?: number; durationHours?: number; moodImpact01k?: number; behaviorTilt?: string }>>;
+      coping?: Record<string, Array<{ item?: string; effectiveness01k?: number; recencyDays?: number }>>;
+    }
+    | undefined;
+  if (!thoughtsBlock) {
+    throw new Error('Expected thoughtsEmotions to be generated.');
+  }
+  if (!thoughtsBlock.thoughts || !thoughtsBlock.emotions || !thoughtsBlock.coping) {
+    throw new Error('Expected thoughtsEmotions to include thoughts, emotions, and coping blocks.');
+  }
+  for (const [label, list] of Object.entries(thoughtsBlock.thoughts)) {
+    if (!Array.isArray(list) || list.length < 1 || list.length > 4) {
+      throw new Error(`Expected thoughtsEmotions.thoughts.${label} to include 1-4 items.`);
+    }
+    for (const entry of list) {
+      if (!entry.item) throw new Error(`Expected thoughtsEmotions.thoughts.${label} item to be a string.`);
+      if (!entry.valence) throw new Error(`Expected thoughtsEmotions.thoughts.${label} to include valence.`);
+      if (typeof entry.intensity01k !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.thoughts.${label} to include intensity01k.`);
+      }
+      if (typeof entry.recencyDays !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.thoughts.${label} to include recencyDays.`);
+      }
+    }
+  }
+  for (const [label, list] of Object.entries(thoughtsBlock.emotions)) {
+    if (!Array.isArray(list) || list.length < 1 || list.length > 4) {
+      throw new Error(`Expected thoughtsEmotions.emotions.${label} to include 1-4 items.`);
+    }
+    for (const entry of list) {
+      if (!entry.item) throw new Error(`Expected thoughtsEmotions.emotions.${label} item to be a string.`);
+      if (typeof entry.intensity01k !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.emotions.${label} to include intensity01k.`);
+      }
+      if (typeof entry.durationHours !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.emotions.${label} to include durationHours.`);
+      }
+      if (typeof entry.moodImpact01k !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.emotions.${label} to include moodImpact01k.`);
+      }
+      if (!entry.behaviorTilt) {
+        throw new Error(`Expected thoughtsEmotions.emotions.${label} to include behaviorTilt.`);
+      }
+    }
+  }
+  for (const [label, list] of Object.entries(thoughtsBlock.coping)) {
+    if (!Array.isArray(list) || list.length < 1 || list.length > 4) {
+      throw new Error(`Expected thoughtsEmotions.coping.${label} to include 1-4 items.`);
+    }
+    for (const entry of list) {
+      if (!entry.item) throw new Error(`Expected thoughtsEmotions.coping.${label} item to be a string.`);
+      if (typeof entry.effectiveness01k !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.coping.${label} to include effectiveness01k.`);
+      }
+      if (typeof entry.recencyDays !== 'number') {
+        throw new Error(`Expected thoughtsEmotions.coping.${label} to include recencyDays.`);
+      }
+    }
+  }
+
+  const dependencyProfiles = (agent as any).dependencyProfiles as
+    | Array<{ substance?: string; stage?: string; pattern?: string; ritual?: string; withdrawal?: string; riskFlag?: string }>
+    | undefined;
+  if (!dependencyProfiles || !Array.isArray(dependencyProfiles)) {
+    throw new Error('Expected dependencyProfiles to be generated.');
+  }
+  if (agent.vices.length > 0 && dependencyProfiles.length < 1) {
+    throw new Error('Expected dependencyProfiles when vices are present.');
+  }
+  for (const profile of dependencyProfiles) {
+    if (!profile.substance || !profile.stage || !profile.pattern) {
+      throw new Error('Expected dependencyProfiles entries to include substance, stage, and pattern.');
+    }
+    if (!profile.ritual || !profile.withdrawal || !profile.riskFlag) {
+      throw new Error('Expected dependencyProfiles entries to include ritual, withdrawal, and riskFlag.');
+    }
   }
 
   const dreamImagery = (agent as any).dreamsNightmares as

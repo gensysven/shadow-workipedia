@@ -125,6 +125,14 @@ export type LifestyleResult = {
     severity: Band5;
     triggers: string[];
   }>;
+  dependencyProfiles: Array<{
+    substance: string;
+    stage: string;
+    pattern: string;
+    ritual: string;
+    withdrawal: string;
+    riskFlag: string;
+  }>;
   logistics: {
     identityKit: Array<{ item: string; security: Band5; compromised: boolean }>;
   };
@@ -347,6 +355,7 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   // ─────────────────────────────────────────────────────────────────────────────
   // Pass spirituality observance level to influence vice selection
   const vices = computeVices(ctx, spirituality.observanceLevel);
+  const dependencyProfiles = computeDependencyProfiles(ctx, vices);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // LOGISTICS
@@ -372,6 +381,7 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   return {
     health: { chronicConditionTags, allergyTags, injuryHistoryTags, diseaseTags, fitnessBand, treatmentTags },
     vices,
+    dependencyProfiles,
     logistics: { identityKit },
     neurodivergence,
     spirituality,
@@ -561,6 +571,95 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
   });
 
   return vices;
+}
+
+// ============================================================================
+// Dependency Profiles (stage + pattern snapshots)
+// ============================================================================
+
+function computeDependencyProfiles(
+  ctx: LifestyleContext,
+  vices: LifestyleResult['vices'],
+): LifestyleResult['dependencyProfiles'] {
+  const { seed, vocab, latents, trace } = ctx;
+  traceFacet(trace, seed, 'dependencies');
+  if (!vices.length) return [];
+
+  const rng = makeRng(facetSeed(seed, 'dependencies'));
+  const stages = uniqueStrings(vocab.vices.dependencyStages ?? ['early-stage', 'middle-stage', 'late-stage', 'crisis']);
+  const patterns = uniqueStrings(vocab.vices.dependencyPatterns ?? ['stress-induced', 'pain-driven', 'performance', 'social-introduction']);
+  const withdrawals = uniqueStrings(vocab.vices.withdrawalTells ?? ['headaches', 'irritability', 'fatigue']);
+  const rituals = uniqueStrings(vocab.vices.rituals ?? ['morning-coffee', 'post-mission-drink']);
+  const riskFlags = uniqueStrings(vocab.vices.riskFlags ?? ['op-risk', 'health-risk', 'relationship-risk']);
+
+  const stress01 = latents.stressReactivity / 1000;
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const risk01 = latents.riskAppetite / 1000;
+
+  const severityScore = (severity: Band5): number => {
+    switch (severity) {
+      case 'very_low': return 0.15;
+      case 'low': return 0.3;
+      case 'medium': return 0.5;
+      case 'high': return 0.7;
+      case 'very_high': return 0.85;
+      default: return 0.5;
+    }
+  };
+
+  const stageWeights = (sev: Band5) => {
+    const score = severityScore(sev);
+    return stages.map(stage => {
+      const lower = stage.toLowerCase();
+      let w = 1;
+      if (lower.includes('early')) w += (1 - score) * 2;
+      if (lower.includes('middle')) w += 0.8;
+      if (lower.includes('late')) w += score * 2;
+      if (lower.includes('crisis')) w += score * 2.5 + stress01;
+      return { item: stage, weight: w };
+    });
+  };
+
+  const patternWeights = patterns.map(pattern => {
+    const lower = pattern.toLowerCase();
+    let w = 1;
+    if (lower.includes('stress')) w += 1.5 * stress01;
+    if (lower.includes('performance')) w += 1.2 * risk01;
+    if (lower.includes('pain')) w += 0.6 + 0.6 * (1 - latents.physicalConditioning / 1000);
+    if (lower.includes('social')) w += 0.4 + 0.6 * (latents.socialBattery / 1000);
+    return { item: pattern, weight: w };
+  });
+
+  const riskWeights = riskFlags.map(flag => {
+    const lower = flag.toLowerCase();
+    let w = 1;
+    if (lower.includes('op')) w += (1 - opsec01) * 1.5;
+    if (lower.includes('health')) w += stress01 * 1.2;
+    if (lower.includes('relationship')) w += (latents.socialBattery < 400 ? 1.1 : 0.4);
+    return { item: flag, weight: w };
+  });
+
+  const profiles = vices.slice(0, 3).map((vice) => {
+    const stage = weightedPick(rng, stageWeights(vice.severity));
+    const pattern = weightedPick(rng, patternWeights);
+    const ritual = rituals.length ? rng.pick(rituals) : 'routine';
+    const withdrawal = withdrawals.length ? rng.pick(withdrawals) : 'irritability';
+    const riskFlag = weightedPick(rng, riskWeights);
+    return {
+      substance: vice.vice,
+      stage,
+      pattern,
+      ritual,
+      withdrawal,
+      riskFlag,
+    };
+  });
+
+  traceSet(trace, 'dependencies', profiles, {
+    method: 'weightedPick',
+    dependsOn: { vices: vices.map(v => v.vice) },
+  });
+  return profiles;
 }
 
 // ============================================================================

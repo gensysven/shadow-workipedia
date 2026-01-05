@@ -2445,6 +2445,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     mobility: lifestyleResult.mobility,
     routines: preferencesResult.routines,
     vices: lifestyleResult.vices,
+    dependencyProfiles: lifestyleResult.dependencyProfiles,
     logistics: lifestyleResult.logistics,
     neurodivergence: lifestyleResult.neurodivergence,
     spirituality: lifestyleResult.spirituality,
@@ -2529,6 +2530,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     // From psychology.ts
     affect: psychologyResult.affect,
     selfConcept: psychologyResult.selfConcept,
+    thoughtsEmotions: psychologyResult.thoughtsEmotions,
     knowledgeIgnorance: psychologyResult.knowledgeIgnorance,
 
     // From social.ts

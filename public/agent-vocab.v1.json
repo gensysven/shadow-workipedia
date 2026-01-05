@@ -1511,6 +1511,41 @@
       "too much free time",
       "social comparison",
       "overstimulation"
+    ],
+    "dependencyStages": [
+      "early-stage",
+      "middle-stage",
+      "late-stage",
+      "crisis-point"
+    ],
+    "dependencyPatterns": [
+      "pain-driven",
+      "stress-induced",
+      "performance-dependence",
+      "social-introduction"
+    ],
+    "withdrawalTells": [
+      "headaches",
+      "irritability",
+      "fatigue",
+      "tremors",
+      "restlessness",
+      "insomnia",
+      "nausea"
+    ],
+    "rituals": [
+      "morning-coffee",
+      "post-mission-drink",
+      "pre-mission-doses",
+      "late-night-smoke",
+      "steady-sips",
+      "ritual-pillbox"
+    ],
+    "riskFlags": [
+      "op-risk",
+      "health-risk",
+      "relationship-risk",
+      "security-risk"
     ]
   },
   "deepSimPreview": {
@@ -9340,6 +9375,86 @@
       "caretaker",
       "martyr"
     ]
+  },
+  "thoughtsEmotions": {
+    "thoughts": {
+      "immediateObservations": [
+        "This safe house is cramped",
+        "Chen seems nervous today",
+        "My shoulder still aches from the last mission",
+        "It's been three days since proper sleep",
+        "The coffee here is terrible"
+      ],
+      "reflections": [
+        "That civilian didn't have to die",
+        "The intel was wrong again",
+        "Maybe I can trust Martinez",
+        "I'm getting too old for this",
+        "Are we really helping?"
+      ],
+      "memories": [
+        "Just like Belgrade all over again",
+        "Sarah would have loved this view",
+        "Remember: two in the chest, one in the head",
+        "I wonder if Mom is still alive",
+        "The day everything changed"
+      ],
+      "worries": [
+        "What if they find out about my past?",
+        "This plan has too many holes",
+        "They'll leave when they know the truth",
+        "Will any of this matter?",
+        "This cough is getting worse"
+      ],
+      "desires": [
+        "I need a drink",
+        "Someday I'll see justice done",
+        "Maybe we could be more than partners",
+        "A beach somewhere, no missions",
+        "Thompson will pay for Belgrade"
+      ],
+      "socialThoughts": [
+        "Rodriguez always has my back",
+        "The boss is losing it",
+        "Something's off about the new recruit",
+        "Those eyes are distracting",
+        "I'll show Chen who's the better operator"
+      ]
+    },
+    "emotions": {
+      "primary": [
+        "Joy",
+        "Sadness",
+        "Anger",
+        "Fear",
+        "Disgust",
+        "Surprise"
+      ],
+      "complex": [
+        "Guilt",
+        "Pride",
+        "Envy",
+        "Love",
+        "Despair",
+        "Paranoia"
+      ]
+    },
+    "coping": {
+      "healthy": [
+        "Physical exercise",
+        "Meditation",
+        "Social connection",
+        "Creative expression",
+        "Mission focus"
+      ],
+      "unhealthy": [
+        "Substance use",
+        "Violence",
+        "Isolation",
+        "Denial",
+        "Obsessive behavior"
+      ]
+    }
   },
   "memoryTrauma": {
     "memoryTags": [
