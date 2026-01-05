@@ -632,6 +632,16 @@ export type AgentVocabV1 = {
       outcomes: string[];
     }>;
   };
+  behaviorArchetypes?: {
+    archetypes?: Array<{
+      name: string;
+      situationReads: string[];
+      equipmentReads: string[];
+      pressureReads: string[];
+      objectiveFrames: string[];
+      teamDynamics: string[];
+    }>;
+  };
   detailGeneration?: {
     physicalFeatures?: string[];
     bodyLanguage?: string[];
@@ -803,6 +813,18 @@ export type DetailCategory =
 export type DetailItem = {
   category: DetailCategory;
   item: string;
+};
+
+export type BehaviorReadCategory = 'situation' | 'equipment' | 'pressure' | 'objective' | 'team';
+
+export type BehaviorRead = {
+  category: BehaviorReadCategory;
+  item: string;
+};
+
+export type BehaviorLensResult = {
+  archetype: string;
+  reads: BehaviorRead[];
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1105,6 +1127,13 @@ export type GeneratedAgent = {
       empathy: Fixed;
       assertiveness: Fixed;
       deceptionAptitude: Fixed;
+    };
+    traits: {
+      riskTolerance: Fixed;
+      conscientiousness: Fixed;
+      noveltySeeking: Fixed;
+      agreeableness: Fixed;
+      authoritarianism: Fixed;
     };
     skills: Record<string, { value: Fixed; xp: Fixed; lastUsedDay: number | null }>;
   };
@@ -1452,6 +1481,9 @@ export type GeneratedAgent = {
     tellAwareness: Fixed; // how aware they are of their own tells
     detectsLies: Fixed; // how good at spotting others' lies
   };
+
+  // Behavior lens - archetype reads of situations/equipment/pressure
+  behaviorLens: BehaviorLensResult;
 
   // Detail markers - memorable quirks for narrative texture
   details: DetailItem[];

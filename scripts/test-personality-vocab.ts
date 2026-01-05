@@ -132,6 +132,27 @@ function run(): void {
     throw new Error('Expected existenceCrises.types entries to include triggers and stages.');
   }
 
+  console.log('Checking behavior archetype vocab...');
+  const behaviorArchetypes = (vocab as any).behaviorArchetypes as
+    | {
+      archetypes?: Array<{
+        name?: string;
+        situationReads?: string[];
+        equipmentReads?: string[];
+        pressureReads?: string[];
+        objectiveFrames?: string[];
+        teamDynamics?: string[];
+      }>;
+    }
+    | undefined;
+  if (!behaviorArchetypes?.archetypes?.some((t) => (t.name ?? '').toLowerCase() === 'psychopath')) {
+    throw new Error('Expected behaviorArchetypes.archetypes to include \"Psychopath\".');
+  }
+  const psychopath = behaviorArchetypes?.archetypes?.find((t) => (t.name ?? '').toLowerCase() === 'psychopath');
+  if (!psychopath?.situationReads?.length || !psychopath?.equipmentReads?.length) {
+    throw new Error('Expected behavior archetypes to include situationReads and equipmentReads.');
+  }
+
   console.log('Checking detail generation vocab...');
   const detailGeneration = (vocab as any).detailGeneration as
     | {
@@ -493,6 +514,18 @@ function run(): void {
   }
   if (!agentExistenceCrisis?.trigger || !agentExistenceCrisis?.stage) {
     throw new Error('Expected existenceCrisis.trigger and existenceCrisis.stage to be generated.');
+  }
+  const behaviorLens = (agent as any).behaviorLens as
+    | { archetype?: string; reads?: Array<{ category?: string; item?: string }> }
+    | undefined;
+  if (!behaviorLens?.archetype) {
+    throw new Error('Expected behaviorLens.archetype to be generated.');
+  }
+  if (!behaviorLens.reads || behaviorLens.reads.length < 3 || behaviorLens.reads.length > 5) {
+    throw new Error('Expected behaviorLens.reads to include 3-5 items.');
+  }
+  if (!behaviorLens.reads.every((entry) => entry.item && entry.category)) {
+    throw new Error('Expected behaviorLens.reads entries to include category and item.');
   }
   const agentDetails = (agent as any).details as
     | Array<{ category?: string; item?: string }>

@@ -10370,6 +10370,185 @@
       }
     ]
   },
+  "behaviorArchetypes": {
+    "archetypes": [
+      {
+        "name": "Psychopath",
+        "situationReads": [
+          "Crisis means opportunity for control through fear",
+          "Scandal equals leverage for domination",
+          "Uprising is an excuse for violence"
+        ],
+        "equipmentReads": [
+          "Medical kit becomes a poison lab",
+          "Cash funds permanent solutions",
+          "Surveillance kit plans perfect crimes"
+        ],
+        "pressureReads": [
+          "Threats increase violence",
+          "Promises are leverage for obedience"
+        ],
+        "objectiveFrames": [
+          "Stabilize situation means eliminate unstable elements",
+          "Protect assets means remove all threats permanently"
+        ],
+        "teamDynamics": [
+          "Terrifies compassionate agents",
+          "Manipulates naive teammates"
+        ]
+      },
+      {
+        "name": "Compassionate",
+        "situationReads": [
+          "Crisis means people need help",
+          "Uprising reflects legitimate grievances",
+          "Economic shock means protect the vulnerable"
+        ],
+        "equipmentReads": [
+          "Medical kit heals enemies too",
+          "Cash goes to the first sad story",
+          "Surveillance kit checks if everyone is okay"
+        ],
+        "pressureReads": [
+          "Threats trigger protective instincts",
+          "Promises become chances to help more people"
+        ],
+        "objectiveFrames": [
+          "Protect assets includes every human life",
+          "Restore order means create harmony"
+        ],
+        "teamDynamics": [
+          "Beloved by idealists",
+          "Exhausts pragmatists"
+        ]
+      },
+      {
+        "name": "Paranoid",
+        "situationReads": [
+          "Crisis means they orchestrated this",
+          "Scandal is a distraction from the real plot",
+          "Information leak hides a deeper conspiracy"
+        ],
+        "equipmentReads": [
+          "Medical kit tests for poison",
+          "Cash is buried in multiple locations",
+          "Surveillance kit watches their own team"
+        ],
+        "pressureReads": [
+          "Threats confirm they are being watched",
+          "Promises are traps"
+        ],
+        "objectiveFrames": [
+          "Investigate matter means find the conspiracy beneath",
+          "Handle delicately means they are watching every move"
+        ],
+        "teamDynamics": [
+          "Suspects everyone constantly",
+          "Accidentally uncovers real plots"
+        ]
+      },
+      {
+        "name": "Greedy",
+        "situationReads": [
+          "Crisis is a profit opportunity",
+          "Scandal is a blackmail goldmine",
+          "Economic disruption means buy low, sell high"
+        ],
+        "equipmentReads": [
+          "Medical kit becomes a black market clinic",
+          "Cash gets invested in a side scheme",
+          "Surveillance kit fuels blackmail enterprise"
+        ],
+        "pressureReads": [
+          "Threats demand a payout",
+          "Promises become profit targets"
+        ],
+        "objectiveFrames": [
+          "Protect assets means protect future profits",
+          "Restore order means restore revenue streams"
+        ],
+        "teamDynamics": [
+          "Charges teammates for help",
+          "Surprisingly reliable if paid"
+        ]
+      },
+      {
+        "name": "Incompetent",
+        "situationReads": [
+          "Crisis means I can fix this",
+          "Scandal means I should investigate",
+          "Information leak means I should secure it"
+        ],
+        "equipmentReads": [
+          "Medical kit poisons someone accidentally",
+          "Cash disappears within an hour",
+          "Surveillance kit records the wrong thing"
+        ],
+        "pressureReads": [
+          "Threats cause frantic mistakes",
+          "Promises distract from the mission"
+        ],
+        "objectiveFrames": [
+          "Stabilize situation means destabilize through helping",
+          "Handle delicately means drop everything literally"
+        ],
+        "teamDynamics": [
+          "Tests everyone's patience",
+          "Occasionally succeeds through chaos"
+        ]
+      },
+      {
+        "name": "Methodical",
+        "situationReads": [
+          "Crisis requires a systematic response plan",
+          "Uprising means analyze root causes first",
+          "Information needs categorization and cross-reference"
+        ],
+        "equipmentReads": [
+          "Medical kit comes with flowcharts",
+          "Cash is tracked with receipts",
+          "Surveillance kit logs everything with timestamps"
+        ],
+        "pressureReads": [
+          "Threats trigger protocol escalation",
+          "Promises become checklist items"
+        ],
+        "objectiveFrames": [
+          "Investigate matter means full methodology",
+          "Restore order means order restoration checklist"
+        ],
+        "teamDynamics": [
+          "Drives spontaneous agents crazy",
+          "Saves everyone with preparation"
+        ]
+      },
+      {
+        "name": "Vengeful",
+        "situationReads": [
+          "Crisis means my enemies caused this",
+          "Scandal is perfect for revenge",
+          "Uprising recruits angry allies"
+        ],
+        "equipmentReads": [
+          "Medical kit keeps enemies alive for revenge",
+          "Cash funds elaborate revenge plots",
+          "Surveillance kit documents for future payback"
+        ],
+        "pressureReads": [
+          "Threats intensify revenge drive",
+          "Promises are leverage for retaliation"
+        ],
+        "objectiveFrames": [
+          "Protect assets means protect revenge capability",
+          "Elimination means sanctioned revenge"
+        ],
+        "teamDynamics": [
+          "Keeps extensive grudge lists",
+          "Turns missions into revenge quests"
+        ]
+      }
+    ]
+  },
   "detailGeneration": {
     "physicalFeatures": [
       "Broken nose from teenage boxing, curves left",

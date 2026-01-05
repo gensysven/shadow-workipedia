@@ -760,6 +760,7 @@ import { computeAppearance } from './facets/appearance';
 import { computeCapabilities } from './facets/capabilities';
 import { computePsychology } from './facets/psychology';
 import { computeDetails } from './facets/details';
+import { computeBehaviorLens } from './facets/behavior';
 import { computePreferences } from './facets/preferences';
 import { computeSocial } from './facets/social';
 import { computeLifestyle } from './facets/lifestyle';
@@ -1040,6 +1041,16 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     trace,
   });
 
+  const behaviorLens = computeBehaviorLens(
+    seed,
+    vocab,
+    latents,
+    capabilitiesResult.traits,
+    capabilitiesResult.aptitudes,
+    psychologyResult.ethics,
+    trace,
+  );
+
   const details = computeDetails(
     seed,
     vocab,
@@ -1219,6 +1230,10 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     // Pass family status for housing constraints
     maritalStatus: socialResult.family.maritalStatus,
     dependentCount: socialResult.family.dependentCount,
+    // Correlate #13: Conscientiousness ↔ Housing - pass traits for housing stability correlation
+    traits: {
+      conscientiousness: capabilitiesResult.traits.conscientiousness,
+    },
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -2422,6 +2437,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
 
     capabilities: {
       aptitudes: capabilitiesResult.aptitudes,
+      traits: capabilitiesResult.traits,
       skills: capabilitiesResult.skills,
     },
 
@@ -2537,6 +2553,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     pressureResponse,
     physicalPresence,
     deceptionSkill,
+    behaviorLens,
     details,
 
     // === ORACLE-RECOMMENDED FACETS ===

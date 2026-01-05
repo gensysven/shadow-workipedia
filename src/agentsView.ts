@@ -510,6 +510,21 @@ function renderAgent(
     ? `<span class="agent-pill-wrap agent-pill-wrap-left">${detailItems.map(detail => `<span class="pill pill-muted">${escapeHtml(detail.item)}</span>`).join('')}</span>`
     : `<span class="agent-inline-muted">—</span>`;
 
+  const behaviorLens = agent.behaviorLens;
+  const behaviorReads = behaviorLens?.reads ?? [];
+  const behaviorList = behaviorReads.length
+    ? `
+      <div class="agent-detail-list">
+        ${behaviorReads.map(read => `
+          <div class="agent-detail-row">
+            <span class="agent-detail-dot">•</span>
+            <span class="agent-detail-text">${escapeHtml(read.item)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `
+    : `<div class="agent-inline-muted">—</div>`;
+
   const aptitudePairs = ([
     ['Strength', apt.strength],
     ['Endurance', apt.endurance],
@@ -764,6 +779,14 @@ function renderAgent(
               <section class="agent-card agent-card-span12">
                 <h3>Detail markers</h3>
                 <div class="agent-kv">${detailPills}</div>
+              </section>
+
+              <section class="agent-card agent-card-span12">
+                <h3>Behavior lens</h3>
+                <div class="agent-kv">
+                  <div class="kv-row"><span class="kv-k">Archetype</span><span class="kv-v">${escapeHtml(behaviorLens?.archetype ?? '—')}</span></div>
+                </div>
+                ${behaviorList}
               </section>
 
               <!-- Life timeline: visual journey (merged from Narrative tab) -->
