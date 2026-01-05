@@ -53,6 +53,21 @@ function run(): void {
   assertIncludes(vocab.personality?.humorStyles, 'jovial', 'personality.humorStyles');
   assertIncludes(vocab.personality?.facetNames, 'Bravery', 'personality.facetNames');
   assertIncludes(vocab.personality?.traitNames, 'Ambitious', 'personality.traitNames');
+  const facetCategoryOrder = Object.keys(vocab.personality?.facetCategories ?? {});
+  const expectedFacetCategoryOrder = [
+    'Emotional Regulation',
+    'Social & Interpersonal',
+    'Moral & Ethical',
+    'Intellectual & Analytical',
+    'Courage & Bravery',
+    'Work Ethic & Professionalism',
+    'Physical & Sensory',
+    'Cultural & Identity',
+    'Leadership & Authority',
+  ];
+  if (facetCategoryOrder.join('|') !== expectedFacetCategoryOrder.join('|')) {
+    throw new Error(`Expected facetCategories order to be ${expectedFacetCategoryOrder.join(', ')}.`);
+  }
   const quirkNames = vocab.personality?.quirkCombinations?.map(c => c.name) ?? [];
   if (!quirkNames.includes('The Compassionate Predator')) {
     throw new Error('Expected personality.quirkCombinations to include \"The Compassionate Predator\".');

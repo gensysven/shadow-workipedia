@@ -8846,10 +8846,11 @@
       "Decision Making"
     ],
     "facetCategories": {
-      "Courage & Bravery": [
-        "Bravery",
-        "Stress Tolerance",
-        "Confidence"
+      "Emotional Regulation": [
+        "Anger Management",
+        "Anxiety Level",
+        "Emotional Expression",
+        "Optimism"
       ],
       "Social & Interpersonal": [
         "Gregariousness",
@@ -8857,29 +8858,28 @@
         "Trust",
         "Humor"
       ],
-      "Intellectual & Analytical": [
-        "Curiosity",
-        "Analytical Thinking",
-        "Creativity",
-        "Memory"
-      ],
       "Moral & Ethical": [
         "Honesty",
         "Compassion",
         "Justice",
         "Loyalty"
       ],
+      "Intellectual & Analytical": [
+        "Curiosity",
+        "Analytical Thinking",
+        "Creativity",
+        "Memory"
+      ],
+      "Courage & Bravery": [
+        "Bravery",
+        "Stress Tolerance",
+        "Confidence"
+      ],
       "Work Ethic & Professionalism": [
         "Diligence",
         "Perfectionism",
         "Organization",
         "Patience"
-      ],
-      "Emotional Regulation": [
-        "Anger Management",
-        "Anxiety Level",
-        "Emotional Expression",
-        "Optimism"
       ],
       "Physical & Sensory": [
         "Pain Tolerance",
