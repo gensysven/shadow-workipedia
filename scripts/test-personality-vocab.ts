@@ -73,6 +73,36 @@ function run(): void {
     throw new Error('Expected personality.quirkCombinations to include \"The Compassionate Predator\".');
   }
 
+  console.log('Checking cultural dynamics vocab...');
+  const culturalDynamics = (vocab as any).culturalDynamics as
+    | {
+      communicationNorms?: string[];
+      powerDynamics?: string[];
+      bondingMechanisms?: string[];
+      clashPoints?: string[];
+    }
+    | undefined;
+  assertIncludes(
+    culturalDynamics?.communicationNorms,
+    'Direct vs indirect communication',
+    'culturalDynamics.communicationNorms',
+  );
+  assertIncludes(
+    culturalDynamics?.powerDynamics,
+    'Competence earns authority',
+    'culturalDynamics.powerDynamics',
+  );
+  assertIncludes(
+    culturalDynamics?.bondingMechanisms,
+    'Shared danger bonds fast',
+    'culturalDynamics.bondingMechanisms',
+  );
+  assertIncludes(
+    culturalDynamics?.clashPoints,
+    'Time expectations conflict',
+    'culturalDynamics.clashPoints',
+  );
+
   console.log('Checking conversation topics vocab...');
   assertIncludes(vocab.civicLife?.conversationTopics, 'Remember when the extraction went sideways in Prague?', 'civicLife.conversationTopics');
   assertIncludes(vocab.civicLife?.conversationTopics, 'Try reversing the polarity on the jammer', 'civicLife.conversationTopics');
@@ -702,6 +732,18 @@ function run(): void {
     }
     if (!profile.ritual || !profile.withdrawal || !profile.riskFlag || !profile.recovery) {
       throw new Error('Expected dependencyProfiles entries to include ritual, withdrawal, riskFlag, and recovery.');
+    }
+  }
+
+  const culturalDynamicsAgent = (agent as any).culturalDynamics as
+    | { communicationNorms?: string[]; powerDynamics?: string[]; bondingMechanisms?: string[]; clashPoints?: string[] }
+    | undefined;
+  if (!culturalDynamicsAgent) {
+    throw new Error('Expected culturalDynamics to be generated.');
+  }
+  for (const [label, list] of Object.entries(culturalDynamicsAgent)) {
+    if (!Array.isArray(list) || list.length < 1 || list.length > 4) {
+      throw new Error(`Expected culturalDynamics.${label} to include 1-4 items.`);
     }
   }
 

@@ -467,6 +467,12 @@ function renderAgent(
   const dependencyHint = dependencyProfiles.length
     ? `${toTitleCaseWords(dependencyProfiles[0].stage)} · ${toTitleCaseWords(dependencyProfiles[0].substance)}`
     : 'None';
+  const culturalDynamics = agent.culturalDynamics;
+  const renderDynamicsPills = (items: string[] | undefined): string => (
+    items && items.length
+      ? `<span class="agent-pill-wrap agent-pill-wrap-left">${items.slice(0, 4).map(item => `<span class="pill pill-muted">${escapeHtml(item)}</span>`).join('')}</span>`
+      : `<span class="agent-inline-muted">—</span>`
+  );
 
   const roleTags = agent.identity.roleSeedTags.map(t => `<span class="pill">${escapeHtml(toTitleCaseWords(t))}</span>`).join('');
   const langTags = agent.identity.languages.map(t => `<span class="pill pill-muted">${escapeHtml(displayLanguageCode(t))}</span>`).join('');
@@ -929,6 +935,26 @@ function renderAgent(
               <div class="agent-kv">
                 <div class="kv-row"><span class="kv-k">Talks about</span><span class="kv-v">${conversationPills}</span></div>
               </div>
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Communication norms</h3>
+              ${renderDynamicsPills(culturalDynamics?.communicationNorms)}
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Power dynamics</h3>
+              ${renderDynamicsPills(culturalDynamics?.powerDynamics)}
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Bonding mechanisms</h3>
+              ${renderDynamicsPills(culturalDynamics?.bondingMechanisms)}
+            </section>
+
+            <section class="agent-card agent-card-span6">
+              <h3>Clash points</h3>
+              ${renderDynamicsPills(culturalDynamics?.clashPoints)}
             </section>
 
             <section class="agent-card agent-card-span6">

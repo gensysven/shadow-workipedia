@@ -9781,6 +9781,47 @@
       "Isolation -2 mood daily"
     ]
   },
+  "culturalDynamics": {
+    "communicationNorms": [
+      "Direct vs indirect communication",
+      "Face-saving cues matter",
+      "Silence is comfortable",
+      "Punctuality is sacred",
+      "Relationship time over schedule",
+      "Physical proximity is normal",
+      "Personal space is protected",
+      "Formal layers in public"
+    ],
+    "powerDynamics": [
+      "Rank sets the rules",
+      "Competence earns authority",
+      "Charisma-based leadership",
+      "Information is power",
+      "Seniority deference",
+      "Boundary testing is normal",
+      "Coalitions decide outcomes",
+      "Quiet undermining occurs"
+    ],
+    "bondingMechanisms": [
+      "Shared danger bonds fast",
+      "Inside jokes signal belonging",
+      "Ritual meals build trust",
+      "Reciprocity proves loyalty",
+      "Training hardships forge ties",
+      "Forgiveness rituals reset status",
+      "Shared travel closes distance"
+    ],
+    "clashPoints": [
+      "Time expectations conflict",
+      "Privacy needs collide",
+      "Gender role friction",
+      "Conflict style mismatch",
+      "Food smells cause friction",
+      "Cleanliness standards differ",
+      "Noise levels feel disrespectful",
+      "Humor fails to translate"
+    ]
+  },
   "knowledgeIgnorance": {
     "knowledgeStrengths": [
       "Tradecraft: Surveillance, counter-surveillance, dead drops",

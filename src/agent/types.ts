@@ -573,6 +573,12 @@ export type AgentVocabV1 = {
     tabooTopics?: string[];
     conversationTopics?: string[];
   };
+  culturalDynamics?: {
+    communicationNorms?: string[];
+    powerDynamics?: string[];
+    bondingMechanisms?: string[];
+    clashPoints?: string[];
+  };
 };
 
 export type SocioeconomicMobility = 'upward' | 'stable' | 'downward';
@@ -645,6 +651,13 @@ export type DependencyProfile = {
   withdrawal: string;
   riskFlag: string;
   recovery: string;
+};
+
+export type CulturalDynamicsResult = {
+  communicationNorms: string[];
+  powerDynamics: string[];
+  bondingMechanisms: string[];
+  clashPoints: string[];
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1380,6 +1393,9 @@ export type GeneratedAgent = {
     tabooTopics: string[];
     conversationTopics: string[];
   };
+
+  // Cultural and social dynamics snapshot
+  culturalDynamics: CulturalDynamicsResult;
 };
 
 export type GenerateAgentInput = {

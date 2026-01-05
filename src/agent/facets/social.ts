@@ -29,13 +29,16 @@ import type {
   DependentNonHuman,
   CivicEngagement,
   IdeologyTag,
+  CulturalDynamicsResult,
 } from '../types';
 
 import {
   makeRng,
   facetSeed,
   band5From01k,
+  clampInt,
   weightedPick,
+  weightedPickKUnique,
   traceSet,
   traceFacet,
 } from '../utils';
@@ -111,6 +114,15 @@ export type CivicLifeResult = {
   conversationTopics: string[];
 };
 
+export type CulturalDynamicsInput = {
+  seed: string;
+  vocab: AgentVocabV1;
+  latents: Latents;
+  tierBand: TierBand;
+  roleSeedTags: string[];
+  trace?: AgentGenerationTraceV1;
+};
+
 /** Communities result */
 export type CommunitiesResult = {
   memberships: CommunityMembership[];
@@ -149,7 +161,114 @@ export type SocialResult = {
   reputation: ReputationResult;
   attachments: AttachmentsResult;
   civicLife: CivicLifeResult;
+
+  // Cultural/social dynamics
+  culturalDynamics: CulturalDynamicsResult;
 };
+
+// ============================================================================
+// Cultural Dynamics Snapshot
+// ============================================================================
+
+function computeCulturalDynamics({
+  seed,
+  vocab,
+  latents,
+  tierBand,
+  roleSeedTags,
+  trace,
+}: CulturalDynamicsInput): CulturalDynamicsResult {
+  traceFacet(trace, seed, 'culturalDynamics');
+  const rng = makeRng(facetSeed(seed, 'culturalDynamics'));
+
+  const communicationPool = vocab.culturalDynamics?.communicationNorms ?? [];
+  const powerPool = vocab.culturalDynamics?.powerDynamics ?? [];
+  const bondingPool = vocab.culturalDynamics?.bondingMechanisms ?? [];
+  const clashPool = vocab.culturalDynamics?.clashPoints ?? [];
+
+  const public01 = latents.publicness / 1000;
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const social01 = latents.socialBattery / 1000;
+  const adapt01 = latents.adaptability / 1000;
+
+  const pickFrom = (pool: string[], count: number, weightFn: (item: string) => number): string[] => {
+    if (!pool.length) return [];
+    const weights = pool.map((item) => ({ item, weight: weightFn(item) }));
+    return weightedPickKUnique(rng, weights, clampInt(count, 1, Math.min(4, pool.length)));
+  };
+
+  const communicationNorms = pickFrom(
+    communicationPool,
+    2 + rng.int(0, 2),
+    (item) => {
+      const lower = item.toLowerCase();
+      let w = 1;
+      if (lower.includes('direct')) w += 1.2 * (1 - opsec01);
+      if (lower.includes('face-saving') || lower.includes('formal')) w += 1.1 * opsec01;
+      if (lower.includes('punctual') || lower.includes('schedule')) w += 1.2 * (tierBand === 'elite' ? 1 : 0.6);
+      if (lower.includes('relationship') || lower.includes('proximity')) w += 1.1 * social01;
+      if (lower.includes('personal space')) w += 0.8 + 0.6 * (1 - public01);
+      if (lower.includes('silence')) w += 0.6 + 0.6 * adapt01;
+      return w;
+    },
+  );
+
+  const powerDynamics = pickFrom(
+    powerPool,
+    2 + rng.int(0, 2),
+    (item) => {
+      const lower = item.toLowerCase();
+      let w = 1;
+      if (lower.includes('rank') || lower.includes('seniority')) w += tierBand === 'elite' ? 1.6 : 0.8;
+      if (lower.includes('competence')) w += 1.2 * (latents.techFluency / 1000);
+      if (lower.includes('charisma')) w += 1.1 * social01;
+      if (lower.includes('information')) w += 1.0 * opsec01;
+      if (lower.includes('coalition')) w += 0.8 + 0.6 * social01;
+      if (lower.includes('undermining')) w += 0.5 + 0.8 * (1 - opsec01);
+      return w;
+    },
+  );
+
+  const bondingMechanisms = pickFrom(
+    bondingPool,
+    2 + rng.int(0, 2),
+    (item) => {
+      const lower = item.toLowerCase();
+      let w = 1;
+      if (lower.includes('danger')) w += roleSeedTags.includes('operative') ? 1.6 : 0.6;
+      if (lower.includes('ritual')) w += 1.0 + 0.6 * opsec01;
+      if (lower.includes('reciprocity')) w += 0.8 + 0.6 * social01;
+      if (lower.includes('training')) w += roleSeedTags.includes('security') ? 1.2 : 0.7;
+      if (lower.includes('travel')) w += 0.6 + 0.6 * adapt01;
+      if (lower.includes('jokes')) w += 0.6 + 0.8 * social01;
+      return w;
+    },
+  );
+
+  const clashPoints = pickFrom(
+    clashPool,
+    2 + rng.int(0, 2),
+    (item) => {
+      const lower = item.toLowerCase();
+      let w = 1;
+      if (lower.includes('privacy')) w += 0.8 + 0.6 * (1 - public01);
+      if (lower.includes('time')) w += 0.8 + 0.6 * (1 - adapt01);
+      if (lower.includes('conflict')) w += 0.6 + 0.8 * (1 - latents.principledness / 1000);
+      if (lower.includes('food') || lower.includes('noise') || lower.includes('cleanliness')) w += 0.8 + 0.6 * social01;
+      if (lower.includes('humor')) w += 0.6 + 0.6 * (1 - social01);
+      return w;
+    },
+  );
+
+  const result: CulturalDynamicsResult = {
+    communicationNorms,
+    powerDynamics,
+    bondingMechanisms,
+    clashPoints,
+  };
+  traceSet(trace, 'culturalDynamics', result, { method: 'weightedPickKUnique' });
+  return result;
+}
 
 // ============================================================================
 // Main Computation
@@ -704,6 +823,15 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   const civicLife: CivicLifeResult = { engagement, ideology, tabooTopics, conversationTopics };
   traceSet(trace, 'civicLife', civicLife, { method: 'weighted' });
 
+  const culturalDynamics = computeCulturalDynamics({
+    seed,
+    vocab,
+    latents,
+    tierBand,
+    roleSeedTags,
+    trace,
+  });
+
   return {
     geography: { originRegion, urbanicity, diasporaStatus },
     family: { maritalStatus, dependentCount, hasLivingParents, hasSiblings },
@@ -713,5 +841,6 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     reputation,
     attachments,
     civicLife,
+    culturalDynamics,
   };
 }
