@@ -10607,6 +10607,71 @@
       "Plots a safer career path"
     ]
   },
+  "physicalDetails": {
+    "faceStructure": [
+      "Square jaw with a small cleft",
+      "Oval face with sharp cheekbones",
+      "Round face with soft features",
+      "Weathered skin with faint laugh lines",
+      "Asymmetry from an old jaw injury"
+    ],
+    "eyeDetails": [
+      "Heterochromia - one brown, one green",
+      "Deep-set eyes with a tired focus",
+      "Warm honey eyes with gold flecks",
+      "Rapid blinking when thinking hard",
+      "Narrow stare that misses nothing"
+    ],
+    "hairDetails": [
+      "Salt-and-pepper streak at the temples",
+      "Close-cropped cut for practicality",
+      "Wavy hair kept in a tight bun",
+      "Curly hair that refuses to behave",
+      "Receding hairline hidden under a cap"
+    ],
+    "bodyBuild": [
+      "Lean build with long limbs",
+      "Compact, powerful frame",
+      "Broad shoulders and narrow hips",
+      "Wiry strength more than muscle",
+      "Soft build that hides endurance"
+    ],
+    "postureMovement": [
+      "Military bearing, shoulders never relax",
+      "Predator stillness before sudden motion",
+      "Scholar's slouch from long hours over screens",
+      "Quick, precise movements that waste nothing",
+      "Measured gait with a slight limp"
+    ],
+    "bodyMods": [
+      "Minimalist tattoo hidden under the collar",
+      "Old military ink faded at the edges",
+      "Pierced ear kept for a promise",
+      "Scarification line across the shoulder",
+      "Small wrist tattoo for luck"
+    ],
+    "scarsInjuries": [
+      "Thin scar across the knuckles",
+      "Healed burn marks on the forearm",
+      "Bullet scar near the ribs",
+      "Old break that aches in the cold",
+      "Small cut above the eyebrow"
+    ],
+    "sensoryLimits": [
+      "Partial hearing loss on the left",
+      "Night vision worse than they admit",
+      "Colorblind to reds and greens",
+      "Sensitive eyes in bright light",
+      "Occasional vertigo at height"
+    ],
+    "fitnessMarkers": [
+      "Runner's legs and steady breathing",
+      "Callused hands from constant training",
+      "Quick recovery after exertion",
+      "Visible tendon definition in forearms",
+      "Resting heartbeat slower than normal"
+    ]
+  },
   "detailGeneration": {
     "physicalFeatures": [
       "Broken nose from teenage boxing, curves left",

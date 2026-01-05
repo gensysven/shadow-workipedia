@@ -652,6 +652,17 @@ export type AgentVocabV1 = {
     resourceManagement?: string[];
     longTerm?: string[];
   };
+  physicalDetails?: {
+    faceStructure?: string[];
+    eyeDetails?: string[];
+    hairDetails?: string[];
+    bodyBuild?: string[];
+    postureMovement?: string[];
+    bodyMods?: string[];
+    scarsInjuries?: string[];
+    sensoryLimits?: string[];
+    fitnessMarkers?: string[];
+  };
   detailGeneration?: {
     physicalFeatures?: string[];
     bodyLanguage?: string[];
@@ -854,6 +865,22 @@ export type DecisionTendency = {
 
 export type DecisionStyleResult = {
   tendencies: DecisionTendency[];
+};
+
+export type PhysicalDetailCategory =
+  | 'face'
+  | 'eyes'
+  | 'hair'
+  | 'build'
+  | 'posture'
+  | 'mods'
+  | 'scars'
+  | 'sensory'
+  | 'fitness';
+
+export type PhysicalDetailItem = {
+  category: PhysicalDetailCategory;
+  item: string;
 };
 
 export type EliteCompensator = 'patronage' | 'dynasty' | 'institutional-protection' | 'media-shield' | 'political-cover' | 'wealth-buffer';
@@ -1516,6 +1543,9 @@ export type GeneratedAgent = {
 
   // Decision style - tendency templates
   decisionStyle: DecisionStyleResult;
+
+  // Physical details - memorable appearance markers
+  physicalDetails: PhysicalDetailItem[];
 
   // Detail markers - memorable quirks for narrative texture
   details: DetailItem[];

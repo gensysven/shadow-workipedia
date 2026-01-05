@@ -762,6 +762,7 @@ import { computePsychology } from './facets/psychology';
 import { computeDetails } from './facets/details';
 import { computeBehaviorLens } from './facets/behavior';
 import { computeDecisionStyle } from './facets/decisionStyle';
+import { computePhysicalDetails } from './facets/physicalDetails';
 import { computePreferences } from './facets/preferences';
 import { computeSocial } from './facets/social';
 import { computeLifestyle } from './facets/lifestyle';
@@ -1059,6 +1060,16 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     capabilitiesResult.traits,
     capabilitiesResult.aptitudes,
     psychologyResult.ethics,
+    trace,
+  );
+
+  const physicalDetails = computePhysicalDetails(
+    seed,
+    vocab,
+    latents,
+    capabilitiesResult.aptitudes,
+    age,
+    roleSeedTags,
     trace,
   );
 
@@ -2566,6 +2577,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     deceptionSkill,
     behaviorLens,
     decisionStyle,
+    physicalDetails,
     details,
 
     // === ORACLE-RECOMMENDED FACETS ===

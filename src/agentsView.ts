@@ -540,6 +540,20 @@ function renderAgent(
     `
     : `<div class="agent-inline-muted">—</div>`;
 
+  const physicalDetails = agent.physicalDetails ?? [];
+  const physicalList = physicalDetails.length
+    ? `
+      <div class="agent-detail-list">
+        ${physicalDetails.map(detail => `
+          <div class="agent-detail-row">
+            <span class="agent-detail-dot">•</span>
+            <span class="agent-detail-text">${escapeHtml(detail.item)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `
+    : `<div class="agent-inline-muted">—</div>`;
+
   const aptitudePairs = ([
     ['Strength', apt.strength],
     ['Endurance', apt.endurance],
@@ -807,6 +821,11 @@ function renderAgent(
               <section class="agent-card agent-card-span12">
                 <h3>Decision style</h3>
                 ${decisionList}
+              </section>
+
+              <section class="agent-card agent-card-span12">
+                <h3>Physical details</h3>
+                ${physicalList}
               </section>
 
               <!-- Life timeline: visual journey (merged from Narrative tab) -->

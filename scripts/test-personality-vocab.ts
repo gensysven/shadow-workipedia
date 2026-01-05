@@ -177,6 +177,31 @@ function run(): void {
     'decisionTemplates.moral',
   );
 
+  console.log('Checking physical details vocab...');
+  const physicalDetailsVocab = (vocab as any).physicalDetails as
+    | {
+      faceStructure?: string[];
+      eyeDetails?: string[];
+      hairDetails?: string[];
+      bodyBuild?: string[];
+      postureMovement?: string[];
+      bodyMods?: string[];
+      scarsInjuries?: string[];
+      sensoryLimits?: string[];
+      fitnessMarkers?: string[];
+    }
+    | undefined;
+  assertIncludes(
+    physicalDetailsVocab?.eyeDetails,
+    'Heterochromia - one brown, one green',
+    'physicalDetails.eyeDetails',
+  );
+  assertIncludes(
+    physicalDetailsVocab?.postureMovement,
+    'Military bearing, shoulders never relax',
+    'physicalDetails.postureMovement',
+  );
+
   console.log('Checking detail generation vocab...');
   const detailGeneration = (vocab as any).detailGeneration as
     | {
@@ -559,6 +584,15 @@ function run(): void {
   }
   if (!decisionStyle.tendencies.every((entry) => entry.item && entry.category)) {
     throw new Error('Expected decisionStyle.tendencies entries to include category and item.');
+  }
+  const physicalDetails = (agent as any).physicalDetails as
+    | Array<{ category?: string; item?: string }>
+    | undefined;
+  if (!physicalDetails || physicalDetails.length < 3 || physicalDetails.length > 5) {
+    throw new Error('Expected physicalDetails to include 3-5 items.');
+  }
+  if (!physicalDetails.every((entry) => entry.item && entry.category)) {
+    throw new Error('Expected physicalDetails entries to include category and item.');
   }
   const agentDetails = (agent as any).details as
     | Array<{ category?: string; item?: string }>
