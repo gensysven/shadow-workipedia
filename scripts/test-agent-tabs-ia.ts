@@ -29,6 +29,41 @@ const agent = generateAgent({
 
 const html = renderAgent(agent, new Map(), 'overview', () => true, 2025, vocab);
 
+const overviewStart = html.indexOf('data-agent-tab-panel="overview"');
+const nextPanelStart = html.indexOf('data-agent-tab-panel="character"');
+
+if (overviewStart === -1 || nextPanelStart === -1) {
+  throw new Error('Could not locate overview panel boundaries in render output.');
+}
+
+const overviewHtml = html.slice(overviewStart, nextPanelStart);
+
+const overviewMustHave = [
+  '<h3>Synopsis</h3>',
+  '<h3>At a glance</h3>',
+  '<h3>Highlights</h3>',
+];
+
+for (const heading of overviewMustHave) {
+  if (!overviewHtml.includes(heading)) {
+    throw new Error(`Expected overview to include ${heading}.`);
+  }
+}
+
+const overviewMustNotHave = [
+  '<h3>Detail markers</h3>',
+  '<h3>Behavior lens</h3>',
+  '<h3>Decision style</h3>',
+  '<h3>Physical details</h3>',
+  '<h3>Life timeline</h3>',
+];
+
+for (const heading of overviewMustNotHave) {
+  if (overviewHtml.includes(heading)) {
+    throw new Error(`Expected overview to exclude ${heading}.`);
+  }
+}
+
 const expectedTabs = [
   'data-agent-tab="overview"',
   'data-agent-tab="character"',

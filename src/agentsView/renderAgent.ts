@@ -476,45 +476,6 @@ export function renderAgent(
                 </div>
               </section>
 
-              <section class="agent-card agent-card-span12">
-                <h3>Detail markers</h3>
-                <div class="agent-kv">${detailPills}</div>
-              </section>
-
-              <section class="agent-card agent-card-span12">
-                <h3>Behavior lens</h3>
-                <div class="agent-kv">
-                  <div class="kv-row"><span class="kv-k">Archetype</span><span class="kv-v">${escapeHtml(behaviorLens?.archetype ?? '—')}</span></div>
-                </div>
-                ${behaviorList}
-              </section>
-
-              <section class="agent-card agent-card-span12">
-                <h3>Decision style</h3>
-                ${decisionList}
-              </section>
-
-              <section class="agent-card agent-card-span12">
-                <h3>Physical details</h3>
-                ${physicalList}
-              </section>
-
-              <!-- Life timeline: visual journey (merged from Narrative tab) -->
-              ${agent.timeline.length ? `
-              <section class="agent-card agent-card-span12">
-                <h3>Life timeline</h3>
-                <div class="agent-timeline">
-                  ${agent.timeline.slice(0, 6).map(e => `
-                    <div class="agent-timeline-event">
-                      <span class="agent-timeline-year">${agent.identity.birthYear + e.yearOffset}</span>
-                      <span class="agent-timeline-type pill pill-muted">${escapeHtml(toTitleCaseWords(e.type))}</span>
-                      <span class="agent-timeline-desc">${escapeHtml(e.description)}</span>
-                    </div>
-                  `).join('')}
-                </div>
-              </section>
-              ` : ''}
-
               <!-- Full narrative (collapsed by default, for writers who want more) -->
               <details class="agent-card agent-card-span12 agent-section" data-agents-details="profile:portrait:narrative" ${isDetailsOpen('profile:portrait:narrative', false) ? 'open' : ''}>
                 <summary class="agent-section-summary">
@@ -585,6 +546,29 @@ export function renderAgent(
                 <div class="kv-row"><span class="kv-k">Spirituality</span><span class="kv-v">${agent.spirituality.tradition !== 'none' ? `${escapeHtml(toTitleCaseWords(agent.spirituality.tradition))} - ` : ''}${escapeHtml(toTitleCaseWords(agent.spirituality.affiliationTag))} (${escapeHtml(toTitleCaseWords(agent.spirituality.observanceLevel))})</span></div>
                 ${agent.neurodivergence.indicatorTags.length && !agent.neurodivergence.indicatorTags.includes('neurotypical') ? `<div class="kv-row"><span class="kv-k">Neurodivergence</span><span class="kv-v">${escapeHtml(agent.neurodivergence.indicatorTags.map(toTitleCaseWords).join(', '))}</span></div>` : ''}
               </div>
+            </section>
+
+            <section class="agent-card agent-card-span12">
+              <h3>Behavior lens</h3>
+              <div class="agent-kv">
+                <div class="kv-row"><span class="kv-k">Archetype</span><span class="kv-v">${escapeHtml(behaviorLens?.archetype ?? '—')}</span></div>
+              </div>
+              ${behaviorList}
+            </section>
+
+            <section class="agent-card agent-card-span12">
+              <h3>Decision style</h3>
+              ${decisionList}
+            </section>
+
+            <section class="agent-card agent-card-span12">
+              <h3>Physical details</h3>
+              ${physicalList}
+            </section>
+
+            <section class="agent-card agent-card-span12">
+              <h3>Detail markers</h3>
+              <div class="agent-kv">${detailPills}</div>
             </section>
 
             <!-- Ethics (merged from Health tab) -->
@@ -875,6 +859,21 @@ export function renderAgent(
         <!-- LIFE TAB: Habits, tastes, spaces, routines -->
         <div class="agent-tab-panel ${tab === 'life' ? 'active' : ''}" data-agent-tab-panel="life">
           <div class="agent-grid agent-grid-tight">
+            ${agent.timeline.length ? `
+            <section class="agent-card agent-card-span12">
+              <h3>Life timeline</h3>
+              <div class="agent-timeline">
+                ${agent.timeline.slice(0, 6).map(e => `
+                  <div class="agent-timeline-event">
+                    <span class="agent-timeline-year">${agent.identity.birthYear + e.yearOffset}</span>
+                    <span class="agent-timeline-type pill pill-muted">${escapeHtml(toTitleCaseWords(e.type))}</span>
+                    <span class="agent-timeline-desc">${escapeHtml(e.description)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </section>
+            ` : ''}
+
             <div class="agent-tab-section-title agent-card-span12">Preferences</div>
             <details class="agent-card agent-section" data-agents-details="profile:preferences:food" ${isDetailsOpen('profile:preferences:food', true) ? 'open' : ''}>
               <summary class="agent-section-summary">
