@@ -5,6 +5,7 @@ import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
 import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType } from './article';
 import { initializeAgentsView } from './agentsView';
+import { createCanvasContext } from './main/canvas';
 import { polygonHull, polygonCentroid } from 'd3-polygon';
 
 // Category color mapping (must match extract-data.ts)
@@ -567,11 +568,7 @@ async function main() {
 	  });
 
   // Get canvas
-  const canvas = document.getElementById('graph-canvas') as HTMLCanvasElement;
-  if (!canvas) throw new Error('Canvas not found');
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Could not get canvas context');
+  const { canvas, ctx } = createCanvasContext();
 
   // Transform state
   let currentTransform = { x: 0, y: 0, k: 1 };
