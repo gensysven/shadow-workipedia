@@ -1,6 +1,7 @@
 import { generateAgent, randomSeedString, type AgentPriorsV1, type AgentVocabV1, type GeneratedAgent, type TierBand } from './agent';
 import { isAgentProfileTab, migrateOldTabName, type AgentProfileTab } from './agent/profileTabs';
-import { displayLanguageCode, escapeHtml, renderAgent, toTitleCaseWords } from './agentsView/renderAgent';
+import { renderAgent } from './agentsView/renderAgent';
+import { displayLanguageCode, escapeHtml, toTitleCaseWords } from './agentsView/formatting';
 
 type RosterItem = {
   id: string;
