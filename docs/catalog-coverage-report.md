@@ -9,10 +9,10 @@ Agent catalogs
 
 | Catalog | Coverage | Evidence | Gaps / Notes |
 | --- | --- | --- | --- |
-| agent-preferences-catalog.md | Integrated (core lists) | Vocab: `preferences.*`; generator: `src/agent/facets/preferences.ts`; UI: `src/agentsView.ts` | Broad coverage; deeper narrative preference arcs still missing. |
+| agent-preferences-catalog.md | Integrated (core lists + beats) | Vocab: `preferences.*`; generator: `src/agent/facets/preferences.ts`; UI: `src/agentsView.ts` | Narrative preference beats now generated; longer arcs still missing. |
 | agent-preferences-aesthetics-catalog.md | Integrated (core lists) | Vocab: `preferences.aesthetics.*`; generator: `src/agent/facets/preferences.ts`; UI: `src/agentsView.ts` | Still no cross-domain narrative context. |
 | agent-food-culture-catalog.md | Integrated (core lists) | Vocab: `preferences.food.*`; generator: `src/agent/facets/preferences.ts`; UI: `src/agentsView.ts` | Expanded taste/texture/temp/spice/portion and specific loves/hates; no deep cultural narrative arcs yet. |
-| agent-living-spaces-catalog.md | Integrated (core lists) | Vocab: `preferences.livingSpace.*`, `home.*`; generator: `src/agent/facets/preferences.ts`, `src/agent/facets/domestic.ts`; UI: `src/agentsView.ts` | Expanded space type/security/visitor/light preferences; no deep spatial narrative yet. |
+| agent-living-spaces-catalog.md | Integrated (core lists + beats) | Vocab: `preferences.livingSpace.*`, `home.*`; generator: `src/agent/facets/preferences.ts`, `src/agent/facets/domestic.ts`; UI: `src/agentsView.ts` | Narrative living-space beats now generated; deeper spatial narrative arcs still missing. |
 | agent-daily-life-catalog.md | Integrated (core lists) | Vocab: `everydayLife.*`; generator: `src/agent/facets/domestic.ts`; UI: `src/agentsView.ts` | Only list-level coverage, not full narrative detail. |
 | agent-memory-trauma-catalog.md | Integrated | Vocab: `memoryTrauma.*`; generator: `src/agent/facets/lifestyle.ts`; UI: `src/agentsView.ts` | Narrative detail from catalog not encoded. |
 | agent-physical-health-catalog.md | Integrated | Vocab: `health.*`; generator: `src/agent/facets/lifestyle.ts`; UI: `src/agentsView.ts` | Symptom progression/medical history depth not modeled. |

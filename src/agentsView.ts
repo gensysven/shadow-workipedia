@@ -554,6 +554,23 @@ function renderAgent(
     `
     : `<div class="agent-inline-muted">—</div>`;
 
+  const preferenceNarrativeBeats = agent.preferenceNarrativeBeats ?? [];
+  const livingSpaceNarrativeBeats = agent.livingSpaceNarrativeBeats ?? [];
+  const renderBeatList = (beats: string[]): string => (
+    beats.length
+      ? `
+        <div class="agent-detail-list">
+          ${beats.map(beat => `
+            <div class="agent-detail-row">
+              <span class="agent-detail-dot">•</span>
+              <span class="agent-detail-text">${escapeHtml(beat)}</span>
+            </div>
+          `).join('')}
+        </div>
+      `
+      : `<div class="agent-inline-muted">—</div>`
+  );
+
   const skillsEvolution = agent.skillsEvolution;
   const evolutionValue = (value?: string) => (
     value ? escapeHtml(toTitleCaseWords(value)) : `<span class="agent-inline-muted">—</span>`
@@ -1311,6 +1328,26 @@ function renderAgent(
                   <div class="kv-row"><span class="kv-k">Lucky item</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.preferences.quirks.luckyItem))}</span></div>
                   <div class="kv-row"><span class="kv-k">Pet peeves</span><span class="kv-v">${escapeHtml(agent.preferences.quirks.petPeeves.map(toTitleCaseWords).join(', ') || '—')}</span></div>
                 </div>
+              </div>
+            </details>
+
+            <details class="agent-card agent-section" data-agents-details="profile:daily-life:preferenceBeats" ${isDetailsOpen('profile:daily-life:preferenceBeats', true) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Preference beats</span>
+                <span class="agent-section-hint">${escapeHtml(preferenceNarrativeBeats[0] ?? '—')}</span>
+              </summary>
+              <div class="agent-section-body">
+                ${renderBeatList(preferenceNarrativeBeats)}
+              </div>
+            </details>
+
+            <details class="agent-card agent-section" data-agents-details="profile:daily-life:livingSpaceBeats" ${isDetailsOpen('profile:daily-life:livingSpaceBeats', true) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Living space beats</span>
+                <span class="agent-section-hint">${escapeHtml(livingSpaceNarrativeBeats[0] ?? '—')}</span>
+              </summary>
+              <div class="agent-section-body">
+                ${renderBeatList(livingSpaceNarrativeBeats)}
               </div>
             </details>
 

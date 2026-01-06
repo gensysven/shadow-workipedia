@@ -1336,6 +1336,8 @@ export type GeneratedAgent = {
       planningStyle: string;
     };
   };
+  preferenceNarrativeBeats: string[];
+  livingSpaceNarrativeBeats: string[];
 
   psych: {
     traits: {

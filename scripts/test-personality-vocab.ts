@@ -1304,6 +1304,26 @@ function run(): void {
     throw new Error('Expected nightmares to anchor to exposure fears.');
   }
 
+  console.log('Checking preference/living-space narratives...');
+  const preferenceBeats = (agent as any).preferenceNarrativeBeats as string[] | undefined;
+  if (!preferenceBeats || preferenceBeats.length < 2 || preferenceBeats.length > 3) {
+    throw new Error('Expected preferenceNarrativeBeats to include 2-3 items.');
+  }
+  for (const beat of preferenceBeats) {
+    if (typeof beat !== 'string' || !beat.trim()) {
+      throw new Error('Expected preferenceNarrativeBeats to contain non-empty strings.');
+    }
+  }
+  const livingSpaceBeats = (agent as any).livingSpaceNarrativeBeats as string[] | undefined;
+  if (!livingSpaceBeats || livingSpaceBeats.length < 2 || livingSpaceBeats.length > 3) {
+    throw new Error('Expected livingSpaceNarrativeBeats to include 2-3 items.');
+  }
+  for (const beat of livingSpaceBeats) {
+    if (typeof beat !== 'string' || !beat.trim()) {
+      throw new Error('Expected livingSpaceNarrativeBeats to contain non-empty strings.');
+    }
+  }
+
   const thoughtsBlock = (agent as any).thoughtsEmotions as
     | {
       thoughts?: Record<string, Array<{ item?: string; valence?: string; intensity01k?: number; recencyDays?: number }>>;

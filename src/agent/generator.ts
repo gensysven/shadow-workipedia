@@ -771,6 +771,7 @@ import { computeSimulation } from './facets/simulation';
 import { computeDomestic } from './facets/domestic';
 import { computeSkillsEvolution } from './facets/skillsEvolution';
 import { pickDreamImagery, pickMotivationDreams, pickNightmareImagery } from './facets/dreams';
+import { buildLivingSpaceNarrativeBeats, buildPreferenceNarrativeBeats } from './facets/preferenceNarratives';
 import {
   normalizeSecurityEnv01k,
   type SecurityEnvAxis,
@@ -1273,6 +1274,21 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       conscientiousness: capabilitiesResult.traits.conscientiousness,
     },
   });
+
+  const preferenceNarrativeBeats = buildPreferenceNarrativeBeats(
+    makeRng(facetSeed(seed, 'preferences_narrative')),
+    preferencesResult,
+    roleSeedTags,
+    tierBand,
+  );
+  const livingSpaceNarrativeBeats = buildLivingSpaceNarrativeBeats(
+    makeRng(facetSeed(seed, 'living_space_narrative')),
+    preferencesResult,
+    domesticResult.home,
+    roleSeedTags,
+  );
+  traceSet(trace, 'preferenceNarrativeBeats', preferenceNarrativeBeats, { method: 'weightedPick' });
+  traceSet(trace, 'livingSpaceNarrativeBeats', livingSpaceNarrativeBeats, { method: 'weightedPick' });
 
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 13: Narrative
@@ -2509,6 +2525,8 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       quirks: preferencesResult.quirks,
       time: preferencesResult.time,
     },
+    preferenceNarrativeBeats,
+    livingSpaceNarrativeBeats,
 
     psych: {
       traits: capabilitiesResult.traits,
