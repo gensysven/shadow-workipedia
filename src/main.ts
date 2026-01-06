@@ -19,6 +19,7 @@ import { initializeMainState } from './main/state';
 import { createDetailPanelHelpers } from './main/detailPanel';
 import { applyDataLoadWarning, createIssueIdResolver, loadGraphData } from './main/dataLoad';
 import { createInteractionHandlers } from './main/interactionsSetup';
+import { attachResetHandler, attachTabNavigation, createResizeCanvas } from './main/layoutControls';
 import {
   drawArrow,
   drawDiamond,
@@ -161,20 +162,14 @@ async function main() {
   // Initialize simulation
   const graph = new GraphSimulation(data, canvas.width, canvas.height);
 
-  // Size canvas to window (function defined early, called later after all dependencies are ready)
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    // Calculate header (includes tabs) + filter bar height dynamically
-    const header = document.getElementById('header');
-    const filterBar = document.getElementById('filter-bar');
-    const headerHeight = header?.offsetHeight || 0;
-    const filterHeight = filterBar?.offsetHeight || 0;
-    canvas.height = window.innerHeight - headerHeight - filterHeight;
-
-    // Restart simulation with new dimensions
-    graph.restart();
-    render();
-  }
+  const resizeCanvas = createResizeCanvas({
+    canvas,
+    graph,
+    render: () => render(),
+    getViewportSize: () => ({ width: window.innerWidth, height: window.innerHeight }),
+    header: document.getElementById('header'),
+    filterBar: document.getElementById('filter-bar'),
+  });
 
   let zoomHandler: ZoomPanHandler | null = null;
   const { dragHandler, hoverHandler, clickHandler } = createInteractionHandlers({
@@ -363,47 +358,30 @@ async function main() {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // Set up reset button
-  const resetBtn = document.getElementById('reset-btn');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      // Restart simulation and fit to view after it settles
-      graph.restart();
-      setTimeout(fitToView, 300);
-
-      // Reset categories
-      activeCategories.clear();
-      getCategoryKeys().forEach((category) => {
-        activeCategories.add(category);
-      });
-
-      // Reset button states
-      document.querySelectorAll('.category-filter-btn').forEach(btn => {
-        btn.classList.add('active');
-      });
-
-      // Clear search
-      const resetSearchInput = document.getElementById('search') as HTMLInputElement | null;
-      if (resetSearchInput) {
-        resetSearchInput.value = '';
-      }
-      searchTerm = '';
-      searchResults.clear();
-
-      // Clear selection
-      setSelectedNode(null);
-      detailPanel.classList.add('hidden');
-
-      render();
-    });
-  }
+  const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement | null;
+  attachResetHandler({
+    resetBtn,
+    graph,
+    fitToView,
+    activeCategories,
+    getCategoryKeys,
+    getCategoryButtons: () => Array.from(document.querySelectorAll('.category-filter-btn')) as HTMLElement[],
+    getSearchInput: () => document.getElementById('search') as HTMLInputElement | null,
+    searchResults,
+    setSearchTerm: (value) => {
+      searchTerm = value;
+    },
+    setSelectedNode,
+    detailPanel,
+    render: () => render(),
+  });
 
 	  // Set up tab navigation
-	  const tabGraph = document.getElementById('tab-graph') as HTMLButtonElement;
-	  const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
-	  const tabWiki = document.getElementById('tab-wiki') as HTMLButtonElement;
-	  const tabAgents = document.getElementById('tab-agents') as HTMLButtonElement;
-	  const tableContainer = document.getElementById('table-container') as HTMLDivElement;
+  const tabGraph = document.getElementById('tab-graph') as HTMLButtonElement;
+  const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
+  const tabWiki = document.getElementById('tab-wiki') as HTMLButtonElement;
+  const tabAgents = document.getElementById('tab-agents') as HTMLButtonElement;
+  const tableContainer = document.getElementById('table-container') as HTMLDivElement;
 
   renderTable = createTableRenderer({
     graph,
@@ -432,25 +410,16 @@ async function main() {
     attachDetailPanelHandlers,
   });
 
-  // Tab clicks navigate via router (which updates URL and calls showView)
-  tabGraph.addEventListener('click', () => router.navigateToView('graph'));
-  tabTable.addEventListener('click', () => router.navigateToView('table'));
-	  tabAgents.addEventListener('click', () => router.navigateToView('agents'));
-	  tabWiki.addEventListener('click', () => {
-	    // If a node is selected, navigate to its wiki article
-	    if (selectedNode) {
-      const nodeId = selectedNode.id;
-      const nodeType = selectedNode.type;
-      // Clear selection and close detail panel
-      setSelectedNode(null);
-      const detailPanel = document.getElementById('detail-panel');
-      if (detailPanel) detailPanel.classList.add('hidden');
-      // Navigate to the wiki article
-      router.navigateToArticle(nodeType, nodeId);
-    } else {
-      router.navigateToView('wiki');
-	    }
-	  });
+  attachTabNavigation({
+    tabGraph,
+    tabTable,
+    tabWiki,
+    tabAgents,
+    router,
+    getSelectedNode: () => selectedNode,
+    setSelectedNode,
+    detailPanel,
+  });
 
   initializeCommandPalette({
     router,
@@ -473,7 +442,7 @@ async function main() {
     renderDetailPanel,
     attachDetailPanelHandlers,
     render,
-    resetBtn: resetBtn as HTMLButtonElement | null,
+    resetBtn,
   });
 
   // Wiki sidebar and article rendering
