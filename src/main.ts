@@ -6,6 +6,7 @@ import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './inter
 import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType } from './article';
 import { initializeAgentsView } from './agentsView';
 import { createCanvasContext } from './main/canvas';
+import { initializeMainState } from './main/state';
 import { polygonHull, polygonCentroid } from 'd3-polygon';
 
 // Category color mapping (must match extract-data.ts)
@@ -571,7 +572,24 @@ async function main() {
   const { canvas, ctx } = createCanvasContext();
 
   // Transform state
-  let currentTransform = { x: 0, y: 0, k: 1 };
+  const initialState = initializeMainState();
+  let {
+    currentTransform,
+    hoveredNode,
+    selectedNode,
+    connectedToSelected,
+    showIssues,
+    showSystems,
+    showPrinciples,
+    showPrimitives,
+    showDataFlows,
+    selectedPrimitive,
+    showClusters,
+    searchTerm,
+    tableSortColumn,
+    tableSortDirection,
+  } = initialState;
+  const { activeCategories, searchResults } = initialState;
 
   // Initialize simulation
   const graph = new GraphSimulation(data, canvas.width, canvas.height);
@@ -593,7 +611,6 @@ async function main() {
 
   // Tooltip element
   const tooltip = document.getElementById('tooltip') as HTMLDivElement;
-  let hoveredNode: SimNode | null = null;
 
   // Initialize drag handler (must be before hover to handle mousedown first)
   const dragHandler = new DragHandler(
@@ -644,10 +661,6 @@ async function main() {
     }
   });
 
-  // Selected node state
-  let selectedNode: SimNode | null = null;
-  let connectedToSelected = new Set<string>();
-
   function recomputeConnectedToSelected() {
     connectedToSelected = new Set<string>();
     if (!selectedNode) return;
@@ -669,33 +682,6 @@ async function main() {
   const detailPanel = document.getElementById('detail-panel') as HTMLDivElement;
   const panelContent = document.getElementById('panel-content') as HTMLDivElement;
   const closeBtn = document.getElementById('close-panel') as HTMLButtonElement;
-
-  // Filter state
-  const activeCategories = new Set<string>([
-    'Existential', 'Economic', 'Social', 'Political', 'Environmental',
-    'Security', 'Technological', 'Cultural', 'Infrastructure'
-  ]);
-
-  // View toggles state
-  let showIssues = true;
-  let showSystems = false;
-  let showPrinciples = false;
-  let showPrimitives = false;
-  let showDataFlows = false; // Show directed data flow arrows
-
-  // Primitive selection state
-  let selectedPrimitive: PrimitiveName | null = null;
-
-  // Cluster visualization state
-  let showClusters = false;
-
-  // Search state
-  let searchTerm = '';
-  let searchResults = new Set<string>();
-
-  // Table sort state
-  let tableSortColumn: string | null = null;
-  let tableSortDirection: 'asc' | 'desc' = 'asc';
 
   // Shared function to attach detail panel interaction handlers
   function attachDetailPanelHandlers() {
