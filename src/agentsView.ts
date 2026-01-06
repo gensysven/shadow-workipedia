@@ -3,16 +3,8 @@ import { isAgentProfileTab, migrateOldTabName, type AgentProfileTab } from './ag
 import { renderAgent } from './agentsView/renderAgent';
 import { escapeHtml, toTitleCaseWords } from './agentsView/formatting';
 import { downloadJson, humanizeAgentForExport } from './agentsView/exportUtils';
+import { loadRoster, saveRoster, type RosterItem } from './agentsView/rosterStorage';
 
-type RosterItem = {
-  id: string;
-  name: string;
-  seed: string;
-  createdAtIso: string;
-  agent?: GeneratedAgent;
-};
-
-const ROSTER_STORAGE_KEY = 'swp.agents.roster.v1';
 const COGNITIVE_DETAILS_KEY = 'profile:cognitive:details';
 const PSYCHOLOGY_DETAILS_KEY = 'profile:psychology:details';
 
@@ -58,28 +50,6 @@ function getShadowCountryMap(): Promise<Array<{ real: string; shadow: string; is
     return parsed as Array<{ real: string; shadow: string; iso3?: string; continent?: string }>;
   })();
   return shadowCountryMapPromise;
-}
-
-function loadRoster(): RosterItem[] {
-  try {
-    const raw = localStorage.getItem(ROSTER_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as RosterItem[];
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(x =>
-      x &&
-      typeof x === 'object' &&
-      typeof (x as { id?: unknown }).id === 'string' &&
-      typeof (x as { seed?: unknown }).seed === 'string' &&
-      typeof (x as { name?: unknown }).name === 'string'
-    );
-  } catch {
-    return [];
-  }
-}
-
-function saveRoster(items: RosterItem[]) {
-  localStorage.setItem(ROSTER_STORAGE_KEY, JSON.stringify(items));
 }
 
 async function copyJsonToClipboard(value: unknown): Promise<boolean> {
