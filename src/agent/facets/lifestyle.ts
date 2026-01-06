@@ -231,13 +231,16 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   const stateViolence01 = stateViolenceEnv01k / 1000;
   const agePenalty = Math.max(0, age - 30) * 8;
   const vicePenalty = viceTendency * 180;
+  // Tier affects fitness: elite have better healthcare/nutrition, mass has more occupational strain
+  const tierFitnessModifier = ctx.tierBand === 'elite' ? 200 : ctx.tierBand === 'mass' ? -150 : 0;
   const fitnessScore = clampFixed01k(
     0.55 * latents.physicalConditioning +
     0.35 * aptitudes.endurance +
     0.10 * healthRng.int(0, 1000) -
     agePenalty -
     vicePenalty -
-    Math.round(120 * stress01),
+    Math.round(120 * stress01) +
+    tierFitnessModifier,
   );
   const fitnessBand = (() => {
     const bands = fitnessBands.length ? fitnessBands : ['peak-condition', 'excellent', 'good', 'poor', 'critical'];
@@ -454,15 +457,17 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
   // Strict: very unlikely to have vices, strong substance restrictions
   // Observant: reduced vices, some substance restrictions
   // Moderate: mild reduction in vice tendency
-  const religiousViceReduction = (() => {
-    if (observanceLevel === 'strict') return 0.7; // 70% reduction
-    if (observanceLevel === 'observant') return 0.4; // 40% reduction
-    if (observanceLevel === 'moderate') return 0.15; // 15% reduction
-    return 0; // none, cultural: no reduction
-  })();
-  // Reduce vice count based on religiosity
-  if (religiousViceReduction > 0 && viceCount > 0 && vicesRng.next01() < religiousViceReduction) {
-    viceCount = Math.max(0, viceCount - 1);
+  // Religiosity directly reduces vice count for strong correlation
+  // Ultra-orthodox/strict: no vices allowed
+  // Observant: at most 1 vice
+  // Moderate: reduced chance
+  if (observanceLevel === 'ultra-orthodox' || observanceLevel === 'strict') {
+    viceCount = 0;
+  } else if (observanceLevel === 'observant') {
+    viceCount = Math.min(viceCount, 1);
+    if (vicesRng.next01() < 0.5) viceCount = 0; // 50% chance of no vices
+  } else if (observanceLevel === 'moderate') {
+    if (viceCount > 0 && vicesRng.next01() < 0.35) viceCount -= 1;
   }
 
   const bannedVices = new Set<string>();
@@ -874,9 +879,23 @@ function computeSpirituality(ctx: LifestyleContext): LifestyleResult['spirituali
 
   traceFacet(trace, seed, 'spirituality');
   const spiritRng = makeRng(facetSeed(seed, 'spirituality'));
-  const traditions = vocab.spirituality?.traditions ?? ['none'];
-  const affiliations = vocab.spirituality?.affiliationTags ?? ['secular'];
-  const observances = vocab.spirituality?.observanceLevels ?? ['none', 'cultural', 'moderate'];
+  // Realistic default distributions (roughly global population weighted):
+  // - ~15% secular/atheist/agnostic
+  // - ~60% practicing/culturally religious
+  // - ~15% lapsed/spiritual-not-religious
+  // - ~10% devout/strict
+  const traditions = vocab.spirituality?.traditions ?? [
+    'none', 'solarian-orthodox', 'solarian-reform', 'lunarian-orthodox',
+    'lunarian-reform', 'nature-spiritual', 'syncretic', 'ancestor-veneration',
+  ];
+  const affiliations = vocab.spirituality?.affiliationTags ?? [
+    'secular', 'atheist', 'agnostic',
+    'culturally-religious', 'practicing-religious', 'lapsed',
+    'spiritual-not-religious', 'devout', 'fundamentalist', 'convert',
+  ];
+  const observances = vocab.spirituality?.observanceLevels ?? [
+    'none', 'cultural', 'moderate', 'observant', 'strict', 'ultra-orthodox',
+  ];
   const practices = vocab.spirituality?.practiceTypes ?? [];
 
   // Step 1: Pick affiliation first (determines if religious or not)

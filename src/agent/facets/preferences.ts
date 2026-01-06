@@ -982,9 +982,12 @@ function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
   const categoryWeights = HOBBY_CATEGORIES.map(cat => {
     let w = 10;
 
-    // Physical hobbies influenced by riskAppetite and novelty
+    // Physical hobbies influenced by riskAppetite, conditioning, and age
+    // Correlate #B3: Physical Conditioning ↔ Active Hobbies (positive)
     if (cat === 'physical') {
       if (latents.riskAppetite > 600) w += 5;
+      if (latents.physicalConditioning > 600) w += 8; // Fit people choose physical hobbies
+      if (latents.physicalConditioning > 400) w += 3;
       if (age < 40) w += 3;
     }
     // Creative hobbies influenced by aesthetic expressiveness
@@ -1005,9 +1008,12 @@ function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
       if (latents.socialBattery > 600) w += 8;
       if (traits.agreeableness > 600) w += 3;
     }
-    // Outdoor hobbies influenced by risk appetite
+    // Outdoor hobbies influenced by risk appetite and conditioning
+    // Correlate #B3: Physical Conditioning ↔ Active Hobbies (positive)
     if (cat === 'outdoor') {
       if (latents.riskAppetite > 500) w += 5;
+      if (latents.physicalConditioning > 600) w += 6; // Fit people enjoy outdoor activities
+      if (latents.physicalConditioning > 400) w += 2;
     }
     // Culinary hobbies - universal appeal with slight creativity boost
     if (cat === 'culinary') {

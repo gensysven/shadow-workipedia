@@ -118,6 +118,7 @@ export type HousingWeightsInput = {
   gdp01: number;
   conscientiousness01: number;
   riskAppetite01: number;
+  frugality01: number;
   hasFamily: boolean;
   isSeniorProfessional: boolean;
 };
@@ -130,6 +131,7 @@ export function computeHousingWeights({
   gdp01,
   conscientiousness01,
   riskAppetite01,
+  frugality01,
   hasFamily,
   isSeniorProfessional,
 }: HousingWeightsInput): Array<{ item: HousingStability; weight: number }> {
@@ -196,6 +198,16 @@ export function computeHousingWeights({
       w += 3;
     }
 
+    // Correlate #H4: Frugality ↔ Housing Stability (positive)
+    // Frugal agents save more, can afford stable housing, avoid risky situations
+    if (isStable) {
+      w += 4.0 * frugality01; // Frugal people can save for down payments, pay rent reliably
+      w *= (1 + 0.3 * frugality01); // Multiplicative boost
+    }
+    if (isUnstable) {
+      w += 3.0 * (1 - frugality01); // Non-frugal may end up in unstable situations
+    }
+
     return { item: h as HousingStability, weight: w };
   });
 }
@@ -241,7 +253,10 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     (urbanicity === 'megacity' || urbanicity === 'capital' || urbanicity === 'major-city') ? 1
       : (urbanicity === 'rural' || urbanicity === 'rural-remote' || urbanicity === 'small-town') ? -1
         : 0;
-  const thirdPlaceCountBase = (socialBattery01 < 0.3 ? 1 : socialBattery01 < 0.6 ? 2 : 3) + urbanicityAdjust;
+  // Correlate #N2: Dependent Count ↔ Third Places (negative)
+  // Caregivers have less free time for social venues
+  const dependentPenalty = Math.min(2, ctx.dependentCount ?? 0);
+  const thirdPlaceCountBase = (socialBattery01 < 0.3 ? 1 : socialBattery01 < 0.6 ? 2 : 3) + urbanicityAdjust - dependentPenalty;
   const thirdPlaceCountVariance = lifeRng.int(0, 1);
   const thirdPlaceCount = Math.max(1, Math.min(thirdPlacePool.length, thirdPlaceCountBase + thirdPlaceCountVariance));
   const thirdPlaces = lifeRng.pickK(thirdPlacePool, thirdPlaceCount);
@@ -301,6 +316,7 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   // Extract traits for correlates
   const conscientiousness01 = (ctx.traits?.conscientiousness ?? 500) / 1000;
   const riskAppetite01 = latents.riskAppetite / 1000;
+  const frugality01 = latents.frugality / 1000;
   const gdp01 = Number.isFinite(ctx.gdpPerCap01 ?? NaN) ? Math.max(0, Math.min(1, ctx.gdpPerCap01 as number)) : 0.5;
 
   // Family constraints for housing
@@ -324,6 +340,7 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     gdp01,
     conscientiousness01,
     riskAppetite01,
+    frugality01,
     hasFamily,
     isSeniorProfessional,
   });

@@ -239,14 +239,21 @@ const TIER_BANDS: TierBand[] = ['elite', 'middle', 'mass'];
 
 const DOCUMENTED_CORRELATES = [
   { id: '#1', name: 'Age ↔ Physical Conditioning', vars: ['age', 'physicalConditioning'], expected: 'negative' as const },
+  { id: '#2', name: 'Tier ↔ Health', vars: ['tierNumeric', 'healthScore'], expected: 'positive' as const }, // Elite has better healthcare
   { id: '#3', name: 'Tier ↔ Education', vars: ['tierNumeric', 'educationNumeric'], expected: 'positive' as const },
+  { id: '#4', name: 'Age ↔ Has Family', vars: ['age', 'hasFamily'], expected: 'positive' as const }, // Marriage/children peak 28-45
   { id: '#5', name: 'Cosmopolitanism ↔ Abroad', vars: ['cosmopolitanism', 'isAbroad'], expected: 'positive' as const },
+  { id: '#6', name: 'Age ↔ Network Role', vars: ['age', 'networkRoleNumeric'], expected: 'positive' as const }, // Senior = hub/gatekeeper
+  { id: '#7', name: 'Religiosity ↔ Vices', vars: ['religiosity', 'viceCount'], expected: 'negative' as const }, // Strict observance reduces vices
   { id: '#9', name: 'Travel ↔ Tradecraft', vars: ['cosmopolitanism', 'tradecraftSkill'], expected: 'positive' as const },
+  // #11 Empathy+Deception → Network: Complex multi-variable correlation, not easily testable with Pearson
+  { id: '#12', name: 'Authoritarianism ↔ Conflict Style', vars: ['authoritarianism', 'conflictStyleNumeric'], expected: 'positive' as const }, // Authoritarian = competing
   // #13 Conscientiousness ↔ Housing: REMOVED from verification
   // Hard constraints (elite tier, family, senior professionals) force 60% of agents into stable housing
   // These constraints correctly model reality but prevent conscientiousness from varying housing outcomes
   // The correlation is not achievable with realistic social constraints
   // Reference: See domestic.ts lines 141-158 for the hard constraints that override personality
+  { id: '#14', name: 'Visibility ↔ Reputation', vars: ['visibilityNumeric', 'reputationNumeric'], expected: 'positive' as const }, // High visibility = defined reputation
   { id: '#15', name: 'Risk Appetite ↔ Housing Instability', vars: ['riskAppetite', 'housingInstability'], expected: 'positive' as const },
   // Cross-latent and skill correlations (intentional, documented in facets/AGENTS.md)
   { id: '#16', name: 'Tier ↔ Housing Stability', vars: ['tierNumeric', 'housingStabilityNumeric'], expected: 'positive' as const },
@@ -265,10 +272,62 @@ const DOCUMENTED_CORRELATES = [
   { id: '#A1', name: 'Age ↔ Tier (career progression)', vars: ['age', 'tierNumeric'], expected: 'positive' as const }, // Older agents have had more time to advance
   { id: '#A2', name: 'Age ↔ Housing Stability (life stability)', vars: ['age', 'housingStabilityNumeric'], expected: 'positive' as const }, // Older agents have more stable housing
   { id: '#A3', name: 'Age ↔ Housing Instability (inverse)', vars: ['age', 'housingInstability'], expected: 'negative' as const }, // Inverse of above
+  { id: '#A4', name: 'Age ↔ Community Status', vars: ['age', 'communityStatusNumeric'], expected: 'positive' as const }, // Elders become pillars
   // Socioeconomic correlations
   { id: '#S1', name: 'Tier ↔ Cosmopolitanism', vars: ['tierNumeric', 'cosmopolitanism'], expected: 'positive' as const }, // Elite agents more cosmopolitan (travel, exposure)
+  // Domestic correlations
+  { id: '#L1', name: 'Social Battery ↔ Third Places', vars: ['socialBattery', 'thirdPlacesCount'], expected: 'positive' as const }, // Extroverts have more third places
   // Tautological inverse (housingStabilityNumeric and housingInstability are mathematical inverses)
   { id: '#T1', name: 'Housing Stability ↔ Housing Instability (tautology)', vars: ['housingStabilityNumeric', 'housingInstability'], expected: 'negative' as const },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW CORRELATES FOR AUDIT-FIRST ANALYSIS (measuring current state)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Category A: Cognitive/Education
+  { id: '#E1', name: 'Education ↔ Cognitive Speed', vars: ['educationNumeric', 'cognitiveSpeed'], expected: 'positive' as const },
+  { id: '#E2', name: 'Education ↔ Working Memory', vars: ['educationNumeric', 'workingMemory'], expected: 'positive' as const },
+  { id: '#E3', name: 'Age ↔ Conscientiousness', vars: ['age', 'conscientiousness'], expected: 'positive' as const },
+  { id: '#E4', name: 'Age ↔ Avg Skill XP', vars: ['age', 'avgSkillXp'], expected: 'positive' as const },
+
+  // Category B: Social/Network
+  { id: '#N1', name: 'Community Status ↔ Network Role', vars: ['communityStatusNumeric', 'networkRoleNumeric'], expected: 'positive' as const },
+  { id: '#N2', name: 'Dependent Count ↔ Third Places', vars: ['dependentCount', 'thirdPlacesCount'], expected: 'negative' as const },
+  { id: '#N3', name: 'Conscientiousness ↔ Network Role', vars: ['conscientiousness', 'networkRoleNumeric'], expected: 'positive' as const },
+  { id: '#N4', name: 'Deception ↔ Relationship Count', vars: ['deception', 'relationshipCount'], expected: 'negative' as const },
+  { id: '#N5', name: 'Family ↔ Religiosity', vars: ['hasFamily', 'religiosity'], expected: 'positive' as const },
+
+  // Category C: Housing/Domestic
+  { id: '#H1', name: 'Family Size ↔ Housing Stability', vars: ['householdSize', 'housingStabilityNumeric'], expected: 'positive' as const },
+  { id: '#H2', name: 'Residency Status ↔ Housing Stability', vars: ['residencyNumeric', 'housingStabilityNumeric'], expected: 'positive' as const },
+  { id: '#H3', name: 'Cosmopolitanism ↔ Housing Stability', vars: ['cosmopolitanism', 'housingStabilityNumeric'], expected: 'negative' as const },
+  { id: '#H4', name: 'Frugality ↔ Housing Stability', vars: ['frugality', 'housingStabilityNumeric'], expected: 'positive' as const },
+
+  // Category D: Health/Lifestyle
+  { id: '#HL1', name: 'Stress Reactivity ↔ Chronic Conditions', vars: ['stressReactivity', 'chronicCount'], expected: 'positive' as const },
+  { id: '#HL2', name: 'Vice Severity ↔ Chronic Conditions', vars: ['viceSeverityAvg', 'chronicCount'], expected: 'positive' as const },
+  { id: '#HL3', name: 'Endurance ↔ Stress Reactivity', vars: ['endurance', 'stressReactivity'], expected: 'negative' as const },
+  { id: '#HL4', name: 'Religiosity ↔ Dietary Restrictions', vars: ['religiosity', 'dietaryRestrictionCount'], expected: 'positive' as const },
+
+  // Category E: Skills/Capabilities
+  { id: '#SK1', name: 'Institutional Embeddedness ↔ Bureaucracy', vars: ['institutionalEmbeddedness', 'bureaucracySkill'], expected: 'positive' as const },
+  { id: '#SK2', name: 'Tech Fluency ↔ Digital Hygiene', vars: ['techFluency', 'digitalHygiene'], expected: 'positive' as const },
+  { id: '#SK3', name: 'Social Battery ↔ Negotiation', vars: ['socialBattery', 'negotiationSkill'], expected: 'positive' as const },
+  { id: '#SK4', name: 'Adaptability ↔ Negotiation', vars: ['adaptability', 'negotiationSkill'], expected: 'positive' as const },
+  { id: '#SK5', name: 'Opsec ↔ Digital Hygiene', vars: ['opsecDiscipline', 'digitalHygiene'], expected: 'positive' as const },
+
+  // Category F: Trait/Latent Cross-Correlations
+  { id: '#X1', name: 'Tier ↔ Risk Appetite', vars: ['tierNumeric', 'riskAppetite'], expected: 'negative' as const },
+  { id: '#X2', name: 'Institutional Embeddedness ↔ Risk Appetite', vars: ['institutionalEmbeddedness', 'riskAppetite'], expected: 'negative' as const },
+  { id: '#X3', name: 'Curiosity ↔ Risk Appetite', vars: ['curiosityBandwidth', 'riskAppetite'], expected: 'positive' as const },
+  { id: '#X4', name: 'Planning Horizon ↔ Impulse Control', vars: ['planningHorizon', 'impulseControl'], expected: 'positive' as const },
+  { id: '#X5', name: 'Agreeableness ↔ Conflict Style', vars: ['agreeableness', 'conflictStyleNumeric'], expected: 'negative' as const },
+  { id: '#X6', name: 'Authoritarianism ↔ Home Orderliness', vars: ['authoritarianism', 'homeOrderliness'], expected: 'positive' as const },
+
+  // Category G: Behavioral Coherence
+  { id: '#B1', name: 'Conscientiousness ↔ Petty Habits', vars: ['conscientiousness', 'pettyHabitScore'], expected: 'positive' as const },
+  { id: '#B2', name: 'Third Places ↔ Civic Engagement', vars: ['thirdPlacesCount', 'civicEngagementNumeric'], expected: 'positive' as const },
+  { id: '#B3', name: 'Physical Conditioning ↔ Active Hobbies', vars: ['physicalConditioning', 'activeHobbyCount'], expected: 'positive' as const },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -396,7 +455,7 @@ function validateConstraints(agent: GeneratedAgent, seed: string): ConstraintVio
   // Same-country diaspora cannot be 'expat' or 'refugee'
   const homeCountry = agent.identity?.homeCountryIso3;
   const currentCountry = agent.identity?.currentCountryIso3;
-  const diasporaStatus = agent.social?.diasporaStatus;
+  const diasporaStatus = agent.geography?.diasporaStatus;
 
   if (homeCountry === currentCountry && (diasporaStatus === 'expat' || diasporaStatus === 'refugee')) {
     violations.push({
@@ -424,7 +483,7 @@ function checkImplausibilities(agent: GeneratedAgent, seed: string, asOfYear: nu
   const age = asOfYear - birthYear;
 
   // Very young age with senior network role
-  const networkRole = agent.network?.networkRole;
+  const networkRole = agent.network?.role;
   if (age < 25 && (networkRole === 'gatekeeper' || networkRole === 'hub')) {
     implausibilities.push({
       seed,
@@ -475,6 +534,67 @@ type AgentMetrics = {
   tradecraftSkill: number;
   housingStabilityNumeric: number;
   housingInstability: number;
+  // Additional metrics for missing correlations
+  socialBattery: number;
+  thirdPlacesCount: number;
+  networkRoleNumeric: number;
+  hasFamily: number; // 1 if married/partnered with dependents, 0 otherwise
+  viceCount: number;
+  religiosity: number; // derived from observanceLevel
+  empathy: number;
+  deception: number;
+  authoritarianism: number;
+  conflictStyleNumeric: number;
+  communityStatusNumeric: number;
+  visibilityNumeric: number;
+  reputationNumeric: number;
+  buildNumeric: number;
+  gaitNumeric: number;
+  healthScore: number; // derived from conditions/fitness
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW METRICS FOR AUDIT-FIRST ANALYSIS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Cognitive/Education (Category A)
+  cognitiveSpeed: number; // from aptitudes
+  workingMemory: number; // from aptitudes
+  avgSkillXp: number; // computed from skills
+
+  // Social/Network (Category B)
+  dependentCount: number;
+  relationshipCount: number;
+
+  // Housing/Domestic (Category C)
+  householdSize: number;
+  residencyNumeric: number;
+  frugality: number; // from latents
+
+  // Health/Lifestyle (Category D)
+  stressReactivity: number; // from latents
+  chronicCount: number;
+  viceSeverityAvg: number; // computed from vices
+  dietaryRestrictionCount: number;
+  endurance: number; // from aptitudes
+
+  // Skills/Capabilities (Category E)
+  bureaucracySkill: number;
+  digitalHygiene: number;
+  negotiationSkill: number;
+  institutionalEmbeddedness: number; // from latents
+  techFluency: number; // from latents
+  adaptability: number; // from latents
+
+  // Trait/Latent Cross (Category F)
+  curiosityBandwidth: number; // from latents
+  planningHorizon: number; // from latents
+  agreeableness: number; // from traits
+  homeOrderliness: number; // from preferences
+
+  // Behavioral Coherence (Category G)
+  pettyHabitScore: number; // computed from habits
+  civicEngagementNumeric: number;
+  activeHobbyCount: number;
 };
 
 function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
@@ -491,10 +611,138 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
   };
   const housingMap: Record<string, number> = {
     owned: 4,
+    'stable-rental': 3,
     rental: 3,
+    tenuous: 2,
     temporary: 2,
     transient: 1,
     'couch-surfing': 0,
+    institutional: 2,
+  };
+  const networkRoleMap: Record<string, number> = {
+    isolate: 0,
+    peripheral: 1,
+    connector: 2,
+    hub: 3,
+    broker: 4,
+    gatekeeper: 5,
+  };
+  const conflictStyleMap: Record<string, number> = {
+    avoidant: 0,
+    accommodating: 1,
+    yielding: 1,
+    compromising: 2,
+    collaborative: 3,
+    assertive: 4,
+    competing: 5,
+  };
+  const communityStatusMap: Record<string, number> = {
+    banned: 0,
+    outsider: 1,
+    newcomer: 2,
+    regular: 3,
+    respected: 4,
+    pillar: 5,
+    controversial: 2, // uncertain status
+  };
+  const reputationMap: Record<string, number> = {
+    unknown: 0,
+    'has-been': 1,
+    'burnt-out': 1,
+    'by-the-book': 2,
+    unpredictable: 2,
+    reliable: 3,
+    principled: 3,
+    discreet: 3,
+    fixer: 4,
+    brilliant: 4,
+    'rising-star': 4,
+    ruthless: 3, // competent but feared
+    corrupt: 1,
+    reckless: 2,
+    loudmouth: 1,
+  };
+  const buildMap: Record<string, number> = {
+    slight: 1,
+    lean: 2,
+    average: 3,
+    athletic: 4,
+    stocky: 4,
+    heavy: 5,
+    muscular: 5,
+  };
+  const gaitMap: Record<string, number> = {
+    slouching: 1,
+    nervous: 1,
+    measured: 2,
+    graceful: 3,
+    brisk: 4,
+    military: 5,
+    heavy: 4,
+  };
+  const observanceMap: Record<string, number> = {
+    none: 0,
+    lapsed: 0,
+    secular: 0,
+    cultural: 1,
+    nominal: 1,
+    moderate: 2,
+    practicing: 3,
+    observant: 4,
+    strict: 5,
+    'ultra-orthodox': 6,
+    devout: 5,
+    orthodox: 5,
+    fundamentalist: 5,
+  };
+  const fitnessMap: Record<string, number> = {
+    critical: 1,
+    poor: 2,
+    fair: 3,
+    average: 3,
+    good: 4,
+    excellent: 5,
+    'peak-condition': 6,
+    elite: 5,
+  };
+
+  // NEW: Residency status map for housing correlates
+  const residencyMap: Record<string, number> = {
+    citizen: 5,
+    'permanent-resident': 4,
+    'work-visa': 3,
+    'student-visa': 2,
+    refugee: 1,
+    irregular: 0,
+    undocumented: 0,
+    stateless: 0,
+  };
+
+  // NEW: Civic engagement map (matching actual values from social.ts)
+  const civicEngagementMap: Record<string, number> = {
+    disengaged: 0,
+    disillusioned: 1,
+    'quiet-voter': 2,
+    'active-participant': 3,
+    organizer: 4,
+    candidate: 5,
+    // Legacy fallbacks
+    none: 0,
+    passive: 1,
+    voter: 2,
+    occasional: 2,
+    active: 3,
+    leader: 5,
+  };
+
+  // NEW: Orderliness map from preferences
+  const orderlinessMap: Record<string, number> = {
+    chaotic: 1,
+    messy: 2,
+    casual: 3,
+    tidy: 4,
+    meticulous: 5,
+    obsessive: 6,
   };
 
   // Skills is an object keyed by skill name, not an array
@@ -520,6 +768,22 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
   // Get conscientiousness from traits
   const conscientiousness = agent.capabilities?.traits?.conscientiousness ?? 500;
 
+  // Extract aptitudes
+  const aptitudes = agent.capabilities?.aptitudes;
+
+  // Has family: married/partnered with dependents (captures "has started a family")
+  const maritalStatus = agent.family?.maritalStatus ?? 'single';
+  const dependentCount = agent.family?.dependentCount ?? 0;
+  const hasFamily = (maritalStatus === 'married' || maritalStatus === 'partnered') && dependentCount > 0 ? 1 : 0;
+
+  // Vice count
+  const viceCount = agent.vices?.length ?? 0;
+
+  // Health score: fitness band minus chronic conditions
+  const fitnessBand = agent.health?.fitnessBand ?? 'average';
+  const chronicCount = agent.health?.chronicConditionTags?.length ?? 0;
+  const healthScore = Math.max(0, (fitnessMap[fitnessBand] ?? 3) * 200 - chronicCount * 100);
+
   return {
     seed: agent.seed,
     age,
@@ -536,7 +800,157 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     tradecraftSkill: tradecraftValue,
     housingStabilityNumeric: housingMap[housingStability] ?? 2,
     housingInstability: 4 - (housingMap[housingStability] ?? 2),
+    // Additional metrics
+    socialBattery: latents?.socialBattery ?? 500,
+    thirdPlacesCount: agent.everydayLife?.thirdPlaces?.length ?? 0,
+    networkRoleNumeric: networkRoleMap[agent.network?.role ?? 'peripheral'] ?? 1,
+    hasFamily,
+    viceCount,
+    religiosity: observanceMap[agent.spirituality?.observanceLevel ?? 'secular'] ?? 0,
+    empathy: aptitudes?.empathy ?? 500,
+    deception: aptitudes?.deceptionAptitude ?? 500,
+    authoritarianism: agent.capabilities?.traits?.authoritarianism ?? 500,
+    conflictStyleNumeric: conflictStyleMap[agent.personality?.conflictStyle ?? 'compromising'] ?? 2,
+    communityStatusNumeric: communityStatusMap[agent.communities?.communityStatus ?? 'regular'] ?? 3,
+    visibilityNumeric: agent.visibility?.publicVisibility ?? 500,
+    reputationNumeric: reputationMap[agent.reputation?.professional ?? 'unknown'] ?? 0,
+    buildNumeric: buildMap[agent.appearance?.buildTag ?? 'average'] ?? 3,
+    gaitNumeric: gaitMap[agent.physicalPresence?.gait ?? 'measured'] ?? 2,
+    healthScore,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // NEW METRICS FOR AUDIT-FIRST ANALYSIS
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Cognitive/Education (Category A)
+    cognitiveSpeed: aptitudes?.cognitiveSpeed ?? 500,
+    workingMemory: aptitudes?.workingMemory ?? 500,
+    avgSkillXp: computeAvgSkillXp(skills),
+
+    // Social/Network (Category B)
+    dependentCount,
+    // No explicit relationships array; use memberships count as proxy
+    relationshipCount: (agent.communities?.memberships?.length ?? 0),
+
+    // Housing/Domestic (Category C)
+    // householdComposition gives hint at size; map to numeric
+    householdSize: computeHouseholdSize(agent.home?.householdComposition ?? 'alone'),
+    // geography.diasporaStatus maps to residency stability
+    residencyNumeric: computeResidencyFromDiaspora(agent.geography?.diasporaStatus),
+    frugality: latents?.frugality ?? 500,
+
+    // Health/Lifestyle (Category D)
+    stressReactivity: latents?.stressReactivity ?? 500,
+    chronicCount,
+    viceSeverityAvg: computeViceSeverity(agent.vices ?? []),
+    // food.restrictions is the dietary restrictions array
+    dietaryRestrictionCount: agent.preferences?.food?.restrictions?.length ?? 0,
+    endurance: aptitudes?.endurance ?? 500,
+
+    // Skills/Capabilities (Category E)
+    bureaucracySkill: skills?.bureaucracy?.value ?? 0,
+    digitalHygiene: agent.visibility?.digitalHygiene ?? 500,
+    negotiationSkill: skills?.negotiation?.value ?? 0,
+    institutionalEmbeddedness: latents?.institutionalEmbeddedness ?? 500,
+    techFluency: latents?.techFluency ?? 500,
+    adaptability: latents?.adaptability ?? 500,
+
+    // Trait/Latent Cross (Category F)
+    curiosityBandwidth: latents?.curiosityBandwidth ?? 500,
+    planningHorizon: latents?.planningHorizon ?? 500,
+    agreeableness: agent.capabilities?.traits?.agreeableness ?? 500,
+    // livingSpace.organizationStyle maps to orderliness
+    homeOrderliness: orderlinessMap[agent.preferences?.livingSpace?.organizationStyle ?? 'casual'] ?? 3,
+
+    // Behavioral Coherence (Category G)
+    // quirks.mustHaves + rituals indicate conscientiousness-related habits
+    pettyHabitScore: computePettyHabitScore([
+      ...(agent.preferences?.quirks?.mustHaves ?? []),
+      ...(agent.preferences?.quirks?.rituals ?? []),
+    ]),
+    // civicLife.engagement maps to civic engagement
+    civicEngagementNumeric: civicEngagementMap[agent.civicLife?.engagement ?? 'passive'] ?? 1,
+    // hobbies.primary contains the hobbies
+    activeHobbyCount: countActiveHobbies(agent.preferences?.hobbies?.primary ?? []),
   };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Helper functions for computed metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+function computeAvgSkillXp(skills: Record<string, { value: number; xp?: number }> | undefined): number {
+  if (!skills) return 0;
+  const xpValues = Object.values(skills).map(s => s.xp ?? 0);
+  if (xpValues.length === 0) return 0;
+  return xpValues.reduce((sum, v) => sum + v, 0) / xpValues.length;
+}
+
+function computeViceSeverity(vices: Array<{ severity?: string }>): number {
+  if (vices.length === 0) return 0;
+  const severityMap: Record<string, number> = {
+    mild: 1,
+    moderate: 2,
+    severe: 3,
+    crippling: 4,
+  };
+  const total = vices.reduce((sum, v) => sum + (severityMap[v.severity ?? 'mild'] ?? 1), 0);
+  return total / vices.length;
+}
+
+function computePettyHabitScore(habits: string[]): number {
+  // Conscientiousness-related habits get higher scores
+  const conscientiousHabits = [
+    'always-early', 'checks-locks', 'makes-lists', 'prepares-ahead',
+    'double-checks', 'keeps-receipts', 'irons-clothes', 'polishes-shoes',
+  ];
+  let score = 0;
+  for (const habit of habits) {
+    if (conscientiousHabits.includes(habit)) {
+      score += 2;
+    } else {
+      score += 1; // Other habits are neutral
+    }
+  }
+  return score;
+}
+
+function countActiveHobbies(hobbies: string[]): number {
+  const activeHobbies = [
+    'running', 'cycling', 'swimming', 'hiking', 'climbing', 'yoga',
+    'martial-arts', 'weightlifting', 'dancing', 'tennis', 'soccer',
+    'basketball', 'skiing', 'surfing', 'kayaking', 'rock-climbing',
+    'capoeira', 'golf', 'boxing', 'judo', 'karate', 'taekwondo',
+  ];
+  return hobbies.filter(h => activeHobbies.some(ah => h.toLowerCase().includes(ah))).length;
+}
+
+function computeHouseholdSize(composition: string): number {
+  const sizeMap: Record<string, number> = {
+    alone: 1,
+    partner: 2,
+    'small-family': 3,
+    'nuclear-family': 4,
+    'extended-family': 6,
+    'multi-generational': 7,
+    roommates: 3,
+    'group-house': 5,
+    institutional: 10,
+  };
+  return sizeMap[composition] ?? 1;
+}
+
+function computeResidencyFromDiaspora(diasporaStatus: string | undefined): number {
+  // Map diaspora status to residency stability proxy
+  const statusMap: Record<string, number> = {
+    native: 5,           // Full citizen
+    expat: 3,            // Legal but temporary
+    immigrant: 4,        // Permanent resident
+    refugee: 1,          // Precarious
+    'second-generation': 5, // Citizen
+    diaspora: 4,         // Established immigrant
+  };
+  return statusMap[diasporaStatus ?? 'native'] ?? 3;
 }
 
 function analyzeDocumentedCorrelates(metrics: AgentMetrics[]): CorrelateResult[] {

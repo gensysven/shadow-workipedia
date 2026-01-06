@@ -946,11 +946,18 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     'news rumors',
   ];
 
+  // Correlate #B2: Third Places ↔ Civic Engagement (positive)
+  // Social battery is a proxy for third places (strong correlation #L1 verified)
+  // People with more social outlets (third places) are more civically engaged
   const engagementWeights = engagementPool.map(e => {
     let w = 1;
     if (e === 'organizer' && roleSeedTags.includes('organizer')) w = 4;
     if (e === 'active-participant' && latents.principledness > 600) w = 2;
+    // #B2: High social battery (proxy for third places) boosts active engagement
+    if (e === 'active-participant' && latents.socialBattery > 650) w += 2;
+    if (e === 'organizer' && latents.socialBattery > 700) w += 1.5;
     if (e === 'disengaged' && latents.publicness < 350) w = 3;
+    if (e === 'disengaged' && latents.socialBattery < 350) w += 1.5; // Low social = disengaged
     if (e === 'quiet-voter') w = 4;
     if (e === 'disillusioned' && age > 45) w = 2;
     return { item: e as CivicEngagement, weight: w };

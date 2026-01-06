@@ -63,38 +63,28 @@ seed + vocab + country context
 
 Correlates are cross-facet relationships that ensure realistic agent generation. When modifying any facet, check for correlate impacts.
 
-### Active Correlates
+**See [CORRELATES.md](./CORRELATES.md) for the complete correlate catalog with:**
+- Validation status and Pearson r values
+- Implementation locations and code references
+- Implausibility checks
+- Instructions for adding new correlates
 
-**Tier-Based:**
-- #2 Tier ↔ Health (lifestyle.ts): Elite gets better healthcare outcomes
-- #3 Tier ↔ Education (identity.ts): Elite prefers graduate/doctorate
-- Tier ↔ Housing (domestic.ts): Elite owns, mass rents precariously
+### Quick Reference (28 correlates)
 
-**Age-Based:**
-- #1 Age ↔ Physical Conditioning (latents.ts): Conditioning declines with age; stress accumulates
-- #4 Age ↔ Family (social.ts): Marriage/children peak 28-45
-- #6 Age ↔ Network Role (social.ts): Young=peripheral, senior=hub
-- Age ↔ Community Status (social.ts): Elders become pillars
+| Category | Count | Key Examples |
+|----------|-------|--------------|
+| Tier-Based | 5 | Tier ↔ Health, Education, Housing |
+| Age-Based | 7 | Age ↔ Conditioning, Network Role, Community Status |
+| Latent-Based | 3 | Cosmopolitanism ↔ Abroad, Religiosity ↔ Vices |
+| Trait-Based | 4 | Social Battery ↔ Third Places |
+| Cross-Latent | 5 | Opsec ↔ Publicness (suppression) |
+| Derivation | 3 | Opsec ↔ Conscientiousness |
 
-**Latent-Based:**
-- #5 Cosmopolitanism ↔ Diaspora (geography.ts, social.ts)
-- #7 Religiosity ↔ Vices (lifestyle.ts): Strict observance reduces vices
-- #9 Travel ↔ Skills (skills.ts): Travel boosts tradecraft/negotiation
-- #11 Empathy+Deception ↔ Network (social.ts): Shapes network role
-- #12 Authoritarianism ↔ Conflict Style (generator.ts)
-- #14 Visibility ↔ Reputation (social.ts): High visibility = defined reputation
+### Running Correlation Audit
 
-**Trait-Based:**
-- #13 Conscientiousness ↔ Housing (domestic.ts): High = stable housing
-- #15 Risk ↔ Housing (domestic.ts): High risk = transient housing
-- Social Battery ↔ Third Places (domestic.ts): Determines venue count
-- #8 Build/Height ↔ Gait (generator.ts): Physical presence correlates with build/height
-
-**Cross-Latent Correlations:**
-- Opsec ↔ Publicness (latents.ts): Negative correlation - high opsec suppresses publicness and vice versa
-- Opsec ↔ Tradecraft (skills.ts): Positive correlation - opsec discipline is core to tradecraft skill
-- Risk Appetite ↔ Tradecraft (skills.ts): Positive correlation - risk takers develop operational skills
-- Tier ↔ Housing (domestic.ts): Positive correlation - higher tier means more stable housing
+```bash
+npx tsx scripts/audit-agents.ts --count 1000 --out /tmp/audit.json
+```
 
 ### Country Priors & Indicators
 

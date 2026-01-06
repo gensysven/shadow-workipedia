@@ -66,6 +66,8 @@ export function computeLatents(
   const rawTierFrugalBias = tierBand === 'elite' ? -120 : tierBand === 'mass' ? 120 : 0;
   const rawTierPlanBias = tierBand === 'elite' ? 60 : tierBand === 'mass' ? -20 : 0;
   const rawTierStressBias = tierBand === 'elite' ? -60 : tierBand === 'mass' ? 60 : 0;
+  // Risk appetite: elites are more risk-averse (protecting status), mass tier slightly higher (less to lose)
+  const rawTierRiskBias = tierBand === 'elite' ? -140 : tierBand === 'mass' ? 40 : 0;
 
   // Apply mediator: some individuals conform to tier stereotypes, others don't
   const tierCosmoBias = Math.round(rawTierCosmoBias * tierBiasScale);
@@ -76,6 +78,7 @@ export function computeLatents(
   const tierFrugalBias = Math.round(rawTierFrugalBias * tierBiasScale);
   const tierPlanBias = Math.round(rawTierPlanBias * tierBiasScale);
   const tierStressBias = Math.round(rawTierStressBias * tierBiasScale);
+  const tierRiskBias = Math.round(rawTierRiskBias * tierBiasScale);
 
   const role = new Set(roleSeedTags);
   const cosmoRoleBias =
@@ -211,7 +214,7 @@ export function computeLatents(
     publicness: tierPublicBias,
     opsecDiscipline: 0,
     institutionalEmbeddedness: tierInstBias,
-    riskAppetite: 0,
+    riskAppetite: tierRiskBias, // Correlate #X1: elite → risk-averse
     stressReactivity: tierStressBias + ageStressBias, // Age correlate: stress accumulates
     impulseControl: 0,
     techFluency: tierTechBias + ageTechBias,
@@ -257,16 +260,41 @@ export function computeLatents(
   const opsecSuppression = Math.round(0.25 * Math.max(0, basePublic - 500));
   const publicSuppression = Math.round(0.25 * Math.max(0, baseOpsec - 500));
 
+  // Correlate #X2: Institutional Embeddedness ↔ Risk Appetite (negative)
+  // High embeddedness = career protection = reduced risk-taking
+  const embeddedness = raw.institutionalEmbeddedness + tierBias.institutionalEmbeddedness + roleBias.institutionalEmbeddedness;
+  const embeddednessRiskPenalty = Math.round(-0.25 * Math.max(0, embeddedness - 350));
+
+  // Correlate #X3: Curiosity ↔ Risk Appetite (positive)
+  // Curious people are more willing to take risks to explore and learn
+  const curiosity = raw.curiosityBandwidth + tierBias.curiosityBandwidth + roleBias.curiosityBandwidth;
+  const curiosityRiskBonus = Math.round(0.22 * (curiosity - 500));
+
+  // Correlate #X4: Planning Horizon ↔ Impulse Control (positive)
+  // Long-term planners have better impulse control (deferred gratification)
+  const planningHorizon = raw.planningHorizon + tierBias.planningHorizon + roleBias.planningHorizon;
+  const planningImpulseBonus = Math.round(0.28 * (planningHorizon - 500));
+
+  // Correlate #HL3: Endurance ↔ Stress Reactivity (negative)
+  // Physical fitness (via conditioning) helps manage stress - fit people handle stress better
+  // Use physicalConditioning as proxy for endurance since aptitudes aren't computed yet
+  const conditioning = raw.physicalConditioning + tierBias.physicalConditioning + roleBias.physicalConditioning;
+  const conditioningStressReduction = Math.round(-0.18 * (conditioning - 500));
+
   const values: Latents = {
     cosmopolitanism: clampFixed01k(raw.cosmopolitanism + tierBias.cosmopolitanism + roleBias.cosmopolitanism),
     publicness: clampFixed01k(basePublic - publicSuppression),
     opsecDiscipline: clampFixed01k(baseOpsec - opsecSuppression),
-    institutionalEmbeddedness: clampFixed01k(
-      raw.institutionalEmbeddedness + tierBias.institutionalEmbeddedness + roleBias.institutionalEmbeddedness,
+    institutionalEmbeddedness: clampFixed01k(embeddedness),
+    riskAppetite: clampFixed01k(
+      raw.riskAppetite + tierBias.riskAppetite + roleBias.riskAppetite + embeddednessRiskPenalty + curiosityRiskBonus,
     ),
-    riskAppetite: clampFixed01k(raw.riskAppetite + tierBias.riskAppetite + roleBias.riskAppetite),
-    stressReactivity: clampFixed01k(raw.stressReactivity + tierBias.stressReactivity + roleBias.stressReactivity),
-    impulseControl: clampFixed01k(raw.impulseControl + tierBias.impulseControl + roleBias.impulseControl),
+    stressReactivity: clampFixed01k(
+      raw.stressReactivity + tierBias.stressReactivity + roleBias.stressReactivity + conditioningStressReduction,
+    ),
+    impulseControl: clampFixed01k(
+      raw.impulseControl + tierBias.impulseControl + roleBias.impulseControl + planningImpulseBonus,
+    ),
     techFluency: clampFixed01k(raw.techFluency + tierBias.techFluency + roleBias.techFluency),
     socialBattery: clampFixed01k(raw.socialBattery + tierBias.socialBattery + roleBias.socialBattery),
     aestheticExpressiveness: clampFixed01k(
@@ -277,7 +305,7 @@ export function computeLatents(
       raw.curiosityBandwidth + tierBias.curiosityBandwidth + roleBias.curiosityBandwidth,
     ),
     adaptability: clampFixed01k(raw.adaptability + tierBias.adaptability + roleBias.adaptability),
-    planningHorizon: clampFixed01k(raw.planningHorizon + tierBias.planningHorizon + roleBias.planningHorizon),
+    planningHorizon: clampFixed01k(planningHorizon),
     principledness: clampFixed01k(raw.principledness + tierBias.principledness + roleBias.principledness),
     physicalConditioning: clampFixed01k(
       raw.physicalConditioning + tierBias.physicalConditioning + roleBias.physicalConditioning,
