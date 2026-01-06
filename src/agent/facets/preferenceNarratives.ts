@@ -29,6 +29,10 @@ const pushCandidate = (list: NarrativeCandidate[], item: string | null, weight: 
   list.push({ item: trimmed, weight });
 };
 
+const sentenceCase = (value: string | null): string | null => (
+  value ? value.replace(/^\w/, (c) => c.toUpperCase()) : null
+);
+
 const pickNarrativeBeats = (rng: Rng, candidates: NarrativeCandidate[], count: number): string[] => {
   if (!candidates.length) return [];
   const safeCount = Math.max(1, Math.min(count, candidates.length, MAX_BEAT_COUNT));
@@ -44,8 +48,8 @@ export function buildPreferenceNarrativeBeats(
 ): string[] {
   const candidates: NarrativeCandidate[] = [];
 
-  pushCandidate(candidates, firstOrNull(preferences.food.cuisineFavorites)?.replace(/^\w/, c => c.toUpperCase()), 2.2);
-  pushCandidate(candidates, firstOrNull(preferences.food.comfortFoods)?.replace(/^\w/, c => c.toUpperCase()), 1.6);
+  pushCandidate(candidates, sentenceCase(firstOrNull(preferences.food.cuisineFavorites)), 2.2);
+  pushCandidate(candidates, sentenceCase(firstOrNull(preferences.food.comfortFoods)), 1.6);
 
   if (hasValue(preferences.food.ritualDrink)) {
     pushCandidate(candidates, `Keeps ${preferences.food.ritualDrink} close.`, 1.4);
@@ -57,7 +61,7 @@ export function buildPreferenceNarrativeBeats(
     pushCandidate(candidates, `Reaches for ${preferences.food.alcoholPreference} to unwind.`, 1.0);
   }
 
-  pushCandidate(candidates, firstOrNull(preferences.media.genreTopK)?.replace(/^\w/, c => c.toUpperCase()), 1.2);
+  pushCandidate(candidates, sentenceCase(firstOrNull(preferences.media.genreTopK)), 1.2);
   pushCandidate(candidates, firstOrNull(preferences.fashion.styleTags) ? `Defaults to ${preferences.fashion.styleTags[0]} looks.` : null, 1.2);
   pushCandidate(candidates, hasValue(preferences.environment.temperature) ? `Prefers ${preferences.environment.temperature} climates.` : null, 1.0);
   pushCandidate(candidates, hasValue(preferences.aesthetics.colorPalette) ? `Drawn to ${preferences.aesthetics.colorPalette} palettes.` : null, 1.0);
