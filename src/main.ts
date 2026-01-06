@@ -3,13 +3,14 @@ import type { GraphData, IssueCategory, CommunityInfo, PrimitiveName } from './t
 import { GraphSimulation } from './graph';
 import type { SimNode } from './graph';
 import { ZoomPanHandler, HoverHandler, ClickHandler, DragHandler } from './interactions';
-import { ArticleRouter, renderWikiArticleContent, type RouteType } from './article';
+import { ArticleRouter, renderWikiArticleContent } from './article';
 import { initializeAgentsView } from './agentsView';
 import { createCanvasContext } from './main/canvas';
 import { initializeMainDom } from './main/dom';
 import { attachMainHandlers } from './main/handlers';
 import { initializeCommandPalette } from './main/palette';
 import { createRenderLoop } from './main/render';
+import { createRouter } from './main/router';
 import { createTableRenderer } from './main/table';
 import { createWikiRenderer } from './main/wiki';
 import { createViewController } from './main/views';
@@ -464,63 +465,20 @@ async function main() {
   const showView = viewController.showView;
 
   // Initialize article router (side effects only - registers hash change listener)
-  router = new ArticleRouter((route: RouteType) => {
-    // Hide tooltip on any route change
-    const tooltipEl = document.getElementById('tooltip');
-    if (tooltipEl) tooltipEl.classList.add('hidden');
-
-    if (!route) {
-      // Default to graph view
-      showView('graph');
-      return;
-    }
-
-    if (route.kind === 'view') {
-      // View route - show the appropriate view
-      // Clear selected wiki article when navigating to wiki list (not an article)
-      if (route.view === 'wiki') {
-        selectedWikiArticle = null;
-        selectedCommunity = null;
-        wikiSection = 'articles';
-      }
-      if (route.view === 'communities') {
-        selectedCommunity = null;
-        selectedWikiArticle = null;
-        wikiSection = 'communities';
-      }
-      showView(route.view);
-    } else if (route.kind === 'article') {
-      // Handle wiki-level redirects/merges for any article type.
-      const current = data.articles?.[route.slug];
-      const mergedInto = typeof current?.frontmatter?.mergedInto === 'string' ? current.frontmatter.mergedInto.trim() : '';
-      if (mergedInto && data.articles?.[mergedInto]) {
-        window.location.hash = '#/wiki/' + mergedInto;
-        return;
-      }
-
-      // Both issue and system articles show in wiki view with sidebar
-      if (route.type === 'issue') {
-        const resolved = resolveIssueId(route.slug);
-        if ((!data.articles || !data.articles[route.slug]) && resolved !== route.slug && data.articles?.[resolved]) {
-          window.location.hash = '#/wiki/' + resolved;
-          return;
-        }
-      }
-
-      selectedWikiArticle = route.slug;
-      selectedCommunity = null;
-      wikiSection = 'articles';
-      showView('wiki');
-      // Re-render to update selection and article content
-      if (renderWikiList) renderWikiList();
-    } else if (route.kind === 'community') {
-      selectedCommunity = route.slug;
-      selectedWikiArticle = null;
-      wikiSection = 'communities';
-      showView('communities');
-      // Re-render to update selection and article content
-      if (renderWikiList) renderWikiList();
-    }
+  router = createRouter({
+    data,
+    resolveIssueId,
+    showView,
+    renderWikiList: () => renderWikiList(),
+    setSelectedWikiArticle: (value) => {
+      selectedWikiArticle = value;
+    },
+    setSelectedCommunity: (value) => {
+      selectedCommunity = value;
+    },
+    setWikiSection: (value) => {
+      wikiSection = value;
+    },
   });
 
   // Get canvas
