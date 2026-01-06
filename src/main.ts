@@ -8,6 +8,7 @@ import { initializeAgentsView } from './agentsView';
 import { createCanvasContext } from './main/canvas';
 import { initializeMainDom } from './main/dom';
 import { attachMainHandlers } from './main/handlers';
+import { createRenderLoop } from './main/render';
 import { initializeMainState } from './main/state';
 import { polygonHull, polygonCentroid } from 'd3-polygon';
 
@@ -421,6 +422,7 @@ async function main() {
 	  let currentView: 'graph' | 'table' | 'wiki' | 'agents' | 'communities' = 'graph';
 
 	  // Forward declare render functions (implemented later)
+	  let render: () => void = () => {};
 	  let renderTable: () => void;
 	  let renderWikiList: () => void;
 
@@ -1150,270 +1152,32 @@ async function main() {
   }
 
   // Render loop
-  function render() {
-    if (!ctx) return;
-
-    // Update visible nodes for interaction handlers
-    const visibleNodes = getVisibleNodes();
-    const visibleNodeIds = new Set<string>(visibleNodes.map(n => n.id));
-    hoverHandler.setVisibleNodes(visibleNodes);
-    clickHandler.setVisibleNodes(visibleNodes);
-    dragHandler.setVisibleNodes(visibleNodes);
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Apply transform
-    ctx.save();
-    ctx.translate(currentTransform.x, currentTransform.y);
-    ctx.scale(currentTransform.k, currentTransform.k);
-
-    // Draw community hulls and labels if enabled (before edges for proper layering)
-    if (showClusters) {
-      ctx.restore(); // Reset transform for screen-space rendering
-      renderCommunityHulls(ctx, visibleNodes, data.communities, currentTransform);
-      renderCommunityLabels(ctx, visibleNodes, data.communities, currentTransform);
-      ctx.save(); // Reapply transform for edges/nodes
-      ctx.translate(currentTransform.x, currentTransform.y);
-      ctx.scale(currentTransform.k, currentTransform.k);
-    }
-
-    // Draw edges
-    const links = graph.getLinks();
-    const k = currentTransform.k;
-
-    // Batch draw normal edges (canvas is much faster with fewer stroke() calls)
-    {
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
-      ctx.lineWidth = 1 / k;
-      ctx.beginPath();
-      let drewAny = false;
-      for (const link of links) {
-        if (link.type === 'data-flow') continue;
-        if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
-
-        const isConnected = selectedNode &&
-          (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
-        if (isConnected) continue;
-
-        ctx.moveTo(link.source.x!, link.source.y!);
-        ctx.lineTo(link.target.x!, link.target.y!);
-        drewAny = true;
-      }
-      if (drewAny) ctx.stroke();
-    }
-
-    if (selectedNode) {
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.8)';
-      ctx.lineWidth = 2 / k;
-      ctx.beginPath();
-      let drewAny = false;
-      for (const link of links) {
-        if (link.type === 'data-flow') continue;
-        if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
-
-        const isConnected =
-          link.source.id === selectedNode.id || link.target.id === selectedNode.id;
-        if (!isConnected) continue;
-
-        ctx.moveTo(link.source.x!, link.source.y!);
-        ctx.lineTo(link.target.x!, link.target.y!);
-        drewAny = true;
-      }
-      if (drewAny) ctx.stroke();
-    }
-
-    // Data flow edges (smaller set, but still batch strokes)
-    if (showDataFlows) {
-      ctx.strokeStyle = 'rgba(245, 158, 11, 0.25)';
-      ctx.lineWidth = 1.5 / k;
-      ctx.beginPath();
-      let drewAny = false;
-      for (const link of links) {
-        if (link.type !== 'data-flow') continue;
-        if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
-
-        const isConnected = selectedNode &&
-          (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
-        if (isConnected) continue;
-
-        ctx.moveTo(link.source.x!, link.source.y!);
-        ctx.lineTo(link.target.x!, link.target.y!);
-        drewAny = true;
-      }
-      if (drewAny) ctx.stroke();
-
-      if (selectedNode) {
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.9)';
-        ctx.lineWidth = 2.5 / k;
-        ctx.beginPath();
-        drewAny = false;
-        for (const link of links) {
-          if (link.type !== 'data-flow') continue;
-          if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
-
-          const isConnected =
-            link.source.id === selectedNode.id || link.target.id === selectedNode.id;
-          if (!isConnected) continue;
-
-          ctx.moveTo(link.source.x!, link.source.y!);
-          ctx.lineTo(link.target.x!, link.target.y!);
-          drewAny = true;
-        }
-        if (drewAny) ctx.stroke();
-      }
-
-      // Arrowheads for directed data flows
-      for (const link of links) {
-        if (link.type !== 'data-flow' || !link.directed) continue;
-        if (!visibleNodeIds.has(link.source.id) || !visibleNodeIds.has(link.target.id)) continue;
-
-        const isConnected = selectedNode &&
-          (link.source.id === selectedNode.id || link.target.id === selectedNode.id);
-        ctx.fillStyle = isConnected
-          ? 'rgba(245, 158, 11, 0.9)'
-          : 'rgba(245, 158, 11, 0.25)';
-
-        const targetSize = link.target.size || 8;
-        const arrowSize = Math.max(6, 10 / k);
-        drawArrow(
-          ctx,
-          link.source.x!,
-          link.source.y!,
-          link.target.x!,
-          link.target.y!,
-          targetSize + 2,
-          arrowSize
-        );
-      }
-    }
-
-    // Draw nodes
-    for (const node of visibleNodes) {
-      const isHovered = hoveredNode && node.id === hoveredNode.id;
-      const isSelected = selectedNode && node.id === selectedNode.id;
-      const isSearchMatch = searchTerm !== '' && searchResults.has(node.id);
-      const isConnected = selectedNode ? connectedToSelected.has(node.id) : false;
-
-      // Determine relevance
-      let isRelevant = true;
-      if (searchTerm !== '') {
-        isRelevant = isSearchMatch;
-      } else if (selectedNode) {
-        isRelevant = isSelected || isConnected;
-      } else if (selectedPrimitive) {
-        // Highlight nodes that use the selected primitive
-        isRelevant = node.primitives?.includes(selectedPrimitive) ?? false;
-      }
-
-      // Use category color for nodes, or primitive color if selected
-      const useColor = selectedPrimitive && node.primitives?.includes(selectedPrimitive)
-        ? getPrimitiveColor(selectedPrimitive)
-        : node.color;
-      ctx.fillStyle = useColor;
-      ctx.globalAlpha = isRelevant ? (isHovered ? 1.0 : 0.9) : 0.1;
-
-      const size = (isHovered || isSelected) ? node.size * 1.2 : node.size;
-
-      // Draw node shape based on type
-      if (node.type === 'principle') {
-        // Principle nodes: Diamond shape
-        drawDiamond(ctx, node.x!, node.y!, size);
-        ctx.fill();
-
-        // Add subtle glow effect for principles
-        ctx.globalAlpha = isRelevant ? 0.3 : 0.05;
-        ctx.strokeStyle = node.color;
-        ctx.lineWidth = 2 / currentTransform.k;
-        drawDiamond(ctx, node.x!, node.y!, size + 3 / currentTransform.k);
-        ctx.stroke();
-
-        ctx.globalAlpha = isRelevant ? (isHovered ? 1.0 : 0.9) : 0.1;
-      } else {
-        // Issue and System nodes: Circle shape
-        ctx.beginPath();
-        ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
-        ctx.fill();
-      }
-
-      // System nodes: Add distinctive dashed stroke and inner ring
-      if (node.type === 'system') {
-        ctx.globalAlpha = isRelevant ? 1.0 : 0.15;
-
-        // Outer dashed stroke
-        ctx.strokeStyle = '#e2e8f0'; // Light gray
-        ctx.lineWidth = 2.5 / currentTransform.k;
-        ctx.setLineDash([4 / currentTransform.k, 3 / currentTransform.k]); // Dashed pattern
-        ctx.beginPath();
-        ctx.arc(node.x!, node.y!, size + (2 / currentTransform.k), 0, 2 * Math.PI);
-        ctx.stroke();
-        ctx.setLineDash([]); // Reset to solid line
-
-        // Inner ring for extra emphasis
-        ctx.strokeStyle = 'rgba(226, 232, 240, 0.4)';
-        ctx.lineWidth = 1.5 / currentTransform.k;
-        ctx.beginPath();
-        ctx.arc(node.x!, node.y!, size - (2 / currentTransform.k), 0, 2 * Math.PI);
-        ctx.stroke();
-
-        ctx.globalAlpha = isRelevant ? (isHovered ? 1.0 : 0.9) : 0.1;
-      }
-
-      // Draw border rings for additional categories (if multi-category)
-      if (node.categories && node.categories.length > 1) {
-        const ringWidth = 2 / currentTransform.k;
-        let currentRadius = size;
-
-        // Skip first category (already used for main fill), draw rings for rest
-        for (let i = 1; i < node.categories.length; i++) {
-          const cat = node.categories[i];
-          ctx.strokeStyle = getCategoryColor(cat);
-          ctx.lineWidth = ringWidth;
-
-          currentRadius += ringWidth;
-          ctx.beginPath();
-          ctx.arc(node.x!, node.y!, currentRadius, 0, 2 * Math.PI);
-          ctx.stroke();
-        }
-      }
-
-      // Highlight ring for search matches (outside all category rings)
-      if (isSearchMatch && !isSelected) {
-        const searchRingRadius = size + (node.categories ? (node.categories.length - 1) * (2 / currentTransform.k) : 0) + (3 / currentTransform.k);
-        ctx.strokeStyle = '#3b82f6';
-        ctx.lineWidth = 2 / currentTransform.k;
-        ctx.beginPath();
-        ctx.arc(node.x!, node.y!, searchRingRadius, 0, 2 * Math.PI);
-        ctx.stroke();
-      }
-
-      ctx.globalAlpha = 1.0;
-    }
-
-    ctx.restore();
-  }
-
-  // Track whether initial fit has been done
-  let initialFitDone = false;
-  let renderScheduled = false;
-  function scheduleRender() {
-    if (renderScheduled) return;
-    renderScheduled = true;
-    requestAnimationFrame(() => {
-      renderScheduled = false;
-      render();
-    });
-  }
-
-  graph.onTick(() => {
-    // On first tick, fit to view before rendering (coalesced to 1 render/frame)
-    if (!initialFitDone) {
-      initialFitDone = true;
-      fitToView();
-      return;
-    }
-    scheduleRender();
-  });
+  render = createRenderLoop({
+    canvas,
+    ctx,
+    graph,
+    data,
+    hoverHandler,
+    clickHandler,
+    dragHandler,
+    getVisibleNodes,
+    getCurrentTransform: () => currentTransform,
+    getShowClusters: () => showClusters,
+    getShowDataFlows: () => showDataFlows,
+    getSelectedNode: () => selectedNode,
+    getHoveredNode: () => hoveredNode,
+    getSearchTerm: () => searchTerm,
+    searchResults,
+    getConnectedToSelected: () => connectedToSelected,
+    getSelectedPrimitive: () => selectedPrimitive,
+    getPrimitiveColor,
+    getCategoryColor,
+    renderCommunityHulls,
+    renderCommunityLabels,
+    drawArrow,
+    drawDiamond,
+    fitToView,
+  }).render;
 
   // Now that all dependencies (activeCategories, searchTerm, etc.) are initialized,
   // we can safely call resizeCanvas which calls render
