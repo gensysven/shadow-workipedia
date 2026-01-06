@@ -7,6 +7,7 @@ import { ArticleRouter, renderWikiArticleContent, type RouteType, type ViewType 
 import { initializeAgentsView } from './agentsView';
 import { createCanvasContext } from './main/canvas';
 import { initializeMainDom } from './main/dom';
+import { attachMainHandlers } from './main/handlers';
 import { initializeMainState } from './main/state';
 import { polygonHull, polygonCentroid } from 'd3-polygon';
 
@@ -869,316 +870,49 @@ async function main() {
 
   clickHandler.updateTransform(currentTransform);
 
-  // Close panel button
-  closeBtn.addEventListener('click', () => {
-    setSelectedNode(null);
-    detailPanel.classList.add('hidden');
-    render();
-  });
-
-  // View toggle button handlers
-  const showIssuesBtn = document.getElementById('show-issues-btn') as HTMLButtonElement;
-  const showSystemsBtn = document.getElementById('show-systems-btn') as HTMLButtonElement;
-
-  if (showIssuesBtn) {
-    showIssuesBtn.addEventListener('click', () => {
-      showIssues = !showIssues;
-      showIssuesBtn.classList.toggle('active', showIssues);
-      updateSearchPlaceholder();
-      render();
-      if (currentView === 'table') {
-        renderTable();
-      }
-    });
-  }
-
-  if (showSystemsBtn) {
-    showSystemsBtn.addEventListener('click', () => {
-      showSystems = !showSystems;
-      showSystemsBtn.classList.toggle('active', showSystems);
-      updateSearchPlaceholder();
-      // Restart simulation to spread out newly visible nodes
-      graph.restart();
-      render();
-      if (currentView === 'table') {
-        renderTable();
-      }
-    });
-  }
-
-  // Principles toggle button
-  const showPrinciplesBtn = document.getElementById('show-principles-btn') as HTMLButtonElement;
-  if (showPrinciplesBtn) {
-    showPrinciplesBtn.addEventListener('click', () => {
-      showPrinciples = !showPrinciples;
-      showPrinciplesBtn.classList.toggle('active', showPrinciples);
-      updateSearchPlaceholder();
-      // Restart simulation to spread out newly visible nodes
-      graph.restart();
-      render();
-      if (currentView === 'table') {
-        renderTable();
-      }
-    });
-  }
-
-  // Primitives toggle button
-  const showPrimitivesBtn = document.getElementById('show-primitives-btn') as HTMLButtonElement;
-  if (showPrimitivesBtn) {
-    showPrimitivesBtn.addEventListener('click', () => {
-      showPrimitives = !showPrimitives;
-      showPrimitivesBtn.classList.toggle('active', showPrimitives);
-      updateSearchPlaceholder();
-      // Show/hide primitive legend panel
-      updatePrimitiveLegend();
-      render();
-      if (currentView === 'table') {
-        renderTable();
-      }
-    });
-  }
-
-  // Create or update the primitive legend panel
-  function updatePrimitiveLegend() {
-    let legend = document.getElementById('primitive-legend');
-
-    if (!showPrimitives) {
-      if (legend) legend.remove();
-      selectedPrimitive = null;
-      return;
-    }
-
-    if (!legend) {
-      legend = document.createElement('div');
-      legend.id = 'primitive-legend';
-      legend.style.cssText = `
-        position: fixed;
-        top: 120px;
-        right: 20px;
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 12px;
-        z-index: 100;
-        max-height: 60vh;
-        overflow-y: auto;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      `;
-      document.body.appendChild(legend);
-    }
-
-    // Count issues per primitive
-    const primitiveCounts = new Map<PrimitiveName, number>();
-    for (const node of data.nodes) {
-      if (node.primitives) {
-        for (const p of node.primitives) {
-          primitiveCounts.set(p, (primitiveCounts.get(p) || 0) + 1);
-        }
-      }
-    }
-
-    // Sort by count
-    const sortedPrimitives = Array.from(primitiveCounts.entries())
-      .sort((a, b) => b[1] - a[1]);
-
-    legend.innerHTML = `
-      <div style="font-weight: 600; margin-bottom: 8px; color: #e2e8f0; font-size: 13px;">
-        Simulation Primitives
-      </div>
-      <div style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">
-        Click to highlight issues
-      </div>
-      ${sortedPrimitives.map(([primitive, count]) => `
-        <div class="primitive-item" data-primitive="${primitive}" style="
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 6px 8px;
-          margin: 2px 0;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background 0.15s;
-          ${selectedPrimitive === primitive ? 'background: rgba(255, 255, 255, 0.15);' : ''}
-        ">
-          <div style="
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-            background: ${getPrimitiveColor(primitive)};
-            flex-shrink: 0;
-          "></div>
-          <span style="color: #e2e8f0; font-size: 12px; flex: 1;">${getPrimitiveLabel(primitive)}</span>
-          <span style="color: #64748b; font-size: 11px;">${count}</span>
-        </div>
-      `).join('')}
-      ${selectedPrimitive ? `
-        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
-          <button id="clear-primitive-selection" style="
-            width: 100%;
-            padding: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 4px;
-            color: #94a3b8;
-            font-size: 11px;
-            cursor: pointer;
-          ">Clear selection</button>
-        </div>
-      ` : ''}
-    `;
-
-    // Add hover effects
-    legend.querySelectorAll('.primitive-item').forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        (item as HTMLElement).style.background = 'rgba(255, 255, 255, 0.1)';
-      });
-      item.addEventListener('mouseleave', () => {
-        const p = item.getAttribute('data-primitive') as PrimitiveName | null;
-        (item as HTMLElement).style.background = selectedPrimitive === p ? 'rgba(255, 255, 255, 0.15)' : '';
-      });
-      item.addEventListener('click', () => {
-        const p = item.getAttribute('data-primitive') as PrimitiveName | null;
-        selectedPrimitive = selectedPrimitive === p ? null : p;
-        updatePrimitiveLegend();
-        render();
-        if (currentView === 'table') {
-          renderTable();
-        }
-      });
-    });
-
-    // Clear button
-    const clearBtn = document.getElementById('clear-primitive-selection');
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        selectedPrimitive = null;
-        updatePrimitiveLegend();
-        render();
-        if (currentView === 'table') {
-          renderTable();
-        }
-      });
-    }
-  }
-
-  // Data Flows toggle button
-  const showDataFlowsBtn = document.getElementById('show-dataflows-btn') as HTMLButtonElement;
-  if (showDataFlowsBtn) {
-    showDataFlowsBtn.addEventListener('click', () => {
-      showDataFlows = !showDataFlows;
-      showDataFlowsBtn.classList.toggle('active', showDataFlows);
-      render();
-    });
-  }
-
-  // Update search placeholder based on what's visible
-  function updateSearchPlaceholder() {
-    const searchInput = document.getElementById('search') as HTMLInputElement;
-    if (!searchInput) return;
-
-    const types: string[] = [];
-    if (showIssues) types.push('issues');
-    if (showSystems) types.push('systems');
-    if (showPrinciples) types.push('principles');
-
-    if (types.length === 0) {
-      searchInput.placeholder = 'Search...';
-    } else if (types.length === 1) {
-      searchInput.placeholder = `Search ${types[0]}...`;
-    } else {
-      searchInput.placeholder = `Search ${types.join(' & ')}...`;
-    }
-  }
-
-  // Show Clusters toggle
-  const showClustersToggle = document.getElementById('show-clusters') as HTMLInputElement;
-  if (showClustersToggle) {
-    showClustersToggle.addEventListener('change', (e) => {
-      showClusters = (e.target as HTMLInputElement).checked;
-      graph.enableClustering(showClusters, 0.08);
-      render();
-    });
-  }
-
-  // Create category filter buttons
-  const categoryFilters = document.getElementById('category-filters') as HTMLDivElement;
-  const categories = [
-    { name: 'Existential', color: '#dc2626' },
-    { name: 'Economic', color: '#3b82f6' },
-    { name: 'Social', color: '#8b5cf6' },
-    { name: 'Political', color: '#ef4444' },
-    { name: 'Environmental', color: '#10b981' },
-    { name: 'Security', color: '#f59e0b' },
-    { name: 'Technological', color: '#06b6d4' },
-    { name: 'Cultural', color: '#ec4899' },
-    { name: 'Infrastructure', color: '#6366f1' },
-  ];
-
-  for (const cat of categories) {
-    // Count issues with this category
-    const count = graph.getNodes().filter(node =>
-      node.type === 'issue' && node.categories?.includes(cat.name as IssueCategory)
-    ).length;
-
-    const btn = document.createElement('button');
-    btn.className = 'category-filter-btn active';
-    btn.textContent = `${cat.name} (${count})`;
-    btn.style.setProperty('--category-color', cat.color);
-    btn.style.borderColor = cat.color;
-
-    btn.addEventListener('click', () => {
-      if (activeCategories.has(cat.name)) {
-        activeCategories.delete(cat.name);
-        btn.classList.remove('active');
-      } else {
-        activeCategories.add(cat.name);
-        btn.classList.add('active');
-      }
-      render();
-      // Also update table if in table view
-      if (currentView === 'table') {
-        renderTable();
-      }
-    });
-
-    categoryFilters.appendChild(btn);
-  }
-
-  // Search functionality
-  const searchInput = document.getElementById('search') as HTMLInputElement;
-
-  function performSearch(term: string) {
-    searchTerm = term.toLowerCase().trim();
-    searchResults.clear();
-
-    if (!searchTerm) {
-      render();
-      if (currentView === 'table') {
-        renderTable();
-      }
-      return;
-    }
-
-    // Find matching nodes
-    for (const node of graph.getNodes()) {
-      const matchesName = node.label.toLowerCase().includes(searchTerm);
-      const matchesDesc = node.description?.toLowerCase().includes(searchTerm);
-      const matchesCat = node.categories?.some(cat => cat.toLowerCase().includes(searchTerm));
-
-      if (matchesName || matchesDesc || matchesCat) {
-        searchResults.add(node.id);
-      }
-    }
-
-    console.log(`Found ${searchResults.size} matches for "${term}"`);
-    render();
-    if (currentView === 'table') {
-      renderTable();
-    }
-  }
-
-  searchInput.addEventListener('input', (e) => {
-    performSearch((e.target as HTMLInputElement).value);
+  attachMainHandlers({
+    graph,
+    data,
+    render,
+    renderTable: () => renderTable(),
+    detailPanel,
+    closeBtn,
+    setSelectedNode,
+    getCurrentView: () => currentView,
+    getShowIssues: () => showIssues,
+    setShowIssues: (value) => {
+      showIssues = value;
+    },
+    getShowSystems: () => showSystems,
+    setShowSystems: (value) => {
+      showSystems = value;
+    },
+    getShowPrinciples: () => showPrinciples,
+    setShowPrinciples: (value) => {
+      showPrinciples = value;
+    },
+    getShowPrimitives: () => showPrimitives,
+    setShowPrimitives: (value) => {
+      showPrimitives = value;
+    },
+    getShowDataFlows: () => showDataFlows,
+    setShowDataFlows: (value) => {
+      showDataFlows = value;
+    },
+    getSelectedPrimitive: () => selectedPrimitive,
+    setSelectedPrimitive: (value) => {
+      selectedPrimitive = value;
+    },
+    setShowClusters: (value) => {
+      showClusters = value;
+    },
+    setSearchTerm: (value) => {
+      searchTerm = value;
+    },
+    activeCategories,
+    searchResults,
+    getPrimitiveColor,
+    getPrimitiveLabel,
   });
 
   // Initialize zoom/pan
@@ -1696,7 +1430,9 @@ async function main() {
 
       // Reset categories
       activeCategories.clear();
-      categories.forEach(c => activeCategories.add(c.name));
+      Object.keys(CATEGORY_COLORS).forEach((category) => {
+        activeCategories.add(category);
+      });
 
       // Reset button states
       document.querySelectorAll('.category-filter-btn').forEach(btn => {
@@ -1704,7 +1440,10 @@ async function main() {
       });
 
       // Clear search
-      searchInput.value = '';
+      const resetSearchInput = document.getElementById('search') as HTMLInputElement | null;
+      if (resetSearchInput) {
+        resetSearchInput.value = '';
+      }
       searchTerm = '';
       searchResults.clear();
 
