@@ -769,6 +769,7 @@ import { computeLifestyle } from './facets/lifestyle';
 import { computeNarrative } from './facets/narrative';
 import { computeSimulation } from './facets/simulation';
 import { computeDomestic } from './facets/domestic';
+import { computeSkillsEvolution } from './facets/skillsEvolution';
 import {
   normalizeSecurityEnv01k,
   type SecurityEnvAxis,
@@ -1079,6 +1080,18 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     latents,
     capabilitiesResult.traits,
     capabilitiesResult.aptitudes,
+    trace,
+  );
+
+  const skillsEvolution = computeSkillsEvolution(
+    seed,
+    vocab,
+    latents,
+    capabilitiesResult.traits,
+    capabilitiesResult.aptitudes,
+    capabilitiesResult.skills,
+    age,
+    roleSeedTags,
     trace,
   );
 
@@ -2579,6 +2592,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     decisionStyle,
     physicalDetails,
     details,
+    skillsEvolution,
 
     // === ORACLE-RECOMMENDED FACETS ===
     // From psychology.ts

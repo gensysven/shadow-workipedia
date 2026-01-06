@@ -34,7 +34,7 @@ Agent catalogs
 | agent-decision-templates-catalog.md | Integrated (decision style) | Vocab: `decisionTemplates.*`; generator: `src/agent/facets/decisionStyle.ts`; UI: `src/agentsView.ts` | Snapshot-only (3–5 tendencies). |
 | agent-existence-crisis-catalog.md | Integrated (snapshot) | Vocab: `existenceCrises.*`; generator: `src/agent/facets/psychology.ts`; UI: `src/agentsView.ts` | Long-term progression not modeled. |
 | agent-psychology-integration-guide.md | Not integrated | Guide only | Not a data source. |
-| agent-skills-personality-evolution-catalog.md | Not integrated | No skill evolution system in vocab | None. |
+| agent-skills-personality-evolution-catalog.md | Integrated | Skills evolution vocab + snapshot generation + UI card. | None. |
 | agent-behavior-catalog.md | Integrated (behavior lens) | Vocab: `behaviorArchetypes.*`; generator: `src/agent/facets/behavior.ts`; UI: `src/agentsView.ts` | Snapshot-only (archetype + 3–5 reads). |
 
 Non-agent catalogs used for personality system

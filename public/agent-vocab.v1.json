@@ -1409,54 +1409,57 @@
         "hidden-photos"
       ],
       "spaceTypes": [
-        "studio",
-        "apartment",
-        "house",
-        "compound",
-        "penthouse",
-        "cabin",
-        "hotel",
-        "hostel"
+        "operational-apartment",
+        "deep-cover-home",
+        "bolt-hole",
+        "studio-apartment",
+        "shared-housing",
+        "family-home",
+        "hotel-rotation",
+        "barracks-dorm",
+        "mission-staging"
       ],
       "decorStyles": [
-        "minimalist",
-        "maximalist",
-        "functional",
-        "cozy",
-        "modern",
-        "traditional",
-        "eclectic",
-        "industrial"
+        "minimal-functional",
+        "cozy-nesting",
+        "sterile-cover",
+        "mismatched-accumulation",
+        "inherited-keepsakes",
+        "cultural-display",
+        "monochrome-control",
+        "chaotic-expression"
       ],
       "organizationStyles": [
-        "meticulous",
-        "organized",
-        "casual",
-        "chaotic",
-        "spartan",
-        "cluttered"
+        "obsessive-order",
+        "selective-order",
+        "comfortable-mess",
+        "cyclic-cleaning",
+        "decluttering-rebels",
+        "tool-focused"
       ],
       "securityHabits": [
-        "paranoid",
-        "cautious",
-        "standard",
-        "relaxed",
-        "careless"
+        "hair-on-door",
+        "powder-on-handles",
+        "item-placement-checks",
+        "motion-sensors",
+        "camera-sweep",
+        "burn-bag-routine",
+        "go-bag-ready"
       ],
       "visitorPolicies": [
-        "no visitors",
-        "trusted only",
-        "vetted guests",
-        "open door",
-        "frequent parties"
+        "no-visitors",
+        "trusted-only",
+        "cover-identity-only",
+        "open-door",
+        "professional-only"
       ],
       "lightPreferences": [
-        "bright",
-        "dim",
-        "natural",
-        "artificial",
-        "varied",
-        "blackout"
+        "bright-open",
+        "dark-closed",
+        "natural-light",
+        "artificial-only",
+        "views-avoided",
+        "views-required"
       ]
     },
     "aesthetics": {
@@ -10268,105 +10271,124 @@
     "types": [
       {
         "name": "Idealist",
-        "values": [
-          "justice",
-          "helping-people",
-          "moral-clarity"
-        ],
+        "values": ["justice", "helping-people", "moral-clarity"],
         "copingMechanism": "Rationalizes for the greater good",
         "breakingPoint": "Forced to harm innocents repeatedly",
-        "missionPreferences": [
-          "rescue",
-          "reform",
-          "investigation",
-          "peaceful-solutions"
-        ]
+        "missionPreferences": ["rescue", "reform", "investigation", "peaceful-solutions"]
       },
       {
         "name": "Pragmatist",
-        "values": [
-          "results",
-          "efficiency",
-          "practicality"
-        ],
+        "values": ["results", "efficiency", "practicality"],
         "copingMechanism": "Compartmentalizes: just the job",
         "breakingPoint": "Organization turns chaotic or ineffective",
-        "missionPreferences": [
-          "balanced-approach",
-          "whatever-works"
-        ]
+        "missionPreferences": ["balanced-approach", "whatever-works"]
       },
       {
         "name": "Cynical",
-        "values": [
-          "self-preservation",
-          "skepticism",
-          "personal-gain"
-        ],
+        "values": ["self-preservation", "skepticism", "personal-gain"],
         "copingMechanism": "Dark humor and emotional distance",
         "breakingPoint": "Betrayal by the organization",
-        "missionPreferences": [
-          "high-reward",
-          "personal-benefit"
-        ]
+        "missionPreferences": ["high-reward", "personal-benefit"]
       },
       {
         "name": "Zealot",
-        "values": [
-          "the-cause",
-          "ideological-purity",
-          "true-belief"
-        ],
+        "values": ["the-cause", "ideological-purity", "true-belief"],
         "copingMechanism": "Intensifies: we're not going far enough",
         "breakingPoint": "Organization compromises core ideology",
-        "missionPreferences": [
-          "direct-action",
-          "ideological-warfare",
-          "no-compromise"
-        ]
+        "missionPreferences": ["direct-action", "ideological-warfare", "no-compromise"]
       },
       {
         "name": "Professional",
-        "values": [
-          "excellence",
-          "reputation",
-          "craft-mastery"
-        ],
+        "values": ["excellence", "reputation", "craft-mastery"],
         "copingMechanism": "Focuses on craft excellence",
         "breakingPoint": "Incompetent leadership or pointless missions",
-        "missionPreferences": [
-          "high-skill",
-          "prestige-targets"
-        ]
+        "missionPreferences": ["high-skill", "prestige-targets"]
       },
       {
         "name": "Survivor",
-        "values": [
-          "safety",
-          "resource-security",
-          "adaptability"
-        ],
+        "values": ["safety", "resource-security", "adaptability"],
         "copingMechanism": "Stays ready to leave",
         "breakingPoint": "Organization becomes too dangerous",
-        "missionPreferences": [
-          "low-risk",
-          "resource-acquisition"
-        ]
+        "missionPreferences": ["low-risk", "resource-acquisition"]
       },
       {
         "name": "Ambitious",
-        "values": [
-          "status",
-          "power",
-          "advancement"
-        ],
+        "values": ["status", "power", "advancement"],
         "copingMechanism": "Frames everything as career leverage",
         "breakingPoint": "Blocked advancement or loss of status",
-        "missionPreferences": [
-          "high-visibility",
-          "leadership-opportunities"
-        ]
+        "missionPreferences": ["high-visibility", "leadership-opportunities"]
       }
+    ]
+  },
+  "skillsEvolution": {
+    "evolutionArcs": [
+      "protector",
+      "teacher",
+      "redeemed",
+      "hardened-killer",
+      "paranoid-mastermind",
+      "broken-idealist",
+      "adaptive-survivor",
+      "integrated-warrior"
+    ],
+    "skillFocuses": [
+      "combat-mastery",
+      "intelligence-expertise",
+      "social-manipulation",
+      "technical-problem-solving",
+      "medical-care",
+      "survival-endurance",
+      "leadership-command",
+      "counter-intelligence"
+    ],
+    "personalityShifts": [
+      "hardened",
+      "paranoid",
+      "nurturing",
+      "cynical",
+      "stoic",
+      "mentor-identity",
+      "guardian-instinct",
+      "risk-averse",
+      "risk-seeking",
+      "analytical",
+      "secretive",
+      "empathetic"
+    ],
+    "growthDrivers": [
+      "active-use",
+      "training",
+      "observation",
+      "teaching",
+      "failure-lessons"
+    ],
+    "decayPressures": [
+      "unused-skill-decay",
+      "age-physical-decline",
+      "injury-cap",
+      "burnout",
+      "role-shift"
+    ],
+    "timePhases": [
+      "rookie-phase",
+      "veteran-phase",
+      "old-guard-phase",
+      "experience-peak",
+      "physical-peak"
+    ],
+    "experienceTriggers": [
+      "first-kill",
+      "civilian-casualties",
+      "betrayal",
+      "deep-trust",
+      "love-found",
+      "loss-grief",
+      "successful-command",
+      "failed-leadership",
+      "long-term-stress",
+      "isolation",
+      "cultural-immersion",
+      "luxury-exposure"
     ]
   },
   "existenceCrises": {
@@ -11210,1312 +11232,294 @@
   },
   "timelineTemplates": {
     "childhood": [
-      {
-        "description": "Mother died in childbirth, father blamed them subtly",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Parents vanished one night, never explained",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Father executed as traitor, family shunned",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Mother left for new family, took favorite sibling",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Parents died in accident they caused by arguing",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Raised by grandmother who resented the burden",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Parent faked death, discovered alive years later",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Mother chose addiction over children",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Father imprisoned for crime he didn't commit",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Parents sold them to pay debts",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Older sibling drowned saving them",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Twin died at birth, parents never recovered",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Watched sibling slowly die from illness",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Sibling disappeared, became family obsession",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Blamed for sibling's accident unfairly",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Sibling became parents' obvious favorite",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Had to raise younger siblings alone",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Sibling betrayed family to authorities",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Competed for single scholarship, lost",
-        "type": "failure",
-        "impact": "negative"
-      },
-      {
-        "description": "Sibling's success overshadowed everything",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Found adoption papers in attic",
-        "type": "betrayal",
-        "impact": "mixed"
-      },
-      {
-        "description": "Overheard parent isn't biological",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered family's criminal history",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Learned about parent's other family",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Found suicide note never sent",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Realized family wealth was stolen",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Uncovered parent's war crimes",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Found evidence of sibling murder",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered they're from enemy bloodline",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Learned real name at age 15",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Teacher recognized genius, changed life",
-        "type": "education-milestone",
-        "impact": "positive"
-      },
-      {
-        "description": "Caught cheating, scholarship revoked",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Won competition through sabotage",
-        "type": "education-milestone",
-        "impact": "mixed"
-      },
-      {
-        "description": "Illiteracy hidden until age 14",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Photographic memory discovered accidentally",
-        "type": "education-milestone",
-        "impact": "positive"
-      },
-      {
-        "description": "Expelled for crime didn't commit",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Valedictorian speech caused riot",
-        "type": "education-milestone",
-        "impact": "mixed"
-      },
-      {
-        "description": "Failed exam, parent had heart attack",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Teacher's inappropriate attention",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Burned down school accidentally",
-        "type": "education-milestone",
-        "impact": "negative"
-      },
-      {
-        "description": "Best friend's betrayal for popularity",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Defended bullied kid, became target",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Started rumor that destroyed someone",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "First love was cruel joke",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Organized student resistance movement",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Accidentally killed bully in fight",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Saved classmates from shooter",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Entire class turned against them",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Popular until accent gave away origins",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Friendless due to parent's reputation",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Saw parent kill intruder",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Witnessed public execution at age 6",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Present during terrorist attack",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Watched mob burn neighbor alive",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Saw sibling tortured by authorities",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Witnessed parent's suicide attempt",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Present during home invasion",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Saw friend fall from building",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Watched pet killed as punishment",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Witnessed teacher's mental breakdown",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Kidnapped for three days at age 8",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Escaped trafficking attempt",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Survived murder attempt by parent",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Left to die in wilderness",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Poisoned by stepparent slowly",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Locked in basement for months",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Foster home abuse survivor",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Cult escape at age 12",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Child soldier for two years",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Medical experiments without consent",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Youngest ever to win regional championship",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Saved family from house fire",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Invented device that helped hundreds",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Child prodigy concert at age 10",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Published novel at age 14",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Discovered archaeological site playing",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Solved cold case by accident",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Started business supporting family",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Youngest union organizer in history",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Childhood painting now worth millions",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Testified against powerful criminal",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Stood up to corrupt official",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Refused to join gang despite threats",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Hid refugees in basement",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Stole medicine for dying friend",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Took blame to protect sibling",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Exposed teacher's abuse ring",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Led children to safety in disaster",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Faced down rabid dog to save baby",
-        "type": "success",
-        "impact": "positive"
-      },
-      {
-        "description": "Gave kidney to dying classmate",
-        "type": "success",
-        "impact": "positive"
-      }
+      { "description": "Mother died in childbirth, father blamed them subtly", "type": "family-crisis", "impact": "negative" },
+      { "description": "Parents vanished one night, never explained", "type": "family-crisis", "impact": "negative" },
+      { "description": "Father executed as traitor, family shunned", "type": "family-crisis", "impact": "negative" },
+      { "description": "Mother left for new family, took favorite sibling", "type": "family-crisis", "impact": "negative" },
+      { "description": "Parents died in accident they caused by arguing", "type": "family-crisis", "impact": "negative" },
+      { "description": "Raised by grandmother who resented the burden", "type": "family-crisis", "impact": "negative" },
+      { "description": "Parent faked death, discovered alive years later", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Mother chose addiction over children", "type": "family-crisis", "impact": "negative" },
+      { "description": "Father imprisoned for crime he didn't commit", "type": "family-crisis", "impact": "negative" },
+      { "description": "Parents sold them to pay debts", "type": "family-crisis", "impact": "negative" },
+
+      { "description": "Older sibling drowned saving them", "type": "loss", "impact": "negative" },
+      { "description": "Twin died at birth, parents never recovered", "type": "loss", "impact": "negative" },
+      { "description": "Watched sibling slowly die from illness", "type": "loss", "impact": "negative" },
+      { "description": "Sibling disappeared, became family obsession", "type": "loss", "impact": "negative" },
+      { "description": "Blamed for sibling's accident unfairly", "type": "loss", "impact": "negative" },
+      { "description": "Sibling became parents' obvious favorite", "type": "family-crisis", "impact": "negative" },
+      { "description": "Had to raise younger siblings alone", "type": "family-crisis", "impact": "negative" },
+      { "description": "Sibling betrayed family to authorities", "type": "betrayal", "impact": "negative" },
+      { "description": "Competed for single scholarship, lost", "type": "failure", "impact": "negative" },
+      { "description": "Sibling's success overshadowed everything", "type": "family-crisis", "impact": "negative" },
+
+      { "description": "Found adoption papers in attic", "type": "betrayal", "impact": "mixed" },
+      { "description": "Overheard parent isn't biological", "type": "betrayal", "impact": "negative" },
+      { "description": "Discovered family's criminal history", "type": "betrayal", "impact": "negative" },
+      { "description": "Learned about parent's other family", "type": "betrayal", "impact": "negative" },
+      { "description": "Found suicide note never sent", "type": "loss", "impact": "negative" },
+      { "description": "Realized family wealth was stolen", "type": "betrayal", "impact": "negative" },
+      { "description": "Uncovered parent's war crimes", "type": "betrayal", "impact": "negative" },
+      { "description": "Found evidence of sibling murder", "type": "betrayal", "impact": "negative" },
+      { "description": "Discovered they're from enemy bloodline", "type": "family-crisis", "impact": "negative" },
+      { "description": "Learned real name at age 15", "type": "family-crisis", "impact": "mixed" },
+
+      { "description": "Teacher recognized genius, changed life", "type": "education-milestone", "impact": "positive" },
+      { "description": "Caught cheating, scholarship revoked", "type": "education-milestone", "impact": "negative" },
+      { "description": "Won competition through sabotage", "type": "education-milestone", "impact": "mixed" },
+      { "description": "Illiteracy hidden until age 14", "type": "education-milestone", "impact": "negative" },
+      { "description": "Photographic memory discovered accidentally", "type": "education-milestone", "impact": "positive" },
+      { "description": "Expelled for crime didn't commit", "type": "education-milestone", "impact": "negative" },
+      { "description": "Valedictorian speech caused riot", "type": "education-milestone", "impact": "mixed" },
+      { "description": "Failed exam, parent had heart attack", "type": "education-milestone", "impact": "negative" },
+      { "description": "Teacher's inappropriate attention", "type": "education-milestone", "impact": "negative" },
+      { "description": "Burned down school accidentally", "type": "education-milestone", "impact": "negative" },
+
+      { "description": "Best friend's betrayal for popularity", "type": "betrayal", "impact": "negative" },
+      { "description": "Defended bullied kid, became target", "type": "betrayal", "impact": "negative" },
+      { "description": "Started rumor that destroyed someone", "type": "betrayal", "impact": "negative" },
+      { "description": "First love was cruel joke", "type": "romantic", "impact": "negative" },
+      { "description": "Organized student resistance movement", "type": "success", "impact": "positive" },
+      { "description": "Accidentally killed bully in fight", "type": "moral-injury", "impact": "negative" },
+      { "description": "Saved classmates from shooter", "type": "success", "impact": "positive" },
+      { "description": "Entire class turned against them", "type": "betrayal", "impact": "negative" },
+      { "description": "Popular until accent gave away origins", "type": "scandal", "impact": "negative" },
+      { "description": "Friendless due to parent's reputation", "type": "family-crisis", "impact": "negative" },
+
+      { "description": "Saw parent kill intruder", "type": "moral-injury", "impact": "negative" },
+      { "description": "Witnessed public execution at age 6", "type": "moral-injury", "impact": "negative" },
+      { "description": "Present during terrorist attack", "type": "moral-injury", "impact": "negative" },
+      { "description": "Watched mob burn neighbor alive", "type": "moral-injury", "impact": "negative" },
+      { "description": "Saw sibling tortured by authorities", "type": "moral-injury", "impact": "negative" },
+      { "description": "Witnessed parent's suicide attempt", "type": "loss", "impact": "negative" },
+      { "description": "Present during home invasion", "type": "injury", "impact": "negative" },
+      { "description": "Saw friend fall from building", "type": "loss", "impact": "negative" },
+      { "description": "Watched pet killed as punishment", "type": "loss", "impact": "negative" },
+      { "description": "Witnessed teacher's mental breakdown", "type": "moral-injury", "impact": "negative" },
+
+      { "description": "Kidnapped for three days at age 8", "type": "injury", "impact": "negative" },
+      { "description": "Escaped trafficking attempt", "type": "injury", "impact": "negative" },
+      { "description": "Survived murder attempt by parent", "type": "injury", "impact": "negative" },
+      { "description": "Left to die in wilderness", "type": "injury", "impact": "negative" },
+      { "description": "Poisoned by stepparent slowly", "type": "injury", "impact": "negative" },
+      { "description": "Locked in basement for months", "type": "injury", "impact": "negative" },
+      { "description": "Foster home abuse survivor", "type": "injury", "impact": "negative" },
+      { "description": "Cult escape at age 12", "type": "injury", "impact": "negative" },
+      { "description": "Child soldier for two years", "type": "moral-injury", "impact": "negative" },
+      { "description": "Medical experiments without consent", "type": "injury", "impact": "negative" },
+
+      { "description": "Youngest ever to win regional championship", "type": "success", "impact": "positive" },
+      { "description": "Saved family from house fire", "type": "success", "impact": "positive" },
+      { "description": "Invented device that helped hundreds", "type": "success", "impact": "positive" },
+      { "description": "Child prodigy concert at age 10", "type": "success", "impact": "positive" },
+      { "description": "Published novel at age 14", "type": "success", "impact": "positive" },
+      { "description": "Discovered archaeological site playing", "type": "success", "impact": "positive" },
+      { "description": "Solved cold case by accident", "type": "success", "impact": "positive" },
+      { "description": "Started business supporting family", "type": "success", "impact": "positive" },
+      { "description": "Youngest union organizer in history", "type": "success", "impact": "positive" },
+      { "description": "Childhood painting now worth millions", "type": "success", "impact": "positive" },
+
+      { "description": "Testified against powerful criminal", "type": "success", "impact": "positive" },
+      { "description": "Stood up to corrupt official", "type": "success", "impact": "positive" },
+      { "description": "Refused to join gang despite threats", "type": "success", "impact": "positive" },
+      { "description": "Hid refugees in basement", "type": "success", "impact": "positive" },
+      { "description": "Stole medicine for dying friend", "type": "success", "impact": "positive" },
+      { "description": "Took blame to protect sibling", "type": "success", "impact": "positive" },
+      { "description": "Exposed teacher's abuse ring", "type": "success", "impact": "positive" },
+      { "description": "Led children to safety in disaster", "type": "success", "impact": "positive" },
+      { "description": "Faced down rabid dog to save baby", "type": "success", "impact": "positive" },
+      { "description": "Gave kidney to dying classmate", "type": "success", "impact": "positive" }
     ],
     "youngAdult": [
-      {
-        "description": "Fired day one for honesty",
-        "type": "failure",
-        "impact": "negative"
-      },
-      {
-        "description": "Boss died suspiciously, blamed",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Accidentally destroyed company database",
-        "type": "failure",
-        "impact": "negative"
-      },
-      {
-        "description": "Whistleblew, industry blacklisted",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Success led to mentor's suicide",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Promoted over lover, relationship ended",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "First patient died from their mistake",
-        "type": "failure",
-        "impact": "negative"
-      },
-      {
-        "description": "Invention stolen by employer",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Falsely accused of embezzlement",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Work accident killed coworkers",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Rapid success brought family resentment",
-        "type": "success",
-        "impact": "mixed"
-      },
-      {
-        "description": "Media attention ruined private life",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Success built on hidden lie",
-        "type": "success",
-        "impact": "mixed"
-      },
-      {
-        "description": "Mentor claimed credit for everything",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Competitors destroyed reputation",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Success cost best friend's career",
-        "type": "success",
-        "impact": "mixed"
-      },
-      {
-        "description": "Government seized breakthrough research",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Early retirement due to threats",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Success attracted dangerous attention",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Wealth brought family parasites",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Fiancé died week before wedding",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered partner's double life",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Left at altar, very publicly",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse amnesia forgot entire relationship",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Partner chose career over them",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Love interest was undercover agent",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Arranged marriage to enemy's child",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Pregnancy ended relationship",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Partner's family forced separation",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Lover framed them for murder",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Best friend slept with spouse",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Friend sold secrets to competitor",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Trusted ally was always spy",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Friend's addiction destroyed both lives",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Betrayed resistance to save friend",
-        "type": "betrayal",
-        "impact": "mixed"
-      },
-      {
-        "description": "Friend's success poisoned relationship",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered friend killed their parent",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Friend chose cult over friendship",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Business partnership ended violently",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Friend's lie cost everything",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Learned they're intersection of enemies",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered they have terminal gene",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Found out they're clone/twin",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Realized attracted to same gender",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Discovered they're heir to throne",
-        "type": "career-break",
-        "impact": "mixed"
-      },
-      {
-        "description": "Learned their whole history was lie",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Found they have different abilities",
-        "type": "career-break",
-        "impact": "mixed"
-      },
-      {
-        "description": "Discovered they're last of kind",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Realized they were experiment subject",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Found they're prophesied destroyer",
-        "type": "career-break",
-        "impact": "mixed"
-      },
-      {
-        "description": "First kill changed everything",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Chose money over friend's life",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Covered up accidental death",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Betrayed principles for love",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Let innocent person take blame",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Tortured someone for information",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Saved enemy, lost allies",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Refused order, comrades died",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Took credit for dead friend's work",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Stayed silent during injustice",
-        "type": "moral-injury",
-        "impact": "negative"
-      }
+      { "description": "Fired day one for honesty", "type": "failure", "impact": "negative" },
+      { "description": "Boss died suspiciously, blamed", "type": "scandal", "impact": "negative" },
+      { "description": "Accidentally destroyed company database", "type": "failure", "impact": "negative" },
+      { "description": "Whistleblew, industry blacklisted", "type": "scandal", "impact": "negative" },
+      { "description": "Success led to mentor's suicide", "type": "loss", "impact": "negative" },
+      { "description": "Promoted over lover, relationship ended", "type": "romantic", "impact": "negative" },
+      { "description": "First patient died from their mistake", "type": "failure", "impact": "negative" },
+      { "description": "Invention stolen by employer", "type": "betrayal", "impact": "negative" },
+      { "description": "Falsely accused of embezzlement", "type": "scandal", "impact": "negative" },
+      { "description": "Work accident killed coworkers", "type": "loss", "impact": "negative" },
+
+      { "description": "Rapid success brought family resentment", "type": "success", "impact": "mixed" },
+      { "description": "Media attention ruined private life", "type": "scandal", "impact": "negative" },
+      { "description": "Success built on hidden lie", "type": "success", "impact": "mixed" },
+      { "description": "Mentor claimed credit for everything", "type": "betrayal", "impact": "negative" },
+      { "description": "Competitors destroyed reputation", "type": "scandal", "impact": "negative" },
+      { "description": "Success cost best friend's career", "type": "success", "impact": "mixed" },
+      { "description": "Government seized breakthrough research", "type": "scandal", "impact": "negative" },
+      { "description": "Early retirement due to threats", "type": "career-break", "impact": "negative" },
+      { "description": "Success attracted dangerous attention", "type": "scandal", "impact": "negative" },
+      { "description": "Wealth brought family parasites", "type": "family-crisis", "impact": "negative" },
+
+      { "description": "Fiancé died week before wedding", "type": "romantic", "impact": "negative" },
+      { "description": "Discovered partner's double life", "type": "romantic", "impact": "negative" },
+      { "description": "Left at altar, very publicly", "type": "romantic", "impact": "negative" },
+      { "description": "Spouse amnesia forgot entire relationship", "type": "romantic", "impact": "negative" },
+      { "description": "Partner chose career over them", "type": "romantic", "impact": "negative" },
+      { "description": "Love interest was undercover agent", "type": "romantic", "impact": "negative" },
+      { "description": "Arranged marriage to enemy's child", "type": "romantic", "impact": "mixed" },
+      { "description": "Pregnancy ended relationship", "type": "romantic", "impact": "negative" },
+      { "description": "Partner's family forced separation", "type": "romantic", "impact": "negative" },
+      { "description": "Lover framed them for murder", "type": "betrayal", "impact": "negative" },
+
+      { "description": "Best friend slept with spouse", "type": "betrayal", "impact": "negative" },
+      { "description": "Friend sold secrets to competitor", "type": "betrayal", "impact": "negative" },
+      { "description": "Trusted ally was always spy", "type": "betrayal", "impact": "negative" },
+      { "description": "Friend's addiction destroyed both lives", "type": "loss", "impact": "negative" },
+      { "description": "Betrayed resistance to save friend", "type": "betrayal", "impact": "mixed" },
+      { "description": "Friend's success poisoned relationship", "type": "betrayal", "impact": "negative" },
+      { "description": "Discovered friend killed their parent", "type": "betrayal", "impact": "negative" },
+      { "description": "Friend chose cult over friendship", "type": "betrayal", "impact": "negative" },
+      { "description": "Business partnership ended violently", "type": "betrayal", "impact": "negative" },
+      { "description": "Friend's lie cost everything", "type": "betrayal", "impact": "negative" },
+
+      { "description": "Learned they're intersection of enemies", "type": "family-crisis", "impact": "negative" },
+      { "description": "Discovered they have terminal gene", "type": "injury", "impact": "negative" },
+      { "description": "Found out they're clone/twin", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Realized attracted to same gender", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Discovered they're heir to throne", "type": "career-break", "impact": "mixed" },
+      { "description": "Learned their whole history was lie", "type": "family-crisis", "impact": "negative" },
+      { "description": "Found they have different abilities", "type": "career-break", "impact": "mixed" },
+      { "description": "Discovered they're last of kind", "type": "family-crisis", "impact": "negative" },
+      { "description": "Realized they were experiment subject", "type": "family-crisis", "impact": "negative" },
+      { "description": "Found they're prophesied destroyer", "type": "career-break", "impact": "mixed" },
+
+      { "description": "First kill changed everything", "type": "moral-injury", "impact": "negative" },
+      { "description": "Chose money over friend's life", "type": "moral-injury", "impact": "negative" },
+      { "description": "Covered up accidental death", "type": "moral-injury", "impact": "negative" },
+      { "description": "Betrayed principles for love", "type": "moral-injury", "impact": "negative" },
+      { "description": "Let innocent person take blame", "type": "moral-injury", "impact": "negative" },
+      { "description": "Tortured someone for information", "type": "moral-injury", "impact": "negative" },
+      { "description": "Saved enemy, lost allies", "type": "moral-injury", "impact": "negative" },
+      { "description": "Refused order, comrades died", "type": "moral-injury", "impact": "negative" },
+      { "description": "Took credit for dead friend's work", "type": "moral-injury", "impact": "negative" },
+      { "description": "Stayed silent during injustice", "type": "moral-injury", "impact": "negative" }
     ],
     "midAge": [
-      {
-        "description": "Protégé stole life's work",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Company destroyed their reputation",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Forced to fire entire team",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Research used for genocide",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Years of work proved worthless",
-        "type": "failure",
-        "impact": "negative"
-      },
-      {
-        "description": "Rival sabotaged major project",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Promotion required terrible compromise",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered employer's evil purpose",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Scapegoated for industry collapse",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Life's work made illegal overnight",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Asked to falsify safety data",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Ordered to deny life-saving treatment",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Pressured to betray whistleblower",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Forced to choose between employees",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered product kills people",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Had to fire pregnant employee",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Bribed to ignore violations",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Blackmailed into cooperation",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Asked to spy on colleagues",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Ordered to destroy evidence",
-        "type": "moral-injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Child joined enemy organization",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered child isn't biologically theirs",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Child exposed family secrets publicly",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Had to choose between children",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Child's addiction destroyed family",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Disowned child for their choices",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Child disappeared without trace",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Child committed terrible crime",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Child married family enemy",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Child revealed parent's crimes",
-        "type": "family-crisis",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse developed different values",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Infidelity discovered after decades",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse's mental illness emerged",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Financial ruin from spouse's gambling",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse became political opposite",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Discovered spouse's secret family",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse's crime implicated them",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Ideology split destroyed marriage",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse chose religion over family",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Violence entered marriage suddenly",
-        "type": "romantic",
-        "impact": "negative"
-      },
-      {
-        "description": "Cancer diagnosis changed priorities",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Accident left partially paralyzed",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Genetic condition finally manifested",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Stress caused heart attack at 41",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Lost sight/hearing suddenly",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Brain injury changed personality",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Addiction nearly killed them",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Suicide attempt failed barely",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Mystery illness no one believes",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Surgery went catastrophically wrong",
-        "type": "injury",
-        "impact": "negative"
-      },
-      {
-        "description": "Child's terminal diagnosis",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse's slow cognitive decline",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Parent's suffering they must manage",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Sibling needs organ donation",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Family genetic curse appears",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Child's accident they caused",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Spouse's addiction destroying all",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Parent refuses life-saving treatment",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Family member's suicide attempt",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Hereditary condition in children",
-        "type": "loss",
-        "impact": "negative"
-      }
+      { "description": "Protégé stole life's work", "type": "betrayal", "impact": "negative" },
+      { "description": "Company destroyed their reputation", "type": "scandal", "impact": "negative" },
+      { "description": "Forced to fire entire team", "type": "family-crisis", "impact": "negative" },
+      { "description": "Research used for genocide", "type": "moral-injury", "impact": "negative" },
+      { "description": "Years of work proved worthless", "type": "failure", "impact": "negative" },
+      { "description": "Rival sabotaged major project", "type": "betrayal", "impact": "negative" },
+      { "description": "Promotion required terrible compromise", "type": "moral-injury", "impact": "negative" },
+      { "description": "Discovered employer's evil purpose", "type": "moral-injury", "impact": "negative" },
+      { "description": "Scapegoated for industry collapse", "type": "scandal", "impact": "negative" },
+      { "description": "Life's work made illegal overnight", "type": "career-break", "impact": "negative" },
+
+      { "description": "Asked to falsify safety data", "type": "moral-injury", "impact": "negative" },
+      { "description": "Ordered to deny life-saving treatment", "type": "moral-injury", "impact": "negative" },
+      { "description": "Pressured to betray whistleblower", "type": "moral-injury", "impact": "negative" },
+      { "description": "Forced to choose between employees", "type": "moral-injury", "impact": "negative" },
+      { "description": "Discovered product kills people", "type": "moral-injury", "impact": "negative" },
+      { "description": "Had to fire pregnant employee", "type": "moral-injury", "impact": "negative" },
+      { "description": "Bribed to ignore violations", "type": "moral-injury", "impact": "negative" },
+      { "description": "Blackmailed into cooperation", "type": "moral-injury", "impact": "negative" },
+      { "description": "Asked to spy on colleagues", "type": "betrayal", "impact": "negative" },
+      { "description": "Ordered to destroy evidence", "type": "moral-injury", "impact": "negative" },
+
+      { "description": "Child joined enemy organization", "type": "family-crisis", "impact": "negative" },
+      { "description": "Discovered child isn't biologically theirs", "type": "family-crisis", "impact": "negative" },
+      { "description": "Child exposed family secrets publicly", "type": "family-crisis", "impact": "negative" },
+      { "description": "Had to choose between children", "type": "family-crisis", "impact": "negative" },
+      { "description": "Child's addiction destroyed family", "type": "family-crisis", "impact": "negative" },
+      { "description": "Disowned child for their choices", "type": "family-crisis", "impact": "negative" },
+      { "description": "Child disappeared without trace", "type": "loss", "impact": "negative" },
+      { "description": "Child committed terrible crime", "type": "family-crisis", "impact": "negative" },
+      { "description": "Child married family enemy", "type": "family-crisis", "impact": "negative" },
+      { "description": "Child revealed parent's crimes", "type": "family-crisis", "impact": "negative" },
+
+      { "description": "Spouse developed different values", "type": "romantic", "impact": "negative" },
+      { "description": "Infidelity discovered after decades", "type": "romantic", "impact": "negative" },
+      { "description": "Spouse's mental illness emerged", "type": "romantic", "impact": "negative" },
+      { "description": "Financial ruin from spouse's gambling", "type": "romantic", "impact": "negative" },
+      { "description": "Spouse became political opposite", "type": "romantic", "impact": "negative" },
+      { "description": "Discovered spouse's secret family", "type": "romantic", "impact": "negative" },
+      { "description": "Spouse's crime implicated them", "type": "romantic", "impact": "negative" },
+      { "description": "Ideology split destroyed marriage", "type": "romantic", "impact": "negative" },
+      { "description": "Spouse chose religion over family", "type": "romantic", "impact": "negative" },
+      { "description": "Violence entered marriage suddenly", "type": "romantic", "impact": "negative" },
+
+      { "description": "Cancer diagnosis changed priorities", "type": "injury", "impact": "negative" },
+      { "description": "Accident left partially paralyzed", "type": "injury", "impact": "negative" },
+      { "description": "Genetic condition finally manifested", "type": "injury", "impact": "negative" },
+      { "description": "Stress caused heart attack at 41", "type": "injury", "impact": "negative" },
+      { "description": "Lost sight/hearing suddenly", "type": "injury", "impact": "negative" },
+      { "description": "Brain injury changed personality", "type": "injury", "impact": "negative" },
+      { "description": "Addiction nearly killed them", "type": "injury", "impact": "negative" },
+      { "description": "Suicide attempt failed barely", "type": "injury", "impact": "negative" },
+      { "description": "Mystery illness no one believes", "type": "injury", "impact": "negative" },
+      { "description": "Surgery went catastrophically wrong", "type": "injury", "impact": "negative" },
+
+      { "description": "Child's terminal diagnosis", "type": "loss", "impact": "negative" },
+      { "description": "Spouse's slow cognitive decline", "type": "loss", "impact": "negative" },
+      { "description": "Parent's suffering they must manage", "type": "loss", "impact": "negative" },
+      { "description": "Sibling needs organ donation", "type": "loss", "impact": "negative" },
+      { "description": "Family genetic curse appears", "type": "loss", "impact": "negative" },
+      { "description": "Child's accident they caused", "type": "loss", "impact": "negative" },
+      { "description": "Spouse's addiction destroying all", "type": "loss", "impact": "negative" },
+      { "description": "Parent refuses life-saving treatment", "type": "loss", "impact": "negative" },
+      { "description": "Family member's suicide attempt", "type": "loss", "impact": "negative" },
+      { "description": "Hereditary condition in children", "type": "loss", "impact": "negative" }
     ],
     "laterLife": [
-      {
-        "description": "Company being sold to rival",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Research being weaponized",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Protégé perverting teachings",
-        "type": "betrayal",
-        "impact": "negative"
-      },
-      {
-        "description": "Legacy being rewritten by enemies",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Children selling life's work",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Government seizing archives",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Reputation systematically destroyed",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Work attributed to others",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Principles abandoned by followers",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Creation used against values",
-        "type": "scandal",
-        "impact": "negative"
-      },
-      {
-        "description": "Children fighting over inheritance",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "No worthy successor found",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Chosen heir proved corrupt",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Forced to choose unprepared successor",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Rival positioned to take over",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Board forcing early retirement",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Health forcing sudden transition",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Successor died unexpectedly",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Organization splitting over succession",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Dark horse challenger emerging",
-        "type": "career-break",
-        "impact": "negative"
-      },
-      {
-        "description": "Former rival now dying, seeks peace",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Enemy's child asks for truth",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Chance meeting after 40 years",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Mutual grandchildren force interaction",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Crisis requires old enemies cooperate",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Deathbed confession changes everything",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Children dating brings enemies together",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Shared loss softens old hatred",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Truth about conflict finally emerges",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Forced to share nursing home",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Estranged child returns needing help",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Sibling reaches out after decades",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Parent thought dead appears",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Given up child finds them",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Ex-spouse dying, wants closure",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Grandchild seeks truth about past",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Family gathering for funeral",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "DNA test reveals unknown relatives",
-        "type": "family-crisis",
-        "impact": "mixed"
-      },
-      {
-        "description": "Childhood friend reappears changed",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "First love widowed, reconnects",
-        "type": "romantic",
-        "impact": "mixed"
-      },
-      {
-        "description": "Confession ruins family's image",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Refuses reconciliation to end",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Names unexpected heir from spite",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Reveals location of hidden fortune",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Finally tells truth about past",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Dies before revealing crucial secret",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Last words curse specific person",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Forgives ancient enemy publicly",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Distributes evidence from deathbed",
-        "type": "loss",
-        "impact": "negative"
-      },
-      {
-        "description": "Dies protecting terrible secret",
-        "type": "loss",
-        "impact": "negative"
-      }
+      { "description": "Company being sold to rival", "type": "scandal", "impact": "negative" },
+      { "description": "Research being weaponized", "type": "scandal", "impact": "negative" },
+      { "description": "Protégé perverting teachings", "type": "betrayal", "impact": "negative" },
+      { "description": "Legacy being rewritten by enemies", "type": "scandal", "impact": "negative" },
+      { "description": "Children selling life's work", "type": "scandal", "impact": "negative" },
+      { "description": "Government seizing archives", "type": "scandal", "impact": "negative" },
+      { "description": "Reputation systematically destroyed", "type": "scandal", "impact": "negative" },
+      { "description": "Work attributed to others", "type": "scandal", "impact": "negative" },
+      { "description": "Principles abandoned by followers", "type": "scandal", "impact": "negative" },
+      { "description": "Creation used against values", "type": "scandal", "impact": "negative" },
+
+      { "description": "Children fighting over inheritance", "type": "career-break", "impact": "negative" },
+      { "description": "No worthy successor found", "type": "career-break", "impact": "negative" },
+      { "description": "Chosen heir proved corrupt", "type": "career-break", "impact": "negative" },
+      { "description": "Forced to choose unprepared successor", "type": "career-break", "impact": "negative" },
+      { "description": "Rival positioned to take over", "type": "career-break", "impact": "negative" },
+      { "description": "Board forcing early retirement", "type": "career-break", "impact": "negative" },
+      { "description": "Health forcing sudden transition", "type": "career-break", "impact": "negative" },
+      { "description": "Successor died unexpectedly", "type": "loss", "impact": "negative" },
+      { "description": "Organization splitting over succession", "type": "career-break", "impact": "negative" },
+      { "description": "Dark horse challenger emerging", "type": "career-break", "impact": "negative" },
+
+      { "description": "Former rival now dying, seeks peace", "type": "romantic", "impact": "mixed" },
+      { "description": "Enemy's child asks for truth", "type": "romantic", "impact": "mixed" },
+      { "description": "Chance meeting after 40 years", "type": "romantic", "impact": "mixed" },
+      { "description": "Mutual grandchildren force interaction", "type": "romantic", "impact": "mixed" },
+      { "description": "Crisis requires old enemies cooperate", "type": "romantic", "impact": "mixed" },
+      { "description": "Deathbed confession changes everything", "type": "romantic", "impact": "mixed" },
+      { "description": "Children dating brings enemies together", "type": "romantic", "impact": "mixed" },
+      { "description": "Shared loss softens old hatred", "type": "romantic", "impact": "mixed" },
+      { "description": "Truth about conflict finally emerges", "type": "romantic", "impact": "mixed" },
+      { "description": "Forced to share nursing home", "type": "romantic", "impact": "mixed" },
+
+      { "description": "Estranged child returns needing help", "type": "romantic", "impact": "mixed" },
+      { "description": "Sibling reaches out after decades", "type": "romantic", "impact": "mixed" },
+      { "description": "Parent thought dead appears", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Given up child finds them", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Ex-spouse dying, wants closure", "type": "romantic", "impact": "mixed" },
+      { "description": "Grandchild seeks truth about past", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Family gathering for funeral", "type": "loss", "impact": "negative" },
+      { "description": "DNA test reveals unknown relatives", "type": "family-crisis", "impact": "mixed" },
+      { "description": "Childhood friend reappears changed", "type": "romantic", "impact": "mixed" },
+      { "description": "First love widowed, reconnects", "type": "romantic", "impact": "mixed" },
+
+      { "description": "Confession ruins family's image", "type": "loss", "impact": "negative" },
+      { "description": "Refuses reconciliation to end", "type": "loss", "impact": "negative" },
+      { "description": "Names unexpected heir from spite", "type": "loss", "impact": "negative" },
+      { "description": "Reveals location of hidden fortune", "type": "loss", "impact": "negative" },
+      { "description": "Finally tells truth about past", "type": "loss", "impact": "negative" },
+      { "description": "Dies before revealing crucial secret", "type": "loss", "impact": "negative" },
+      { "description": "Last words curse specific person", "type": "loss", "impact": "negative" },
+      { "description": "Forgives ancient enemy publicly", "type": "loss", "impact": "negative" },
+      { "description": "Distributes evidence from deathbed", "type": "loss", "impact": "negative" },
+      { "description": "Dies protecting terrible secret", "type": "loss", "impact": "negative" }
     ]
   },
   "knowledgeIgnorance": {

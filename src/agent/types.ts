@@ -643,6 +643,15 @@ export type AgentVocabV1 = {
       missionPreferences: string[];
     }>;
   };
+  skillsEvolution?: {
+    evolutionArcs?: string[];
+    skillFocuses?: string[];
+    personalityShifts?: string[];
+    growthDrivers?: string[];
+    decayPressures?: string[];
+    timePhases?: string[];
+    experienceTriggers?: string[];
+  };
   existenceCrises?: {
     types?: Array<{
       name: string;
@@ -886,6 +895,16 @@ export type DecisionTendency = {
 
 export type DecisionStyleResult = {
   tendencies: DecisionTendency[];
+};
+
+export type SkillsEvolutionSnapshot = {
+  arc: string;
+  phase: string;
+  skillFocuses: string[];
+  growthDriver: string;
+  personalityShifts: string[];
+  decayPressure: string;
+  trigger: string;
 };
 
 export type PhysicalDetailCategory =
@@ -1585,6 +1604,9 @@ export type GeneratedAgent = {
 
   // Decision style - tendency templates
   decisionStyle: DecisionStyleResult;
+
+  // Skills/personality evolution snapshot
+  skillsEvolution: SkillsEvolutionSnapshot;
 
   // Physical details - memorable appearance markers
   physicalDetails: PhysicalDetailItem[];

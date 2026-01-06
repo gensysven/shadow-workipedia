@@ -321,6 +321,54 @@ function run(): void {
     'preferences.livingSpace.lightPreferences',
   );
 
+  console.log('Checking skills evolution vocab...');
+  const skillsEvolution = (vocab as any).skillsEvolution as
+    | {
+      evolutionArcs?: string[];
+      skillFocuses?: string[];
+      personalityShifts?: string[];
+      growthDrivers?: string[];
+      decayPressures?: string[];
+      timePhases?: string[];
+      experienceTriggers?: string[];
+    }
+    | undefined;
+  assertIncludes(
+    skillsEvolution?.evolutionArcs,
+    'protector',
+    'skillsEvolution.evolutionArcs',
+  );
+  assertIncludes(
+    skillsEvolution?.skillFocuses,
+    'combat-mastery',
+    'skillsEvolution.skillFocuses',
+  );
+  assertIncludes(
+    skillsEvolution?.personalityShifts,
+    'hardened',
+    'skillsEvolution.personalityShifts',
+  );
+  assertIncludes(
+    skillsEvolution?.growthDrivers,
+    'training',
+    'skillsEvolution.growthDrivers',
+  );
+  assertIncludes(
+    skillsEvolution?.decayPressures,
+    'unused-skill-decay',
+    'skillsEvolution.decayPressures',
+  );
+  assertIncludes(
+    skillsEvolution?.timePhases,
+    'rookie-phase',
+    'skillsEvolution.timePhases',
+  );
+  assertIncludes(
+    skillsEvolution?.experienceTriggers,
+    'first-kill',
+    'skillsEvolution.experienceTriggers',
+  );
+
   console.log('Checking detail generation vocab...');
   const detailGeneration = (vocab as any).detailGeneration as
     | {
@@ -808,6 +856,38 @@ function run(): void {
   }
   if (!agentLivingSpace?.lightPreference) {
     throw new Error('Expected preferences.livingSpace.lightPreference to be generated.');
+  }
+  const evolutionSnapshot = (agent as any).skillsEvolution as
+    | {
+      arc?: string;
+      phase?: string;
+      skillFocuses?: string[];
+      growthDriver?: string;
+      personalityShifts?: string[];
+      decayPressure?: string;
+      trigger?: string;
+    }
+    | undefined;
+  if (!evolutionSnapshot?.arc) {
+    throw new Error('Expected skillsEvolution.arc to be generated.');
+  }
+  if (!evolutionSnapshot?.phase) {
+    throw new Error('Expected skillsEvolution.phase to be generated.');
+  }
+  if (!evolutionSnapshot?.skillFocuses?.length) {
+    throw new Error('Expected skillsEvolution.skillFocuses to be generated.');
+  }
+  if (!evolutionSnapshot?.growthDriver) {
+    throw new Error('Expected skillsEvolution.growthDriver to be generated.');
+  }
+  if (!evolutionSnapshot?.personalityShifts?.length) {
+    throw new Error('Expected skillsEvolution.personalityShifts to be generated.');
+  }
+  if (!evolutionSnapshot?.decayPressure) {
+    throw new Error('Expected skillsEvolution.decayPressure to be generated.');
+  }
+  if (!evolutionSnapshot?.trigger) {
+    throw new Error('Expected skillsEvolution.trigger to be generated.');
   }
   const agentDetails = (agent as any).details as
     | Array<{ category?: string; item?: string }>

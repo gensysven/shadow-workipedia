@@ -554,6 +554,19 @@ function renderAgent(
     `
     : `<div class="agent-inline-muted">—</div>`;
 
+  const skillsEvolution = agent.skillsEvolution;
+  const evolutionValue = (value?: string) => (
+    value ? escapeHtml(toTitleCaseWords(value)) : `<span class="agent-inline-muted">—</span>`
+  );
+  const renderEvolutionPills = (items?: string[]) => (
+    items && items.length
+      ? `<span class="agent-pill-wrap agent-pill-wrap-left">${items.map(item => `<span class="pill pill-muted">${escapeHtml(toTitleCaseWords(item))}</span>`).join('')}</span>`
+      : `<span class="agent-inline-muted">—</span>`
+  );
+  const evolutionHint = skillsEvolution?.arc && skillsEvolution?.phase
+    ? `${toTitleCaseWords(skillsEvolution.arc)} · ${toTitleCaseWords(skillsEvolution.phase)}`
+    : '—';
+
   const aptitudePairs = ([
     ['Strength', apt.strength],
     ['Endurance', apt.endurance],
@@ -1157,6 +1170,24 @@ function renderAgent(
                   <span>Skill</span><span>Band</span><span>Value</span>
                 </div>
                 <div class="agent-skill-list">${skillRows}</div>
+              </div>
+            </details>
+
+            <details class="agent-card agent-section" data-agents-details="profile:capabilities:evolution" ${isDetailsOpen('profile:capabilities:evolution', true) ? 'open' : ''}>
+              <summary class="agent-section-summary">
+                <span class="agent-section-title">Skills evolution</span>
+                <span class="agent-section-hint">${escapeHtml(evolutionHint)}</span>
+              </summary>
+              <div class="agent-section-body">
+                <div class="agent-kv">
+                  <div class="kv-row"><span class="kv-k">Arc</span><span class="kv-v">${skillsEvolution ? evolutionValue(skillsEvolution.arc) : `<span class="agent-inline-muted">—</span>`}</span></div>
+                  <div class="kv-row"><span class="kv-k">Phase</span><span class="kv-v">${skillsEvolution ? evolutionValue(skillsEvolution.phase) : `<span class="agent-inline-muted">—</span>`}</span></div>
+                  <div class="kv-row"><span class="kv-k">Focus</span><span class="kv-v">${renderEvolutionPills(skillsEvolution?.skillFocuses)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Shifts</span><span class="kv-v">${renderEvolutionPills(skillsEvolution?.personalityShifts)}</span></div>
+                  <div class="kv-row"><span class="kv-k">Growth driver</span><span class="kv-v">${skillsEvolution ? evolutionValue(skillsEvolution.growthDriver) : `<span class="agent-inline-muted">—</span>`}</span></div>
+                  <div class="kv-row"><span class="kv-k">Decay pressure</span><span class="kv-v">${skillsEvolution ? evolutionValue(skillsEvolution.decayPressure) : `<span class="agent-inline-muted">—</span>`}</span></div>
+                  <div class="kv-row"><span class="kv-k">Trigger</span><span class="kv-v">${skillsEvolution ? evolutionValue(skillsEvolution.trigger) : `<span class="agent-inline-muted">—</span>`}</span></div>
+                </div>
               </div>
             </details>
 
