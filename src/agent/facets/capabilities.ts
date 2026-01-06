@@ -60,10 +60,14 @@ export type CapabilitiesContext = {
   latents: Latents;
   roleSeedTags: readonly string[];
   tierBand: TierBand;
+  // Agent age for trait modifiers
+  age: number;
   // Appearance tags that influence aptitudes
   buildTag: string;
   heightBand: HeightBand;
   voiceTag: string;
+  // Education track for cognitive aptitude biases (correlates #E1/#E2)
+  educationTrackTag: string;
   // Career context for skill bonuses
   careerTrackTag: string;
   // Security environment for skill modifiers
@@ -110,6 +114,7 @@ export function computeCapabilities(ctx: CapabilitiesContext): CapabilitiesResul
     buildTag: ctx.buildTag,
     heightBand: ctx.heightBand,
     voiceTag: ctx.voiceTag,
+    educationTrackTag: ctx.educationTrackTag,
   });
 
   if (trace) {
@@ -130,10 +135,10 @@ export function computeCapabilities(ctx: CapabilitiesContext): CapabilitiesResul
 
   // Compute traits (needed for skills)
   traceFacet(trace, seed, 'psych_traits');
-  const traits = computeTraits(seed, aptitudes, ctx.latents);
+  const traits = computeTraits(seed, aptitudes, ctx.latents, ctx.age);
   traceSet(trace, 'psych.traits', traits, {
     method: 'formula',
-    dependsOn: { facet: 'psych_traits', latents: ctx.latents, aptitudes },
+    dependsOn: { facet: 'psych_traits', latents: ctx.latents, aptitudes, age: ctx.age },
   });
 
   // Compute skills
@@ -150,6 +155,7 @@ export function computeCapabilities(ctx: CapabilitiesContext): CapabilitiesResul
     voiceTag: ctx.voiceTag,
     securityEnv01k: ctx.securityEnv01k,
     travelScore: ctx.travelScore,
+    age: ctx.age,
   });
 
   if (trace && voiceSkillBiases.length) {

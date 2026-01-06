@@ -38,6 +38,8 @@ export type SkillsContext = {
   voiceTag: string;
   securityEnv01k: SecurityEnv01k | null;
   travelScore: Fixed;
+  /** Agent's age for experience multiplier */
+  age: number;
 };
 
 export type SkillsResult = {
@@ -58,8 +60,12 @@ export type SkillsResult = {
 export function computeSkills(ctx: SkillsContext): SkillsResult {
   const {
     seed, vocab, aptitudes, traits, latents, roleSeedTags,
-    tierBand, careerTrackTag, voiceTag, securityEnv01k, travelScore,
+    tierBand, careerTrackTag, voiceTag, securityEnv01k, travelScore, age,
   } = ctx;
+
+  // Age-based experience multiplier: older agents have accumulated more XP
+  // +1.5% per year over 25, capped at 60% bonus at age 65
+  const ageExpMultiplier = 1 + Math.max(0, Math.min(0.60, (age - 25) * 0.015));
 
   const skillRng = makeRng(facetSeed(seed, 'skills'));
 
@@ -94,8 +100,9 @@ export function computeSkills(ctx: SkillsContext): SkillsResult {
       conflictEnv01k, stateViolenceEnv01k, securityPressure01k,
     });
 
-    // Compute XP based on value
-    const xp = clampFixed01k(clampInt(Math.round((value / 1000) * 520) + skillRng.int(0, 180), 0, 500));
+    // Compute XP based on value with age multiplier (older agents have more experience)
+    const baseXp = Math.round((value / 1000) * 520) + skillRng.int(0, 180);
+    const xp = clampFixed01k(clampInt(Math.round(baseXp * ageExpMultiplier), 0, 500));
 
     skills[k] = { value, xp, lastUsedDay: null };
   }

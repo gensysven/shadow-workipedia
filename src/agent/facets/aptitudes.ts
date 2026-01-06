@@ -48,6 +48,8 @@ export type AptitudesContext = {
   buildTag: string;
   heightBand: HeightBand;
   voiceTag: string;
+  /** Education track for cognitive aptitude biases (correlates #E1/#E2) */
+  educationTrackTag?: string;
 };
 
 export type AptitudesResult = {
@@ -108,6 +110,12 @@ export function computeAptitudes(ctx: AptitudesContext): AptitudesResult {
   bumpApt('strength', conditioningDelta, 'physicalConditioning');
   bumpApt('endurance', Math.round((conditioning01 - 0.5) * 70), 'physicalConditioning');
 
+  // Correlate #HL3: Endurance ↔ Stress Reactivity (negative)
+  // Chronic stress depletes physical reserves, reducing endurance
+  const stress01 = latents.stressReactivity / 1000;
+  const stressEndurancePenalty = Math.round((stress01 - 0.5) * -80);
+  bumpApt('endurance', stressEndurancePenalty, 'stressReactivity:#HL3');
+
   // Build tag influences
   const buildKey = buildTag.toLowerCase();
   const muscular = ['muscular', 'athletic', 'broad-shouldered', 'brawny', 'barrel-chested', 'sturdy', 'solid'];
@@ -144,6 +152,28 @@ export function computeAptitudes(ctx: AptitudesContext): AptitudesResult {
   if (voiceTag === 'fast-talking') {
     bumpApt('charisma', capRng.int(10, 30), `voice:${voiceTag}`);
     bumpApt('attentionControl', -capRng.int(0, 20), `voice:${voiceTag}`);
+  }
+
+  // Correlates #E1/#E2: Education ↔ Cognitive Aptitudes
+  // Higher education correlates with stronger cognitive aptitudes (practice, training, selection)
+  const educationTrackTag = ctx.educationTrackTag ?? 'secondary';
+  const educationCognitiveBias = (() => {
+    switch (educationTrackTag) {
+      case 'doctorate': return 150;
+      case 'graduate': return 100;
+      case 'undergraduate': return 50;
+      case 'military-academy': return 30;
+      case 'civil-service-track': return 20;
+      case 'trade-certification': return -10;
+      case 'secondary': return -40;
+      case 'self-taught': return -20; // Slightly above secondary (self-directed learning)
+      default: return 0;
+    }
+  })();
+  if (educationCognitiveBias !== 0) {
+    bumpApt('cognitiveSpeed', educationCognitiveBias, `education:${educationTrackTag}`);
+    bumpApt('workingMemory', educationCognitiveBias, `education:${educationTrackTag}`);
+    bumpApt('attentionControl', Math.round(educationCognitiveBias * 0.6), `education:${educationTrackTag}`);
   }
 
   return { aptitudes, biases };

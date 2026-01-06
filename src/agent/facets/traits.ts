@@ -31,14 +31,20 @@ export type PsychTraits = {
  * @param seed - Agent seed string
  * @param aptitudes - Computed aptitudes
  * @param latents - Latent trait values
+ * @param age - Agent's current age (affects conscientiousness)
  * @returns Psychological trait values
  */
 export function computeTraits(
   seed: string,
   aptitudes: Aptitudes,
   latents: Latents,
+  age: number,
 ): PsychTraits {
   const traitRng = makeRng(facetSeed(seed, 'psych_traits'));
+
+  // Age bonus for conscientiousness: +3 per year over 25, capped at +120 (age 65)
+  // Research shows conscientiousness increases with age throughout adulthood
+  const ageBonus = Math.max(0, Math.min(120, (age - 25) * 3));
 
   return {
     riskTolerance: clampFixed01k(
@@ -47,9 +53,10 @@ export function computeTraits(
       0.30 * traitRng.int(0, 1000)
     ),
     conscientiousness: clampFixed01k(
-      0.55 * aptitudes.attentionControl +
-      0.25 * latents.opsecDiscipline +
-      0.20 * traitRng.int(0, 1000)
+      0.50 * aptitudes.attentionControl +
+      0.22 * latents.opsecDiscipline +
+      0.18 * traitRng.int(0, 1000) +
+      ageBonus
     ),
     noveltySeeking: clampFixed01k(
       0.55 * aptitudes.cognitiveSpeed +
