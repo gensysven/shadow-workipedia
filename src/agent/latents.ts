@@ -191,6 +191,16 @@ export function computeLatents(
     return -240;
   })();
 
+  // Correlate #NEW12: Age ↔ Publicness (positive)
+  // Older people have built more public presence/reputation over time
+  const agePublicBias = (() => {
+    if (age < 25) return -60; // Young: low public presence
+    if (age < 35) return 0;   // Building presence
+    if (age < 45) return 40;  // Established
+    if (age < 55) return 80;  // Peak visibility
+    return 60;                // Retirement reduces public role slightly
+  })();
+
   const raw: Record<keyof Latents, Fixed> = {
     cosmopolitanism: clampFixed01k(rng.int(0, 1000)),
     publicness: clampFixed01k(rng.int(0, 1000)),
@@ -255,7 +265,7 @@ export function computeLatents(
   // People who maintain strict operational security avoid public exposure
   // Apply negative correlation: high opsec reduces publicness, high publicness reduces opsec
   const baseOpsec = raw.opsecDiscipline + tierBias.opsecDiscipline + roleBias.opsecDiscipline;
-  const basePublic = raw.publicness + tierBias.publicness + roleBias.publicness;
+  const basePublic = raw.publicness + tierBias.publicness + roleBias.publicness + agePublicBias; // #NEW12
   // Cross-suppression: each high value suppresses the other
   // Scale factor: 0.25 means if one is at 1000, it reduces the other by ~250
   const opsecSuppression = Math.round(0.25 * Math.max(0, basePublic - 500));
@@ -312,6 +322,128 @@ export function computeLatents(
       raw.physicalConditioning + tierBias.physicalConditioning + roleBias.physicalConditioning,
     ),
   };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DETERMINISTIC CAPS (Post-hoc hard limits on implausible combinations)
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // Deterministic Cap DC1: Stress Reactivity ↔ Impulse Control (Negative)
+  // High stress reactivity impairs self-regulation; cap impulse control when stressed
+  if (values.stressReactivity > 700) {
+    values.impulseControl = Math.min(values.impulseControl, 600) as Fixed;
+  }
+
+  // Deterministic Cap DC2: Risk Appetite ↔ Planning Horizon (Negative)
+  // Risk-takers think short-term; long planners are conservative
+  // If both are high, reduce planning horizon (risk-taking dominates)
+  if (values.riskAppetite > 700 && values.planningHorizon > 700) {
+    values.planningHorizon = 550 as Fixed;
+  }
+
+  // Deterministic Cap DC4: Publicness ↔ Impulse Control (Positive cap)
+  // Public figures must maintain appearance of control; constant scandals from
+  // low impulse control would destroy public reputation
+  if (values.publicness > 700 && values.impulseControl < 400) {
+    values.impulseControl = 450 as Fixed;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // TRAIT COHERENCE CORRELATES (Latent-to-Latent)
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // DC3: High adaptability incompatible with high planningHorizon
+  // Highly adaptive people react to circumstances; rigid long-term planners resist change
+  if (values.adaptability > 750 && values.planningHorizon > 700) {
+    values.planningHorizon = 550 as Fixed;
+  }
+
+  // DC5: High opsecDiscipline caps socialBattery
+  // Maintaining strict operational security is exhausting and limits social interactions
+  if (values.opsecDiscipline > 800) {
+    values.socialBattery = Math.min(values.socialBattery, 650) as Fixed;
+  }
+
+  // DC6: High frugality caps aestheticExpressiveness
+  // Frugal people don't spend on aesthetic expression; they prioritize function over form
+  if (values.frugality > 800) {
+    values.aestheticExpressiveness = Math.min(values.aestheticExpressiveness, 550) as Fixed;
+  }
+
+  // DC8: High stressReactivity caps opsecDiscipline
+  // Stress impairs discipline; highly reactive people make operational security mistakes
+  if (values.stressReactivity > 750) {
+    values.opsecDiscipline = Math.min(values.opsecDiscipline, 600) as Fixed;
+  }
+
+  // DC9: Both very high curiosity and opsec → reduce opsec
+  // Curious people want to explore/share; this clashes with strict operational security
+  if (values.curiosityBandwidth > 800 && values.opsecDiscipline > 700) {
+    values.opsecDiscipline = (values.opsecDiscipline - 150) as Fixed;
+  }
+
+  // DC11: High principledness caps adaptability
+  // Principled people have firm convictions that limit their willingness to adapt/compromise
+  if (values.principledness > 800) {
+    values.adaptability = Math.min(values.adaptability, 600) as Fixed;
+  }
+
+  // DC12: Bidirectional cap between riskAppetite and frugality
+  // Risk-takers spend freely; frugal people avoid risks. These traits are psychologically opposed
+  if (values.riskAppetite > 800) {
+    values.frugality = Math.min(values.frugality, 550) as Fixed;
+  }
+  if (values.frugality > 800) {
+    values.riskAppetite = Math.min(values.riskAppetite, 550) as Fixed;
+  }
+
+  // DC13: Age > 50 → publicness floor of 200
+  // Older people have established public presence/reputation built over decades
+  if (age > 50 && values.publicness < 200) {
+    values.publicness = 200 as Fixed;
+  }
+
+  // DC14: Very high opsecDiscipline → publicness cap at 400
+  // Extreme operational security requires avoiding public exposure
+  if (values.opsecDiscipline > 850) {
+    values.publicness = Math.min(values.publicness, 400) as Fixed;
+  }
+
+  // DC15: Very high publicness → opsecDiscipline cap at 400
+  // Public figures cannot maintain extreme secrecy; their lives are too exposed
+  if (values.publicness > 850) {
+    values.opsecDiscipline = Math.min(values.opsecDiscipline, 400) as Fixed;
+  }
+
+  // DC16: Role (as career proxy) → publicness adjustment
+  // Public-facing roles (media, diplomat) require public presence
+  // Covert roles (operative, security) require limiting exposure
+  if (role.has('media') || role.has('diplomat')) {
+    // Public-facing career: publicness floor of 400
+    if (values.publicness < 400) {
+      values.publicness = 400 as Fixed;
+    }
+  }
+  if (role.has('operative') || role.has('security')) {
+    // Covert career: publicness cap of 500
+    values.publicness = Math.min(values.publicness, 500) as Fixed;
+  }
+
+  // DC17: Elite tier → publicness floor of 300
+  // Elites have inherent visibility from wealth, influence, and social position
+  if (tierBand === 'elite' && values.publicness < 300) {
+    values.publicness = 300 as Fixed;
+  }
+
+  // DC18: Very high stressReactivity → planningHorizon cap at 500
+  // High stress shortens planning focus; reactive people struggle with long-term thinking
+  if (values.stressReactivity > 800) {
+    values.planningHorizon = Math.min(values.planningHorizon, 500) as Fixed;
+  }
+
+  // DC19: Very high riskAppetite + low opsecDiscipline = high-risk profile
+  // Risk-taking without security discipline is dangerous (documented for downstream use)
+  // Note: This combination is flagged but not corrected - it represents a real personality type
+  // const isHighRiskProfile = values.riskAppetite > 800 && values.opsecDiscipline < 300;
 
   return { values, raw, tierBias, roleBias };
 }

@@ -1033,6 +1033,15 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
+  // Cross-Facet Correlate: DC20 - Conscientiousness → OpsecDiscipline Floor
+  // ─────────────────────────────────────────────────────────────────────────
+  // Conscientious people maintain basic security hygiene even if not trained
+  // This is a cross-facet adjustment since conscientiousness is computed after latents
+  if (capabilitiesResult.traits.conscientiousness > 800 && latents.opsecDiscipline < 350) {
+    latents.opsecDiscipline = 350 as Fixed;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Phase 9: Psychology
   // ─────────────────────────────────────────────────────────────────────────
   const psychologyResult = computePsychology({
@@ -1204,6 +1213,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     principledness01: latents.principledness / 1000,
     adaptability01: latents.adaptability / 1000,
     conscientiousness01: capabilitiesResult.traits.conscientiousness / 1000,
+    viceTendency01: viceTendency / 1000, // #NEW1: Vice ↔ Relationship Stability (derived)
+    risk01, // #NEW1: Raw input for relationship hostility
+    impulseControl01: latents.impulseControl / 1000, // #NEW1: Raw input for relationship hostility
     aptitudes: {
       deceptionAptitude: capabilitiesResult.aptitudes.deceptionAptitude,
       cognitiveSpeed: capabilitiesResult.aptitudes.cognitiveSpeed,
@@ -1340,6 +1352,22 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   // ─────────────────────────────────────────────────────────────────────────
   // Phase 13: Narrative
   // ─────────────────────────────────────────────────────────────────────────
+  // NAR-5: Compute security score for narrative correlate
+  // Security score is inverse of conflict/violence (high security = safe area)
+  // Average of (1000 - conflict) and (1000 - stateViolence), weighted more toward conflict
+  const securityScore01k = securityEnv01kBlended
+    ? clampFixed01k(Math.round(0.6 * (1000 - securityEnv01kBlended.conflict) + 0.4 * (1000 - securityEnv01kBlended.stateViolence)))
+    : 500; // Default to medium security if no data
+
+  // NAR-14/NAR-17: Compute hasFamily for narrative correlates
+  const narrativeHasFamily = socialResult.family.maritalStatus !== 'single' || socialResult.family.dependentCount > 0;
+
+  // NAR-15: Compute hasConflictExposure from security environment
+  // High conflict level (>500) indicates conflict exposure
+  const hasConflictExposure = securityEnv01kBlended
+    ? securityEnv01kBlended.conflict > 500
+    : false;
+
   const narrativeResult = computeNarrative({
     seed,
     vocab,
@@ -1359,6 +1387,9 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
     urbanicity: socialResult.geography.urbanicity,
     originRegion: socialResult.geography.originRegion,
     diasporaStatus: socialResult.geography.diasporaStatus,
+    securityScore01k, // NAR-5: Security score for persecution events
+    hasFamily: narrativeHasFamily, // NAR-14/NAR-17: Family status for timeline correlates
+    hasConflictExposure, // NAR-15: Conflict exposure from geography
     trace,
   });
 
@@ -2600,6 +2631,33 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
   traceSet(trace, 'deceptionSkill', deceptionSkill, { method: 'computed', dependsOn: { deceptionAptitude: baseDeception, roleSeedTags } });
 
   // ─────────────────────────────────────────────────────────────────────────
+  // #HL7: Trauma → Coping correlation
+  // Agents with trauma tags should have more recovery rituals
+  // ─────────────────────────────────────────────────────────────────────────
+  const traumaTagCount = lifestyleResult.memoryTrauma.traumaTags.length;
+  let finalRecoveryRituals = [...preferencesResult.routines.recoveryRituals];
+  if (traumaTagCount > 0 && finalRecoveryRituals.length < 3) {
+    // Add an extra recovery ritual for agents with trauma
+    const ritualPool = vocab.routines.recoveryRituals ?? [];
+    const availableRituals = ritualPool.filter(r => !finalRecoveryRituals.includes(r));
+    if (availableRituals.length > 0) {
+      const hl7Rng = makeRng(facetSeed(seed, 'hl7_trauma_coping'));
+      const extraRitual = availableRituals[hl7Rng.int(0, availableRituals.length - 1)]!;
+      finalRecoveryRituals.push(extraRitual);
+      traceSet(trace, 'routines.HL7.repair', {
+        reason: 'trauma tags increase coping ritual count',
+        traumaTagCount,
+        addedRitual: extraRitual,
+      }, { method: 'correlateEnforcement' });
+    }
+  }
+  // Update the routines with the potentially expanded recovery rituals
+  const finalRoutines = {
+    ...preferencesResult.routines,
+    recoveryRituals: finalRecoveryRituals,
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────
   // Assemble final agent
   // ─────────────────────────────────────────────────────────────────────────
   traceFacet(trace, seed, 'created_at');
@@ -2684,7 +2742,7 @@ export function generateAgent(input: GenerateAgentInput): GeneratedAgent {
       coverAptitudeTags: psychologyResult.coverAptitudeTags,
     },
     mobility: lifestyleResult.mobility,
-    routines: preferencesResult.routines,
+    routines: finalRoutines,
     vices: lifestyleResult.vices,
     dependencyProfiles: lifestyleResult.dependencyProfiles,
     logistics: lifestyleResult.logistics,

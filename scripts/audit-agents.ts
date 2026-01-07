@@ -66,6 +66,30 @@ type Implausibility = {
   details: Record<string, unknown>;
 };
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Constraint Validation Types (for plausibility gates and hard constraints)
+// ═══════════════════════════════════════════════════════════════════════════
+
+type ConstraintCheck = {
+  id: string;
+  name: string;
+  type: 'plausibility-gate' | 'age-gate' | 'hard-constraint' | 'threshold';
+  check: (agent: GeneratedAgent, metrics: AgentMetricsExtended) => boolean; // true = passed, false = violated
+  expectedViolationRate: number; // 0 for hard constraints, small % for soft gates
+};
+
+type ConstraintResult = {
+  id: string;
+  name: string;
+  type: string;
+  totalChecked: number;
+  violations: number;
+  violationRate: number;
+  expectedRate: number;
+  status: 'passed' | 'warning' | 'failed';
+  examples: string[]; // seeds of first few violations
+};
+
 type CorrelateResult = {
   id: string;
   name: string;
@@ -93,6 +117,10 @@ type AuditReport = {
     agentsWithErrors: number;
     totalErrors: number;
     errorsByType: Record<string, number>;
+    correlatesVerified: number;
+    correlatesTotal: number;
+    constraintsPassed: number;
+    constraintsTotal: number;
   };
   narrationErrors: NarrationError[];
   typeErrors: TypeError[];
@@ -102,6 +130,7 @@ type AuditReport = {
     documented: CorrelateResult[];
     spurious: SpuriousResult[];
   };
+  constraintValidation: ConstraintResult[];
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -171,7 +200,10 @@ const BANNED_PATTERNS: BannedPattern[] = [
   },
   {
     name: 'triple-and',
-    regex: /(?<![a-z-])\band\b(?![a-z-])[^.]*(?<![a-z-])\band\b(?![a-z-])[^.]*(?<![a-z-])\band\b(?![a-z-])/i,
+    // Match three "and"s in a single clause, but exclude:
+    // - hyphenated compounds like "salt-and-pepper" (lookbehind/lookahead for hyphen or letter)
+    // - ISO3 country codes like "(AND)" (lookbehind for open paren)
+    regex: /(?<![a-z-])(?<!\()and(?![-a-z])(?!\))[^.]*(?<![a-z-])(?<!\()and(?![-a-z])(?!\))[^.]*(?<![a-z-])(?<!\()and(?![-a-z])(?!\))/i,
     description: 'Triple "and" in single clause (food list issue)',
   },
   // Additional patterns
@@ -328,6 +360,153 @@ const DOCUMENTED_CORRELATES = [
   { id: '#B1', name: 'Conscientiousness ↔ Petty Habits', vars: ['conscientiousness', 'pettyHabitScore'], expected: 'positive' as const },
   { id: '#B2', name: 'Third Places ↔ Civic Engagement', vars: ['thirdPlacesCount', 'civicEngagementNumeric'], expected: 'positive' as const },
   { id: '#B3', name: 'Physical Conditioning ↔ Active Hobbies', vars: ['physicalConditioning', 'activeHobbyCount'], expected: 'positive' as const },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // NEW CORRELATES (2026-01-06)
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // Phase 1: Preferences
+  { id: '#NEW6', name: 'Cosmopolitanism ↔ Dietary Adventurousness', vars: ['cosmopolitanism', 'cuisineCount'], expected: 'positive' as const },
+  { id: '#NEW7', name: 'Frugality ↔ Fashion Status Signaling', vars: ['frugality', 'statusSignaling'], expected: 'negative' as const },
+  { id: '#NEW8', name: 'Social Battery ↔ Social Media Usage', vars: ['socialBattery', 'socialMediaIntensity'], expected: 'positive' as const },
+  { id: '#NEW14', name: 'Stress Reactivity ↔ Coping Ritual Count', vars: ['stressReactivity', 'copingRitualCount'], expected: 'positive' as const },
+  { id: '#NEW16', name: 'Agreeableness ↔ Fashion Conformity', vars: ['agreeableness', 'fashionConformity'], expected: 'positive' as const },
+  { id: '#NEW23', name: 'Institutional Embeddedness ↔ Hobby Conformity', vars: ['institutionalEmbeddedness', 'hobbyMainstreamScore'], expected: 'positive' as const },
+
+  // Phase 2: Social/Lifestyle/Domestic
+  // #NEW1 uses relationshipHostility (computed from risk, conscientiousness, impulse control)
+  // instead of viceTendency to avoid the publicness confound
+  { id: '#NEW1', name: 'Relationship Hostility ↔ Relationship Count', vars: ['relationshipHostility', 'relationshipCount'], expected: 'negative' as const },
+  { id: '#NEW2', name: 'Institutional Embeddedness ↔ Housing Stability', vars: ['institutionalEmbeddedness', 'housingStabilityNumeric'], expected: 'positive' as const },
+  { id: '#NEW5', name: 'Conscientiousness ↔ Vice Count', vars: ['conscientiousness', 'viceCount'], expected: 'negative' as const },
+  { id: '#NEW9', name: 'Deception ↔ Community Status', vars: ['deception', 'communityStatusNumeric'], expected: 'negative' as const },
+  { id: '#NEW11', name: 'Principledness ↔ Broker Role', vars: ['principledness', 'isBroker'], expected: 'negative' as const },
+  { id: '#NEW15', name: 'Adaptability ↔ Home Orderliness', vars: ['adaptability', 'homeOrderliness'], expected: 'negative' as const },
+
+  // Phase 3: Deterministic Gates
+  { id: '#NEW10', name: 'Diaspora ↔ Linguistic Minority', vars: ['isDiaspora', 'linguisticMinority'], expected: 'positive' as const },
+  { id: '#NEW33', name: 'High Opsec ↔ Not Hub/Gatekeeper', vars: ['opsecDiscipline', 'isHubOrGatekeeper'], expected: 'negative' as const },
+
+  // Phase 4: Cross-Domain
+  { id: '#NEW12', name: 'Age ↔ Publicness', vars: ['age', 'publicness'], expected: 'positive' as const },
+  { id: '#NEW17', name: 'Tier ↔ Network Role', vars: ['tierNumeric', 'networkRoleNumeric'], expected: 'positive' as const },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EXPANDED CORRELATES (2026-01-06) - From CORRELATES.md catalog
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Trait Caps (traits.ts) - DC-T series
+  { id: '#DC-T1', name: 'Risk ↔ Conscientiousness', vars: ['riskTolerance', 'conscientiousness'], expected: 'negative' as const },
+  { id: '#DC-T2', name: 'Novelty ↔ Authoritarianism', vars: ['noveltySeeking', 'authoritarianism'], expected: 'negative' as const },
+  { id: '#DC-T5', name: 'Age → Novelty Seeking', vars: ['age', 'noveltySeeking'], expected: 'negative' as const },
+  { id: '#DC-T6', name: 'Cosmopolitanism → Authoritarianism', vars: ['cosmopolitanism', 'authoritarianism'], expected: 'negative' as const },
+  { id: '#DC-T7', name: 'Stress → Conscientiousness', vars: ['stressReactivity', 'conscientiousness'], expected: 'negative' as const },
+  { id: '#DC-T12', name: 'Adaptability → Authoritarianism', vars: ['adaptability', 'authoritarianism'], expected: 'negative' as const },
+  { id: '#PG-T1', name: 'Authoritarianism → Conscientiousness Floor', vars: ['authoritarianism', 'conscientiousness'], expected: 'positive' as const },
+
+  // Latent Caps (latents.ts) - DC series
+  { id: '#DC3', name: 'Adaptability ↔ Planning', vars: ['adaptability', 'planningHorizon'], expected: 'negative' as const },
+  { id: '#DC5', name: 'Opsec → Social Battery', vars: ['opsecDiscipline', 'socialBattery'], expected: 'negative' as const },
+  { id: '#DC6', name: 'Frugality → Aesthetic', vars: ['frugality', 'aestheticExpressiveness'], expected: 'negative' as const },
+  { id: '#DC8', name: 'Stress → Opsec', vars: ['stressReactivity', 'opsecDiscipline'], expected: 'negative' as const },
+  { id: '#DC11', name: 'Principledness → Adaptability', vars: ['principledness', 'adaptability'], expected: 'negative' as const },
+  { id: '#DC12', name: 'Risk ↔ Frugality', vars: ['riskAppetite', 'frugality'], expected: 'negative' as const },
+
+  // Skill Caps (skills.ts) - DC-SK series
+  { id: '#DC-SK1', name: 'Attention → Surveillance', vars: ['attentionControl', 'surveillanceSkill'], expected: 'positive' as const },
+  { id: '#DC-SK2', name: 'Memory → Bureaucracy', vars: ['workingMemory', 'bureaucracySkill'], expected: 'positive' as const },
+  { id: '#DC-SK3', name: 'Reflexes → Driving', vars: ['reflexes', 'drivingSkill'], expected: 'positive' as const },
+  { id: '#DC-SK4', name: 'Stress → Shooting', vars: ['stressReactivity', 'shootingSkill'], expected: 'negative' as const },
+  { id: '#DC-SK5', name: 'Charisma → Media', vars: ['charisma', 'mediaHandlingSkill'], expected: 'positive' as const },
+  { id: '#DC7', name: 'Impulse → Tradecraft', vars: ['impulseControl', 'tradecraftSkill'], expected: 'positive' as const },
+
+  // Aptitude Interdependencies (aptitudes.ts) - PA series
+  { id: '#PA1', name: 'Dexterity → Hand-Eye', vars: ['dexterity', 'handEyeCoordination'], expected: 'positive' as const },
+  { id: '#PA2', name: 'CogSpeed → Memory', vars: ['cognitiveSpeed', 'workingMemory'], expected: 'positive' as const },
+  { id: '#PA4', name: 'Strength → Endurance', vars: ['strength', 'endurance'], expected: 'positive' as const },
+  { id: '#PA6', name: 'Age → CogSpeed', vars: ['age', 'cognitiveSpeed'], expected: 'negative' as const },
+  { id: '#PA7', name: 'Reflexes → CogSpeed', vars: ['reflexes', 'cognitiveSpeed'], expected: 'positive' as const },
+  { id: '#PA11', name: 'Conditioning → Endurance', vars: ['physicalConditioning', 'endurance'], expected: 'positive' as const },
+  // DISABLED: PG7 is a plausibility gate (cap), not a linear correlation
+  // It's validated via CONSTRAINT_CHECKS instead. The positive r=0.225 is a spurious correlation
+  // from shared upstream factors (charisma → both empathy and deception aptitudes)
+  // { id: '#PG7', name: 'Empathy ↔ Deception', vars: ['empathy', 'deception'], expected: 'negative' as const },
+
+  // Preference Coherence (preferences.ts)
+  // Fields are social.groupStyle, social.boundary, time.planningStyle
+  { id: '#DC-SOCIAL-GROUP', name: 'Social Battery → Group Style', vars: ['socialBattery', 'groupStyleNumeric'], expected: 'positive' as const },
+  { id: '#DC-BOUNDARY', name: 'Opsec → Boundaries', vars: ['opsecDiscipline', 'boundaryStrengthNumeric'], expected: 'positive' as const },
+  { id: '#DC-PLANNING', name: 'Conscientiousness → Planning Style', vars: ['conscientiousness', 'planningStyleNumeric'], expected: 'positive' as const },
+  // { id: '#DC-NOVELTY-COMFORT', name: 'Novelty → Comfort Foods', vars: ['noveltySeeking', 'comfortFoodAdventureScore'], expected: 'positive' as const },
+
+  // Social Constraints (social.ts)
+  { id: '#NEW36', name: 'Diaspora → Communities', vars: ['isDiaspora', 'communityCount'], expected: 'positive' as const },
+  { id: '#NEW39', name: 'Marital → Housing', vars: ['isMarried', 'housingStabilityNumeric'], expected: 'positive' as const },
+
+  // Domestic Constraints (domestic.ts)
+  // DISABLED: weeklySchedule.hasAnchor not yet generated
+  // { id: '#DC-D3', name: 'Dependents → Schedule', vars: ['dependentCount', 'hasWeeklyAnchor'], expected: 'positive' as const },
+  { id: '#DC-D7', name: 'Frugality → Neighborhood', vars: ['frugality', 'neighborhoodQualityNumeric'], expected: 'negative' as const },
+  { id: '#DC-D11', name: 'Stress → Home Order', vars: ['stressReactivity', 'homeOrderliness'], expected: 'negative' as const },
+  // DISABLED: commuteMode doesn't have bicycle-specific field
+  // { id: '#DC-D12', name: 'Conditioning → Bicycle Commute', vars: ['physicalConditioning', 'hasBicycleCommute'], expected: 'positive' as const },
+
+  // Health/Lifestyle (lifestyle.ts)
+  // #HL7 implemented in generator.ts via post-hoc repair
+  { id: '#HL7', name: 'Trauma → Coping', vars: ['traumaTagCount', 'copingRitualCount'], expected: 'positive' as const },
+  { id: '#HL13', name: 'Tier → Treatment Quality', vars: ['tierNumeric', 'treatmentQualityNumeric'], expected: 'positive' as const },
+
+  // Narrative (narrative.ts)
+  // NOTE: #NAR-1 and #NAR-3 are DISABLED because timeline.events doesn't exist on generated agents.
+  // { id: '#NAR-1', name: 'Age → Event Count', vars: ['age', 'timelineEventCount'], expected: 'positive' as const },
+  // { id: '#NAR-3', name: 'Adversity → Negative Events', vars: ['adversityTagCount', 'negativeEventCount'], expected: 'positive' as const },
+  { id: '#NAR-9', name: 'Diaspora → Visible Minority', vars: ['isDiaspora', 'isVisibleMinority'], expected: 'positive' as const },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ADDITIONAL CORRELATES FROM CORRELATES.md (2026-01-07)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Trait Caps (traits.ts) - Additional DC-T series
+  { id: '#DC-T3', name: 'Agreeableness ↔ Risk', vars: ['agreeableness', 'riskTolerance'], expected: 'negative' as const },
+  { id: '#DC-T8', name: 'Social Battery ↔ Agreeableness', vars: ['socialBattery', 'agreeableness'], expected: 'positive' as const },
+  { id: '#PG-T2', name: 'Opsec ↔ Novelty', vars: ['opsecDiscipline', 'noveltySeeking'], expected: 'negative' as const },
+
+  // Latent Caps (latents.ts) - Additional DC series
+  { id: '#DC9', name: 'Curiosity ↔ Opsec', vars: ['curiosityBandwidth', 'opsecDiscipline'], expected: 'negative' as const },
+
+  // Aptitude Interdependencies (aptitudes.ts) - Additional PA series
+  { id: '#PA3', name: 'RiskCalc → Attention', vars: ['riskAppetite', 'attentionControl'], expected: 'positive' as const },
+  { id: '#PA5', name: 'Memory → Attention', vars: ['workingMemory', 'attentionControl'], expected: 'positive' as const },
+  { id: '#PA8', name: 'Age → Reflexes', vars: ['age', 'reflexes'], expected: 'negative' as const },
+  { id: '#PA10', name: 'Stress → Attention', vars: ['stressReactivity', 'attentionControl'], expected: 'negative' as const },
+  { id: '#PG8', name: 'Assertiveness ↔ Charisma', vars: ['authoritarianism', 'charisma'], expected: 'positive' as const },
+  { id: '#PG9', name: 'Empathy → Charisma', vars: ['empathy', 'charisma'], expected: 'positive' as const },
+  { id: '#PG10', name: 'Build → Strength', vars: ['buildNumeric', 'strength'], expected: 'positive' as const },
+
+  // Preference Coherence (preferences.ts) - Additional
+  { id: '#DC-CHRONO', name: 'Conscientiousness → Chronotype', vars: ['conscientiousness', 'isEarlyBird'], expected: 'positive' as const },
+  { id: '#DC-NOVELTY-COMFORT', name: 'Novelty → Comfort Foods', vars: ['noveltySeeking', 'comfortFoodAdventureScore'], expected: 'positive' as const },
+
+  // Social Constraints (social.ts) - Additional NEW series
+  { id: '#NEW34', name: 'Elite + Age → Marriage', vars: ['tierNumeric', 'isMarried'], expected: 'positive' as const },
+  { id: '#NEW37', name: 'Social Battery → Leverage', vars: ['socialBattery', 'hasLeverage'], expected: 'positive' as const },
+  { id: '#NEW40', name: 'Tier + Age → Community Status', vars: ['tierNumeric', 'communityStatusNumeric'], expected: 'positive' as const },
+  { id: '#NEW44', name: 'Age → Widowhood', vars: ['age', 'isWidowed'], expected: 'positive' as const },
+  { id: '#NEW45', name: 'Urbanicity → Online Community', vars: ['urbanicityNumeric', 'hasOnlineCommunity'], expected: 'negative' as const },
+
+  // Domestic Constraints (domestic.ts) - Additional DC-D series
+  { id: '#DC-D5', name: 'Neighborhood → Privacy', vars: ['neighborhoodQualityNumeric', 'privacyNumeric'], expected: 'positive' as const },
+  { id: '#DC-D10', name: 'Elite → Privacy', vars: ['tierNumeric', 'privacyNumeric'], expected: 'positive' as const },
+  { id: '#DC-D13', name: 'Impulse → Legal Exposure', vars: ['impulseControl', 'legalExposureNumeric'], expected: 'negative' as const },
+
+  // Health/Lifestyle (lifestyle.ts) - Additional HL series
+  { id: '#HL6', name: 'Age → Diagnosis', vars: ['age', 'isUndiagnosed'], expected: 'positive' as const },
+  { id: '#HL11', name: 'Age → Vice Type', vars: ['age', 'hasTraditionalVice'], expected: 'positive' as const },
+  { id: '#HL12', name: 'Observance → Resilience', vars: ['religiosity', 'resilienceNumeric'], expected: 'positive' as const },
+
+  // Probabilistic Enhancements (PR series)
+  { id: '#PR1', name: 'Stress → Negotiation Penalty', vars: ['stressReactivity', 'negotiationSkill'], expected: 'negative' as const },
+  { id: '#PR4', name: 'Reflexes → Hand-Eye', vars: ['reflexes', 'handEyeCoordination'], expected: 'positive' as const },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -564,6 +743,7 @@ type AgentMetrics = {
   // Social/Network (Category B)
   dependentCount: number;
   relationshipCount: number;
+  relationshipHostility: number; // #NEW1: computed from risk, conscientiousness, impulse control
 
   // Housing/Domestic (Category C)
   householdSize: number;
@@ -833,6 +1013,12 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     dependentCount,
     // Correlate #N4: actual relationships array from social.ts
     relationshipCount: agent.relationships?.length ?? 0,
+    // #NEW1: Relationship hostility - computed from raw inputs to avoid publicness confound
+    // Formula matches social.ts: 0.4*risk + 0.3*(1-conscientiousness) + 0.3*(1-impulseControl)
+    relationshipHostility:
+      0.4 * ((latents?.riskAppetite ?? 500) / 1000) +
+      0.3 * (1 - conscientiousness / 1000) +
+      0.3 * (1 - (latents?.impulseControl ?? 500) / 1000),
 
     // Housing/Domestic (Category C)
     // Compute household size from family status (matches housing weight inputs)
@@ -873,7 +1059,144 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     civicEngagementNumeric: civicEngagementMap[agent.civicLife?.engagement ?? 'passive'] ?? 1,
     // hobbies.primary contains the hobbies
     activeHobbyCount: countActiveHobbies(agent.preferences?.hobbies?.primary ?? []),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // NEW CORRELATE VARIABLES (2026-01-06)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Phase 1: Preferences
+    cuisineCount: agent.preferences?.food?.cuisineFavorites?.length ?? 0,
+    statusSignaling: agent.preferences?.fashion?.statusSignaling ?? 500,
+    socialMediaIntensity: computeSocialMediaIntensity(agent.preferences?.media?.platformDiet ?? {}),
+    copingRitualCount: agent.routines?.recoveryRituals?.length ?? 0,
+    fashionConformity: agent.preferences?.fashion?.conformity ?? 500,
+    hobbyMainstreamScore: computeHobbyMainstreamScore(agent.preferences?.hobbies?.categories ?? []),
+
+    // Phase 2: Social/Lifestyle/Domestic
+    principledness: latents?.principledness ?? 500,
+    isBroker: agent.network?.role === 'broker' ? 1 : 0,
+
+    // Phase 3: Deterministic Gates
+    isDiaspora: (agent.geography?.diasporaStatus !== 'native' && agent.geography?.diasporaStatus !== 'internal-migrant') ? 1 : 0,
+    linguisticMinority: agent.minorityStatus?.linguisticMinority ? 1 : 0,
+    isHubOrGatekeeper: (agent.network?.role === 'hub' || agent.network?.role === 'gatekeeper') ? 1 : 0,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // EXPANDED METRICS (2026-01-06) - For additional correlate verification
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Trait metrics (traits.ts correlates)
+    riskTolerance: agent.capabilities?.traits?.riskTolerance ?? 500,
+    noveltySeeking: agent.capabilities?.traits?.noveltySeeking ?? 500,
+    aestheticExpressiveness: latents?.aestheticExpressiveness ?? 500,
+
+    // Skill metrics (skills.ts correlates)
+    surveillanceSkill: skills?.surveillance?.value ?? 0,
+    drivingSkill: skills?.driving?.value ?? 0,
+    shootingSkill: skills?.shooting?.value ?? 0,
+    mediaHandlingSkill: skills?.mediaHandling?.value ?? 0,
+
+    // Aptitude metrics (aptitudes.ts correlates)
+    dexterity: aptitudes?.dexterity ?? 500,
+    handEyeCoordination: aptitudes?.handEyeCoordination ?? 500,
+    reflexes: aptitudes?.reflexes ?? 500,
+    strength: aptitudes?.strength ?? 500,
+    attentionControl: aptitudes?.attentionControl ?? 500,
+    charisma: aptitudes?.charisma ?? 500,
+
+    // Preference metrics (preferences.ts correlates)
+    // Note: actual field paths are social.groupStyle, social.boundary, time.planningStyle
+    groupStyleNumeric: computeGroupStyleNumeric(agent.preferences?.social?.groupStyle),
+    boundaryStrengthNumeric: computeBoundaryStrengthNumeric(agent.preferences?.social?.boundary),
+    planningStyleNumeric: computePlanningStyleNumeric(agent.preferences?.time?.planningStyle),
+    comfortFoodAdventureScore: computeComfortFoodAdventureScore(agent.preferences?.food?.comfortFoods ?? []),
+
+    // Social/Domestic metrics
+    communityCount: agent.communities?.memberships?.length ?? 0,
+    isMarried: (maritalStatus === 'married' || maritalStatus === 'partnered') ? 1 : 0,
+    hasWeeklyAnchor: agent.domestic?.weeklySchedule?.hasAnchor ? 1 : 0,
+    neighborhoodQualityNumeric: computeNeighborhoodQualityNumeric(agent.home?.neighborhoodType),
+    hasBicycleCommute: (agent.home?.commuteMethod === 'bicycle') ? 1 : 0,
+
+    // Health/Lifestyle metrics
+    // traumaTagCount: from memoryTrauma.traumaTags (psychological trauma)
+    traumaTagCount: agent.memoryTrauma?.traumaTags?.length ?? 0,
+    treatmentQualityNumeric: computeTreatmentQualityNumeric(agent.health?.treatmentAccess),
+
+    // Narrative metrics
+    timelineEventCount: agent.timeline?.events?.length ?? 0,
+    // adversityTagCount: from background.adversityTags (childhood/life adversity)
+    adversityTagCount: agent.background?.adversityTags?.length ?? 0,
+    negativeEventCount: countNegativeEvents(agent.timeline?.events ?? []),
+    isVisibleMinority: agent.minorityStatus?.visibleMinority ? 1 : 0,
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ADDITIONAL METRICS FOR NEW CORRELATES (2026-01-07)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Preference metrics
+    isEarlyBird: computeChronotypeNumeric(agent.preferences?.routines?.chronotype), // Fixed: was .time
+
+    // Social metrics
+    hasLeverage: computeHasLeverage(agent.network?.leverage ?? []),
+    isWidowed: maritalStatus === 'widowed' ? 1 : 0,
+    hasOnlineCommunity: hasOnlineCommunityMembership(agent.communities?.memberships ?? []),
+
+    // Geography metrics
+    urbanicityNumeric: computeUrbanicityNumeric(agent.geography?.urbanicity),
+
+    // Domestic metrics
+    privacyNumeric: computePrivacyNumeric(agent.home?.privacyLevel), // Fixed: was .privacy
+    legalExposureNumeric: computeLegalExposureNumeric(agent.legal?.legalStatus), // Fixed: was .exposureLevel
+
+    // Health metrics
+    isUndiagnosed: agent.health?.neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
+    hasTraditionalVice: hasTraditionalViceType(agent.vices?.types ?? []),
+    resilienceNumeric: computeResilienceNumeric(agent.health?.resilience),
   };
+}
+
+// Extended AgentMetrics type alias for constraint checks
+type AgentMetricsExtended = AgentMetrics & {
+  riskTolerance: number;
+  noveltySeeking: number;
+  aestheticExpressiveness: number;
+  surveillanceSkill: number;
+  drivingSkill: number;
+  shootingSkill: number;
+  mediaHandlingSkill: number;
+  dexterity: number;
+  handEyeCoordination: number;
+  reflexes: number;
+  strength: number;
+  attentionControl: number;
+  charisma: number;
+  groupStyleNumeric: number;
+  boundaryStrengthNumeric: number;
+  planningStyleNumeric: number;
+  comfortFoodAdventureScore: number;
+  communityCount: number;
+  isMarried: number;
+  hasWeeklyAnchor: number;
+  neighborhoodQualityNumeric: number;
+  hasBicycleCommute: number;
+  traumaTagCount: number;
+  treatmentQualityNumeric: number;
+  timelineEventCount: number;
+  adversityTagCount: number;
+  negativeEventCount: number;
+  isVisibleMinority: number;
+  // Additional metrics for new correlates (2026-01-07)
+  isEarlyBird: number;
+  hasLeverage: number;
+  isWidowed: number;
+  urbanicityNumeric: number;
+  hasOnlineCommunity: number;
+  privacyNumeric: number;
+  legalExposureNumeric: number;
+  isUndiagnosed: number;
+  hasTraditionalVice: number;
+  resilienceNumeric: number;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -959,6 +1282,545 @@ function computeResidencyStability(residencyStatus: string | undefined): number 
     stateless: 1,         // Most precarious
   };
   return statusMap[residencyStatus ?? 'citizen'] ?? 3;
+}
+
+// Correlate #NEW8: Social Battery ↔ Media Platform Type
+// Higher score = more social/interactive media, lower = passive consumption
+// platformDiet keys are: 'social', 'tv', 'print', 'radio', 'closed'
+function computeSocialMediaIntensity(platformDiet: Record<string, number>): number {
+  // 'social' = interactive social media (TikTok, Instagram, Twitter, etc.)
+  // 'closed' = private messaging (Signal, WhatsApp, Telegram)
+  // 'tv', 'radio', 'print' = passive consumption
+  const socialWeight = platformDiet.social ?? 0;
+  const closedWeight = platformDiet.closed ?? 0;
+  const passiveWeight = (platformDiet.tv ?? 0) + (platformDiet.radio ?? 0) + (platformDiet.print ?? 0);
+
+  // Social media users have high social battery (need stimulation)
+  // Closed messaging + passive consumption indicates lower social battery
+  const socialScore = socialWeight + 0.5 * closedWeight; // Closed is semi-social
+  const passiveScore = passiveWeight + 0.5 * closedWeight; // Closed also private
+
+  const total = socialScore + passiveScore;
+  if (total === 0) return 500; // Neutral if no platforms
+  return Math.round((socialScore / total) * 1000);
+}
+
+// Correlate #NEW23: Institutional Embeddedness ↔ Hobby Conformity
+// Higher score = mainstream hobby CATEGORIES, lower = fringe/unconventional
+// Categories: physical, creative, intellectual, technical, social, outdoor, culinary
+function computeHobbyMainstreamScore(categories: string[]): number {
+  // Mainstream categories: social, intellectual, culinary (conventional, socially acceptable)
+  // Fringe categories: creative, technical (unconventional, niche interests)
+  // Neutral: physical, outdoor
+  const mainstreamCategories = new Set(['social', 'intellectual', 'culinary']);
+  const fringeCategories = new Set(['creative', 'technical']);
+  // Physical and outdoor are neutral
+
+  if (categories.length === 0) return 500; // Neutral if no categories
+
+  let mainstreamCount = 0;
+  let fringeCount = 0;
+  let neutralCount = 0;
+
+  for (const cat of categories) {
+    const normalized = cat.toLowerCase();
+    if (mainstreamCategories.has(normalized)) {
+      mainstreamCount++;
+    } else if (fringeCategories.has(normalized)) {
+      fringeCount++;
+    } else {
+      neutralCount++;
+    }
+  }
+
+  const total = mainstreamCount + fringeCount + neutralCount;
+  if (total === 0) return 500;
+  // Score: mainstream = high, fringe = low, neutral = middle
+  // Weight: mainstream +1, neutral 0.5, fringe 0
+  const score = (mainstreamCount + 0.5 * neutralCount) / total;
+  return Math.round(score * 1000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NEW HELPER FUNCTIONS FOR EXPANDED CORRELATES (2026-01-06)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function computeGroupStyleNumeric(groupPref: string | undefined): number {
+  // Actual values from preferences.ts: social.groupStyle
+  // Maps to social battery scale: low battery prefers observer/silent, high battery prefers banter/storyteller
+  const map: Record<string, number> = {
+    'listener-observer': 1,   // Lowest social energy
+    'silent-when-needed': 2,
+    'one-on-one': 3,          // Moderate
+    'storyteller': 4,
+    'group-banter': 5,        // Highest social energy
+  };
+  return map[groupPref ?? 'one-on-one'] ?? 3;
+}
+
+function computeBoundaryStrengthNumeric(boundaryStyle: string | undefined): number {
+  // Actual values from preferences.ts: social.boundary
+  // Maps from most open to most closed personal space boundaries
+  const map: Record<string, number> = {
+    'hugger': 1,                  // Most open boundaries
+    'proximity-trust': 2,
+    'professional-distance': 3,   // Moderate
+    'strict-touch-norms': 4,
+    'touch-averse': 5,            // Strongest/most closed boundaries
+  };
+  return map[boundaryStyle ?? 'professional-distance'] ?? 3;
+}
+
+function computePlanningStyleNumeric(planningStyle: string | undefined): number {
+  // Actual values from preferences.ts: time.planningStyle
+  // Maps from least structured to most structured planning approach
+  const map: Record<string, number> = {
+    'improvise': 1,               // Least structured
+    'last-minute': 2,
+    'flexible-structure': 3,      // Moderate
+    'contingency-heavy': 4,
+    'minute-planned': 5,          // Most structured/detailed
+  };
+  return map[planningStyle ?? 'flexible-structure'] ?? 3;
+}
+
+function computeComfortFoodAdventureScore(comfortFoods: string[]): number {
+  // Exotic/adventurous foods = high novelty, traditional/simple = low
+  const adventurousFoods = new Set([
+    'sushi', 'curry', 'thai', 'vietnamese', 'ethiopian', 'korean',
+    'fusion', 'tapas', 'ceviche', 'pho', 'dim-sum', 'ramen',
+  ]);
+  const traditionalFoods = new Set([
+    'mac-and-cheese', 'mashed-potatoes', 'soup', 'bread', 'pizza',
+    'burger', 'sandwich', 'pasta', 'stew', 'casserole', 'roast',
+  ]);
+
+  if (comfortFoods.length === 0) return 500;
+
+  let adventureScore = 0;
+  for (const food of comfortFoods) {
+    const normalized = food.toLowerCase();
+    if (adventurousFoods.has(normalized)) adventureScore += 2;
+    else if (traditionalFoods.has(normalized)) adventureScore -= 1;
+    else adventureScore += 0.5; // neutral
+  }
+  // Scale to 0-1000
+  return Math.max(0, Math.min(1000, 500 + adventureScore * 100));
+}
+
+function computeNeighborhoodQualityNumeric(neighborhoodType: string | undefined): number {
+  const map: Record<string, number> = {
+    'slum': 1, 'informal': 1,
+    'working-class': 2, 'industrial': 2,
+    'mixed': 3, 'suburban': 3,
+    'professional': 4, 'upper-middle': 4,
+    'affluent': 5, 'gated': 5, 'elite': 5,
+  };
+  return map[neighborhoodType ?? 'mixed'] ?? 3;
+}
+
+function computeTreatmentQualityNumeric(treatmentAccess: string | undefined): number {
+  const map: Record<string, number> = {
+    'none': 0, 'no-access': 0,
+    'emergency-only': 1,
+    'basic': 2, 'public': 2,
+    'moderate': 3, 'standard': 3,
+    'good': 4, 'private': 4,
+    'comprehensive': 5, 'specialist': 5, 'elite': 5,
+  };
+  return map[treatmentAccess ?? 'standard'] ?? 3;
+}
+
+function countNegativeEvents(events: Array<{ type?: string; valence?: string }> | undefined): number {
+  if (!events) return 0;
+  return events.filter(e =>
+    e.valence === 'negative' ||
+    e.type?.includes('loss') ||
+    e.type?.includes('trauma') ||
+    e.type?.includes('injury') ||
+    e.type?.includes('persecution') ||
+    e.type?.includes('failure')
+  ).length;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ADDITIONAL HELPER FUNCTIONS FOR NEW CORRELATES (2026-01-07)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function computeChronotypeNumeric(chronotype: string | undefined): number {
+  // Maps chronotype to early-bird score (higher = earlier riser)
+  const map: Record<string, number> = {
+    'extreme-early': 5,
+    'early-bird': 4,
+    'morning': 4,
+    'flexible': 3,
+    'evening': 2,
+    'night-owl': 1,
+    'extreme-night': 0,
+  };
+  return map[chronotype ?? 'flexible'] ?? 3;
+}
+
+function computeHasLeverage(leverage: Array<{ type?: string }> | string[]): number {
+  // Any leverage = 1, no leverage = 0
+  return leverage.length > 0 ? 1 : 0;
+}
+
+function hasOnlineCommunityMembership(memberships: Array<{ type?: string; online?: boolean }> | string[]): number {
+  // Check if any community membership is online
+  if (memberships.length === 0) return 0;
+  // If it's a string array, look for online-related keywords
+  if (typeof memberships[0] === 'string') {
+    return (memberships as string[]).some(m =>
+      m.toLowerCase().includes('online') ||
+      m.toLowerCase().includes('virtual') ||
+      m.toLowerCase().includes('digital') ||
+      m.toLowerCase().includes('forum') ||
+      m.toLowerCase().includes('discord') ||
+      m.toLowerCase().includes('reddit')
+    ) ? 1 : 0;
+  }
+  // Otherwise check for online property
+  return (memberships as Array<{ online?: boolean }>).some(m => m.online) ? 1 : 0;
+}
+
+function computeUrbanicityNumeric(urbanicity: string | undefined): number {
+  const map: Record<string, number> = {
+    'rural': 1,
+    'small-town': 2,
+    'suburban': 3,
+    'urban': 4,
+    'metropolitan': 5,
+    'megacity': 5,
+  };
+  return map[urbanicity ?? 'urban'] ?? 3;
+}
+
+function computePrivacyNumeric(privacyLevel: string | undefined): number {
+  // Maps to domestic.ts PrivacyLevel values: 'isolated' | 'private' | 'thin-walls' | 'communal' | 'surveilled'
+  const map: Record<string, number> = {
+    'isolated': 5, 'secure': 5,
+    'private': 4, 'good': 4,
+    'thin-walls': 2, 'limited': 2,
+    'communal': 1, 'shared': 1,
+    'surveilled': 0, 'exposed': 0,
+  };
+  return map[privacyLevel ?? 'private'] ?? 3;
+}
+
+function computeLegalExposureNumeric(legalStatus: string | undefined): number {
+  // Maps to domestic.ts LegalStatus values - irregular status = more exposure
+  const map: Record<string, number> = {
+    'citizen': 0, 'clean': 0,
+    'permanent-resident': 1, 'resident': 1,
+    'temporary': 2, 'temporary-worker': 2, 'temporary-visa': 2,
+    'asylum': 3, 'asylum-seeker': 3, 'refugee': 3,
+    'irregular': 4, 'undocumented': 4,
+    'stateless': 5, 'unknown': 5,
+  };
+  return map[legalStatus ?? 'citizen'] ?? 0;
+}
+
+function hasTraditionalViceType(vices: Array<{ type?: string }> | string[]): number {
+  // Traditional vices: alcohol, tobacco (older demographic)
+  // Non-traditional: recreational drugs, gambling, etc. (younger demographic)
+  const traditionalVices = new Set(['alcohol', 'tobacco', 'smoking', 'drinking', 'cigarettes']);
+
+  if (vices.length === 0) return 0;
+  if (typeof vices[0] === 'string') {
+    return (vices as string[]).some(v => traditionalVices.has(v.toLowerCase())) ? 1 : 0;
+  }
+  return (vices as Array<{ type?: string }>).some(v =>
+    v.type && traditionalVices.has(v.type.toLowerCase())
+  ) ? 1 : 0;
+}
+
+function computeResilienceNumeric(resilience: string | undefined): number {
+  const map: Record<string, number> = {
+    'fragile': 1, 'low': 1,
+    'vulnerable': 2, 'below-average': 2,
+    'average': 3, 'moderate': 3,
+    'good': 4, 'above-average': 4,
+    'strong': 5, 'high': 5, 'exceptional': 5,
+  };
+  return map[resilience ?? 'average'] ?? 3;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONSTRAINT CHECKS (Plausibility Gates & Hard Constraints)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const CONSTRAINT_CHECKS: ConstraintCheck[] = [
+  // Plausibility Gates (PG-*)
+  {
+    id: 'PG1',
+    name: 'High Opsec → No Compromised Identity',
+    type: 'plausibility-gate',
+    check: (agent, m) => {
+      if (m.opsecDiscipline > 750) {
+        const idKit = agent.legalAdmin?.identityKitIntegrity;
+        return idKit !== 'compromised';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'PG2',
+    name: 'Nomadic Mobility → No Owned Housing',
+    type: 'plausibility-gate',
+    check: (agent, m) => {
+      const mobility = agent.geography?.mobilityPattern;
+      const housing = agent.home?.housingStability;
+      if (mobility === 'nomadic') {
+        return housing !== 'owned';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'PG3',
+    name: 'Elite Tier → No Thin-Wall Neighborhood',
+    type: 'plausibility-gate',
+    check: (agent, m) => {
+      if (m.tierNumeric === 3) { // elite
+        const neighborhood = agent.home?.neighborhoodType;
+        return neighborhood !== 'thin-walls' && neighborhood !== 'slum';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'PG4',
+    name: 'Single → No Ex-Partner Relationships',
+    type: 'plausibility-gate',
+    check: (agent, m) => {
+      const marital = agent.family?.maritalStatus;
+      if (marital === 'single') {
+        const relationships = agent.relationships ?? [];
+        return !relationships.some(r => r.type === 'ex-partner' || r.type === 'ex-spouse');
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'PG5',
+    name: 'Lurker → No Pillar Status',
+    type: 'plausibility-gate',
+    check: (agent, m) => {
+      const role = agent.communities?.communityRole;
+      const status = agent.communities?.communityStatus;
+      if (role === 'lurker') {
+        return status !== 'pillar';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'PG7',
+    name: 'High Empathy → Deception Cap',
+    type: 'plausibility-gate',
+    // The code caps deception at 600 only if empathy > 800 AND deception > 750
+    // So we check that high empathy + high deception (>750) doesn't exist
+    check: (agent, m) => {
+      if (m.empathy > 800) {
+        // After the cap, deception should be ≤750 (capped to 600 if was >750)
+        // But agents with deception 601-750 are allowed by the code
+        return m.deception <= 750;
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+
+  // Age Gates
+  {
+    id: 'DC-NEW-1',
+    name: 'Doctorate → Age ≥ 30',
+    type: 'age-gate',
+    check: (agent, m) => {
+      if (m.educationNumeric === 5) { // doctorate
+        return m.age >= 30;
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'NAR-12a',
+    name: 'Romantic Events → Age ≥ 18',
+    type: 'age-gate',
+    check: (agent, m) => {
+      const events = agent.timeline?.events ?? [];
+      const hasRomantic = events.some(e => e.type?.includes('romantic') || e.type?.includes('marriage'));
+      if (hasRomantic) {
+        return m.age >= 18;
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+
+  // Hard Constraints
+  {
+    id: 'DC-NEW-5',
+    name: 'Elite → No Secondary Education',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      if (m.tierNumeric === 3) { // elite
+        const ed = agent.identity?.educationTrackTag;
+        return ed !== 'secondary' && ed !== 'self-taught' && ed !== 'no-formal';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'NEW35',
+    name: 'Parents with Dependents → Not Isolate',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      if (m.dependentCount > 0) {
+        return agent.network?.role !== 'isolate';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'NEW38',
+    name: 'Age 70+ → Deceased Parents',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      if (m.age >= 70) {
+        const relationships = agent.relationships ?? [];
+        const hasLivingParent = relationships.some(r =>
+          (r.type === 'parent' || r.type === 'mother' || r.type === 'father') &&
+          r.status !== 'deceased'
+        );
+        return !hasLivingParent;
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'NAR-10',
+    name: 'Elite + Refugee → Incompatible',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      if (m.tierNumeric === 3) { // elite
+        return agent.geography?.diasporaStatus !== 'refugee';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'HL8',
+    name: 'Multiple Injuries → Fitness Cap',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      const injuries = agent.health?.injuryTags?.length ?? 0;
+      const fitness = agent.health?.fitnessBand;
+      if (injuries >= 2) {
+        return fitness !== 'peak-condition' && fitness !== 'excellent' && fitness !== 'athletic';
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+  {
+    id: 'DC-D8',
+    name: 'High Legal Exposure → No Security Clearance',
+    type: 'hard-constraint',
+    check: (agent, m) => {
+      const exposure = agent.legalAdmin?.legalExposure ?? 0;
+      if (exposure > 700) {
+        return !agent.legalAdmin?.hasSecurityClearance;
+      }
+      return true;
+    },
+    expectedViolationRate: 0,
+  },
+
+  // Threshold Validations (soft constraints with expected low violation rates)
+  {
+    id: 'NEW33',
+    name: 'High Opsec → Not Hub/Gatekeeper',
+    type: 'threshold',
+    check: (agent, m) => {
+      if (m.opsecDiscipline > 750) {
+        const role = agent.network?.role;
+        return role !== 'hub' && role !== 'gatekeeper';
+      }
+      return true;
+    },
+    expectedViolationRate: 0.05, // Allow up to 5% as soft constraint
+  },
+  {
+    id: 'NEW11',
+    name: 'High Principledness → Not Broker',
+    type: 'threshold',
+    check: (agent, m) => {
+      if (m.principledness > 700) {
+        return agent.network?.role !== 'broker';
+      }
+      return true;
+    },
+    expectedViolationRate: 0.05,
+  },
+];
+
+function validateBatchConstraints(
+  agents: GeneratedAgent[],
+  metricsArray: AgentMetricsExtended[]
+): ConstraintResult[] {
+  const results: ConstraintResult[] = [];
+
+  for (const constraint of CONSTRAINT_CHECKS) {
+    const violations: string[] = [];
+
+    for (let i = 0; i < agents.length; i++) {
+      const passed = constraint.check(agents[i], metricsArray[i]);
+      if (!passed) {
+        violations.push(agents[i].seed);
+      }
+    }
+
+    const violationRate = violations.length / agents.length;
+    let status: ConstraintResult['status'];
+
+    if (constraint.expectedViolationRate === 0) {
+      status = violations.length === 0 ? 'passed' : 'failed';
+    } else {
+      if (violationRate <= constraint.expectedViolationRate) {
+        status = 'passed';
+      } else if (violationRate <= constraint.expectedViolationRate * 2) {
+        status = 'warning';
+      } else {
+        status = 'failed';
+      }
+    }
+
+    results.push({
+      id: constraint.id,
+      name: constraint.name,
+      type: constraint.type,
+      totalChecked: agents.length,
+      violations: violations.length,
+      violationRate: Math.round(violationRate * 10000) / 100, // percentage with 2 decimals
+      expectedRate: constraint.expectedViolationRate * 100,
+      status,
+      examples: violations.slice(0, 3),
+    });
+  }
+
+  return results;
 }
 
 function analyzeDocumentedCorrelates(metrics: AgentMetrics[]): CorrelateResult[] {
@@ -1088,6 +1950,7 @@ async function main() {
   const allConstraintViolations: ConstraintViolation[] = [];
   const allImplausibilities: Implausibility[] = [];
   const allMetrics: AgentMetrics[] = [];
+  const allAgents: GeneratedAgent[] = []; // For batch constraint validation
   const agentsWithErrors = new Set<string>();
 
   const pronounModes: PronounMode[] = ['seeded'];
@@ -1151,6 +2014,7 @@ async function main() {
 
     // Collect metrics for correlation analysis
     allMetrics.push(extractMetrics(agent, 2025));
+    allAgents.push(agent); // Store for batch constraint validation
 
     if ((i + 1) % 25 === 0) {
       console.log(`  Progress: ${i + 1}/${count}`);
@@ -1161,6 +2025,13 @@ async function main() {
   console.log('\nAnalyzing correlations...');
   const documentedResults = analyzeDocumentedCorrelates(allMetrics);
   const spuriousResults = findSpuriousCorrelations(allMetrics);
+
+  // Batch constraint validation (plausibility gates, age gates, hard constraints)
+  const constraintResults = validateBatchConstraints(
+    allAgents,
+    allMetrics as AgentMetricsExtended[]
+  );
+  const constraintsPassed = constraintResults.filter(r => r.status === 'passed').length;
 
   const durationMs = Date.now() - startTime;
 
@@ -1182,6 +2053,10 @@ async function main() {
         constraint: allConstraintViolations.length,
         implausibility: allImplausibilities.length,
       },
+      correlatesVerified: documentedResults.filter(r => r.status === 'verified').length,
+      correlatesTotal: documentedResults.length,
+      constraintsPassed,
+      constraintsTotal: constraintResults.length,
     },
     narrationErrors: allNarrationErrors,
     typeErrors: allTypeErrors,
@@ -1191,6 +2066,7 @@ async function main() {
       documented: documentedResults,
       spurious: spuriousResults,
     },
+    constraintValidation: constraintResults,
   };
 
   // Output
@@ -1232,6 +2108,36 @@ async function main() {
     }
   } else {
     console.log('\nNo spurious correlations detected.');
+  }
+
+  // Print constraint validation summary
+  console.log('\n' + '-'.repeat(40));
+  console.log('CONSTRAINT VALIDATION');
+  console.log('-'.repeat(40));
+  console.log(`\nTotal: ${constraintsPassed}/${constraintResults.length} passed`);
+
+  const failedConstraints = constraintResults.filter(r => r.status === 'failed');
+  const warningConstraints = constraintResults.filter(r => r.status === 'warning');
+
+  if (failedConstraints.length > 0) {
+    console.log('\nFailed constraints:');
+    for (const c of failedConstraints) {
+      console.log(`  ✗ ${c.id} ${c.name}: ${c.violations}/${c.totalChecked} violations (${c.violationRate}%)`);
+      if (c.examples.length > 0) {
+        console.log(`    Examples: ${c.examples.slice(0, 3).join(', ')}`);
+      }
+    }
+  }
+
+  if (warningConstraints.length > 0) {
+    console.log('\nConstraints with warnings:');
+    for (const c of warningConstraints) {
+      console.log(`  ~ ${c.id} ${c.name}: ${c.violations}/${c.totalChecked} violations (${c.violationRate}%, expected ${c.expectedRate}%)`);
+    }
+  }
+
+  if (failedConstraints.length === 0 && warningConstraints.length === 0) {
+    console.log('All constraints passed.');
   }
 
   // Print sample errors

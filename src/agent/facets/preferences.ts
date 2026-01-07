@@ -262,7 +262,7 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
     homeCountryIso3, citizenshipCountryIso3, currentCountryIso3, abroad,
     macroCulture, microProfiles, countryPriorsBucket, cohortBucketStartYear,
     chronicConditionTags, allergyTags, homeLangEnv01k, citizenshipLangEnv01k, currentLangEnv01k, viceTendency,
-    roleSeedTags, latents,
+    roleSeedTags, latents, traits, age,
   } = ctx;
 
   const { foodPrimaryWeight } = primaryWeights;
@@ -415,6 +415,8 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
   const physical01 = latents.physicalConditioning / 1000;
 
   // Comfort foods selection
+  // DC-NOVELTY-COMFORT: High noveltySeeking → adventurous comfort foods
+  const novelty01 = traits.noveltySeeking / 1000;
   const comfortPool = uniqueStrings([...cultureComfort, ...vocab.preferences.food.comfortFoods]);
   const comfortWeight = (item: string): number => {
     const s = item.toLowerCase();
@@ -430,11 +432,32 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
       if (s.includes('meat') || s.includes('grilled')) w += 2.0 * axis01('meat', 0.4);
       if (s.includes('vegetarian') || s.includes('salad')) w += 1.8 * axis01('plantForward', 0.4);
     }
-    if (s.includes('fine') || s.includes('gourmet') || s.includes('luxury') || s.includes('premium') || s.includes('steak') || s.includes('restaurant')) {
-      w += 1.2 * (1 - frugal01) - 0.6 * frugal01;
+    // DC-NOVELTY-COMFORT: High noveltySeeking → adventurous/exotic comfort foods
+    // When noveltySeeking > 700, weight exotic/unusual options more heavily
+    if (s.includes('exotic') || s.includes('unusual') || s.includes('adventur') || s.includes('fusion') ||
+        s.includes('rare') || s.includes('unique') || s.includes('fermented') || s.includes('offal') ||
+        s.includes('insect') || s.includes('strange') || s.includes('experimental')) {
+      w += 1.8 * novelty01; // High novelty seeking → adventurous foods
+      if (traits.noveltySeeking > 700) w += 1.2; // Extra boost for very high novelty seeking
     }
-    if (s.includes('street') || s.includes('home') || s.includes('simple') || s.includes('leftover') || s.includes('staple')) {
+    // Traditional/familiar comfort foods - preferred by low novelty seekers
+    if (s.includes('classic') || s.includes('tradition') || s.includes('familiar') ||
+        s.includes('childhood') || s.includes('grandma') || s.includes('mom') ||
+        s.includes('home') || s.includes('comfort') || s.includes('nostalgic')) {
+      w += 1.2 * (1 - novelty01); // Low novelty seeking → familiar foods
+    }
+    // DC-ELITE-DINING: Elite → Dining Preference
+    // If tier == "elite", dining preference weighted toward fine dining/private chef
+    // Rationale: Elite have refined tastes
+    if (s.includes('fine') || s.includes('gourmet') || s.includes('luxury') || s.includes('premium') || s.includes('steak') || s.includes('restaurant') ||
+        s.includes('chef') || s.includes('tasting') || s.includes('omakase') || s.includes('michelin') || s.includes('exclusive')) {
+      w += 1.2 * (1 - frugal01) - 0.6 * frugal01;
+      if (ctx.tierBand === 'elite') w += 2.0; // DC-ELITE-DINING: Elite prefer fine dining
+    }
+    if (s.includes('street') || s.includes('home') || s.includes('simple') || s.includes('leftover') || s.includes('staple') ||
+        s.includes('budget') || s.includes('cheap') || s.includes('fast food')) {
       w += 0.8 * frugal01;
+      if (ctx.tierBand === 'elite') w *= 0.4; // DC-ELITE-DINING: Elite avoid cheap food
     }
     if (hasRestriction('vegetarian') && likelyMeat(item)) w *= 0.15;
     if (hasRestriction('vegan') && (likelyMeat(item) || likelyDairy(item))) w *= 0.12;
@@ -468,8 +491,13 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
     if (s.includes('fine') || s.includes('osteria')) w += 0.6 * (1 - frugal01);
     return Math.max(0.05, w);
   };
+  // Correlate #NEW6: Cosmopolitanism ↔ Dietary Adventurousness (positive)
+  // High cosmopolitanism → more diverse cuisine preferences (2-3 cuisines)
+  // Low cosmopolitanism → limited cuisine exploration (0-1 cuisines)
   const cuisineCount = cuisinePool.length
-    ? (rng.next01() < 0.35 + 0.35 * cosmo01 ? 2 : 1)
+    ? (cosmo01 > 0.65 ? (rng.next01() < 0.6 ? 3 : 2) : // High cosmo: 2-3 cuisines
+       cosmo01 < 0.35 ? (rng.next01() < 0.4 ? 1 : 0) : // Low cosmo: 0-1 cuisines
+       (rng.next01() < 0.35 + 0.35 * cosmo01 ? 2 : 1)) // Mid: original logic
     : 0;
   const cuisineFavorites = cuisineCount
     ? weightedPickKUnique(rng, cuisinePool.map(item => ({ item, weight: cuisineWeight(item) })), cuisineCount)
@@ -506,25 +534,54 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
     return { item, weight: Math.max(0.05, w) };
   })) as string;
 
+  // DC-STRESS-SPICE: Stress → Spice Tolerance
+  // If stressReactivity > 750, reduce spice tolerance preference
+  // Rationale: Stress reduces adventurous eating
+  const highStress = latents.stressReactivity > 750;
   const spiceTolerance = weightedPick(rng, vocab.preferences.food.spiceTolerance.map((item) => {
     const s = item.toLowerCase();
     let w = 1;
     if (foodEnv01k) {
-      if (s.includes('averse')) w += 1.0 * (1 - axis01('spice', 0.5));
-      if (s.includes('mild')) w += 0.7 * (1 - axis01('spice', 0.5));
+      if (s.includes('averse')) {
+        w += 1.0 * (1 - axis01('spice', 0.5));
+        if (highStress) w += 1.2; // DC-STRESS-SPICE: High stress → prefer spice-averse
+      }
+      if (s.includes('mild')) {
+        w += 0.7 * (1 - axis01('spice', 0.5));
+        if (highStress) w += 0.8; // DC-STRESS-SPICE: High stress → prefer mild
+      }
       if (s.includes('medium')) w += 0.5;
-      if (s.includes('hot')) w += 1.0 * axis01('spice', 0.5);
-      if (s.includes('fiend')) w += 1.4 * axis01('spice', 0.5) + 0.4 * risk01;
+      if (s.includes('hot')) {
+        w += 1.0 * axis01('spice', 0.5);
+        if (highStress) w *= 0.5; // DC-STRESS-SPICE: High stress → avoid hot
+      }
+      if (s.includes('fiend')) {
+        w += 1.4 * axis01('spice', 0.5) + 0.4 * risk01;
+        if (highStress) w *= 0.3; // DC-STRESS-SPICE: High stress → avoid spice fiend
+      }
     }
     if (hasRestriction('spice-sensitive') && !s.includes('averse')) w *= 0.2;
     return { item, weight: Math.max(0.05, w) };
   })) as string;
 
+  // DC-AGE-PORTION: Age → Portion Size
+  // If age > 65, reduce portion size preference toward moderate/small
+  // Rationale: Elderly eat less
+  const isElderly = age > 65;
   const portionPreference = weightedPick(rng, vocab.preferences.food.portionPreferences.map((item) => {
     const s = item.toLowerCase();
     let w = 1;
-    if (s.includes('small') || s.includes('grazing')) w += 0.6 * (1 - frugal01) + 0.3 * (1 - physical01);
-    if (s.includes('hearty') || s.includes('big')) w += 0.7 * physical01 + 0.5 * frugal01;
+    if (s.includes('small') || s.includes('grazing')) {
+      w += 0.6 * (1 - frugal01) + 0.3 * (1 - physical01);
+      if (isElderly) w += 1.5; // DC-AGE-PORTION: Elderly prefer smaller portions
+    }
+    if (s.includes('moderate') || s.includes('regular') || s.includes('standard')) {
+      if (isElderly) w += 0.8; // DC-AGE-PORTION: Elderly accept moderate portions
+    }
+    if (s.includes('hearty') || s.includes('big') || s.includes('large')) {
+      w += 0.7 * physical01 + 0.5 * frugal01;
+      if (isElderly) w *= 0.3; // DC-AGE-PORTION: Elderly avoid large portions
+    }
     if (s.includes('strict')) w += 0.5 * opsec01 + 0.3 * (1 - stress01);
     return { item, weight: Math.max(0.05, w) };
   })) as string;
@@ -582,16 +639,30 @@ function computeFoodPreferences(ctx: PreferencesContext, rng: Rng): FoodPreferen
   const ritualDrink = weightedPickKUnique(rng, drinkPool.map(item => ({ item, weight: drinkWeight(item) })), 1)[0] ?? '';
 
   // Caffeine habit selection
+  // DC-AGE-CAFFEINE: Age affects caffeine habits
+  // When age > 50, weight 'moderate' or 'low' caffeine options
   const caffeine01 = axis01('caffeine', 0.5);
+  const isOlder = age > 50;
   const caffeineHabit = weightedPick(rng, vocab.preferences.food.caffeineHabits.map((item) => {
     const s = item.toLowerCase();
     let w = 1;
     const caffeinated = s.includes('coffee') || s.includes('espresso') || s.includes('cold-brew') || s.includes('energy');
     const teaish = s.includes('tea');
+    const highCaffeine = s.includes('heavy') || s.includes('addict') || s.includes('high') || s.includes('multiple') || s.includes('constant') || s.includes('energy');
+    const lowModCaffeine = s.includes('moderate') || s.includes('light') || s.includes('occasional') || s.includes('single') || s.includes('one');
+    // DC-AGE-CAFFEINE: Older agents prefer moderate/low caffeine
+    if (isOlder) {
+      if (highCaffeine) w *= 0.4; // Reduce heavy caffeine for older agents
+      if (lowModCaffeine || teaish) w += 0.8; // Boost moderate/tea for older agents
+      if (s.includes('no-caffeine') || s.includes('decaf')) w += 0.5; // More likely to go decaf
+    }
     if (s.includes('no-caffeine') || s.includes('decaf')) w += 1.2 * (1 - caffeine01);
     if (caffeinated) w += 0.7 * caffeine01 + 0.4 * stress01;
     if (teaish) w += 0.5 * (1 - stress01) + 0.3 * caffeine01;
-    if (s.includes('energy')) w += 0.6 * stress01 + 0.5 * viceTendency;
+    if (s.includes('energy')) {
+      w += 0.6 * stress01 + 0.5 * viceTendency;
+      if (isOlder) w *= 0.3; // DC-AGE-CAFFEINE: Strongly reduce energy drinks for older agents
+    }
     if (s.includes('brand')) w += 0.4 * public01 + 0.2 * opsec01;
     if (hasRestriction('no caffeine') && !(s.includes('no-caffeine') || s.includes('decaf'))) w *= 0.15;
     if (caffeinated && (chronicConditionTags.includes('insomnia') || chronicConditionTags.includes('migraine'))) w *= 0.35;
@@ -713,6 +784,7 @@ function computeMediaPreferences(ctx: PreferencesContext, rng: Rng): MediaPrefer
   const public01 = latents.publicness / 1000;
   const opsec01 = latents.opsecDiscipline / 1000;
   const inst01 = latents.institutionalEmbeddedness / 1000;
+  const social01 = latents.socialBattery / 1000;
 
   if (!vocab.preferences.media.genres.length) throw new Error('Agent vocab missing: preferences.media.genres');
   if (!vocab.preferences.media.platforms.length) throw new Error('Agent vocab missing: preferences.media.platforms');
@@ -735,10 +807,12 @@ function computeMediaPreferences(ctx: PreferencesContext, rng: Rng): MediaPrefer
       return typeof v === 'number' && Number.isFinite(v) ? v : 200;
     })();
     let bias = 0;
-    if (key === 'closed') bias += Math.round(70 * opsec01) + Math.round(70 * (1 - cultureMediaOpenness01));
-    if (key === 'social') bias += Math.round(65 * public01) - Math.round(40 * opsec01) + Math.round(25 * cultureMediaOpenness01);
-    if (key === 'tv') bias += Math.round(30 * public01);
-    if (key === 'print') bias += Math.round(45 * inst01);
+    // Correlate #NEW8: Social Battery ↔ Media Platform Type (positive for social, negative for solitary)
+    // High social battery → social media platforms; low social battery → print/closed (solitary)
+    if (key === 'closed') bias += Math.round(70 * opsec01) + Math.round(70 * (1 - cultureMediaOpenness01)) + Math.round(40 * (1 - social01));
+    if (key === 'social') bias += Math.round(65 * public01) - Math.round(40 * opsec01) + Math.round(25 * cultureMediaOpenness01) + Math.round(50 * social01);
+    if (key === 'tv') bias += Math.round(30 * public01) + Math.round(15 * social01);
+    if (key === 'print') bias += Math.round(45 * inst01) + Math.round(30 * (1 - social01));
     if (key === 'radio') bias += Math.round(30 * inst01);
     const w = Math.max(1, Math.round(envBase * 0.9) + rng.int(0, 220) + bias * 6);
     return { p, w, envBase };
@@ -771,6 +845,24 @@ function computeMediaPreferences(ctx: PreferencesContext, rng: Rng): MediaPrefer
     });
   }
 
+  // DC-AGE-TECH: Age → Platform Preference
+  // If age > 60, reduce TikTok/new platform weights; increase traditional media
+  // Rationale: Older people prefer traditional media
+  if (ctx.age > 60) {
+    applyPlatformDietRepair('DC-AGE-TECH-elderlyPreferTraditional', (d) => {
+      // Reduce social media for elderly (TikTok, Instagram, etc. are in 'social')
+      const social = d.social ?? 0;
+      if (social > 150) {
+        const delta = Math.round((social - 150) * 0.6); // Reduce by 60% of excess
+        d.social = clampFixed01k(social - delta);
+        // Redistribute to traditional media: print > tv > radio
+        d.print = clampFixed01k((d.print ?? 0) + Math.round(delta * 0.5));
+        d.tv = clampFixed01k((d.tv ?? 0) + Math.round(delta * 0.35));
+        d.radio = clampFixed01k((d.radio ?? 0) + Math.round(delta * 0.15));
+      }
+    });
+  }
+
   if (trace) trace.derived.platformDietRaw = platformDietRaw.map(({ p, w, envBase }) => ({ p, w, envBase }));
   if (trace && platformDietRepairs.length) trace.derived.platformDietRepairs = platformDietRepairs;
   traceSet(trace, 'preferences.media.platformDiet', platformDiet, { method: 'env+weightedNormalizeExact+repairs', dependsOn: { facet: 'preferences', public01, opsec01, inst01, env: countryPriorsBucket?.mediaEnvironment01k ?? null, platformDietRepairs } });
@@ -780,9 +872,13 @@ function computeMediaPreferences(ctx: PreferencesContext, rng: Rng): MediaPrefer
     0.42 * aptitudes.attentionControl + 0.22 * traits.conscientiousness + 0.12 * aptitudes.workingMemory +
     0.10 * (1000 - latents.publicness) + 0.08 * latents.impulseControl + 0.06 * rng.int(0, 1000),
   );
+  // DC-IMPULSE: Low impulseControl → high doomscrolling risk
+  // When impulseControl < 350, increase risk score significantly
+  const lowImpulseBonus = latents.impulseControl < 350 ? 150 : 0; // Extra risk if very low impulse control
   const doomscrollingRisk = clampFixed01k(
-    0.30 * latents.publicness + 0.22 * (1000 - latents.opsecDiscipline) + 0.18 * (1000 - traits.conscientiousness) +
-    0.10 * traits.noveltySeeking + 0.10 * (1000 - latents.impulseControl) + 0.06 * latents.stressReactivity + 0.04 * rng.int(0, 1000),
+    0.28 * latents.publicness + 0.20 * (1000 - latents.opsecDiscipline) + 0.16 * (1000 - traits.conscientiousness) +
+    0.10 * traits.noveltySeeking + 0.16 * (1000 - latents.impulseControl) + // DC-IMPULSE: Increased weight from 0.10 to 0.16
+    0.06 * latents.stressReactivity + 0.04 * rng.int(0, 1000) + lowImpulseBonus,
   );
   const epistemicHygiene = clampFixed01k(
     0.28 * aptitudes.workingMemory + 0.20 * aptitudes.attentionControl + 0.20 * latents.institutionalEmbeddedness +
@@ -798,11 +894,17 @@ function computeMediaPreferences(ctx: PreferencesContext, rng: Rng): MediaPrefer
 // ============================================================================
 
 function computeFashionPreferences(ctx: PreferencesContext, _rng: Rng): FashionPreferences {
-  const { seed, vocab, trace, tierBand, latents, traits, primaryWeights, macroCulture, microProfiles, cultureTraditionalism01 } = ctx;
+  const { seed, vocab, trace, tierBand, latents, traits, primaryWeights, macroCulture, microProfiles, cultureTraditionalism01, careerTrackTag, roleSeedTags } = ctx;
   const { fashionPrimaryWeight } = primaryWeights;
   const public01 = latents.publicness / 1000;
   const opsec01 = latents.opsecDiscipline / 1000;
   const inst01 = latents.institutionalEmbeddedness / 1000;
+
+  // PG-OPERATIVE-VIS: Check if career is intelligence/security related
+  const isOperativeCareer = careerTrackTag === 'intelligence' || careerTrackTag === 'security' ||
+    careerTrackTag === 'military' || careerTrackTag === 'espionage' ||
+    roleSeedTags.includes('operative') || roleSeedTags.includes('intelligence') ||
+    roleSeedTags.includes('security') || roleSeedTags.includes('spy');
 
   traceFacet(trace, seed, 'fashion');
   const fashionRng = makeRng(facetSeed(seed, 'fashion'));
@@ -824,6 +926,8 @@ function computeFashionPreferences(ctx: PreferencesContext, _rng: Rng): FashionP
   };
   if (public01 > 0.7) { addForced('formal'); addForced('tailored'); }
   if (opsec01 > 0.7) { addForced('utilitarian'); addForced('techwear'); }
+  // PG-OPERATIVE-VIS: Operative careers → blending/understated aesthetics
+  if (isOperativeCareer) { addForced('understated'); addForced('conventional'); addForced('neutral'); }
   if (inst01 > 0.7) { addForced('classic'); addForced('minimalist'); }
   if (cultureTraditionalism01 > 0.72) { addForced('classic'); addForced('formal'); addForced('traditional'); }
   if (tierBand === 'elite') addForced('formal');
@@ -841,21 +945,42 @@ function computeFashionPreferences(ctx: PreferencesContext, _rng: Rng): FashionP
       styleTags = uniqueStrings([...(replacement ? [replacement] : []), ...styleTags.filter(t => t !== bad)]).slice(0, 3);
     }
   }
-  traceSet(trace, 'preferences.fashion.styleTags', styleTags, { method: 'pickK+forced', dependsOn: { facet: 'fashion', fashionPrimaryWeight, cultureStylePoolSize: cultureStyle.length, forced: forced.slice(0, 2) } });
+
+  // PG-OPERATIVE-VIS: Operative careers → blending aesthetics
+  // Intelligence/security careers require understated/conventional styles to blend in
+  if (isOperativeCareer) {
+    const operativeForbidden = new Set(['maximalist', 'colorful', 'avant-garde', 'punk', 'goth', 'flashy', 'loud', 'statement', 'eccentric']);
+    const operativeReplacements = ['understated', 'conventional', 'neutral', 'plain', 'classic', 'minimalist'];
+    for (const bad of operativeForbidden) {
+      if (!styleTags.includes(bad)) continue;
+      const replacement = operativeReplacements.find(r => stylePool.includes(r) && !styleTags.includes(r));
+      styleTags = uniqueStrings([...(replacement ? [replacement] : []), ...styleTags.filter(t => t !== bad)]).slice(0, 3);
+    }
+  }
+  traceSet(trace, 'preferences.fashion.styleTags', styleTags, { method: 'pickK+forced+PG-OPERATIVE-VIS', dependsOn: { facet: 'fashion', fashionPrimaryWeight, cultureStylePoolSize: cultureStyle.length, forced: forced.slice(0, 2), isOperativeCareer } });
 
   // Fashion metrics
-  const formality = clampFixed01k(
-    0.36 * latents.publicness + 0.32 * latents.institutionalEmbeddedness + 0.18 * fashionRng.int(0, 1000) +
-    (tierBand === 'elite' ? 90 : tierBand === 'mass' ? -40 : 0),
-  );
+  // PG-FRUGAL-FASHION: Frugal elite still maintains formality
+  // If frugality > 700 && tierBand === 'elite', ensure fashion formality >= 'business-casual' (min 500)
+  const baseFormalityRaw = 0.36 * latents.publicness + 0.32 * latents.institutionalEmbeddedness + 0.18 * fashionRng.int(0, 1000) +
+    (tierBand === 'elite' ? 90 : tierBand === 'mass' ? -40 : 0);
+  // PG-FRUGAL-FASHION: Frugal elite must still dress formally (min 500 = business-casual)
+  const formalityFloor = (tierBand === 'elite' && latents.frugality > 700) ? 500 : 0;
+  const formality = clampFixed01k(Math.max(baseFormalityRaw, formalityFloor));
+  // Correlate #NEW16: Agreeableness ↔ Aesthetic Conformity (positive)
+  // Agreeable people dress conventionally to maintain social harmony; disagreeable prefer nonconformist aesthetics
   const conformity = clampFixed01k(
-    0.38 * latents.institutionalEmbeddedness + 0.22 * traits.conscientiousness +
-    0.16 * (1000 - traits.noveltySeeking) + 0.24 * fashionRng.int(0, 1000),
+    0.32 * latents.institutionalEmbeddedness + 0.18 * traits.conscientiousness +
+    0.14 * (1000 - traits.noveltySeeking) + 0.16 * traits.agreeableness +
+    0.20 * fashionRng.int(0, 1000),
   );
+  // Correlate #NEW7: Frugality ↔ Fashion StatusSignaling (negative)
+  // Frugal people avoid status signaling through fashion; wasteful people dress for attention
+  // Strengthened from -0.12 to -0.22 for stronger correlation
   const statusSignaling = clampFixed01k(
     0.34 * latents.publicness + 0.26 * (tierBand === 'elite' ? 920 : tierBand === 'middle' ? 600 : 420) +
     0.14 * (1000 - latents.opsecDiscipline) + 0.10 * latents.aestheticExpressiveness +
-    0.26 * fashionRng.int(0, 1000) - 0.12 * latents.frugality,
+    0.24 * fashionRng.int(0, 1000) - 0.22 * latents.frugality,
   );
   traceSet(trace, 'preferences.fashion.metrics', { formality, conformity, statusSignaling, forced: forced.slice(0, 2) }, { method: 'formula+forcedTags', dependsOn: { facet: 'fashion', latents, traits, tierBand } });
 
@@ -876,18 +1001,27 @@ function computeRoutines(ctx: PreferencesContext, _rng: Rng, doomscrollingRisk: 
   if (!vocab.routines.recoveryRituals.length) throw new Error('Agent vocab missing: routines.recoveryRituals');
 
   // Enhanced chronotype selection
+  // DC-CHRONO: High conscientiousness → early chronotype
+  // When conscientiousness > 700, weight 'early-bird' variants more heavily
   const stressReactivity01 = latents.stressReactivity / 1000;
   const adapt01 = latents.adaptability / 1000;
+  const conscientious01 = traits.conscientiousness / 1000;
   const chronotypeWeights = vocab.routines.chronotypes.map((t) => {
     const key = t.toLowerCase();
     let w = 1;
-    if (key === 'early' || key === 'ultra-early') {
-      w += 1.4 * (traits.conscientiousness / 1000) + 0.6 * (age / 120);
+    if (key === 'early' || key === 'ultra-early' || key.includes('early-bird') || key.includes('morning')) {
+      w += 1.4 * conscientious01 + 0.6 * (age / 120);
+      // DC-CHRONO: Extra boost for high conscientiousness (>700)
+      if (traits.conscientiousness > 700) w += 1.2;
       if (key === 'ultra-early') w -= 0.5;
     }
-    if (key === 'night') w += 1.2 * (traits.noveltySeeking / 1000) + 0.7 * (latents.riskAppetite / 1000);
+    if (key === 'night' || key.includes('owl') || key.includes('late')) {
+      w += 1.2 * (traits.noveltySeeking / 1000) + 0.7 * (latents.riskAppetite / 1000);
+      // DC-CHRONO: Reduce night owl for high conscientiousness
+      if (traits.conscientiousness > 700) w *= 0.4;
+    }
     if (key === 'standard') w += 0.7;
-    if (key === 'variable') { w += 1.0 * stressReactivity01 + 0.4 * (1 - traits.conscientiousness / 1000) + 0.8 * adapt01; }
+    if (key === 'variable') { w += 1.0 * stressReactivity01 + 0.4 * (1 - conscientious01) + 0.8 * adapt01; }
     if (key === 'biphasic') { w += 0.8 * climateIndicators.hot01 + 0.3 * (age / 120); }
     if (key === 'flex-shift') { w += 1.0 * (careerTrackTag === 'logistics' ? 1 : 0) + 0.6 * (roleSeedTags.includes('operative') ? 1 : 0) + 0.8 * adapt01; }
     if (key === 'rotating') { w += 1.2 * (careerTrackTag === 'military' ? 1 : 0) + 0.8 * (careerTrackTag === 'public-health' ? 1 : 0) + 0.5 * (roleSeedTags.includes('security') ? 1 : 0); }
@@ -935,8 +1069,12 @@ function computeRoutines(ctx: PreferencesContext, _rng: Rng, doomscrollingRisk: 
     }
     return { item: r, weight: w };
   });
+  // Correlate #NEW14: Stress Reactivity ↔ Coping Ritual Count (positive)
+  // High stress reactivity → more elaborate coping mechanisms (2-3 rituals)
+  // Low stress reactivity → fewer rituals needed (1-2 rituals)
+  const stressRitualCount = stressReactivity01 > 0.65 ? 3 : stressReactivity01 < 0.35 ? 1 : 2;
   const weightByRitual = new Map(ritualWeights.map(({ item, weight }) => [item, weight]));
-  let recoveryRituals = weightedPickKUnique(routinesRng, ritualWeights, 2);
+  let recoveryRituals = weightedPickKUnique(routinesRng, ritualWeights, stressRitualCount);
 
   // Repair logic for ensuring appropriate recovery rituals
   const routinesRepairs: Array<{ rule: string; removed: string | null; added: string }> = [];
@@ -996,11 +1134,30 @@ function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
   // Younger and higher social battery = more hobbies
   const baseCount = age < 30 ? 4 : age < 50 ? 3 : 2;
   const socialBonus = latents.socialBattery > 600 ? 1 : 0;
-  const totalHobbies = baseCount + socialBonus + (tierBand === 'elite' ? 1 : 0);
+  let totalHobbies = baseCount + socialBonus + (tierBand === 'elite' ? 1 : 0);
+
+  // DC-FRUGAL-HOBBY: Frugality → Hobby Count
+  // If frugality > 800, cap hobby count at 3
+  // Rationale: Frugal people limit expensive hobbies
+  if (latents.frugality > 800 && totalHobbies > 3) {
+    totalHobbies = 3;
+  }
 
   // Weight hobby categories based on personality
+  const inst01 = latents.institutionalEmbeddedness / 1000;
   const categoryWeights = HOBBY_CATEGORIES.map(cat => {
     let w = 10;
+
+    // Correlate #NEW23: Institutional Embeddedness ↔ Hobby Conformity (positive)
+    // Embedded people prefer mainstream/socially acceptable hobbies; non-embedded prefer fringe
+    // Mainstream: intellectual, social, culinary (conventional, socially acceptable)
+    // Fringe: creative, technical (unconventional, niche interests)
+    // Physical and outdoor are neutral
+    const isMainstream = cat === 'intellectual' || cat === 'social' || cat === 'culinary';
+    const isFringe = cat === 'creative' || cat === 'technical';
+    // Strengthened multipliers (was +5/+4, now multiplicative factor 1.5-2.5x)
+    if (isMainstream) w *= (1.0 + 1.5 * inst01); // High embedded: 2.5x mainstream
+    if (isFringe) w *= (1.0 + 1.2 * (1 - inst01)); // Low embedded: 2.2x fringe
 
     // Physical hobbies influenced by riskAppetite, conditioning, and age
     // Correlate #B3: Physical Conditioning ↔ Active Hobbies (positive) - STRENGTHENED
@@ -1030,14 +1187,27 @@ function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
     }
     // Outdoor hobbies influenced by risk appetite and conditioning
     // Correlate #B3: Physical Conditioning ↔ Active Hobbies (positive) - STRENGTHENED
+    // DC-RURAL-HOBBY: Urbanicity → Hobby Type (approximated using climate indicators)
+    // NOTE: urbanicity not in PreferencesContext - using coastal01 as proxy
+    // (rural areas often non-coastal; low coastal01 suggests inland/rural environments)
+    // If fully implemented with urbanicity == "rural", hobbies weighted toward outdoor/nature-based
     if (cat === 'outdoor') {
       const conditioning01 = latents.physicalConditioning / 1000;
       w *= (0.5 + 1.2 * conditioning01); // Low conditioning = 0.5x, high = 1.7x
       if (latents.riskAppetite > 500) w += 5;
+      // DC-RURAL-HOBBY: Low coastal01 (inland areas) → more outdoor hobbies
+      // Rationale: Rural people have outdoor hobbies
+      const coastal01 = ctx.climateIndicators.coastal01;
+      if (coastal01 < 0.3) w += 5; // Inland/rural areas → outdoor hobbies
     }
     // Culinary hobbies - universal appeal with slight creativity boost
     if (cat === 'culinary') {
       if (latents.aestheticExpressiveness > 500) w += 3;
+    }
+    // DC-RURAL-HOBBY: Additional weighting for physical hobbies in rural contexts
+    if (cat === 'physical') {
+      const coastal01 = ctx.climateIndicators.coastal01;
+      if (coastal01 < 0.3) w += 3; // Inland/rural areas → physical outdoor activities
     }
 
     return { item: cat, weight: w };
@@ -1068,13 +1238,48 @@ function computeHobbies(ctx: PreferencesContext, rng: Rng): HobbiesPreferences {
     );
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Plausibility Gate PG6: Operative Role → No Social Hobbies
+  // Operatives avoid public-facing hobbies that could expose their identity.
+  // Social hobbies (e.g., "social media influencing", "public speaking",
+  // "community organizing") are replaced with private/technical/physical hobbies.
+  // ═══════════════════════════════════════════════════════════════════════════
+  const isOperative = ctx.roleSeedTags.includes('operative');
+  if (isOperative && chosenCategories.includes('social')) {
+    // Replace social category with safe alternatives for operative cover
+    const operativeSafeCategories = ['technical', 'physical', 'intellectual', 'outdoor'];
+    // Pick a replacement that isn't already chosen
+    const available = operativeSafeCategories.filter(c => !chosenCategories.includes(c));
+    const replacement = available.length > 0 ? rng.pick(available) : 'technical';
+    chosenCategories = chosenCategories.map(c => c === 'social' ? replacement : c);
+  }
+
+  // DC-IMPULSE-GAMBLING: Low Impulse → Gambling Risk
+  // If impulseControl < 300, increase gambling/betting hobby probability
+  // Rationale: Low impulse control risks gambling
+  const lowImpulseControl = latents.impulseControl < 300;
+
   // Pick hobbies from chosen categories
   const allHobbies: string[] = [];
   for (const cat of chosenCategories) {
     const catHobbies = hobbiesVocab[cat as keyof typeof hobbiesVocab] ?? [];
     if (catHobbies.length > 0) {
       const pickCount = Math.min(2, catHobbies.length);
-      const picked = rng.pickK(catHobbies, pickCount);
+      // DC-IMPULSE-GAMBLING: Weight gambling-adjacent hobbies for low impulse control
+      const hobbyWeights = catHobbies.map((hobby) => {
+        const h = hobby.toLowerCase();
+        let w = 1;
+        // Gambling-adjacent hobbies (card games, poker, betting sports, horse racing, etc.)
+        const isGamblingAdjacent = h.includes('poker') || h.includes('card') || h.includes('casino') ||
+          h.includes('betting') || h.includes('gambl') || h.includes('horse racing') ||
+          h.includes('slots') || h.includes('dice') || h.includes('blackjack') ||
+          h.includes('fantasy sports') || h.includes('sports betting') || h.includes('trading');
+        if (isGamblingAdjacent && lowImpulseControl) {
+          w += 3.0; // DC-IMPULSE-GAMBLING: Strong boost for low impulse control
+        }
+        return { item: hobby, weight: w };
+      });
+      const picked = weightedPickKUnique(rng, hobbyWeights, pickCount);
       allHobbies.push(...picked);
     }
   }
@@ -1135,7 +1340,34 @@ function computeLivingSpacePreferences(ctx: PreferencesContext, rng: Rng): Livin
   if (!living?.lightPreferences?.length) throw new Error('Agent vocab missing: preferences.livingSpace.lightPreferences');
 
   const roomPreferences = pickKBounded(rng, living.roomPreferenceTags, 1, 2);
-  const comfortItems = pickKBounded(rng, living.comfortItemTags, 1, 2);
+
+  // DC-OPSEC-COLLECTION: Opsec → Collection Type (via comfort items)
+  // If opsecDiscipline > 750, collection types exclude identifying/trackable items
+  // Rationale: Security-minded avoid traceable collections
+  const highOpsec = latents.opsecDiscipline > 750;
+  const comfortItemWeights = living.comfortItemTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    // Identifying/trackable items that leave paper trails or can be used to identify the owner
+    const isTraceable = s.includes('photo') || s.includes('diploma') || s.includes('award') ||
+      s.includes('trophy') || s.includes('certificate') || s.includes('memento') ||
+      s.includes('souvenir') || s.includes('collectible') || s.includes('collection') ||
+      s.includes('memorabilia') || s.includes('personal') || s.includes('family') ||
+      s.includes('heirloom') || s.includes('antique') || s.includes('art piece') ||
+      s.includes('signed') || s.includes('autograph') || s.includes('rare');
+    // Generic/non-identifying items preferred by high opsec
+    const isGeneric = s.includes('blanket') || s.includes('pillow') || s.includes('plant') ||
+      s.includes('book') || s.includes('lamp') || s.includes('rug') || s.includes('candle') ||
+      s.includes('cushion') || s.includes('generic') || s.includes('utilitarian');
+    if (isTraceable && highOpsec) {
+      w *= 0.15; // DC-OPSEC-COLLECTION: High opsec avoids traceable items
+    }
+    if (isGeneric && highOpsec) {
+      w += 1.5; // DC-OPSEC-COLLECTION: High opsec prefers generic items
+    }
+    return { item, weight: Math.max(0.05, w) };
+  });
+  const comfortItems = weightedPickKUnique(rng, comfortItemWeights, Math.min(2, living.comfortItemTags.length));
 
   const opsec01 = latents.opsecDiscipline / 1000;
   const stress01 = latents.stressReactivity / 1000;
@@ -1150,16 +1382,32 @@ function computeLivingSpacePreferences(ctx: PreferencesContext, rng: Rng): Livin
     weightedPick(rng, pool.map(item => ({ item, weight: weightFn(item) }))) as string
   );
 
+  // DC-SPACE-TYPE: High opsecDiscipline → private space preference
+  // When opsecDiscipline > 700, weight 'private' spaces more heavily
   const spaceType = pickWeighted(living.spaceTypes, (item) => {
     const s = item.toLowerCase();
     let w = 1;
+    // Private/secure space options
+    if (s.includes('private') || s.includes('secure') || s.includes('isolated') ||
+        s.includes('solo') || s.includes('single') || s.includes('own')) {
+      w += 1.5 * opsec01; // High opsec → private space
+      if (latents.opsecDiscipline > 700) w += 1.2; // DC-SPACE-TYPE: Extra boost for high opsec
+    }
     if (s.includes('operational') || s.includes('bolt')) w += 0.7 * opsec01 + (isOperative ? 0.6 : 0);
     if (s.includes('deep-cover')) w += 0.6 * public01 + 0.3 * (tierBand === 'elite' ? 1 : 0);
     if (s.includes('studio')) w += 0.5 * (age < 30 ? 1 : 0.3) + 0.3 * frugal01;
-    if (s.includes('shared')) w += 0.6 * social01 + 0.4 * (tierBand === 'mass' ? 1 : 0.2);
+    // Shared/communal spaces - reduce for high opsec
+    if (s.includes('shared') || s.includes('communal') || s.includes('roommate') ||
+        s.includes('open') || s.includes('co-living')) {
+      w += 0.6 * social01 + 0.4 * (tierBand === 'mass' ? 1 : 0.2);
+      if (latents.opsecDiscipline > 700) w *= 0.3; // DC-SPACE-TYPE: Strongly reduce for high opsec
+    }
     if (s.includes('family')) w += 0.5 * (age > 35 ? 1 : 0.2) + 0.3 * public01;
     if (s.includes('hotel')) w += 0.6 * (isOperative ? 1 : 0.2);
-    if (s.includes('barracks') || s.includes('dorm')) w += 0.5 * (tierBand === 'mass' ? 1 : 0.2);
+    if (s.includes('barracks') || s.includes('dorm')) {
+      w += 0.5 * (tierBand === 'mass' ? 1 : 0.2);
+      if (latents.opsecDiscipline > 700) w *= 0.4; // Reduce for high opsec
+    }
     if (s.includes('mission')) w += 0.6 * (isOperative ? 1 : 0.1);
     return Math.max(0.05, w);
   });
@@ -1206,27 +1454,69 @@ function computeLivingSpacePreferences(ctx: PreferencesContext, rng: Rng): Livin
     return Math.max(0.05, w);
   });
 
+  // DC-STRESS-LIGHT: High stressReactivity → warm lighting preference
+  // When stressReactivity > 700, weight 'warm'/'dim' lighting options
   const lightPreference = pickWeighted(living.lightPreferences, (item) => {
     const s = item.toLowerCase();
     let w = 1;
-    if (s.includes('bright') || s.includes('natural')) w += 0.6 * (1 - stress01) + 0.3 * social01;
+    // DC-STRESS-LIGHT: Warm/dim lighting preferred by high stress agents
+    if (s.includes('warm') || s.includes('dim') || s.includes('soft') || s.includes('amber') ||
+        s.includes('candl') || s.includes('cozy') || s.includes('gentle') || s.includes('low')) {
+      w += 1.5 * stress01; // High stress → warm lighting
+      if (latents.stressReactivity > 700) w += 1.2; // Extra boost for very high stress
+    }
+    // Harsh/bright lighting - less preferred by high stress agents
+    if (s.includes('bright') || s.includes('natural')) {
+      w += 0.6 * (1 - stress01) + 0.3 * social01;
+      if (latents.stressReactivity > 700) w *= 0.5; // DC-STRESS-LIGHT: Reduce bright for high stress
+    }
+    if (s.includes('fluorescent') || s.includes('harsh') || s.includes('clinical')) {
+      if (latents.stressReactivity > 700) w *= 0.3; // Strongly avoid harsh lighting
+    }
     if (s.includes('dark') || s.includes('artificial')) w += 0.6 * stress01 + 0.5 * opsec01;
     if (s.includes('views')) w += 0.4 * public01 + 0.2 * (1 - opsec01);
     if (s.includes('avoided')) w += 0.5 * opsec01;
     return Math.max(0.05, w);
   });
 
+  // Deterministic Cap DC5: Conscientiousness ↔ Living Space Organization
+  // High conscientiousness (>0.75) cannot have "mess" or "cyclic" - must have "obsessive" or "selective"
+  // Low conscientiousness (<0.30) cannot have "obsessive"
+  let gatedOrganizationStyle = organizationStyle;
+  const orgLower = organizationStyle.toLowerCase();
+  if (conscientious01 > 0.75 && (orgLower.includes('mess') || orgLower.includes('cyclic'))) {
+    // High conscientious agents cannot be messy - force to selective (less extreme than obsessive)
+    gatedOrganizationStyle = living.organizationStyles.find(s => s.toLowerCase().includes('selective'))
+      ?? living.organizationStyles.find(s => s.toLowerCase().includes('obsessive'))
+      ?? organizationStyle;
+    traceSet(trace, 'preferences.livingSpace.DC5', {
+      original: organizationStyle,
+      forced: gatedOrganizationStyle,
+      reason: 'high conscientiousness (>0.75) incompatible with mess/cyclic organization',
+    }, { method: 'gate' });
+  } else if (conscientious01 < 0.30 && orgLower.includes('obsessive')) {
+    // Low conscientious agents cannot be obsessively organized - force to selective or cyclic
+    gatedOrganizationStyle = living.organizationStyles.find(s => s.toLowerCase().includes('selective'))
+      ?? living.organizationStyles.find(s => s.toLowerCase().includes('cyclic'))
+      ?? organizationStyle;
+    traceSet(trace, 'preferences.livingSpace.DC5', {
+      original: organizationStyle,
+      forced: gatedOrganizationStyle,
+      reason: 'low conscientiousness (<0.30) incompatible with obsessive organization',
+    }, { method: 'gate' });
+  }
+
   traceSet(trace, 'preferences.livingSpace', {
     roomPreferences,
     comfortItems,
     spaceType,
     decorStyle,
-    organizationStyle,
+    organizationStyle: gatedOrganizationStyle,
     securityHabit,
     visitorPolicy,
     lightPreference,
   }, {
-    method: 'weightedPick+pickK',
+    method: 'weightedPick+pickK+DC5',
     dependsOn: { facet: 'preferences', roomPoolSize: living.roomPreferenceTags.length, comfortPoolSize: living.comfortItemTags.length },
   });
 
@@ -1235,7 +1525,7 @@ function computeLivingSpacePreferences(ctx: PreferencesContext, rng: Rng): Livin
     comfortItems,
     spaceType,
     decorStyle,
-    organizationStyle,
+    organizationStyle: gatedOrganizationStyle,
     securityHabit,
     visitorPolicy,
     lightPreference,
@@ -1484,13 +1774,34 @@ function computeArtisticPreferences(ctx: PreferencesContext, rng: Rng): Artistic
     return w;
   });
 
+  // DC-SOCIAL-SHARING: Social Battery → Sharing Style
+  // If socialBattery < 300, creative sharing weighted toward private/anonymous
+  // Rationale: Introverts share privately
+  const veryIntroverted = latents.socialBattery < 300;
   const sharingStyle = pickWeighted(artistic.sharingStyles, (item) => {
     const lower = item.toLowerCase();
     let w = 1;
-    if (lower.includes('private') || lower.includes('never')) w += 0.8 * opsec01;
+    if (lower.includes('private') || lower.includes('never')) {
+      w += 0.8 * opsec01;
+      if (veryIntroverted) w += 2.0; // DC-SOCIAL-SHARING: Strong boost for introverts
+    }
     if (lower.includes('trusted')) w += 0.5 * social01;
-    if (lower.includes('public')) w += 0.6 * public01;
-    if (lower.includes('anonymous')) w += 0.4 * opsec01 + 0.3 * public01;
+    if (lower.includes('public')) {
+      w += 0.6 * public01;
+      if (veryIntroverted) w *= 0.2; // DC-SOCIAL-SHARING: Strongly reduce public for introverts
+    }
+    if (lower.includes('anonymous')) {
+      w += 0.4 * opsec01 + 0.3 * public01;
+      if (veryIntroverted) w += 1.5; // DC-SOCIAL-SHARING: Introverts prefer anonymous
+    }
+    // PR5: Social battery correlates with sharing style - high battery favors public/collaborative,
+    // low battery favors private/solitary artistic expression
+    if (lower.includes('public') || lower.includes('collaborat') || lower.includes('communit') || lower.includes('gallery') || lower.includes('perform')) {
+      w += 0.5 * social01;
+      if (veryIntroverted) w *= 0.25; // DC-SOCIAL-SHARING: Reduce collaborative for introverts
+    }
+    if (lower.includes('private') || lower.includes('solo') || lower.includes('personal') || lower.includes('journal') || lower.includes('never'))
+      w += 0.4 * (1 - social01);
     return w;
   });
 
@@ -1547,26 +1858,109 @@ function computeArtisticPreferences(ctx: PreferencesContext, rng: Rng): Artistic
 }
 
 function computeSocialPreferences(ctx: PreferencesContext, rng: Rng): SocialPreferences {
-  const { vocab, trace } = ctx;
+  const { vocab, trace, latents, traits } = ctx;
   const social = vocab.preferences.social;
   if (!social?.groupStyleTags?.length) throw new Error('Agent vocab missing: preferences.social.groupStyleTags');
   if (!social?.communicationMethodTags?.length) throw new Error('Agent vocab missing: preferences.social.communicationMethodTags');
   if (!social?.boundaryTags?.length) throw new Error('Agent vocab missing: preferences.social.boundaryTags');
   if (!social?.emotionalSharingTags?.length) throw new Error('Agent vocab missing: preferences.social.emotionalSharingTags');
 
-  const groupStyle = rng.pick(social.groupStyleTags);
-  const communicationMethod = rng.pick(social.communicationMethodTags);
-  const boundary = rng.pick(social.boundaryTags);
-  const emotionalSharing = rng.pick(social.emotionalSharingTags);
+  const social01 = latents.socialBattery / 1000;
+  const opsec01 = latents.opsecDiscipline / 1000;
+  const agree01 = traits.agreeableness / 1000;
+
+  // DC-SOCIAL-GROUP: socialBattery correlates with group style preference
+  // Low battery → listener-observer, silent-when-needed
+  // High battery → group-banter, storyteller
+  const groupStyle = weightedPick(rng, social.groupStyleTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    // Low social battery styles
+    if (s === 'listener-observer' || s === 'silent-when-needed') {
+      w += 2.5 * (1 - social01); // Low social battery → prefer quiet/observer
+    }
+    // High social battery styles
+    if (s === 'group-banter' || s === 'storyteller') {
+      w += 2.5 * social01; // High social battery → prefer active participation
+    }
+    // Neutral middle option
+    if (s === 'one-on-one') {
+      w += 1.0; // Moderate preference regardless of battery
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
+
+  // DC-SOCIAL-COMM: Low socialBattery → async communication preference
+  // When socialBattery < 350, weight 'text'/'email' over 'call'/'video'
+  const communicationMethod = weightedPick(rng, social.communicationMethodTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('text') || s.includes('email') || s.includes('message') || s.includes('async')) {
+      w += 1.8 * (1 - social01); // Low social battery → async comms
+      if (latents.socialBattery < 350) w += 1.2; // Extra boost for very low battery
+    }
+    if (s.includes('call') || s.includes('phone') || s.includes('video') || s.includes('face')) {
+      w += 1.5 * social01; // High social battery → sync comms
+      if (latents.socialBattery < 350) w *= 0.35; // Reduce if low battery
+    }
+    if (s.includes('in-person') || s.includes('meeting')) {
+      w += 1.2 * social01;
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
+
+  // DC-BOUNDARY: opsecDiscipline correlates with personal boundary strength
+  // Low opsec → hugger, proximity-trust (open boundaries)
+  // High opsec → touch-averse, strict-touch-norms (closed boundaries)
+  const boundary = weightedPick(rng, social.boundaryTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    // Strong/closed boundaries (high opsec)
+    if (s === 'touch-averse' || s === 'strict-touch-norms') {
+      w += 2.5 * opsec01; // High opsec → closed boundaries
+    }
+    // Open boundaries (low opsec)
+    if (s === 'hugger' || s === 'proximity-trust') {
+      w += 2.5 * (1 - opsec01); // Low opsec → open boundaries
+    }
+    // Neutral middle option
+    if (s === 'professional-distance') {
+      w += 1.0; // Moderate preference
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
+
+  // DC-EMOTIONAL: High agreeableness → open emotional sharing
+  // When agreeableness > 700, weight 'open' style
+  const emotionalSharing = weightedPick(rng, social.emotionalSharingTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('open') || s.includes('expressive') || s.includes('freely') || s.includes('vulnerable')) {
+      w += 2.0 * agree01; // High agreeableness → open sharing
+      if (traits.agreeableness > 700) w += 1.5; // Extra boost for high agreeableness
+    }
+    if (s.includes('guarded') || s.includes('reserved') || s.includes('private') || s.includes('closed')) {
+      w += 1.5 * (1 - agree01); // Low agreeableness → guarded
+      w += 0.8 * opsec01; // High opsec also → guarded
+      if (traits.agreeableness > 700) w *= 0.3; // Strongly reduce if high agreeableness
+    }
+    if (s.includes('selective') || s.includes('trusted') || s.includes('context')) {
+      w += 0.7; // Neutral/moderate option
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
 
   traceSet(trace, 'preferences.social', { groupStyle, communicationMethod, boundary, emotionalSharing }, {
-    method: 'rng.pick',
+    method: 'weightedPick+DC-SOCIAL-GROUP+DC-SOCIAL-COMM+DC-BOUNDARY+DC-EMOTIONAL',
     dependsOn: {
       facet: 'preferences',
       groupPoolSize: social.groupStyleTags.length,
       commsPoolSize: social.communicationMethodTags.length,
       boundaryPoolSize: social.boundaryTags.length,
       sharingPoolSize: social.emotionalSharingTags.length,
+      socialBattery: latents.socialBattery,
+      opsecDiscipline: latents.opsecDiscipline,
+      agreeableness: traits.agreeableness,
     },
   });
 
@@ -1591,17 +1985,50 @@ function computeWorkPreferences(ctx: PreferencesContext, rng: Rng): WorkPreferen
 }
 
 function computeEquipmentPreferences(ctx: PreferencesContext, rng: Rng): EquipmentPreferences {
-  const { vocab, trace } = ctx;
+  const { vocab, trace, latents } = ctx;
   const equipment = vocab.preferences.equipment;
   if (!equipment?.weaponPreferenceTags?.length) throw new Error('Agent vocab missing: preferences.equipment.weaponPreferenceTags');
   if (!equipment?.gearPreferenceTags?.length) throw new Error('Agent vocab missing: preferences.equipment.gearPreferenceTags');
 
-  const weaponPreference = rng.pick(equipment.weaponPreferenceTags);
+  const risk01 = latents.riskAppetite / 1000;
+
+  // DC-RISK-EQUIP: High riskAppetite → assertive weapon preference
+  // When riskAppetite > 700, weight aggressive/assertive options more heavily
+  const weaponPreference = weightedPick(rng, equipment.weaponPreferenceTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    // Aggressive/assertive weapon options
+    if (s.includes('assault') || s.includes('automatic') || s.includes('heavy') ||
+        s.includes('explosive') || s.includes('offensive') || s.includes('combat') ||
+        s.includes('aggressive') || s.includes('lethal')) {
+      w += 2.0 * risk01; // High risk appetite → assertive weapons
+      if (latents.riskAppetite > 700) w += 1.5; // Extra boost for very high risk appetite
+    }
+    // Defensive/cautious weapon options
+    if (s.includes('defensive') || s.includes('non-lethal') || s.includes('concealed') ||
+        s.includes('compact') || s.includes('precision') || s.includes('sniper') ||
+        s.includes('minimal') || s.includes('none') || s.includes('unarmed')) {
+      w += 1.5 * (1 - risk01); // Low risk appetite → defensive/cautious
+      if (latents.riskAppetite > 700) w *= 0.35; // Reduce if high risk appetite
+    }
+    // Versatile/balanced options
+    if (s.includes('versatile') || s.includes('standard') || s.includes('sidearm') ||
+        s.includes('pistol') || s.includes('handgun')) {
+      w += 0.7; // Neutral option
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
+
   const gearPreferences = pickKBounded(rng, equipment.gearPreferenceTags, 1, 2);
 
   traceSet(trace, 'preferences.equipment', { weaponPreference, gearPreferences }, {
-    method: 'rng.pick+pickK',
-    dependsOn: { facet: 'preferences', weaponPoolSize: equipment.weaponPreferenceTags.length, gearPoolSize: equipment.gearPreferenceTags.length },
+    method: 'weightedPick+pickK+DC-RISK-EQUIP',
+    dependsOn: {
+      facet: 'preferences',
+      weaponPoolSize: equipment.weaponPreferenceTags.length,
+      gearPoolSize: equipment.gearPreferenceTags.length,
+      riskAppetite: latents.riskAppetite,
+    },
   });
 
   return { weaponPreference, gearPreferences };
@@ -1635,17 +2062,66 @@ function computeQuirksPreferences(ctx: PreferencesContext, rng: Rng): QuirksPref
 }
 
 function computeTimePreferences(ctx: PreferencesContext, rng: Rng): TimePreferences {
-  const { vocab, trace } = ctx;
+  const { vocab, trace, traits } = ctx;
   const time = vocab.preferences.time;
   if (!time?.dailyRhythmTags?.length) throw new Error('Agent vocab missing: preferences.time.dailyRhythmTags');
   if (!time?.planningStyleTags?.length) throw new Error('Agent vocab missing: preferences.time.planningStyleTags');
 
-  const dailyRhythm = rng.pick(time.dailyRhythmTags);
-  const planningStyle = rng.pick(time.planningStyleTags);
+  const conscientious01 = traits.conscientiousness / 1000;
+
+  // DC-CONSC-ROUTINE: Conscientiousness → Routine Rigidity
+  // If conscientiousness > 800, daily routine weighted toward rigid/structured
+  // Rationale: Conscientious people have strict routines
+  const veryConscientious = traits.conscientiousness > 800;
+  const dailyRhythm = weightedPick(rng, time.dailyRhythmTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 1;
+    if (s.includes('rigid') || s.includes('strict') || s.includes('fixed') || s.includes('consistent') ||
+        s.includes('structured') || s.includes('regular') || s.includes('routine') || s.includes('clockwork')) {
+      w += 1.8 * conscientious01; // High conscientiousness → rigid routine
+      if (veryConscientious) w += 2.0; // DC-CONSC-ROUTINE: Extra boost for very high conscientiousness
+    }
+    if (s.includes('flexible') || s.includes('variable') || s.includes('spontaneous') || s.includes('casual') ||
+        s.includes('loose') || s.includes('relaxed') || s.includes('fluid') || s.includes('adaptive')) {
+      w += 1.5 * (1 - conscientious01); // Low conscientiousness → flexible routine
+      if (veryConscientious) w *= 0.2; // DC-CONSC-ROUTINE: Strongly reduce if very conscientious
+    }
+    if (s.includes('chaotic') || s.includes('random') || s.includes('unpredictable')) {
+      w += 1.2 * (1 - conscientious01);
+      if (veryConscientious) w *= 0.1; // DC-CONSC-ROUTINE: Nearly impossible if very conscientious
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
+
+  // DC-PLANNING: conscientiousness correlates with planning style (target r ~ +0.25)
+  // Low conscientiousness → improvise, last-minute
+  // High conscientiousness → minute-planned, contingency-heavy
+  const planningStyle = weightedPick(rng, time.planningStyleTags.map((item) => {
+    const s = item.toLowerCase();
+    let w = 0.5; // Lower base weight to strengthen correlation effect
+    // Structured planning (high conscientiousness)
+    if (s === 'minute-planned' || s === 'contingency-heavy' || s.includes('plan') || s.includes('schedul')) {
+      w = 0.3 + 4.0 * conscientious01; // Strongly favor with high conscientiousness
+    }
+    // Unstructured planning (low conscientiousness)
+    if (s === 'improvise' || s === 'last-minute' || s === 'spontaneous' || s.includes('wing')) {
+      w = 0.3 + 4.0 * (1 - conscientious01); // Strongly favor with low conscientiousness
+    }
+    // Neutral middle option
+    if (s === 'flexible-structure' || s === 'adaptive' || s === 'balanced') {
+      w = 1.5; // Slight preference as fallback
+    }
+    return { item, weight: Math.max(0.05, w) };
+  })) as string;
 
   traceSet(trace, 'preferences.time', { dailyRhythm, planningStyle }, {
-    method: 'rng.pick',
-    dependsOn: { facet: 'preferences', rhythmPoolSize: time.dailyRhythmTags.length, planningPoolSize: time.planningStyleTags.length },
+    method: 'rng.pick+weightedPick+DC-PLANNING',
+    dependsOn: {
+      facet: 'preferences',
+      rhythmPoolSize: time.dailyRhythmTags.length,
+      planningPoolSize: time.planningStyleTags.length,
+      conscientiousness: traits.conscientiousness,
+    },
   });
 
   return { dailyRhythm, planningStyle };

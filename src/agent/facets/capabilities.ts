@@ -115,6 +115,7 @@ export function computeCapabilities(ctx: CapabilitiesContext): CapabilitiesResul
     heightBand: ctx.heightBand,
     voiceTag: ctx.voiceTag,
     educationTrackTag: ctx.educationTrackTag,
+    age: ctx.age,
   });
 
   if (trace) {

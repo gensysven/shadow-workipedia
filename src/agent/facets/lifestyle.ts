@@ -110,6 +110,10 @@ export type LifestyleContext = {
   // Correlate #N5: Family ↔ Religiosity (positive)
   hasFamily: boolean;
 
+  // Correlate #HL19-25: Additional context for new correlates
+  /** HL19, HL25: Urbanicity affects treatment access */
+  urbanicity?: 'rural' | 'small-town' | 'secondary-city' | 'capital' | 'megacity' | 'peri-urban';
+
   // Trace
   trace?: AgentGenerationTraceV1;
 };
@@ -122,12 +126,20 @@ export type LifestyleResult = {
     diseaseTags: string[];
     fitnessBand: string;
     treatmentTags: string[];
+    /** Correlate #HL13: Elite tier gets better treatment access */
+    treatmentAccess: 'comprehensive' | 'specialist' | 'standard' | 'limited' | 'none';
+    /** Correlate #HL18: Age 60+ with 2+ chronic conditions ensures medication */
+    medicationTags: string[];
+    /** Correlate #HL21: Very high stress reactivity causes sleep issues */
+    sleepIssues: string[];
   };
   vices: Array<{
     vice: string;
     severity: Band5;
     triggers: string[];
   }>;
+  /** Correlate #HL22: Substance vice + family triggers intervention pressure */
+  familyInterventionFlag: boolean;
   dependencyProfiles: Array<{
     substance: string;
     stage: string;
@@ -143,6 +155,8 @@ export type LifestyleResult = {
   neurodivergence: {
     indicatorTags: string[];
     copingStrategies: string[];
+    /** Correlate #HL6: Age affects neurodivergence diagnosis likelihood */
+    diagnosisStatus: 'formally-diagnosed' | 'self-identified' | 'undiagnosed' | 'suspected';
   };
   spirituality: {
     tradition: string;
@@ -305,6 +319,25 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
     ? weightedPickKUnique(healthRng, injuryWeights, healthRng.int(1, Math.min(2, injuryPool.length)))
     : [];
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE HL8: Multiple injuries cap fitness band
+  // Having 2+ injuries prevents peak athletic condition
+  // ═══════════════════════════════════════════════════════════════════════════
+  let gatedFitnessBand = fitnessBand;
+  if (injuryHistoryTags.length >= 2 && (fitnessBand === 'peak-condition' || fitnessBand === 'excellent' || fitnessBand === 'athletic')) {
+    // Cap at 'good' for injured agents
+    gatedFitnessBand = 'good';
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.hl8InjuryFitnessGate = {
+        injuryCount: injuryHistoryTags.length,
+        originalFitness: fitnessBand,
+        adjustedFitness: 'good',
+        reason: 'HL8: Multiple injuries (>=2) cap fitness band at good',
+      };
+    }
+  }
+
   const diseaseChance = Math.min(0.55,
     0.05 +
     0.20 * (1 - endurance01) +
@@ -349,13 +382,33 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
     ? weightedPickKUnique(healthRng, treatmentWeights, healthRng.int(1, Math.min(2, treatmentPool.length)))
     : [];
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL13: Elite tier gets better treatment access
+  // Elite: comprehensive/specialist care (private doctors, cutting-edge treatments)
+  // Middle: standard/specialist care
+  // Mass: limited/standard care
+  // ─────────────────────────────────────────────────────────────────────────────
+  type TreatmentAccess = LifestyleResult['health']['treatmentAccess'];
+  const treatmentAccessWeights: Array<{ item: TreatmentAccess; weight: number }> = [
+    { item: 'comprehensive', weight: tierBand === 'elite' ? 5 : (tierBand === 'middle' ? 0.5 : 0.1) },
+    { item: 'specialist', weight: tierBand === 'elite' ? 3 : (tierBand === 'middle' ? 2 : 0.5) },
+    { item: 'standard', weight: tierBand === 'mass' ? 3 : (tierBand === 'middle' ? 3 : 1) },
+    { item: 'limited', weight: tierBand === 'mass' ? 4 : (tierBand === 'middle' ? 0.5 : 0.1) },
+    { item: 'none', weight: tierBand === 'mass' ? 1 : 0.1 },
+  ];
+  // If no treatment needed, access is moot but still reflects capability
+  const treatmentAccess: TreatmentAccess = needsTreatment
+    ? weightedPick(healthRng, treatmentAccessWeights) as TreatmentAccess
+    : (tierBand === 'elite' ? 'comprehensive' : tierBand === 'middle' ? 'standard' : 'limited');
+
   traceSet(trace, 'health', {
     chronicConditionTags,
     allergyTags,
     injuryHistoryTags,
     diseaseTags,
-    fitnessBand,
+    fitnessBand: gatedFitnessBand,
     treatmentTags,
+    treatmentAccess,
   }, {
     method: 'deterministicThreshold+probabilisticPickK',
     dependsOn: {
@@ -380,11 +433,47 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // VICES (Correlate #7: Religiosity ↔ Vices)
+  // NEURODIVERGENCE (computed before vices for Correlate #HL10)
   // ─────────────────────────────────────────────────────────────────────────────
-  // Pass spirituality observance level to influence vice selection
-  const vices = computeVices(ctx, spirituality.observanceLevel);
+  const neurodivergence = computeNeurodivergence(ctx);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // VICES (Correlate #7: Religiosity ↔ Vices, #HL10: Neurodivergence triggers)
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Pass spirituality observance level and neurodivergence to influence vice selection
+  const vices = computeVices(ctx, spirituality.observanceLevel, neurodivergence.indicatorTags);
   const dependencyProfiles = computeDependencyProfiles(ctx, vices);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL15: Active addiction/dependency caps fitness band
+  // Active addiction/struggling stages prevent peak physical fitness
+  // Substances like alcohol, stimulants, opioids impair physical conditioning
+  // ─────────────────────────────────────────────────────────────────────────────
+  let finalFitnessBand = gatedFitnessBand;
+  const hasActiveDependency = dependencyProfiles.some(p =>
+    p.stage === 'active' || p.stage === 'struggling' ||
+    p.stage === 'early-stage' || p.stage === 'middle-stage' ||
+    p.stage === 'late-stage' || p.stage === 'crisis'
+  );
+  if (hasActiveDependency) {
+    const highFitnessBands = ['peak-condition', 'excellent', 'athletic'];
+    if (highFitnessBands.includes(finalFitnessBand)) {
+      // Cap at 'moderate' or 'good' for agents with active dependency
+      finalFitnessBand = 'moderate';
+      if (!fitnessBands.includes('moderate')) {
+        finalFitnessBand = fitnessBands.includes('good') ? 'good' : finalFitnessBand;
+      }
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.hl15DependencyFitnessGate = {
+          dependencies: dependencyProfiles.map(p => ({ substance: p.substance, stage: p.stage })),
+          originalFitness: gatedFitnessBand,
+          adjustedFitness: finalFitnessBand,
+          reason: 'HL15: Active addiction/dependency caps fitness band at moderate',
+        };
+      }
+    }
+  }
 
   // ─────────────────────────────────────────────────────────────────────────────
   // LOGISTICS
@@ -392,30 +481,269 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
   const identityKit = computeLogistics(ctx);
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // NEURODIVERGENCE
-  // ─────────────────────────────────────────────────────────────────────────────
-  const neurodivergence = computeNeurodivergence(ctx);
-
-  // ─────────────────────────────────────────────────────────────────────────────
   // BACKGROUND
+  // Correlate #HL12: High spiritual observance boosts resilience
   // ─────────────────────────────────────────────────────────────────────────────
-  const background = computeBackground(ctx);
+  const background = computeBackground(ctx, spirituality.observanceLevel);
   const memoryTrauma = computeMemoryTrauma(ctx, background);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // MOBILITY
+  // Correlate #HL9: Chronic conditions affect mobility
+  // Correlate #HL14: Conflict environments restrict mobility options
   // ─────────────────────────────────────────────────────────────────────────────
-  const mobility = computeMobility(ctx);
+  const mobility = computeMobility(ctx, {
+    chronicConditionTags,
+    conflictEnv01k,
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // POST-HOC CORRELATE ADJUSTMENTS (HL17-HL25)
+  // Deterministic adjustments that enforce correlations after primary computation
+  // ═══════════════════════════════════════════════════════════════════════════
+  const postHocRng = makeRng(facetSeed(seed, 'posthoc'));
+  let finalTreatmentTags = [...treatmentTags];
+  let finalTreatmentAccess = treatmentAccess;
+  const medicationTags: string[] = [];
+  const sleepIssues: string[] = [];
+  let finalNeurodivergence = neurodivergence;
+  let finalMemoryTrauma = memoryTrauma;
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL17: Vice Severity → Treatment
+  // If viceSeverity == "severe" (very_high), ensure treatment includes recovery option
+  // Rationale: Severe vice requires intervention
+  // ─────────────────────────────────────────────────────────────────────────────
+  const hasSevereVice = vices.some(v => v.severity === 'very_high' || v.severity === 'high');
+  if (hasSevereVice && finalTreatmentTags.length === 0) {
+    const recoveryTreatments = ['addiction-treatment', 'rehab', 'therapy', 'counseling', 'support-group'];
+    const available = recoveryTreatments.filter(t =>
+      treatmentPool.some(p => p.toLowerCase().includes(t.split('-')[0]!))
+    );
+    if (available.length > 0 || treatmentPool.length > 0) {
+      const picked = treatmentPool.length > 0 ? postHocRng.pick(treatmentPool) : 'therapy';
+      finalTreatmentTags = [picked];
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.hl17SevereViceTreatment = {
+          severeVices: vices.filter(v => v.severity === 'very_high' || v.severity === 'high').map(v => v.vice),
+          addedTreatment: picked,
+          reason: 'HL17: Severe vice requires treatment/recovery option',
+        };
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL18: Age + Chronic → Medication
+  // If age > 60 AND chronicConditionCount >= 2, ensure medication field is populated
+  // Rationale: Elderly with multiple conditions need medications
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (age > 60 && chronicConditionTags.length >= 2) {
+    // Use treatmentTags as medication source or provide defaults
+    const medicationPool = uniqueStrings([
+      'daily-medication', 'prescription-managed', 'multiple-prescriptions',
+      'chronic-medication', 'maintenance-therapy',
+    ]);
+    const medCount = Math.min(chronicConditionTags.length, medicationPool.length, 2);
+    medicationTags.push(...postHocRng.pickK(medicationPool, Math.max(1, medCount)));
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.hl18ElderlyMedication = {
+        age,
+        chronicConditionCount: chronicConditionTags.length,
+        addedMedications: medicationTags,
+        reason: 'HL18: Age > 60 with 2+ chronic conditions requires medication',
+      };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL19: Conflict + Injury → Trauma Tag
+  // If hasConflictExposure AND hasPhysicalInjury, add trauma-related tag
+  // Rationale: Combat injuries = psychological trauma
+  // ─────────────────────────────────────────────────────────────────────────────
+  const hasConflictExposure = background.adversityTags.some(t =>
+    t.toLowerCase().includes('conflict') || t.toLowerCase().includes('combat') ||
+    t.toLowerCase().includes('war') || t.toLowerCase().includes('violence')
+  ) || conflictEnv01k > 500;
+  const hasPhysicalInjury = injuryHistoryTags.length > 0;
+  if (hasConflictExposure && hasPhysicalInjury && finalMemoryTrauma.traumaTags.length === 0) {
+    const traumaPool = uniqueStrings(vocab.memoryTrauma?.traumaTags ?? []);
+    const combatTraumaTags = traumaPool.filter(t =>
+      t.toLowerCase().includes('combat') || t.toLowerCase().includes('ptsd') ||
+      t.toLowerCase().includes('violence') || t.toLowerCase().includes('survivor')
+    );
+    const picked = combatTraumaTags.length > 0
+      ? postHocRng.pick(combatTraumaTags)
+      : (traumaPool.length > 0 ? postHocRng.pick(traumaPool) : 'combat-trauma');
+    finalMemoryTrauma = {
+      ...finalMemoryTrauma,
+      traumaTags: uniqueStrings([picked, ...finalMemoryTrauma.traumaTags]),
+    };
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.hl19ConflictInjuryTrauma = {
+        hasConflictExposure: true,
+        injuries: injuryHistoryTags,
+        addedTrauma: picked,
+        reason: 'HL19: Conflict exposure + physical injury implies psychological trauma',
+      };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL20: Elite → Specialist Treatment
+  // If tier == "elite" AND hasChronicCondition, treatment weighted toward specialist
+  // Rationale: Elite access better care
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (tierBand === 'elite' && chronicConditionTags.length > 0) {
+    if (finalTreatmentAccess === 'standard' || finalTreatmentAccess === 'limited') {
+      finalTreatmentAccess = 'specialist';
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.hl20EliteSpecialist = {
+          originalAccess: treatmentAccess,
+          upgradedAccess: 'specialist',
+          reason: 'HL20: Elite tier with chronic condition gets specialist treatment',
+        };
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL21: Very High Stress → Sleep Issues
+  // If stressReactivity > 850, add sleep disturbance indicator
+  // Rationale: Chronic stress disrupts sleep
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (latents.stressReactivity > 850) {
+    const sleepPool = uniqueStrings([
+      'insomnia', 'sleep-disruption', 'chronic-fatigue', 'nightmares',
+      'restless-sleep', 'early-waking', 'sleep-anxiety',
+    ]);
+    const picked = sleepPool.length > 0 ? postHocRng.pick(sleepPool) : 'insomnia';
+    sleepIssues.push(picked);
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.hl21StressSleep = {
+        stressReactivity: latents.stressReactivity,
+        addedSleepIssue: picked,
+        reason: 'HL21: Very high stress reactivity (>850) causes sleep disturbance',
+      };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL22: Substance + Family → Intervention Flag
+  // If hasSubstanceVice AND hasFamily, flag potential family intervention
+  // Rationale: Family pressures recovery
+  // ─────────────────────────────────────────────────────────────────────────────
+  const substanceVices = new Set(['alcohol', 'stims', 'opioids', 'nicotine', 'cannabis', 'drugs', 'substance']);
+  const hasSubstanceVice = vices.some(v =>
+    substanceVices.has(v.vice.toLowerCase()) ||
+    v.vice.toLowerCase().includes('alcohol') ||
+    v.vice.toLowerCase().includes('drug') ||
+    v.vice.toLowerCase().includes('substance')
+  );
+  const familyInterventionFlag = hasSubstanceVice && ctx.hasFamily;
+  if (familyInterventionFlag && trace) {
+    trace.derived = trace.derived ?? {};
+    trace.derived.hl22FamilyIntervention = {
+      substanceVices: vices.filter(v => substanceVices.has(v.vice.toLowerCase())).map(v => v.vice),
+      hasFamily: ctx.hasFamily,
+      reason: 'HL22: Substance vice + family creates intervention pressure',
+    };
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL23: Age < 25 → Acute Conditions
+  // For young agents, chronic conditions weighted toward acute/treatable
+  // Rationale: Youth have fewer chronic issues (already handled in weighting)
+  // Post-hoc: If young with chronic condition, it should be manageable/early-stage
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Note: This is primarily handled during initial chronic condition selection
+  // by the healthVulnerabilityScore formula which includes age factor.
+  // Young agents (age < 25) get lower scores, making chronic conditions rare.
+  // If they do have one, it's implicitly early-stage/acute.
+  if (age < 25 && chronicConditionTags.length > 0 && trace) {
+    trace.derived = trace.derived ?? {};
+    trace.derived.hl23YoungAcuteCondition = {
+      age,
+      chronicConditions: chronicConditionTags,
+      note: 'HL23: Young agent chronic conditions are implicitly early-stage/acute',
+    };
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL24: Neurodivergent → Coping Ritual
+  // If hasNeurodivergence, ensure at least one structured coping ritual
+  // Rationale: ND people develop coping strategies
+  // ─────────────────────────────────────────────────────────────────────────────
+  const hasNeurodivergence = neurodivergence.indicatorTags.some(t => t !== 'neurotypical');
+  if (hasNeurodivergence && neurodivergence.copingStrategies.length === 0) {
+    const neuroCoping = vocab.neurodivergence?.copingStrategies ?? [
+      'routine-dependent', 'list-maker', 'timer-use', 'structured-breaks',
+      'sensory-management', 'external-accountability',
+    ];
+    if (neuroCoping.length > 0) {
+      const picked = postHocRng.pick(neuroCoping);
+      finalNeurodivergence = {
+        ...neurodivergence,
+        copingStrategies: [picked],
+      };
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.hl24NeuroCoping = {
+          indicators: neurodivergence.indicatorTags,
+          addedCoping: picked,
+          reason: 'HL24: Neurodivergent individuals develop coping strategies',
+        };
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL25: Rural → Limited Treatment
+  // If urbanicity == "rural", treatment options weighted away from specialist
+  // Rationale: Rural areas have fewer specialists
+  // ─────────────────────────────────────────────────────────────────────────────
+  const { urbanicity } = ctx;
+  if (urbanicity === 'rural' || urbanicity === 'small-town') {
+    if (finalTreatmentAccess === 'comprehensive' || finalTreatmentAccess === 'specialist') {
+      const downgrade: TreatmentAccess = urbanicity === 'rural' ? 'limited' : 'standard';
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.hl25RuralTreatment = {
+          urbanicity,
+          originalAccess: finalTreatmentAccess,
+          downgradedAccess: downgrade,
+          reason: 'HL25: Rural areas have limited access to specialist care',
+        };
+      }
+      finalTreatmentAccess = downgrade;
+    }
+  }
 
   return {
-    health: { chronicConditionTags, allergyTags, injuryHistoryTags, diseaseTags, fitnessBand, treatmentTags },
+    health: {
+      chronicConditionTags,
+      allergyTags,
+      injuryHistoryTags,
+      diseaseTags,
+      fitnessBand: finalFitnessBand,
+      treatmentTags: finalTreatmentTags,
+      treatmentAccess: finalTreatmentAccess,
+      medicationTags,
+      sleepIssues,
+    },
     vices,
+    familyInterventionFlag,
     dependencyProfiles,
     logistics: { identityKit },
-    neurodivergence,
+    neurodivergence: finalNeurodivergence,
     spirituality,
     background,
-    memoryTrauma,
+    memoryTrauma: finalMemoryTrauma,
     mobility,
   };
 }
@@ -424,7 +752,11 @@ export function computeLifestyle(ctx: LifestyleContext): LifestyleResult {
 // Vice computation (Correlate #7: Religiosity ↔ Vices)
 // ============================================================================
 
-function computeVices(ctx: LifestyleContext, observanceLevel: string): LifestyleResult['vices'] {
+function computeVices(
+  ctx: LifestyleContext,
+  observanceLevel: string,
+  neuroIndicatorTags: string[],
+): LifestyleResult['vices'] {
   const {
     seed,
     vocab,
@@ -468,7 +800,10 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
   // Vice tendency modulated by conflict environment AND support/resilience
   const conflictViceBoost = 0.08 * (conflictEnv01k / 1000) + 0.06 * (stateViolenceEnv01k / 1000);
   const resilienceBuffer = 0.04 * (traits.agreeableness / 1000) + 0.03 * inst01;
-  const adjustedViceTendency = Math.min(1, Math.max(0, viceTendency + conflictViceBoost - resilienceBuffer));
+  // Correlate #NEW5: Conscientiousness ↔ Vice Moderation (negative)
+  // Conscientious people exercise self-control, reducing vice susceptibility
+  const conscientiousnessViceReduction = 0.12 * (traits.conscientiousness / 1000);
+  const adjustedViceTendency = Math.min(1, Math.max(0, viceTendency + conflictViceBoost - resilienceBuffer - conscientiousnessViceReduction));
   let viceCount = adjustedViceTendency > 0.78 ? 2 : adjustedViceTendency > 0.42 ? 1 : (vicesRng.next01() < 0.22 ? 1 : 0);
   if (stressLoad01k > 750 && viceCount < 2) viceCount += 1;
   // High conflict environments: increased vice probability BUT offset by high conscientiousness
@@ -508,6 +843,17 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
     }
   }
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL11: Age affects vice type weights
+  // Younger agents: recreational drugs, gambling, gaming, social media
+  // Older agents: alcohol, tobacco, workaholism, caffeine
+  // ─────────────────────────────────────────────────────────────────────────────
+  const { age } = ctx;
+  const isYoung = age < 35;
+  const isOlder = age > 50;
+  const youngViceBoost = isYoung ? 1.5 : (isOlder ? 0.5 : 1.0);
+  const olderViceBoost = isOlder ? 1.5 : (isYoung ? 0.5 : 1.0);
+
   const viceWeights = vocab.vices.vicePool.map((v) => {
     const key = v.toLowerCase();
     let w = 1;
@@ -531,6 +877,19 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
     if (key === 'collecting gadgets') w += 0.8 * (latents.techFluency / 1000) + 0.5 * (1 - latents.frugality / 1000);
     if (key === 'impulse travel') w += 0.9 * cosmo01 + 0.5 * (latents.adaptability / 1000) + 0.4 * (1 - latents.impulseControl / 1000);
     if (key === 'social media posting') w += 1.1 * public01 + 0.6 * (1 - opsec01);
+
+    // Correlate #HL11: Age-based vice weighting
+    // Younger people: recreational drugs, gambling, gaming, social media
+    const youngVices = ['stims', 'gambling', 'gaming', 'social media', 'doomscrolling', 'binge', 'online arguing'];
+    if (youngVices.some(yv => key.includes(yv))) {
+      w *= youngViceBoost;
+    }
+    // Older people: alcohol, tobacco/nicotine, workaholism, caffeine dependence
+    const olderVices = ['alcohol', 'nicotine', 'tobacco', 'workaholism', 'caffeine', 'collecting', 'perfectionism'];
+    if (olderVices.some(ov => key.includes(ov))) {
+      w *= olderViceBoost;
+    }
+
     if (bannedVices.has(key)) w = 0;
     return { item: v, weight: w };
   });
@@ -593,6 +952,27 @@ function computeVices(ctx: LifestyleContext, observanceLevel: string): Lifestyle
     if (publicVisibility > 700) ensureOneOf(['public backlash', 'humiliation', 'unexpected scrutiny', 'social comparison'], 'publicVisibility');
     if (securityPressure01k > 600) ensureOneOf(['fear', 'mission failure', 'loss of control', 'security scare'], 'securityPressure');
     if (paperTrail > 650) ensureOneOf(['deadline pressure', 'uncertainty', 'paperwork backlog', 'bureaucratic gridlock'], 'paperTrail');
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Correlate #HL10: Neurodivergence indicator tags match triggers
+    // ADHD agents get understimulation/boredom triggers
+    // Anxiety-processing agents get uncertainty/overwhelm triggers
+    // ASD agents get sensory/routine disruption triggers
+    // ─────────────────────────────────────────────────────────────────────────────
+    const hasADHD = neuroIndicatorTags.some(t => t.toLowerCase().includes('adhd') || t === 'hyperfocus-prone');
+    const hasAnxiety = neuroIndicatorTags.some(t => t.toLowerCase().includes('anxiety'));
+    const hasASD = neuroIndicatorTags.some(t => t.toLowerCase().includes('asd') || t === 'sensory-sensitivity');
+
+    if (hasADHD) {
+      ensureOneOf(['boredom', 'understimulation', 'monotony', 'routine', 'waiting'], 'neuro:ADHD');
+    }
+    if (hasAnxiety) {
+      ensureOneOf(['uncertainty', 'overwhelm', 'social pressure', 'anticipation', 'ambiguity'], 'neuro:anxiety');
+    }
+    if (hasASD) {
+      ensureOneOf(['sensory overload', 'routine disruption', 'unexpected change', 'social confusion'], 'neuro:ASD');
+    }
+
     return { vice, severity: band5From01k(severityValue), triggers };
   });
   if (trace && viceTriggerRepairs.length) trace.derived.viceTriggerRepairs = viceTriggerRepairs;
@@ -821,7 +1201,7 @@ function computeLogistics(ctx: LifestyleContext): LifestyleResult['logistics']['
 // ============================================================================
 
 function computeNeurodivergence(ctx: LifestyleContext): LifestyleResult['neurodivergence'] {
-  const { seed, vocab, tierBand, latents, traits, aptitudes, trace } = ctx;
+  const { seed, vocab, tierBand, latents, traits, aptitudes, age, trace } = ctx;
 
   traceFacet(trace, seed, 'neurodivergence');
   const neuroRng = makeRng(facetSeed(seed, 'neurodivergence'));
@@ -834,10 +1214,12 @@ function computeNeurodivergence(ctx: LifestyleContext): LifestyleResult['neurodi
 
   let indicatorTags: string[];
   let copingStrategies: string[];
+  let diagnosisStatus: LifestyleResult['neurodivergence']['diagnosisStatus'] = 'formally-diagnosed';
 
   if (isNeurotypical) {
     indicatorTags = ['neurotypical'];
     copingStrategies = [];
+    diagnosisStatus = 'formally-diagnosed'; // N/A for neurotypical, but needs a value
   } else {
     // Pick 1-2 indicators (not neurotypical)
     const nonTypicalIndicators = neuroIndicators.filter(t => t !== 'neurotypical');
@@ -854,6 +1236,51 @@ function computeNeurodivergence(ctx: LifestyleContext): LifestyleResult['neurodi
     });
     indicatorTags = weightedPickKUnique(neuroRng, indicatorWeights, neuroRng.int(1, 2));
 
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Correlate #HL6: Age affects neurodivergence diagnosis likelihood
+    // Older agents more likely undiagnosed; younger agents more likely diagnosed
+    // Historical context: Neurodivergence awareness/diagnosis became more common
+    // in late 20th/early 21st century. Older adults often went undiagnosed.
+    // ─────────────────────────────────────────────────────────────────────────────
+    const diagnosisWeights: Array<{ item: LifestyleResult['neurodivergence']['diagnosisStatus']; weight: number }> = [
+      { item: 'formally-diagnosed', weight: 1 },
+      { item: 'self-identified', weight: 1 },
+      { item: 'undiagnosed', weight: 1 },
+      { item: 'suspected', weight: 1 },
+    ];
+    // Age modifiers: older = more likely undiagnosed/self-identified
+    if (age > 50) {
+      // Born before 1975 - neurodivergence rarely diagnosed in childhood
+      diagnosisWeights[0]!.weight = 0.3; // formally-diagnosed rare
+      diagnosisWeights[1]!.weight = 2.5; // self-identified (learned as adult)
+      diagnosisWeights[2]!.weight = 3.0; // undiagnosed (never realized)
+      diagnosisWeights[3]!.weight = 1.5; // suspected
+    } else if (age > 40) {
+      // Born 1975-1985 - transitional era
+      diagnosisWeights[0]!.weight = 0.8;
+      diagnosisWeights[1]!.weight = 2.0;
+      diagnosisWeights[2]!.weight = 2.0;
+      diagnosisWeights[3]!.weight = 1.5;
+    } else if (age > 30) {
+      // Born 1985-1995 - increased awareness
+      diagnosisWeights[0]!.weight = 1.5;
+      diagnosisWeights[1]!.weight = 1.5;
+      diagnosisWeights[2]!.weight = 1.0;
+      diagnosisWeights[3]!.weight = 1.0;
+    } else {
+      // Born after 1995 - high awareness, school screening common
+      diagnosisWeights[0]!.weight = 3.0; // formally-diagnosed common
+      diagnosisWeights[1]!.weight = 1.0;
+      diagnosisWeights[2]!.weight = 0.4; // undiagnosed rare
+      diagnosisWeights[3]!.weight = 0.8;
+    }
+    // Tier modifier: elite have better access to diagnosis
+    if (tierBand === 'elite') {
+      diagnosisWeights[0]!.weight *= 1.5;
+      diagnosisWeights[2]!.weight *= 0.6;
+    }
+    diagnosisStatus = weightedPick(neuroRng, diagnosisWeights) as LifestyleResult['neurodivergence']['diagnosisStatus'];
+
     // Pick 1-3 coping strategies
     if (neuroCoping.length > 0) {
       const copingWeights = neuroCoping.map(tag => {
@@ -863,6 +1290,8 @@ function computeNeurodivergence(ctx: LifestyleContext): LifestyleResult['neurodi
         if (tag === 'noise-cancelling' && indicatorTags.includes('sensory-sensitivity')) w += 0.8;
         if (tag === 'fidget-user' && indicatorTags.includes('adhd-traits')) w += 0.6;
         if (tag === 'medication-managed') w += 0.3 * (tierBand === 'elite' ? 1.5 : 1);
+        // Correlate #HL6 continued: formally diagnosed more likely medication-managed
+        if (tag === 'medication-managed' && diagnosisStatus === 'formally-diagnosed') w += 1.5;
         return { item: tag, weight: w };
       });
       copingStrategies = weightedPickKUnique(neuroRng, copingWeights, neuroRng.int(1, 3));
@@ -870,12 +1299,12 @@ function computeNeurodivergence(ctx: LifestyleContext): LifestyleResult['neurodi
       copingStrategies = [];
     }
   }
-  traceSet(trace, 'neurodivergence', { indicatorTags, copingStrategies }, {
+  traceSet(trace, 'neurodivergence', { indicatorTags, copingStrategies, diagnosisStatus }, {
     method: 'weighted',
-    dependsOn: { aptitudes: 'partial', latents: 'partial', traits: 'partial' },
+    dependsOn: { aptitudes: 'partial', latents: 'partial', traits: 'partial', age },
   });
 
-  return { indicatorTags, copingStrategies };
+  return { indicatorTags, copingStrategies, diagnosisStatus };
 }
 
 // ============================================================================
@@ -1066,7 +1495,10 @@ function computeSpirituality(ctx: LifestyleContext): LifestyleResult['spirituali
 // Background computation
 // ============================================================================
 
-function computeBackground(ctx: LifestyleContext): LifestyleResult['background'] {
+function computeBackground(
+  ctx: LifestyleContext,
+  observanceLevel: string,
+): LifestyleResult['background'] {
   const { seed, vocab, tierBand, homeCountryIso3, cohortBucketStartYear, priors, traits, opsec01, trace } = ctx;
 
   traceFacet(trace, seed, 'background');
@@ -1127,6 +1559,20 @@ function computeBackground(ctx: LifestyleContext): LifestyleResult['background']
   // Resilience indicators - pick if there's adversity beyond stable-upbringing
   let resilienceIndicators: string[] = [];
   const hasSignificantAdversity = adversityTags.some(t => t !== 'stable-upbringing');
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL12: High spiritual observance boosts resilience
+  // Religious/spiritual practice provides psychological resilience through:
+  // - Community support networks
+  // - Meaning-making frameworks
+  // - Meditation/prayer practices
+  // - Moral structure and purpose
+  // ─────────────────────────────────────────────────────────────────────────────
+  const isHighlyObservant = observanceLevel === 'devout' || observanceLevel === 'strict' ||
+                            observanceLevel === 'ultra-orthodox' || observanceLevel === 'observant';
+  const isModeratelyObservant = observanceLevel === 'moderate' || observanceLevel === 'practicing';
+  const spiritualResilienceBonus = isHighlyObservant ? 1.5 : (isModeratelyObservant ? 0.8 : 0);
+
   if (hasSignificantAdversity && resiliencePool.length > 0) {
     const resilienceWeights = resiliencePool.map(tag => {
       let w = 1;
@@ -1134,9 +1580,21 @@ function computeBackground(ctx: LifestyleContext): LifestyleResult['background']
       if (tag === 'compartmentalization-skill') w += 0.5 * opsec01;
       if (tag === 'therapy-history') w += 0.3 * (tierBand === 'elite' ? 1.5 : 1);
       if (tag === 'support-network-strong') w += 0.3 * (traits.agreeableness / 1000);
+
+      // Correlate #HL12: High spiritual observance boosts resilience indicators
+      // Faith-based coping, community support, meaning-making
+      if (tag === 'support-network-strong') w += spiritualResilienceBonus; // Religious community
+      if (tag === 'faith-based-coping') w += spiritualResilienceBonus * 2; // Direct religious coping
+      if (tag === 'meaning-making') w += spiritualResilienceBonus * 1.2;
+      if (tag === 'community-integration') w += spiritualResilienceBonus * 1.5;
+      if (tag === 'purpose-driven') w += spiritualResilienceBonus;
+
       return { item: tag, weight: w };
     });
-    resilienceIndicators = weightedPickKUnique(bgRng, resilienceWeights, bgRng.int(1, 2));
+    // HL12: Observant people more likely to develop resilience (more indicators)
+    const resilienceCount = bgRng.int(1, 2) + (isHighlyObservant ? 1 : 0);
+    resilienceIndicators = weightedPickKUnique(bgRng, resilienceWeights,
+      Math.min(resilienceCount, resiliencePool.length));
   }
   traceSet(trace, 'background', { adversityTags, resilienceIndicators }, {
     method: 'weighted',
@@ -1229,7 +1687,21 @@ function computeMemoryTrauma(
   const memoryTags = memoryCount > 0 ? weightedPickKUnique(memRng, memoryWeights, memoryCount) : [];
   const traumaTags = traumaCount > 0 ? weightedPickKUnique(memRng, traumaWeights, traumaCount) : [];
   const triggerPatterns = triggerCount > 0 ? weightedPickKUnique(memRng, triggerWeights, triggerCount) : [];
-  const responsePatterns = responseCount > 0 ? weightedPickKUnique(memRng, responseWeights, responseCount) : [];
+  let responsePatterns = responseCount > 0 ? weightedPickKUnique(memRng, responseWeights, responseCount) : [];
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL7: Trauma tags require coping strategies (response patterns)
+  // If the agent has trauma tags, they must have at least one response pattern
+  // to represent how they cope with trauma (healthy or unhealthy)
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (traumaTags.length > 0 && responsePatterns.length === 0 && responsePool.length > 0) {
+    // Force at least one response pattern for agents with trauma
+    responsePatterns = weightedPickKUnique(memRng, responseWeights, 1);
+    traceSet(trace, 'memoryTrauma.HL7.repair', {
+      reason: 'trauma tags require at least one coping response',
+      addedResponse: responsePatterns[0],
+    }, { method: 'correlateEnforcement' });
+  }
 
   traceSet(trace, 'memoryTrauma', { memoryTags, traumaTags, triggerPatterns, responsePatterns }, {
     method: 'weighted',
@@ -1243,12 +1715,47 @@ function computeMemoryTrauma(
 // Mobility computation
 // ============================================================================
 
-function computeMobility(ctx: LifestyleContext): LifestyleResult['mobility'] {
+/** Additional context for mobility correlates */
+type MobilityCorrelateContext = {
+  /** Correlate #HL9: Chronic conditions that affect mobility */
+  chronicConditionTags: string[];
+  /** Correlate #HL14: Conflict environment score (0-1000) */
+  conflictEnv01k: number;
+};
+
+function computeMobility(
+  ctx: LifestyleContext,
+  correlates: MobilityCorrelateContext,
+): LifestyleResult['mobility'] {
   const { seed, vocab, tierBand, cosmo01, inst01, public01, latents, roleSeedTags, countryPriorsBucket, trace } = ctx;
+  const { chronicConditionTags, conflictEnv01k } = correlates;
 
   traceFacet(trace, seed, 'mobility');
   const mobilityRng = makeRng(facetSeed(seed, 'mobility'));
   const mobilityTags = uniqueStrings(vocab.mobility?.mobilityTags ?? []);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL9: Chronic conditions affect mobility
+  // Mobility-affecting conditions reduce high-mobility options
+  // ─────────────────────────────────────────────────────────────────────────────
+  const mobilityAffectingConditions = new Set([
+    'chronic-pain', 'arthritis', 'mobility-impairment', 'wheelchair-user',
+    'chronic-fatigue', 'fibromyalgia', 'multiple-sclerosis', 'parkinsons',
+    'heart-condition', 'respiratory-condition', 'copd', 'severe-asthma',
+  ]);
+  const hasMobilityCondition = chronicConditionTags.some(c =>
+    mobilityAffectingConditions.has(c.toLowerCase()) ||
+    c.toLowerCase().includes('mobility') ||
+    c.toLowerCase().includes('wheelchair') ||
+    c.toLowerCase().includes('paralysis')
+  );
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #HL14: Conflict environments restrict mobility options
+  // High conflict environments limit travel options (dangerous, restricted)
+  // ─────────────────────────────────────────────────────────────────────────────
+  const conflict01 = conflictEnv01k / 1000;
+  const highConflict = conflict01 > 0.6;
 
   const mobilityTag = (() => {
     const pool = mobilityTags.length ? mobilityTags : ['low-mobility', 'regional-travel', 'frequent-flyer', 'nomadic'];
@@ -1260,6 +1767,21 @@ function computeMobility(ctx: LifestyleContext): LifestyleResult['mobility'] {
       if ((latents.adaptability / 1000) < 0.35 && t === 'low-mobility') w += 0.6;
       if (roleSeedTags.includes('diplomat') && ['frequent-flyer', 'nomadic'].includes(t)) w += 2.0;
       if (roleSeedTags.includes('operative') && t === 'nomadic') w += 1.5;
+
+      // Correlate #HL9: Mobility-affecting conditions reduce high-mobility options
+      if (hasMobilityCondition) {
+        if (t === 'nomadic') w *= 0.1; // Very difficult with mobility issues
+        if (t === 'frequent-flyer') w *= 0.4; // Challenging but possible
+        if (t === 'low-mobility') w += 3.0; // Much more likely
+      }
+
+      // Correlate #HL14: High conflict environments restrict mobility
+      if (highConflict) {
+        if (t === 'nomadic') w *= 0.3; // Dangerous to be constantly moving
+        if (t === 'frequent-flyer') w *= 0.5; // Airports/travel restricted
+        if (t === 'low-mobility') w += 2.0 * conflict01; // Stay put for safety
+      }
+
       return { item: t, weight: w };
     });
     return weightedPick(mobilityRng, weights);
@@ -1325,7 +1847,19 @@ function computeMobility(ctx: LifestyleContext): LifestyleResult['mobility'] {
 
   traceSet(trace, 'mobility', { mobilityTag, passportAccessBand, travelFrequencyBand }, {
     method: 'weightedPick+env+formula',
-    dependsOn: { facet: 'mobility', tierBand, cosmo01, inst01, public01, roleSeedTags, passportEnv: passportEnv ?? null, travelEnv: travelEnv ?? null },
+    dependsOn: {
+      facet: 'mobility',
+      tierBand,
+      cosmo01,
+      inst01,
+      public01,
+      roleSeedTags,
+      passportEnv: passportEnv ?? null,
+      travelEnv: travelEnv ?? null,
+      // Correlate context
+      hasMobilityCondition,
+      highConflict,
+    },
   });
 
   return { passportAccessBand, mobilityTag, travelFrequencyBand };

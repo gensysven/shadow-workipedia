@@ -74,6 +74,11 @@ export type SocialContext = {
   adaptability01: number;
   /** Correlate #N3: Conscientiousness ↔ Network Role */
   conscientiousness01: number;
+  /** Correlate #NEW1: Vice Tendency ↔ Relationship Stability (derived, includes publicness confound) */
+  viceTendency01: number;
+  /** Correlate #NEW1: Raw inputs for relationship hostility (excludes publicness) */
+  risk01: number;
+  impulseControl01: number;
   aptitudes: {
     deceptionAptitude: Fixed;
     cognitiveSpeed: Fixed;
@@ -445,6 +450,8 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     principledness01,
     adaptability01,
     conscientiousness01,
+    risk01,
+    impulseControl01,
     aptitudes,
   } = ctx;
 
@@ -569,7 +576,24 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     if (d === 'borderland') w += 2;
     return { item: d as DiasporaStatus, weight: w };
   });
-  const diasporaStatus = weightedPick(geoRng, diasporaWeights) as DiasporaStatus;
+  let diasporaStatus = weightedPick(geoRng, diasporaWeights) as DiasporaStatus;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE NAR-10: Elite tier + refugee status is incompatible
+  // Elite status implies established position incompatible with refugee displacement
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (tierBand === 'elite' && diasporaStatus === 'refugee') {
+    diasporaStatus = 'expat'; // Use 'expat' instead of 'immigrant' as it's in the vocab
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.nar10EliteRefugeeGate = {
+        tierBand: 'elite',
+        originalDiaspora: 'refugee',
+        adjustedDiaspora: 'expat',
+        reason: 'NAR-10: Elite tier incompatible with refugee status',
+      };
+    }
+  }
 
   // Origin region - null for now, could be enhanced with country-specific data
   const originRegion: string | null = null;
@@ -633,6 +657,20 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     // Role modifiers
     if (m === 'its-complicated' && roleSeedTags.includes('operative')) w += 5;
     if (m === 'single' && roleSeedTags.includes('operative')) w *= 1.3; // Operatives more likely single
+
+    // Correlate #NEW34: Elite tier delays marriage (tier+age interaction)
+    // Elite young agents (<30) focus on career advancement, delaying marriage
+    if (tierBand === 'elite' && age < 30) {
+      if (m === 'married') w *= 0.3; // Strong reduction in marriage probability
+      if (m === 'single') w *= 1.4; // Boost single probability
+    }
+
+    // Correlate #NEW44: Young widowhood is rare
+    // Widowhood under 40 is statistically very uncommon
+    if (age < 40 && m === 'widowed') {
+      w *= 0.1; // Reduce by 90%
+    }
+
     return { item: m as MaritalStatus, weight: w };
   });
   let maritalStatus = weightedPick(familyRng, maritalWeights) as MaritalStatus;
@@ -688,8 +726,25 @@ export function computeSocial(ctx: SocialContext): SocialResult {
 
   // Living parents: probability decreases with age
   const parentSurvivalChance = age < 35 ? 0.95 : age < 45 ? 0.85 : age < 55 ? 0.70 : age < 65 ? 0.45 : 0.20;
-  const hasLivingParents = familyRng.next01() < parentSurvivalChance;
+  let hasLivingParents = familyRng.next01() < parentSurvivalChance;
   const hasSiblings = familyRng.next01() < 0.75;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE NEW38: Age 70+ implies deceased parents
+  // By age 70, biological parents would be 90+ with very low survival probability
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (age >= 70 && hasLivingParents) {
+    hasLivingParents = false;
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.new38AgeParentGate = {
+        age,
+        originalHasLivingParents: true,
+        adjustedHasLivingParents: false,
+        reason: 'NEW38: Age 70+ implies deceased parents',
+      };
+    }
+  }
 
   traceSet(trace, 'family', { maritalStatus, dependentCount, hasLivingParents, hasSiblings }, { method: 'weighted' });
 
@@ -702,19 +757,72 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   const relationshipTypes = vocab.family?.relationshipTypes ?? ['patron', 'mentor', 'rival', 'protege', 'handler', 'asset', 'ex-partner', 'family-tie', 'old-classmate', 'debt-holder'];
 
   // Correlate #N4: High deception → fewer genuine relationships (manipulators have shallow connections)
-  // Low deception / high empathy → more genuine relationships
+  // Correlate #NEW1: Vice Tendency ↔ Relationship Stability (negative)
+  // High vice tendency → fewer stable relationships (addiction/vices strain connections)
+  //
+  // NOTE: The derived viceTendency includes 12% publicness, creating a confound where
+  // high-vice people have more social opportunities. Instead, we use a "relationship hostility"
+  // factor computed from raw inputs (risk, conscientiousness, impulse control) that excludes
+  // publicness to avoid the confound.
   const deception01 = aptitudes.deceptionAptitude / 1000;
   const empathy01 = aptitudes.empathy / 1000;
-  // Base range 1-5, modified by deception (negative) and empathy (positive)
-  const relMin = Math.max(1, Math.round(2 - 1.5 * deception01 + 0.5 * empathy01));
-  const relMax = Math.max(relMin + 1, Math.round(5 - 2.0 * deception01 + 1.0 * empathy01));
-  const relationshipCount = relRng.int(relMin, relMax);
+  // risk01, impulseControl01, conscientiousness01 already destructured from ctx at function start
+
+  // #NEW1: Relationship hostility factor - excludes publicness to avoid confound
+  // High risk + low conscientiousness + low impulse control → fewer stable relationships
+  const relationshipHostility =
+    0.40 * risk01 +
+    0.30 * (1 - conscientiousness01) +
+    0.30 * (1 - impulseControl01);
+
+  // Base range 1-5, modified by deception (negative), empathy (positive)
+  const baseMin = Math.max(1, Math.round(2 - 1.5 * deception01 + 0.5 * empathy01));
+  const baseMax = Math.max(baseMin + 1, Math.round(5 - 2.0 * deception01 + 1.0 * empathy01));
+  let relationshipCount = relRng.int(baseMin, baseMax);
+
+  // #NEW1: DETERMINISTIC caps based on relationship hostility
+  // Very high hostility (>0.65) → max 2 relationships
+  // High hostility (>0.50) → max 3 relationships
+  if (relationshipHostility > 0.65) {
+    relationshipCount = Math.min(relationshipCount, 2);
+  } else if (relationshipHostility > 0.50) {
+    relationshipCount = Math.min(relationshipCount, 3);
+  }
   const relationships: RelationshipEntry[] = [];
   const usedTypes = new Set<string>();
 
+  // ─────────────────────────────────────────────────────────────────────────
+  // Plausibility Gate #PG4: Marital Status → Relationship Types Consistency
+  // ─────────────────────────────────────────────────────────────────────────
+  // - Single agents should not have 'ex-partner' (never been partnered)
+  // - Widowed agents should only have 'ex-partner', 'family-tie', 'old-classmate' (no active romance)
+  const pg4AllowedForWidowed: RelationshipType[] = ['ex-partner', 'family-tie', 'old-classmate', 'mentor', 'protege', 'patron', 'debt-holder'];
+
   for (let i = 0; i < relationshipCount; i++) {
-    // Pick unused type
-    const availableTypes = relationshipTypes.filter(t => !usedTypes.has(t));
+    // Pick unused type, applying PG4 filters
+    let availableTypes = relationshipTypes.filter(t => !usedTypes.has(t));
+
+    // PG4: Single agents cannot have 'ex-partner' - they've never been partnered
+    if (maritalStatus === 'single') {
+      availableTypes = availableTypes.filter(t => t !== 'ex-partner');
+    }
+
+    // PG4: Widowed agents - filter to appropriate relationship types
+    // No active romantic relationships, focus on past connections and family
+    if (maritalStatus === 'widowed') {
+      availableTypes = availableTypes.filter(t => pg4AllowedForWidowed.includes(t as RelationshipType));
+    }
+
+    // Deterministic Cap DC6: Age ↔ Relationship Types
+    // Young agents (<25) cannot have patronage relationships - not established enough
+    if (age < 25) {
+      availableTypes = availableTypes.filter(t => t !== 'patron');
+    }
+    // Older agents (>60) cannot be proteges - too old for that role
+    if (age > 60) {
+      availableTypes = availableTypes.filter(t => t !== 'protege');
+    }
+
     if (availableTypes.length === 0) break;
 
     const typeWeights = availableTypes.map(t => {
@@ -753,6 +861,56 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     relationships.push({ type: relType, strength, description });
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW46: Siblings → Family Tie Type
+  // If has siblings, ensure "family-tie" appears in relationships
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (hasSiblings && !relationships.some(r => r.type === 'family-tie')) {
+    const siblingDescriptions = [
+      'a sibling with complicated history',
+      'a brother or sister who stayed close',
+      'family bonds that persist despite distance',
+    ];
+    relationships.push({
+      type: 'family-tie',
+      strength: band5From01k(relRng.int(400, 800)),
+      description: siblingDescriptions[relRng.int(0, siblingDescriptions.length - 1)]!,
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW48: Very High Deception → Relationship Trust Floor
+  // If deception > 800, ensure at least one relationship has low trust (very_low or low)
+  // Habitual deceivers damage trust in their relationships
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (aptitudes.deceptionAptitude > 800 && relationships.length > 0) {
+    const lowTrustBands: Band5[] = ['very_low', 'low'];
+    const hasLowTrustRel = relationships.some(r => lowTrustBands.includes(r.strength));
+    if (!hasLowTrustRel) {
+      // Downgrade a random relationship to low trust
+      const targetIdx = relRng.int(0, relationships.length - 1);
+      relationships[targetIdx]!.strength = relRng.next01() < 0.5 ? 'very_low' : 'low';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW50: Elite + Young → Mentor Seeker
+  // If tier == "elite" AND age < 30, ensure at least one "mentor" relationship
+  // Young elite seek guidance from experienced figures
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (tierBand === 'elite' && age < 30 && !relationships.some(r => r.type === 'mentor')) {
+    const mentorDescriptions = [
+      'a senior figure who recognized potential early',
+      'an experienced hand guiding career advancement',
+      'a powerful mentor who opened crucial doors',
+    ];
+    relationships.push({
+      type: 'mentor',
+      strength: band5From01k(relRng.int(500, 900)),
+      description: mentorDescriptions[relRng.int(0, mentorDescriptions.length - 1)]!,
+    });
+  }
+
   traceSet(trace, 'relationships', { count: relationships.length }, { method: 'generated' });
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -783,16 +941,26 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   // Low empathy + low deception → isolates, peripherals
   // (empathy01 and deception01 already defined above for relationship count)
 
+  // Correlate #NEW17: Tier ↔ Network Role (positive)
+  // Elite tier → hub/gatekeeper positions (controlling resources/access)
+  // Mass tier → more likely isolate/peripheral (fewer resources to network)
+  const tierNetworkBias = tierBand === 'elite' ? 1.8 : tierBand === 'mass' ? 0.6 : 1.0;
+
   const networkRoleWeights: Array<{ item: NetworkRole; weight: number }> = [
     // #N3: Low conscientiousness → more likely isolate (unreliable, don't maintain connections)
-    { item: 'isolate', weight: (1 + 2.0 * (1 - latents.socialBattery / 1000) + (opsec01 > 0.7 ? 1.5 : 0) + 1.2 * (1 - empathy01) + 1.5 * (1 - conscientiousness01)) * ageNetworkBias.isolate },
+    // #NEW17: Mass tier more likely isolate
+    { item: 'isolate', weight: (1 + 2.0 * (1 - latents.socialBattery / 1000) + (opsec01 > 0.7 ? 1.5 : 0) + 1.2 * (1 - empathy01) + 1.5 * (1 - conscientiousness01) + (tierBand === 'mass' ? 1.0 : 0)) * ageNetworkBias.isolate },
     { item: 'peripheral', weight: (1.5 + 0.8 * (1 - latents.publicness / 1000) + 0.8 * (1 - empathy01)) * ageNetworkBias.peripheral },
     { item: 'connector', weight: (1 + 2.5 * cosmo01 + 1.8 * empathy01 + (roleSeedTags.includes('diplomat') ? 2.0 : 0)) * ageNetworkBias.connector },
     // #N3: High conscientiousness → more likely hub (reliable networkers maintain many relationships)
-    { item: 'hub', weight: (0.5 + 2.0 * (latents.socialBattery / 1000) + 1.5 * empathy01 + 2.0 * conscientiousness01 + (roleSeedTags.includes('media') ? 1.5 : 0)) * ageNetworkBias.hub },
-    { item: 'broker', weight: (0.5 + 2.5 * deception01 + 0.8 * empathy01 + (roleSeedTags.includes('operative') ? 1.5 : 0)) * ageNetworkBias.broker },
+    // #NEW17: Elite tier more likely hub (resources to maintain extensive networks)
+    { item: 'hub', weight: (0.5 + 2.0 * (latents.socialBattery / 1000) + 1.5 * empathy01 + 2.0 * conscientiousness01 + (roleSeedTags.includes('media') ? 1.5 : 0)) * ageNetworkBias.hub * tierNetworkBias },
+    // #NEW11: Principledness ↔ Network Role (negative for broker) - principled people don't facilitate shady dealings
+    // Strengthened: multiply by (1 - 0.8*principledness) to ensure strong negative correlation
+    { item: 'broker', weight: Math.max(0.1, (0.5 + 2.5 * deception01 + 0.8 * empathy01 + (roleSeedTags.includes('operative') ? 1.5 : 0)) * (1 - 0.8 * principledness01)) * ageNetworkBias.broker },
     // #N3: High conscientiousness → more likely gatekeeper (dutiful, reliable, follow procedures)
-    { item: 'gatekeeper', weight: (0.5 + 2.0 * inst01 + 0.5 * deception01 + 1.8 * conscientiousness01 + (roleSeedTags.includes('security') ? 2.0 : 0)) * ageNetworkBias.gatekeeper },
+    // #NEW17: Elite tier more likely gatekeeper (institutional power)
+    { item: 'gatekeeper', weight: (0.5 + 2.0 * inst01 + 0.5 * deception01 + 1.8 * conscientiousness01 + (roleSeedTags.includes('security') ? 2.0 : 0)) * ageNetworkBias.gatekeeper * tierNetworkBias },
   ];
   let networkRole = weightedPick(networkRng, networkRoleWeights) as NetworkRole;
   if (age < 25 && (networkRole === 'hub' || networkRole === 'broker' || networkRole === 'gatekeeper')) {
@@ -818,11 +986,64 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     networkRole = networkRng.next01() < 0.6 ? 'peripheral' : 'isolate';
   }
 
+  // Correlate #NEW33: High Opsec → Cannot be Hub/Gatekeeper (DETERMINISTIC)
+  // Discretion-seekers avoid visible network positions that expose them
+  // Lowered threshold (was 0.75, now 0.60) to affect more agents
+  if (opsec01 > 0.60 && (networkRole === 'hub' || networkRole === 'gatekeeper')) {
+    networkRole = networkRng.next01() < 0.6 ? 'broker' : 'peripheral'; // Hidden influence roles
+  }
+
+  // Correlate #NEW11: Principledness → Not Broker (DETERMINISTIC POST-HOC)
+  // Principled people refuse to be information brokers who exploit others
+  // High principledness (>0.6) reassigned from broker to connector (similar social role, ethical)
+  if (principledness01 > 0.60 && networkRole === 'broker') {
+    networkRole = networkRng.next01() < 0.7 ? 'connector' : 'peripheral';
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE NEW35: Parents with dependents cannot be network isolates
+  // Raising children requires social support networks (school, activities, healthcare)
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (dependentCount > 0 && networkRole === 'isolate') {
+    networkRole = 'peripheral';
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.new35ParentIsolateGate = {
+        dependentCount,
+        originalRole: 'isolate',
+        adjustedRole: 'peripheral',
+        reason: 'NEW35: Parents with dependents cannot be network isolates',
+      };
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW53: High Risk + Isolate → Vulnerability Flag
+  // Risk-taking isolates lack support network, making them vulnerable
+  // This is tracked in trace for downstream systems to use
+  // ═══════════════════════════════════════════════════════════════════════════
+  const isVulnerableIsolate = risk01 > 0.7 && networkRole === 'isolate';
+  if (isVulnerableIsolate && trace) {
+    trace.derived = trace.derived ?? {};
+    trace.derived.new53VulnerableIsolate = {
+      riskAppetite: latents.riskAppetite,
+      networkRole: 'isolate',
+      vulnerability: 'high-risk isolate lacks support network',
+    };
+  }
+
   const factionAlignment = (() => {
     // Operatives and security types are less likely to have public faction alignment
     if (roleSeedTags.includes('operative') || roleSeedTags.includes('security')) {
       return networkRng.next01() < 0.3 ? null : null; // 70% no faction
     }
+
+    // Correlate #NEW43: High risk + low institutional → avoid formal factions
+    // Risk-takers with low institutional ties prefer informal networks over formal faction membership
+    if (risk01 > 0.75 && inst01 < 0.3) {
+      return null; // These agents avoid formal factional commitments
+    }
+
     // Others might have faction alignment based on institutional embeddedness
     if (networkRng.next01() < 0.4 + 0.3 * inst01) {
       const factions = ['reform', 'establishment', 'progressive', 'conservative', 'pragmatist', 'idealist'];
@@ -831,16 +1052,45 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     return null;
   })();
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW54: Institutional → Formal Faction
+  // If institutionalEmbeddedness > 700, ensure faction alignment exists
+  // Highly embedded people join formal organizations
+  // ═══════════════════════════════════════════════════════════════════════════
+  let finalFactionAlignment = factionAlignment;
+  if (inst01 > 0.7 && !finalFactionAlignment) {
+    const formalFactions = ['establishment', 'reform', 'conservative', 'progressive'];
+    finalFactionAlignment = networkRng.pick(formalFactions);
+  }
+
+  // Correlate #NEW37: Low socialBattery cannot do favor leverage
+  // Correlate #NEW42: Low empathy cannot have care-based leverage
+  const socialBatteryForLeverage = latents.socialBattery / 1000;
   const leverageWeights: Array<{ item: LeverageType; weight: number }> = [
-    { item: 'favors', weight: 1 + 1.5 * (latents.socialBattery / 1000) },
+    // #NEW37: Favor leverage requires social energy to maintain reciprocal relationships
+    { item: 'favors', weight: socialBatteryForLeverage < 0.3 ? 0.05 : (1 + 1.5 * socialBatteryForLeverage) },
     { item: 'information', weight: 1 + 2.0 * (aptitudes.cognitiveSpeed / 1000) + (roleSeedTags.includes('analyst') ? 2.0 : 0) },
     { item: 'money', weight: 0.5 + 2.0 * (tierBand === 'elite' ? 1 : tierBand === 'middle' ? 0.5 : 0.2) },
     { item: 'ideology', weight: 1 + 2.0 * principledness01 + (roleSeedTags.includes('organizer') ? 1.5 : 0) },
-    { item: 'care', weight: 1 + 2.0 * (aptitudes.empathy / 1000) },
+    // #NEW42: Care-based leverage requires empathy to genuinely connect with others
+    { item: 'care', weight: empathy01 < 0.3 ? 0.05 : (1 + 2.0 * empathy01) },
   ];
-  const leverageType = weightedPick(networkRng, leverageWeights) as LeverageType;
+  let leverageType = weightedPick(networkRng, leverageWeights) as LeverageType;
 
-  const network = { role: networkRole, factionAlignment, leverageType };
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW49: Empathy + Family → Care Leverage
+  // If empathy > 700 AND hasFamily, increase "care" leverage probability
+  // Empathetic family people are vulnerable through loved ones
+  // ═══════════════════════════════════════════════════════════════════════════
+  const hasFamily = (maritalStatus === 'married' || maritalStatus === 'partnered') && dependentCount > 0;
+  if (aptitudes.empathy > 700 && hasFamily && leverageType !== 'care') {
+    // 60% chance to switch to care leverage
+    if (networkRng.next01() < 0.6) {
+      leverageType = 'care';
+    }
+  }
+
+  const network = { role: networkRole, factionAlignment: finalFactionAlignment, leverageType };
   traceSet(trace, 'network', network, { method: 'weightedPick', dependsOn: { roleSeedTags, latents: { socialBattery: latents.socialBattery, publicness: latents.publicness } } });
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -857,9 +1107,25 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   const onlineCommunityPool = vocab.communities?.onlineCommunities ?? ['twitter-sphere', 'reddit-community', 'discord-server', 'telegram-group'];
 
   // Number of memberships based on social battery
-  const membershipCount = Math.max(0, Math.min(3, Math.floor(latents.socialBattery / 350) + commRng.int(-1, 1)));
+  // Correlate #NEW36: Diaspora status maintains community networks
+  // Non-native agents (expats, refugees, etc.) maintain at least one community connection
+  const baseMembershipCount = Math.floor(latents.socialBattery / 350) + commRng.int(-1, 1);
+  const diasporaCommunityMin = diasporaStatus !== 'native' ? 1 : 0;
+  const membershipCount = Math.max(diasporaCommunityMin, Math.min(3, baseMembershipCount));
   const memberships: CommunityMembership[] = [];
   const usedCommunityTypes = new Set<string>();
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW47: Controversial Views → Leadership Penalty
+  // If agent has controversial community status AND is a public figure,
+  // reduce leadership community role probability
+  // We'll check this after generating memberships and apply a post-hoc adjustment
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Determine if public figure (high publicness threshold)
+  const isPublicFigure = latents.publicness > 600;
+  // We'll determine hasControversialViews based on principledness extremes
+  // (very high or very low principledness signals strong/polarizing views)
+  const hasControversialViews = latents.principledness > 850 || latents.principledness < 150;
 
   for (let i = 0; i < membershipCount; i++) {
     const availableTypes = communityTypes.filter(t => !usedCommunityTypes.has(t));
@@ -872,6 +1138,12 @@ export function computeSocial(ctx: SocialContext): SocialResult {
       if (r === 'organizer' && roleSeedTags.includes('organizer')) w = 3;
       if (r === 'regular') w = 4;
       if (r === 'lurker' && latents.socialBattery < 400) w = 3;
+
+      // NEW47: Controversial public figures have reduced leadership probability
+      if ((r === 'leader' || r === 'organizer') && hasControversialViews && isPublicFigure) {
+        w *= 0.25; // 75% reduction in leadership roles
+      }
+
       return { item: r as CommunityRole, weight: w };
     });
     const role = weightedPick(commRng, roleWeights) as CommunityRole;
@@ -879,7 +1151,43 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     memberships.push({ type, role, intensityBand });
   }
 
-  const onlineCommunities = commRng.pickK(onlineCommunityPool, commRng.int(0, 2));
+  // Correlate #NEW45: Rural compensates with online presence
+  // Rural agents have fewer physical third places, so they compensate with more online communities
+  const urbanPopulationLevel = ctx.urbanPopulation01 ?? 0.5;
+  const isRuralArea = urbanPopulationLevel < 0.3; // Low urban population = rural area
+  let onlineMin = isRuralArea ? 1 : 0;
+  let onlineMax = isRuralArea ? 3 : 2;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW51: Low Social Battery → Online Community Preference
+  // Introverts (low socialBattery < 350) prefer digital connection
+  // Increase online community weight
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (latents.socialBattery < 350) {
+    onlineMin = Math.max(onlineMin, 1); // Ensure at least 1 online community
+    onlineMax = Math.max(onlineMax, 2); // Allow up to 2 minimum
+  }
+
+  let onlineCommunities = commRng.pickK(onlineCommunityPool, commRng.int(onlineMin, onlineMax));
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW52: Diaspora + Minority → Dual Community
+  // If isDiaspora AND isVisibleMinority, ensure >= 2 communities
+  // Multiple identity groups require maintaining dual community connections
+  // ═══════════════════════════════════════════════════════════════════════════
+  const isDiaspora = ['expat', 'refugee', 'diaspora-child', 'dual-citizen'].includes(diasporaStatus);
+  // isVisibleMinority will be computed later, but we can use the same logic here
+  const isMinorityForCommunity = homeCountryIso3 !== currentCountryIso3;
+  if (isDiaspora && isMinorityForCommunity && memberships.length < 2) {
+    // Add a second community membership if only one exists
+    const availableTypes = communityTypes.filter(t => !usedCommunityTypes.has(t));
+    if (availableTypes.length > 0) {
+      const type = commRng.pick(availableTypes) as CommunityType;
+      usedCommunityTypes.add(type);
+      const role = commRng.next01() < 0.5 ? 'regular' : 'occasional';
+      memberships.push({ type, role: role as CommunityRole, intensityBand: band5From01k(commRng.int(300, 600)) });
+    }
+  }
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Age ↔ Community Status Correlate
@@ -896,6 +1204,17 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     return { pillar: 4.0, respected: 2.5, regular: 1.0, newcomer: 0.1, outsider: 0.8, controversial: 0.6 }; // 55+: community pillars
   })();
 
+  // PR3: Visible Minority ↔ Community Status (negative correlation)
+  // Visible minorities face systemic barriers to achieving high community status
+  // Computed locally using same logic as narrative.ts (homeCountry !== currentCountry)
+  const isVisibleMinority = homeCountryIso3 !== currentCountryIso3 && commRng.next01() < 0.6;
+  // Probabilistic penalty: reduces weight for high-status outcomes, not a hard block
+  const minorityStatusPenalty = isVisibleMinority ? 0.65 : 1.0;
+
+  // Correlate #NEW9: Deception ↔ Community Status (negative)
+  // High deception aptitude → lower community standing (manipulators get discovered over time)
+  const deceptionForStatus = aptitudes.deceptionAptitude / 1000;
+
   const statusWeights = communityStatuses.map(s => {
     let w = 1;
     // Base tier modifiers (kept from original)
@@ -908,9 +1227,49 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     const bias = ageStatusBias[s as keyof typeof ageStatusBias] ?? 1;
     w *= bias;
 
+    // #NEW9: High deception → lower community standing
+    // Manipulative people struggle to maintain long-term community trust
+    // Apply across full range (not just above threshold) for stronger correlation
+    if (s === 'pillar' || s === 'respected') {
+      w *= Math.max(0.15, 1 - 2.0 * deceptionForStatus); // Deception penalizes high status
+      // PR3: Visible minorities face barriers to high community status (probabilistic penalty)
+      w *= minorityStatusPenalty;
+    }
+    if (s === 'controversial' || s === 'outsider') {
+      w *= (1 + 2.5 * deceptionForStatus); // Deception boosts low status
+    }
+    if (s === 'regular' || s === 'newcomer') {
+      // Neutral - these middle statuses are less affected
+    }
+
     return { item: s as CommunityStatus, weight: w };
   });
-  const communityStatus = weightedPick(commRng, statusWeights) as CommunityStatus;
+  let communityStatus = weightedPick(commRng, statusWeights) as CommunityStatus;
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Plausibility Gate #PG5: Community Role ↔ Status Consistency
+  // ─────────────────────────────────────────────────────────────────────────
+  // - "lurker" community role cannot have "pillar" community status
+  // - "leader" community role cannot have "newcomer" or "outsider" status
+  // Apply post-hoc adjustment if contradictions occur
+  const hasLurkerRole = memberships.some(m => m.role === 'lurker');
+  const hasLeaderRole = memberships.some(m => m.role === 'leader');
+
+  // PG5: Lurkers cannot be pillars - they don't participate enough to earn that status
+  if (hasLurkerRole && communityStatus === 'pillar') {
+    communityStatus = commRng.next01() < 0.6 ? 'regular' : 'respected';
+  }
+
+  // PG5: Leaders cannot be newcomers or outsiders - leadership requires established presence
+  if (hasLeaderRole && (communityStatus === 'newcomer' || communityStatus === 'outsider')) {
+    communityStatus = commRng.next01() < 0.5 ? 'respected' : 'regular';
+  }
+
+  // Correlate #NEW40: Young mass tier cannot be community pillar
+  // Young (<35) mass tier agents lack the resources and tenure to be community pillars
+  if (age < 35 && tierBand === 'mass' && communityStatus === 'pillar') {
+    communityStatus = 'respected'; // Demote to respected - still positive but realistic
+  }
 
   // ─────────────────────────────────────────────────────────────────────────
   // DETERMINISTIC POST-HOC ADJUSTMENT for #N1 Community Status ↔ Network Role
@@ -1000,8 +1359,38 @@ export function computeSocial(ctx: SocialContext): SocialResult {
     professional = repRng.next01() < 0.6 ? repRng.pick(midRepTags) : 'unknown';
   }
 
-  const neighborhood = pickReputation({ unknown: 2 });
-  const online = pickReputation({ loudmouth: latents.publicness > 600 ? 2 : 0 });
+  let neighborhood = pickReputation({ unknown: 2 });
+  let online = pickReputation({ loudmouth: latents.publicness > 600 ? 2 : 0 });
+
+  // Correlate #NEW41: High opsec + high publicness is inconsistent → reduce reputation visibility
+  // Agents who maintain high operational security while also being highly public are contradictory
+  // Resolution: cap their visible reputation to 'discreet' or 'unknown' (opsec wins over publicness)
+  if (opsec01 > 0.7 && publicness01 > 0.7) {
+    // Force reputation toward discreet/unknown to resolve the inconsistency
+    const discreteReputations: ReputationTag[] = ['discreet', 'unknown', 'by-the-book'];
+    if (!discreteReputations.includes(professional)) {
+      professional = repRng.next01() < 0.7 ? 'discreet' : 'unknown';
+    }
+    if (!discreteReputations.includes(neighborhood)) {
+      neighborhood = 'unknown'; // Neighborhood rep becomes unknown for opsec agents
+    }
+    if (!discreteReputations.includes(online)) {
+      online = repRng.next01() < 0.6 ? 'discreet' : 'unknown';
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // NEW55: Age + Status → Reputation Match
+  // If age > 55 AND communityStatus == "pillar", ensure neighborhood reputation is positive
+  // Elder pillars of the community are respected in their neighborhood
+  // Use 'reliable' or 'principled' as these indicate respected standing
+  // ═══════════════════════════════════════════════════════════════════════════
+  const positiveReputations: ReputationTag[] = ['reliable', 'principled', 'discreet', 'fixer', 'brilliant'];
+  if (age > 55 && communityStatus === 'pillar' && !positiveReputations.includes(neighborhood)) {
+    // Elder pillars default to 'reliable' - a respected, trusted reputation
+    neighborhood = repRng.next01() < 0.6 ? 'reliable' : 'principled';
+  }
+
   const scandalSensitivity = band5From01k(
     tierBand === 'elite' ? 600 + repRng.int(-150, 150) :
     tierBand === 'middle' ? 400 + repRng.int(-150, 150) :

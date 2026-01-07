@@ -72,6 +72,12 @@ export type DomesticContext = {
   // Family status for housing constraints
   maritalStatus?: string;
   dependentCount?: number;
+
+  // Mobility context for plausibility gates (from lifestyle facet)
+  mobilityTag?: string;
+
+  // Diaspora status for DC-D16 correlate (from geography facet)
+  diasporaStatus?: string;
 };
 
 /** Everyday life anchors */
@@ -83,6 +89,8 @@ export type EverydayLifeResult = {
   caregivingObligation: CaregivingObligation;
   /** Correlate #X6: Authoritarianism ↔ Home Orderliness (0-1000) */
   homeOrderliness: number;
+  /** Correlate #DC-D22: High stressReactivity + low homeOrderliness → hoarding risk flag */
+  hoardingRiskFlag: boolean;
 };
 
 /** Home and domestic situation */
@@ -91,6 +99,22 @@ export type HomeResult = {
   householdComposition: HouseholdComposition;
   privacyLevel: PrivacyLevel;
   neighborhoodType: NeighborhoodType;
+  /** Correlate #DC-D16: Refugee status housing instability score reduction (0-1000, lower = less stable) */
+  housingStabilityScore: number;
+  /** Correlate #DC-D17: Elite + family household size minimum */
+  householdSizeMin: number;
+  /** Correlate #DC-D18: Age > 70 accessibility preference flag */
+  requiresAccessibility: boolean;
+  /** Correlate #DC-D19: Very high opsec requires private entry */
+  requiresPrivateEntry: boolean;
+};
+
+// DC-D4: Credential validity status based on residency
+export type CredentialValidity = 'valid' | 'unrecognized' | 'foreign' | 'expired';
+
+export type CredentialWithValidity = {
+  type: CredentialType;
+  validity: CredentialValidity;
 };
 
 /** Legal and administrative status */
@@ -98,6 +122,8 @@ export type LegalAdminResult = {
   residencyStatus: ResidencyStatus;
   legalExposure: LegalExposure;
   credentials: CredentialType[];
+  // DC-D4: Enhanced credentials with validity status
+  credentialsWithValidity: CredentialWithValidity[];
 };
 
 /** Life skills - competence outside the job */
@@ -106,6 +132,8 @@ export type LifeSkillsResult = {
   bureaucracyNavigation: CompetenceBand;
   streetSmarts: CompetenceBand;
   etiquetteLiteracy: EtiquetteLiteracy;
+  // DC-D9: Skill categories affected by urbanicity
+  primarySkillDomain: 'urban' | 'rural' | 'mixed';
 };
 
 export type DomesticResult = {
@@ -125,11 +153,17 @@ export type HousingWeightsInput = {
   riskAppetite01: number;
   frugality01: number;
   hasFamily: boolean;
+  /** Correlate #NEW39: Married status (with or without kids) affects housing */
+  isMarried: boolean;
   isSeniorProfessional: boolean;
   /** Correlate #H3: Cosmopolitanism ↔ Housing Stability (negative) - nomads avoid stable housing */
   cosmopolitanism01: number;
   /** Correlate #H1: Household size affects housing stability needs */
   householdSize: number;
+  /** Correlate #NEW2: Institutional Embeddedness ↔ Housing Stability (positive) */
+  inst01: number;
+  /** Correlate #NEW34: Career Track → Housing Stability gate */
+  careerTrackTag: string;
 };
 
 export function computeHousingWeights({
@@ -142,9 +176,12 @@ export function computeHousingWeights({
   riskAppetite01,
   frugality01,
   hasFamily,
+  isMarried,
   isSeniorProfessional,
   cosmopolitanism01,
   householdSize,
+  inst01,
+  careerTrackTag,
 }: HousingWeightsInput): Array<{ item: HousingStability; weight: number }> {
   return housingPool.map(h => {
     let w = 1;
@@ -154,6 +191,13 @@ export function computeHousingWeights({
     // HARD CONSTRAINT: Married with dependents cannot be couch-surfing or transient
     if (hasFamily && (h === 'couch-surfing' || h === 'transient')) {
       return { item: h as HousingStability, weight: 0 };
+    }
+    // Correlate #NEW39: Marital status affects housing (cross-facet)
+    // Married agents (even without kids) have reduced couch-surfing probability
+    // Marriage implies household stability expectations from partner
+    if (isMarried && !hasFamily && h === 'couch-surfing') {
+      // Married without kids: soft constraint (not zero, but heavily reduced)
+      return { item: h as HousingStability, weight: 0.1 };
     }
     // HARD CONSTRAINTS: Elite tier housing stability
     // Elite agents cannot be couch-surfing, transient, or tenuous
@@ -167,6 +211,12 @@ export function computeHousingWeights({
     }
     // HARD CONSTRAINT: Very low risk appetite avoids unstable housing entirely
     if (riskAppetite01 <= 0.2 && (h === 'tenuous' || h === 'transient' || h === 'couch-surfing')) {
+      return { item: h as HousingStability, weight: 0 };
+    }
+    // HARD CONSTRAINT #NEW34: Credibility-requiring careers cannot have unstable housing
+    // Diplomats, corporate executives, foreign service need stable address for credibility
+    const credibilityCareerTracks = ['foreign-service', 'corporate-ops', 'diplomacy', 'politics', 'civil-service', 'law'];
+    if (credibilityCareerTracks.includes(careerTrackTag) && (h === 'couch-surfing' || h === 'transient')) {
       return { item: h as HousingStability, weight: 0 };
     }
 
@@ -202,6 +252,17 @@ export function computeHousingWeights({
     }
     if (isUnstable) {
       w += 2.0 * (1 - conscientiousness01);
+    }
+
+    // Correlate #NEW2: Institutional Embeddedness ↔ Housing Stability (positive)
+    // People deeply embedded in institutions (career, organizations) prefer stable housing
+    // High embeddedness → stable jobs → stable housing; low embeddedness → transient lifestyle
+    // Use multiplicative factor for stronger correlation (stable: 1x-3x, unstable: 1x-2.5x)
+    if (isStable) {
+      w *= (1.0 + 2.0 * inst01); // High embedded: 3x stable weight
+    }
+    if (isUnstable) {
+      w *= (1.0 + 1.5 * (1 - inst01)); // Low embedded: 2.5x unstable weight
     }
 
     // Correlate #15: Risk Appetite ↔ Housing Instability
@@ -324,6 +385,19 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   const commuteModePool = vocab.everydayLife?.commuteModes ?? [
     'walk', 'bicycle', 'motorbike', 'bus', 'metro', 'driver', 'rideshare', 'mixed',
   ];
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Correlate #DC-D12: Low physical conditioning limits commute options
+  // People with poor physical conditioning (< 350/1000) avoid physically demanding
+  // commute methods like cycling. This reflects realistic physical limitations.
+  // ─────────────────────────────────────────────────────────────────────────────
+  const conditioning01k = latents.physicalConditioning;
+  const lowConditioning = conditioning01k < 350;
+
+  // DC-D20: Rural → Vehicle Dependency check
+  // If urbanicity == "rural", commute style must include vehicle option
+  const isRuralArea = urbanicity === 'rural' || urbanicity === 'rural-remote' || urbanicity === 'rural-isolated';
+
   const commuteWeights = commuteModePool.map(c => {
     let w = 1;
     if (c === 'driver' && tierBand === 'elite') w = 5;
@@ -332,15 +406,81 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (c === 'walk' && urbanicity === 'small-town') w = 3;
     if (c === 'bicycle' && urbanicity === 'secondary-city') w = 2;
     if (c === 'remote' && (roleSeedTags.includes('analyst') || roleSeedTags.includes('research') || tierBand === 'elite')) w = 3;
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // DC-D20: Rural → Vehicle Dependency
+    // If urbanicity == "rural", commute must include vehicle option
+    // Rationale: Rural areas require driving due to distance/lack of transit
+    // ─────────────────────────────────────────────────────────────────────────────
+    if (isRuralArea) {
+      const vehicleModes = ['driver', 'motorbike', 'carpool', 'rideshare'];
+      const nonVehicleModes = ['metro', 'bus', 'walk', 'bicycle'];
+      if (vehicleModes.includes(c)) {
+        w *= 5; // Strongly prefer vehicle-based commutes in rural areas
+      }
+      if (nonVehicleModes.includes(c)) {
+        w *= 0.1; // Metro/bus rarely available in rural areas; walk/bike impractical for distances
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // Correlate #DC-D12 + DC-D21: Low physical conditioning limits commute options
+    // DC-D12: Low conditioning (< 350) restricts physically demanding commutes
+    // DC-D21: Low conditioning (< 300) reduces bicycle commute weight specifically
+    // Rationale: Unfit people avoid strenuous commute
+    // ─────────────────────────────────────────────────────────────────────────────
+    if (lowConditioning) {
+      if (c === 'bicycle' || c === 'cyclist') w *= 0.1; // Very unlikely to cycle
+      if (c === 'walk' && urbanicity !== 'small-town') w *= 0.5; // Less likely to walk long distances
+    }
+    // DC-D21 enhancement: Very low conditioning (< 300) makes bicycle nearly impossible
+    if (conditioning01k < 300) {
+      if (c === 'bicycle' || c === 'cyclist') w *= 0.02; // Near-zero probability
+    }
+    // Higher conditioning makes active commutes more attractive
+    if (conditioning01k > 700) {
+      if (c === 'bicycle' || c === 'cyclist') w *= 1.8;
+      if (c === 'walk') w *= 1.3;
+    }
+
     return { item: c as CommuteMode, weight: w };
   });
-  const commuteMode = weightedPick(lifeRng, commuteWeights) as CommuteMode;
+  let commuteMode = weightedPick(lifeRng, commuteWeights) as CommuteMode;
+
+  // DC-D20 post-hoc gate: Ensure rural agents have vehicle access
+  // If rural and selected non-vehicle mode, force to driver/motorbike
+  if (isRuralArea) {
+    const nonVehicleModes: CommuteMode[] = ['metro', 'bus', 'walk', 'bicycle'];
+    if (nonVehicleModes.includes(commuteMode)) {
+      commuteMode = 'driver'; // Default to driver in rural areas
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.dcD20RuralVehicleGate = {
+          urbanicity,
+          originalCommute: commuteMode,
+          adjustedCommute: 'driver',
+          reason: 'DC-D20: Rural areas require vehicle-based commute',
+        };
+      }
+    }
+  }
 
   const weeklyAnchorPool = vocab.everydayLife?.weeklyAnchors ?? [
     'friday-prayer', 'sunday-service', 'saturday-synagogue', 'weekly-market',
     'sports-match', 'family-dinner', 'night-class', 'volunteer-shift', 'therapy-session', 'none',
   ];
-  const weeklyAnchor = lifeRng.pick(weeklyAnchorPool) as WeeklyAnchor;
+
+  // Correlate #DC-D3: Dependents require stable weekly schedule
+  // Agents with dependents cannot have 'none' or chaotic schedules - children need routine
+  const hasDependentsForSchedule = (ctx.dependentCount ?? 0) > 0;
+  let weeklyAnchor: WeeklyAnchor;
+  if (hasDependentsForSchedule) {
+    // Filter out 'none' - dependents need structured routine
+    const stableAnchors = weeklyAnchorPool.filter(a => a !== 'none');
+    weeklyAnchor = (stableAnchors.length > 0 ? lifeRng.pick(stableAnchors) : 'family-dinner') as WeeklyAnchor;
+  } else {
+    weeklyAnchor = lifeRng.pick(weeklyAnchorPool) as WeeklyAnchor;
+  }
 
   const pettyHabitPool = vocab.everydayLife?.pettyHabits ?? [
     'always-early', 'always-late', 'forgets-keys', 'checks-locks', 'overpacks',
@@ -371,25 +511,45 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   ];
   const caregivingWeights = caregivingPool.map(c => {
     let w = c === 'none' ? 5 : 1;
-    if (c === 'elder-care' && age > 35) w = 3;
-    if (c === 'child-pickup' && age > 28 && age < 50) w = 3;
+    // Correlate #DC-D1: Age affects caregiving obligation
+    // Age 50-70: increased eldercare probability (sandwich generation caring for aging parents)
+    // Age 70+: decreased childcare (children are grown, agent may need care themselves)
+    if (c === 'elder-care') {
+      if (age > 50 && age < 70) w = 5; // Peak eldercare years
+      else if (age > 35) w = 3;
+    }
+    if (c === 'child-pickup') {
+      if (age > 70) w = 0.3; // Elderly rarely do school pickups
+      else if (age > 28 && age < 50) w = 3;
+    }
     return { item: c as CaregivingObligation, weight: w };
   });
-  const caregivingObligation = weightedPick(lifeRng, caregivingWeights) as CaregivingObligation;
+  // Note: DC-D6 (Household composition affects caregiving) is applied post-hoc after household is determined
+  let caregivingObligation = weightedPick(lifeRng, caregivingWeights) as CaregivingObligation;
 
   // Correlate #X6: Authoritarianism ↔ Home Orderliness (positive)
   // Authoritarian personalities prefer order, structure, and cleanliness at home
-  // Formula: 40% authoritarianism + 35% conscientiousness + 25% random variation
-  const homeOrderliness = clampFixed01k(Math.round(
-    0.40 * (ctx.traits?.authoritarianism ?? 500) +
-    0.35 * (ctx.traits?.conscientiousness ?? 500) +
-    0.25 * lifeRng.int(0, 1000)
+  // Correlate #NEW15: Adaptability ↔ Home Order Tolerance (negative)
+  // Adaptable people tolerate disorder; rigid people demand structure
+  // Correlate #DC-D11: Stress → Home Order (negative, continuous)
+  // Stress-reactive individuals struggle to maintain home order under pressure
+  const stressReactivity01 = latents.stressReactivity / 1000;
+  // Formula: 35% authoritarianism + 25% conscientiousness - 20% stress - 10% adaptability + 10% random
+  let homeOrderliness = clampFixed01k(Math.round(
+    0.35 * (ctx.traits?.authoritarianism ?? 500) +
+    0.25 * (ctx.traits?.conscientiousness ?? 500) -
+    0.20 * latents.stressReactivity + // #DC-D11: stress reduces home order (continuous)
+    -0.10 * latents.adaptability + // #NEW15: adaptable = tolerates mess
+    0.10 * lifeRng.int(0, 1000)
   ));
 
-  const everydayLife: EverydayLifeResult = {
-    thirdPlaces, commuteMode, weeklyAnchor, pettyHabits, caregivingObligation, homeOrderliness,
-  };
-  traceSet(trace, 'everydayLife', everydayLife, { method: 'weighted' });
+  // DC-D11 threshold effect: Very high stress caps orderliness (additional penalty)
+  if (stressReactivity01 > 0.7) {
+    homeOrderliness = Math.min(homeOrderliness, 550); // Cap at 550 if very stressed
+  }
+
+  // Note: everydayLife result is created after home section to allow DC-D6 adjustment
+  // (caregivingObligation may be modified based on householdComposition)
 
   // ─────────────────────────────────────────────────────────────────────────────
   // HOME (Oracle recommendation)
@@ -405,6 +565,7 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   const riskAppetite01 = latents.riskAppetite / 1000;
   const frugality01 = latents.frugality / 1000;
   const cosmopolitanism01 = latents.cosmopolitanism / 1000;
+  const inst01 = latents.institutionalEmbeddedness / 1000; // #NEW2: Institutional Embeddedness ↔ Housing
   const gdp01 = Number.isFinite(ctx.gdpPerCap01 ?? NaN) ? Math.max(0, Math.min(1, ctx.gdpPerCap01 as number)) : 0.5;
 
   // Family constraints for housing
@@ -434,9 +595,12 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     riskAppetite01,
     frugality01,
     hasFamily,
+    isMarried, // #NEW39: Married status affects housing
     isSeniorProfessional,
     cosmopolitanism01,
     householdSize: estimatedHouseholdSize,
+    inst01, // #NEW2: Institutional Embeddedness ↔ Housing Stability
+    careerTrackTag, // #NEW34: Credibility careers require stable housing
   });
   const housingStability = weightedPick(homeRng, housingWeights) as HousingStability;
 
@@ -485,6 +649,54 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   });
   const householdComposition = weightedPick(homeRng, householdWeights) as HouseholdComposition;
 
+  // Correlate #DC-D6: Household composition affects caregiving
+  // If household includes elderly (multigenerational, extended-family), set hasEldercare = true
+  const elderlyHouseholds: HouseholdComposition[] = ['multigenerational', 'extended-family'];
+  if (elderlyHouseholds.includes(householdComposition) && caregivingObligation === 'none') {
+    // Living with elderly almost always means some caregiving responsibility
+    caregivingObligation = 'elder-care';
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE DC-D2: Transient housing cannot have driver commute
+  // People in transient/unstable housing typically cannot own/maintain a vehicle
+  // ═══════════════════════════════════════════════════════════════════════════
+  const unstableHousingTypes = ['transient', 'couch-surfing'];
+  if (unstableHousingTypes.includes(housingStability) && commuteMode === 'driver') {
+    commuteMode = 'bus'; // Use 'bus' as public transit fallback
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.dcD2HousingCommuteGate = {
+        housingStability,
+        originalCommute: 'driver',
+        adjustedCommute: 'bus',
+        reason: 'DC-D2: Transient/couch-surfing housing incompatible with driver commute',
+      };
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DC-D22: Stress + Disorder → Hoarding Flag
+  // If stressReactivity > 750 AND homeOrderliness < 300, flag potential hoarding behavior
+  // Rationale: Stress + disorder = hoarding risk
+  // ─────────────────────────────────────────────────────────────────────────────
+  const stressReactivity01k = latents.stressReactivity;
+  const hoardingRiskFlag = stressReactivity01k > 750 && homeOrderliness < 300;
+  if (hoardingRiskFlag && trace) {
+    trace.derived = trace.derived ?? {};
+    trace.derived.dcD22HoardingRisk = {
+      stressReactivity: stressReactivity01k,
+      homeOrderliness,
+      reason: 'DC-D22: High stress reactivity (>750) combined with low home orderliness (<300) indicates hoarding risk',
+    };
+  }
+
+  // Now create the everydayLife result after DC-D6, DC-D2, and DC-D22 adjustments
+  const everydayLife: EverydayLifeResult = {
+    thirdPlaces, commuteMode, weeklyAnchor, pettyHabits, caregivingObligation, homeOrderliness, hoardingRiskFlag,
+  };
+  traceSet(trace, 'everydayLife', everydayLife, { method: 'weighted' });
+
   const privacyPool = vocab.home?.privacyLevels ?? [
     'isolated', 'private', 'thin-walls', 'communal', 'surveilled',
   ];
@@ -496,7 +708,9 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (p === 'surveilled' && roleSeedTags.includes('operative')) w = 2;
     return { item: p as PrivacyLevel, weight: w };
   });
-  const privacyLevel = weightedPick(homeRng, privacyWeights) as PrivacyLevel;
+  let privacyLevel = weightedPick(homeRng, privacyWeights) as PrivacyLevel;
+
+  // Note: DC-D5 (Neighborhood type affects privacy) is applied post-hoc after neighborhood is determined
 
   const neighborhoodPool = vocab.home?.neighborhoodTypes ?? [
     'elite-enclave', 'gentrifying', 'tight-knit', 'anonymous', 'insecure', 'gated', 'rural-isolated',
@@ -536,12 +750,209 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (n === 'gentrifying') {
       w = tierBand === 'middle' ? 4 : (tierBand === 'mass' ? 2 : 1);
     }
+
+    // Correlate #DC-D7: Frugality affects neighborhood choice
+    // High frugality (>700) weights modest/affordable neighborhoods
+    if (frugality01 > 0.7) {
+      // Frugal agents avoid expensive elite neighborhoods
+      if (n === 'elite-enclave' || n === 'gated') {
+        w *= 0.3; // Strong penalty for expensive areas
+      }
+      // Frugal agents prefer affordable options
+      if (n === 'tight-knit' || n === 'anonymous' || n === 'gentrifying') {
+        w *= 1.5; // Boost for more affordable neighborhoods
+      }
+    }
+
     return { item: n as NeighborhoodType, weight: w };
   });
   const neighborhoodType = weightedPick(homeRng, neighborhoodWeights) as NeighborhoodType;
 
-  const home: HomeResult = { housingStability, householdComposition, privacyLevel, neighborhoodType };
-  traceSet(trace, 'home', home, { method: 'weighted' });
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PLAUSIBILITY GATES (post-hoc deterministic adjustments)
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // Plausibility Gate PG2: Nomadic Mobility → Unstable Housing
+  // If mobilityTag === "nomadic", housing cannot be "owned" - force to "transient" or "couch-surfing"
+  let gatedHousingStability = housingStability;
+  if (ctx.mobilityTag === 'nomadic' && housingStability === 'owned') {
+    // Nomads cannot own stable housing - pick transient or couch-surfing based on tier
+    gatedHousingStability = tierBand === 'elite' ? 'transient' : 'couch-surfing';
+    traceSet(trace, 'home.plausibilityGate.PG2', {
+      original: housingStability,
+      forced: gatedHousingStability,
+      reason: 'nomadic mobility incompatible with owned housing',
+    }, { method: 'gate' });
+  }
+
+  // Plausibility Gate PG3: Elite Tier ↔ Housing Quality
+  // Part A: Privacy Level - elite cannot have "thin-walls" or "communal"
+  // Part B: Neighborhood - elite cannot have "insecure" or "informal-settlement"
+  //                        mass cannot have "gated" or "elite-enclave"
+  let gatedPrivacyLevel = privacyLevel;
+  let gatedNeighborhoodType = neighborhoodType;
+
+  // PG3 Part A: Elite tier privacy constraints
+  const eliteExcludedPrivacy: PrivacyLevel[] = ['thin-walls', 'communal'];
+  if (tierBand === 'elite' && eliteExcludedPrivacy.includes(privacyLevel)) {
+    // Elite cannot have thin-walls or communal privacy - upgrade to private
+    gatedPrivacyLevel = 'private';
+    traceSet(trace, 'home.plausibilityGate.PG3.privacy', {
+      original: privacyLevel,
+      forced: gatedPrivacyLevel,
+      reason: 'elite tier incompatible with thin-walls/communal privacy',
+    }, { method: 'gate' });
+  }
+
+  // PG3 Part B: Neighborhood tier constraints
+  const eliteExcludedNeighborhoods: NeighborhoodType[] = ['insecure', 'informal-settlement'];
+  const massExcludedNeighborhoods: NeighborhoodType[] = ['gated', 'elite-enclave'];
+
+  if (tierBand === 'elite' && eliteExcludedNeighborhoods.includes(neighborhoodType)) {
+    // Elite cannot live in insecure or informal settlements - upgrade to anonymous
+    gatedNeighborhoodType = urbanicity === 'rural' ? 'rural-isolated' : 'anonymous';
+    traceSet(trace, 'home.plausibilityGate.PG3.neighborhood', {
+      original: neighborhoodType,
+      forced: gatedNeighborhoodType,
+      reason: 'elite tier incompatible with insecure/informal neighborhoods',
+    }, { method: 'gate' });
+  } else if (tierBand === 'mass' && massExcludedNeighborhoods.includes(neighborhoodType)) {
+    // Mass cannot live in gated or elite-enclave - downgrade to tight-knit or anonymous
+    gatedNeighborhoodType = urbanicity === 'rural' ? 'tight-knit' : 'anonymous';
+    traceSet(trace, 'home.plausibilityGate.PG3.neighborhood', {
+      original: neighborhoodType,
+      forced: gatedNeighborhoodType,
+      reason: 'mass tier incompatible with gated/elite-enclave neighborhoods',
+    }, { method: 'gate' });
+  }
+
+  // Correlate #DC-D5: Neighborhood type affects privacy level
+  // Gated and rural-isolated neighborhoods provide higher privacy
+  const highPrivacyNeighborhoods: NeighborhoodType[] = ['gated', 'rural-isolated', 'elite-enclave'];
+  if (highPrivacyNeighborhoods.includes(gatedNeighborhoodType)) {
+    // Upgrade privacy if in a high-privacy neighborhood
+    const lowPrivacyLevels: PrivacyLevel[] = ['thin-walls', 'communal', 'surveilled'];
+    if (lowPrivacyLevels.includes(gatedPrivacyLevel)) {
+      gatedPrivacyLevel = 'private'; // Minimum private in gated/rural areas
+    }
+  }
+
+  // Correlate #DC-D10: Elite tier maintains privacy even if transient
+  // Elite agents maintain at least 'moderate' privacy regardless of housing instability
+  if (tierBand === 'elite') {
+    const veryLowPrivacy: PrivacyLevel[] = ['communal', 'thin-walls'];
+    if (veryLowPrivacy.includes(gatedPrivacyLevel)) {
+      gatedPrivacyLevel = 'private'; // Elite always at least private
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // NEW CORRELATES DC-D14 through DC-D19 (post-hoc deterministic adjustments)
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // DC-D14: Institutional Embeddedness → Housing Type
+  // If institutionalEmbeddedness > 800, ensure housing is NOT "couch-surfing" or "homeless-shelter"
+  // Rationale: Highly institutional people have stable housing
+  const institutionalEmbeddedness01k = latents.institutionalEmbeddedness;
+  if (institutionalEmbeddedness01k > 800) {
+    const unstableHousingForInstitutional: HousingStability[] = ['couch-surfing', 'transient'];
+    if (unstableHousingForInstitutional.includes(gatedHousingStability)) {
+      gatedHousingStability = 'tenuous'; // Upgrade from most unstable to merely tenuous
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.dcD14InstitutionalHousingGate = {
+          institutionalEmbeddedness: institutionalEmbeddedness01k,
+          originalHousing: housingStability,
+          adjustedHousing: gatedHousingStability,
+          reason: 'DC-D14: High institutional embeddedness (>800) incompatible with couch-surfing/transient housing',
+        };
+      }
+    }
+  }
+
+  // DC-D16: Refugee → Housing Instability Score
+  // If diasporaStatus == "refugee", housing stability score reduced
+  // Rationale: Refugees face housing challenges
+  let housingStabilityScore = 500; // Default neutral score
+  const isRefugee = ctx.diasporaStatus === 'refugee';
+  if (isRefugee) {
+    // Reduce stability score significantly for refugees
+    housingStabilityScore = Math.max(100, housingStabilityScore - 300);
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.dcD16RefugeeHousingScore = {
+        diasporaStatus: ctx.diasporaStatus,
+        housingStabilityScore,
+        reason: 'DC-D16: Refugee status reduces housing stability score',
+      };
+    }
+  }
+  // Adjust score based on actual housing type
+  if (gatedHousingStability === 'owned') housingStabilityScore = Math.min(1000, housingStabilityScore + 400);
+  else if (gatedHousingStability === 'stable-rental') housingStabilityScore = Math.min(1000, housingStabilityScore + 200);
+  else if (gatedHousingStability === 'tenuous') housingStabilityScore = Math.max(0, housingStabilityScore - 100);
+  else if (gatedHousingStability === 'transient') housingStabilityScore = Math.max(0, housingStabilityScore - 200);
+  else if (gatedHousingStability === 'couch-surfing') housingStabilityScore = Math.max(0, housingStabilityScore - 350);
+
+  // DC-D17: Elite + Family → Large Household
+  // If tier == "elite" AND hasFamily, household size >= 3
+  // Rationale: Elite families have staff/larger homes
+  let householdSizeMin = 1;
+  if (tierBand === 'elite' && hasFamily) {
+    householdSizeMin = 3; // Elite families have at least 3 (couple + dependent/staff)
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.dcD17EliteFamilyHousehold = {
+        tierBand,
+        hasFamily,
+        householdSizeMin,
+        reason: 'DC-D17: Elite families have larger households (staff/larger homes)',
+      };
+    }
+  }
+
+  // DC-D18: Age > 70 → Accessible Housing
+  // If age > 70, reduce probability of "walk-up" housing types (mark accessibility requirement)
+  // Rationale: Elderly need accessibility
+  const requiresAccessibility = age > 70;
+  if (requiresAccessibility && trace) {
+    trace.derived = trace.derived ?? {};
+    trace.derived.dcD18AccessibilityRequired = {
+      age,
+      reason: 'DC-D18: Age > 70 requires accessible housing (no walk-ups)',
+    };
+  }
+
+  // DC-D19: Very High Opsec → Private Entry
+  // If opsecDiscipline > 850, ensure dwelling has private entry
+  // Rationale: Security requires controlled access
+  const opsecDiscipline01k = latents.opsecDiscipline;
+  const requiresPrivateEntry = opsecDiscipline01k > 850;
+  if (requiresPrivateEntry) {
+    // Upgrade privacy if too low for someone with high opsec
+    if (gatedPrivacyLevel === 'communal' || gatedPrivacyLevel === 'thin-walls') {
+      gatedPrivacyLevel = 'private';
+    }
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.dcD19PrivateEntryRequired = {
+        opsecDiscipline: opsecDiscipline01k,
+        reason: 'DC-D19: Very high opsec (>850) requires private entry',
+      };
+    }
+  }
+
+  const home: HomeResult = {
+    housingStability: gatedHousingStability,
+    householdComposition,
+    privacyLevel: gatedPrivacyLevel,
+    neighborhoodType: gatedNeighborhoodType,
+    housingStabilityScore,
+    householdSizeMin,
+    requiresAccessibility,
+    requiresPrivateEntry,
+  };
+  traceSet(trace, 'home', home, { method: 'weighted+gates' });
 
   // ─────────────────────────────────────────────────────────────────────────────
   // LEGAL/ADMIN (Oracle recommendation)
@@ -594,7 +1005,32 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
 
     return { item: r as ResidencyStatus, weight: w };
   });
-  const residencyStatus = weightedPick(legalRng, residencyWeights) as ResidencyStatus;
+  let residencyStatus = weightedPick(legalRng, residencyWeights) as ResidencyStatus;
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DC-D15: Diplomat Career → Residency Status
+  // If career involves diplomacy/foreign-service, ensure residency is "diplomatic" or "citizen"
+  // Rationale: Diplomats have special status
+  // ─────────────────────────────────────────────────────────────────────────────
+  const diplomaticCareerTracks = ['foreign-service', 'diplomacy', 'diplomatic'];
+  const isDiplomaticCareer = diplomaticCareerTracks.includes(careerTrackTag) || roleSeedTags.includes('diplomat');
+  if (isDiplomaticCareer) {
+    const validDiplomatResidencies: ResidencyStatus[] = ['diplomatic', 'citizen'];
+    if (!validDiplomatResidencies.includes(residencyStatus)) {
+      // Upgrade to diplomatic status for diplomats
+      residencyStatus = 'diplomatic';
+      if (trace) {
+        trace.derived = trace.derived ?? {};
+        trace.derived.dcD15DiplomatResidencyGate = {
+          careerTrackTag,
+          roleSeedTags,
+          originalResidency: residencyStatus,
+          adjustedResidency: 'diplomatic',
+          reason: 'DC-D15: Diplomatic career requires diplomatic or citizen residency status',
+        };
+      }
+    }
+  }
 
   const exposurePool = vocab.legalAdmin?.legalExposures ?? [
     'clean', 'old-conviction', 'pending-case', 'tax-dispute', 'custody-battle', 'sealed-record',
@@ -602,6 +1038,11 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   const opsec01 = latents.opsecDiscipline / 1000;
   const impulse01 = latents.impulseControl / 1000;
   const principled01 = latents.principledness / 1000;
+
+  // Correlate #DC-D13: Low impulseControl increases legal exposure
+  // Impulsive agents are more likely to make decisions that lead to legal trouble
+  const impulseLegalBoost = impulse01 < 0.35 ? 2.5 : 1.0; // Strong boost for very low impulse control
+
   const exposureWeights = exposurePool.map(e => {
     let w = e === 'clean' ? 10 : 1;
     if (e === 'sealed-record' && roleSeedTags.includes('operative')) w = 2;
@@ -610,6 +1051,12 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
     if (e === 'sealed-record') w += 1.4 * opsec01;
     if (e === 'pending-case' || e === 'under-investigation' || e === 'tax-dispute' || e === 'debt-collection') {
       w += 1.6 * (1 - opsec01) + 1.2 * (1 - impulse01) + 0.8 * (1 - principled01);
+      // #DC-D13: Low impulse control strongly increases legal exposure
+      w *= impulseLegalBoost;
+    }
+    // #DC-D13: Also boost old-conviction for low impulse control (past mistakes)
+    if (e === 'old-conviction' && impulse01 < 0.35) {
+      w *= 2.0;
     }
     return { item: e as LegalExposure, weight: w };
   });
@@ -647,11 +1094,75 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   const extraCreds = legalRng.pickK(availableExtras, legalRng.int(0, 1));
   const credentials = [...careerCreds, ...extraCreds] as CredentialType[];
 
-  const legalAdmin: LegalAdminResult = { residencyStatus, legalExposure, credentials };
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DC-D4: Residency status affects credential validity
+  // Irregular/asylum-pending/refugee residents may have credentials that are
+  // 'unrecognized' (foreign) or 'expired' in the current country
+  // ─────────────────────────────────────────────────────────────────────────────
+  const irregularResidencies = ['irregular', 'asylum-pending', 'refugee', 'stateless'];
+  const foreignResidencies = ['work-visa', 'student-visa', 'temporary-protected'];
+
+  const credentialsWithValidity: CredentialWithValidity[] = credentials.map(cred => {
+    let validity: CredentialValidity = 'valid';
+
+    // Irregular residents: high chance credentials are unrecognized or foreign
+    if (irregularResidencies.includes(residencyStatus)) {
+      const roll = legalRng.next01();
+      if (roll < 0.5) {
+        validity = 'unrecognized'; // 50%: credential not recognized in current country
+      } else if (roll < 0.75) {
+        validity = 'foreign'; // 25%: valid foreign credential, needs conversion
+      } else if (roll < 0.90) {
+        validity = 'expired'; // 15%: credential expired during migration
+      }
+      // 10%: still valid (maintained through hardship)
+    }
+    // Foreign residents on temporary visas: some chance credentials are foreign
+    else if (foreignResidencies.includes(residencyStatus)) {
+      const roll = legalRng.next01();
+      if (roll < 0.20) {
+        validity = 'foreign'; // 20%: valid foreign credential
+      } else if (roll < 0.25) {
+        validity = 'unrecognized'; // 5%: not recognized
+      }
+      // 75%: valid (working professionals usually have recognized credentials)
+    }
+    // Citizens and permanent residents: credentials almost always valid (default)
+
+    return { type: cred, validity };
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE DC-D8: High legal exposure limits credential types
+  // Agents with active legal issues cannot maintain security clearances
+  // ═══════════════════════════════════════════════════════════════════════════
+  const highLegalExposureTypes = ['pending-case', 'under-investigation', 'debt-collection'];
+  let gatedCredentials = credentials;
+  let gatedCredentialsWithValidity = credentialsWithValidity;
+  if (highLegalExposureTypes.includes(legalExposure) && credentials.includes('security-clearance')) {
+    gatedCredentials = credentials.filter(c => c !== 'security-clearance');
+    gatedCredentialsWithValidity = credentialsWithValidity.filter(c => c.type !== 'security-clearance');
+    if (trace) {
+      trace.derived = trace.derived ?? {};
+      trace.derived.dcD8LegalCredentialGate = {
+        legalExposure,
+        originalCredentials: credentials,
+        adjustedCredentials: gatedCredentials,
+        reason: 'DC-D8: High legal exposure (pending-case/under-investigation) incompatible with security clearance',
+      };
+    }
+  }
+
+  const legalAdmin: LegalAdminResult = {
+    residencyStatus,
+    legalExposure,
+    credentials: gatedCredentials,
+    credentialsWithValidity: gatedCredentialsWithValidity,
+  };
   traceSet(trace, 'legalAdmin', legalAdmin, { method: 'weighted' });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // LIFE SKILLS (Oracle recommendation)
+  // LIFE SKILLS (Oracle recommendation + DC-D9)
   // ─────────────────────────────────────────────────────────────────────────────
   traceFacet(trace, seed, 'lifeSkills');
   const skillsRng = makeRng(facetSeed(seed, 'lifeSkills'));
@@ -697,10 +1208,66 @@ export function computeDomestic(ctx: DomesticContext): DomesticResult {
   });
   const etiquetteLiteracy = weightedPick(skillsRng, etiquetteWeights) as EtiquetteLiteracy;
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // DC-D9: Urbanicity affects life skills mix
+  // Rural environments weight mechanical/agricultural skills
+  // Urban environments weight transit/networking skills
+  // ─────────────────────────────────────────────────────────────────────────────
+  const ruralUrbanities = ['rural', 'rural-remote', 'small-town'];
+  const urbanUrbanities = ['megacity', 'capital', 'major-city', 'secondary-city'];
+
+  let primarySkillDomain: 'urban' | 'rural' | 'mixed';
+  if (ruralUrbanities.includes(urbanicity)) {
+    // Rural: mechanical, agricultural, practical self-sufficiency skills
+    primarySkillDomain = 'rural';
+  } else if (urbanUrbanities.includes(urbanicity)) {
+    // Urban: transit navigation, networking, service economy skills
+    primarySkillDomain = 'urban';
+  } else {
+    // Suburban, mid-city, or unknown: mixed skill set
+    primarySkillDomain = 'mixed';
+  }
+
   const lifeSkills: LifeSkillsResult = {
-    domesticCompetence, bureaucracyNavigation, streetSmarts, etiquetteLiteracy,
+    domesticCompetence,
+    bureaucracyNavigation,
+    streetSmarts,
+    etiquetteLiteracy,
+    primarySkillDomain,
   };
   traceSet(trace, 'lifeSkills', lifeSkills, { method: 'weighted' });
 
   return { everydayLife, home, legalAdmin, lifeSkills };
+}
+
+// ============================================================================
+// Plausibility Gate PG1 (exported for use by generator)
+// ============================================================================
+
+/**
+ * Plausibility Gate PG1: High Opsec → No Compromised Identity Kit
+ *
+ * If opsecDiscipline > 0.75 (750/1000), force `compromised: false` on all identity kit items.
+ * High opsec agents maintain strict security discipline and would never allow their
+ * identity materials to become compromised.
+ *
+ * This gate should be applied after lifestyle.logistics.identityKit is computed.
+ *
+ * @param identityKit - The identity kit items from lifestyle result
+ * @param opsec01 - Opsec discipline normalized to 0-1 range (latents.opsecDiscipline / 1000)
+ * @returns The gated identity kit with compromised flags adjusted
+ */
+export function applyPG1IdentityKitGate<T extends { item: string; compromised: boolean }>(
+  identityKit: T[],
+  opsec01: number,
+): T[] {
+  // Plausibility Gate PG1: High Opsec → No Compromised Identity Kit
+  // If opsec01 > 0.75, force `compromised: false` on all identity kit items
+  if (opsec01 > 0.75) {
+    return identityKit.map(kit => ({
+      ...kit,
+      compromised: false,
+    }));
+  }
+  return identityKit;
 }

@@ -70,21 +70,22 @@ Correlates are cross-facet relationships that ensure realistic agent generation.
 - Implausibility checks
 - Instructions for adding new correlates
 
-### Quick Reference (57 correlates, 100% verified)
+### Quick Reference (~401 correlates total, 57 statistically audited)
 
-| Category | Count | Key Examples |
-|----------|-------|--------------|
-| Tier-Based | 6 | Tier ↔ Health, Education, Housing, Risk Appetite |
-| Age-Based | 9 | Age ↔ Conditioning, Network Role, Community Status, Skill XP |
-| Latent-Based | 4 | Cosmopolitanism ↔ Abroad, Religiosity ↔ Vices |
-| Trait-Based | 5 | Social Battery ↔ Third Places, Planning ↔ Impulse Control |
-| Cross-Latent | 6 | Opsec ↔ Publicness (suppression) |
-| Derivation | 3 | Opsec ↔ Conscientiousness |
-| Network/Social | 5 | Community Status ↔ Network Role, Deception ↔ Relationships |
-| Housing | 4 | Family Size ↔ Stability, Frugality ↔ Stability |
-| Health | 4 | Stress ↔ Chronic Conditions, Religiosity ↔ Dietary |
-| Skills | 5 | Institutional Embeddedness ↔ Bureaucracy |
-| Behavioral | 5 | Conscientiousness ↔ Petty Habits, Conditioning ↔ Hobbies |
+| File | Count | Types |
+|------|-------|-------|
+| traits.ts | 18 | Deterministic caps, plausibility gates |
+| skills.ts | 36 | Aptitude-skill mappings, weighted formulas |
+| aptitudes.ts | 25 | Physical interdependencies, tier/age effects |
+| social.ts | 80 | Network role, family, community, reputation |
+| domestic.ts | 55 | Housing, legal status, life skills |
+| lifestyle.ts | 29 | Health, vices, spirituality |
+| narrative.ts | 30 | Timeline events, minority status |
+| preferences.ts | 42 | Food, media, fashion, routines |
+| identity.ts | 50 | Career, education, languages |
+| latents.ts | 36 | Cross-latent suppression, tier biases |
+
+**Audit Status**: 57 correlates are statistically verified (|r| ≥ 0.15) via `audit-agents.ts`. All 401 are validated as correctly implemented.
 
 ### Running Correlation Audit
 
@@ -119,8 +120,12 @@ The priors file includes `countries[*].buckets[*].indicators` (GDP, trade openne
 2. Add required inputs to the facet's Context type
 3. Apply correlation logic using normalized (0-1) values
 4. Update the orchestrator (generator.ts) to pass the new inputs
-5. Add comment with correlate number: `// Correlate #X: Name`
-6. Document in this file
+5. Add comment with correlate ID: `// Correlate #ID: Description`
+6. **Update CORRELATES.md** - Add to both:
+   - The "Complete Correlate Catalog by File" section (appropriate file table)
+   - The audit script if it should be verified statistically
+
+**When finding undocumented correlates**: If you discover a correlate in code that isn't in CORRELATES.md, add it to the catalog immediately.
 
 ### Weighted Picking Pattern
 

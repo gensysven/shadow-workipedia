@@ -43,6 +43,10 @@ import {
 // Types
 // ============================================================================
 
+// Types for correlates that need geography context
+export type DiasporaStatusInput = 'native' | 'internal-migrant' | 'expat' | 'refugee' | 'asylum-seeker' | 'dual-citizen' | 'borderland' | 'diaspora-child';
+export type UrbanicityInput = 'rural' | 'small-town' | 'secondary-city' | 'capital' | 'megacity' | 'peri-urban' | 'metropolitan';
+
 export type IdentityContext = {
   seed: string;
   vocab: AgentVocabV1;
@@ -66,6 +70,10 @@ export type IdentityContext = {
   inst01: number;
   risk01: number;
   opsec01: number;
+
+  // Geography context for correlates (optional - set by post-hoc processing)
+  diasporaStatus?: DiasporaStatusInput;
+  urbanicity?: UrbanicityInput;
 
   // Culture context
   macroCulture: CultureProfileV1 | undefined;
@@ -271,9 +279,150 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
     }
     return picked;
   })();
-  traceSet(trace, 'identity.careerTrackTag', careerTrackTag, {
+
+  // Deterministic Cap DC3: Opsec ↔ Career Track (Negative)
+  // High opsec agents should not have high-publicness careers
+  const highPublicnessCareers = ['journalism', 'corporate-ops'];
+  const lowPublicnessCareers = ['intelligence', 'military', 'ngo'];
+  let finalCareerTrackTag = careerTrackTag;
+  if (ctx.opsec01 > 0.75 && highPublicnessCareers.includes(careerTrackTag)) {
+    // Reassign to a low-publicness career that exists in the pool
+    const validLowPublicness = lowPublicnessCareers.filter(c => careerTracks.includes(c));
+    if (validLowPublicness.length > 0) {
+      finalCareerTrackTag = identityRng.pick(validLowPublicness);
+      if (trace) {
+        trace.derived.dc3OpsecCareerAdjustment = {
+          originalCareer: careerTrackTag,
+          adjustedCareer: finalCareerTrackTag,
+          opsec01: ctx.opsec01,
+          reason: 'High opsec (>0.75) incompatible with high-publicness career',
+        };
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DC-ID-3: Risk + Institutional → Operative Career
+  // If riskAppetite > 0.7 AND institutionalEmbeddedness > 0.6, increase
+  // probability of operative careers (intelligence, security, military)
+  // ═══════════════════════════════════════════════════════════════════════════
+  const operativeCareers = ['intelligence', 'security', 'military'];
+  const nonOperativeCareers = ['civil-service', 'academia', 'journalism', 'ngo', 'corporate-ops'];
+  if (risk01 > 0.7 && inst01 > 0.6 && nonOperativeCareers.includes(finalCareerTrackTag)) {
+    // High risk-taking + institutional embeddedness → operative career
+    const validOperative = operativeCareers.filter(c => careerTracks.includes(c));
+    if (validOperative.length > 0 && identityRng.next01() < 0.65) {
+      const originalCareer = finalCareerTrackTag;
+      finalCareerTrackTag = identityRng.pick(validOperative);
+      if (trace) {
+        trace.derived.dcId3RiskInstOperativeAdjustment = {
+          originalCareer,
+          adjustedCareer: finalCareerTrackTag,
+          risk01,
+          inst01,
+          reason: 'DC-ID-3: High risk (>0.7) + institutional (>0.6) → operative career',
+        };
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DC-ID-5: Diaspora → Career Restriction
+  // If diasporaStatus in ["refugee", "asylum-seeker"], restrict certain careers
+  // (diplomacy, security clearance roles)
+  // ═══════════════════════════════════════════════════════════════════════════
+  const securityClearanceCareers = ['foreign-service', 'intelligence', 'military', 'security'];
+  const diasporaRestrictedStatuses: DiasporaStatusInput[] = ['refugee', 'asylum-seeker'];
+  if (ctx.diasporaStatus && diasporaRestrictedStatuses.includes(ctx.diasporaStatus) &&
+      securityClearanceCareers.includes(finalCareerTrackTag)) {
+    // Refugees/asylum-seekers cannot hold security clearance careers
+    const nonClearanceCareers = careerTracks.filter(c => !securityClearanceCareers.includes(c));
+    if (nonClearanceCareers.length > 0) {
+      const originalCareer = finalCareerTrackTag;
+      finalCareerTrackTag = identityRng.pick(nonClearanceCareers);
+      if (trace) {
+        trace.derived.dcId5DiasporaCareerRestriction = {
+          originalCareer,
+          adjustedCareer: finalCareerTrackTag,
+          diasporaStatus: ctx.diasporaStatus,
+          reason: 'DC-ID-5: Refugee/asylum-seeker status restricts security clearance careers',
+        };
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DC-ID-7: Urbanicity → Career Match
+  // Rural → agriculture, trades, local government weighted
+  // Metropolitan → corporate, media, tech weighted
+  // ═══════════════════════════════════════════════════════════════════════════
+  const ruralCareers = ['agriculture', 'trades', 'local-government', 'public-health'];
+  const metropolitanCareers = ['corporate-ops', 'journalism', 'engineering', 'academia'];
+  if (ctx.urbanicity) {
+    const isRural = ctx.urbanicity === 'rural' || ctx.urbanicity === 'small-town';
+    const isMetro = ctx.urbanicity === 'metropolitan' || ctx.urbanicity === 'megacity' || ctx.urbanicity === 'capital';
+
+    if (isRural && metropolitanCareers.includes(finalCareerTrackTag)) {
+      // Rural agent with metro career → shift toward rural career
+      const validRural = ruralCareers.filter(c => careerTracks.includes(c));
+      if (validRural.length > 0 && identityRng.next01() < 0.55) {
+        const originalCareer = finalCareerTrackTag;
+        finalCareerTrackTag = identityRng.pick(validRural);
+        if (trace) {
+          trace.derived.dcId7UrbanicityCareerAdjustment = {
+            originalCareer,
+            adjustedCareer: finalCareerTrackTag,
+            urbanicity: ctx.urbanicity,
+            reason: 'DC-ID-7: Rural urbanicity shifts toward agriculture/trades/local careers',
+          };
+        }
+      }
+    } else if (isMetro && ruralCareers.includes(finalCareerTrackTag)) {
+      // Metro agent with rural career → shift toward metro career
+      const validMetro = metropolitanCareers.filter(c => careerTracks.includes(c));
+      if (validMetro.length > 0 && identityRng.next01() < 0.55) {
+        const originalCareer = finalCareerTrackTag;
+        finalCareerTrackTag = identityRng.pick(validMetro);
+        if (trace) {
+          trace.derived.dcId7UrbanicityCareerAdjustment = {
+            originalCareer,
+            adjustedCareer: finalCareerTrackTag,
+            urbanicity: ctx.urbanicity,
+            reason: 'DC-ID-7: Metropolitan urbanicity shifts toward corporate/media/tech careers',
+          };
+        }
+      }
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DC-ID-8: Conditioning → Physical Career
+  // If physicalConditioning > 750, increase probability of physically demanding
+  // careers (military, security, athletics)
+  // ═══════════════════════════════════════════════════════════════════════════
+  const physicalCareers = ['military', 'security', 'athletics', 'emergency-services'];
+  const sedentaryCareers = ['academia', 'civil-service', 'law', 'corporate-ops'];
+  const conditioning01k = ctx.latents.physicalConditioning;
+  if (conditioning01k > 750 && sedentaryCareers.includes(finalCareerTrackTag)) {
+    // High conditioning + sedentary career → shift toward physical career
+    const validPhysical = physicalCareers.filter(c => careerTracks.includes(c));
+    if (validPhysical.length > 0 && identityRng.next01() < 0.50) {
+      const originalCareer = finalCareerTrackTag;
+      finalCareerTrackTag = identityRng.pick(validPhysical);
+      if (trace) {
+        trace.derived.dcId8ConditioningCareerAdjustment = {
+          originalCareer,
+          adjustedCareer: finalCareerTrackTag,
+          physicalConditioning: conditioning01k,
+          reason: 'DC-ID-8: High physical conditioning (>750) favors physically demanding careers',
+        };
+      }
+    }
+  }
+
+  traceSet(trace, 'identity.careerTrackTag', finalCareerTrackTag, {
     method: 'weightedPick',
-    dependsOn: { facet: 'identity_tracks', roleNudgedCareer: roleNudgedCareer ?? null, inst01, risk01 },
+    dependsOn: { facet: 'identity_tracks', roleNudgedCareer: roleNudgedCareer ?? null, inst01, risk01, opsec01: ctx.opsec01 },
   });
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -306,8 +455,8 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
         // HARD CONSTRAINT: Mass tier graduate requires strong institutional access
         if (t === 'graduate' && (gdpPerCap01 < 0.7 || inst01 < 0.65)) return { item: t, weight: 0 };
       }
-	      if (careerTrackTag === 'military' && t === 'military-academy') w += 3.0;
-	      if (careerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
+	      if (finalCareerTrackTag === 'military' && t === 'military-academy') w += 3.0;
+	      if (finalCareerTrackTag === 'civil-service' && t === 'civil-service-track') w += 2.4;
 	      // Indicator nudges: richer countries → more higher-ed, poorer → more trade/self-taught.
 	      if (gdpPerCapUsd != null) {
 	        if (gdpPerCap01 > 0.7 && ['undergraduate', 'graduate', 'doctorate'].includes(t)) w += 1.2 * (gdpPerCap01 - 0.7) / 0.3;
@@ -318,7 +467,7 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
 	      // High trade openness slightly boosts civil-service/foreign-facing tracks.
 	      if (tradeOpen01 > 0.7 && ['civil-service-track', 'undergraduate', 'graduate'].includes(t)) w += 0.4 * (tradeOpen01 - 0.7) / 0.3;
 	      // HARD CONSTRAINT: Academia requires advanced education (graduate or doctorate)
-	      if (careerTrackTag === 'academia') {
+	      if (finalCareerTrackTag === 'academia') {
 	        if (['graduate', 'doctorate'].includes(t)) w += 6.0; // Strong preference for advanced degrees
 	        if (!['graduate', 'doctorate', 'undergraduate'].includes(t)) {
 	          return { item: t, weight: 0 }; // Cannot be in academia with only secondary/trade/self-taught
@@ -335,6 +484,38 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
       const keepChance = gdpPerCap01 > 0.8 ? 0.15 : 0.05;
       if (identityRng.next01() > keepChance) picked = 'graduate';
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // PLAUSIBILITY GATE DC-NEW-5: Elite tier cannot have secondary/self-taught education
+    // Elite status implies access to higher education opportunities
+    // ═══════════════════════════════════════════════════════════════════════════
+    if (tierBand === 'elite' && (picked === 'secondary' || picked === 'self-taught')) {
+      picked = 'undergraduate';
+      if (trace) {
+        trace.derived.dcNew5EliteEducationGate = {
+          originalEducation: picked,
+          adjustedEducation: 'undergraduate',
+          reason: 'DC-NEW-5: Elite tier cannot have secondary/self-taught education',
+        };
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // PLAUSIBILITY GATE DC-NEW-1: Doctorate requires age >= 30
+    // Completing a doctorate typically requires 8+ years of post-secondary education
+    // ═══════════════════════════════════════════════════════════════════════════
+    if (age < 30 && picked === 'doctorate') {
+      picked = 'graduate';
+      if (trace) {
+        trace.derived.dcNew1DoctorateAgeGate = {
+          age,
+          originalEducation: 'doctorate',
+          adjustedEducation: 'graduate',
+          reason: 'DC-NEW-1: Doctorate requires minimum age 30',
+        };
+      }
+    }
+
     if (trace) {
       trace.derived.educationTrackWeightsTop = [...weights]
         .sort((a, b) => b.weight - a.weight)
@@ -344,8 +525,33 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
   })();
   traceSet(trace, 'identity.educationTrackTag', educationTrackTag, {
     method: 'weightedPick',
-    dependsOn: { facet: 'identity_tracks', tierBand, careerTrackTag, inst01 },
+    dependsOn: { facet: 'identity_tracks', tierBand, careerTrackTag: finalCareerTrackTag, inst01 },
   });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DC-ID-6: Age + Education → Career Floor
+  // If age > 40 AND education == "doctorate", career weighted toward senior/professional roles
+  // Educated mid-career people should hold senior positions
+  // ═══════════════════════════════════════════════════════════════════════════
+  const seniorCareers = ['academia', 'law', 'civil-service', 'foreign-service', 'corporate-ops', 'politics'];
+  const juniorCareers = ['journalism', 'ngo', 'organized-labor'];
+  if (age > 40 && educationTrackTag === 'doctorate' && juniorCareers.includes(finalCareerTrackTag)) {
+    // Mid-career doctorate holder in junior career → shift toward senior/professional role
+    const validSenior = seniorCareers.filter(c => careerTracks.includes(c));
+    if (validSenior.length > 0 && identityRng.next01() < 0.70) {
+      const originalCareer = finalCareerTrackTag;
+      finalCareerTrackTag = identityRng.pick(validSenior);
+      if (trace) {
+        trace.derived.dcId6AgeEducationCareerFloor = {
+          originalCareer,
+          adjustedCareer: finalCareerTrackTag,
+          age,
+          educationTrack: educationTrackTag,
+          reason: 'DC-ID-6: Age >40 + doctorate → senior/professional career',
+        };
+      }
+    }
+  }
 
   // ─────────────────────────────────────────────────────────────────────────────
   // EDUCATION-BASED AGE FLOOR
@@ -584,11 +790,27 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
         (homeDiversity01 > 0.40 ? 1 : 0) +
         (tradeOpen01 > 0.75 ? 1 : 0) +
         (airTravel01 > 0.75 ? 1 : 0) +
-        (careerTrackTag === 'foreign-service' ? 1 : 0) +
+        (finalCareerTrackTag === 'foreign-service' ? 1 : 0) +
         (educationTrackTag === 'graduate' || educationTrackTag === 'doctorate' ? 1 : 0),
     ),
   );
-  const languageCount = Math.max(1, Math.min(3, desiredLanguageCount));
+  let languageCount = Math.max(1, Math.min(3, desiredLanguageCount));
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE DC-NEW-10: Foreign service career requires 2+ languages
+  // Diplomatic work requires multilingual capability
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (finalCareerTrackTag === 'foreign-service' && languageCount < 2) {
+    languageCount = 2;
+    if (trace) {
+      trace.derived.dcNew10ForeignServiceLanguageGate = {
+        careerTrack: 'foreign-service',
+        originalLanguageCount: desiredLanguageCount,
+        adjustedLanguageCount: 2,
+        reason: 'DC-NEW-10: Foreign service career requires minimum 2 languages',
+      };
+    }
+  }
 
   const topEnv = (env: Record<string, Fixed> | null) =>
     env
@@ -648,6 +870,33 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
       method: 'hybridPickK',
       dependsOn: { facet: 'languages', languagesPrimaryWeight, useCulturePrimaryLanguage, languageCount, cultureLangPoolSize: cultureLangs.length, baseLangPoolSize: baseLangs.length },
     });
+  }
+
+  // Deterministic Cap DC8: High Cosmopolitanism → Minimum Languages
+  // If cosmo01 > 0.75, agent MUST have at least 2 languages
+  if (cosmo01 > 0.75 && languages.length < 2) {
+    const availableSecondLanguages = unionLangs.filter(l => !languages.includes(l));
+    if (availableSecondLanguages.length > 0) {
+      // Pick a second language weighted by environment and culture
+      const secondLangWeights = availableSecondLanguages.map((language) => {
+        let w = 1;
+        if (homeLangEnv01k) w += (homeLangEnv01k[language] ?? 0) * 0.5;
+        if (citizenshipLangEnv01k) w += (citizenshipLangEnv01k[language] ?? 0) * 0.3;
+        if (currentLangEnv01k) w += (currentLangEnv01k[language] ?? 0) * 0.4;
+        if (cultureLangs.includes(language)) w += 30;
+        return { item: language, weight: w };
+      });
+      const secondLanguage = weightedPick(langRng, secondLangWeights);
+      languages.push(secondLanguage);
+      if (trace) {
+        trace.derived.dc8LanguageAdjustment = {
+          cosmo01,
+          originalCount: 1,
+          addedLanguage: secondLanguage,
+          reason: 'DC8: cosmo01 > 0.75 requires minimum 2 languages',
+        };
+      }
+    }
   }
 
   // Language proficiency
@@ -727,7 +976,24 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
     }
     return { item: level, weight: w };
   });
-  const outnessLevel = weightedPick(orientationRng, outnessWeights) as OutnessLevel;
+  let outnessLevel = weightedPick(orientationRng, outnessWeights) as OutnessLevel;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE DC-NEW-8: High opsec cannot be publicly 'out'
+  // Agents with high operational security discipline avoid public visibility
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (ctx.opsec01 > 0.75 && outnessLevel === 'publicly-out') {
+    outnessLevel = 'selectively-out';
+    if (trace) {
+      trace.derived.dcNew8OpsecOutnessGate = {
+        opsec01: ctx.opsec01,
+        originalOutness: 'publicly-out',
+        adjustedOutness: 'selectively-out',
+        reason: 'DC-NEW-8: High opsec (>0.75) incompatible with public outness',
+      };
+    }
+  }
+
   traceSet(trace, 'orientation', { orientationTag, outnessLevel }, { method: 'weighted' });
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -777,7 +1043,24 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
     : null;
 
   // Aliases
-  const aliasCount = roleSeedTags.includes('operative') ? namingRng.int(1, 3) : (namingRng.next01() < 0.2 ? 1 : 0);
+  let aliasCount = roleSeedTags.includes('operative') ? namingRng.int(1, 3) : (namingRng.next01() < 0.2 ? 1 : 0);
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLAUSIBILITY GATE DC-NEW-11: Intelligence career requires 1+ alias
+  // Intelligence operatives need alternative identities for fieldwork
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (finalCareerTrackTag === 'intelligence' && aliasCount < 1) {
+    aliasCount = 1;
+    if (trace) {
+      trace.derived.dcNew11IntelligenceAliasGate = {
+        careerTrack: 'intelligence',
+        originalAliasCount: 0,
+        adjustedAliasCount: 1,
+        reason: 'DC-NEW-11: Intelligence career requires minimum 1 alias',
+      };
+    }
+  }
+
   const aliases: string[] = [];
   for (let i = 0; i < aliasCount; i++) {
     const aliasFirstName = vocab.identity.firstNames[namingRng.int(0, vocab.identity.firstNames.length - 1)];
@@ -798,7 +1081,7 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
   return {
     roleSeedTags,
     educationTrackTag,
-    careerTrackTag,
+    careerTrackTag: finalCareerTrackTag,
     effectiveBirthYear,
     firstName,
     lastName,

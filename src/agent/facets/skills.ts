@@ -107,6 +107,123 @@ export function computeSkills(ctx: SkillsContext): SkillsResult {
     skills[k] = { value, xp, lastUsedDay: null };
   }
 
+  // Deterministic Cap DC7: Low Impulse Control ↔ Tradecraft Cap
+  // Operatives with poor impulse control make operational mistakes;
+  // they cannot achieve high tradecraft
+  if (latents.impulseControl < 350 && skills['tradecraft']) {
+    skills['tradecraft'].value = Math.min(skills['tradecraft'].value, 500) as Fixed;
+  }
+
+  // ============================================================================
+  // Skill Caps Based on Aptitudes/Latents (DC-SK correlates)
+  // ============================================================================
+
+  // DC-SK1: Low attentionControl caps surveillance skill
+  // Surveillance requires sustained focus; low attention control means critical details get missed
+  if (aptitudes.attentionControl < 300 && skills['surveillance']) {
+    skills['surveillance'].value = Math.min(skills['surveillance'].value, 450) as Fixed;
+  }
+
+  // DC-SK2: Low workingMemory caps bureaucracy skill
+  // Bureaucracy requires tracking many procedures, forms, and regulations simultaneously
+  if (aptitudes.workingMemory < 350 && skills['bureaucracy']) {
+    skills['bureaucracy'].value = Math.min(skills['bureaucracy'].value, 500) as Fixed;
+  }
+
+  // DC-SK3: Low reflexes cap driving skill
+  // Safe high-performance driving requires quick reactions to hazards
+  if (aptitudes.reflexes < 300 && skills['driving']) {
+    skills['driving'].value = Math.min(skills['driving'].value, 550) as Fixed;
+  }
+
+  // DC-SK4: High stressReactivity caps shooting skill
+  // Marksmanship requires calm under pressure; high stress reactivity causes flinching/rushing
+  if (latents.stressReactivity > 700 && skills['shooting']) {
+    skills['shooting'].value = Math.min(skills['shooting'].value, 550) as Fixed;
+  }
+
+  // DC-SK5: Low charisma caps mediaHandling skill
+  // Media presence requires natural charisma; low charisma means poor on-camera performance
+  if (aptitudes.charisma < 300 && skills['mediaHandling']) {
+    skills['mediaHandling'].value = Math.min(skills['mediaHandling'].value, 450) as Fixed;
+  }
+
+  // DC-SK10: Low techFluency caps digitalHygiene skill
+  // Digital hygiene requires understanding technology; low tech fluency means poor digital security practices
+  if (latents.techFluency < 300 && skills['digitalHygiene']) {
+    skills['digitalHygiene'].value = Math.min(skills['digitalHygiene'].value, 400) as Fixed;
+  }
+
+  // DC-SK6: Empathy → Negotiation Floor
+  // High empathy helps negotiation; empathetic agents can read and respond to others' needs
+  if (aptitudes.empathy > 700 && skills['negotiation']) {
+    skills['negotiation'].value = Math.max(skills['negotiation'].value, 350) as Fixed;
+  }
+
+  // DC-SK7: Opsec → Surveillance Floor
+  // Security awareness includes surveillance detection; operationally aware agents notice being watched
+  if (latents.opsecDiscipline > 700 && skills['surveillance']) {
+    skills['surveillance'].value = Math.max(skills['surveillance'].value, 300) as Fixed;
+  }
+
+  // DC-SK8: Stress → First Aid Cap
+  // High stress impairs emergency response; panicking under pressure leads to medical mistakes
+  if (latents.stressReactivity > 750 && skills['firstAid']) {
+    skills['firstAid'].value = Math.min(skills['firstAid'].value, 550) as Fixed;
+  }
+
+  // DC-SK9: Dexterity → Lockpicking Floor
+  // Manual dexterity enables lock manipulation; nimble fingers can work complex mechanisms
+  if (aptitudes.dexterity > 700 && skills['lockpicking']) {
+    skills['lockpicking'].value = Math.max(skills['lockpicking'].value, 300) as Fixed;
+  }
+
+  // DC-SK11: Charisma → Elicitation Floor
+  // High charisma enables information extraction; charming agents get people to talk
+  if (aptitudes.charisma > 700 && skills['elicitation']) {
+    skills['elicitation'].value = Math.max(skills['elicitation'].value, 350) as Fixed;
+  }
+
+  // DC-SK12: Attention → Analysis Floor
+  // Sustained attention enables deep analysis; focused agents can process complex information
+  if (aptitudes.attentionControl > 750 && skills['analysis']) {
+    skills['analysis'].value = Math.max(skills['analysis'].value, 350) as Fixed;
+  }
+
+  // DC-SK13: Reflexes → Driving Floor
+  // Quick reflexes enhance driving; fast reaction times prevent accidents
+  if (aptitudes.reflexes > 700 && skills['driving']) {
+    skills['driving'].value = Math.max(skills['driving'].value, 400) as Fixed;
+  }
+
+  // DC-SK14: Memory → Languages Floor
+  // Good memory aids language acquisition; multilingual agents with strong memory retain vocabulary
+  // Only applies if agent has language skills (multilingual)
+  if (aptitudes.workingMemory > 750) {
+    for (const skillKey of Object.keys(skills)) {
+      if (skillKey.startsWith('language_') || skillKey === 'languages') {
+        skills[skillKey].value = Math.max(skills[skillKey].value, 350) as Fixed;
+      }
+    }
+  }
+
+  // DC-SK15: Stress → Combat Cap
+  // Extreme stress impairs combat performance; highly reactive agents freeze or panic under fire
+  if (latents.stressReactivity > 800) {
+    const combatSkills = ['shooting', 'handToHand', 'combat', 'melee', 'unarmedCombat'];
+    for (const skillKey of combatSkills) {
+      if (skills[skillKey]) {
+        skills[skillKey].value = Math.min(skills[skillKey].value, 500) as Fixed;
+      }
+    }
+  }
+
+  // DC-SK16: CogSpeed → Research Floor
+  // Fast cognition aids research; quick thinkers can process and synthesize information rapidly
+  if (aptitudes.cognitiveSpeed > 700 && skills['research']) {
+    skills['research'].value = Math.max(skills['research'].value, 350) as Fixed;
+  }
+
   // Apply role seed bumps from vocab
   applyRoleBumps(skills, roleSeedTags, vocab);
 
@@ -204,17 +321,26 @@ function computeSkillValue(p: SkillValueParams): Fixed {
       );
       break;
 
-    case 'negotiation':
+    case 'negotiation': {
       // Correlate #9: Travel ↔ Skills - international exposure improves negotiation
       // Correlate #SK4: Adaptability ↔ Negotiation - flexible minds negotiate better
-      value = clampFixed01k(
+      const baseNegotiation = clampFixed01k(
         0.24 * aptitudes.charisma + 0.16 * aptitudes.empathy +
         0.14 * aptitudes.workingMemory + 0.08 * latents.publicness +
         0.12 * latents.adaptability + // #SK4: Adaptability helps find creative solutions
         0.10 * travelScore + // Travel exposure builds cross-cultural negotiation skills
         0.16 * noise + careerBonus + tierBonus
       );
+      // PR1: Stress Reactivity ↔ Negotiation Skill (negative correlation)
+      // High stress reactivity (> 650/1000) reduces negotiation effectiveness.
+      // Agents who react poorly to stress struggle to maintain composure in negotiations.
+      // Applied as a weighted multiplier: max 15% penalty at stress reactivity = 1000.
+      const stressReactivityPenalty = latents.stressReactivity > 650
+        ? 1 - 0.15 * ((latents.stressReactivity - 650) / 350) // Linear scale from 0% at 650 to 15% at 1000
+        : 1;
+      value = clampFixed01k(baseNegotiation * stressReactivityPenalty);
       break;
+    }
 
     case 'mediaHandling':
       value = clampFixed01k(
