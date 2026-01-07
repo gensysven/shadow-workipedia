@@ -440,6 +440,230 @@
       "public-health",
       "logistics",
       "politics"
+    ],
+    "maleFirstNames": [
+      "Aaliyah",
+      "Amelie",
+      "Amir",
+      "Ananya",
+      "Anika",
+      "Aria",
+      "Ariel",
+      "Arjun",
+      "Aroha",
+      "Asher",
+      "Aya",
+      "Bao",
+      "Bilal",
+      "Chloe",
+      "Dalia",
+      "Deniz",
+      "Chidi",
+      "Chiara",
+      "Daniel",
+      "Dawit",
+      "Diego",
+      "Dimitri",
+      "Efe",
+      "Eitan",
+      "Elif",
+      "Eleni",
+      "Ethan",
+      "Faisal",
+      "Farid",
+      "Freja",
+      "Giorgi",
+      "Hassan",
+      "Haruto",
+      "Harper",
+      "Hiro",
+      "Hugo",
+      "Ilya",
+      "Imani",
+      "Ines",
+      "Ioana",
+      "Isabel",
+      "Isabella",
+      "Jamal",
+      "Jack",
+      "Jelena",
+      "Jin",
+      "Joao",
+      "Jordan",
+      "Jun",
+      "Kareem",
+      "Kaito",
+      "Karim",
+      "Katarina",
+      "Katya",
+      "Kofi",
+      "Khalid",
+      "Laila",
+      "Lara",
+      "Lena",
+      "Leila",
+      "Leah",
+      "Liam",
+      "Luca",
+      "Luis",
+      "Mai",
+      "Maja",
+      "Manaia",
+      "Mateo",
+      "Mina",
+      "Minh",
+      "Mira",
+      "Moana",
+      "Neema",
+      "Noor",
+      "Omar",
+      "Olivia",
+      "Ousmane",
+      "Pavel",
+      "Priyanka",
+      "Ravi",
+      "Rana",
+      "Rashad",
+      "Ren",
+      "Rin",
+      "Sade",
+      "Samir",
+      "Sana",
+      "Santiago",
+      "Sofia",
+      "Sora",
+      "Sven",
+      "Tariq",
+      "Tane",
+      "Theo",
+      "Thabo",
+      "Tomas",
+      "Tuya",
+      "Wei",
+      "Yasmin",
+      "Yara",
+      "Youssef",
+      "Yuna",
+      "Zain",
+      "Zara",
+      "Zuri"
+    ],
+    "femaleFirstNames": [
+      "Amina",
+      "Aaliyah",
+      "Amara",
+      "Amelie",
+      "Amir",
+      "Ananya",
+      "Anika",
+      "Aria",
+      "Ariel",
+      "Aroha",
+      "Asha",
+      "Asher",
+      "Aya",
+      "Bao",
+      "Beatriz",
+      "Bilal",
+      "Chloe",
+      "Dalia",
+      "Daria",
+      "Deepa",
+      "Deniz",
+      "Camila",
+      "Chidi",
+      "Chiara",
+      "Dawit",
+      "Dimitri",
+      "Efe",
+      "Eitan",
+      "Elif",
+      "Elena",
+      "Eleni",
+      "Ethan",
+      "Fatima",
+      "Farid",
+      "Freja",
+      "Giorgi",
+      "Hana",
+      "Haruto",
+      "Harper",
+      "Hiro",
+      "Hugo",
+      "Ingrid",
+      "Ilya",
+      "Imani",
+      "Ines",
+      "Ioana",
+      "Isabel",
+      "Isabella",
+      "Jamal",
+      "Jack",
+      "Jelena",
+      "Jin",
+      "Joao",
+      "Jordan",
+      "Kareem",
+      "Katarina",
+      "Katya",
+      "Kofi",
+      "Kiran",
+      "Laila",
+      "Lara",
+      "Lena",
+      "Layla",
+      "Leila",
+      "Leah",
+      "Liam",
+      "Luca",
+      "Luis",
+      "Mai",
+      "Maja",
+      "Manaia",
+      "Mateo",
+      "Maya",
+      "Mei",
+      "Meera",
+      "Mina",
+      "Minh",
+      "Mira",
+      "Moana",
+      "Nadia",
+      "Nina",
+      "Neha",
+      "Neema",
+      "Noor",
+      "Olivia",
+      "Ousmane",
+      "Priyanka",
+      "Priya",
+      "Rana",
+      "Rashad",
+      "Reem",
+      "Ren",
+      "Rin",
+      "Sade",
+      "Sakura",
+      "Samir",
+      "Sana",
+      "Santiago",
+      "Sara",
+      "Sofia",
+      "Sora",
+      "Sven",
+      "Tane",
+      "Theo",
+      "Thabo",
+      "Tomas",
+      "Tuya",
+      "Valentina",
+      "Wei",
+      "Yasmin",
+      "Yara",
+      "Yuna",
+      "Zain",
+      "Zara",
+      "Zuri"
     ]
   },
   "appearance": {
@@ -2149,6 +2373,31 @@
           "es",
           "pt",
           "fr"
+        ],
+        "maleFirstNames": [
+          "Carlos",
+          "Luis",
+          "Diego",
+          "Isabella",
+          "Jordan",
+          "Ethan",
+          "Aaliyah",
+          "Santiago",
+          "Lucia"
+        ],
+        "femaleFirstNames": [
+          "Maria",
+          "Ana",
+          "Luis",
+          "Camila",
+          "Valentina",
+          "Isabella",
+          "Jordan",
+          "Maya",
+          "Ethan",
+          "Aaliyah",
+          "Santiago",
+          "Lucia"
         ]
       },
       "preferences": {
@@ -2239,6 +2488,35 @@
           "el",
           "ru",
           "es"
+        ],
+        "maleFirstNames": [
+          "Luca",
+          "Marta",
+          "Jakub",
+          "Katarina",
+          "Sven",
+          "Freja",
+          "Nikolai",
+          "Ines",
+          "Theo",
+          "Amelie",
+          "Sofia",
+          "Rafael",
+          "Anya"
+        ],
+        "femaleFirstNames": [
+          "Luca",
+          "Elena",
+          "Marta",
+          "Jakub",
+          "Katarina",
+          "Sven",
+          "Freja",
+          "Ines",
+          "Theo",
+          "Amelie",
+          "Sofia",
+          "Anya"
         ]
       },
       "preferences": {
@@ -2319,6 +2597,27 @@
           "tr",
           "fa",
           "he"
+        ],
+        "maleFirstNames": [
+          "Omar",
+          "Youssef",
+          "Karim",
+          "Hassan",
+          "Nour",
+          "Zain",
+          "Mariam",
+          "Samir",
+          "Rana"
+        ],
+        "femaleFirstNames": [
+          "Fatima",
+          "Aisha",
+          "Layla",
+          "Nour",
+          "Zain",
+          "Mariam",
+          "Samir",
+          "Rana"
         ]
       },
       "preferences": {
@@ -2401,6 +2700,32 @@
           "am",
           "ar",
           "pt"
+        ],
+        "maleFirstNames": [
+          "Imani",
+          "Zuri",
+          "Kofi",
+          "Kwame",
+          "Ayo",
+          "Nia",
+          "Tari",
+          "Chinedu",
+          "Sade",
+          "Binta",
+          "Zola"
+        ],
+        "femaleFirstNames": [
+          "Amara",
+          "Imani",
+          "Zuri",
+          "Kofi",
+          "Kwame",
+          "Ayo",
+          "Nia",
+          "Tari",
+          "Sade",
+          "Binta",
+          "Zola"
         ]
       },
       "preferences": {
@@ -2479,6 +2804,27 @@
           "bn",
           "ta",
           "en"
+        ],
+        "maleFirstNames": [
+          "Arjun",
+          "Ananya",
+          "Rahul",
+          "Ravi",
+          "Sana",
+          "Ayesha",
+          "Imran",
+          "Sanjay",
+          "Dev"
+        ],
+        "femaleFirstNames": [
+          "Ananya",
+          "Neha",
+          "Sana",
+          "Ayesha",
+          "Imran",
+          "Meera",
+          "Priya",
+          "Dev"
         ]
       },
       "preferences": {
@@ -2558,6 +2904,31 @@
           "ko",
           "en",
           "vi"
+        ],
+        "maleFirstNames": [
+          "Wei",
+          "Jun",
+          "Haruto",
+          "Yuna",
+          "Min",
+          "Sora",
+          "Jin",
+          "Kei",
+          "Mai",
+          "Rin"
+        ],
+        "femaleFirstNames": [
+          "Wei",
+          "Mei",
+          "Hana",
+          "Haruto",
+          "Yuna",
+          "Min",
+          "Sora",
+          "Jin",
+          "Kei",
+          "Mai",
+          "Rin"
         ]
       },
       "preferences": {
@@ -2630,6 +3001,32 @@
         ],
         "languages": [
           "en"
+        ],
+        "maleFirstNames": [
+          "Aroha",
+          "Manaia",
+          "Tane",
+          "Moana",
+          "Kiri",
+          "Hine",
+          "Olivia",
+          "Jack",
+          "Noah",
+          "Ava",
+          "Isla"
+        ],
+        "femaleFirstNames": [
+          "Aroha",
+          "Manaia",
+          "Tane",
+          "Moana",
+          "Kiri",
+          "Hine",
+          "Olivia",
+          "Jack",
+          "Noah",
+          "Ava",
+          "Isla"
         ]
       },
       "preferences": {
@@ -2773,6 +3170,49 @@
         ],
         "languages": [
           "en"
+        ],
+        "maleFirstNames": [
+          "Ava",
+          "Ethan",
+          "Jordan",
+          "Noah",
+          "Sofia",
+          "Zoe",
+          "Liam",
+          "Amelia",
+          "Harper",
+          "Oliver",
+          "Emma",
+          "Charlotte",
+          "Aiden",
+          "Grace",
+          "Mason",
+          "Ella",
+          "Henry",
+          "Hazel",
+          "Aria"
+        ],
+        "femaleFirstNames": [
+          "Ava",
+          "Ethan",
+          "Maya",
+          "Jordan",
+          "Noah",
+          "Sofia",
+          "Zoe",
+          "Liam",
+          "Amelia",
+          "Harper",
+          "Oliver",
+          "Emma",
+          "Charlotte",
+          "Aiden",
+          "Grace",
+          "Mason",
+          "Ella",
+          "Henry",
+          "Hazel",
+          "Aria"
         ]
       },
       "preferences": {
@@ -2884,6 +3324,44 @@
         ],
         "languages": [
           "es"
+        ],
+        "maleFirstNames": [
+          "Santiago",
+          "Lucia",
+          "Diego",
+          "Mateo",
+          "Isabella",
+          "Luis",
+          "Javier",
+          "Carmen",
+          "Sofia",
+          "Alejandro",
+          "Rosa",
+          "Pablo",
+          "Adriana",
+          "Alejandra",
+          "Ines"
+        ],
+        "femaleFirstNames": [
+          "Santiago",
+          "Lucia",
+          "Camila",
+          "Valentina",
+          "Mateo",
+          "Isabella",
+          "Ana",
+          "Luis",
+          "Mariana",
+          "Javier",
+          "Carmen",
+          "Sofia",
+          "Alejandro",
+          "Daniela",
+          "Rosa",
+          "Pablo",
+          "Adriana",
+          "Alejandra",
+          "Ines"
         ]
       },
       "preferences": {
@@ -2993,6 +3471,36 @@
         ],
         "languages": [
           "pt"
+        ],
+        "maleFirstNames": [
+          "Joao",
+          "Miguel",
+          "Rafael",
+          "Tiago",
+          "Ines",
+          "Sofia",
+          "Pedro",
+          "Gabriel",
+          "Bruno",
+          "Felipe",
+          "Andre",
+          "Marcos"
+        ],
+        "femaleFirstNames": [
+          "Joao",
+          "Maria",
+          "Ana",
+          "Miguel",
+          "Beatriz",
+          "Carolina",
+          "Tiago",
+          "Ines",
+          "Sofia",
+          "Mariana",
+          "Larissa",
+          "Juliana",
+          "Andre",
+          "Tatiana"
         ]
       },
       "preferences": {
@@ -3103,6 +3611,47 @@
         ],
         "languages": [
           "fr"
+        ],
+        "maleFirstNames": [
+          "Amelie",
+          "Lucas",
+          "Camille",
+          "Hugo",
+          "Lea",
+          "Noah",
+          "Zoe",
+          "Julien",
+          "Aya",
+          "Louis",
+          "Chloe",
+          "Manon",
+          "Theo",
+          "Antoine",
+          "Clara",
+          "Maxime",
+          "Lucie",
+          "Romain"
+        ],
+        "femaleFirstNames": [
+          "Amelie",
+          "Camille",
+          "Hugo",
+          "Lea",
+          "Noah",
+          "Zoe",
+          "Nina",
+          "Julien",
+          "Aya",
+          "Louis",
+          "Chloe",
+          "Manon",
+          "Theo",
+          "Sarah",
+          "Antoine",
+          "Clara",
+          "Maxime",
+          "Lucie",
+          "Romain"
         ]
       },
       "preferences": {
@@ -3213,6 +3762,36 @@
         ],
         "languages": [
           "ar"
+        ],
+        "maleFirstNames": [
+          "Omar",
+          "Yusuf",
+          "Noor",
+          "Hassan",
+          "Mariam",
+          "Samir",
+          "Khalid",
+          "Ahmed",
+          "Rana",
+          "Tariq",
+          "Faisal",
+          "Hadi",
+          "Iman"
+        ],
+        "femaleFirstNames": [
+          "Amina",
+          "Layla",
+          "Yusuf",
+          "Noor",
+          "Mariam",
+          "Samir",
+          "Zainab",
+          "Aisha",
+          "Fatima",
+          "Rana",
+          "Salma",
+          "Noura",
+          "Iman"
         ]
       },
       "preferences": {
@@ -3324,6 +3903,40 @@
           "ru",
           "uk",
           "pl"
+        ],
+        "maleFirstNames": [
+          "Sofia",
+          "Ivan",
+          "Dmitri",
+          "Mila",
+          "Oleg",
+          "Anya",
+          "Viktor",
+          "Katya",
+          "Marek",
+          "Zuzana",
+          "Pavel",
+          "Katarzyna",
+          "Jakub",
+          "Sergei",
+          "Tomas",
+          "Luka"
+        ],
+        "femaleFirstNames": [
+          "Sofia",
+          "Nadia",
+          "Elena",
+          "Mila",
+          "Anya",
+          "Katya",
+          "Marek",
+          "Zuzana",
+          "Katarzyna",
+          "Jakub",
+          "Olga",
+          "Irina",
+          "Tomas",
+          "Luka"
         ]
       },
       "preferences": {
@@ -3435,6 +4048,47 @@
           "de",
           "nl",
           "en"
+        ],
+        "maleFirstNames": [
+          "Lena",
+          "Jonas",
+          "Mia",
+          "Felix",
+          "Hannah",
+          "Emil",
+          "Lea",
+          "Noah",
+          "Sven",
+          "Lukas",
+          "Marie",
+          "Finn",
+          "Sophie",
+          "Paul",
+          "Max",
+          "Clara",
+          "Oskar",
+          "Anika"
+        ],
+        "femaleFirstNames": [
+          "Lena",
+          "Jonas",
+          "Mia",
+          "Felix",
+          "Hannah",
+          "Emil",
+          "Lea",
+          "Noah",
+          "Sven",
+          "Nina",
+          "Lukas",
+          "Marie",
+          "Finn",
+          "Sophie",
+          "Laura",
+          "Max",
+          "Clara",
+          "Oskar",
+          "Anika"
         ]
       },
       "preferences": {
@@ -3548,6 +4202,49 @@
           "no",
           "da",
           "fi"
+        ],
+        "maleFirstNames": [
+          "Freja",
+          "Astrid",
+          "Soren",
+          "Maja",
+          "Linnea",
+          "Oskar",
+          "Noah",
+          "Erik",
+          "Alma",
+          "Nora",
+          "Elias",
+          "Signe",
+          "Matilda",
+          "Axel",
+          "Hilda",
+          "Leif",
+          "Ida",
+          "Mikkel",
+          "Solveig"
+        ],
+        "femaleFirstNames": [
+          "Freja",
+          "Astrid",
+          "Soren",
+          "Maja",
+          "Linnea",
+          "Oskar",
+          "Noah",
+          "Ingrid",
+          "Erik",
+          "Alma",
+          "Nora",
+          "Elias",
+          "Signe",
+          "Matilda",
+          "Axel",
+          "Hilda",
+          "Leif",
+          "Ida",
+          "Mikkel",
+          "Solveig"
         ]
       },
       "preferences": {
@@ -3658,6 +4355,50 @@
         ],
         "languages": [
           "tr"
+        ],
+        "maleFirstNames": [
+          "Emre",
+          "Elif",
+          "Deniz",
+          "Aylin",
+          "Mert",
+          "Zeynep",
+          "Kerem",
+          "Selin",
+          "Yusuf",
+          "Leyla",
+          "Can",
+          "Ece",
+          "Mehmet",
+          "Ayse",
+          "Ahmet",
+          "Derya",
+          "Ozan",
+          "Seda",
+          "Burak",
+          "Asli"
+        ],
+        "femaleFirstNames": [
+          "Emre",
+          "Elif",
+          "Deniz",
+          "Aylin",
+          "Mert",
+          "Zeynep",
+          "Kerem",
+          "Selin",
+          "Yusuf",
+          "Leyla",
+          "Can",
+          "Ece",
+          "Mehmet",
+          "Ayse",
+          "Ahmet",
+          "Derya",
+          "Ozan",
+          "Seda",
+          "Burak",
+          "Asli"
         ]
       },
       "preferences": {
@@ -3767,6 +4508,46 @@
         ],
         "languages": [
           "fa"
+        ],
+        "maleFirstNames": [
+          "Reza",
+          "Neda",
+          "Amir",
+          "Leila",
+          "Farid",
+          "Mina",
+          "Arman",
+          "Yasmin",
+          "Navid",
+          "Ali",
+          "Shirin",
+          "Saeed",
+          "Parisa",
+          "Kian",
+          "Mehdi",
+          "Roya",
+          "Nima"
+        ],
+        "femaleFirstNames": [
+          "Sara",
+          "Reza",
+          "Neda",
+          "Amir",
+          "Leila",
+          "Farid",
+          "Mina",
+          "Arman",
+          "Yasmin",
+          "Navid",
+          "Maryam",
+          "Shirin",
+          "Saeed",
+          "Parisa",
+          "Kian",
+          "Samira",
+          "Mehdi",
+          "Roya",
+          "Nima"
         ]
       },
       "preferences": {
@@ -3882,6 +4663,35 @@
           "te",
           "ur",
           "pa"
+        ],
+        "maleFirstNames": [
+          "Ananya",
+          "Arjun",
+          "Ravi",
+          "Vikram",
+          "Ishaan",
+          "Rahul",
+          "Sanjay",
+          "Aditi",
+          "Rohan",
+          "Kavya",
+          "Nikhil",
+          "Suresh"
+        ],
+        "femaleFirstNames": [
+          "Ananya",
+          "Asha",
+          "Priya",
+          "Kiran",
+          "Meera",
+          "Neha",
+          "Ishaan",
+          "Deepa",
+          "Pooja",
+          "Aditi",
+          "Rohan",
+          "Kavya",
+          "Lakshmi"
         ]
       },
       "preferences": {
@@ -3993,6 +4803,46 @@
         "languages": [
           "ur",
           "bn"
+        ],
+        "maleFirstNames": [
+          "Hassan",
+          "Noor",
+          "Imran",
+          "Zara",
+          "Yusuf",
+          "Omar",
+          "Sana",
+          "Bilal",
+          "Ayaan",
+          "Sadia",
+          "Farhan",
+          "Nusrat",
+          "Sahir",
+          "Hina",
+          "Asif",
+          "Mehreen",
+          "Zubair",
+          "Alina"
+        ],
+        "femaleFirstNames": [
+          "Aisha",
+          "Noor",
+          "Imran",
+          "Zara",
+          "Yusuf",
+          "Fatima",
+          "Sana",
+          "Bilal",
+          "Ayaan",
+          "Sadia",
+          "Farhan",
+          "Nusrat",
+          "Sahir",
+          "Hina",
+          "Asif",
+          "Mehreen",
+          "Zubair",
+          "Alina"
         ]
       },
       "preferences": {
@@ -4109,6 +4959,44 @@
           "tl",
           "fil",
           "en"
+        ],
+        "maleFirstNames": [
+          "Minh",
+          "Anh",
+          "Somchai",
+          "Mai",
+          "Rizky",
+          "Arif",
+          "Thao",
+          "Nok",
+          "Agus",
+          "Huy",
+          "Linh",
+          "Ngoc",
+          "Kanya",
+          "Sokha",
+          "Chan",
+          "Nita"
+        ],
+        "femaleFirstNames": [
+          "Minh",
+          "Lan",
+          "Anh",
+          "Somchai",
+          "Mai",
+          "Rizky",
+          "Putri",
+          "Thao",
+          "Nok",
+          "Dewi",
+          "Siti",
+          "Huy",
+          "Linh",
+          "Ngoc",
+          "Kanya",
+          "Sokha",
+          "Chan",
+          "Nita"
         ]
       },
       "preferences": {
@@ -4221,6 +5109,39 @@
           "zh",
           "yue",
           "en"
+        ],
+        "maleFirstNames": [
+          "Wei",
+          "Jun",
+          "Hao",
+          "Chen",
+          "Lei",
+          "Tao",
+          "Yiming",
+          "Xiaoyu",
+          "Jia",
+          "Ming",
+          "Xinyi",
+          "Yun",
+          "Zihan",
+          "Qian"
+        ],
+        "femaleFirstNames": [
+          "Wei",
+          "Mei",
+          "Ling",
+          "Xiu",
+          "Chen",
+          "Yue",
+          "Yiming",
+          "Xiaoyu",
+          "Jia",
+          "Xinyi",
+          "Tian",
+          "Yun",
+          "Zihan",
+          "Rui",
+          "Qian"
         ]
       },
       "preferences": {
@@ -4332,6 +5253,39 @@
         "languages": [
           "ja",
           "en"
+        ],
+        "maleFirstNames": [
+          "Haruto",
+          "Yuki",
+          "Sora",
+          "Kei",
+          "Rin",
+          "Ren",
+          "Mai",
+          "Kaito",
+          "Akira",
+          "Takumi",
+          "Mina",
+          "Shun",
+          "Kenta",
+          "Ryo",
+          "Nao"
+        ],
+        "femaleFirstNames": [
+          "Hana",
+          "Haruto",
+          "Yuki",
+          "Sora",
+          "Kei",
+          "Rin",
+          "Aoi",
+          "Ren",
+          "Mai",
+          "Haruka",
+          "Mina",
+          "Yui",
+          "Saki",
+          "Nao"
         ]
       },
       "preferences": {
@@ -4443,6 +5397,49 @@
         "languages": [
           "ko",
           "en"
+        ],
+        "maleFirstNames": [
+          "Yuna",
+          "Min",
+          "Jin",
+          "Soo",
+          "Hye",
+          "Jiwoo",
+          "Seojun",
+          "Ara",
+          "Jisoo",
+          "Hyun",
+          "Joon",
+          "Sumin",
+          "Seoyeon",
+          "Taeyang",
+          "Sejin",
+          "Mina",
+          "Eunji",
+          "Donghyun",
+          "Hyejin"
+        ],
+        "femaleFirstNames": [
+          "Yuna",
+          "Min",
+          "Jin",
+          "Soo",
+          "Hye",
+          "Jiwoo",
+          "Seojun",
+          "Ara",
+          "Jisoo",
+          "Hyun",
+          "Joon",
+          "Hana",
+          "Sumin",
+          "Seoyeon",
+          "Taeyang",
+          "Sejin",
+          "Mina",
+          "Eunji",
+          "Donghyun",
+          "Hyejin"
         ]
       },
       "preferences": {
@@ -4554,6 +5551,49 @@
         "languages": [
           "it",
           "en"
+        ],
+        "maleFirstNames": [
+          "Luca",
+          "Giulia",
+          "Marco",
+          "Sofia",
+          "Matteo",
+          "Chiara",
+          "Francesco",
+          "Alessia",
+          "Davide",
+          "Giorgio",
+          "Federica",
+          "Andrea",
+          "Martina",
+          "Riccardo",
+          "Francesca",
+          "Simone",
+          "Giorgia",
+          "Stefano",
+          "Valeria"
+        ],
+        "femaleFirstNames": [
+          "Luca",
+          "Giulia",
+          "Marco",
+          "Sofia",
+          "Matteo",
+          "Chiara",
+          "Francesco",
+          "Elena",
+          "Alessia",
+          "Davide",
+          "Giorgio",
+          "Federica",
+          "Andrea",
+          "Martina",
+          "Riccardo",
+          "Francesca",
+          "Simone",
+          "Giorgia",
+          "Stefano",
+          "Valeria"
         ]
       },
       "preferences": {
@@ -4665,6 +5705,48 @@
         "languages": [
           "el",
           "en"
+        ],
+        "maleFirstNames": [
+          "Nikos",
+          "Eleni",
+          "Yannis",
+          "Sofia",
+          "Dimitris",
+          "Katerina",
+          "Giorgos",
+          "Irene",
+          "Stavros",
+          "Daphne",
+          "Kostas",
+          "Georgia",
+          "Christos",
+          "Eirini",
+          "Panagiotis",
+          "Ioanna",
+          "Alexandros",
+          "Vasilis"
+        ],
+        "femaleFirstNames": [
+          "Nikos",
+          "Eleni",
+          "Yannis",
+          "Maria",
+          "Sofia",
+          "Dimitris",
+          "Anna",
+          "Katerina",
+          "Giorgos",
+          "Irene",
+          "Stavros",
+          "Daphne",
+          "Kostas",
+          "Georgia",
+          "Christos",
+          "Eirini",
+          "Panagiotis",
+          "Ioanna",
+          "Alexandros",
+          "Vasilis"
         ]
       },
       "preferences": {
@@ -4776,6 +5858,45 @@
         "languages": [
           "sw",
           "en"
+        ],
+        "maleFirstNames": [
+          "Neema",
+          "Juma",
+          "Baraka",
+          "Zuri",
+          "Kofi",
+          "Hassan",
+          "Mosi",
+          "Amani",
+          "Nia",
+          "Zawadi",
+          "Said",
+          "Nuru",
+          "Faraja",
+          "Imani",
+          "Kendi",
+          "Salim"
+        ],
+        "femaleFirstNames": [
+          "Amina",
+          "Neema",
+          "Juma",
+          "Fatima",
+          "Baraka",
+          "Zuri",
+          "Kofi",
+          "Asha",
+          "Mosi",
+          "Amani",
+          "Nia",
+          "Zawadi",
+          "Jamila",
+          "Said",
+          "Nuru",
+          "Faraja",
+          "Imani",
+          "Kendi",
+          "Salim"
         ]
       },
       "preferences": {
@@ -4888,6 +6009,49 @@
           "am",
           "en",
           "ar"
+        ],
+        "maleFirstNames": [
+          "Mekdes",
+          "Dawit",
+          "Selam",
+          "Abebe",
+          "Samuel",
+          "Mariam",
+          "Yared",
+          "Saba",
+          "Kaleb",
+          "Selamawit",
+          "Bereket",
+          "Hirut",
+          "Alem",
+          "Kebede",
+          "Mulu",
+          "Hamdi",
+          "Yonas",
+          "Safiya",
+          "Abdirahman"
+        ],
+        "femaleFirstNames": [
+          "Mekdes",
+          "Dawit",
+          "Selam",
+          "Abebe",
+          "Hana",
+          "Samuel",
+          "Mariam",
+          "Yared",
+          "Saba",
+          "Kaleb",
+          "Selamawit",
+          "Bereket",
+          "Hirut",
+          "Alem",
+          "Kebede",
+          "Mulu",
+          "Hamdi",
+          "Yonas",
+          "Safiya",
+          "Abdirahman"
         ]
       },
       "preferences": {
@@ -5000,6 +6164,50 @@
           "ha",
           "fr",
           "ar"
+        ],
+        "maleFirstNames": [
+          "Aminata",
+          "Oumar",
+          "Moussa",
+          "Fatou",
+          "Ibrahim",
+          "Aissatou",
+          "Seydou",
+          "Hawa",
+          "Mariam",
+          "Issa",
+          "Boubacar",
+          "Awa",
+          "Issoufou",
+          "Kadiatou",
+          "Amadou",
+          "Hajar",
+          "Ousmane",
+          "Cheikh",
+          "Maimouna",
+          "Sadio"
+        ],
+        "femaleFirstNames": [
+          "Aminata",
+          "Oumar",
+          "Moussa",
+          "Fatou",
+          "Ibrahim",
+          "Aissatou",
+          "Seydou",
+          "Hawa",
+          "Mariam",
+          "Issa",
+          "Boubacar",
+          "Awa",
+          "Issoufou",
+          "Kadiatou",
+          "Amadou",
+          "Hajar",
+          "Ousmane",
+          "Cheikh",
+          "Maimouna",
+          "Sadio"
         ]
       },
       "preferences": {
@@ -5114,6 +6322,41 @@
           "ha",
           "en",
           "fr"
+        ],
+        "maleFirstNames": [
+          "Chidi",
+          "Kofi",
+          "Ada",
+          "Kwame",
+          "Ife",
+          "Tunde",
+          "Adeola",
+          "Bola",
+          "Seyi",
+          "Chinwe",
+          "Funmi",
+          "Yakubu",
+          "Hauwa",
+          "Sani"
+        ],
+        "femaleFirstNames": [
+          "Chidi",
+          "Amara",
+          "Kofi",
+          "Ada",
+          "Ngozi",
+          "Kwame",
+          "Amina",
+          "Ife",
+          "Zainab",
+          "Adeola",
+          "Seyi",
+          "Chinwe",
+          "Chiamaka",
+          "Adewale",
+          "Funmi",
+          "Yakubu",
+          "Hauwa"
         ]
       },
       "preferences": {
@@ -5226,6 +6469,50 @@
           "zu",
           "xh",
           "en"
+        ],
+        "maleFirstNames": [
+          "Thabo",
+          "Lerato",
+          "Naledi",
+          "Sipho",
+          "Zanele",
+          "Ayesha",
+          "Amir",
+          "Nandi",
+          "Kagiso",
+          "Mpho",
+          "Nomsa",
+          "Sizwe",
+          "Ayanda",
+          "Kopano",
+          "Tshepo",
+          "Nozipho",
+          "Khanya",
+          "Keneilwe",
+          "Luthando",
+          "Tumi"
+        ],
+        "femaleFirstNames": [
+          "Thabo",
+          "Lerato",
+          "Naledi",
+          "Sipho",
+          "Zanele",
+          "Ayesha",
+          "Amir",
+          "Nandi",
+          "Kagiso",
+          "Mpho",
+          "Nomsa",
+          "Sizwe",
+          "Ayanda",
+          "Kopano",
+          "Tshepo",
+          "Nozipho",
+          "Khanya",
+          "Keneilwe",
+          "Luthando",
+          "Tumi"
         ]
       },
       "preferences": {
@@ -5340,6 +6627,44 @@
           "ary",
           "ar",
           "fr"
+        ],
+        "maleFirstNames": [
+          "Yasmine",
+          "Amine",
+          "Rachid",
+          "Karim",
+          "Hicham",
+          "Imane",
+          "Othman",
+          "Meryem",
+          "Youssef",
+          "Amal",
+          "Sofiane",
+          "Hanae",
+          "Anas",
+          "Walid",
+          "Asma",
+          "Mehdi"
+        ],
+        "femaleFirstNames": [
+          "Yasmine",
+          "Amine",
+          "Nadia",
+          "Rachid",
+          "Salma",
+          "Samira",
+          "Hicham",
+          "Imane",
+          "Othman",
+          "Meryem",
+          "Amal",
+          "Sofiane",
+          "Hanae",
+          "Anas",
+          "Khadija",
+          "Walid",
+          "Asma",
+          "Mehdi"
         ]
       },
       "preferences": {
@@ -5453,6 +6778,48 @@
           "ar",
           "en",
           "fr"
+        ],
+        "maleFirstNames": [
+          "Rana",
+          "Tarek",
+          "Nour",
+          "Fadi",
+          "Leila",
+          "Sami",
+          "Hala",
+          "Yara",
+          "Omar",
+          "Rami",
+          "Dima",
+          "Khalil",
+          "Nadine",
+          "Bassam",
+          "Tala",
+          "Ziad",
+          "Rita",
+          "Hani",
+          "Jad"
+        ],
+        "femaleFirstNames": [
+          "Rana",
+          "Tarek",
+          "Maya",
+          "Nour",
+          "Fadi",
+          "Leila",
+          "Sami",
+          "Hala",
+          "Yara",
+          "Rami",
+          "Dima",
+          "Khalil",
+          "Nadine",
+          "Bassam",
+          "Tala",
+          "Ziad",
+          "Rita",
+          "Hani",
+          "Jad"
         ]
       },
       "preferences": {
@@ -5565,6 +6932,38 @@
           "apd",
           "ar",
           "en"
+        ],
+        "maleFirstNames": [
+          "Faisal",
+          "Abdullah",
+          "Saud",
+          "Laila",
+          "Khaled",
+          "Hamad",
+          "Sultan",
+          "Hessa",
+          "Majid",
+          "Yousef",
+          "Rashid",
+          "Dana",
+          "Salem",
+          "Amal"
+        ],
+        "femaleFirstNames": [
+          "Maha",
+          "Reem",
+          "Laila",
+          "Khaled",
+          "Noura",
+          "Hamad",
+          "Aisha",
+          "Hessa",
+          "Sara",
+          "Yousef",
+          "Maryam",
+          "Dana",
+          "Salem",
+          "Amal"
         ]
       },
       "preferences": {
@@ -5677,6 +7076,45 @@
           "arz",
           "ar",
           "en"
+        ],
+        "maleFirstNames": [
+          "Mona",
+          "Kareem",
+          "Youssef",
+          "Aya",
+          "Hassan",
+          "Mariam",
+          "Ahmed",
+          "Nour",
+          "Tamer",
+          "Mohamed",
+          "Hany",
+          "Heba",
+          "Mostafa",
+          "Sherif",
+          "Nadine",
+          "Rania",
+          "Khaled",
+          "Doaa"
+        ],
+        "femaleFirstNames": [
+          "Mona",
+          "Kareem",
+          "Aya",
+          "Mariam",
+          "Nour",
+          "Salma",
+          "Tamer",
+          "Mohamed",
+          "Dina",
+          "Hany",
+          "Heba",
+          "Mostafa",
+          "Sherif",
+          "Nadine",
+          "Rania",
+          "Khaled",
+          "Doaa"
         ]
       },
       "preferences": {
@@ -5789,6 +7227,47 @@
           "pl",
           "cs",
           "sk"
+        ],
+        "maleFirstNames": [
+          "Jakub",
+          "Matej",
+          "Katarina",
+          "Tomas",
+          "Lucia",
+          "Pavel",
+          "Ewa",
+          "Marek",
+          "Zuzana",
+          "Kacper",
+          "Magdalena",
+          "Jan",
+          "Agnieszka",
+          "Kamil",
+          "Michal",
+          "Dominika",
+          "Petr",
+          "Veronika"
+        ],
+        "femaleFirstNames": [
+          "Jakub",
+          "Anna",
+          "Matej",
+          "Katarina",
+          "Tomas",
+          "Lucia",
+          "Ewa",
+          "Marek",
+          "Zuzana",
+          "Kacper",
+          "Magdalena",
+          "Jan",
+          "Agnieszka",
+          "Kamil",
+          "Barbara",
+          "Michal",
+          "Dominika",
+          "Petr",
+          "Veronika"
         ]
       },
       "preferences": {
@@ -5905,6 +7384,49 @@
           "sq",
           "bg",
           "ro"
+        ],
+        "maleFirstNames": [
+          "Milan",
+          "Jelena",
+          "Nikola",
+          "Marko",
+          "Ivana",
+          "Arben",
+          "Elira",
+          "Stefan",
+          "Katerina",
+          "Bojan",
+          "Milica",
+          "Dragan",
+          "Marija",
+          "Emina",
+          "Goran",
+          "Teodora",
+          "Petar",
+          "Maja",
+          "Vesna"
+        ],
+        "femaleFirstNames": [
+          "Milan",
+          "Jelena",
+          "Nikola",
+          "Ana",
+          "Marko",
+          "Ivana",
+          "Arben",
+          "Elira",
+          "Stefan",
+          "Katerina",
+          "Bojan",
+          "Milica",
+          "Dragan",
+          "Marija",
+          "Emina",
+          "Goran",
+          "Teodora",
+          "Petar",
+          "Maja",
+          "Vesna"
         ]
       },
       "preferences": {
@@ -6017,6 +7539,49 @@
           "lt",
           "lv",
           "et"
+        ],
+        "maleFirstNames": [
+          "Egle",
+          "Tomas",
+          "Rasa",
+          "Mantas",
+          "Ilze",
+          "Janis",
+          "Maarja",
+          "Kristjan",
+          "Liga",
+          "Andrius",
+          "Greta",
+          "Karolis",
+          "Austeja",
+          "Edgars",
+          "Kristine",
+          "Tadas",
+          "Inga",
+          "Saulius",
+          "Katri"
+        ],
+        "femaleFirstNames": [
+          "Egle",
+          "Tomas",
+          "Rasa",
+          "Mantas",
+          "Ilze",
+          "Janis",
+          "Maarja",
+          "Kristjan",
+          "Liga",
+          "Andrius",
+          "Greta",
+          "Karolis",
+          "Austeja",
+          "Edgars",
+          "Kristine",
+          "Tadas",
+          "Inga",
+          "Martins",
+          "Saulius",
+          "Katri"
         ]
       },
       "preferences": {
@@ -6127,6 +7692,42 @@
         ],
         "languages": [
           "ro"
+        ],
+        "maleFirstNames": [
+          "Andrei",
+          "Ioana",
+          "Mihai",
+          "Alexandru",
+          "Radu",
+          "Vlad",
+          "Stefan",
+          "Bogdan",
+          "Carmen",
+          "Florin",
+          "George",
+          "Cristina",
+          "Adrian",
+          "Teodora"
+        ],
+        "femaleFirstNames": [
+          "Ioana",
+          "Mihai",
+          "Elena",
+          "Alexandru",
+          "Ana",
+          "Radu",
+          "Maria",
+          "Daria",
+          "Vlad",
+          "Stefan",
+          "Irina",
+          "Bogdan",
+          "Carmen",
+          "Florin",
+          "Bianca",
+          "Cristina",
+          "Adrian",
+          "Teodora"
         ]
       },
       "preferences": {
@@ -6237,6 +7838,46 @@
         ],
         "languages": [
           "hu"
+        ],
+        "maleFirstNames": [
+          "Bence",
+          "Eszter",
+          "Gabor",
+          "Zsuzsa",
+          "Mate",
+          "Lili",
+          "Dani",
+          "Kata",
+          "Laszlo",
+          "Zoltan",
+          "Kinga",
+          "Balazs",
+          "Timea",
+          "Peter",
+          "Reka",
+          "Adam",
+          "Zsofia",
+          "Judit"
+        ],
+        "femaleFirstNames": [
+          "Bence",
+          "Eszter",
+          "Gabor",
+          "Anna",
+          "Zsuzsa",
+          "Mate",
+          "Lili",
+          "Kata",
+          "Laszlo",
+          "Zoltan",
+          "Petra",
+          "Kinga",
+          "Balazs",
+          "Timea",
+          "Reka",
+          "Adam",
+          "Zsofia",
+          "Judit"
         ]
       },
       "preferences": {
@@ -6351,6 +7992,46 @@
           "hu",
           "pl",
           "sk"
+        ],
+        "maleFirstNames": [
+          "Lena",
+          "Jonas",
+          "Jakub",
+          "Bence",
+          "Andrei",
+          "Marek",
+          "Mia",
+          "Sophie",
+          "Pavel",
+          "Eszter",
+          "Ioana",
+          "Tomas",
+          "Lukas",
+          "Katarina",
+          "Felix",
+          "Kacper",
+          "Emil",
+          "Clara"
+        ],
+        "femaleFirstNames": [
+          "Lena",
+          "Jonas",
+          "Anna",
+          "Jakub",
+          "Bence",
+          "Marek",
+          "Mia",
+          "Sophie",
+          "Eszter",
+          "Ioana",
+          "Tomas",
+          "Lukas",
+          "Katarina",
+          "Felix",
+          "Kacper",
+          "Emil",
+          "Elena",
+          "Clara"
         ]
       },
       "preferences": {
@@ -6462,6 +8143,49 @@
         "languages": [
           "af",
           "en"
+        ],
+        "maleFirstNames": [
+          "Anika",
+          "Pieter",
+          "Mariette",
+          "Johan",
+          "Lara",
+          "Ruan",
+          "Elise",
+          "Hendrik",
+          "Zara",
+          "Stefan",
+          "Willem",
+          "Marli",
+          "Chanel",
+          "Dirk",
+          "Francois",
+          "Ilse",
+          "Marelize",
+          "Jacobus",
+          "Rene"
+        ],
+        "femaleFirstNames": [
+          "Anika",
+          "Pieter",
+          "Mariette",
+          "Johan",
+          "Lara",
+          "Ruan",
+          "Elise",
+          "Hendrik",
+          "Zara",
+          "Stefan",
+          "Willem",
+          "Marli",
+          "Chanel",
+          "Dirk",
+          "Francois",
+          "Ilse",
+          "Marelize",
+          "Jacobus",
+          "Nadia",
+          "Rene"
         ]
       },
       "preferences": {
@@ -6574,6 +8298,48 @@
           "he",
           "en",
           "ar"
+        ],
+        "maleFirstNames": [
+          "Noa",
+          "Eitan",
+          "Yael",
+          "Ariel",
+          "Omer",
+          "Tamar",
+          "Lior",
+          "Nadav",
+          "Shira",
+          "Aviv",
+          "Gal",
+          "Itai",
+          "Hila",
+          "Yonatan",
+          "Dana",
+          "Tal",
+          "Adi",
+          "Ori",
+          "Roni"
+        ],
+        "femaleFirstNames": [
+          "Noa",
+          "Eitan",
+          "Yael",
+          "Ariel",
+          "Maya",
+          "Omer",
+          "Tamar",
+          "Lior",
+          "Nadav",
+          "Shira",
+          "Aviv",
+          "Gal",
+          "Itai",
+          "Hila",
+          "Yonatan",
+          "Dana",
+          "Tal",
+          "Ori",
+          "Roni"
         ]
       },
       "preferences": {
@@ -6687,6 +8453,48 @@
           "ka",
           "az",
           "ru"
+        ],
+        "maleFirstNames": [
+          "Aram",
+          "Giorgi",
+          "Nino",
+          "Leyla",
+          "Rashad",
+          "Mariam",
+          "David",
+          "Liana",
+          "Zaur",
+          "Hayk",
+          "Sona",
+          "Levan",
+          "Salome",
+          "Aysel",
+          "Eldar",
+          "Anahit",
+          "Vazha",
+          "Ketevan",
+          "Ilgar"
+        ],
+        "femaleFirstNames": [
+          "Aram",
+          "Ani",
+          "Giorgi",
+          "Nino",
+          "Leyla",
+          "Rashad",
+          "Mariam",
+          "Liana",
+          "Zaur",
+          "Hayk",
+          "Sona",
+          "Levan",
+          "Salome",
+          "Aysel",
+          "Eldar",
+          "Anahit",
+          "Vazha",
+          "Ketevan",
+          "Ilgar"
         ]
       },
       "preferences": {
@@ -6801,6 +8609,49 @@
           "ky",
           "tg",
           "ru"
+        ],
+        "maleFirstNames": [
+          "Aigerim",
+          "Nursultan",
+          "Dilshod",
+          "Aziza",
+          "Timur",
+          "Rustam",
+          "Zarina",
+          "Bek",
+          "Madina",
+          "Aruzhan",
+          "Alisher",
+          "Gulnara",
+          "Bakhyt",
+          "Dinara",
+          "Erbol",
+          "Shahlo",
+          "Nurlan",
+          "Sabina",
+          "Kamila"
+        ],
+        "femaleFirstNames": [
+          "Aigerim",
+          "Nursultan",
+          "Dilshod",
+          "Aziza",
+          "Timur",
+          "Amina",
+          "Rustam",
+          "Zarina",
+          "Bek",
+          "Madina",
+          "Aruzhan",
+          "Alisher",
+          "Gulnara",
+          "Bakhyt",
+          "Dinara",
+          "Erbol",
+          "Shahlo",
+          "Nurlan",
+          "Sabina",
+          "Kamila"
         ]
       },
       "preferences": {
@@ -6912,6 +8763,50 @@
         "languages": [
           "mn",
           "ru"
+        ],
+        "maleFirstNames": [
+          "Bataa",
+          "Saraa",
+          "Temuulen",
+          "Naran",
+          "Anu",
+          "Bold",
+          "Enkh",
+          "Tuya",
+          "Ganbaatar",
+          "Otgon",
+          "Bileg",
+          "Khulan",
+          "Erdenebat",
+          "Solongo",
+          "Munkhzul",
+          "Sukh",
+          "Tungalag",
+          "Galaa",
+          "Nomin",
+          "Bat"
+        ],
+        "femaleFirstNames": [
+          "Bataa",
+          "Saraa",
+          "Temuulen",
+          "Naran",
+          "Anu",
+          "Bold",
+          "Enkh",
+          "Tuya",
+          "Ganbaatar",
+          "Otgon",
+          "Bileg",
+          "Khulan",
+          "Erdenebat",
+          "Solongo",
+          "Munkhzul",
+          "Sukh",
+          "Tungalag",
+          "Galaa",
+          "Nomin",
+          "Bat"
         ]
       },
       "preferences": {
@@ -7027,6 +8922,34 @@
           "gu",
           "pa",
           "ne"
+        ],
+        "maleFirstNames": [
+          "Ananya",
+          "Arjun",
+          "Ravi",
+          "Vikram",
+          "Ishaan",
+          "Sanjay",
+          "Rahul",
+          "Sneha",
+          "Amit",
+          "Nisha",
+          "Rohit",
+          "Vivek"
+        ],
+        "femaleFirstNames": [
+          "Ananya",
+          "Asha",
+          "Priya",
+          "Kiran",
+          "Meera",
+          "Neha",
+          "Ishaan",
+          "Pooja",
+          "Sneha",
+          "Nisha",
+          "Kavita",
+          "Shreya"
         ]
       },
       "preferences": {
@@ -7140,6 +9063,41 @@
           "te",
           "ml",
           "kn"
+        ],
+        "maleFirstNames": [
+          "Kavya",
+          "Arun",
+          "Meena",
+          "Suresh",
+          "Vijay",
+          "Deepak",
+          "Nithya",
+          "Rahul",
+          "Srinidhi",
+          "Hari",
+          "Karthik",
+          "Priyanka",
+          "Ganesh",
+          "Sahana",
+          "Naveen",
+          "Swathi",
+          "Aravind"
+        ],
+        "femaleFirstNames": [
+          "Kavya",
+          "Meena",
+          "Anjali",
+          "Lakshmi",
+          "Nithya",
+          "Srinidhi",
+          "Hari",
+          "Divya",
+          "Karthik",
+          "Priyanka",
+          "Ganesh",
+          "Sahana",
+          "Swathi",
+          "Aravind"
         ]
       },
       "preferences": {
@@ -7252,6 +9210,44 @@
           "ne",
           "si",
           "dv"
+        ],
+        "maleFirstNames": [
+          "Suman",
+          "Prakash",
+          "Nabin",
+          "Laxmi",
+          "Rajan",
+          "Nima",
+          "Pema",
+          "Tenzin",
+          "Sonam",
+          "Pasang",
+          "Karma",
+          "Dawa",
+          "Mina",
+          "Bikash",
+          "Rupa"
+        ],
+        "femaleFirstNames": [
+          "Suman",
+          "Anita",
+          "Sarita",
+          "Nabin",
+          "Laxmi",
+          "Kiran",
+          "Sita",
+          "Deepa",
+          "Rajan",
+          "Nima",
+          "Pema",
+          "Tenzin",
+          "Sonam",
+          "Pasang",
+          "Karma",
+          "Dawa",
+          "Mina",
+          "Bikash",
+          "Rupa"
         ]
       },
       "preferences": {
@@ -7367,6 +9363,40 @@
           "su",
           "mad",
           "en"
+        ],
+        "maleFirstNames": [
+          "Rizky",
+          "Arif",
+          "Agus",
+          "Nur",
+          "Bayu",
+          "Wayan",
+          "Intan",
+          "Ahmad",
+          "Fajar",
+          "Hendra",
+          "Rizal",
+          "Nabila",
+          "Irfan"
+        ],
+        "femaleFirstNames": [
+          "Rizky",
+          "Putri",
+          "Siti",
+          "Dewi",
+          "Nur",
+          "Bayu",
+          "Wayan",
+          "Intan",
+          "Ahmad",
+          "Nurul",
+          "Fajar",
+          "Dian",
+          "Ayu",
+          "Rizal",
+          "Nabila",
+          "Irfan",
+          "Sari"
         ]
       },
       "preferences": {
@@ -7482,6 +9512,49 @@
           "lo",
           "my",
           "en"
+        ],
+        "maleFirstNames": [
+          "Minh",
+          "Anh",
+          "Somchai",
+          "Mai",
+          "Thao",
+          "Nok",
+          "Sokha",
+          "Chan",
+          "Kanya",
+          "Phuong",
+          "Tuan",
+          "Bao",
+          "Dao",
+          "Kiet",
+          "Srey",
+          "Vanna",
+          "Bounmy",
+          "Seng",
+          "Thiri"
+        ],
+        "femaleFirstNames": [
+          "Minh",
+          "Lan",
+          "Anh",
+          "Somchai",
+          "Mai",
+          "Thao",
+          "Nok",
+          "Sokha",
+          "Chan",
+          "Kanya",
+          "Phuong",
+          "Tuan",
+          "Bao",
+          "Dao",
+          "Kiet",
+          "Srey",
+          "Vanna",
+          "Bounmy",
+          "Seng",
+          "Thiri"
         ]
       },
       "preferences": {
@@ -7594,6 +9667,44 @@
           "tl",
           "ceb",
           "en"
+        ],
+        "maleFirstNames": [
+          "Jose",
+          "Liza",
+          "Paolo",
+          "Angel",
+          "Rafael",
+          "Isabel",
+          "Miguel",
+          "Jessa",
+          "Carlo",
+          "Kathryn",
+          "Mark",
+          "Grace",
+          "Aileen",
+          "Joshua",
+          "Mika",
+          "Noel",
+          "Kim"
+        ],
+        "femaleFirstNames": [
+          "Maria",
+          "Jose",
+          "Ana",
+          "Juan",
+          "Liza",
+          "Paolo",
+          "Angel",
+          "Isabel",
+          "Miguel",
+          "Jessa",
+          "Carlo",
+          "Kathryn",
+          "Grace",
+          "Aileen",
+          "Mika",
+          "Noel",
+          "Kim"
         ]
       },
       "preferences": {
@@ -7710,6 +9821,39 @@
           "hak",
           "gan",
           "en"
+        ],
+        "maleFirstNames": [
+          "Wei",
+          "Jun",
+          "Hao",
+          "Chen",
+          "Lei",
+          "Tao",
+          "Yiming",
+          "Xiaoyu",
+          "Jia",
+          "Ming",
+          "Xinyi",
+          "Yun",
+          "Zihan",
+          "Qian"
+        ],
+        "femaleFirstNames": [
+          "Wei",
+          "Mei",
+          "Ling",
+          "Xiu",
+          "Chen",
+          "Yue",
+          "Yiming",
+          "Xiaoyu",
+          "Jia",
+          "Xinyi",
+          "Tian",
+          "Yun",
+          "Zihan",
+          "Rui",
+          "Qian"
         ]
       },
       "preferences": {
@@ -7822,6 +9966,46 @@
           "yue",
           "zh",
           "en"
+        ],
+        "maleFirstNames": [
+          "Man",
+          "Wing",
+          "Ka",
+          "Yan",
+          "Ho",
+          "Chi",
+          "Siu",
+          "Kit",
+          "Chun",
+          "Lok",
+          "Fung",
+          "Ching",
+          "Hiu",
+          "Ting",
+          "Kai",
+          "Yat",
+          "Ming",
+          "Sze"
+        ],
+        "femaleFirstNames": [
+          "Man",
+          "Wing",
+          "Ka",
+          "Yan",
+          "Ho",
+          "Chi",
+          "Siu",
+          "Kit",
+          "Chun",
+          "Mei",
+          "Lok",
+          "Fung",
+          "Ching",
+          "Hiu",
+          "Ting",
+          "Ying",
+          "Yat",
+          "Sze"
         ]
       },
       "preferences": {
@@ -7935,6 +10119,49 @@
           "ti",
           "om",
           "en"
+        ],
+        "maleFirstNames": [
+          "Mekdes",
+          "Dawit",
+          "Selam",
+          "Abebe",
+          "Samuel",
+          "Mariam",
+          "Yared",
+          "Saba",
+          "Kaleb",
+          "Selamawit",
+          "Bereket",
+          "Hirut",
+          "Getachew",
+          "Alem",
+          "Mulu",
+          "Yonas",
+          "Rahel",
+          "Tsion",
+          "Kidane"
+        ],
+        "femaleFirstNames": [
+          "Mekdes",
+          "Dawit",
+          "Selam",
+          "Abebe",
+          "Hana",
+          "Samuel",
+          "Mariam",
+          "Yared",
+          "Saba",
+          "Kaleb",
+          "Selamawit",
+          "Bereket",
+          "Hirut",
+          "Getachew",
+          "Alem",
+          "Mulu",
+          "Yonas",
+          "Rahel",
+          "Tsion",
+          "Kidane"
         ]
       },
       "preferences": {
@@ -8047,6 +10274,44 @@
           "so",
           "ar",
           "en"
+        ],
+        "maleFirstNames": [
+          "Ayaan",
+          "Hodan",
+          "Ismail",
+          "Abdi",
+          "Sahra",
+          "Yasin",
+          "Fartun",
+          "Mohamed",
+          "Nimco",
+          "Hawa",
+          "Ikran",
+          "Ahmed",
+          "Abdirizak",
+          "Hamza",
+          "Fowsiyo",
+          "Khalid",
+          "Maryan"
+        ],
+        "femaleFirstNames": [
+          "Ayaan",
+          "Hodan",
+          "Ismail",
+          "Abdi",
+          "Sahra",
+          "Khadija",
+          "Yasin",
+          "Fartun",
+          "Mohamed",
+          "Nimco",
+          "Amina",
+          "Hawa",
+          "Ikran",
+          "Abdirizak",
+          "Samira",
+          "Fowsiyo",
+          "Maryan"
         ]
       },
       "preferences": {
@@ -8159,6 +10424,49 @@
           "wo",
           "fr",
           "en"
+        ],
+        "maleFirstNames": [
+          "Awa",
+          "Moussa",
+          "Fatou",
+          "Ibrahima",
+          "Ousmane",
+          "Mariama",
+          "Seynabou",
+          "Cheikh",
+          "Adama",
+          "Khady",
+          "Mamadou",
+          "Aissatou",
+          "Binta",
+          "Omar",
+          "Sokhna",
+          "Aminata",
+          "Ibra",
+          "Ndeye",
+          "Pape",
+          "Rokhaya"
+        ],
+        "femaleFirstNames": [
+          "Awa",
+          "Moussa",
+          "Fatou",
+          "Ibrahima",
+          "Ousmane",
+          "Mariama",
+          "Seynabou",
+          "Cheikh",
+          "Adama",
+          "Khady",
+          "Mamadou",
+          "Aissatou",
+          "Binta",
+          "Sokhna",
+          "Aminata",
+          "Ibra",
+          "Ndeye",
+          "Pape",
+          "Rokhaya"
         ]
       },
       "preferences": {
@@ -8271,6 +10579,50 @@
           "fuv",
           "ha",
           "fr"
+        ],
+        "maleFirstNames": [
+          "Aissatou",
+          "Amadou",
+          "Binta",
+          "Ibrahima",
+          "Fatimata",
+          "Oumar",
+          "Hawa",
+          "Seydou",
+          "Mariam",
+          "Issa",
+          "Aminata",
+          "Alhaji",
+          "Sadio",
+          "Kadiatou",
+          "Cheikh",
+          "Boubacar",
+          "Ramatoulaye",
+          "Ousmane",
+          "Maimouna",
+          "Saliou"
+        ],
+        "femaleFirstNames": [
+          "Aissatou",
+          "Amadou",
+          "Binta",
+          "Ibrahima",
+          "Fatimata",
+          "Oumar",
+          "Hawa",
+          "Seydou",
+          "Mariam",
+          "Issa",
+          "Aminata",
+          "Alhaji",
+          "Sadio",
+          "Kadiatou",
+          "Cheikh",
+          "Boubacar",
+          "Ramatoulaye",
+          "Ousmane",
+          "Maimouna",
+          "Saliou"
         ]
       },
       "preferences": {
@@ -8382,6 +10734,50 @@
         "languages": [
           "ak",
           "en"
+        ],
+        "maleFirstNames": [
+          "Kofi",
+          "Ama",
+          "Kwame",
+          "Akosua",
+          "Yaw",
+          "Abena",
+          "Kojo",
+          "Yaa",
+          "Nana",
+          "Afia",
+          "Kwaku",
+          "Adwoa",
+          "Kwabena",
+          "Esi",
+          "Kwadwo",
+          "Kwesi",
+          "Efua",
+          "Ebo",
+          "Naa",
+          "Abenaa"
+        ],
+        "femaleFirstNames": [
+          "Kofi",
+          "Ama",
+          "Kwame",
+          "Akosua",
+          "Yaw",
+          "Abena",
+          "Kojo",
+          "Yaa",
+          "Nana",
+          "Afia",
+          "Kwaku",
+          "Adwoa",
+          "Kwabena",
+          "Esi",
+          "Kwadwo",
+          "Kwesi",
+          "Efua",
+          "Ebo",
+          "Naa",
+          "Abenaa"
         ]
       },
       "preferences": {
@@ -8496,6 +10892,46 @@
           "en",
           "fr",
           "es"
+        ],
+        "maleFirstNames": [
+          "Jean",
+          "Marie",
+          "Andre",
+          "Sofia",
+          "Rene",
+          "Luis",
+          "Isabella",
+          "David",
+          "Yvette",
+          "Darnell",
+          "Keisha",
+          "Marvin",
+          "Alicia",
+          "Damian",
+          "Rochelle",
+          "Jamal",
+          "Rosa",
+          "Carlos"
+        ],
+        "femaleFirstNames": [
+          "Jean",
+          "Marie",
+          "Nadia",
+          "Andre",
+          "Sofia",
+          "Rene",
+          "Camila",
+          "Luis",
+          "Isabella",
+          "Yvette",
+          "Darnell",
+          "Keisha",
+          "Marvin",
+          "Alicia",
+          "Damian",
+          "Rochelle",
+          "Jamal",
+          "Rosa"
         ]
       },
       "preferences": {
@@ -8611,6 +11047,39 @@
           "fr",
           "en",
           "pt"
+        ],
+        "maleFirstNames": [
+          "Noah",
+          "Lea",
+          "Ravi",
+          "Amelie",
+          "Lucas",
+          "Anil",
+          "Thierry",
+          "Marie",
+          "Daniel",
+          "Farah",
+          "Hugo",
+          "Elise",
+          "Yasmin"
+        ],
+        "femaleFirstNames": [
+          "Aisha",
+          "Noah",
+          "Lea",
+          "Maya",
+          "Kiran",
+          "Amelie",
+          "Sara",
+          "Nina",
+          "Priya",
+          "Thierry",
+          "Marie",
+          "Ana",
+          "Farah",
+          "Hugo",
+          "Elise",
+          "Yasmin"
         ]
       },
       "preferences": {
@@ -8723,6 +11192,39 @@
           "tpi",
           "bi",
           "en"
+        ],
+        "maleFirstNames": [
+          "Meri",
+          "Joseph",
+          "Peter",
+          "Ruth",
+          "James",
+          "John",
+          "Lina",
+          "David",
+          "Grace",
+          "Sera",
+          "Paul",
+          "Michael",
+          "Lucy",
+          "Daniel",
+          "Simon",
+          "Thomas",
+          "Rose"
+        ],
+        "femaleFirstNames": [
+          "Meri",
+          "Ruth",
+          "Maria",
+          "Lina",
+          "Grace",
+          "Sera",
+          "Lucy",
+          "Anna",
+          "Simon",
+          "Mary",
+          "Thomas",
+          "Rose"
         ]
       },
       "preferences": {
@@ -8837,6 +11339,49 @@
           "tkl",
           "tvl",
           "en"
+        ],
+        "maleFirstNames": [
+          "Moana",
+          "Tane",
+          "Aroha",
+          "Manaia",
+          "Hine",
+          "Kiri",
+          "Sione",
+          "Lani",
+          "Tui",
+          "Kalea",
+          "Malia",
+          "Kaito",
+          "Noa",
+          "Arihi",
+          "Hemi",
+          "Anahera",
+          "Tama",
+          "Leilani",
+          "Keoni",
+          "Manu"
+        ],
+        "femaleFirstNames": [
+          "Moana",
+          "Tane",
+          "Aroha",
+          "Manaia",
+          "Hine",
+          "Kiri",
+          "Sione",
+          "Lani",
+          "Tui",
+          "Kalea",
+          "Malia",
+          "Noa",
+          "Arihi",
+          "Hemi",
+          "Anahera",
+          "Tama",
+          "Leilani",
+          "Keoni",
+          "Manu"
         ]
       },
       "preferences": {
@@ -8949,6 +11494,50 @@
           "kl",
           "da",
           "en"
+        ],
+        "maleFirstNames": [
+          "Ane",
+          "Malik",
+          "Ivalu",
+          "Nivi",
+          "Pavia",
+          "Nuka",
+          "Sila",
+          "Tika",
+          "Kuna",
+          "Aputsiaq",
+          "Aputi",
+          "Naja",
+          "Pipaluk",
+          "Inuk",
+          "Aqqaluk",
+          "Siku",
+          "Tali",
+          "Aqsaq",
+          "Nukaq",
+          "Ivaana"
+        ],
+        "femaleFirstNames": [
+          "Ane",
+          "Malik",
+          "Ivalu",
+          "Nivi",
+          "Pavia",
+          "Nuka",
+          "Sila",
+          "Tika",
+          "Kuna",
+          "Aputsiaq",
+          "Aputi",
+          "Naja",
+          "Pipaluk",
+          "Inuk",
+          "Aqqaluk",
+          "Siku",
+          "Tali",
+          "Aqsaq",
+          "Nukaq",
+          "Ivaana"
         ]
       },
       "preferences": {
@@ -10271,52 +12860,104 @@
     "types": [
       {
         "name": "Idealist",
-        "values": ["justice", "helping-people", "moral-clarity"],
+        "values": [
+          "justice",
+          "helping-people",
+          "moral-clarity"
+        ],
         "copingMechanism": "Rationalizes for the greater good",
         "breakingPoint": "Forced to harm innocents repeatedly",
-        "missionPreferences": ["rescue", "reform", "investigation", "peaceful-solutions"]
+        "missionPreferences": [
+          "rescue",
+          "reform",
+          "investigation",
+          "peaceful-solutions"
+        ]
       },
       {
         "name": "Pragmatist",
-        "values": ["results", "efficiency", "practicality"],
+        "values": [
+          "results",
+          "efficiency",
+          "practicality"
+        ],
         "copingMechanism": "Compartmentalizes: just the job",
         "breakingPoint": "Organization turns chaotic or ineffective",
-        "missionPreferences": ["balanced-approach", "whatever-works"]
+        "missionPreferences": [
+          "balanced-approach",
+          "whatever-works"
+        ]
       },
       {
         "name": "Cynical",
-        "values": ["self-preservation", "skepticism", "personal-gain"],
+        "values": [
+          "self-preservation",
+          "skepticism",
+          "personal-gain"
+        ],
         "copingMechanism": "Dark humor and emotional distance",
         "breakingPoint": "Betrayal by the organization",
-        "missionPreferences": ["high-reward", "personal-benefit"]
+        "missionPreferences": [
+          "high-reward",
+          "personal-benefit"
+        ]
       },
       {
         "name": "Zealot",
-        "values": ["the-cause", "ideological-purity", "true-belief"],
+        "values": [
+          "the-cause",
+          "ideological-purity",
+          "true-belief"
+        ],
         "copingMechanism": "Intensifies: we're not going far enough",
         "breakingPoint": "Organization compromises core ideology",
-        "missionPreferences": ["direct-action", "ideological-warfare", "no-compromise"]
+        "missionPreferences": [
+          "direct-action",
+          "ideological-warfare",
+          "no-compromise"
+        ]
       },
       {
         "name": "Professional",
-        "values": ["excellence", "reputation", "craft-mastery"],
+        "values": [
+          "excellence",
+          "reputation",
+          "craft-mastery"
+        ],
         "copingMechanism": "Focuses on craft excellence",
         "breakingPoint": "Incompetent leadership or pointless missions",
-        "missionPreferences": ["high-skill", "prestige-targets"]
+        "missionPreferences": [
+          "high-skill",
+          "prestige-targets"
+        ]
       },
       {
         "name": "Survivor",
-        "values": ["safety", "resource-security", "adaptability"],
+        "values": [
+          "safety",
+          "resource-security",
+          "adaptability"
+        ],
         "copingMechanism": "Stays ready to leave",
         "breakingPoint": "Organization becomes too dangerous",
-        "missionPreferences": ["low-risk", "resource-acquisition"]
+        "missionPreferences": [
+          "low-risk",
+          "resource-acquisition"
+        ]
       },
       {
         "name": "Ambitious",
-        "values": ["status", "power", "advancement"],
+        "values": [
+          "status",
+          "power",
+          "advancement"
+        ],
         "copingMechanism": "Frames everything as career leverage",
         "breakingPoint": "Blocked advancement or loss of status",
-        "missionPreferences": ["high-visibility", "leadership-opportunities"]
+        "missionPreferences": [
+          "high-visibility",
+          "leadership-opportunities"
+        ]
       }
     ]
   },
@@ -11232,294 +13873,1312 @@
   },
   "timelineTemplates": {
     "childhood": [
-      { "description": "Mother died in childbirth, father blamed them subtly", "type": "family-crisis", "impact": "negative" },
-      { "description": "Parents vanished one night, never explained", "type": "family-crisis", "impact": "negative" },
-      { "description": "Father executed as traitor, family shunned", "type": "family-crisis", "impact": "negative" },
-      { "description": "Mother left for new family, took favorite sibling", "type": "family-crisis", "impact": "negative" },
-      { "description": "Parents died in accident they caused by arguing", "type": "family-crisis", "impact": "negative" },
-      { "description": "Raised by grandmother who resented the burden", "type": "family-crisis", "impact": "negative" },
-      { "description": "Parent faked death, discovered alive years later", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Mother chose addiction over children", "type": "family-crisis", "impact": "negative" },
-      { "description": "Father imprisoned for crime he didn't commit", "type": "family-crisis", "impact": "negative" },
-      { "description": "Parents sold them to pay debts", "type": "family-crisis", "impact": "negative" },
-
-      { "description": "Older sibling drowned saving them", "type": "loss", "impact": "negative" },
-      { "description": "Twin died at birth, parents never recovered", "type": "loss", "impact": "negative" },
-      { "description": "Watched sibling slowly die from illness", "type": "loss", "impact": "negative" },
-      { "description": "Sibling disappeared, became family obsession", "type": "loss", "impact": "negative" },
-      { "description": "Blamed for sibling's accident unfairly", "type": "loss", "impact": "negative" },
-      { "description": "Sibling became parents' obvious favorite", "type": "family-crisis", "impact": "negative" },
-      { "description": "Had to raise younger siblings alone", "type": "family-crisis", "impact": "negative" },
-      { "description": "Sibling betrayed family to authorities", "type": "betrayal", "impact": "negative" },
-      { "description": "Competed for single scholarship, lost", "type": "failure", "impact": "negative" },
-      { "description": "Sibling's success overshadowed everything", "type": "family-crisis", "impact": "negative" },
-
-      { "description": "Found adoption papers in attic", "type": "betrayal", "impact": "mixed" },
-      { "description": "Overheard parent isn't biological", "type": "betrayal", "impact": "negative" },
-      { "description": "Discovered family's criminal history", "type": "betrayal", "impact": "negative" },
-      { "description": "Learned about parent's other family", "type": "betrayal", "impact": "negative" },
-      { "description": "Found suicide note never sent", "type": "loss", "impact": "negative" },
-      { "description": "Realized family wealth was stolen", "type": "betrayal", "impact": "negative" },
-      { "description": "Uncovered parent's war crimes", "type": "betrayal", "impact": "negative" },
-      { "description": "Found evidence of sibling murder", "type": "betrayal", "impact": "negative" },
-      { "description": "Discovered they're from enemy bloodline", "type": "family-crisis", "impact": "negative" },
-      { "description": "Learned real name at age 15", "type": "family-crisis", "impact": "mixed" },
-
-      { "description": "Teacher recognized genius, changed life", "type": "education-milestone", "impact": "positive" },
-      { "description": "Caught cheating, scholarship revoked", "type": "education-milestone", "impact": "negative" },
-      { "description": "Won competition through sabotage", "type": "education-milestone", "impact": "mixed" },
-      { "description": "Illiteracy hidden until age 14", "type": "education-milestone", "impact": "negative" },
-      { "description": "Photographic memory discovered accidentally", "type": "education-milestone", "impact": "positive" },
-      { "description": "Expelled for crime didn't commit", "type": "education-milestone", "impact": "negative" },
-      { "description": "Valedictorian speech caused riot", "type": "education-milestone", "impact": "mixed" },
-      { "description": "Failed exam, parent had heart attack", "type": "education-milestone", "impact": "negative" },
-      { "description": "Teacher's inappropriate attention", "type": "education-milestone", "impact": "negative" },
-      { "description": "Burned down school accidentally", "type": "education-milestone", "impact": "negative" },
-
-      { "description": "Best friend's betrayal for popularity", "type": "betrayal", "impact": "negative" },
-      { "description": "Defended bullied kid, became target", "type": "betrayal", "impact": "negative" },
-      { "description": "Started rumor that destroyed someone", "type": "betrayal", "impact": "negative" },
-      { "description": "First love was cruel joke", "type": "romantic", "impact": "negative" },
-      { "description": "Organized student resistance movement", "type": "success", "impact": "positive" },
-      { "description": "Accidentally killed bully in fight", "type": "moral-injury", "impact": "negative" },
-      { "description": "Saved classmates from shooter", "type": "success", "impact": "positive" },
-      { "description": "Entire class turned against them", "type": "betrayal", "impact": "negative" },
-      { "description": "Popular until accent gave away origins", "type": "scandal", "impact": "negative" },
-      { "description": "Friendless due to parent's reputation", "type": "family-crisis", "impact": "negative" },
-
-      { "description": "Saw parent kill intruder", "type": "moral-injury", "impact": "negative" },
-      { "description": "Witnessed public execution at age 6", "type": "moral-injury", "impact": "negative" },
-      { "description": "Present during terrorist attack", "type": "moral-injury", "impact": "negative" },
-      { "description": "Watched mob burn neighbor alive", "type": "moral-injury", "impact": "negative" },
-      { "description": "Saw sibling tortured by authorities", "type": "moral-injury", "impact": "negative" },
-      { "description": "Witnessed parent's suicide attempt", "type": "loss", "impact": "negative" },
-      { "description": "Present during home invasion", "type": "injury", "impact": "negative" },
-      { "description": "Saw friend fall from building", "type": "loss", "impact": "negative" },
-      { "description": "Watched pet killed as punishment", "type": "loss", "impact": "negative" },
-      { "description": "Witnessed teacher's mental breakdown", "type": "moral-injury", "impact": "negative" },
-
-      { "description": "Kidnapped for three days at age 8", "type": "injury", "impact": "negative" },
-      { "description": "Escaped trafficking attempt", "type": "injury", "impact": "negative" },
-      { "description": "Survived murder attempt by parent", "type": "injury", "impact": "negative" },
-      { "description": "Left to die in wilderness", "type": "injury", "impact": "negative" },
-      { "description": "Poisoned by stepparent slowly", "type": "injury", "impact": "negative" },
-      { "description": "Locked in basement for months", "type": "injury", "impact": "negative" },
-      { "description": "Foster home abuse survivor", "type": "injury", "impact": "negative" },
-      { "description": "Cult escape at age 12", "type": "injury", "impact": "negative" },
-      { "description": "Child soldier for two years", "type": "moral-injury", "impact": "negative" },
-      { "description": "Medical experiments without consent", "type": "injury", "impact": "negative" },
-
-      { "description": "Youngest ever to win regional championship", "type": "success", "impact": "positive" },
-      { "description": "Saved family from house fire", "type": "success", "impact": "positive" },
-      { "description": "Invented device that helped hundreds", "type": "success", "impact": "positive" },
-      { "description": "Child prodigy concert at age 10", "type": "success", "impact": "positive" },
-      { "description": "Published novel at age 14", "type": "success", "impact": "positive" },
-      { "description": "Discovered archaeological site playing", "type": "success", "impact": "positive" },
-      { "description": "Solved cold case by accident", "type": "success", "impact": "positive" },
-      { "description": "Started business supporting family", "type": "success", "impact": "positive" },
-      { "description": "Youngest union organizer in history", "type": "success", "impact": "positive" },
-      { "description": "Childhood painting now worth millions", "type": "success", "impact": "positive" },
-
-      { "description": "Testified against powerful criminal", "type": "success", "impact": "positive" },
-      { "description": "Stood up to corrupt official", "type": "success", "impact": "positive" },
-      { "description": "Refused to join gang despite threats", "type": "success", "impact": "positive" },
-      { "description": "Hid refugees in basement", "type": "success", "impact": "positive" },
-      { "description": "Stole medicine for dying friend", "type": "success", "impact": "positive" },
-      { "description": "Took blame to protect sibling", "type": "success", "impact": "positive" },
-      { "description": "Exposed teacher's abuse ring", "type": "success", "impact": "positive" },
-      { "description": "Led children to safety in disaster", "type": "success", "impact": "positive" },
-      { "description": "Faced down rabid dog to save baby", "type": "success", "impact": "positive" },
-      { "description": "Gave kidney to dying classmate", "type": "success", "impact": "positive" }
+      {
+        "description": "Mother died in childbirth, father blamed them subtly",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Parents vanished one night, never explained",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Father executed as traitor, family shunned",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Mother left for new family, took favorite sibling",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Parents died in accident they caused by arguing",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Raised by grandmother who resented the burden",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Parent faked death, discovered alive years later",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Mother chose addiction over children",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Father imprisoned for crime he didn't commit",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Parents sold them to pay debts",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Older sibling drowned saving them",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Twin died at birth, parents never recovered",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Watched sibling slowly die from illness",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Sibling disappeared, became family obsession",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Blamed for sibling's accident unfairly",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Sibling became parents' obvious favorite",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Had to raise younger siblings alone",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Sibling betrayed family to authorities",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Competed for single scholarship, lost",
+        "type": "failure",
+        "impact": "negative"
+      },
+      {
+        "description": "Sibling's success overshadowed everything",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Found adoption papers in attic",
+        "type": "betrayal",
+        "impact": "mixed"
+      },
+      {
+        "description": "Overheard parent isn't biological",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered family's criminal history",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Learned about parent's other family",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Found suicide note never sent",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Realized family wealth was stolen",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Uncovered parent's war crimes",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Found evidence of sibling murder",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered they're from enemy bloodline",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Learned real name at age 15",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Teacher recognized genius, changed life",
+        "type": "education-milestone",
+        "impact": "positive"
+      },
+      {
+        "description": "Caught cheating, scholarship revoked",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Won competition through sabotage",
+        "type": "education-milestone",
+        "impact": "mixed"
+      },
+      {
+        "description": "Illiteracy hidden until age 14",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Photographic memory discovered accidentally",
+        "type": "education-milestone",
+        "impact": "positive"
+      },
+      {
+        "description": "Expelled for crime didn't commit",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Valedictorian speech caused riot",
+        "type": "education-milestone",
+        "impact": "mixed"
+      },
+      {
+        "description": "Failed exam, parent had heart attack",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Teacher's inappropriate attention",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Burned down school accidentally",
+        "type": "education-milestone",
+        "impact": "negative"
+      },
+      {
+        "description": "Best friend's betrayal for popularity",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Defended bullied kid, became target",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Started rumor that destroyed someone",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "First love was cruel joke",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Organized student resistance movement",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Accidentally killed bully in fight",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Saved classmates from shooter",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Entire class turned against them",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Popular until accent gave away origins",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Friendless due to parent's reputation",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Saw parent kill intruder",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Witnessed public execution at age 6",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Present during terrorist attack",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Watched mob burn neighbor alive",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Saw sibling tortured by authorities",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Witnessed parent's suicide attempt",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Present during home invasion",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Saw friend fall from building",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Watched pet killed as punishment",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Witnessed teacher's mental breakdown",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Kidnapped for three days at age 8",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Escaped trafficking attempt",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Survived murder attempt by parent",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Left to die in wilderness",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Poisoned by stepparent slowly",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Locked in basement for months",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Foster home abuse survivor",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Cult escape at age 12",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Child soldier for two years",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Medical experiments without consent",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Youngest ever to win regional championship",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Saved family from house fire",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Invented device that helped hundreds",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Child prodigy concert at age 10",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Published novel at age 14",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Discovered archaeological site playing",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Solved cold case by accident",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Started business supporting family",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Youngest union organizer in history",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Childhood painting now worth millions",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Testified against powerful criminal",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Stood up to corrupt official",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Refused to join gang despite threats",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Hid refugees in basement",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Stole medicine for dying friend",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Took blame to protect sibling",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Exposed teacher's abuse ring",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Led children to safety in disaster",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Faced down rabid dog to save baby",
+        "type": "success",
+        "impact": "positive"
+      },
+      {
+        "description": "Gave kidney to dying classmate",
+        "type": "success",
+        "impact": "positive"
+      }
     ],
     "youngAdult": [
-      { "description": "Fired day one for honesty", "type": "failure", "impact": "negative" },
-      { "description": "Boss died suspiciously, blamed", "type": "scandal", "impact": "negative" },
-      { "description": "Accidentally destroyed company database", "type": "failure", "impact": "negative" },
-      { "description": "Whistleblew, industry blacklisted", "type": "scandal", "impact": "negative" },
-      { "description": "Success led to mentor's suicide", "type": "loss", "impact": "negative" },
-      { "description": "Promoted over lover, relationship ended", "type": "romantic", "impact": "negative" },
-      { "description": "First patient died from their mistake", "type": "failure", "impact": "negative" },
-      { "description": "Invention stolen by employer", "type": "betrayal", "impact": "negative" },
-      { "description": "Falsely accused of embezzlement", "type": "scandal", "impact": "negative" },
-      { "description": "Work accident killed coworkers", "type": "loss", "impact": "negative" },
-
-      { "description": "Rapid success brought family resentment", "type": "success", "impact": "mixed" },
-      { "description": "Media attention ruined private life", "type": "scandal", "impact": "negative" },
-      { "description": "Success built on hidden lie", "type": "success", "impact": "mixed" },
-      { "description": "Mentor claimed credit for everything", "type": "betrayal", "impact": "negative" },
-      { "description": "Competitors destroyed reputation", "type": "scandal", "impact": "negative" },
-      { "description": "Success cost best friend's career", "type": "success", "impact": "mixed" },
-      { "description": "Government seized breakthrough research", "type": "scandal", "impact": "negative" },
-      { "description": "Early retirement due to threats", "type": "career-break", "impact": "negative" },
-      { "description": "Success attracted dangerous attention", "type": "scandal", "impact": "negative" },
-      { "description": "Wealth brought family parasites", "type": "family-crisis", "impact": "negative" },
-
-      { "description": "Fiancé died week before wedding", "type": "romantic", "impact": "negative" },
-      { "description": "Discovered partner's double life", "type": "romantic", "impact": "negative" },
-      { "description": "Left at altar, very publicly", "type": "romantic", "impact": "negative" },
-      { "description": "Spouse amnesia forgot entire relationship", "type": "romantic", "impact": "negative" },
-      { "description": "Partner chose career over them", "type": "romantic", "impact": "negative" },
-      { "description": "Love interest was undercover agent", "type": "romantic", "impact": "negative" },
-      { "description": "Arranged marriage to enemy's child", "type": "romantic", "impact": "mixed" },
-      { "description": "Pregnancy ended relationship", "type": "romantic", "impact": "negative" },
-      { "description": "Partner's family forced separation", "type": "romantic", "impact": "negative" },
-      { "description": "Lover framed them for murder", "type": "betrayal", "impact": "negative" },
-
-      { "description": "Best friend slept with spouse", "type": "betrayal", "impact": "negative" },
-      { "description": "Friend sold secrets to competitor", "type": "betrayal", "impact": "negative" },
-      { "description": "Trusted ally was always spy", "type": "betrayal", "impact": "negative" },
-      { "description": "Friend's addiction destroyed both lives", "type": "loss", "impact": "negative" },
-      { "description": "Betrayed resistance to save friend", "type": "betrayal", "impact": "mixed" },
-      { "description": "Friend's success poisoned relationship", "type": "betrayal", "impact": "negative" },
-      { "description": "Discovered friend killed their parent", "type": "betrayal", "impact": "negative" },
-      { "description": "Friend chose cult over friendship", "type": "betrayal", "impact": "negative" },
-      { "description": "Business partnership ended violently", "type": "betrayal", "impact": "negative" },
-      { "description": "Friend's lie cost everything", "type": "betrayal", "impact": "negative" },
-
-      { "description": "Learned they're intersection of enemies", "type": "family-crisis", "impact": "negative" },
-      { "description": "Discovered they have terminal gene", "type": "injury", "impact": "negative" },
-      { "description": "Found out they're clone/twin", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Realized attracted to same gender", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Discovered they're heir to throne", "type": "career-break", "impact": "mixed" },
-      { "description": "Learned their whole history was lie", "type": "family-crisis", "impact": "negative" },
-      { "description": "Found they have different abilities", "type": "career-break", "impact": "mixed" },
-      { "description": "Discovered they're last of kind", "type": "family-crisis", "impact": "negative" },
-      { "description": "Realized they were experiment subject", "type": "family-crisis", "impact": "negative" },
-      { "description": "Found they're prophesied destroyer", "type": "career-break", "impact": "mixed" },
-
-      { "description": "First kill changed everything", "type": "moral-injury", "impact": "negative" },
-      { "description": "Chose money over friend's life", "type": "moral-injury", "impact": "negative" },
-      { "description": "Covered up accidental death", "type": "moral-injury", "impact": "negative" },
-      { "description": "Betrayed principles for love", "type": "moral-injury", "impact": "negative" },
-      { "description": "Let innocent person take blame", "type": "moral-injury", "impact": "negative" },
-      { "description": "Tortured someone for information", "type": "moral-injury", "impact": "negative" },
-      { "description": "Saved enemy, lost allies", "type": "moral-injury", "impact": "negative" },
-      { "description": "Refused order, comrades died", "type": "moral-injury", "impact": "negative" },
-      { "description": "Took credit for dead friend's work", "type": "moral-injury", "impact": "negative" },
-      { "description": "Stayed silent during injustice", "type": "moral-injury", "impact": "negative" }
+      {
+        "description": "Fired day one for honesty",
+        "type": "failure",
+        "impact": "negative"
+      },
+      {
+        "description": "Boss died suspiciously, blamed",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Accidentally destroyed company database",
+        "type": "failure",
+        "impact": "negative"
+      },
+      {
+        "description": "Whistleblew, industry blacklisted",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Success led to mentor's suicide",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Promoted over lover, relationship ended",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "First patient died from their mistake",
+        "type": "failure",
+        "impact": "negative"
+      },
+      {
+        "description": "Invention stolen by employer",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Falsely accused of embezzlement",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Work accident killed coworkers",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Rapid success brought family resentment",
+        "type": "success",
+        "impact": "mixed"
+      },
+      {
+        "description": "Media attention ruined private life",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Success built on hidden lie",
+        "type": "success",
+        "impact": "mixed"
+      },
+      {
+        "description": "Mentor claimed credit for everything",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Competitors destroyed reputation",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Success cost best friend's career",
+        "type": "success",
+        "impact": "mixed"
+      },
+      {
+        "description": "Government seized breakthrough research",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Early retirement due to threats",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Success attracted dangerous attention",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Wealth brought family parasites",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Fiancé died week before wedding",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered partner's double life",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Left at altar, very publicly",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse amnesia forgot entire relationship",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Partner chose career over them",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Love interest was undercover agent",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Arranged marriage to enemy's child",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Pregnancy ended relationship",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Partner's family forced separation",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Lover framed them for murder",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Best friend slept with spouse",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Friend sold secrets to competitor",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Trusted ally was always spy",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Friend's addiction destroyed both lives",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Betrayed resistance to save friend",
+        "type": "betrayal",
+        "impact": "mixed"
+      },
+      {
+        "description": "Friend's success poisoned relationship",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered friend killed their parent",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Friend chose cult over friendship",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Business partnership ended violently",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Friend's lie cost everything",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Learned they're intersection of enemies",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered they have terminal gene",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Found out they're clone/twin",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Realized attracted to same gender",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Discovered they're heir to throne",
+        "type": "career-break",
+        "impact": "mixed"
+      },
+      {
+        "description": "Learned their whole history was lie",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Found they have different abilities",
+        "type": "career-break",
+        "impact": "mixed"
+      },
+      {
+        "description": "Discovered they're last of kind",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Realized they were experiment subject",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Found they're prophesied destroyer",
+        "type": "career-break",
+        "impact": "mixed"
+      },
+      {
+        "description": "First kill changed everything",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Chose money over friend's life",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Covered up accidental death",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Betrayed principles for love",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Let innocent person take blame",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Tortured someone for information",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Saved enemy, lost allies",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Refused order, comrades died",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Took credit for dead friend's work",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Stayed silent during injustice",
+        "type": "moral-injury",
+        "impact": "negative"
+      }
     ],
     "midAge": [
-      { "description": "Protégé stole life's work", "type": "betrayal", "impact": "negative" },
-      { "description": "Company destroyed their reputation", "type": "scandal", "impact": "negative" },
-      { "description": "Forced to fire entire team", "type": "family-crisis", "impact": "negative" },
-      { "description": "Research used for genocide", "type": "moral-injury", "impact": "negative" },
-      { "description": "Years of work proved worthless", "type": "failure", "impact": "negative" },
-      { "description": "Rival sabotaged major project", "type": "betrayal", "impact": "negative" },
-      { "description": "Promotion required terrible compromise", "type": "moral-injury", "impact": "negative" },
-      { "description": "Discovered employer's evil purpose", "type": "moral-injury", "impact": "negative" },
-      { "description": "Scapegoated for industry collapse", "type": "scandal", "impact": "negative" },
-      { "description": "Life's work made illegal overnight", "type": "career-break", "impact": "negative" },
-
-      { "description": "Asked to falsify safety data", "type": "moral-injury", "impact": "negative" },
-      { "description": "Ordered to deny life-saving treatment", "type": "moral-injury", "impact": "negative" },
-      { "description": "Pressured to betray whistleblower", "type": "moral-injury", "impact": "negative" },
-      { "description": "Forced to choose between employees", "type": "moral-injury", "impact": "negative" },
-      { "description": "Discovered product kills people", "type": "moral-injury", "impact": "negative" },
-      { "description": "Had to fire pregnant employee", "type": "moral-injury", "impact": "negative" },
-      { "description": "Bribed to ignore violations", "type": "moral-injury", "impact": "negative" },
-      { "description": "Blackmailed into cooperation", "type": "moral-injury", "impact": "negative" },
-      { "description": "Asked to spy on colleagues", "type": "betrayal", "impact": "negative" },
-      { "description": "Ordered to destroy evidence", "type": "moral-injury", "impact": "negative" },
-
-      { "description": "Child joined enemy organization", "type": "family-crisis", "impact": "negative" },
-      { "description": "Discovered child isn't biologically theirs", "type": "family-crisis", "impact": "negative" },
-      { "description": "Child exposed family secrets publicly", "type": "family-crisis", "impact": "negative" },
-      { "description": "Had to choose between children", "type": "family-crisis", "impact": "negative" },
-      { "description": "Child's addiction destroyed family", "type": "family-crisis", "impact": "negative" },
-      { "description": "Disowned child for their choices", "type": "family-crisis", "impact": "negative" },
-      { "description": "Child disappeared without trace", "type": "loss", "impact": "negative" },
-      { "description": "Child committed terrible crime", "type": "family-crisis", "impact": "negative" },
-      { "description": "Child married family enemy", "type": "family-crisis", "impact": "negative" },
-      { "description": "Child revealed parent's crimes", "type": "family-crisis", "impact": "negative" },
-
-      { "description": "Spouse developed different values", "type": "romantic", "impact": "negative" },
-      { "description": "Infidelity discovered after decades", "type": "romantic", "impact": "negative" },
-      { "description": "Spouse's mental illness emerged", "type": "romantic", "impact": "negative" },
-      { "description": "Financial ruin from spouse's gambling", "type": "romantic", "impact": "negative" },
-      { "description": "Spouse became political opposite", "type": "romantic", "impact": "negative" },
-      { "description": "Discovered spouse's secret family", "type": "romantic", "impact": "negative" },
-      { "description": "Spouse's crime implicated them", "type": "romantic", "impact": "negative" },
-      { "description": "Ideology split destroyed marriage", "type": "romantic", "impact": "negative" },
-      { "description": "Spouse chose religion over family", "type": "romantic", "impact": "negative" },
-      { "description": "Violence entered marriage suddenly", "type": "romantic", "impact": "negative" },
-
-      { "description": "Cancer diagnosis changed priorities", "type": "injury", "impact": "negative" },
-      { "description": "Accident left partially paralyzed", "type": "injury", "impact": "negative" },
-      { "description": "Genetic condition finally manifested", "type": "injury", "impact": "negative" },
-      { "description": "Stress caused heart attack at 41", "type": "injury", "impact": "negative" },
-      { "description": "Lost sight/hearing suddenly", "type": "injury", "impact": "negative" },
-      { "description": "Brain injury changed personality", "type": "injury", "impact": "negative" },
-      { "description": "Addiction nearly killed them", "type": "injury", "impact": "negative" },
-      { "description": "Suicide attempt failed barely", "type": "injury", "impact": "negative" },
-      { "description": "Mystery illness no one believes", "type": "injury", "impact": "negative" },
-      { "description": "Surgery went catastrophically wrong", "type": "injury", "impact": "negative" },
-
-      { "description": "Child's terminal diagnosis", "type": "loss", "impact": "negative" },
-      { "description": "Spouse's slow cognitive decline", "type": "loss", "impact": "negative" },
-      { "description": "Parent's suffering they must manage", "type": "loss", "impact": "negative" },
-      { "description": "Sibling needs organ donation", "type": "loss", "impact": "negative" },
-      { "description": "Family genetic curse appears", "type": "loss", "impact": "negative" },
-      { "description": "Child's accident they caused", "type": "loss", "impact": "negative" },
-      { "description": "Spouse's addiction destroying all", "type": "loss", "impact": "negative" },
-      { "description": "Parent refuses life-saving treatment", "type": "loss", "impact": "negative" },
-      { "description": "Family member's suicide attempt", "type": "loss", "impact": "negative" },
-      { "description": "Hereditary condition in children", "type": "loss", "impact": "negative" }
+      {
+        "description": "Protégé stole life's work",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Company destroyed their reputation",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Forced to fire entire team",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Research used for genocide",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Years of work proved worthless",
+        "type": "failure",
+        "impact": "negative"
+      },
+      {
+        "description": "Rival sabotaged major project",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Promotion required terrible compromise",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered employer's evil purpose",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Scapegoated for industry collapse",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Life's work made illegal overnight",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Asked to falsify safety data",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Ordered to deny life-saving treatment",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Pressured to betray whistleblower",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Forced to choose between employees",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered product kills people",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Had to fire pregnant employee",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Bribed to ignore violations",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Blackmailed into cooperation",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Asked to spy on colleagues",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Ordered to destroy evidence",
+        "type": "moral-injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Child joined enemy organization",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered child isn't biologically theirs",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Child exposed family secrets publicly",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Had to choose between children",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Child's addiction destroyed family",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Disowned child for their choices",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Child disappeared without trace",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Child committed terrible crime",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Child married family enemy",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Child revealed parent's crimes",
+        "type": "family-crisis",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse developed different values",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Infidelity discovered after decades",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse's mental illness emerged",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Financial ruin from spouse's gambling",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse became political opposite",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Discovered spouse's secret family",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse's crime implicated them",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Ideology split destroyed marriage",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse chose religion over family",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Violence entered marriage suddenly",
+        "type": "romantic",
+        "impact": "negative"
+      },
+      {
+        "description": "Cancer diagnosis changed priorities",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Accident left partially paralyzed",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Genetic condition finally manifested",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Stress caused heart attack at 41",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Lost sight/hearing suddenly",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Brain injury changed personality",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Addiction nearly killed them",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Suicide attempt failed barely",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Mystery illness no one believes",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Surgery went catastrophically wrong",
+        "type": "injury",
+        "impact": "negative"
+      },
+      {
+        "description": "Child's terminal diagnosis",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse's slow cognitive decline",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Parent's suffering they must manage",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Sibling needs organ donation",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Family genetic curse appears",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Child's accident they caused",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Spouse's addiction destroying all",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Parent refuses life-saving treatment",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Family member's suicide attempt",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Hereditary condition in children",
+        "type": "loss",
+        "impact": "negative"
+      }
     ],
     "laterLife": [
-      { "description": "Company being sold to rival", "type": "scandal", "impact": "negative" },
-      { "description": "Research being weaponized", "type": "scandal", "impact": "negative" },
-      { "description": "Protégé perverting teachings", "type": "betrayal", "impact": "negative" },
-      { "description": "Legacy being rewritten by enemies", "type": "scandal", "impact": "negative" },
-      { "description": "Children selling life's work", "type": "scandal", "impact": "negative" },
-      { "description": "Government seizing archives", "type": "scandal", "impact": "negative" },
-      { "description": "Reputation systematically destroyed", "type": "scandal", "impact": "negative" },
-      { "description": "Work attributed to others", "type": "scandal", "impact": "negative" },
-      { "description": "Principles abandoned by followers", "type": "scandal", "impact": "negative" },
-      { "description": "Creation used against values", "type": "scandal", "impact": "negative" },
-
-      { "description": "Children fighting over inheritance", "type": "career-break", "impact": "negative" },
-      { "description": "No worthy successor found", "type": "career-break", "impact": "negative" },
-      { "description": "Chosen heir proved corrupt", "type": "career-break", "impact": "negative" },
-      { "description": "Forced to choose unprepared successor", "type": "career-break", "impact": "negative" },
-      { "description": "Rival positioned to take over", "type": "career-break", "impact": "negative" },
-      { "description": "Board forcing early retirement", "type": "career-break", "impact": "negative" },
-      { "description": "Health forcing sudden transition", "type": "career-break", "impact": "negative" },
-      { "description": "Successor died unexpectedly", "type": "loss", "impact": "negative" },
-      { "description": "Organization splitting over succession", "type": "career-break", "impact": "negative" },
-      { "description": "Dark horse challenger emerging", "type": "career-break", "impact": "negative" },
-
-      { "description": "Former rival now dying, seeks peace", "type": "romantic", "impact": "mixed" },
-      { "description": "Enemy's child asks for truth", "type": "romantic", "impact": "mixed" },
-      { "description": "Chance meeting after 40 years", "type": "romantic", "impact": "mixed" },
-      { "description": "Mutual grandchildren force interaction", "type": "romantic", "impact": "mixed" },
-      { "description": "Crisis requires old enemies cooperate", "type": "romantic", "impact": "mixed" },
-      { "description": "Deathbed confession changes everything", "type": "romantic", "impact": "mixed" },
-      { "description": "Children dating brings enemies together", "type": "romantic", "impact": "mixed" },
-      { "description": "Shared loss softens old hatred", "type": "romantic", "impact": "mixed" },
-      { "description": "Truth about conflict finally emerges", "type": "romantic", "impact": "mixed" },
-      { "description": "Forced to share nursing home", "type": "romantic", "impact": "mixed" },
-
-      { "description": "Estranged child returns needing help", "type": "romantic", "impact": "mixed" },
-      { "description": "Sibling reaches out after decades", "type": "romantic", "impact": "mixed" },
-      { "description": "Parent thought dead appears", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Given up child finds them", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Ex-spouse dying, wants closure", "type": "romantic", "impact": "mixed" },
-      { "description": "Grandchild seeks truth about past", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Family gathering for funeral", "type": "loss", "impact": "negative" },
-      { "description": "DNA test reveals unknown relatives", "type": "family-crisis", "impact": "mixed" },
-      { "description": "Childhood friend reappears changed", "type": "romantic", "impact": "mixed" },
-      { "description": "First love widowed, reconnects", "type": "romantic", "impact": "mixed" },
-
-      { "description": "Confession ruins family's image", "type": "loss", "impact": "negative" },
-      { "description": "Refuses reconciliation to end", "type": "loss", "impact": "negative" },
-      { "description": "Names unexpected heir from spite", "type": "loss", "impact": "negative" },
-      { "description": "Reveals location of hidden fortune", "type": "loss", "impact": "negative" },
-      { "description": "Finally tells truth about past", "type": "loss", "impact": "negative" },
-      { "description": "Dies before revealing crucial secret", "type": "loss", "impact": "negative" },
-      { "description": "Last words curse specific person", "type": "loss", "impact": "negative" },
-      { "description": "Forgives ancient enemy publicly", "type": "loss", "impact": "negative" },
-      { "description": "Distributes evidence from deathbed", "type": "loss", "impact": "negative" },
-      { "description": "Dies protecting terrible secret", "type": "loss", "impact": "negative" }
+      {
+        "description": "Company being sold to rival",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Research being weaponized",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Protégé perverting teachings",
+        "type": "betrayal",
+        "impact": "negative"
+      },
+      {
+        "description": "Legacy being rewritten by enemies",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Children selling life's work",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Government seizing archives",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Reputation systematically destroyed",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Work attributed to others",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Principles abandoned by followers",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Creation used against values",
+        "type": "scandal",
+        "impact": "negative"
+      },
+      {
+        "description": "Children fighting over inheritance",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "No worthy successor found",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Chosen heir proved corrupt",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Forced to choose unprepared successor",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Rival positioned to take over",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Board forcing early retirement",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Health forcing sudden transition",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Successor died unexpectedly",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Organization splitting over succession",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Dark horse challenger emerging",
+        "type": "career-break",
+        "impact": "negative"
+      },
+      {
+        "description": "Former rival now dying, seeks peace",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Enemy's child asks for truth",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Chance meeting after 40 years",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Mutual grandchildren force interaction",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Crisis requires old enemies cooperate",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Deathbed confession changes everything",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Children dating brings enemies together",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Shared loss softens old hatred",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Truth about conflict finally emerges",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Forced to share nursing home",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Estranged child returns needing help",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Sibling reaches out after decades",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Parent thought dead appears",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Given up child finds them",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Ex-spouse dying, wants closure",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Grandchild seeks truth about past",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Family gathering for funeral",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "DNA test reveals unknown relatives",
+        "type": "family-crisis",
+        "impact": "mixed"
+      },
+      {
+        "description": "Childhood friend reappears changed",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "First love widowed, reconnects",
+        "type": "romantic",
+        "impact": "mixed"
+      },
+      {
+        "description": "Confession ruins family's image",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Refuses reconciliation to end",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Names unexpected heir from spite",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Reveals location of hidden fortune",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Finally tells truth about past",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Dies before revealing crucial secret",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Last words curse specific person",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Forgives ancient enemy publicly",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Distributes evidence from deathbed",
+        "type": "loss",
+        "impact": "negative"
+      },
+      {
+        "description": "Dies protecting terrible secret",
+        "type": "loss",
+        "impact": "negative"
+      }
     ]
   },
   "knowledgeIgnorance": {
