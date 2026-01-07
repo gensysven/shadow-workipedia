@@ -507,6 +507,77 @@ const DOCUMENTED_CORRELATES = [
   // Probabilistic Enhancements (PR series)
   { id: '#PR1', name: 'Stress → Negotiation Penalty', vars: ['stressReactivity', 'negotiationSkill'], expected: 'negative' as const },
   { id: '#PR4', name: 'Reflexes → Hand-Eye', vars: ['reflexes', 'handEyeCoordination'], expected: 'positive' as const },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // BATCH 2: Previously untracked correlates from CORRELATES.md (2026-01-07)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Plausibility Gates (PG1-6, constraint-based)
+  { id: '#PG1', name: 'Opsec → Identity Kit', vars: ['opsecDiscipline', 'hasCompromisedIdentity'], expected: 'negative' as const },
+  { id: '#PG2', name: 'Mobility → Housing', vars: ['mobilityNumeric', 'housingStabilityNumeric'], expected: 'negative' as const },
+  { id: '#PG3', name: 'Tier → Neighborhood', vars: ['tierNumeric', 'neighborhoodQualityNumeric'], expected: 'positive' as const },
+  { id: '#PG4', name: 'Marital → Ex-Partner', vars: ['isSingle', 'hasExPartner'], expected: 'negative' as const },
+  { id: '#PG5', name: 'Community Role → Status', vars: ['isLurker', 'communityStatusNumeric'], expected: 'negative' as const },
+  { id: '#PG6', name: 'Operative → Social Hobbies', vars: ['isOperative', 'socialHobbyCount'], expected: 'negative' as const },
+  { id: '#PG-FRUGAL-FASHION', name: 'Frugal Elite → Formality', vars: ['frugalEliteScore', 'formalityNumeric'], expected: 'positive' as const },
+  { id: '#PG-OPERATIVE-VIS', name: 'Operative → Aesthetics', vars: ['isOperative', 'aestheticBoldness'], expected: 'negative' as const },
+
+  // Domestic Constraints (DC-D series)
+  { id: '#DC-D1', name: 'Age → Caregiving Type', vars: ['age', 'hasCaregivingObligation'], expected: 'positive' as const },
+  { id: '#DC-D2', name: 'Housing → Commute', vars: ['isTransientHousing', 'hasDriverCommute'], expected: 'negative' as const },
+  { id: '#DC-D4', name: 'Residency → Credentials', vars: ['isIrregularStatus', 'hasValidCredentials'], expected: 'negative' as const },
+  { id: '#DC-D6', name: 'Household → Eldercare', vars: ['isMultigenerational', 'hasEldercareObligation'], expected: 'positive' as const },
+  { id: '#DC-D8', name: 'Legal Exposure → Clearance', vars: ['legalExposureNumeric', 'hasSecurityClearance'], expected: 'negative' as const },
+  { id: '#DC-D9', name: 'Urbanicity → Skill Domain', vars: ['urbanicityNumeric', 'ruralSkillScore'], expected: 'negative' as const },
+
+  // Health/Lifestyle (HL series)
+  { id: '#HL8', name: 'Injuries → Fitness', vars: ['injuryCount', 'fitnessBandNumeric'], expected: 'negative' as const },
+  { id: '#HL9', name: 'Chronic → Mobility', vars: ['hasMobilityCondition', 'mobilityNumeric'], expected: 'negative' as const },
+  { id: '#HL10', name: 'Neurodivergence → Triggers', vars: ['hasNeurodivergence', 'triggerCount'], expected: 'positive' as const },
+  { id: '#HL14', name: 'Conflict → Mobility', vars: ['conflictExposure', 'mobilityNumeric'], expected: 'negative' as const },
+  { id: '#HL15', name: 'Dependency → Fitness', vars: ['hasActiveDependency', 'fitnessBandNumeric'], expected: 'negative' as const },
+
+  // Narrative (NAR series)
+  { id: '#NAR-2', name: 'Tier → Negative Cap', vars: ['tierNumeric', 'negativeEventCount'], expected: 'negative' as const },
+  { id: '#NAR-4', name: 'Career → Event Types', vars: ['careerTrackNumeric', 'careerEventCount'], expected: 'positive' as const },
+  { id: '#NAR-5', name: 'Minority + Insecurity → Persecution', vars: ['minorityInsecurityScore', 'hasPersecutionEvent'], expected: 'positive' as const },
+  { id: '#NAR-6', name: 'Visible Minority → Positive Events', vars: ['isVisibleMinority', 'allPositiveEvents'], expected: 'negative' as const },
+  { id: '#NAR-7', name: 'Age → Career Events', vars: ['age', 'hasCareerPromotion'], expected: 'positive' as const },
+  { id: '#NAR-8', name: 'Local Majority → Linguistic', vars: ['isLocalMajority', 'isLinguisticMinority'], expected: 'negative' as const },
+  { id: '#NAR-10', name: 'Elite + Refugee', vars: ['tierNumeric', 'isRefugee'], expected: 'negative' as const },
+  { id: '#NAR-11', name: 'Negative Events → Mental Health', vars: ['negativeEventCount', 'hasMentalHealthMarker'], expected: 'positive' as const },
+  { id: '#NAR-12', name: 'Age → Event Floors', vars: ['age', 'romanticEventCount'], expected: 'positive' as const },
+
+  // New Series (NEW35, NEW38, NEW41-43)
+  { id: '#NEW35', name: 'Dependents → Network', vars: ['hasDependents', 'isNetworkIsolate'], expected: 'negative' as const },
+  { id: '#NEW38', name: 'Age → Parents', vars: ['age', 'hasDeceasedParents'], expected: 'positive' as const },
+  { id: '#NEW41', name: 'Opsec + Publicness → Reputation', vars: ['opsecPublicnessScore', 'isDiscreetReputation'], expected: 'positive' as const },
+  { id: '#NEW42', name: 'Empathy → Care Leverage', vars: ['empathy', 'hasCareLeverage'], expected: 'positive' as const },
+  { id: '#NEW43', name: 'Risk + Institutional → Faction', vars: ['riskInstitutionalScore', 'hasFormalFaction'], expected: 'negative' as const },
+
+  // Probabilistic (PR2, PR3, PR5)
+  { id: '#PR2', name: 'Diaspora → Negative Events', vars: ['isDiaspora', 'negativeEventCount'], expected: 'positive' as const },
+  { id: '#PR3', name: 'Visible Minority → Community Status', vars: ['isVisibleMinority', 'communityStatusNumeric'], expected: 'negative' as const },
+  { id: '#PR5', name: 'Social Battery → Artistic Sharing', vars: ['socialBattery', 'artisticSharingPublicness'], expected: 'positive' as const },
+
+  // Other DC correlates
+  { id: '#DC-AGE-CAFFEINE', name: 'Age → Caffeine', vars: ['age', 'caffeineIntensity'], expected: 'negative' as const },
+  { id: '#DC-EMOTIONAL', name: 'Agreeableness → Emotional Sharing', vars: ['agreeableness', 'emotionalSharingOpenness'], expected: 'positive' as const },
+  { id: '#DC-IMPULSE', name: 'Impulse → Doomscrolling', vars: ['impulseControl', 'doomscrollingRisk'], expected: 'negative' as const },
+  { id: '#DC-NEW-1', name: 'Age → Doctorate', vars: ['age', 'hasDoctorate'], expected: 'positive' as const },
+  { id: '#DC-NEW-5', name: 'Elite → Education', vars: ['tierNumeric', 'educationLevelNumeric'], expected: 'positive' as const },
+  { id: '#DC-NEW-8', name: 'Opsec → Outness', vars: ['opsecDiscipline', 'outnessNumeric'], expected: 'negative' as const },
+  { id: '#DC-NEW-10', name: 'Foreign Service → Languages', vars: ['isForeignService', 'languageCount'], expected: 'positive' as const },
+  { id: '#DC-NEW-11', name: 'Intelligence → Aliases', vars: ['isIntelligence', 'aliasCount'], expected: 'positive' as const },
+  { id: '#DC-RISK-EQUIP', name: 'Risk → Weapon Preference', vars: ['riskTolerance', 'weaponAssertiveness'], expected: 'positive' as const },
+  { id: '#DC-SK10', name: 'Tech → Digital Hygiene', vars: ['techFluency', 'digitalHygiene'], expected: 'positive' as const },
+  { id: '#DC-SOCIAL-COMM', name: 'Social Battery → Communication', vars: ['socialBattery', 'asyncCommPreference'], expected: 'negative' as const },
+  { id: '#DC-SPACE-TYPE', name: 'Opsec → Space Type', vars: ['opsecDiscipline', 'privateSpacePreference'], expected: 'positive' as const },
+  { id: '#DC-STRESS-LIGHT', name: 'Stress → Light Preference', vars: ['stressReactivity', 'warmLightPreference'], expected: 'positive' as const },
+
+  // Legacy/Other
+  { id: '#4-DEP', name: 'Age → Dependents', vars: ['age', 'hasDependents'], expected: 'positive' as const },
+  { id: '#11', name: 'Empathy/Deception → Network', vars: ['empathyDeceptionBalance', 'networkRoleNumeric'], expected: 'positive' as const },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1153,6 +1224,87 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isUndiagnosed: agent.health?.neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
     hasTraditionalVice: hasTraditionalViceType(agent.vices?.types ?? []),
     resilienceNumeric: computeResilienceNumeric(agent.health?.resilience),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // BATCH 2 METRICS (2026-01-07)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // PG metrics
+    hasCompromisedIdentity: agent.identity?.documents?.some((d: { compromised?: boolean }) => d.compromised) ? 1 : 0,
+    mobilityNumeric: computeMobilityNumeric(agent.geography?.mobility),
+    isSingle: (maritalStatus === 'single' || maritalStatus === 'never-married') ? 1 : 0,
+    hasExPartner: agent.network?.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
+    isLurker: agent.communities?.memberships?.every((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0,
+    communityStatusNumeric: computeCommunityStatusNumeric(agent.communities?.memberships ?? []),
+    isOperative: isOperativeRole(agent.identity?.careerTrack),
+    socialHobbyCount: countSocialHobbies(agent.preferences?.hobbies?.regular ?? []),
+    frugalEliteScore: computeFrugalEliteScore(latents.frugality ?? 500, tierBand),
+    formalityNumeric: computeFormalityNumeric(agent.preferences?.fashion?.formalityBias),
+    aestheticBoldness: computeAestheticBoldness(agent.preferences?.aesthetics),
+
+    // DC-D metrics
+    hasCaregivingObligation: agent.domestic?.everydayLife?.caregivingObligation !== 'none' ? 1 : 0,
+    isTransientHousing: isTransientHousingType(agent.home?.housingStability),
+    hasDriverCommute: (agent.domestic?.everydayLife?.commuteMode === 'driver' || agent.home?.commuteMethod === 'car') ? 1 : 0,
+    isIrregularStatus: (agent.legal?.legalStatus === 'irregular' || agent.legal?.legalStatus === 'undocumented') ? 1 : 0,
+    hasValidCredentials: agent.identity?.credentials?.length > 0 ? 1 : 0,
+    isMultigenerational: agent.home?.householdComposition === 'multigenerational' ? 1 : 0,
+    hasEldercareObligation: (agent.domestic?.everydayLife?.caregivingObligation === 'eldercare' || agent.domestic?.everydayLife?.caregivingObligation === 'full-care') ? 1 : 0,
+    hasSecurityClearance: agent.identity?.credentials?.some((c: { type?: string }) => c.type === 'security-clearance') ? 1 : 0,
+    ruralSkillScore: computeRuralSkillScore(agent.skills),
+
+    // HL metrics
+    injuryCount: agent.health?.injuries?.length ?? 0,
+    fitnessBandNumeric: computeFitnessBandNumeric(agent.health?.fitnessBand),
+    hasMobilityCondition: hasMobilityAffectingCondition(agent.health?.chronicConditions ?? []),
+    hasNeurodivergence: agent.health?.neurodivergence?.type ? 1 : 0,
+    triggerCount: agent.health?.triggers?.length ?? 0,
+    conflictExposure: agent.geography?.conflictExposure ?? 0,
+    hasActiveDependency: hasActiveAddiction(agent.vices),
+
+    // NAR metrics
+    careerTrackNumeric: computeCareerTrackNumeric(agent.identity?.careerTrack),
+    careerEventCount: countCareerEvents(agent.timeline?.events ?? []),
+    minorityInsecurityScore: computeMinorityInsecurityScore(agent.minorityStatus, agent.geography?.securityLevel ?? 500),
+    hasPersecutionEvent: hasEventType(agent.timeline?.events ?? [], ['persecution', 'discrimination', 'hate-crime']),
+    allPositiveEvents: allEventsPositive(agent.timeline?.events ?? []),
+    hasCareerPromotion: hasEventType(agent.timeline?.events ?? [], ['promotion', 'career-advancement', 'senior-role']),
+    isLocalMajority: agent.minorityStatus?.localMajority ? 1 : 0,
+    isLinguisticMinority: agent.minorityStatus?.linguisticMinority ? 1 : 0,
+    isRefugee: (agent.legal?.legalStatus === 'refugee' || agent.legal?.legalStatus === 'asylum-seeker') ? 1 : 0,
+    hasMentalHealthMarker: agent.health?.mentalHealthMarkers?.length > 0 ? 1 : 0,
+    romanticEventCount: countRomanticEvents(agent.timeline?.events ?? []),
+
+    // NEW metrics
+    isNetworkIsolate: agent.network?.role === 'isolate' ? 1 : 0,
+    hasDeceasedParents: agent.family?.parents?.every((p: { deceased?: boolean }) => p.deceased) ? 1 : 0,
+    opsecPublicnessScore: ((latents.opsecDiscipline ?? 500) / 1000) * ((latents.publicness ?? 500) / 1000),
+    isDiscreetReputation: (agent.network?.reputation === 'discreet' || agent.network?.reputation === 'low-profile') ? 1 : 0,
+    hasCareLeverage: agent.network?.leverage?.some((l: { type?: string }) => l.type === 'care' || l.type === 'dependency') ? 1 : 0,
+    riskInstitutionalScore: ((latents.riskAppetite ?? 500) / 1000) * (1 - (latents.institutionalEmbeddedness ?? 500) / 1000),
+    hasFormalFaction: agent.communities?.factions?.some((f: { formal?: boolean }) => f.formal) ? 1 : 0,
+
+    // PR metrics
+    artisticSharingPublicness: computeArtisticSharingPublicness(agent.preferences?.artistic?.sharingStyle),
+
+    // Other DC metrics
+    caffeineIntensity: computeCaffeineIntensity(agent.preferences?.food?.beveragePreferences ?? []),
+    emotionalSharingOpenness: computeEmotionalSharingOpenness(agent.preferences?.social?.emotionalSharing),
+    doomscrollingRisk: agent.preferences?.routines?.doomscrollingRisk ?? 0,
+    hasDoctorate: (agent.identity?.education === 'doctorate' || agent.identity?.education === 'phd') ? 1 : 0,
+    educationLevelNumeric: computeEducationLevelNumeric(agent.identity?.education),
+    outnessNumeric: computeOutnessNumeric(agent.identity?.outness),
+    isForeignService: (agent.identity?.careerTrack === 'foreign-service' || agent.identity?.careerTrack === 'diplomat') ? 1 : 0,
+    languageCount: agent.identity?.languages?.length ?? 1,
+    isIntelligence: isIntelligenceCareer(agent.identity?.careerTrack),
+    aliasCount: agent.identity?.aliases?.length ?? 0,
+    weaponAssertiveness: computeWeaponAssertiveness(agent.preferences?.equipment?.weaponPreference),
+    techFluency: agent.skills?.techFluency?.value ?? 500,
+    asyncCommPreference: computeAsyncCommPreference(agent.preferences?.social?.communicationStyle),
+    privateSpacePreference: computePrivateSpacePreference(agent.preferences?.environment?.spaceType),
+    warmLightPreference: computeWarmLightPreference(agent.preferences?.environment?.lightingPreference),
+    empathyDeceptionBalance: ((aptitudes.empathy ?? 500) - (aptitudes.deceptionAptitude ?? 500)) / 1000,
+    networkRoleNumeric: computeNetworkRoleNumeric(agent.network?.role),
   };
 }
 
@@ -1197,6 +1349,70 @@ type AgentMetricsExtended = AgentMetrics & {
   isUndiagnosed: number;
   hasTraditionalVice: number;
   resilienceNumeric: number;
+  // Batch 2 metrics (2026-01-07)
+  hasCompromisedIdentity: number;
+  mobilityNumeric: number;
+  isSingle: number;
+  hasExPartner: number;
+  isLurker: number;
+  communityStatusNumeric: number;
+  isOperative: number;
+  socialHobbyCount: number;
+  frugalEliteScore: number;
+  formalityNumeric: number;
+  aestheticBoldness: number;
+  hasCaregivingObligation: number;
+  isTransientHousing: number;
+  hasDriverCommute: number;
+  isIrregularStatus: number;
+  hasValidCredentials: number;
+  isMultigenerational: number;
+  hasEldercareObligation: number;
+  hasSecurityClearance: number;
+  ruralSkillScore: number;
+  injuryCount: number;
+  fitnessBandNumeric: number;
+  hasMobilityCondition: number;
+  hasNeurodivergence: number;
+  triggerCount: number;
+  conflictExposure: number;
+  hasActiveDependency: number;
+  careerTrackNumeric: number;
+  careerEventCount: number;
+  minorityInsecurityScore: number;
+  hasPersecutionEvent: number;
+  allPositiveEvents: number;
+  hasCareerPromotion: number;
+  isLocalMajority: number;
+  isLinguisticMinority: number;
+  isRefugee: number;
+  hasMentalHealthMarker: number;
+  romanticEventCount: number;
+  isNetworkIsolate: number;
+  hasDeceasedParents: number;
+  opsecPublicnessScore: number;
+  isDiscreetReputation: number;
+  hasCareLeverage: number;
+  riskInstitutionalScore: number;
+  hasFormalFaction: number;
+  caffeineIntensity: number;
+  emotionalSharingOpenness: number;
+  doomscrollingRisk: number;
+  hasDoctorate: number;
+  educationLevelNumeric: number;
+  outnessNumeric: number;
+  isForeignService: number;
+  languageCount: number;
+  isIntelligence: number;
+  aliasCount: number;
+  weaponAssertiveness: number;
+  techFluency: number;
+  asyncCommPreference: number;
+  privateSpacePreference: number;
+  warmLightPreference: number;
+  empathyDeceptionBalance: number;
+  networkRoleNumeric: number;
+  artisticSharingPublicness: number;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1544,6 +1760,294 @@ function computeResilienceNumeric(resilience: string | undefined): number {
     'strong': 5, 'high': 5, 'exceptional': 5,
   };
   return map[resilience ?? 'average'] ?? 3;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BATCH 2 HELPER FUNCTIONS (2026-01-07)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function computeMobilityNumeric(mobility: string | undefined): number {
+  const map: Record<string, number> = {
+    'sedentary': 1, 'rooted': 1,
+    'local': 2, 'stable': 2,
+    'regional': 3, 'moderate': 3,
+    'national': 4, 'mobile': 4,
+    'international': 5, 'nomadic': 5,
+  };
+  return map[mobility ?? 'local'] ?? 2;
+}
+
+function computeCommunityStatusNumeric(memberships: Array<{ status?: string; role?: string }> | string[]): number {
+  if (!memberships?.length) return 0;
+  const statusMap: Record<string, number> = {
+    'pillar': 5, 'leader': 5,
+    'respected': 4, 'active': 4,
+    'regular': 3, 'member': 3,
+    'newcomer': 2, 'peripheral': 2,
+    'lurker': 1, 'passive': 1,
+  };
+  if (typeof memberships[0] === 'string') return 3;
+  const statuses = (memberships as Array<{ status?: string; role?: string }>).map(m => statusMap[m.status ?? m.role ?? 'regular'] ?? 3);
+  return Math.max(...statuses);
+}
+
+function isOperativeRole(careerTrack: string | undefined): number {
+  const operativeRoles = new Set([
+    'intelligence', 'security', 'military', 'operative', 'enforcement',
+    'counter-intelligence', 'covert-ops', 'paramilitary',
+  ]);
+  return operativeRoles.has(careerTrack ?? '') ? 1 : 0;
+}
+
+function countSocialHobbies(hobbies: Array<{ social?: boolean; name?: string }> | string[]): number {
+  if (!hobbies?.length) return 0;
+  if (typeof hobbies[0] === 'string') {
+    const socialKeywords = ['team', 'group', 'club', 'social', 'community', 'party', 'dance'];
+    return (hobbies as string[]).filter(h => socialKeywords.some(k => h.toLowerCase().includes(k))).length;
+  }
+  return (hobbies as Array<{ social?: boolean }>).filter(h => h.social).length;
+}
+
+function computeFrugalEliteScore(frugality: number, tierBand: string): number {
+  if (tierBand !== 'elite') return 0;
+  return frugality / 1000; // 0-1 score for frugal elites
+}
+
+function computeFormalityNumeric(formalityBias: string | undefined): number {
+  const map: Record<string, number> = {
+    'casual': 1, 'relaxed': 1,
+    'smart-casual': 2,
+    'business-casual': 3,
+    'professional': 4, 'formal': 4,
+    'very-formal': 5, 'black-tie': 5,
+  };
+  return map[formalityBias ?? 'smart-casual'] ?? 2;
+}
+
+function computeAestheticBoldness(aesthetics: { style?: string; boldness?: number } | undefined): number {
+  if (!aesthetics) return 3;
+  if (aesthetics.boldness !== undefined) return aesthetics.boldness / 200; // 0-5 scale
+  const styleMap: Record<string, number> = {
+    'understated': 1, 'minimal': 1, 'discreet': 1,
+    'conventional': 2, 'classic': 2,
+    'modern': 3, 'contemporary': 3,
+    'bold': 4, 'statement': 4,
+    'avant-garde': 5, 'eccentric': 5,
+  };
+  return styleMap[aesthetics.style ?? 'conventional'] ?? 3;
+}
+
+function isTransientHousingType(housingStability: string | undefined): number {
+  const transientTypes = new Set([
+    'transient', 'homeless', 'couch-surfing', 'shelter', 'temporary', 'unstable',
+  ]);
+  return transientTypes.has(housingStability ?? '') ? 1 : 0;
+}
+
+function computeRuralSkillScore(skills: Record<string, { value: number }> | undefined): number {
+  if (!skills) return 0;
+  const ruralSkills = ['agriculture', 'animal-husbandry', 'hunting', 'foraging', 'mechanics', 'construction'];
+  let score = 0;
+  for (const skill of ruralSkills) {
+    if (skills[skill]) score += skills[skill].value / 1000;
+  }
+  return score / ruralSkills.length;
+}
+
+function computeFitnessBandNumeric(fitnessBand: string | undefined): number {
+  const map: Record<string, number> = {
+    'sedentary': 1, 'poor': 1,
+    'below-average': 2, 'light': 2,
+    'average': 3, 'moderate': 3,
+    'good': 4, 'active': 4,
+    'excellent': 5, 'athletic': 5, 'elite': 5,
+  };
+  return map[fitnessBand ?? 'average'] ?? 3;
+}
+
+function hasMobilityAffectingCondition(conditions: Array<{ type?: string; name?: string }> | string[]): number {
+  const mobilityConditions = new Set([
+    'paralysis', 'amputation', 'arthritis', 'ms', 'muscular-dystrophy',
+    'wheelchair', 'mobility-impaired', 'chronic-pain', 'fibromyalgia',
+  ]);
+  if (!conditions?.length) return 0;
+  if (typeof conditions[0] === 'string') {
+    return (conditions as string[]).some(c => mobilityConditions.has(c.toLowerCase())) ? 1 : 0;
+  }
+  return (conditions as Array<{ type?: string; name?: string }>).some(c =>
+    mobilityConditions.has((c.type ?? c.name ?? '').toLowerCase())
+  ) ? 1 : 0;
+}
+
+function hasActiveAddiction(vices: { dependency?: string; status?: string } | undefined): number {
+  if (!vices) return 0;
+  const activeStatuses = new Set(['active', 'struggling', 'relapsing', 'dependent']);
+  return activeStatuses.has(vices.status ?? '') || activeStatuses.has(vices.dependency ?? '') ? 1 : 0;
+}
+
+function computeCareerTrackNumeric(careerTrack: string | undefined): number {
+  const map: Record<string, number> = {
+    'unemployed': 0, 'none': 0,
+    'informal': 1, 'gig': 1,
+    'service': 2, 'retail': 2,
+    'skilled-trade': 3, 'technical': 3,
+    'professional': 4, 'management': 4,
+    'executive': 5, 'elite': 5,
+  };
+  return map[careerTrack ?? 'professional'] ?? 3;
+}
+
+function countCareerEvents(events: Array<{ type?: string; category?: string }> | undefined): number {
+  if (!events?.length) return 0;
+  const careerTypes = new Set(['promotion', 'career', 'job', 'employment', 'fired', 'hired', 'retirement']);
+  return events.filter(e => careerTypes.has(e.type ?? '') || careerTypes.has(e.category ?? '')).length;
+}
+
+function computeMinorityInsecurityScore(
+  minorityStatus: { religiousMinority?: boolean; visibleMinority?: boolean } | undefined,
+  securityLevel: number
+): number {
+  if (!minorityStatus) return 0;
+  const isMinority = minorityStatus.religiousMinority || minorityStatus.visibleMinority;
+  if (!isMinority) return 0;
+  return (1 - securityLevel / 1000); // Higher score = more insecurity
+}
+
+function hasEventType(events: Array<{ type?: string }>, types: string[]): number {
+  if (!events?.length) return 0;
+  const typeSet = new Set(types.map(t => t.toLowerCase()));
+  return events.some(e => typeSet.has((e.type ?? '').toLowerCase())) ? 1 : 0;
+}
+
+function allEventsPositive(events: Array<{ valence?: string; positive?: boolean }> | undefined): number {
+  if (!events?.length) return 1; // No events = vacuously true
+  return events.every(e => e.valence === 'positive' || e.positive) ? 1 : 0;
+}
+
+function countRomanticEvents(events: Array<{ type?: string; category?: string }> | undefined): number {
+  if (!events?.length) return 0;
+  const romanticTypes = new Set(['romance', 'marriage', 'divorce', 'dating', 'relationship', 'engagement', 'wedding']);
+  return events.filter(e => romanticTypes.has((e.type ?? '').toLowerCase()) || romanticTypes.has((e.category ?? '').toLowerCase())).length;
+}
+
+function computeArtisticSharingPublicness(sharingStyle: string | undefined): number {
+  const map: Record<string, number> = {
+    'private': 1, 'personal': 1,
+    'selective': 2, 'friends-only': 2,
+    'semi-public': 3,
+    'public': 4, 'collaborative': 4,
+    'commercial': 5, 'professional': 5,
+  };
+  return map[sharingStyle ?? 'selective'] ?? 2;
+}
+
+function computeCaffeineIntensity(beverages: Array<{ type?: string; name?: string }> | string[]): number {
+  if (!beverages?.length) return 2;
+  const heavyCaffeine = new Set(['espresso', 'energy-drink', 'double-shot', 'triple-shot', 'cold-brew']);
+  if (typeof beverages[0] === 'string') {
+    return (beverages as string[]).some(b => heavyCaffeine.has(b.toLowerCase())) ? 5 : 3;
+  }
+  return (beverages as Array<{ type?: string; name?: string }>).some(b =>
+    heavyCaffeine.has((b.type ?? b.name ?? '').toLowerCase())
+  ) ? 5 : 3;
+}
+
+function computeEmotionalSharingOpenness(emotionalSharing: string | undefined): number {
+  const map: Record<string, number> = {
+    'closed': 1, 'private': 1, 'guarded': 1,
+    'selective': 2, 'cautious': 2,
+    'moderate': 3,
+    'open': 4, 'expressive': 4,
+    'very-open': 5, 'transparent': 5,
+  };
+  return map[emotionalSharing ?? 'moderate'] ?? 3;
+}
+
+function computeEducationLevelNumeric(education: string | undefined): number {
+  const map: Record<string, number> = {
+    'none': 0, 'primary': 0,
+    'secondary': 1, 'high-school': 1,
+    'vocational': 2, 'trade': 2,
+    'undergraduate': 3, 'bachelors': 3,
+    'graduate': 4, 'masters': 4,
+    'doctorate': 5, 'phd': 5, 'post-doc': 5,
+  };
+  return map[education ?? 'undergraduate'] ?? 3;
+}
+
+function computeOutnessNumeric(outness: string | undefined): number {
+  const map: Record<string, number> = {
+    'closeted': 1, 'hidden': 1,
+    'selective': 2, 'discreet': 2,
+    'private': 3,
+    'out': 4, 'open': 4,
+    'public': 5, 'activist': 5,
+  };
+  return map[outness ?? 'private'] ?? 3;
+}
+
+function isIntelligenceCareer(careerTrack: string | undefined): number {
+  const intelligenceCareers = new Set([
+    'intelligence', 'spy', 'operative', 'counter-intelligence', 'cia', 'mi6', 'mossad',
+    'analyst', 'intelligence-analyst', 'covert-ops',
+  ]);
+  return intelligenceCareers.has(careerTrack ?? '') ? 1 : 0;
+}
+
+function computeWeaponAssertiveness(weaponPreference: string | undefined): number {
+  const map: Record<string, number> = {
+    'none': 0, 'pacifist': 0,
+    'defensive': 1, 'deterrent': 1,
+    'practical': 2, 'utilitarian': 2,
+    'capable': 3, 'prepared': 3,
+    'aggressive': 4, 'assertive': 4,
+    'lethal': 5, 'offensive': 5,
+  };
+  return map[weaponPreference ?? 'practical'] ?? 2;
+}
+
+function computeAsyncCommPreference(communicationStyle: string | undefined): number {
+  const map: Record<string, number> = {
+    'face-to-face': 1, 'in-person': 1,
+    'phone': 2, 'video': 2,
+    'mixed': 3, 'flexible': 3,
+    'text': 4, 'email': 4, 'async': 4,
+    'written': 5, 'letter': 5,
+  };
+  return map[communicationStyle ?? 'mixed'] ?? 3;
+}
+
+function computePrivateSpacePreference(spaceType: string | undefined): number {
+  const map: Record<string, number> = {
+    'public': 1, 'open-plan': 1,
+    'semi-public': 2, 'shared': 2,
+    'mixed': 3,
+    'semi-private': 4,
+    'private': 5, 'isolated': 5,
+  };
+  return map[spaceType ?? 'mixed'] ?? 3;
+}
+
+function computeWarmLightPreference(lightingPreference: string | undefined): number {
+  const map: Record<string, number> = {
+    'bright': 1, 'fluorescent': 1, 'cool': 1,
+    'natural': 2, 'daylight': 2,
+    'neutral': 3,
+    'warm': 4, 'soft': 4,
+    'dim': 5, 'candle': 5, 'ambient': 5,
+  };
+  return map[lightingPreference ?? 'neutral'] ?? 3;
+}
+
+function computeNetworkRoleNumeric(role: string | undefined): number {
+  const map: Record<string, number> = {
+    'isolate': 0, 'peripheral': 1,
+    'connector': 2, 'bridge': 2,
+    'broker': 3,
+    'hub': 4, 'central': 4,
+    'gatekeeper': 5, 'leader': 5,
+  };
+  return map[role ?? 'connector'] ?? 2;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
