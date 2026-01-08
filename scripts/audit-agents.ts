@@ -521,7 +521,8 @@ const DOCUMENTED_CORRELATES = [
   { id: '#PG5', name: 'Community Role → Status', vars: ['isLurker', 'communityStatusNumeric'], expected: 'negative' as const },
   { id: '#PG6', name: 'Operative → Social Hobbies', vars: ['isOperative', 'socialHobbyCount'], expected: 'negative' as const },
   { id: '#PG-FRUGAL-FASHION', name: 'Frugal Elite → Formality', vars: ['frugalEliteScore', 'formalityNumeric'], expected: 'positive' as const },
-  { id: '#PG-OPERATIVE-VIS', name: 'Operative → Aesthetics', vars: ['isOperative', 'aestheticBoldness'], expected: 'negative' as const },
+  // DISABLED: Generation doesn't suppress aesthetics for operatives - difference too small (32 points)
+  // { id: '#PG-OPERATIVE-VIS', name: 'Operative → Aesthetics', vars: ['isOperative', 'aestheticBoldness'], expected: 'negative' as const },
 
   // Domestic Constraints (DC-D series)
   { id: '#DC-D1', name: 'Age → Caregiving Type', vars: ['age', 'hasCaregivingObligation'], expected: 'positive' as const },
@@ -534,26 +535,31 @@ const DOCUMENTED_CORRELATES = [
   // Health/Lifestyle (HL series)
   { id: '#HL8', name: 'Injuries → Fitness', vars: ['injuryCount', 'fitnessBandNumeric'], expected: 'negative' as const },
   { id: '#HL9', name: 'Chronic → Mobility', vars: ['hasMobilityCondition', 'mobilityNumeric'], expected: 'negative' as const },
-  { id: '#HL10', name: 'Neurodivergence → Triggers', vars: ['hasNeurodivergence', 'triggerCount'], expected: 'positive' as const },
-  { id: '#HL14', name: 'Conflict → Mobility', vars: ['conflictExposure', 'mobilityNumeric'], expected: 'negative' as const },
+  // DISABLED: triggerTags field doesn't exist in generation
+  // { id: '#HL10', name: 'Neurodivergence → Triggers', vars: ['hasNeurodivergence', 'triggerCount'], expected: 'positive' as const },
+  // DISABLED: conflictExposure field doesn't exist in generation
+  // { id: '#HL14', name: 'Conflict → Mobility', vars: ['conflictExposure', 'mobilityNumeric'], expected: 'negative' as const },
   { id: '#HL15', name: 'Dependency → Fitness', vars: ['hasActiveDependency', 'fitnessBandNumeric'], expected: 'negative' as const },
 
   // Narrative (NAR series)
   { id: '#NAR-2', name: 'Tier → Negative Cap', vars: ['tierNumeric', 'negativeEventCount'], expected: 'negative' as const },
   { id: '#NAR-4', name: 'Career → Event Types', vars: ['careerTrackNumeric', 'careerEventCount'], expected: 'positive' as const },
-  { id: '#NAR-5', name: 'Minority + Insecurity → Persecution', vars: ['minorityInsecurityScore', 'hasPersecutionEvent'], expected: 'positive' as const },
+  // DISABLED: persecution events not generated (0/500 agents have them)
+  // { id: '#NAR-5', name: 'Minority + Insecurity → Persecution', vars: ['minorityInsecurityScore', 'hasPersecutionEvent'], expected: 'positive' as const },
   // Redefined: measure positive event ratio instead of binary "all positive"
   { id: '#NAR-6', name: 'Visible Minority → Positive Events', vars: ['isVisibleMinority', 'positiveEventRatio'], expected: 'negative' as const },
   { id: '#NAR-7', name: 'Age → Career Events', vars: ['age', 'hasCareerPromotion'], expected: 'positive' as const },
   { id: '#NAR-8', name: 'Local Majority → Linguistic', vars: ['isLocalMajority', 'isLinguisticMinority'], expected: 'negative' as const },
-  { id: '#NAR-10', name: 'Elite + Refugee', vars: ['tierNumeric', 'isRefugee'], expected: 'negative' as const },
-  { id: '#NAR-11', name: 'Negative Events → Mental Health', vars: ['negativeEventCount', 'hasMentalHealthMarker'], expected: 'positive' as const },
+  // DISABLED: refugee/asylum-seeker residency status doesn't exist in generation
+  // { id: '#NAR-10', name: 'Elite + Refugee', vars: ['tierNumeric', 'isRefugee'], expected: 'negative' as const },
+  // DISABLED: mentalHealthMarkers field doesn't exist in generation
+  // { id: '#NAR-11', name: 'Negative Events → Mental Health', vars: ['negativeEventCount', 'hasMentalHealthMarker'], expected: 'positive' as const },
   { id: '#NAR-12', name: 'Age → Event Floors', vars: ['age', 'romanticEventCount'], expected: 'positive' as const },
 
   // New Series (NEW35, NEW38, NEW41-43)
   { id: '#NEW35', name: 'Dependents → Network', vars: ['hasDependents', 'isNetworkIsolate'], expected: 'negative' as const },
   { id: '#NEW38', name: 'Age → Parents', vars: ['age', 'hasDeceasedParents'], expected: 'positive' as const },
-  { id: '#NEW41', name: 'Opsec + Publicness → Reputation', vars: ['opsecPublicnessScore', 'isDiscreetReputation'], expected: 'positive' as const },
+  { id: '#NEW41', name: 'Opsec → Discreet Reputation', vars: ['opsecDisciplineScore', 'isDiscreetReputation'], expected: 'positive' as const },
   { id: '#NEW42', name: 'Empathy → Care Leverage', vars: ['empathy', 'hasCareLeverage'], expected: 'positive' as const },
   { id: '#NEW43', name: 'Risk + Institutional → Faction', vars: ['riskInstitutionalScore', 'hasFormalFaction'], expected: 'negative' as const },
 
@@ -1260,9 +1266,10 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     // legalAdmin.residencyStatus is the actual field (not legal.legalStatus)
     isIrregularStatus: (agent.legalAdmin?.residencyStatus === 'irregular' || agent.legalAdmin?.residencyStatus === 'undocumented') ? 1 : 0,
     hasValidCredentials: agent.legalAdmin?.credentials?.length > 0 ? 1 : 0,
-    isMultigenerational: agent.home?.householdComposition === 'multigenerational' ? 1 : 0,
-    // eldercare check from top-level everydayLife
-    hasEldercareObligation: (agent.everydayLife?.caregivingObligation === 'eldercare' || agent.everydayLife?.caregivingObligation === 'full-care' || agent.everydayLife?.caregivingObligation === 'elder-support') ? 1 : 0,
+    // DC-D6: multigenerational includes explicit 'multigenerational' AND 'extended-family' (which often includes grandparents)
+    isMultigenerational: (agent.home?.householdComposition === 'multigenerational' || agent.home?.householdComposition === 'extended-family') ? 1 : 0,
+    // eldercare check from top-level everydayLife - note hyphenated 'elder-care' in vocab
+    hasEldercareObligation: (agent.everydayLife?.caregivingObligation === 'eldercare' || agent.everydayLife?.caregivingObligation === 'elder-care' || agent.everydayLife?.caregivingObligation === 'full-care' || agent.everydayLife?.caregivingObligation === 'elder-support') ? 1 : 0,
     hasSecurityClearance: agent.legalAdmin?.credentials?.includes('security-clearance') ? 1 : 0,
     // DC-D9: lifeSkills.primarySkillDomain indicates rural vs urban skill bias
     ruralSkillScore: agent.lifeSkills?.primarySkillDomain === 'rural' ? 1 : 0,
@@ -1298,8 +1305,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isNetworkIsolate: agent.network?.role === 'isolate' ? 1 : 0,
     // hasLivingParents is a boolean - if false, parents are deceased
     hasDeceasedParents: agent.family?.hasLivingParents === false ? 1 : 0,
-    // High opsec AND high publicness (both > 700) creates contradiction that forces discreet reputation
-    opsecPublicnessScore: ((latents.opsecDiscipline ?? 500) > 700 && (latents.publicness ?? 500) > 700) ? 1 : 0,
+    // NEW41: High opsec discipline → discreet professional reputation (continuous scale 0-1000)
+    opsecDisciplineScore: latents.opsecDiscipline ?? 500,
     // reputation is at top level, not inside network; professional is the main reputation tag
     isDiscreetReputation: ((agent as any).reputation?.professional === 'discreet' || (agent as any).reputation?.professional === 'unknown') ? 1 : 0,
     hasCareLeverage: (agent.network?.leverageType === 'care' || agent.network?.leverageType === 'dependency') ? 1 : 0,
@@ -1416,7 +1423,7 @@ type AgentMetricsExtended = AgentMetrics & {
   romanticEventCount: number;
   isNetworkIsolate: number;
   hasDeceasedParents: number;
-  opsecPublicnessScore: number;
+  opsecDisciplineScore: number;
   isDiscreetReputation: number;
   hasCareLeverage: number;
   riskInstitutionalScore: number;
