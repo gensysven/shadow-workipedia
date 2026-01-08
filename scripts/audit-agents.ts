@@ -797,6 +797,7 @@ type AgentMetrics = {
   thirdPlacesCount: number;
   networkRoleNumeric: number;
   hasFamily: number; // 1 if married/partnered with dependents, 0 otherwise
+  hasDependents: number; // 1 if has any dependents (children), 0 otherwise
   viceCount: number;
   religiosity: number; // derived from observanceLevel
   empathy: number;
@@ -1067,6 +1068,7 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     thirdPlacesCount: agent.everydayLife?.thirdPlaces?.length ?? 0,
     networkRoleNumeric: networkRoleMap[agent.network?.role ?? 'peripheral'] ?? 1,
     hasFamily,
+    hasDependents: dependentCount > 0 ? 1 : 0,
     viceCount,
     religiosity: observanceMap[agent.spirituality?.observanceLevel ?? 'secular'] ?? 0,
     empathy: aptitudes?.empathy ?? 500,
