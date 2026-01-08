@@ -1246,7 +1246,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     hasCaregivingObligation: agent.domestic?.everydayLife?.caregivingObligation !== 'none' ? 1 : 0,
     isTransientHousing: isTransientHousingType(agent.home?.housingStability),
     hasDriverCommute: (agent.domestic?.everydayLife?.commuteMode === 'driver' || agent.home?.commuteMethod === 'car') ? 1 : 0,
-    isIrregularStatus: (agent.legal?.legalStatus === 'irregular' || agent.legal?.legalStatus === 'undocumented') ? 1 : 0,
+    // legalAdmin.residencyStatus is the actual field (not legal.legalStatus)
+    isIrregularStatus: (agent.legalAdmin?.residencyStatus === 'irregular' || agent.legalAdmin?.residencyStatus === 'undocumented') ? 1 : 0,
     hasValidCredentials: agent.legalAdmin?.credentials?.length > 0 ? 1 : 0,
     isMultigenerational: agent.home?.householdComposition === 'multigenerational' ? 1 : 0,
     hasEldercareObligation: (agent.domestic?.everydayLife?.caregivingObligation === 'eldercare' || agent.domestic?.everydayLife?.caregivingObligation === 'full-care') ? 1 : 0,
@@ -1260,7 +1261,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     hasNeurodivergence: agent.health?.neurodivergenceTags?.length > 0 ? 1 : 0,
     triggerCount: agent.health?.triggerTags?.length ?? 0,
     conflictExposure: agent.geography?.conflictExposure ?? 0,
-    hasActiveDependency: hasActiveAddiction(agent.lifestyle?.viceTags ?? []),
+    // dependencyProfiles is at top level (not lifestyle.viceTags)
+    hasActiveDependency: hasActiveDependencyFromProfiles((agent as any).dependencyProfiles ?? []),
 
     // NAR metrics
     careerTrackNumeric: computeCareerTrackNumeric(agent.identity?.careerTrackTag),
@@ -1907,10 +1909,20 @@ function hasMobilityAffectingCondition(conditions: Array<{ type?: string; name?:
   ) ? 1 : 0;
 }
 
-function hasActiveAddiction(vices: { dependency?: string; status?: string } | undefined): number {
-  if (!vices) return 0;
-  const activeStatuses = new Set(['active', 'struggling', 'relapsing', 'dependent']);
-  return activeStatuses.has(vices.status ?? '') || activeStatuses.has(vices.dependency ?? '') ? 1 : 0;
+function hasActiveDependencyFromProfiles(
+  dependencyProfiles: Array<{ recovery?: string; stage?: string; substance?: string }>,
+): number {
+  if (!dependencyProfiles?.length) return 0;
+  // Check for active/relapsing dependencies (not managed/recovered)
+  const activeIndicators = new Set([
+    'active', 'struggling', 'relapsing', 'relapse-risk', 'dependent',
+    'early-stage', 'middle-stage', 'late-stage',
+  ]);
+  return dependencyProfiles.some(d =>
+    activeIndicators.has(d.recovery ?? '') ||
+    activeIndicators.has(d.stage ?? '') ||
+    (d.substance && !['caffeine', 'risk-taking'].includes(d.substance)) // More serious substances
+  ) ? 1 : 0;
 }
 
 function computeCareerTrackNumeric(careerTrackTag: string | undefined): number {
