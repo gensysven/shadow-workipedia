@@ -1221,9 +1221,12 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     legalExposureNumeric: computeLegalExposureNumeric(agent.legalAdmin?.legalExposure),
 
     // Health metrics
-    isUndiagnosed: agent.health?.neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
-    hasTraditionalVice: hasTraditionalViceType(agent.vices?.types ?? []),
-    resilienceNumeric: computeResilienceNumeric(agent.health?.resilience),
+    // neurodivergence is at top level (not inside health)
+    isUndiagnosed: (agent as any).neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
+    // vices is an array at top level (often empty), check dependencyProfiles for substance info
+    hasTraditionalVice: hasTraditionalViceFromDependency((agent as any).dependencyProfiles ?? []),
+    // resilience might be in latents
+    resilienceNumeric: computeResilienceFromLatents(latents),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // BATCH 2 METRICS (2026-01-07)
@@ -1777,6 +1780,31 @@ function computeResilienceNumeric(resilience: string | undefined): number {
     'strong': 5, 'high': 5, 'exceptional': 5,
   };
   return map[resilience ?? 'average'] ?? 3;
+}
+
+function hasTraditionalViceFromDependency(
+  dependencyProfiles: Array<{ substance?: string }>,
+): number {
+  // Traditional vices: alcohol, tobacco (older demographic correlate HL11)
+  const traditionalVices = new Set(['alcohol', 'tobacco', 'smoking', 'drinking', 'cigarettes', 'nicotine']);
+  return dependencyProfiles.some(d =>
+    traditionalVices.has((d.substance ?? '').toLowerCase())
+  ) ? 1 : 0;
+}
+
+function computeResilienceFromLatents(
+  latents: { resilience?: number; stressReactivity?: number },
+): number {
+  // Resilience is inverse of stress reactivity, normalize to 1-5 scale
+  // Or use resilience directly if present
+  if (latents.resilience !== undefined) {
+    return Math.max(1, Math.min(5, Math.round(latents.resilience / 200)));
+  }
+  if (latents.stressReactivity !== undefined) {
+    // Lower stress reactivity = higher resilience
+    return Math.max(1, Math.min(5, Math.round((1000 - latents.stressReactivity) / 200)));
+  }
+  return 3; // Default average
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
