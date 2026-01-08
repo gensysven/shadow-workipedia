@@ -1150,24 +1150,33 @@ export function computeSocial(ctx: SocialContext): SocialResult {
   const hasControversialViews = latents.principledness > 850 || latents.principledness < 150;
 
   // NEW43: Compute risk×institutional score for faction weighting
-  const riskInstScoreForFaction = risk01 * (1 - inst01);  // High = anti-establishment
+  // High = anti-establishment (high risk AND low institutional embeddedness)
+  const riskInstScoreForFaction = risk01 * (1 - inst01);
   const formalFactionTypes = ['professional-society', 'trade-union', 'political-party', 'veterans-group', 'union-chapter'];
+
+  // NEW43 FIX: Use DETERMINISTIC blocking for stronger correlation
+  // If anti-establishment score exceeds threshold, block ALL factions
+  const factionBlockThreshold = 0.35;  // ~35% of agents will have score > this
+  const blockFactions = riskInstScoreForFaction > factionBlockThreshold;
 
   for (let i = 0; i < membershipCount; i++) {
     const availableTypes = communityTypes.filter(t => !usedCommunityTypes.has(t));
     if (availableTypes.length === 0) break;
 
     // NEW43: Weight community types by risk×institutional interaction
-    // High risk + low institutional → avoid formal faction membership
+    // Deterministic: if anti-establishment, factions get weight 0
     const typeWeights = availableTypes.map(t => {
       let w = 1;
       if (formalFactionTypes.includes(t)) {
-        // Low riskInstScore (low risk or high inst) → more likely formal faction
-        // Stronger effect: from 0.15 to 1.0 (was 0.3 to 1.0)
-        w *= 0.15 + 0.85 * (1 - riskInstScoreForFaction);
-      } else {
-        // Non-faction types: slight boost for high risk+low inst agents
-        w *= 1 + 0.3 * riskInstScoreForFaction;
+        if (blockFactions) {
+          w = 0;  // DETERMINISTIC: Block factions entirely for anti-establishment agents
+        } else {
+          // Pro-establishment agents: BOOST faction probability
+          w *= 2.0 + 3.0 * inst01;  // Higher inst → stronger faction affinity (2-5x)
+        }
+      } else if (blockFactions) {
+        // Anti-establishment: boost non-faction types
+        w *= 1.5;
       }
       return { item: t as CommunityType, weight: w };
     });
@@ -1195,27 +1204,34 @@ export function computeSocial(ctx: SocialContext): SocialResult {
 
   // ═══════════════════════════════════════════════════════════════════════════
   // Correlate #NEW45: Urbanicity → Online Community (negative: urban → fewer online)
-  // REFACTORED: Urbanicity is BASE factor, others are ADDITIVE bonuses
-  // This isolates the urban signal from confounding factors
+  // FIX: Use the discrete urbanicity TAG (which audit measures) not urbanPopulation01
+  // This creates direct correlation: rural/small-town tag → more online communities
   // ═══════════════════════════════════════════════════════════════════════════
-  const urbanPopulationLevel = ctx.urbanPopulation01 ?? 0.5;
 
-  // Step 1: Urbanicity determines BASE count (strong isolated effect)
-  // Stronger thresholds: Rural guarantees 3, urban guarantees 0
-  // Rural (urb < 0.30): 3 base
-  // Small town (0.30-0.45): 2 base
-  // Suburban (0.45-0.60): 1 base
-  // Urban (> 0.60): 0 base
-  const urbanOnlineBase = urbanPopulationLevel < 0.30 ? 3 :
-                          urbanPopulationLevel < 0.45 ? 2 :
-                          urbanPopulationLevel < 0.60 ? 1 : 0;
+  // NEW45 FIX: Map urbanicity TAG directly to online community count
+  // Uses same categories audit extracts from agent.geography.urbanicity
+  const urbanicityOnlineBaseMap: Record<string, number> = {
+    'rural': 3,          // Rural: 3 online communities (isolation → digital connection)
+    'rural-remote': 3,
+    'rural-isolated': 3,
+    'small-town': 2,     // Small town: 2 online communities
+    'secondary-city': 1, // Suburban equivalent: 1 online community
+    'peri-urban': 1,
+    'suburban': 1,
+    'major-city': 0,     // Urban: 0 base online communities (in-person available)
+    'capital': 0,
+    'megacity': 0,
+    'metropolitan': 0,
+    'urban': 0,
+  };
+  const urbanOnlineBase = urbanicityOnlineBaseMap[urbanicity] ?? 1;
 
-  // Step 2: Modifiers ADD to base (capped so urban effect isn't drowned out)
+  // Step 2: Minor modifiers (capped to not drown out urbanicity effect)
   let onlineBonus = 0;
 
-  // NEW51: Low Social Battery → Online Community Preference (weaker effect)
-  // Introverts (low socialBattery < 300) prefer digital connection
-  if (latents.socialBattery < 300) onlineBonus += 1;
+  // NEW51: Low Social Battery → Online Community Preference (weak effect)
+  // Introverts prefer digital; capped at +1 so urbanicity still dominates
+  if (latents.socialBattery < 250) onlineBonus += 1;
 
   // Step 3: Final count (base + bonus, clamped at 3 max)
   const onlineCount = Math.min(3, Math.max(0, urbanOnlineBase + onlineBonus));
