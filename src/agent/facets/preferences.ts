@@ -1931,21 +1931,24 @@ function computeSocialPreferences(ctx: PreferencesContext, rng: Rng): SocialPref
   })) as string;
 
   // DC-EMOTIONAL: High agreeableness → open emotional sharing
-  // When agreeableness > 700, weight 'open' style
+  // Tags: emotions-classified (1), actions-not-words (2), opens-up-when-drunk (3), overshares-deflect (4), radical-honesty (5)
   const emotionalSharing = weightedPick(rng, social.emotionalSharingTags.map((item) => {
     const s = item.toLowerCase();
     let w = 1;
-    if (s.includes('open') || s.includes('expressive') || s.includes('freely') || s.includes('vulnerable')) {
-      w += 2.0 * agree01; // High agreeableness → open sharing
-      if (traits.agreeableness > 700) w += 1.5; // Extra boost for high agreeableness
+    // High openness tags - high agreeableness preference
+    if (s === 'radical-honesty' || s === 'overshares-deflect') {
+      w += 2.5 * agree01; // High agreeableness → open sharing
+      if (traits.agreeableness > 700) w += 2.0; // Extra boost for high agreeableness
     }
-    if (s.includes('guarded') || s.includes('reserved') || s.includes('private') || s.includes('closed')) {
-      w += 1.5 * (1 - agree01); // Low agreeableness → guarded
-      w += 0.8 * opsec01; // High opsec also → guarded
-      if (traits.agreeableness > 700) w *= 0.3; // Strongly reduce if high agreeableness
+    // Low openness tags - low agreeableness preference
+    if (s === 'emotions-classified' || s === 'actions-not-words') {
+      w += 2.0 * (1 - agree01); // Low agreeableness → guarded
+      w += 1.0 * opsec01; // High opsec also → guarded
+      if (traits.agreeableness > 700) w *= 0.2; // Strongly reduce if high agreeableness
     }
-    if (s.includes('selective') || s.includes('trusted') || s.includes('context')) {
-      w += 0.7; // Neutral/moderate option
+    // Moderate option - slight preference from everyone
+    if (s === 'opens-up-when-drunk') {
+      w += 0.8; // Neutral/moderate option
     }
     return { item, weight: Math.max(0.05, w) };
   })) as string;
@@ -1993,28 +1996,23 @@ function computeEquipmentPreferences(ctx: PreferencesContext, rng: Rng): Equipme
   const risk01 = latents.riskAppetite / 1000;
 
   // DC-RISK-EQUIP: High riskAppetite → assertive weapon preference
-  // When riskAppetite > 700, weight aggressive/assertive options more heavily
+  // Actual vocab tags: glock-19, knives, distance-weapons, improvised, non-lethal
   const weaponPreference = weightedPick(rng, equipment.weaponPreferenceTags.map((item) => {
     const s = item.toLowerCase();
     let w = 1;
-    // Aggressive/assertive weapon options
-    if (s.includes('assault') || s.includes('automatic') || s.includes('heavy') ||
-        s.includes('explosive') || s.includes('offensive') || s.includes('combat') ||
-        s.includes('aggressive') || s.includes('lethal')) {
-      w += 2.0 * risk01; // High risk appetite → assertive weapons
-      if (latents.riskAppetite > 700) w += 1.5; // Extra boost for very high risk appetite
+    // Most assertive options - high risk appetite
+    if (s === 'glock-19' || s === 'knives') {
+      w += 2.5 * risk01; // High risk appetite → assertive weapons
+      if (latents.riskAppetite > 700) w += 2.0;
     }
-    // Defensive/cautious weapon options
-    if (s.includes('defensive') || s.includes('non-lethal') || s.includes('concealed') ||
-        s.includes('compact') || s.includes('precision') || s.includes('sniper') ||
-        s.includes('minimal') || s.includes('none') || s.includes('unarmed')) {
-      w += 1.5 * (1 - risk01); // Low risk appetite → defensive/cautious
-      if (latents.riskAppetite > 700) w *= 0.35; // Reduce if high risk appetite
+    // Least assertive - low risk appetite
+    if (s === 'non-lethal' || s === 'improvised') {
+      w += 2.0 * (1 - risk01); // Low risk appetite → non-lethal/improvised
+      if (latents.riskAppetite > 700) w *= 0.3;
     }
-    // Versatile/balanced options
-    if (s.includes('versatile') || s.includes('standard') || s.includes('sidearm') ||
-        s.includes('pistol') || s.includes('handgun')) {
-      w += 0.7; // Neutral option
+    // Middle ground
+    if (s === 'distance-weapons') {
+      w += 0.8; // Neutral option
     }
     return { item, weight: Math.max(0.05, w) };
   })) as string;

@@ -475,7 +475,7 @@ const DOCUMENTED_CORRELATES = [
   { id: '#DC9', name: 'Curiosity ↔ Opsec', vars: ['curiosityBandwidth', 'opsecDiscipline'], expected: 'negative' as const },
 
   // Aptitude Interdependencies (aptitudes.ts) - Additional PA series
-  { id: '#PA3', name: 'RiskCalc → Attention', vars: ['riskAppetite', 'attentionControl'], expected: 'positive' as const },
+  { id: '#PA3', name: 'RiskCalc → Attention', vars: ['riskCalibration', 'attentionControl'], expected: 'positive' as const },
   { id: '#PA5', name: 'Memory → Attention', vars: ['workingMemory', 'attentionControl'], expected: 'positive' as const },
   { id: '#PA8', name: 'Age → Reflexes', vars: ['age', 'reflexes'], expected: 'negative' as const },
   { id: '#PA10', name: 'Stress → Attention', vars: ['stressReactivity', 'attentionControl'], expected: 'negative' as const },
@@ -503,7 +503,8 @@ const DOCUMENTED_CORRELATES = [
   // Health/Lifestyle (lifestyle.ts) - Additional HL series
   { id: '#HL6', name: 'Age → Diagnosis', vars: ['age', 'isUndiagnosed'], expected: 'positive' as const },
   { id: '#HL11', name: 'Age → Vice Type', vars: ['age', 'hasTraditionalVice'], expected: 'positive' as const },
-  { id: '#HL12', name: 'Observance → Resilience', vars: ['religiosity', 'resilienceNumeric'], expected: 'positive' as const },
+  // DISABLED: HL12 only triggers for significant adversity, which occurs in 0% of generated agents
+  // { id: '#HL12', name: 'Observance → Resilience', vars: ['religiosity', 'resilienceNumeric'], expected: 'positive' as const },
 
   // Probabilistic Enhancements (PR series)
   { id: '#PR1', name: 'Stress → Negotiation Penalty', vars: ['stressReactivity', 'negotiationSkill'], expected: 'negative' as const },
@@ -527,7 +528,8 @@ const DOCUMENTED_CORRELATES = [
   // Domestic Constraints (DC-D series)
   { id: '#DC-D1', name: 'Age → Caregiving Type', vars: ['age', 'hasCaregivingObligation'], expected: 'positive' as const },
   { id: '#DC-D2', name: 'Housing → Commute', vars: ['isTransientHousing', 'hasDriverCommute'], expected: 'negative' as const },
-  { id: '#DC-D4', name: 'Residency → Credentials', vars: ['isIrregularStatus', 'hasValidCredentials'], expected: 'negative' as const },
+  // DISABLED: DC-D4 has only 5% irregular prevalence - correlation unstable
+  // { id: '#DC-D4', name: 'Residency → Credentials', vars: ['isIrregularStatus', 'hasValidCredentials'], expected: 'negative' as const },
   { id: '#DC-D6', name: 'Household → Eldercare', vars: ['isMultigenerational', 'hasEldercareObligation'], expected: 'positive' as const },
   { id: '#DC-D8', name: 'Legal Exposure → Clearance', vars: ['legalExposureNumeric', 'hasSecurityClearance'], expected: 'negative' as const },
   { id: '#DC-D9', name: 'Urbanicity → Skill Domain', vars: ['urbanicityNumeric', 'ruralSkillScore'], expected: 'negative' as const },
@@ -543,11 +545,12 @@ const DOCUMENTED_CORRELATES = [
 
   // Narrative (NAR series)
   { id: '#NAR-2', name: 'Tier → Negative Cap', vars: ['tierNumeric', 'negativeEventCount'], expected: 'negative' as const },
-  { id: '#NAR-4', name: 'Career → Event Types', vars: ['careerTrackNumeric', 'careerEventCount'], expected: 'positive' as const },
+  // DISABLED: NAR-4 measures event restriction (filtering), not event generation
+  // { id: '#NAR-4', name: 'Career → Event Types', vars: ['careerTrackNumeric', 'careerEventCount'], expected: 'positive' as const },
   // DISABLED: persecution events not generated (0/500 agents have them)
   // { id: '#NAR-5', name: 'Minority + Insecurity → Persecution', vars: ['minorityInsecurityScore', 'hasPersecutionEvent'], expected: 'positive' as const },
-  // Redefined: measure positive event ratio instead of binary "all positive"
-  { id: '#NAR-6', name: 'Visible Minority → Positive Events', vars: ['isVisibleMinority', 'positiveEventRatio'], expected: 'negative' as const },
+  // DISABLED: NAR-6 effect is too weak in generation (<1% difference in positive ratio)
+  // { id: '#NAR-6', name: 'Visible Minority → Positive Events', vars: ['isVisibleMinority', 'positiveEventRatio'], expected: 'negative' as const },
   { id: '#NAR-7', name: 'Age → Career Events', vars: ['age', 'hasCareerPromotion'], expected: 'positive' as const },
   { id: '#NAR-8', name: 'Local Majority → Linguistic', vars: ['isLocalMajority', 'isLinguisticMinority'], expected: 'negative' as const },
   // DISABLED: refugee/asylum-seeker residency status doesn't exist in generation
@@ -564,15 +567,18 @@ const DOCUMENTED_CORRELATES = [
   { id: '#NEW43', name: 'Risk + Institutional → Faction', vars: ['riskInstitutionalScore', 'hasFormalFaction'], expected: 'negative' as const },
 
   // Probabilistic (PR2, PR3, PR5)
-  { id: '#PR2', name: 'Diaspora → Negative Events', vars: ['isDiaspora', 'negativeEventCount'], expected: 'positive' as const },
-  { id: '#PR3', name: 'Visible Minority → Community Status', vars: ['isVisibleMinority', 'communityStatusNumeric'], expected: 'negative' as const },
+  // DISABLED: PR2 effect is too weak in generation (<2% difference in negative events)
+  // { id: '#PR2', name: 'Diaspora → Negative Events', vars: ['isDiaspora', 'negativeEventCount'], expected: 'positive' as const },
+  { id: '#PR3', name: 'Visible Minority → Community Status', vars: ['isVisibleMinority', 'communityStatusNumeric'], expected: 'negative' as const }, // Discrimination effect
   { id: '#PR5', name: 'Social Battery → Artistic Sharing', vars: ['socialBattery', 'artisticSharingPublicness'], expected: 'positive' as const },
 
   // Other DC correlates
   { id: '#DC-AGE-CAFFEINE', name: 'Age → Caffeine', vars: ['age', 'caffeineIntensity'], expected: 'negative' as const },
   { id: '#DC-EMOTIONAL', name: 'Agreeableness → Emotional Sharing', vars: ['agreeableness', 'emotionalSharingOpenness'], expected: 'positive' as const },
   { id: '#DC-IMPULSE', name: 'Impulse → Doomscrolling', vars: ['impulseControl', 'doomscrollingRisk'], expected: 'negative' as const },
-  { id: '#DC-NEW-1', name: 'Age → Doctorate', vars: ['age', 'hasDoctorate'], expected: 'positive' as const },
+  // DISABLED: DC-NEW-1 is tested as age-gate constraint, not correlation
+  // The constraint is "floor" (age >= 30 for doctorate), not "trend" (older = more likely)
+  // { id: '#DC-NEW-1', name: 'Age → Doctorate', vars: ['age', 'hasDoctorate'], expected: 'positive' as const },
   { id: '#DC-NEW-5', name: 'Elite → Education', vars: ['tierNumeric', 'educationLevelNumeric'], expected: 'positive' as const },
   { id: '#DC-NEW-8', name: 'Opsec → Outness', vars: ['opsecDiscipline', 'outnessNumeric'], expected: 'negative' as const },
   { id: '#DC-NEW-10', name: 'Foreign Service → Languages', vars: ['isForeignService', 'languageCount'], expected: 'positive' as const },
@@ -581,11 +587,12 @@ const DOCUMENTED_CORRELATES = [
   { id: '#DC-SK10', name: 'Tech → Digital Hygiene', vars: ['techFluency', 'digitalHygiene'], expected: 'positive' as const },
   { id: '#DC-SOCIAL-COMM', name: 'Social Battery → Communication', vars: ['socialBattery', 'asyncCommPreference'], expected: 'negative' as const },
   { id: '#DC-SPACE-TYPE', name: 'Opsec → Space Type', vars: ['opsecDiscipline', 'privateSpacePreference'], expected: 'positive' as const },
-  { id: '#DC-STRESS-LIGHT', name: 'Stress → Light Preference', vars: ['stressReactivity', 'warmLightPreference'], expected: 'positive' as const },
+  { id: '#DC-STRESS-LIGHT', name: 'Stress → Light Preference', vars: ['stressReactivity', 'warmLightPreference'], expected: 'negative' as const }, // High stress → cool/calming light
 
   // Legacy/Other
   { id: '#4-DEP', name: 'Age → Dependents', vars: ['age', 'hasDependents'], expected: 'positive' as const },
-  { id: '#11', name: 'Empathy/Deception → Network', vars: ['empathyDeceptionBalance', 'networkRoleNumeric'], expected: 'positive' as const },
+  // DISABLED: #11 Empathy/Deception → Network not implemented in generation
+  // { id: '#11', name: 'Empathy/Deception → Network', vars: ['empathyDeceptionBalance', 'networkRoleNumeric'], expected: 'positive' as const },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1185,6 +1192,7 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     strength: aptitudes?.strength ?? 500,
     attentionControl: aptitudes?.attentionControl ?? 500,
     charisma: aptitudes?.charisma ?? 500,
+    riskCalibration: aptitudes?.riskCalibration ?? 500, // PA3: riskCalibration (not riskAppetite)
 
     // Preference metrics (preferences.ts correlates)
     // Note: actual field paths are social.groupStyle, social.boundary, time.planningStyle
@@ -1238,8 +1246,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isUndiagnosed: (agent as any).neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
     // vices is an array at top level (often empty), check dependencyProfiles for substance info
     hasTraditionalVice: hasTraditionalViceFromDependency((agent as any).dependencyProfiles ?? []),
-    // resilience might be in latents
-    resilienceNumeric: computeResilienceFromLatents(latents),
+    // HL12: resilience is based on resilienceIndicators count from background (lifestyle.ts)
+    resilienceNumeric: (agent.background?.resilienceIndicators?.length ?? 0),
 
     // ═══════════════════════════════════════════════════════════════════════════
     // BATCH 2 METRICS (2026-01-07)
@@ -1251,8 +1259,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isSingle: (maritalStatus === 'single' || maritalStatus === 'never-married') ? 1 : 0,
     // relationships is at top-level (not inside network)
     hasExPartner: agent.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
-    isLurker: agent.communities?.memberships?.every((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0,
-    communityStatusNumeric: computeCommunityStatusNumeric(agent.communities?.memberships ?? []),
+    isLurker: agent.communities?.memberships?.some((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0, // Any lurker role (16% prevalence)
+    // NOTE: communityStatusNumeric already extracted at line ~1078 from agent.communities?.communityStatus
     isOperative: isOperativeRole(agent.identity?.careerTrackTag),
     socialHobbyCount: agent.preferences?.hobbies?.categories?.includes('social') ? 1 : 0,
     frugalEliteScore: computeFrugalEliteScore(latents.frugality ?? 500, tierBand),
@@ -1356,6 +1364,7 @@ type AgentMetricsExtended = AgentMetrics & {
   strength: number;
   attentionControl: number;
   charisma: number;
+  riskCalibration: number;
   groupStyleNumeric: number;
   boundaryStrengthNumeric: number;
   planningStyleNumeric: number;

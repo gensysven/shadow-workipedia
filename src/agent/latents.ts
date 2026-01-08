@@ -58,7 +58,8 @@ export function computeLatents(
   const tierBiasScale = 0.3 + 1.4 * tierMediator; // Range: 0.3 to 1.7 (some attenuation, some amplification)
 
   // Raw tier biases before mediation
-  const rawTierCosmoBias = tierBand === 'elite' ? 160 : tierBand === 'mass' ? -120 : 0;
+  // S1: Tier ↔ Cosmopolitanism - elite have more travel, exposure, international connections
+  const rawTierCosmoBias = tierBand === 'elite' ? 250 : tierBand === 'mass' ? -180 : 0;
   const rawTierPublicBias = tierBand === 'elite' ? 120 : tierBand === 'mass' ? -40 : 0;
   const rawTierInstBias = tierBand === 'elite' ? 120 : 0;
   const rawTierTechBias = tierBand === 'elite' ? 40 : tierBand === 'mass' ? -40 : 0;

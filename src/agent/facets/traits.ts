@@ -159,10 +159,9 @@ export function computeTraits(
   }
 
   // DC-T6: Cosmopolitanism → authoritarianism reduction
-  // High cosmopolitanism reduces in-group authoritarianism
-  if (latents.cosmopolitanism > 750) {
-    traits.authoritarianism = clampFixed01k(Math.min(traits.authoritarianism, 600));
-  }
+  // High cosmopolitanism reduces in-group authoritarianism (continuous effect)
+  const cosmo01 = latents.cosmopolitanism / 1000;
+  traits.authoritarianism = clampFixed01k(traits.authoritarianism - Math.floor(150 * cosmo01));
 
   // DC-T9: Deception → trust floor
   // High deceivers must maintain basic social trust
@@ -183,12 +182,11 @@ export function computeTraits(
     traits.authoritarianism = clampFixed01k(Math.min(traits.authoritarianism, 550));
   }
 
-  // DC-T12: Adaptability → dogmatism cap
+  // DC-T12: Adaptability → dogmatism cap (continuous effect)
   // High adaptability incompatible with rigid thinking
   // Note: authoritarianism serves as proxy for dogmatism in trait space
-  if (latents.adaptability > 750) {
-    traits.authoritarianism = clampFixed01k(Math.min(traits.authoritarianism, 500));
-  }
+  const adapt01 = latents.adaptability / 1000;
+  traits.authoritarianism = clampFixed01k(traits.authoritarianism - Math.floor(120 * adapt01));
 
   // PG-T3: Very low empathy → agreeableness cap
   // Very low empathy limits genuine agreeableness
