@@ -914,13 +914,14 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     loudmouth: 1,
   };
   const buildMap: Record<string, number> = {
-    slight: 1,
-    lean: 2,
-    average: 3,
-    athletic: 4,
-    stocky: 4,
-    heavy: 5,
-    muscular: 5,
+    // Smaller builds (1-2)
+    'slight': 1, 'slim': 1, 'graceful': 1, 'lanky': 1, 'wiry': 1,
+    'lean': 2, 'sinewy': 2, 'long-limbed': 2, "runner's build": 2,
+    // Average builds (3)
+    'average': 3, 'compact': 3, 'soft-built': 3, 'curvy': 3,
+    // Larger/stronger builds (4-5)
+    'athletic': 4, 'solid': 4, 'sturdy': 4, 'stocky': 4, 'broad-shouldered': 4,
+    'muscular': 5, 'brawny': 5, 'barrel-chested': 5, 'heavyset': 5, 'heavy': 5,
   };
   const gaitMap: Record<string, number> = {
     slouching: 1,
@@ -1236,7 +1237,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     hasCompromisedIdentity: agent.logistics?.identityKit?.some((d: { compromised?: boolean }) => d.compromised) ? 1 : 0,
     mobilityNumeric: computeMobilityNumericFromTag(agent.mobility?.mobilityTag),
     isSingle: (maritalStatus === 'single' || maritalStatus === 'never-married') ? 1 : 0,
-    hasExPartner: agent.network?.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
+    // relationships is at top-level (not inside network)
+    hasExPartner: agent.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
     isLurker: agent.communities?.memberships?.every((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0,
     communityStatusNumeric: computeCommunityStatusNumeric(agent.communities?.memberships ?? []),
     isOperative: isOperativeRole(agent.identity?.careerTrackTag),
@@ -1246,22 +1248,27 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     aestheticBoldness: computeAestheticBoldness(agent.preferences?.aesthetics),
 
     // DC-D metrics
-    hasCaregivingObligation: agent.domestic?.everydayLife?.caregivingObligation !== 'none' ? 1 : 0,
+    // everydayLife is at top-level (not inside domestic)
+    hasCaregivingObligation: (agent.everydayLife?.caregivingObligation && agent.everydayLife?.caregivingObligation !== 'none') ? 1 : 0,
     isTransientHousing: isTransientHousingType(agent.home?.housingStability),
-    hasDriverCommute: (agent.domestic?.everydayLife?.commuteMode === 'driver' || agent.home?.commuteMethod === 'car') ? 1 : 0,
+    // commuteMode is in everydayLife at top-level
+    hasDriverCommute: (agent.everydayLife?.commuteMode === 'driver' || agent.everydayLife?.commuteMode === 'car' || agent.home?.commuteMethod === 'car') ? 1 : 0,
     // legalAdmin.residencyStatus is the actual field (not legal.legalStatus)
     isIrregularStatus: (agent.legalAdmin?.residencyStatus === 'irregular' || agent.legalAdmin?.residencyStatus === 'undocumented') ? 1 : 0,
     hasValidCredentials: agent.legalAdmin?.credentials?.length > 0 ? 1 : 0,
     isMultigenerational: agent.home?.householdComposition === 'multigenerational' ? 1 : 0,
-    hasEldercareObligation: (agent.domestic?.everydayLife?.caregivingObligation === 'eldercare' || agent.domestic?.everydayLife?.caregivingObligation === 'full-care') ? 1 : 0,
+    // eldercare check from top-level everydayLife
+    hasEldercareObligation: (agent.everydayLife?.caregivingObligation === 'eldercare' || agent.everydayLife?.caregivingObligation === 'full-care' || agent.everydayLife?.caregivingObligation === 'elder-support') ? 1 : 0,
     hasSecurityClearance: agent.legalAdmin?.credentials?.includes('security-clearance') ? 1 : 0,
-    ruralSkillScore: computeRuralSkillScore(agent.skills),
+    // DC-D9: lifeSkills.primarySkillDomain indicates rural vs urban skill bias
+    ruralSkillScore: agent.lifeSkills?.primarySkillDomain === 'rural' ? 1 : 0,
 
     // HL metrics
     injuryCount: agent.health?.injuryHistoryTags?.length ?? 0,
     fitnessBandNumeric: computeFitnessBandNumeric(agent.health?.fitnessBand),
     hasMobilityCondition: hasMobilityAffectingCondition(agent.health?.chronicConditionTags ?? []),
-    hasNeurodivergence: agent.health?.neurodivergenceTags?.length > 0 ? 1 : 0,
+    // neurodivergence is at top-level, check indicatorTags for non-neurotypical
+    hasNeurodivergence: ((agent as any).neurodivergence?.indicatorTags ?? []).some((t: string) => t !== 'neurotypical') ? 1 : 0,
     triggerCount: agent.health?.triggerTags?.length ?? 0,
     conflictExposure: agent.geography?.conflictExposure ?? 0,
     // dependencyProfiles is at top level (not lifestyle.viceTags)
