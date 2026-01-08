@@ -1211,14 +1211,14 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     // Social metrics
     hasLeverage: agent.network?.leverageType ? 1 : 0,
     isWidowed: maritalStatus === 'widowed' ? 1 : 0,
-    hasOnlineCommunity: hasOnlineCommunityMembership(agent.communities?.memberships ?? []),
+    hasOnlineCommunity: (agent.communities?.onlineCommunities?.length ?? 0) > 0 ? 1 : 0,
 
     // Geography metrics
     urbanicityNumeric: computeUrbanicityNumeric(agent.geography?.urbanicity),
 
     // Domestic metrics
     privacyNumeric: computePrivacyNumeric(agent.home?.privacyLevel), // Fixed: was .privacy
-    legalExposureNumeric: computeLegalExposureNumeric(agent.legal?.legalStatus), // Fixed: was .exposureLevel
+    legalExposureNumeric: computeLegalExposureNumeric(agent.legalAdmin?.legalExposure),
 
     // Health metrics
     isUndiagnosed: agent.health?.neurodivergence?.diagnosisStatus === 'undiagnosed' ? 1 : 0,
@@ -1236,10 +1236,10 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     hasExPartner: agent.network?.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
     isLurker: agent.communities?.memberships?.every((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0,
     communityStatusNumeric: computeCommunityStatusNumeric(agent.communities?.memberships ?? []),
-    isOperative: isOperativeRole(agent.identity?.careerTrack),
-    socialHobbyCount: countSocialHobbies(agent.preferences?.hobbies?.regular ?? []),
+    isOperative: isOperativeRole(agent.identity?.careerTrackTag),
+    socialHobbyCount: agent.preferences?.hobbies?.categories?.includes('social') ? 1 : 0,
     frugalEliteScore: computeFrugalEliteScore(latents.frugality ?? 500, tierBand),
-    formalityNumeric: computeFormalityNumeric(agent.preferences?.fashion?.formalityBias),
+    formalityNumeric: (agent.preferences?.fashion?.formality ?? 500) / 1000,
     aestheticBoldness: computeAestheticBoldness(agent.preferences?.aesthetics),
 
     // DC-D metrics
@@ -1247,23 +1247,23 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isTransientHousing: isTransientHousingType(agent.home?.housingStability),
     hasDriverCommute: (agent.domestic?.everydayLife?.commuteMode === 'driver' || agent.home?.commuteMethod === 'car') ? 1 : 0,
     isIrregularStatus: (agent.legal?.legalStatus === 'irregular' || agent.legal?.legalStatus === 'undocumented') ? 1 : 0,
-    hasValidCredentials: agent.identity?.credentials?.length > 0 ? 1 : 0,
+    hasValidCredentials: agent.legalAdmin?.credentials?.length > 0 ? 1 : 0,
     isMultigenerational: agent.home?.householdComposition === 'multigenerational' ? 1 : 0,
     hasEldercareObligation: (agent.domestic?.everydayLife?.caregivingObligation === 'eldercare' || agent.domestic?.everydayLife?.caregivingObligation === 'full-care') ? 1 : 0,
-    hasSecurityClearance: agent.identity?.credentials?.some((c: { type?: string }) => c.type === 'security-clearance') ? 1 : 0,
+    hasSecurityClearance: agent.legalAdmin?.credentials?.includes('security-clearance') ? 1 : 0,
     ruralSkillScore: computeRuralSkillScore(agent.skills),
 
     // HL metrics
-    injuryCount: agent.health?.injuries?.length ?? 0,
+    injuryCount: agent.health?.injuryHistoryTags?.length ?? 0,
     fitnessBandNumeric: computeFitnessBandNumeric(agent.health?.fitnessBand),
-    hasMobilityCondition: hasMobilityAffectingCondition(agent.health?.chronicConditions ?? []),
-    hasNeurodivergence: agent.health?.neurodivergence?.type ? 1 : 0,
-    triggerCount: agent.health?.triggers?.length ?? 0,
+    hasMobilityCondition: hasMobilityAffectingCondition(agent.health?.chronicConditionTags ?? []),
+    hasNeurodivergence: agent.health?.neurodivergenceTags?.length > 0 ? 1 : 0,
+    triggerCount: agent.health?.triggerTags?.length ?? 0,
     conflictExposure: agent.geography?.conflictExposure ?? 0,
-    hasActiveDependency: hasActiveAddiction(agent.vices),
+    hasActiveDependency: hasActiveAddiction(agent.lifestyle?.viceTags ?? []),
 
     // NAR metrics
-    careerTrackNumeric: computeCareerTrackNumeric(agent.identity?.careerTrack),
+    careerTrackNumeric: computeCareerTrackNumeric(agent.identity?.careerTrackTag),
     careerEventCount: countCareerEvents(agent.timeline?.events ?? []),
     minorityInsecurityScore: computeMinorityInsecurityScore(agent.minorityStatus, agent.geography?.securityLevel ?? 500),
     hasPersecutionEvent: hasEventType(agent.timeline?.events ?? [], ['persecution', 'discrimination', 'hate-crime']),
@@ -1280,9 +1280,11 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     hasDeceasedParents: agent.family?.parents?.every((p: { deceased?: boolean }) => p.deceased) ? 1 : 0,
     opsecPublicnessScore: ((latents.opsecDiscipline ?? 500) / 1000) * ((latents.publicness ?? 500) / 1000),
     isDiscreetReputation: (agent.network?.reputation === 'discreet' || agent.network?.reputation === 'low-profile') ? 1 : 0,
-    hasCareLeverage: agent.network?.leverage?.some((l: { type?: string }) => l.type === 'care' || l.type === 'dependency') ? 1 : 0,
+    hasCareLeverage: (agent.network?.leverageType === 'care' || agent.network?.leverageType === 'dependency') ? 1 : 0,
     riskInstitutionalScore: ((latents.riskAppetite ?? 500) / 1000) * (1 - (latents.institutionalEmbeddedness ?? 500) / 1000),
-    hasFormalFaction: agent.communities?.factions?.some((f: { formal?: boolean }) => f.formal) ? 1 : 0,
+    hasFormalFaction: agent.communities?.memberships?.some((m: { type?: string }) =>
+      ['professional-society', 'trade-union', 'political-party', 'veterans-group', 'union-chapter'].includes(m.type ?? '')
+    ) ? 1 : 0,
 
     // PR metrics
     artisticSharingPublicness: computeArtisticSharingPublicness(agent.preferences?.artistic?.sharingStyle),
@@ -1730,17 +1732,17 @@ function computePrivacyNumeric(privacyLevel: string | undefined): number {
   return map[privacyLevel ?? 'private'] ?? 3;
 }
 
-function computeLegalExposureNumeric(legalStatus: string | undefined): number {
-  // Maps to domestic.ts LegalStatus values - irregular status = more exposure
+function computeLegalExposureNumeric(legalExposure: string | undefined): number {
+  // Maps legalAdmin.legalExposure values - more serious = higher score
   const map: Record<string, number> = {
-    'citizen': 0, 'clean': 0,
-    'permanent-resident': 1, 'resident': 1,
-    'temporary': 2, 'temporary-worker': 2, 'temporary-visa': 2,
-    'asylum': 3, 'asylum-seeker': 3, 'refugee': 3,
-    'irregular': 4, 'undocumented': 4,
-    'stateless': 5, 'unknown': 5,
+    'clean': 0,
+    'sealed-record': 1,
+    'old-conviction': 2,
+    'tax-dispute': 3, 'custody-battle': 3,
+    'pending-case': 4,
+    'active-warrant': 5,
   };
-  return map[legalStatus ?? 'citizen'] ?? 0;
+  return map[legalExposure ?? 'clean'] ?? 0;
 }
 
 function hasTraditionalViceType(vices: Array<{ type?: string }> | string[]): number {
@@ -1843,17 +1845,17 @@ function computeFormalityNumeric(formalityBias: string | undefined): number {
   return map[formalityBias ?? 'smart-casual'] ?? 2;
 }
 
-function computeAestheticBoldness(aesthetics: { style?: string; boldness?: number } | undefined): number {
+function computeAestheticBoldness(aesthetics: { visualComplexityPreference?: string; colorPalette?: string } | undefined): number {
   if (!aesthetics) return 3;
-  if (aesthetics.boldness !== undefined) return aesthetics.boldness / 200; // 0-5 scale
-  const styleMap: Record<string, number> = {
-    'understated': 1, 'minimal': 1, 'discreet': 1,
-    'conventional': 2, 'classic': 2,
-    'modern': 3, 'contemporary': 3,
-    'bold': 4, 'statement': 4,
-    'avant-garde': 5, 'eccentric': 5,
+  // Map visual complexity to boldness (minimal = discreet, maximal = bold)
+  const complexityMap: Record<string, number> = {
+    'minimal': 1, 'understated': 1,
+    'clean': 2, 'simple': 2,
+    'balanced': 3, 'moderate': 3,
+    'detailed': 4, 'layered': 4,
+    'maximal': 5, 'complex': 5, 'ornate': 5,
   };
-  return styleMap[aesthetics.style ?? 'conventional'] ?? 3;
+  return complexityMap[aesthetics.visualComplexityPreference ?? 'balanced'] ?? 3;
 }
 
 function isTransientHousingType(housingStability: string | undefined): number {
@@ -1904,16 +1906,17 @@ function hasActiveAddiction(vices: { dependency?: string; status?: string } | un
   return activeStatuses.has(vices.status ?? '') || activeStatuses.has(vices.dependency ?? '') ? 1 : 0;
 }
 
-function computeCareerTrackNumeric(careerTrack: string | undefined): number {
+function computeCareerTrackNumeric(careerTrackTag: string | undefined): number {
+  // Maps career tracks to prestige/risk level (higher = more event-generating)
   const map: Record<string, number> = {
     'unemployed': 0, 'none': 0,
-    'informal': 1, 'gig': 1,
-    'service': 2, 'retail': 2,
-    'skilled-trade': 3, 'technical': 3,
-    'professional': 4, 'management': 4,
+    'organized-labor': 1, 'logistics': 1,
+    'engineering': 2, 'journalism': 2,
+    'academia': 3, 'foreign-service': 3,
+    'military': 4, 'intelligence': 4,
     'executive': 5, 'elite': 5,
   };
-  return map[careerTrack ?? 'professional'] ?? 3;
+  return map[careerTrackTag ?? 'engineering'] ?? 3;
 }
 
 function countCareerEvents(events: Array<{ type?: string; category?: string }> | undefined): number {
