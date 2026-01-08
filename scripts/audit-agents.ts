@@ -1206,10 +1206,10 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     // ═══════════════════════════════════════════════════════════════════════════
 
     // Preference metrics
-    isEarlyBird: computeChronotypeNumeric(agent.preferences?.routines?.chronotype), // Fixed: was .time
+    isEarlyBird: computeChronotypeNumeric(agent.routines?.chronotype),
 
     // Social metrics
-    hasLeverage: computeHasLeverage(agent.network?.leverage ?? []),
+    hasLeverage: agent.network?.leverageType ? 1 : 0,
     isWidowed: maritalStatus === 'widowed' ? 1 : 0,
     hasOnlineCommunity: hasOnlineCommunityMembership(agent.communities?.memberships ?? []),
 
@@ -1230,8 +1230,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     // ═══════════════════════════════════════════════════════════════════════════
 
     // PG metrics
-    hasCompromisedIdentity: agent.identity?.documents?.some((d: { compromised?: boolean }) => d.compromised) ? 1 : 0,
-    mobilityNumeric: computeMobilityNumeric(agent.geography?.mobility),
+    hasCompromisedIdentity: agent.logistics?.identityKit?.some((d: { compromised?: boolean }) => d.compromised) ? 1 : 0,
+    mobilityNumeric: computeMobilityNumericFromTag(agent.mobility?.mobilityTag),
     isSingle: (maritalStatus === 'single' || maritalStatus === 'never-married') ? 1 : 0,
     hasExPartner: agent.network?.relationships?.some((r: { type?: string }) => r.type === 'ex-partner' || r.type === 'ex-spouse') ? 1 : 0,
     isLurker: agent.communities?.memberships?.every((m: { role?: string }) => m.role === 'lurker' || m.role === 'passive') ? 1 : 0,
@@ -1288,21 +1288,21 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     artisticSharingPublicness: computeArtisticSharingPublicness(agent.preferences?.artistic?.sharingStyle),
 
     // Other DC metrics
-    caffeineIntensity: computeCaffeineIntensity(agent.preferences?.food?.beveragePreferences ?? []),
+    caffeineIntensity: computeCaffeineIntensityFromHabit(agent.preferences?.food?.caffeineHabit),
     emotionalSharingOpenness: computeEmotionalSharingOpenness(agent.preferences?.social?.emotionalSharing),
-    doomscrollingRisk: agent.preferences?.routines?.doomscrollingRisk ?? 0,
-    hasDoctorate: (agent.identity?.education === 'doctorate' || agent.identity?.education === 'phd') ? 1 : 0,
-    educationLevelNumeric: computeEducationLevelNumeric(agent.identity?.education),
-    outnessNumeric: computeOutnessNumeric(agent.identity?.outness),
-    isForeignService: (agent.identity?.careerTrack === 'foreign-service' || agent.identity?.careerTrack === 'diplomat') ? 1 : 0,
+    doomscrollingRisk: agent.preferences?.media?.doomscrollingRisk ?? 500,
+    hasDoctorate: agent.identity?.educationTrackTag === 'doctorate' ? 1 : 0,
+    educationLevelNumeric: computeEducationLevelNumeric(agent.identity?.educationTrackTag),
+    outnessNumeric: computeOutnessNumeric(agent.orientation?.outnessLevel),
+    isForeignService: (agent.identity?.careerTrackTag === 'foreign-service' || agent.identity?.careerTrackTag === 'diplomat') ? 1 : 0,
     languageCount: agent.identity?.languages?.length ?? 1,
-    isIntelligence: isIntelligenceCareer(agent.identity?.careerTrack),
-    aliasCount: agent.identity?.aliases?.length ?? 0,
+    isIntelligence: isIntelligenceCareer(agent.identity?.careerTrackTag),
+    aliasCount: agent.naming?.aliases?.length ?? 0,
     weaponAssertiveness: computeWeaponAssertiveness(agent.preferences?.equipment?.weaponPreference),
-    techFluency: agent.skills?.techFluency?.value ?? 500,
-    asyncCommPreference: computeAsyncCommPreference(agent.preferences?.social?.communicationStyle),
-    privateSpacePreference: computePrivateSpacePreference(agent.preferences?.environment?.spaceType),
-    warmLightPreference: computeWarmLightPreference(agent.preferences?.environment?.lightingPreference),
+    // NOTE: techFluency is a latent, not a skill - already extracted at line 1116
+    asyncCommPreference: computeAsyncCommPreference(agent.preferences?.social?.communicationMethod),
+    privateSpacePreference: computePrivateSpacePreference(agent.preferences?.livingSpace?.spaceType),
+    warmLightPreference: computeWarmLightPreference(agent.preferences?.livingSpace?.lightPreference),
     empathyDeceptionBalance: ((aptitudes.empathy ?? 500) - (aptitudes.deceptionAptitude ?? 500)) / 1000,
     networkRoleNumeric: computeNetworkRoleNumeric(agent.network?.role),
   };
@@ -1406,7 +1406,7 @@ type AgentMetricsExtended = AgentMetrics & {
   isIntelligence: number;
   aliasCount: number;
   weaponAssertiveness: number;
-  techFluency: number;
+  // NOTE: techFluency already in AgentMetrics (line 836)
   asyncCommPreference: number;
   privateSpacePreference: number;
   warmLightPreference: number;
@@ -1602,22 +1602,28 @@ function computePlanningStyleNumeric(planningStyle: string | undefined): number 
 
 function computeComfortFoodAdventureScore(comfortFoods: string[]): number {
   // Exotic/adventurous foods = high novelty, traditional/simple = low
-  const adventurousFoods = new Set([
+  // Uses keyword matching for actual generated values
+  const adventurousKeywords = [
     'sushi', 'curry', 'thai', 'vietnamese', 'ethiopian', 'korean',
-    'fusion', 'tapas', 'ceviche', 'pho', 'dim-sum', 'ramen',
-  ]);
-  const traditionalFoods = new Set([
-    'mac-and-cheese', 'mashed-potatoes', 'soup', 'bread', 'pizza',
-    'burger', 'sandwich', 'pasta', 'stew', 'casserole', 'roast',
-  ]);
+    'fusion', 'tapas', 'ceviche', 'pho', 'dim sum', 'ramen',
+    'bibimbap', 'street food', 'night market', 'spicy', 'fermented',
+    'fine dining', 'seafood', 'dumplings', 'congee', 'miso',
+  ];
+  const traditionalKeywords = [
+    'mac', 'mashed', 'pizza', 'burger', 'sandwich', 'casserole',
+    'roast', 'porridge', 'baked', 'stew', 'soup', 'comfort',
+    'home cooking', 'tea and biscuits', 'hearty', 'cheese',
+  ];
 
   if (comfortFoods.length === 0) return 500;
 
   let adventureScore = 0;
   for (const food of comfortFoods) {
     const normalized = food.toLowerCase();
-    if (adventurousFoods.has(normalized)) adventureScore += 2;
-    else if (traditionalFoods.has(normalized)) adventureScore -= 1;
+    const isAdventurous = adventurousKeywords.some(kw => normalized.includes(kw));
+    const isTraditional = traditionalKeywords.some(kw => normalized.includes(kw));
+    if (isAdventurous) adventureScore += 2;
+    else if (isTraditional) adventureScore -= 1;
     else adventureScore += 0.5; // neutral
   }
   // Scale to 0-1000
@@ -1667,11 +1673,11 @@ function computeChronotypeNumeric(chronotype: string | undefined): number {
   // Maps chronotype to early-bird score (higher = earlier riser)
   const map: Record<string, number> = {
     'extreme-early': 5,
-    'early-bird': 4,
+    'early-bird': 4, 'early': 4,
     'morning': 4,
-    'flexible': 3,
+    'standard': 3, 'flexible': 3,
     'evening': 2,
-    'night-owl': 1,
+    'night-owl': 1, 'night': 1,
     'extreme-night': 0,
   };
   return map[chronotype ?? 'flexible'] ?? 3;
@@ -1766,6 +1772,7 @@ function computeResilienceNumeric(resilience: string | undefined): number {
 // BATCH 2 HELPER FUNCTIONS (2026-01-07)
 // ═══════════════════════════════════════════════════════════════════════════
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function computeMobilityNumeric(mobility: string | undefined): number {
   const map: Record<string, number> = {
     'sedentary': 1, 'rooted': 1,
@@ -1775,6 +1782,18 @@ function computeMobilityNumeric(mobility: string | undefined): number {
     'international': 5, 'nomadic': 5,
   };
   return map[mobility ?? 'local'] ?? 2;
+}
+
+// New version using mobilityTag field
+function computeMobilityNumericFromTag(mobilityTag: string | undefined): number {
+  const map: Record<string, number> = {
+    'low-mobility': 1, 'sedentary': 1, 'rooted': 1,
+    'local': 2, 'stable': 2,
+    'regional-travel': 3, 'regional': 3, 'moderate': 3,
+    'frequent-flyer': 4, 'national': 4, 'mobile': 4,
+    'nomadic': 5, 'international': 5,
+  };
+  return map[mobilityTag ?? 'local'] ?? 2;
 }
 
 function computeCommunityStatusNumeric(memberships: Array<{ status?: string; role?: string }> | string[]): number {
@@ -1932,15 +1951,16 @@ function countRomanticEvents(events: Array<{ type?: string; category?: string }>
 
 function computeArtisticSharingPublicness(sharingStyle: string | undefined): number {
   const map: Record<string, number> = {
-    'private': 1, 'personal': 1,
-    'selective': 2, 'friends-only': 2,
-    'semi-public': 3,
-    'public': 4, 'collaborative': 4,
+    'private-only': 1, 'private': 1, 'personal': 1, 'never-finished': 1,
+    'trusted-circle': 2, 'selective': 2, 'friends-only': 2,
+    'anonymous-posts': 3, 'semi-public': 3,
+    'public-showcase': 4, 'public': 4, 'collaborative': 4,
     'commercial': 5, 'professional': 5,
   };
   return map[sharingStyle ?? 'selective'] ?? 2;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function computeCaffeineIntensity(beverages: Array<{ type?: string; name?: string }> | string[]): number {
   if (!beverages?.length) return 2;
   const heavyCaffeine = new Set(['espresso', 'energy-drink', 'double-shot', 'triple-shot', 'cold-brew']);
@@ -1952,13 +1972,29 @@ function computeCaffeineIntensity(beverages: Array<{ type?: string; name?: strin
   ) ? 5 : 3;
 }
 
+// New version using caffeineHabit string field
+function computeCaffeineIntensityFromHabit(caffeineHabit: string | undefined): number {
+  const map: Record<string, number> = {
+    'no-caffeine': 0,
+    'decaf-only': 1,
+    'tea-only': 2,
+    'moderate': 3,
+    'black-coffee-only': 3,
+    'brand-loyalty': 3,
+    'cold-brew-ritual': 4,
+    'espresso-perfectionist': 5,
+    'energy-drink-ops': 5,
+  };
+  return map[caffeineHabit ?? 'moderate'] ?? 3;
+}
+
 function computeEmotionalSharingOpenness(emotionalSharing: string | undefined): number {
   const map: Record<string, number> = {
-    'closed': 1, 'private': 1, 'guarded': 1,
-    'selective': 2, 'cautious': 2,
-    'moderate': 3,
-    'open': 4, 'expressive': 4,
-    'very-open': 5, 'transparent': 5,
+    'emotions-classified': 1, 'closed': 1, 'private': 1, 'guarded': 1,
+    'actions-not-words': 2, 'selective': 2, 'cautious': 2,
+    'opens-up-when-drunk': 3, 'moderate': 3,
+    'overshares-deflect': 4, 'open': 4, 'expressive': 4,
+    'radical-honesty': 5, 'very-open': 5, 'transparent': 5,
   };
   return map[emotionalSharing ?? 'moderate'] ?? 3;
 }
@@ -1967,7 +2003,8 @@ function computeEducationLevelNumeric(education: string | undefined): number {
   const map: Record<string, number> = {
     'none': 0, 'primary': 0,
     'secondary': 1, 'high-school': 1,
-    'vocational': 2, 'trade': 2,
+    'vocational': 2, 'trade': 2, 'trade-certification': 2,
+    'self-taught': 2, 'civil-service-track': 2,
     'undergraduate': 3, 'bachelors': 3,
     'graduate': 4, 'masters': 4,
     'doctorate': 5, 'phd': 5, 'post-doc': 5,
@@ -1978,10 +2015,10 @@ function computeEducationLevelNumeric(education: string | undefined): number {
 function computeOutnessNumeric(outness: string | undefined): number {
   const map: Record<string, number> = {
     'closeted': 1, 'hidden': 1,
-    'selective': 2, 'discreet': 2,
-    'private': 3,
+    'selective': 2, 'discreet': 2, 'selectively-out': 2,
+    'private': 3, 'out-to-friends': 3,
     'out': 4, 'open': 4,
-    'public': 5, 'activist': 5,
+    'public': 5, 'activist': 5, 'publicly-out': 5,
   };
   return map[outness ?? 'private'] ?? 3;
 }
@@ -1996,45 +2033,45 @@ function isIntelligenceCareer(careerTrack: string | undefined): number {
 
 function computeWeaponAssertiveness(weaponPreference: string | undefined): number {
   const map: Record<string, number> = {
-    'none': 0, 'pacifist': 0,
-    'defensive': 1, 'deterrent': 1,
-    'practical': 2, 'utilitarian': 2,
-    'capable': 3, 'prepared': 3,
-    'aggressive': 4, 'assertive': 4,
+    'non-lethal': 0, 'none': 0, 'pacifist': 0,
+    'improvised': 1, 'defensive': 1, 'deterrent': 1,
+    'distance-weapons': 2, 'practical': 2, 'utilitarian': 2,
+    'knives': 3, 'capable': 3, 'prepared': 3,
+    'glock-19': 4, 'aggressive': 4, 'assertive': 4,
     'lethal': 5, 'offensive': 5,
   };
   return map[weaponPreference ?? 'practical'] ?? 2;
 }
 
-function computeAsyncCommPreference(communicationStyle: string | undefined): number {
+function computeAsyncCommPreference(communicationMethod: string | undefined): number {
   const map: Record<string, number> = {
     'face-to-face': 1, 'in-person': 1,
-    'phone': 2, 'video': 2,
+    'voice-messages': 2, 'phone': 2, 'video': 2,
     'mixed': 3, 'flexible': 3,
-    'text': 4, 'email': 4, 'async': 4,
-    'written': 5, 'letter': 5,
+    'texting': 4, 'text': 4, 'email': 4, 'async': 4,
+    'written-reports': 5, 'long-email': 5, 'written': 5, 'letter': 5,
   };
-  return map[communicationStyle ?? 'mixed'] ?? 3;
+  return map[communicationMethod ?? 'mixed'] ?? 3;
 }
 
 function computePrivateSpacePreference(spaceType: string | undefined): number {
   const map: Record<string, number> = {
-    'public': 1, 'open-plan': 1,
-    'semi-public': 2, 'shared': 2,
-    'mixed': 3,
-    'semi-private': 4,
-    'private': 5, 'isolated': 5,
+    'hotel-rotation': 1, 'public': 1, 'open-plan': 1,
+    'shared-housing': 2, 'barracks-dorm': 2, 'semi-public': 2, 'shared': 2,
+    'studio-apartment': 3, 'operational-apartment': 3, 'mixed': 3,
+    'family-home': 4, 'semi-private': 4,
+    'bolt-hole': 5, 'mission-staging': 5, 'deep-cover-home': 5, 'private': 5, 'isolated': 5,
   };
   return map[spaceType ?? 'mixed'] ?? 3;
 }
 
 function computeWarmLightPreference(lightingPreference: string | undefined): number {
   const map: Record<string, number> = {
-    'bright': 1, 'fluorescent': 1, 'cool': 1,
-    'natural': 2, 'daylight': 2,
+    'bright-open': 1, 'bright': 1, 'fluorescent': 1, 'cool': 1,
+    'natural-light': 2, 'natural': 2, 'daylight': 2, 'views-required': 2,
     'neutral': 3,
-    'warm': 4, 'soft': 4,
-    'dim': 5, 'candle': 5, 'ambient': 5,
+    'artificial-only': 4, 'warm': 4, 'soft': 4,
+    'dark-closed': 5, 'views-avoided': 5, 'dim': 5, 'candle': 5, 'ambient': 5,
   };
   return map[lightingPreference ?? 'neutral'] ?? 3;
 }
