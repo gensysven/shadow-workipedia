@@ -1186,7 +1186,13 @@ function computeLogistics(ctx: LifestyleContext): LifestyleResult['logistics']['
         (tierBand === 'elite' ? 40 : 0),
     );
     const security = band5From01k(securityScore);
-    return { item, security, compromised: false };
+    // Correlate #PG1: Low opsec → higher chance of compromised identity items
+    // Base compromise chance inversely related to opsec discipline
+    // Low opsec (0.0-0.3): ~20-30% chance per item
+    // High opsec (0.7-1.0): ~0-5% chance per item
+    const compromiseChance = Math.max(0, 0.35 - 0.45 * opsec01);
+    const compromised = logisticsRng.next01() < compromiseChance;
+    return { item, security, compromised };
   });
   traceSet(trace, 'logistics.identityKit', kitItems, {
     method: 'weightedPickKUnique+repairs+formula',

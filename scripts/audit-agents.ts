@@ -1280,7 +1280,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
     isNetworkIsolate: agent.network?.role === 'isolate' ? 1 : 0,
     // hasLivingParents is a boolean - if false, parents are deceased
     hasDeceasedParents: agent.family?.hasLivingParents === false ? 1 : 0,
-    opsecPublicnessScore: ((latents.opsecDiscipline ?? 500) / 1000) * ((latents.publicness ?? 500) / 1000),
+    // High opsec AND high publicness (both > 700) creates contradiction that forces discreet reputation
+    opsecPublicnessScore: ((latents.opsecDiscipline ?? 500) > 700 && (latents.publicness ?? 500) > 700) ? 1 : 0,
     // reputation is at top level, not inside network; professional is the main reputation tag
     isDiscreetReputation: ((agent as any).reputation?.professional === 'discreet' || (agent as any).reputation?.professional === 'unknown') ? 1 : 0,
     hasCareLeverage: (agent.network?.leverageType === 'care' || agent.network?.leverageType === 'dependency') ? 1 : 0,
