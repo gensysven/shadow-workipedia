@@ -489,7 +489,8 @@ const DOCUMENTED_CORRELATES = [
 
   // Social Constraints (social.ts) - Additional NEW series
   { id: '#NEW34', name: 'Elite + Age → Marriage', vars: ['tierNumeric', 'isMarried'], expected: 'positive' as const },
-  { id: '#NEW37', name: 'Social Battery → Leverage', vars: ['socialBattery', 'hasLeverage'], expected: 'positive' as const },
+  // Redefined: social battery → social leverage types (care, favors vs money, ideology)
+  { id: '#NEW37', name: 'Social Battery → Social Leverage', vars: ['socialBattery', 'hasSocialLeverage'], expected: 'positive' as const },
   { id: '#NEW40', name: 'Tier + Age → Community Status', vars: ['tierNumeric', 'communityStatusNumeric'], expected: 'positive' as const },
   { id: '#NEW44', name: 'Age → Widowhood', vars: ['age', 'isWidowed'], expected: 'positive' as const },
   { id: '#NEW45', name: 'Urbanicity → Online Community', vars: ['urbanicityNumeric', 'hasOnlineCommunity'], expected: 'negative' as const },
@@ -1211,6 +1212,8 @@ function extractMetrics(agent: GeneratedAgent, asOfYear: number): AgentMetrics {
 
     // Social metrics
     hasLeverage: agent.network?.leverageType ? 1 : 0,
+    // Favors leverage requires social energy to maintain reciprocal relationships (per generation code)
+    hasSocialLeverage: agent.network?.leverageType === 'favors' ? 1 : 0,
     isWidowed: maritalStatus === 'widowed' ? 1 : 0,
     hasOnlineCommunity: (agent.communities?.onlineCommunities?.length ?? 0) > 0 ? 1 : 0,
 
@@ -1359,6 +1362,7 @@ type AgentMetricsExtended = AgentMetrics & {
   // Additional metrics for new correlates (2026-01-07)
   isEarlyBird: number;
   hasLeverage: number;
+  hasSocialLeverage: number;
   isWidowed: number;
   urbanicityNumeric: number;
   hasOnlineCommunity: number;
