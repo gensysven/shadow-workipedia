@@ -732,7 +732,7 @@ export function computeIdentity(ctx: IdentityContext): IdentityResult {
       { label: 'micro', items: effectiveMicroFirstNames, weight: microW },
       { label: 'global', items: effectiveGlobalFirst, weight: globalW },
     ],
-    vocab.identity.firstNames,
+    effectiveGlobalFirst.length > 0 ? effectiveGlobalFirst : vocab.identity.firstNames,
   );
   const lastName = pickNameFromPools(
     [
