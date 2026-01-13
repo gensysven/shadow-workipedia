@@ -2,115 +2,49 @@
 
 ## Overview
 
-Several files significantly exceed the 400-line limit. This plan breaks them into manageable modules while preserving functionality.
+Several TypeScript files significantly exceed the 400-line limit. This plan breaks them into manageable modules while preserving functionality.
+
+**Important context:**
+- The 400-line limit is enforced on `.ts` files only (no `lint:max-lines` script exists yet in this repo - needs to be added)
+- JSON files in `public/` are NOT subject to line limits, but splitting them improves maintainability
+- Vocab is loaded at runtime via `fetch()` in `src/agentsView.ts`, not via imports
+- `tsx` is already a dev dependency; `ts-morph` is NOT (add if needed for AST refactoring)
 
 **Files to modularize (by priority):**
 
 | File | Lines | Priority | Reason |
 |------|-------|----------|--------|
-| `public/agent-vocab.v1.json` | 14,577 | P0 | Data file, hard to review/edit |
 | `src/agent/types.ts` | 1,756 | P1 | Foundational, enables other refactors |
 | `src/agent/generator.ts` | 2,887 | P2 | Core orchestration, complex |
 | `src/agentNarration.ts` | 2,345 | P3 | Self-contained, clear splits |
 | `src/agent/facets/preferences.ts` | 2,191 | P4 | Clear domain boundaries |
 | `src/agent/facets/lifestyle.ts` | 1,897 | P5 | Clear domain boundaries |
 | `src/agent/facets/social.ts` | 1,587 | P6 | Clear domain boundaries |
+| `public/agent-vocab.v1.json` | 14,577 | P7 | Data file, improves review/edit (not lint-enforced) |
 
 ---
 
-## Phase 1: Modularize agent-vocab.v1.json (P0)
+## Phase 0: Add lint:max-lines Script
 
-### Current Structure
-```
-public/agent-vocab.v1.json (14,577 lines, 328KB)
-├── version, identity (~4KB)
-├── appearance (~1KB)
-├── capabilities, psych, visibility, health, covers, mobility
-├── preferences (~14KB) - food, media, fashion, hobbies, environment, livingSpace
-├── routines, vices, deepSimPreview, logistics
-├── cultureProfiles (~6KB) - 7 macro cultures
-├── microCultureProfiles (~75KB) - 56 micro cultures
-├── everydayLife, personality, affect, selfConcept, thoughtsEmotions
-├── memoryTrauma, civicLife, culturalDynamics, needsRelationships
-├── psychologyTypes, skillsEvolution, existenceCrises
-├── behaviorArchetypes, decisionTemplates, physicalDetails
-├── detailGeneration (~7KB)
-├── timelineTemplates (~23KB) - childhood, youngAdult, midAge, laterLife
-├── knowledgeIgnorance, dreamsGoals, dreamsNightmares, economicMobility
+Before starting, add the line-limit enforcement:
+
+```json
+// package.json scripts
+{
+  "lint:max-lines": "find src -name '*.ts' -exec sh -c 'lines=$(wc -l < \"$1\"); if [ $lines -gt 400 ]; then echo \"$1: $lines lines (exceeds 400)\"; exit 1; fi' _ {} \\;",
+  "lint": "pnpm lint:max-lines && pnpm typecheck"
+}
 ```
 
-### Target Structure
+Or use a Node script for better cross-platform support:
+```bash
+# scripts/lint-max-lines.ts
+# Check all .ts files in src/, fail if any exceed 400 lines
 ```
-public/
-├── agent-vocab.v1.json              # Index file with $refs or inline merge
-└── agent-vocab/
-    ├── identity.json                # firstNames, lastNames, maleFirstNames, femaleFirstNames, etc.
-    ├── appearance.json              # height, build, hair, eyes, voice, distinguishingMarks
-    ├── capabilities.json            # skills, psych, visibility
-    ├── health.json                  # conditions, allergies, injuries, fitness
-    ├── preferences/
-    │   ├── food.json                # comfortFoods, cuisines, restrictions, drinks
-    │   ├── media.json               # genres, platforms
-    │   ├── fashion.json             # styleTags
-    │   ├── hobbies.json             # physical, creative, intellectual, etc.
-    │   └── environment.json         # temperature, weather, livingSpace
-    ├── cultures/
-    │   ├── macros.json              # 7 macro culture profiles
-    │   └── micros.json              # 56 micro culture profiles (or split further)
-    ├── psychology/
-    │   ├── personality.json         # affect, selfConcept, thoughtsEmotions
-    │   ├── archetypes.json          # behaviorArchetypes, decisionTemplates
-    │   └── types.json               # psychologyTypes, existenceCrises
-    ├── narrative/
-    │   ├── timeline.json            # childhood, youngAdult, midAge, laterLife templates
-    │   ├── dreams.json              # dreamsGoals, dreamsNightmares
-    │   └── details.json             # detailGeneration templates
-    └── social/
-        ├── civicLife.json
-        ├── relationships.json       # needsRelationships, culturalDynamics
-        └── economicMobility.json
-```
-
-### Implementation Steps
-
-1. **Create extraction script** `scripts/split-vocab.ts`:
-   ```typescript
-   // Read agent-vocab.v1.json
-   // Split into domain files
-   // Write to public/agent-vocab/
-   // Update agent-vocab.v1.json to merge from modules
-   ```
-
-2. **Create merge script** `scripts/merge-vocab.ts`:
-   ```typescript
-   // Read all module files from public/agent-vocab/
-   // Deep merge into single object
-   // Write to public/agent-vocab.v1.json
-   // Run as part of build: pnpm build:vocab
-   ```
-
-3. **Update loading logic** in `src/agent/index.ts`:
-   - Option A: Load merged file (no code changes, merge at build time)
-   - Option B: Load modules and merge at runtime (more flexibility)
-   - **Recommend Option A** for simplicity
-
-4. **Add npm scripts**:
-   ```json
-   {
-     "vocab:split": "tsx scripts/split-vocab.ts",
-     "vocab:merge": "tsx scripts/merge-vocab.ts",
-     "prebuild": "pnpm vocab:merge"
-   }
-   ```
-
-5. **Verification**:
-   - Run `pnpm extract-data`
-   - Generate 100 agents, compare output to baseline
-   - Run `pnpm typecheck`
 
 ---
 
-## Phase 2: Modularize types.ts (P1)
+## Phase 1: Modularize types.ts (P1)
 
 ### Current Structure
 ```
@@ -125,52 +59,63 @@ src/agent/types.ts (1,756 lines)
 └── Trace types
 ```
 
-### Target Structure
+### Target Structure (all files ≤350 lines for safety margin)
 ```
 src/agent/types/
-├── index.ts                    # Re-exports all types
-├── vocab.ts                    # AgentVocabV1 and related (~400 lines)
+├── index.ts                    # Re-exports all types (~50 lines)
+├── common.ts                   # Band5, Fixed, TierBand, shared enums (~100 lines)
+├── vocab.ts                    # AgentVocabV1 and related (~350 lines)
 ├── priors.ts                   # AgentPriorsV1, buckets, countries (~200 lines)
 ├── cultures.ts                 # CultureProfileV1, MicroCultureProfile (~200 lines)
-├── latents.ts                  # Latents, Band5, Fixed (~100 lines)
-├── agent.ts                    # GeneratedAgentV1 output types (~500 lines)
+├── latents.ts                  # Latents type definition (~100 lines)
+├── agent-identity.ts           # Identity, appearance, capabilities output types (~300 lines)
+├── agent-psychology.ts         # Psychology, personality output types (~300 lines)
+├── agent-social.ts             # Social, relationships output types (~300 lines)
+├── agent-lifestyle.ts          # Lifestyle, health, preferences output types (~300 lines)
 ├── context.ts                  # Generation context types (~150 lines)
 └── trace.ts                    # AgentGenerationTraceV1 (~100 lines)
 ```
 
+**Note:** Original estimate of `agent.ts` at ~500 lines was over limit. Split into 4 domain files.
+
 ### Implementation Steps
 
-1. **Create directory**: `mkdir -p src/agent/types`
-
-2. **Extract types by domain** (use AST tools, NOT sed):
+1. **Install ts-morph** (if using AST extraction):
    ```bash
-   # Use ts-morph or manual extraction
-   # Each file gets related types + imports
+   pnpm add -D ts-morph
    ```
 
-3. **Create index.ts** with re-exports:
+2. **Create directory**: `mkdir -p src/agent/types`
+
+3. **Extract types by domain** (use ts-morph or manual extraction, NOT sed):
+   - Start with leaf types (no dependencies): `common.ts`, `latents.ts`
+   - Then types that depend on those: `vocab.ts`, `priors.ts`, `cultures.ts`
+   - Finally output types: `agent-*.ts`, `context.ts`, `trace.ts`
+
+4. **Create index.ts** with re-exports:
    ```typescript
+   export * from './common';
    export * from './vocab';
    export * from './priors';
    export * from './cultures';
    export * from './latents';
-   export * from './agent';
+   export * from './agent-identity';
+   export * from './agent-psychology';
+   export * from './agent-social';
+   export * from './agent-lifestyle';
    export * from './context';
    export * from './trace';
    ```
 
-4. **Update imports** across codebase:
-   - Most imports from `'../types'` should still work via index
+5. **Update imports** across codebase:
+   - Imports from `'../types'` should still work via index
    - Verify with `pnpm typecheck`
 
-5. **Verification**:
-   - `pnpm typecheck` passes
-   - `pnpm build` succeeds
-   - Generate agents, verify output unchanged
+6. **Verification**: See verification section below
 
 ---
 
-## Phase 3: Modularize generator.ts (P2)
+## Phase 2: Modularize generator.ts (P2)
 
 ### Current Structure
 ```
@@ -184,15 +129,18 @@ src/agent/generator.ts (2,887 lines)
 └── Export
 ```
 
-### Target Structure
+### Target Structure (all files ≤350 lines)
 ```
 src/agent/generator/
-├── index.ts                    # Main generateAgent export (~200 lines)
+├── index.ts                    # Main generateAgent export (~100 lines)
+├── options.ts                  # GenerateAgentOptions type, defaults (~100 lines)
 ├── context.ts                  # Context building, validation (~300 lines)
-├── cultures.ts                 # Culture/geography resolution (~400 lines)
-├── orchestrator.ts             # Facet calling sequence (~400 lines)
+├── cultures.ts                 # Culture/geography resolution (~350 lines)
+├── cultureHelpers.ts           # Culture helper functions (~200 lines)
+├── orchestrator.ts             # Facet calling sequence (~350 lines)
 ├── assembly.ts                 # Output object assembly (~300 lines)
-├── deepSim.ts                  # Deep sim preview generation (~400 lines)
+├── deepSim.ts                  # Deep sim preview generation (~350 lines)
+├── deepSimHelpers.ts           # Deep sim helper functions (~200 lines)
 └── helpers.ts                  # Shared utilities (~200 lines)
 ```
 
@@ -214,16 +162,16 @@ src/agent/generator/
    ```typescript
    // src/agent/generator/index.ts
    export { generateAgent } from './orchestrator';
-   export type { GenerateAgentOptions } from './context';
+   export type { GenerateAgentOptions } from './options';
    ```
 
 4. **Update imports** in facet files and main entry
 
-5. **Verification**: Same as above
+5. **Verification**: See verification section below
 
 ---
 
-## Phase 4: Modularize agentNarration.ts (P3)
+## Phase 3: Modularize agentNarration.ts (P3)
 
 ### Current Structure
 ```
@@ -236,132 +184,286 @@ src/agentNarration.ts (2,345 lines)
 └── Export
 ```
 
-### Target Structure
+### Target Structure (all files ≤350 lines)
 ```
 src/agentNarration/
-├── index.ts                    # Main export, narrative assembly (~200 lines)
-├── conjugation.ts              # Verb conjugation, grammar helpers (~300 lines)
+├── index.ts                    # Main export, narrative assembly (~150 lines)
+├── types.ts                    # Narration-specific types (~100 lines)
+├── conjugation.ts              # Verb conjugation tables (~250 lines)
+├── grammar.ts                  # Grammar helpers (pronouns, articles) (~150 lines)
 ├── templates.ts                # Template rendering utilities (~200 lines)
 ├── sections/
 │   ├── identity.ts             # Identity narrative section (~200 lines)
 │   ├── appearance.ts           # Appearance narrative section (~200 lines)
-│   ├── psychology.ts           # Psychology narrative section (~300 lines)
+│   ├── psychology.ts           # Psychology narrative section (~250 lines)
 │   ├── social.ts               # Social/relationships section (~200 lines)
 │   ├── lifestyle.ts            # Lifestyle narrative section (~200 lines)
 │   ├── background.ts           # Background/history section (~200 lines)
 │   └── details.ts              # Miscellaneous details (~200 lines)
-└── types.ts                    # Narration-specific types (~100 lines)
 ```
 
 ### Implementation Steps
 
 1. **Extract conjugation utilities first** (no dependencies)
 
-2. **Extract template rendering** (depends on conjugation)
+2. **Extract grammar helpers** (depends on conjugation)
 
-3. **Extract section generators one by one**:
+3. **Extract template rendering** (depends on grammar)
+
+4. **Extract section generators one by one**:
    - Each section is relatively independent
    - Move with its helper functions
 
-4. **Update index.ts** to orchestrate sections
+5. **Update index.ts** to orchestrate sections
 
-5. **Verification**: Generate narratives, compare output
+6. **Verification**: See verification section below
 
 ---
 
-## Phase 5: Modularize Facet Files (P4-P6)
+## Phase 4-6: Modularize Facet Files
 
-### preferences.ts (2,191 lines)
+### preferences.ts (2,191 lines) → P4
 
-Split by preference category:
+Split by preference category (all files ≤350 lines):
 ```
 src/agent/facets/preferences/
-├── index.ts           # Main export, orchestration
-├── food.ts            # Food preferences (~400 lines)
+├── index.ts           # Main export, orchestration (~150 lines)
+├── types.ts           # Preference types (~100 lines)
+├── food.ts            # Food preferences (~350 lines)
+├── drinks.ts          # Drinks, caffeine, alcohol (~200 lines)
 ├── media.ts           # Media preferences (~200 lines)
 ├── fashion.ts         # Fashion preferences (~200 lines)
 ├── hobbies.ts         # Hobbies (~300 lines)
 ├── environment.ts     # Environment prefs (~200 lines)
-├── livingSpace.ts     # Living space prefs (~200 lines)
-└── types.ts           # Preference types (~100 lines)
+└── livingSpace.ts     # Living space prefs (~200 lines)
 ```
 
-### lifestyle.ts (1,897 lines)
+### lifestyle.ts (1,897 lines) → P5
 
-Split by lifestyle domain:
+Split by lifestyle domain (all files ≤350 lines):
 ```
 src/agent/facets/lifestyle/
-├── index.ts           # Main export
-├── health.ts          # Health, fitness, conditions (~400 lines)
+├── index.ts           # Main export (~150 lines)
+├── types.ts           # Lifestyle types (~100 lines)
+├── health.ts          # Health, conditions (~300 lines)
+├── fitness.ts         # Fitness, exercise (~200 lines)
 ├── routines.ts        # Daily routines, rituals (~300 lines)
 ├── vices.ts           # Vices, dependencies (~300 lines)
 ├── mobility.ts        # Travel, passports (~200 lines)
-├── logistics.ts       # Living situation, admin (~200 lines)
-└── types.ts           # Lifestyle types (~100 lines)
+└── logistics.ts       # Living situation, admin (~200 lines)
 ```
 
-### social.ts (1,587 lines)
+### social.ts (1,587 lines) → P6
 
-Split by social domain:
+Split by social domain (all files ≤350 lines):
 ```
 src/agent/facets/social/
-├── index.ts           # Main export
+├── index.ts           # Main export (~150 lines)
+├── types.ts           # Social types (~100 lines)
 ├── family.ts          # Family structure (~300 lines)
 ├── relationships.ts   # Romantic, friendships (~300 lines)
 ├── community.ts       # Community memberships (~300 lines)
 ├── reputation.ts      # Status, reputation (~200 lines)
-├── network.ts         # Professional network (~200 lines)
-└── types.ts           # Social types (~100 lines)
+└── network.ts         # Professional network (~200 lines)
 ```
+
+---
+
+## Phase 7: Modularize agent-vocab.v1.json (P7)
+
+**Note:** This is lower priority since JSON files aren't lint-enforced, but improves maintainability.
+
+### Architecture Decision
+
+**The merged JSON remains the runtime artifact.** Module files are for authoring/editing only.
+
+- `public/agent-vocab.v1.json` - The actual file loaded by the app at runtime
+- `public/agent-vocab/*.json` - Source modules for easier editing (NOT loaded directly)
+- Merge happens at build time, producing the single runtime file
+
+### Target Structure
+```
+public/
+├── agent-vocab.v1.json              # GENERATED - do not edit directly
+└── agent-vocab/                     # SOURCE modules - edit these
+    ├── _schema.json                 # Optional: JSON schema for validation
+    ├── identity.json                # firstNames, lastNames, maleFirstNames, femaleFirstNames
+    ├── appearance.json              # height, build, hair, eyes, voice
+    ├── capabilities.json            # skills, psych, visibility
+    ├── health.json                  # conditions, allergies, injuries, fitness
+    ├── preferences-food.json        # comfortFoods, cuisines, restrictions, drinks
+    ├── preferences-media.json       # genres, platforms
+    ├── preferences-other.json       # fashion, hobbies, environment, livingSpace
+    ├── cultures-macros.json         # 7 macro culture profiles
+    ├── cultures-micros.json         # 56 micro culture profiles
+    ├── psychology.json              # personality, affect, archetypes, types
+    ├── narrative-timeline.json      # childhood, youngAdult, midAge, laterLife
+    ├── narrative-other.json         # dreams, details, economicMobility
+    └── social.json                  # civicLife, relationships
+```
+
+### Implementation Steps
+
+1. **Create split script** `scripts/vocab-split.ts`:
+   ```typescript
+   // Read public/agent-vocab.v1.json
+   // Split into domain files in public/agent-vocab/
+   // One-time migration script
+   ```
+
+2. **Create merge script** `scripts/vocab-merge.ts`:
+   ```typescript
+   // Read all files from public/agent-vocab/
+   // Deep merge into single object (preserve key order)
+   // Write to public/agent-vocab.v1.json
+   ```
+
+3. **Add npm scripts with proper hooks**:
+   ```json
+   {
+     "vocab:split": "tsx scripts/vocab-split.ts",
+     "vocab:merge": "tsx scripts/vocab-merge.ts",
+     "predev": "pnpm vocab:merge",
+     "prebuild": "pnpm vocab:merge",
+     "pretest:narration": "pnpm vocab:merge"
+   }
+   ```
+
+4. **Add .gitignore entry** (optional, if you want to gitignore generated file):
+   ```
+   # Generated from agent-vocab/ modules
+   # public/agent-vocab.v1.json
+   ```
+
+   **Or keep it committed** (simpler, no build step needed for fresh clones).
+
+5. **Add header comment to generated file**:
+   ```json
+   {
+     "_comment": "GENERATED FILE - Edit files in public/agent-vocab/ instead, then run pnpm vocab:merge",
+     "version": "1.0.0",
+     ...
+   }
+   ```
+
+---
+
+## Verification Protocol
+
+### Deterministic Test Harness
+
+Create `scripts/verify-agents.ts`:
+
+```typescript
+import { generateAgent } from '../src/agent';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+
+const SEEDS = [
+  'baseline-001', 'baseline-002', 'baseline-003', /* ... 100 fixed seeds */
+];
+const BASELINE_PATH = 'test-fixtures/agent-baseline.json';
+
+async function generateBaseline() {
+  const vocab = JSON.parse(readFileSync('public/agent-vocab.v1.json', 'utf8'));
+  const priors = JSON.parse(readFileSync('public/agent-priors.v1.json', 'utf8'));
+  const countries = JSON.parse(readFileSync('public/shadow-country-map.json', 'utf8'));
+
+  const agents = SEEDS.map(seed =>
+    generateAgent({ seed, vocab, priors, countries, asOfYear: 2025 })
+  );
+
+  writeFileSync(BASELINE_PATH, JSON.stringify(agents, null, 2));
+  console.log(`Baseline saved: ${agents.length} agents`);
+}
+
+async function verifyAgainstBaseline() {
+  if (!existsSync(BASELINE_PATH)) {
+    throw new Error('No baseline exists. Run with --generate-baseline first.');
+  }
+
+  const baseline = JSON.parse(readFileSync(BASELINE_PATH, 'utf8'));
+  const vocab = JSON.parse(readFileSync('public/agent-vocab.v1.json', 'utf8'));
+  const priors = JSON.parse(readFileSync('public/agent-priors.v1.json', 'utf8'));
+  const countries = JSON.parse(readFileSync('public/shadow-country-map.json', 'utf8'));
+
+  let diffs = 0;
+  for (let i = 0; i < SEEDS.length; i++) {
+    const agent = generateAgent({ seed: SEEDS[i], vocab, priors, countries, asOfYear: 2025 });
+    const baselineAgent = baseline[i];
+
+    // Deep compare (ignoring generationTrace timestamps)
+    const agentClean = JSON.parse(JSON.stringify(agent, (k, v) =>
+      k === 'generationTrace' || k === 'createdAtIso' ? undefined : v
+    ));
+    const baselineClean = JSON.parse(JSON.stringify(baselineAgent, (k, v) =>
+      k === 'generationTrace' || k === 'createdAtIso' ? undefined : v
+    ));
+
+    if (JSON.stringify(agentClean) !== JSON.stringify(baselineClean)) {
+      console.error(`DIFF at seed ${SEEDS[i]}`);
+      diffs++;
+    }
+  }
+
+  if (diffs === 0) {
+    console.log(`✅ All ${SEEDS.length} agents match baseline`);
+  } else {
+    console.error(`❌ ${diffs} agents differ from baseline`);
+    process.exit(1);
+  }
+}
+
+// Usage: tsx scripts/verify-agents.ts [--generate-baseline]
+const generateMode = process.argv.includes('--generate-baseline');
+if (generateMode) {
+  generateBaseline();
+} else {
+  verifyAgainstBaseline();
+}
+```
+
+Add npm scripts:
+```json
+{
+  "test:baseline:generate": "tsx scripts/verify-agents.ts --generate-baseline",
+  "test:baseline:verify": "tsx scripts/verify-agents.ts"
+}
+```
+
+### Verification Checklist (per phase)
+
+- [ ] `pnpm typecheck` passes
+- [ ] `pnpm build` succeeds
+- [ ] `pnpm lint:max-lines` passes (all .ts files ≤400 lines)
+- [ ] `pnpm test:baseline:verify` passes (agents identical to baseline)
+- [ ] `pnpm test:narration` passes (if exists)
+- [ ] Manual spot-check: Generate agent in UI, verify display
 
 ---
 
 ## Execution Order
 
-1. **Phase 1 (vocab JSON)** - 2-3 hours
-   - Enables easier data review
-   - No code changes to generator logic
-   - Low risk
-
-2. **Phase 2 (types.ts)** - 1-2 hours
-   - Foundational for other refactors
-   - Pure type extraction, no logic changes
-   - Low risk
-
-3. **Phase 3 (generator.ts)** - 3-4 hours
-   - Core file, needs careful testing
-   - Medium risk
-
-4. **Phase 4 (agentNarration.ts)** - 2-3 hours
-   - Self-contained, clear boundaries
-   - Low-medium risk
-
-5. **Phases 5 (facets)** - 2 hours each
-   - Can be done incrementally
-   - Each facet is independent
+1. **Phase 0** - Add lint:max-lines (30 min)
+2. **Phase 1 (types.ts)** - 2-3 hours
+3. **Phase 2 (generator.ts)** - 3-4 hours
+4. **Phase 3 (agentNarration.ts)** - 2-3 hours
+5. **Phase 4 (preferences.ts)** - 2 hours
+6. **Phase 5 (lifestyle.ts)** - 2 hours
+7. **Phase 6 (social.ts)** - 2 hours
+8. **Phase 7 (vocab JSON)** - 1-2 hours (optional, not lint-enforced)
 
 ---
 
-## Verification Checklist
+## Tools & Dependencies
 
-After each phase:
+**Already available:**
+- `tsx` (dev dependency) - TypeScript execution
 
-- [ ] `pnpm typecheck` passes
-- [ ] `pnpm build` succeeds
-- [ ] `pnpm lint:max-lines` passes (all files ≤400 lines)
-- [ ] Generate 100 agents with fixed seeds
-- [ ] Compare output to baseline (should be identical)
-- [ ] Run any existing tests
-- [ ] Manual spot-check in UI
-
----
-
-## Tools to Use
-
-**DO use:**
-- `ts-morph` for AST-based refactoring
-- `jscodeshift` for large-scale transforms
-- Manual extraction with careful import management
+**Add if needed:**
+- `ts-morph` - AST-based refactoring (recommended for safe type extraction)
+  ```bash
+  pnpm add -D ts-morph
+  ```
 
 **DO NOT use:**
 - `sed` for TypeScript (CATASTROPHIC RISK per AGENTS.md)
@@ -375,4 +477,5 @@ After each phase:
 - Each phase should be a separate PR/commit
 - Preserve git history with `git mv` where possible
 - Update any CLAUDE.md or AGENTS.md references
-- The vocab JSON split can use a simple Node.js script (not AST tools) since it's JSON, not TypeScript
+- The vocab JSON split uses Node.js (not AST tools) since it's JSON, not TypeScript
+- Generate baseline BEFORE starting any refactor, verify AFTER each phase

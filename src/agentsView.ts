@@ -12,43 +12,103 @@ let agentVocabPromise: Promise<AgentVocabV1> | null = null;
 let agentPriorsPromise: Promise<AgentPriorsV1> | null = null;
 let shadowCountryMapPromise: Promise<Array<{ real: string; shadow: string; iso3?: string; continent?: string }>> | null = null;
 
+type AgentsPerfEntry = { name: string; ms: number; meta?: Record<string, string | number> };
+type AgentsPerfStore = { entries: AgentsPerfEntry[]; last?: AgentsPerfEntry };
+
+let agentsPerfEnabled = false;
+
+const isPerfEnabled = (params?: URLSearchParams | null) => {
+  const raw = params?.get('perf') ?? '';
+  if (raw === '1' || raw === 'true' || raw === 'yes') return true;
+  try {
+    const stored = window.localStorage.getItem('agentsPerf');
+    return stored === '1' || stored === 'true' || stored === 'yes';
+  } catch {
+    return false;
+  }
+};
+
+const getPerfStore = (): AgentsPerfStore | null => {
+  if (!agentsPerfEnabled) return null;
+  const w = window as Window & { __agentsPerf?: AgentsPerfStore };
+  if (!w.__agentsPerf) w.__agentsPerf = { entries: [] };
+  return w.__agentsPerf;
+};
+
+const recordPerf = (name: string, ms: number, meta?: Record<string, string | number>) => {
+  const store = getPerfStore();
+  if (!store) return;
+  const entry: AgentsPerfEntry = { name, ms, meta };
+  store.entries.push(entry);
+  store.last = entry;
+  if (store.entries.length > 200) store.entries.shift();
+  // eslint-disable-next-line no-console
+  console.log(`[agents-perf] ${name}: ${ms.toFixed(1)}ms`, meta ?? '');
+};
+
+const measureSpan = <T>(name: string, fn: () => T, meta?: Record<string, string | number>) => {
+  if (!agentsPerfEnabled) return fn();
+  const start = performance.now();
+  try {
+    return fn();
+  } finally {
+    recordPerf(name, performance.now() - start, meta);
+  }
+};
+
+const measureAsyncSpan = async <T>(name: string, fn: () => Promise<T>, meta?: Record<string, string | number>) => {
+  if (!agentsPerfEnabled) return fn();
+  const start = performance.now();
+  try {
+    return await fn();
+  } finally {
+    recordPerf(name, performance.now() - start, meta);
+  }
+};
+
 function getAgentVocabV1(): Promise<AgentVocabV1> {
   if (agentVocabPromise) return agentVocabPromise;
-  agentVocabPromise = (async () => {
+  agentVocabPromise = measureAsyncSpan('agents:load:vocab', async () => {
     const res = await fetch('agent-vocab.v1.json', { cache: 'no-store' });
     if (!res.ok) throw new Error(`Failed to load agent vocab (${res.status})`);
+    const parseStart = agentsPerfEnabled ? performance.now() : 0;
     const parsed = (await res.json()) as unknown;
+    if (agentsPerfEnabled) recordPerf('agents:parse:vocab', performance.now() - parseStart);
     if (!parsed || typeof parsed !== 'object') throw new Error('Agent vocab JSON is not an object');
     const version = (parsed as { version?: unknown }).version;
     if (version !== 1) throw new Error(`Unsupported agent vocab version: ${String(version)}`);
     return parsed as AgentVocabV1;
-  })();
+  });
   return agentVocabPromise;
 }
 
 function getAgentPriorsV1(): Promise<AgentPriorsV1> {
   if (agentPriorsPromise) return agentPriorsPromise;
-  agentPriorsPromise = (async () => {
+  agentPriorsPromise = measureAsyncSpan('agents:load:priors', async () => {
     const res = await fetch('agent-priors.v1.json', { cache: 'no-store' });
     if (!res.ok) throw new Error(`Failed to load agent priors (${res.status})`);
+    const parseStart = agentsPerfEnabled ? performance.now() : 0;
     const parsed = (await res.json()) as unknown;
+    if (agentsPerfEnabled) recordPerf('agents:parse:priors', performance.now() - parseStart);
     if (!parsed || typeof parsed !== 'object') throw new Error('Agent priors JSON is not an object');
     const version = (parsed as { version?: unknown }).version;
     if (version !== 1) throw new Error(`Unsupported agent priors version: ${String(version)}`);
     return parsed as AgentPriorsV1;
-  })();
+  });
   return agentPriorsPromise;
 }
 
 function getShadowCountryMap(): Promise<Array<{ real: string; shadow: string; iso3?: string; continent?: string }>> {
   if (shadowCountryMapPromise) return shadowCountryMapPromise;
-  shadowCountryMapPromise = (async () => {
+  shadowCountryMapPromise = measureAsyncSpan('agents:load:countries', async () => {
     const res = await fetch('shadow-country-map.json', { cache: 'no-store' });
     if (!res.ok) throw new Error(`Failed to load shadow country map (${res.status})`);
+    const parseStart = agentsPerfEnabled ? performance.now() : 0;
     const parsed = (await res.json()) as unknown;
+    if (agentsPerfEnabled) recordPerf('agents:parse:countries', performance.now() - parseStart);
     if (!Array.isArray(parsed)) throw new Error('Shadow country map JSON is not an array');
     return parsed as Array<{ real: string; shadow: string; iso3?: string; continent?: string }>;
-  })();
+  });
   return shadowCountryMapPromise;
 }
 
@@ -118,6 +178,7 @@ function setTemporaryButtonLabel(btn: HTMLButtonElement, nextLabel: string, ms =
 type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
 export function initializeAgentsView(container: HTMLElement) {
+  agentsPerfEnabled = isPerfEnabled(readAgentsParamsFromHash());
   let roster = loadRoster();
   let selectedRosterId: string | null = roster[0]?.id ?? null;
   let activeAgent: GeneratedAgent | null = null;
@@ -136,6 +197,7 @@ export function initializeAgentsView(container: HTMLElement) {
   let seedDraft = roster.find(x => x.id === selectedRosterId)?.seed ?? '';
   let pendingHashSeed: string | null = readSeedFromHash();
   let pendingHashParams: URLSearchParams | null = pendingHashSeed ? readAgentsParamsFromHash() : null;
+  if (pendingHashParams) agentsPerfEnabled = isPerfEnabled(pendingHashParams);
 
   const PROFILE_TAB_KEY = 'agentsProfileTab:v2';
   const readProfileTab = (): AgentProfileTab | null => {
@@ -280,14 +342,14 @@ export function initializeAgentsView(container: HTMLElement) {
     if (pendingHashSeed) {
       const input = buildGenerateInput(pendingHashSeed, { includeTrace: true, includeOverrides: false });
       if (!input) return;
-      activeAgent = generateAgent(input);
+      activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'init-hash' });
       seedDraft = activeAgent.seed;
       pendingHashSeed = null;
       pendingHashParams = null;
     } else if (!activeAgent) {
       const input = buildGenerateInput(seedDraft, { includeTrace: true, includeOverrides: false });
       if (!input) return;
-      activeAgent = generateAgent(input);
+      activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'init' });
       seedDraft = activeAgent.seed;
     }
   };
@@ -636,7 +698,7 @@ export function initializeAgentsView(container: HTMLElement) {
       seedDraft = seed;
       const input = buildGenerateInput(seed);
       if (!input) return;
-      activeAgent = generateAgent(input);
+      activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'random' });
       render();
     };
 
@@ -664,7 +726,7 @@ export function initializeAgentsView(container: HTMLElement) {
       seedDraft = seed;
       const input = buildGenerateInput(seed);
       if (!input) return;
-      activeAgent = generateAgent(input);
+      activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'generate' });
       render();
     });
 
@@ -683,7 +745,7 @@ export function initializeAgentsView(container: HTMLElement) {
       seedDraft = seed;
       const input = buildGenerateInput(seed);
       if (!input) return;
-      activeAgent = generateAgent(input);
+      activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'reroll' });
       render();
     });
 
@@ -756,10 +818,10 @@ export function initializeAgentsView(container: HTMLElement) {
         selectedRosterId = found.id;
         seedDraft = found.seed;
         pendingHashSeed = null;
-        const input = buildGenerateInput(seedDraft);
-        activeAgent = input ? generateAgent(input) : null;
-        render();
-      });
+      const input = buildGenerateInput(seedDraft);
+      activeAgent = input ? measureSpan('agents:generate', () => generateAgent(input), { source: 'roster' }) : null;
+      render();
+    });
     }
 
     for (const del of Array.from(container.querySelectorAll<HTMLButtonElement>('[data-roster-delete]'))) {
@@ -770,21 +832,22 @@ export function initializeAgentsView(container: HTMLElement) {
         roster = roster.filter(x => x.id !== id);
         if (selectedRosterId === id) {
           selectedRosterId = roster[0]?.id ?? null;
-          const next = selectedRosterId ? roster.find(x => x.id === selectedRosterId) : null;
-          seedDraft = next?.seed ?? seedDraft;
-          const input = next ? buildGenerateInput(seedDraft) : null;
-          activeAgent = input ? generateAgent(input) : null;
-        }
-        saveRoster(roster);
-        render();
-      });
-    }
+        const next = selectedRosterId ? roster.find(x => x.id === selectedRosterId) : null;
+        seedDraft = next?.seed ?? seedDraft;
+        const input = next ? buildGenerateInput(seedDraft) : null;
+        activeAgent = input ? measureSpan('agents:generate', () => generateAgent(input), { source: 'roster-delete' }) : null;
+      }
+      saveRoster(roster);
+      render();
+    });
+  }
   }
 
   window.addEventListener('hashchange', () => {
     if (!window.location.hash.startsWith('#/agents')) return;
     const seed = readSeedFromHash();
     if (seed) {
+      agentsPerfEnabled = isPerfEnabled(readAgentsParamsFromHash());
       selectedRosterId = null;
       seedDraft = seed;
       const params = readAgentsParamsFromHash();
@@ -803,7 +866,7 @@ export function initializeAgentsView(container: HTMLElement) {
       }
 
       const input = buildGenerateInput(seed, { includeOverrides: false, includeTrace: true });
-      if (input) activeAgent = generateAgent(input);
+      if (input) activeAgent = measureSpan('agents:generate', () => generateAgent(input), { source: 'hash' });
       else {
         pendingHashSeed = seed;
         pendingHashParams = params;
