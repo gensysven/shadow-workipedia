@@ -29,3 +29,6 @@ pnpm-debug.log*
 .vite/
 .cache/
 .vercel
+
+# Rust build artifacts
+**/target/
