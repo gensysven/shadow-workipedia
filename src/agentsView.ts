@@ -441,6 +441,36 @@ export function initializeAgentsView(container: HTMLElement) {
       ...availableCountries.map(c => `<option value="${escapeHtml(c.iso3)}" ${c.iso3 === selectedHomeIso3 ? 'selected' : ''}>${escapeHtml(c.shadow)} (${escapeHtml(c.iso3)})</option>`),
     ].join('');
 
+    const perfStore = getPerfStore();
+    const perfEntries = perfStore?.entries ?? [];
+    const perfRecent = perfEntries.slice(-8).reverse();
+    const perfLines = perfRecent.length
+      ? perfRecent.map((e) => {
+        const ms = Number.isFinite(e.ms) ? e.ms.toFixed(1) : String(e.ms);
+        return `<div class="agents-panel-summary-meta agent-muted"><code>${escapeHtml(e.name)}</code> ${escapeHtml(ms)}ms</div>`;
+      }).join('')
+      : `<div class="agent-muted">No spans yet.</div>`;
+    const perfPanel = agentsPerfEnabled
+      ? `
+                <details class="agents-actions" data-agents-details="sidebar:perf" ${isDetailsOpen('sidebar:perf', true) ? 'open' : ''}>
+                  <summary class="agents-actions-summary">
+                    Perf
+                    <span class="agents-actions-hint">${perfEntries.length} spans</span>
+                  </summary>
+                  <div class="agents-actions-body">
+                    <div class="agent-muted">perf=1 enabled. Latest timings:</div>
+                    <div class="agents-panel-summary-meta">
+                      ${perfLines}
+                    </div>
+                    <div class="agents-btn-row">
+                      <button id="agents-perf-copy" class="agents-btn">Copy timings</button>
+                      <button id="agents-perf-clear" class="agents-btn danger">Clear</button>
+                    </div>
+                  </div>
+                </details>
+              `
+      : '';
+
     // Only show status when loading or error - hide when all loaded successfully
     const hintLines: string[] = [];
     if (agentVocabError) hintLines.push('Vocabulary missing — run `pnpm extract-data` in `shadow-workipedia`.');
@@ -554,6 +584,8 @@ export function initializeAgentsView(container: HTMLElement) {
                   </div>
                 </details>
 
+                ${perfPanel}
+
                 <details class="agents-advanced" data-agents-details="sidebar:advancedOverrides" ${isDetailsOpen('sidebar:advancedOverrides', useOverrides) ? 'open' : ''}>
                   <summary class="agents-advanced-summary">
                     Advanced overrides
@@ -655,6 +687,8 @@ export function initializeAgentsView(container: HTMLElement) {
     const btnExport = container.querySelector('#agents-export') as HTMLButtonElement | null;
     const btnCopyJson = container.querySelector('#agents-copy-json') as HTMLButtonElement | null;
     const btnCopyTrace = container.querySelector('#agents-copy-trace') as HTMLButtonElement | null;
+    const btnPerfCopy = container.querySelector('#agents-perf-copy') as HTMLButtonElement | null;
+    const btnPerfClear = container.querySelector('#agents-perf-clear') as HTMLButtonElement | null;
     const btnClear = container.querySelector('#agents-clear') as HTMLButtonElement | null;
     const overridesToggle = container.querySelector('#agents-use-overrides') as HTMLInputElement | null;
     const generatorPanelEl = container.querySelector('#agents-panel-generator') as HTMLDetailsElement | null;
@@ -816,6 +850,21 @@ export function initializeAgentsView(container: HTMLElement) {
       }
       const ok = await copyJsonToClipboard(trace);
       setTemporaryButtonLabel(btnCopyTrace, ok ? 'Copied' : 'Copy failed', ok ? 1100 : 1600);
+    });
+
+    btnPerfCopy?.addEventListener('click', async () => {
+      if (!btnPerfCopy) return;
+      const store = getPerfStore();
+      const ok = await copyJsonToClipboard(store?.entries ?? []);
+      setTemporaryButtonLabel(btnPerfCopy, ok ? 'Copied' : 'Copy failed', ok ? 1100 : 1600);
+    });
+
+    btnPerfClear?.addEventListener('click', () => {
+      const store = getPerfStore();
+      if (!store) return;
+      store.entries = [];
+      store.last = undefined;
+      render();
     });
 
     btnClear?.addEventListener('click', () => {
