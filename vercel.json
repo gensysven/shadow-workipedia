@@ -1,5 +1,15 @@
 {
   "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "pnpm build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/wasm",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/wasm/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

@@ -477,6 +477,7 @@ export type RouteType =
  *   #/table - Table view
  *   #/wiki - Wiki list view
  *   #/agents or #/agents/<seed> - Seeded agent generator
+ *   #/wasm or #/wasm/<seed> - Alias for seeded agent generator
  *   #/wiki/issue-slug - Wiki article for an issue
  *   #/issue/slug - Issue article (legacy, redirects to #/wiki/slug)
  *   #/system/slug - System article
@@ -517,7 +518,14 @@ export class ArticleRouter {
       return;
     }
 
-    if (hash === '#/agents' || hash.startsWith('#/agents/') || hash.startsWith('#/agents?')) {
+    if (
+      hash === '#/agents' ||
+      hash.startsWith('#/agents/') ||
+      hash.startsWith('#/agents?') ||
+      hash === '#/wasm' ||
+      hash.startsWith('#/wasm/') ||
+      hash.startsWith('#/wasm?')
+    ) {
       this.currentRoute = { kind: 'view', view: 'agents' };
       this.onRouteChange(this.currentRoute);
       return;
