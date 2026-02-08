@@ -2727,6 +2727,16 @@ select.agents-input {
   display: none;
 }
 
+.agent-trace-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.55rem;
+}
+
+.agent-trace-actions .btn {
+  min-width: 70px;
+}
+
 .agent-trace-pre {
   margin-top: 0.75rem;
   padding: 0.75rem;

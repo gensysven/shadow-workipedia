@@ -4,10 +4,9 @@ import { AGENT_TAB_LABELS, type AgentProfileTab } from '../agent/profileTabs';
 import { renderKnowledgeEntryList } from '../agent/knowledgeEntry';
 import { formatCopingMeta, formatEmotionMeta, formatThoughtMeta, renderPsychologyEntryList } from '../agent/psychologyEntry';
 import { renderPsychologyCard, renderPsychologySection } from '../agent/psychologySection';
-import { generateNarrative, pronounSetToMode } from '../agentNarration';
 import { buildHealthSummary } from '../agent/healthSummary';
 import { buildEverydayLifeSummary, buildMemoryTraumaSummary } from '../agent/lifestyleSummary';
-import { displayLanguageCode, escapeHtml, toTitleCaseWords } from './formatting';
+import { escapeHtml, toTitleCaseWords } from './formatting';
 
 export type DetailsOpenReader = (key: string, defaultOpen: boolean) => boolean;
 
@@ -57,9 +56,21 @@ function humanizeSkillKey(key: string): string {
   const spaced = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
   return toTitleCaseWords(spaced);
 }
+
+function pickPrimaryTag(roleSeedTags: readonly string[]): string {
+  const role = roleSeedTags[0] ?? 'operative';
+  if (role === 'operative') return 'SECURITY';
+  if (role === 'analyst') return 'INTELLIGENCE';
+  if (role === 'diplomat') return 'DIPLOMACY';
+  if (role === 'organizer') return 'MOBILIZATION';
+  if (role === 'technocrat') return 'SYSTEMS';
+  if (role === 'media') return 'MEDIA';
+  if (role === 'logistics') return 'LOGISTICS';
+  return toTitleCaseWords(role).toUpperCase();
+}
 export function renderAgent(
   agent: GeneratedAgent,
-  shadowByIso3: ReadonlyMap<string, { shadow: string; continent?: string }>,
+  _shadowByIso3: ReadonlyMap<string, { shadow: string; continent?: string }>,
   tab: AgentProfileTab,
   isDetailsOpen: DetailsOpenReader,
   asOfYear: number,
@@ -68,31 +79,7 @@ export function renderAgent(
   const apt = agent.capabilities.aptitudes;
   const skills = agent.capabilities.skills;
   const preview = agent.deepSimPreview;
-
-  const homeShadow = shadowByIso3.get(agent.identity.homeCountryIso3)?.shadow;
-  const citizenshipShadow = shadowByIso3.get(agent.identity.citizenshipCountryIso3)?.shadow;
-  const currentShadow = shadowByIso3.get(agent.identity.currentCountryIso3)?.shadow;
-
-  const originLabel = homeShadow ?? agent.identity.homeCountryIso3;
-  const citizenshipLabel = citizenshipShadow ?? agent.identity.citizenshipCountryIso3;
-  const currentLabel = currentShadow ?? agent.identity.currentCountryIso3;
-
-  // Use agent's actual pronouns for narration consistency (mixed sets pick deterministically from seed)
-  const agentPronounMode = pronounSetToMode(agent.gender.pronounSet, agent.seed);
-  const narrative = generateNarrative(
-    agent,
-    { originLabel, citizenshipLabel, currentLabel },
-    asOfYear,
-    agentPronounMode,
-    'full',
-  ).html;
-  const narrativeSynopsis = generateNarrative(
-    agent,
-    { originLabel, citizenshipLabel, currentLabel },
-    asOfYear,
-    agentPronounMode,
-    'synopsis',
-  ).html;
+  const primaryCulture = agent.identity.homeCulture ? toTitleCaseWords(agent.identity.homeCulture) : 'Unknown';
   const healthSummary = buildHealthSummary(agent.health, toTitleCaseWords);
   const everydaySummary = buildEverydayLifeSummary(agent.everydayLife, toTitleCaseWords);
   const memorySummary = buildMemoryTraumaSummary(agent.memoryTrauma, toTitleCaseWords);
@@ -121,13 +108,28 @@ export function renderAgent(
     return `<span class="agent-pill-wrap agent-pill-wrap-left">${items.map(item => `<span class="pill pill-muted">${escapeHtml(toTitleCaseWords(item))}</span>`).join('')}</span>`;
   };
 
-  const roleTags = agent.identity.roleSeedTags.map(t => `<span class="pill">${escapeHtml(toTitleCaseWords(t))}</span>`).join('');
-  const langTags = agent.identity.languages.map(t => `<span class="pill pill-muted">${escapeHtml(displayLanguageCode(t))}</span>`).join('');
-
   const sortedSkills = Object.entries(skills)
     .map(([key, v]) => ({ key, value: v.value }))
     .sort((a, b) => (b.value - a.value) || a.key.localeCompare(b.key));
   const topSkills = sortedSkills.slice(0, 6);
+  const topSkillName = topSkills[0] ? humanizeSkillKey(topSkills[0].key) : 'Generalist';
+  const primaryTag = pickPrimaryTag(agent.identity.roleSeedTags);
+  const topTraits = Object.entries(agent.capabilities.traits)
+    .map(([key, value]) => ({
+      key,
+      label: humanizeSkillKey(key),
+      magnitude: Math.abs(value - 500),
+    }))
+    .sort((a, b) => (b.magnitude - a.magnitude) || a.key.localeCompare(b.key))
+    .slice(0, 2);
+  const overviewBlurb = [
+    `${toTitleCaseWords(agent.identity.roleSeedTags[0] ?? 'operative')} profile`,
+    `${toTitleCaseWords(preview.breakRiskBand)} break risk`,
+    `from ${primaryCulture}`,
+    `${toTitleCaseWords(agent.institution.orgType)} network`,
+    `strong in ${topSkillName}`,
+    `as of ${asOfYear}`,
+  ].join(' · ');
 
   const skillRows = sortedSkills
     .map((s) => `
@@ -137,10 +139,6 @@ export function renderAgent(
         <div class="agent-skill-pct">${escapeHtml(formatFixed01k(s.value))}</div>
       </div>
     `)
-    .join('');
-
-  const topSkillList = topSkills
-    .map(s => `<div class="agent-mini-row"><span class="agent-mini-k">${escapeHtml(humanizeSkillKey(s.key))}</span><span class="agent-mini-v">${escapeHtml(formatFixed01k(s.value))}</span></div>`)
     .join('');
 
   const detailItems = agent.details ?? [];
@@ -240,9 +238,6 @@ export function renderAgent(
     .slice()
     .sort((a, b) => (b[1] - a[1]) || a[0].localeCompare(b[0]));
   const topAptitudes = aptitudePairs.slice(0, 4);
-  const topAptitudeList = topAptitudes
-    .map(([label, v]) => `<div class="agent-mini-row"><span class="agent-mini-k">${escapeHtml(label)}</span><span class="agent-mini-v">${escapeHtml(formatFixed01k(v))}</span></div>`)
-    .join('');
 
   const conversationTopics = agent.civicLife?.conversationTopics ?? [];
   const conversationPills = conversationTopics.length
@@ -405,6 +400,9 @@ export function renderAgent(
     ? `
       <details class="agent-trace" data-agents-details="profile:debug:trace" ${isDetailsOpen('profile:debug:trace', false) ? 'open' : ''}>
         <summary>Generation trace</summary>
+        <div class="agent-trace-actions">
+          <button type="button" class="btn btn-secondary btn-xs" data-agent-trace-copy>Copy</button>
+        </div>
         <pre class="agent-trace-pre">${escapeHtml(JSON.stringify(agent.generationTrace, null, 2))}</pre>
       </details>
     `
@@ -414,17 +412,11 @@ export function renderAgent(
     <div class="agent-profile">
       <div class="agent-profile-sticky">
         <div class="agent-profile-header">
-          <h2>${escapeHtml(agent.identity.name)}</h2>
-          <div class="agent-meta">
-            <span class="agent-meta-item agent-meta-hide-mobile">Seed: <code>${escapeHtml(agent.seed)}</code></span>
-            <span class="agent-meta-item">Origin: ${escapeHtml(originLabel)} <code class="agent-meta-hide-mobile">${escapeHtml(agent.identity.homeCountryIso3)}</code></span>
-            <span class="agent-meta-item agent-meta-hide-mobile">Citizenship: ${escapeHtml(citizenshipLabel)} <code>${escapeHtml(agent.identity.citizenshipCountryIso3)}</code></span>
-            ${agent.identity.currentCountryIso3 !== agent.identity.homeCountryIso3 ? `<span class="agent-meta-item">Location: ${escapeHtml(currentLabel)} <code class="agent-meta-hide-mobile">${escapeHtml(agent.identity.currentCountryIso3)}</code></span>` : ''}
-            <span class="agent-meta-item">Born: ${escapeHtml(String(agent.identity.birthYear))}</span>
-            <span class="agent-meta-item">Tier: ${escapeHtml(toTitleCaseWords(agent.identity.tierBand))}</span>
-            <span class="agent-meta-item agent-meta-hide-mobile">Culture: ${escapeHtml(toTitleCaseWords(agent.identity.homeCulture))}</span>
+          <div class="agent-profile-header-row">
+            <h2>${escapeHtml(agent.identity.name)}</h2>
+            <div class="agent-seed-inline">Seed: <code>${escapeHtml(agent.seed)}</code></div>
           </div>
-          <div class="agent-pill-row">${roleTags} <span class="agent-meta-hide-mobile">${langTags}</span></div>
+          <div class="agent-origin-line">Origin: ${escapeHtml(primaryCulture || 'Unknown')}</div>
         </div>
 
         <div class="agent-tabs">
@@ -442,46 +434,21 @@ export function renderAgent(
           <!-- OVERVIEW TAB: First impression - who is this person? -->
           <div class="agent-tab-panel ${tab === 'overview' ? 'active' : ''}" data-agent-tab-panel="overview">
             <div class="agent-grid agent-grid-tight">
-              <!-- Synopsis: the narrative hook -->
               <section class="agent-card agent-card-span12">
-                <h3>Synopsis</h3>
-                ${narrativeSynopsis}
+                <div class="agent-overview-tag">${escapeHtml(primaryTag)}</div>
+                <p class="agent-overview-blurb">${escapeHtml(overviewBlurb)}</p>
               </section>
-
-              <!-- At a glance: quick reference for writers -->
-              <section class="agent-card agent-card-span6">
-                <h3>At a glance</h3>
-                <div class="agent-kv">
-                  <div class="kv-row"><span class="kv-k">Languages</span><span class="kv-v">${escapeHtml(agent.identity.languageProficiencies.map(lp => `${displayLanguageCode(lp.language)} (${toTitleCaseWords(lp.proficiencyBand)})`).join(', '))}</span></div>
-                  <div class="kv-row"><span class="kv-k">Education</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.educationTrackTag))}</span></div>
-                  <div class="kv-row"><span class="kv-k">Career</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.identity.careerTrackTag))}</span></div>
-                  <div class="kv-row"><span class="kv-k">Mobility</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.mobilityTag))}</span></div>
-                  <div class="kv-row"><span class="kv-k">Passport</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.passportAccessBand))}</span></div>
-                  <div class="kv-row"><span class="kv-k">Travel</span><span class="kv-v">${escapeHtml(toTitleCaseWords(agent.mobility.travelFrequencyBand))}</span></div>
+              <section class="agent-card agent-card-span12">
+                <h3>Summary</h3>
+                <div class="agent-overview-summary">
+                  <div class="agent-overview-row"><span class="agent-overview-label">Tier</span><span class="agent-overview-value">${escapeHtml(toTitleCaseWords(agent.identity.tierBand))}</span></div>
+                  <div class="agent-overview-row"><span class="agent-overview-label">Institution</span><span class="agent-overview-value">${escapeHtml(toTitleCaseWords(agent.institution.orgType))}</span></div>
+                  <div class="agent-overview-row"><span class="agent-overview-label">Career</span><span class="agent-overview-value">${escapeHtml(toTitleCaseWords(agent.identity.careerTrackTag))}</span></div>
+                  <div class="agent-overview-row"><span class="agent-overview-label">Trait 1</span><span class="agent-overview-value">${escapeHtml(topTraits[0]?.label ?? '—')}</span></div>
+                  <div class="agent-overview-row"><span class="agent-overview-label">Trait 2</span><span class="agent-overview-value">${escapeHtml(topTraits[1]?.label ?? '—')}</span></div>
+                  <div class="agent-overview-row"><span class="agent-overview-label">Top Skill</span><span class="agent-overview-value">${escapeHtml(topSkillName)}</span></div>
                 </div>
               </section>
-
-              <!-- Highlights: top capabilities -->
-              <section class="agent-card agent-card-span6">
-                <h3>Highlights</h3>
-                <div class="agent-mini">
-                  <div class="agent-mini-title">Top skills</div>
-                  <div class="agent-mini-list">${topSkillList || `<div class="agent-inline-muted">—</div>`}</div>
-                  <div class="agent-mini-title" style="margin-top:0.75rem">Top aptitudes</div>
-                  <div class="agent-mini-list">${topAptitudeList || `<div class="agent-inline-muted">—</div>`}</div>
-                </div>
-              </section>
-
-              <!-- Full narrative (collapsed by default, for writers who want more) -->
-              <details class="agent-card agent-card-span12 agent-section" data-agents-details="profile:portrait:narrative" ${isDetailsOpen('profile:portrait:narrative', false) ? 'open' : ''}>
-                <summary class="agent-section-summary">
-                  <span class="agent-section-title">Full narrative</span>
-                  <span class="agent-section-hint">Detailed character description</span>
-                </summary>
-                <div class="agent-section-body">
-                  ${narrative}
-                </div>
-              </details>
             </div>
           </div>
 
