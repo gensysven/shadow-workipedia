@@ -20,6 +20,7 @@ import { createDetailPanelHelpers } from './main/detailPanel';
 import { applyDataLoadWarning, createIssueIdResolver, loadGraphData } from './main/dataLoad';
 import { createInteractionHandlers } from './main/interactionsSetup';
 import { attachResetHandler, attachTabNavigation, createResizeCanvas } from './main/layoutControls';
+import { normalizePathAliasesToHashRoutes } from './main/pathAliases';
 import {
   drawArrow,
   drawDiamond,
@@ -35,24 +36,8 @@ import {
 let renderDetailPanel: (node: SimNode, data: GraphData) => string = () => '';
 let attachDetailPanelHandlers: () => void = () => {};
 
-function normalizePathAliasesToHashRoutes() {
-  const { pathname, hash } = window.location;
-  const normalizedPath = pathname.replace(/\/+$/, '') || '/';
-  const isWasmPath = normalizedPath === '/wasm' || normalizedPath.startsWith('/wasm/');
-  if (!isWasmPath) return;
-
-  const hasSupportedHash = Boolean(hash) && hash !== '#/' && hash !== '#/graph';
-  if (hasSupportedHash) return;
-
-  const seedFromPath = normalizedPath.startsWith('/wasm/')
-    ? normalizedPath.slice('/wasm/'.length)
-    : '';
-
-  window.location.hash = seedFromPath ? `#/agents/${seedFromPath}` : '#/agents';
-}
-
 async function main() {
-  normalizePathAliasesToHashRoutes();
+  normalizePathAliasesToHashRoutes(window.location);
   console.log('🚀 Shadow Workipedia initializing...');
 
   // Load data

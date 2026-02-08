@@ -4,6 +4,14 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/agents",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/agents/(.*)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/wasm",
       "destination": "/index.html"
     },
