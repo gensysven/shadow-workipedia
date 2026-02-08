@@ -354,7 +354,6 @@ export function initializeAgentsView(container: HTMLElement) {
       name: agent.identity.name,
       seed: agent.seed,
       createdAtIso: agent.createdAtIso,
-      hook: buildRecentHook(agent),
       agent: { ...agent, generationTrace: undefined },
     };
     roster = [item, ...roster.filter(x => x.id !== item.id)].slice(0, 5);
@@ -489,7 +488,7 @@ export function initializeAgentsView(container: HTMLElement) {
     const canGenerate = generationReady && !seedError && !isGenerating;
     const recentRows = roster
       .map(item => {
-        const hook = item.hook ?? (item.agent ? buildRecentHook(item.agent) : 'Generated profile');
+        const hook = item.agent ? buildRecentHook(item.agent) : 'Generated profile';
         return `
           <button
             type="button"
