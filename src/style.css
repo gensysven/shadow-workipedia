@@ -2733,8 +2733,9 @@ select.agents-input {
   margin-top: 0.55rem;
 }
 
-.agent-trace-actions .btn {
+.agent-trace-actions .agents-btn {
   min-width: 70px;
+  width: auto;
 }
 
 .agent-trace-pre {

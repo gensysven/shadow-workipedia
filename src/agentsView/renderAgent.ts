@@ -401,7 +401,7 @@ export function renderAgent(
       <details class="agent-trace" data-agents-details="profile:debug:trace" ${isDetailsOpen('profile:debug:trace', false) ? 'open' : ''}>
         <summary>Generation trace</summary>
         <div class="agent-trace-actions">
-          <button type="button" class="btn btn-secondary btn-xs" data-agent-trace-copy>Copy</button>
+          <button type="button" class="agents-btn agents-btn-compact" data-agent-trace-copy>Copy</button>
         </div>
         <pre class="agent-trace-pre">${escapeHtml(JSON.stringify(agent.generationTrace, null, 2))}</pre>
       </details>
