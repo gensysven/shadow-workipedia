@@ -2149,6 +2149,7 @@ select.agents-input {
 .agents-main {
   flex: 1;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   padding: 1rem 1.5rem;
 }
 
@@ -2541,6 +2542,10 @@ select.agents-input {
   grid-column: span 12;
 }
 
+.agent-data-grid > * {
+  min-width: 0;
+}
+
 .agent-card-compact {
   padding: 0.75rem 0.9rem;
 }
@@ -2712,6 +2717,10 @@ select.agents-input {
   background: rgba(255, 255, 255, 0.04);
   border-radius: 10px;
   padding: 0.85rem 1rem;
+}
+
+.agent-data-grid .agent-trace {
+  margin-top: 0;
 }
 
 .agent-trace summary {

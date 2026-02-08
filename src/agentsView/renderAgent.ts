@@ -398,7 +398,7 @@ export function renderAgent(
 
   const traceSection = agent.generationTrace
     ? `
-      <details class="agent-trace" data-agents-details="profile:debug:trace" ${isDetailsOpen('profile:debug:trace', false) ? 'open' : ''}>
+      <details class="agent-trace agent-card-span12" data-agents-details="profile:debug:trace" ${isDetailsOpen('profile:debug:trace', false) ? 'open' : ''}>
         <summary>Generation trace</summary>
         <div class="agent-trace-actions">
           <button type="button" class="agents-btn agents-btn-compact" data-agent-trace-copy>Copy</button>
@@ -1115,8 +1115,8 @@ export function renderAgent(
 
         <!-- DATA TAB: Technical/debug info -->
         <div class="agent-tab-panel ${tab === 'data' ? 'active' : ''}" data-agent-tab-panel="data">
-          <div class="agent-grid agent-grid-tight">
-            <details class="agent-card agent-section" data-agents-details="profile:data:deepSim" ${isDetailsOpen('profile:data:deepSim', false) ? 'open' : ''}>
+          <div class="agent-grid agent-grid-tight agent-data-grid">
+            <details class="agent-card agent-section agent-card-span12" data-agents-details="profile:data:deepSim" ${isDetailsOpen('profile:data:deepSim', false) ? 'open' : ''}>
               <summary class="agent-section-summary">
                 <span class="agent-section-title">Deep sim preview</span>
                 <span class="agent-section-hint">${escapeHtml(`${toTitleCaseWords(preview.breakRiskBand)} break risk`)}</span>
