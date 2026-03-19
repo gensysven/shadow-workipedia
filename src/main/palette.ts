@@ -94,7 +94,7 @@ export function initializeCommandPalette({
     return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
   }
 
-  // Header tab shortcuts: 1-5 => Graph/Table/Wiki/Agents/Ontology (6 opens communities)
+  // Header tab shortcuts: 1-5 => Graph/Table/Wiki/Agents/Ontology
   rootDoc.addEventListener('keydown', e => {
     if (e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -116,9 +116,6 @@ export function initializeCommandPalette({
     } else if (e.key === '5') {
       e.preventDefault();
       router.navigateToView('ontology');
-    } else if (e.key === '6') {
-      e.preventDefault();
-      router.navigateToView('communities');
     }
   });
 
