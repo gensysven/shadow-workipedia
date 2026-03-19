@@ -94,8 +94,8 @@ export function initializeCommandPalette({
     return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
   }
 
-  // Header tab shortcuts: 1/2/3/4 => Graph/Table/Wiki/Agents (5 opens communities inside wiki)
-  rootDoc.addEventListener('keydown', (e) => {
+  // Header tab shortcuts: 1-5 => Graph/Table/Wiki/Agents/Ontology (6 opens communities)
+  rootDoc.addEventListener('keydown', e => {
     if (e.defaultPrevented) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (isEditableTarget(rootDoc.activeElement)) return;
@@ -115,16 +115,15 @@ export function initializeCommandPalette({
       router.navigateToView('agents');
     } else if (e.key === '5') {
       e.preventDefault();
+      router.navigateToView('ontology');
+    } else if (e.key === '6') {
+      e.preventDefault();
       router.navigateToView('communities');
     }
   });
 
   function normalizeQuery(raw: string): string[] {
-    return raw
-      .toLowerCase()
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean);
+    return raw.toLowerCase().trim().split(/\s+/).filter(Boolean);
   }
 
   function scoreMatch(tokens: string[], haystack: string): number | null {
@@ -190,11 +189,12 @@ export function initializeCommandPalette({
   function ensureNodeTypeVisible(node: SimNode) {
     if (node.type === 'issue' && !getShowIssues()) viewToggleButtons.showIssuesBtn?.click();
     if (node.type === 'system' && !getShowSystems()) viewToggleButtons.showSystemsBtn?.click();
-    if (node.type === 'principle' && !getShowPrinciples()) viewToggleButtons.showPrinciplesBtn?.click();
+    if (node.type === 'principle' && !getShowPrinciples())
+      viewToggleButtons.showPrinciplesBtn?.click();
   }
 
   function focusNodeInGraph(nodeId: string) {
-    const targetNode = graph.getNodes().find((n) => n.id === nodeId);
+    const targetNode = graph.getNodes().find(n => n.id === nodeId);
     if (!targetNode) return;
 
     ensureNodeTypeVisible(targetNode);
@@ -216,7 +216,11 @@ export function initializeCommandPalette({
         ? article.frontmatter.caseStudyOf.trim()
         : '';
     if (!parentId) return undefined;
-    return data.articles?.[parentId]?.title ?? graph.getNodes().find((n) => n.id === parentId)?.label ?? parentId;
+    return (
+      data.articles?.[parentId]?.title ??
+      graph.getNodes().find(n => n.id === parentId)?.label ??
+      parentId
+    );
   }
 
   function buildPaletteItems(): PaletteItem[] {
@@ -316,7 +320,7 @@ export function initializeCommandPalette({
         group: 'Commands',
         searchText: 'reset clear',
         run: () => resetBtn?.click(),
-      }
+      },
     );
 
     for (const node of data.nodes) {
@@ -394,8 +398,10 @@ export function initializeCommandPalette({
             : '';
         if (mergedInto) continue;
         const subtitleParts: string[] = [];
-        if (typeof article.frontmatter?.pattern === 'string') subtitleParts.push(article.frontmatter.pattern);
-        if (typeof article.frontmatter?.mechanic === 'string') subtitleParts.push(article.frontmatter.mechanic);
+        if (typeof article.frontmatter?.pattern === 'string')
+          subtitleParts.push(article.frontmatter.pattern);
+        if (typeof article.frontmatter?.mechanic === 'string')
+          subtitleParts.push(article.frontmatter.mechanic);
         const subtitle = subtitleParts.length > 0 ? subtitleParts.join(' • ') : 'Mechanic';
 
         items.push({
@@ -412,7 +418,9 @@ export function initializeCommandPalette({
     }
 
     if (data.communities) {
-      for (const [idStr, info] of Object.entries(data.communities as Record<string, CommunityInfo>)) {
+      for (const [idStr, info] of Object.entries(
+        data.communities as Record<string, CommunityInfo>,
+      )) {
         const id = Number(idStr);
         const slug = `community-${id}`;
         const title = info.label || `Community ${id}`;
@@ -471,9 +479,9 @@ export function initializeCommandPalette({
     paletteActiveId = item.id;
     if (!paletteResults) return;
 
-    paletteResults.querySelectorAll('.palette-item').forEach((el) => el.classList.remove('active'));
+    paletteResults.querySelectorAll('.palette-item').forEach(el => el.classList.remove('active'));
     const activeEl = paletteResults.querySelector(
-      `.palette-item[data-id="${CSS.escape(item.id)}"]`
+      `.palette-item[data-id="${CSS.escape(item.id)}"]`,
     ) as HTMLElement | null;
     if (activeEl) {
       activeEl.classList.add('active');
@@ -482,7 +490,7 @@ export function initializeCommandPalette({
   }
 
   function runActive() {
-    const item = paletteVisibleItems.find((i) => i.id === paletteActiveId) ?? paletteVisibleItems[0];
+    const item = paletteVisibleItems.find(i => i.id === paletteActiveId) ?? paletteVisibleItems[0];
     if (!item) return;
     closePalette();
     item.run();
@@ -506,7 +514,7 @@ export function initializeCommandPalette({
     scored.sort((a, b) => a.score - b.score || a.item.title.localeCompare(b.item.title));
 
     const maxResults = tokens.length === 0 ? 12 : 40;
-    const results = scored.slice(0, maxResults).map((s) => s.item);
+    const results = scored.slice(0, maxResults).map(s => s.item);
     paletteVisibleItems = results;
 
     if (results.length === 0) {
@@ -533,12 +541,12 @@ export function initializeCommandPalette({
     ];
 
     paletteResults.innerHTML = groupOrder
-      .filter((g) => groups.has(g))
-      .map((group) => {
+      .filter(g => groups.has(g))
+      .map(group => {
         const items = groups.get(group)!;
         const rows = items
           .map(
-            (i) => `
+            i => `
           <div class="palette-item" role="option" data-id="${i.id}">
             <div class="palette-item-left">
               <div class="palette-item-title">${escapeHtml(i.title)}</div>
@@ -546,21 +554,21 @@ export function initializeCommandPalette({
             </div>
             ${i.rightHint ? `<div class="palette-item-right">${escapeHtml(i.rightHint)}</div>` : ''}
           </div>
-        `
+        `,
           )
           .join('');
         return `<div class="palette-group">${escapeHtml(group)}</div>${rows}`;
       })
       .join('');
 
-    paletteResults.querySelectorAll('.palette-item').forEach((el) => {
+    paletteResults.querySelectorAll('.palette-item').forEach(el => {
       const row = el as HTMLElement;
       const id = row.getAttribute('data-id');
       if (!id) return;
 
       row.addEventListener('mouseenter', () => {
         paletteActiveId = id;
-        paletteResults.querySelectorAll('.palette-item').forEach((n) => n.classList.remove('active'));
+        paletteResults.querySelectorAll('.palette-item').forEach(n => n.classList.remove('active'));
         row.classList.add('active');
       });
 
@@ -570,10 +578,10 @@ export function initializeCommandPalette({
       });
     });
 
-    if (!paletteActiveId || !results.some((r) => r.id === paletteActiveId)) {
+    if (!paletteActiveId || !results.some(r => r.id === paletteActiveId)) {
       paletteActiveId = results[0].id;
     }
-    setActiveByIndex(results.findIndex((r) => r.id === paletteActiveId));
+    setActiveByIndex(results.findIndex(r => r.id === paletteActiveId));
   }
 
   function escapeHtml(text: string): string {
@@ -586,13 +594,13 @@ export function initializeCommandPalette({
   }
 
   if (paletteOverlay && paletteInput && paletteResults) {
-    paletteOverlay.addEventListener('click', (e) => {
+    paletteOverlay.addEventListener('click', e => {
       if (e.target === paletteOverlay) closePalette();
     });
 
     paletteInput.addEventListener('input', () => schedulePaletteRender());
 
-    paletteInput.addEventListener('keydown', (e) => {
+    paletteInput.addEventListener('keydown', e => {
       if (!paletteOpen) return;
 
       if (e.key === 'Escape') {
@@ -613,15 +621,16 @@ export function initializeCommandPalette({
 
         const currentIndex = Math.max(
           0,
-          paletteVisibleItems.findIndex((i) => i.id === paletteActiveId)
+          paletteVisibleItems.findIndex(i => i.id === paletteActiveId),
         );
         const delta = e.key === 'ArrowDown' ? 1 : -1;
-        const nextIndex = (currentIndex + delta + paletteVisibleItems.length) % paletteVisibleItems.length;
+        const nextIndex =
+          (currentIndex + delta + paletteVisibleItems.length) % paletteVisibleItems.length;
         setActiveByIndex(nextIndex);
       }
     });
 
-    rootDoc.addEventListener('keydown', (e) => {
+    rootDoc.addEventListener('keydown', e => {
       const isK = e.key.toLowerCase() === 'k';
       const wantsPalette = isK && (e.metaKey || e.ctrlKey);
       if (!wantsPalette) return;
