@@ -45,6 +45,10 @@
             <span class="tab-label">Agents</span>
             <span class="tab-shortcut">4</span>
           </button>
+          <button id="tab-ontology" class="tab-btn" aria-keyshortcuts="5">
+            <span class="tab-label">Ontology</span>
+            <span class="tab-shortcut">5</span>
+          </button>
 	      </div>
 	      <h1>Shadow Workipedia</h1>
 	    </header>
@@ -97,6 +101,12 @@
     <!-- Agents view (hidden by default) -->
     <div id="agents-view" class="hidden">
       <div id="agents-container"></div>
+    </div>
+
+    <!-- Ontology view (hidden by default) -->
+    <div id="ontology-view" class="hidden">
+      <canvas id="ontology-canvas"></canvas>
+      <div id="ontology-legend"></div>
     </div>
 
     <!-- Article view (hidden by default) -->

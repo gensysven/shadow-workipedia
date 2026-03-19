@@ -5,6 +5,7 @@ import type { SimNode } from './graph';
 import { ZoomPanHandler } from './interactions';
 import { ArticleRouter, renderWikiArticleContent } from './article';
 import { initializeAgentsView } from './agentsView';
+import { initOntologyView } from './ontology';
 import { createCanvasContext } from './main/canvas';
 import { initializeMainDom } from './main/dom';
 import { attachMainHandlers } from './main/handlers';
@@ -58,6 +59,9 @@ async function main() {
     wikiView,
     agentsView,
     agentsContainer,
+    ontologyView,
+    ontologyCanvas,
+    ontologyLegend,
     wikiSidebarContent,
     wikiArticleContent,
     articleView,
@@ -81,7 +85,7 @@ async function main() {
 	  let wikiSection: 'articles' | 'communities' = 'articles';
 
 	  // View state (needed early for router initialization)
-	  let currentView: 'graph' | 'table' | 'wiki' | 'agents' | 'communities' = 'graph';
+	  let currentView: 'graph' | 'table' | 'wiki' | 'agents' | 'communities' | 'ontology' = 'graph';
 
 	  // Forward declare render functions (implemented later)
 	  let render: () => void = () => {};
@@ -94,11 +98,14 @@ async function main() {
   // Store router reference for navigation
   let router: ArticleRouter;
 
+  let ontologyInitialized = false;
+
   const viewController = createViewController({
     graphView,
     tableView,
     wikiView,
     agentsView,
+    ontologyView,
     articleView,
     header,
     tabNav,
@@ -110,7 +117,14 @@ async function main() {
     tabTable: document.getElementById('tab-table'),
     tabWiki: document.getElementById('tab-wiki'),
     tabAgents: document.getElementById('tab-agents'),
+    tabOntology: document.getElementById('tab-ontology'),
     renderWikiList: () => renderWikiList(),
+    onOntologyActivate: () => {
+      if (!ontologyInitialized) {
+        ontologyInitialized = true;
+        initOntologyView(ontologyCanvas, ontologyLegend);
+      }
+    },
     onViewChange: (view) => {
       currentView = view;
       if (view === 'table') {
@@ -383,6 +397,7 @@ async function main() {
   const tabTable = document.getElementById('tab-table') as HTMLButtonElement;
   const tabWiki = document.getElementById('tab-wiki') as HTMLButtonElement;
   const tabAgents = document.getElementById('tab-agents') as HTMLButtonElement;
+  const tabOntology = document.getElementById('tab-ontology') as HTMLButtonElement;
   const tableContainer = document.getElementById('table-container') as HTMLDivElement;
 
   renderTable = createTableRenderer({
@@ -417,6 +432,7 @@ async function main() {
     tabTable,
     tabWiki,
     tabAgents,
+    tabOntology,
     router,
     getSelectedNode: () => selectedNode,
     setSelectedNode,

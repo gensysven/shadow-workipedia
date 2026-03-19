@@ -5,6 +5,7 @@ type ViewControllerDeps = {
   tableView: HTMLElement;
   wikiView: HTMLElement;
   agentsView: HTMLElement;
+  ontologyView: HTMLElement;
   articleView: HTMLElement;
   header: HTMLElement | null;
   tabNav: HTMLElement | null;
@@ -16,7 +17,9 @@ type ViewControllerDeps = {
   tabTable: HTMLElement | null;
   tabWiki: HTMLElement | null;
   tabAgents: HTMLElement | null;
+  tabOntology: HTMLElement | null;
   renderWikiList: () => void;
+  onOntologyActivate?: () => void;
   onViewChange?: (view: ViewType) => void;
 };
 
@@ -25,6 +28,7 @@ export function createViewController({
   tableView,
   wikiView,
   agentsView,
+  ontologyView,
   articleView,
   header,
   tabNav,
@@ -36,7 +40,9 @@ export function createViewController({
   tabTable,
   tabWiki,
   tabAgents,
+  tabOntology,
   renderWikiList,
+  onOntologyActivate,
   onViewChange,
 }: ViewControllerDeps) {
   function showView(view: ViewType) {
@@ -49,6 +55,7 @@ export function createViewController({
     tabTable?.classList.remove('active');
     tabWiki?.classList.remove('active');
     tabAgents?.classList.remove('active');
+    tabOntology?.classList.remove('active');
 
     articleView?.classList.add('hidden');
     if (header) header.classList.remove('hidden');
@@ -65,6 +72,7 @@ export function createViewController({
       tableView?.classList.add('hidden');
       wikiView?.classList.add('hidden');
       agentsView?.classList.add('hidden');
+      ontologyView?.classList.add('hidden');
       if (filterBar) filterBar.classList.remove('hidden');
       window.dispatchEvent(new Event('resize'));
     } else if (view === 'table') {
@@ -73,6 +81,7 @@ export function createViewController({
       tableView?.classList.remove('hidden');
       wikiView?.classList.add('hidden');
       agentsView?.classList.add('hidden');
+      ontologyView?.classList.add('hidden');
       if (filterBar) filterBar.classList.remove('hidden');
       if (viewModeToggles) viewModeToggles.style.display = '';
       if (categoryFilters) categoryFilters.style.display = '';
@@ -83,6 +92,7 @@ export function createViewController({
       tableView?.classList.add('hidden');
       wikiView?.classList.remove('hidden');
       agentsView?.classList.add('hidden');
+      ontologyView?.classList.add('hidden');
       if (filterBar) filterBar.classList.add('hidden');
       if (viewModeToggles) viewModeToggles.style.display = 'none';
       if (categoryFilters) categoryFilters.style.display = 'none';
@@ -94,10 +104,24 @@ export function createViewController({
       tableView?.classList.add('hidden');
       wikiView?.classList.add('hidden');
       agentsView?.classList.remove('hidden');
+      ontologyView?.classList.add('hidden');
       if (filterBar) filterBar.classList.add('hidden');
       if (viewModeToggles) viewModeToggles.style.display = 'none';
       if (categoryFilters) categoryFilters.style.display = 'none';
       if (clusterToggle) clusterToggle.style.display = 'none';
+    } else if (view === 'ontology') {
+      tabOntology?.classList.add('active');
+      graphView?.classList.add('hidden');
+      tableView?.classList.add('hidden');
+      wikiView?.classList.add('hidden');
+      agentsView?.classList.add('hidden');
+      ontologyView?.classList.remove('hidden');
+      if (filterBar) filterBar.classList.add('hidden');
+      if (viewModeToggles) viewModeToggles.style.display = 'none';
+      if (categoryFilters) categoryFilters.style.display = 'none';
+      if (clusterToggle) clusterToggle.style.display = 'none';
+      onOntologyActivate?.();
+      window.dispatchEvent(new Event('resize'));
     }
   }
 

@@ -30,6 +30,7 @@ type TabDeps = {
   tabTable: HTMLButtonElement | null;
   tabWiki: HTMLButtonElement | null;
   tabAgents: HTMLButtonElement | null;
+  tabOntology: HTMLButtonElement | null;
   router: ArticleRouter;
   getSelectedNode: () => SimNode | null;
   setSelectedNode: (node: SimNode | null) => void;
@@ -103,6 +104,7 @@ export function attachTabNavigation({
   tabTable,
   tabWiki,
   tabAgents,
+  tabOntology,
   router,
   getSelectedNode,
   setSelectedNode,
@@ -116,6 +118,9 @@ export function attachTabNavigation({
   }
   if (tabAgents) {
     tabAgents.addEventListener('click', () => router.navigateToView('agents'));
+  }
+  if (tabOntology) {
+    tabOntology.addEventListener('click', () => router.navigateToView('ontology'));
   }
   if (tabWiki) {
     tabWiki.addEventListener('click', () => {

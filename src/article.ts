@@ -463,7 +463,7 @@ function renderRedirectBanner(article: WikiArticle, data: GraphData): string {
   `;
 }
 
-export type ViewType = 'graph' | 'table' | 'wiki' | 'agents' | 'communities';
+export type ViewType = 'graph' | 'table' | 'wiki' | 'agents' | 'communities' | 'ontology';
 export type RouteType =
   | { kind: 'view'; view: ViewType }
   | { kind: 'article'; type: WikiArticle['type']; slug: string }
@@ -533,6 +533,12 @@ export class ArticleRouter {
 
     if (hash === '#/communities') {
       this.currentRoute = { kind: 'view', view: 'communities' };
+      this.onRouteChange(this.currentRoute);
+      return;
+    }
+
+    if (hash === '#/ontology') {
+      this.currentRoute = { kind: 'view', view: 'ontology' };
       this.onRouteChange(this.currentRoute);
       return;
     }

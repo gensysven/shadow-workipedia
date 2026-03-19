@@ -6,6 +6,9 @@ export type MainDom = {
   wikiView: HTMLElement;
   agentsView: HTMLElement;
   agentsContainer: HTMLElement;
+  ontologyView: HTMLElement;
+  ontologyCanvas: HTMLCanvasElement;
+  ontologyLegend: HTMLElement;
   wikiSidebarContent: HTMLElement;
   wikiArticleContent: HTMLElement;
   articleView: HTMLElement;
@@ -27,6 +30,9 @@ export function initializeMainDom(doc: Document = document): MainDom {
   const wikiView = doc.getElementById('wiki-view');
   const agentsView = doc.getElementById('agents-view');
   const agentsContainer = doc.getElementById('agents-container');
+  const ontologyView = doc.getElementById('ontology-view');
+  const ontologyCanvas = doc.getElementById('ontology-canvas') as HTMLCanvasElement;
+  const ontologyLegend = doc.getElementById('ontology-legend');
   const wikiSidebarContent = doc.getElementById('wiki-sidebar-content');
   const wikiArticleContent = doc.getElementById('wiki-article-content');
   const articleView = doc.getElementById('article-view');
@@ -41,6 +47,9 @@ export function initializeMainDom(doc: Document = document): MainDom {
     !wikiView ||
     !agentsView ||
     !agentsContainer ||
+    !ontologyView ||
+    !ontologyCanvas ||
+    !ontologyLegend ||
     !wikiSidebarContent ||
     !wikiArticleContent ||
     !articleView ||
@@ -62,6 +71,9 @@ export function initializeMainDom(doc: Document = document): MainDom {
     wikiView,
     agentsView,
     agentsContainer,
+    ontologyView,
+    ontologyCanvas,
+    ontologyLegend,
     wikiSidebarContent,
     wikiArticleContent,
     articleView,

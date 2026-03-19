@@ -1,0 +1,538 @@
+{
+  "schema_version": "2.0.0-p12i8t18f31",
+  "pressure_types": [
+    "economic_strain",
+    "social_unrest",
+    "political_instability",
+    "demographic_pressure",
+    "resource_scarcity",
+    "tech_disruption",
+    "legitimacy_crisis",
+    "elite_fracture",
+    "environmental_stress",
+    "ideological_polarization",
+    "imperial_overstretch",
+    "military_tension"
+  ],
+  "institution_types": [
+    "central_bank",
+    "treasury",
+    "executive",
+    "corporation",
+    "labor_union",
+    "energy_company",
+    "ruling_party",
+    "opposition_party"
+  ],
+  "issue_types": [
+    "sovereign_debt_crisis",
+    "currency_crisis",
+    "trade_war",
+    "recession",
+    "hyperinflation",
+    "mass_unemployment",
+    "class_conflict",
+    "migration_crisis",
+    "demographic_cliff",
+    "legitimacy_crisis",
+    "corruption_scandal",
+    "electoral_crisis",
+    "coup_risk",
+    "oil_shock",
+    "resource_depletion",
+    "climate_disaster",
+    "automation_displacement",
+    "technology_gap"
+  ],
+  "cascade_edges": [
+    {
+      "source": "economic_strain",
+      "target": "social_unrest",
+      "weight": 0.2
+    },
+    {
+      "source": "economic_strain",
+      "target": "political_instability",
+      "weight": 0.2
+    },
+    {
+      "source": "social_unrest",
+      "target": "political_instability",
+      "weight": 0.2
+    },
+    {
+      "source": "social_unrest",
+      "target": "legitimacy_crisis",
+      "weight": 0.2
+    },
+    {
+      "source": "political_instability",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "political_instability",
+      "target": "military_tension",
+      "weight": 0.2
+    },
+    {
+      "source": "demographic_pressure",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "demographic_pressure",
+      "target": "social_unrest",
+      "weight": 0.2
+    },
+    {
+      "source": "resource_scarcity",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "resource_scarcity",
+      "target": "military_tension",
+      "weight": 0.2
+    },
+    {
+      "source": "tech_disruption",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "tech_disruption",
+      "target": "demographic_pressure",
+      "weight": 0.2
+    },
+    {
+      "source": "legitimacy_crisis",
+      "target": "political_instability",
+      "weight": 0.2
+    },
+    {
+      "source": "legitimacy_crisis",
+      "target": "social_unrest",
+      "weight": 0.2
+    },
+    {
+      "source": "elite_fracture",
+      "target": "political_instability",
+      "weight": 0.2
+    },
+    {
+      "source": "elite_fracture",
+      "target": "legitimacy_crisis",
+      "weight": 0.2
+    },
+    {
+      "source": "environmental_stress",
+      "target": "demographic_pressure",
+      "weight": 0.2
+    },
+    {
+      "source": "environmental_stress",
+      "target": "resource_scarcity",
+      "weight": 0.2
+    },
+    {
+      "source": "ideological_polarization",
+      "target": "political_instability",
+      "weight": 0.2
+    },
+    {
+      "source": "ideological_polarization",
+      "target": "social_unrest",
+      "weight": 0.2
+    },
+    {
+      "source": "imperial_overstretch",
+      "target": "military_tension",
+      "weight": 0.2
+    },
+    {
+      "source": "imperial_overstretch",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "military_tension",
+      "target": "economic_strain",
+      "weight": 0.2
+    },
+    {
+      "source": "military_tension",
+      "target": "political_instability",
+      "weight": 0.2
+    }
+  ],
+  "pressure_decay_rates": [
+    {
+      "pressure_type": "economic_strain",
+      "decay_rate": 0.02
+    },
+    {
+      "pressure_type": "social_unrest",
+      "decay_rate": 0.05
+    },
+    {
+      "pressure_type": "political_instability",
+      "decay_rate": 0.02
+    },
+    {
+      "pressure_type": "demographic_pressure",
+      "decay_rate": 0.01
+    },
+    {
+      "pressure_type": "resource_scarcity",
+      "decay_rate": 0.02
+    },
+    {
+      "pressure_type": "tech_disruption",
+      "decay_rate": 0.01
+    },
+    {
+      "pressure_type": "legitimacy_crisis",
+      "decay_rate": 0.02
+    },
+    {
+      "pressure_type": "elite_fracture",
+      "decay_rate": 0.01
+    },
+    {
+      "pressure_type": "environmental_stress",
+      "decay_rate": 0.005
+    },
+    {
+      "pressure_type": "ideological_polarization",
+      "decay_rate": 0.01
+    },
+    {
+      "pressure_type": "imperial_overstretch",
+      "decay_rate": 0.01
+    },
+    {
+      "pressure_type": "military_tension",
+      "decay_rate": 0.03
+    }
+  ],
+  "personality_facets": [
+    {
+      "name": "boldness",
+      "category": "decision_making"
+    },
+    {
+      "name": "decisiveness",
+      "category": "decision_making"
+    },
+    {
+      "name": "improvisation",
+      "category": "decision_making"
+    },
+    {
+      "name": "thoroughness",
+      "category": "decision_making"
+    },
+    {
+      "name": "patience",
+      "category": "decision_making"
+    },
+    {
+      "name": "empathy",
+      "category": "social"
+    },
+    {
+      "name": "trust",
+      "category": "social"
+    },
+    {
+      "name": "persuasion",
+      "category": "social"
+    },
+    {
+      "name": "gregariousness",
+      "category": "social"
+    },
+    {
+      "name": "dominance",
+      "category": "social"
+    },
+    {
+      "name": "stress_tolerance",
+      "category": "stress_resilience"
+    },
+    {
+      "name": "emotional_stability",
+      "category": "stress_resilience"
+    },
+    {
+      "name": "anger_threshold",
+      "category": "stress_resilience"
+    },
+    {
+      "name": "optimism",
+      "category": "stress_resilience"
+    },
+    {
+      "name": "resilience",
+      "category": "stress_resilience"
+    },
+    {
+      "name": "honesty",
+      "category": "ethical"
+    },
+    {
+      "name": "compassion",
+      "category": "ethical"
+    },
+    {
+      "name": "ruthlessness",
+      "category": "ethical"
+    },
+    {
+      "name": "integrity",
+      "category": "ethical"
+    },
+    {
+      "name": "pragmatism",
+      "category": "ethical"
+    },
+    {
+      "name": "ambition",
+      "category": "institutional"
+    },
+    {
+      "name": "loyalty",
+      "category": "institutional"
+    },
+    {
+      "name": "conformity",
+      "category": "institutional"
+    },
+    {
+      "name": "diligence",
+      "category": "institutional"
+    },
+    {
+      "name": "accountability",
+      "category": "institutional"
+    },
+    {
+      "name": "territorial",
+      "category": "institutional"
+    },
+    {
+      "name": "curiosity",
+      "category": "cognitive"
+    },
+    {
+      "name": "analytical_thinking",
+      "category": "cognitive"
+    },
+    {
+      "name": "creativity",
+      "category": "cognitive"
+    },
+    {
+      "name": "adaptability",
+      "category": "cognitive"
+    },
+    {
+      "name": "memory",
+      "category": "cognitive"
+    }
+  ],
+  "ideology_axes": [
+    {
+      "name": "economic",
+      "low_label": "redistributive",
+      "high_label": "free_market",
+      "range": [
+        -1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "social",
+      "low_label": "progressive",
+      "high_label": "traditional",
+      "range": [
+        -1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "nationalist",
+      "low_label": "internationalist",
+      "high_label": "nationalist",
+      "range": [
+        -1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "conviction",
+      "low_label": "pragmatist",
+      "high_label": "ideologue",
+      "range": [
+        0.0,
+        1.0
+      ]
+    }
+  ],
+  "agent_actions": [
+    "adjust_economic_policy",
+    "launch_reform",
+    "resist_change",
+    "mobilize_resources",
+    "public_statement",
+    "strike",
+    "invest",
+    "cut_production",
+    "do_nothing"
+  ],
+  "agent_goals": [
+    "maintain_power",
+    "increase_resources",
+    "maintain_stability",
+    "pursue_reform",
+    "resist_threats",
+    "expand_influence",
+    "protect_constituents"
+  ],
+  "policy_types": [
+    "fiscal_stimulus",
+    "austerity_measures",
+    "bailout",
+    "debt_restructuring",
+    "capital_controls",
+    "trade_tariffs",
+    "trade_negotiation",
+    "unemployment_benefits",
+    "public_works_program",
+    "labor_reform",
+    "immigration_expansion",
+    "immigration_restriction",
+    "minimum_wage_increase",
+    "anti_corruption",
+    "early_elections",
+    "constitutional_reform",
+    "political_crackdown",
+    "political_amnesty",
+    "renewable_investment",
+    "fossil_fuel_expansion",
+    "strategic_reserve_release",
+    "resource_rationing",
+    "environmental_regulation",
+    "automation_investment",
+    "worker_retraining",
+    "technology_transfer",
+    "r_d_incentives",
+    "military_buildup",
+    "diplomatic_negotiation",
+    "state_of_emergency",
+    "peacekeeping_mission"
+  ],
+  "policy_stances": [
+    "stabilize",
+    "liberalize",
+    "nationalize",
+    "extract",
+    "protect",
+    "deregulate",
+    "mediate",
+    "reform",
+    "infiltrate",
+    "leverage",
+    "regulate",
+    "monitor",
+    "defensive",
+    "aggressive"
+  ],
+  "policy_domains": [
+    "energy",
+    "labor",
+    "governance",
+    "technology",
+    "security"
+  ],
+  "worldview_axes": [
+    {
+      "name": "collective_market",
+      "low_label": "collective_provision",
+      "high_label": "market_autonomy"
+    },
+    {
+      "name": "precaution_transformation",
+      "low_label": "precaution",
+      "high_label": "transformation"
+    },
+    {
+      "name": "universalism_particularism",
+      "low_label": "moral_universalism",
+      "high_label": "moral_particularism"
+    },
+    {
+      "name": "continuity_disruption",
+      "low_label": "continuity",
+      "high_label": "disruption"
+    },
+    {
+      "name": "legibility_opacity",
+      "low_label": "legibility",
+      "high_label": "opacity"
+    }
+  ],
+  "countries": [
+    {
+      "iso_code": "USA",
+      "shadow_name": "amaran"
+    },
+    {
+      "iso_code": "CHN",
+      "shadow_name": "tianlong"
+    },
+    {
+      "iso_code": "RUS",
+      "shadow_name": "ruslavia"
+    },
+    {
+      "iso_code": "DEU",
+      "shadow_name": "teutonia"
+    },
+    {
+      "iso_code": "JPN",
+      "shadow_name": "yamato"
+    },
+    {
+      "iso_code": "BRA",
+      "shadow_name": "verdania"
+    },
+    {
+      "iso_code": "IND",
+      "shadow_name": "bharat"
+    },
+    {
+      "iso_code": "SAU",
+      "shadow_name": "qasiria"
+    },
+    {
+      "iso_code": "NGA",
+      "shadow_name": "sunland"
+    },
+    {
+      "iso_code": "IDN",
+      "shadow_name": "nusantara"
+    }
+  ],
+  "metadata": {
+    "project": "shadow-work",
+    "pressure_count": 12,
+    "institution_count": 8,
+    "issue_count": 18,
+    "cascade_edge_count": 24,
+    "facet_count": 31,
+    "policy_type_count": 31,
+    "country_count": 10
+  }
+}

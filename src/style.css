@@ -1743,6 +1743,24 @@ body {
   background: #0f172a;
 }
 
+#ontology-view {
+  flex: 1;
+  overflow: hidden;
+  background: #0f172a;
+  position: relative;
+}
+
+#ontology-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+#ontology-legend {
+  pointer-events: none;
+}
+
 #agents-container {
   height: 100%;
 }
