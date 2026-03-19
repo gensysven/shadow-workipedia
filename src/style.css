@@ -1758,7 +1758,211 @@ body {
 }
 
 #ontology-legend {
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+/* Ontology controls bar */
+.ont-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ont-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.ont-cat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  opacity: 0.5;
+}
+
+.ont-cat-btn.active {
+  background: var(--cat-color);
+  color: #0f172a !important;
+  border-color: var(--cat-color);
+  opacity: 1;
+}
+
+.ont-cat-btn:hover {
+  opacity: 0.85;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ont-cat-btn.active:hover {
+  background: var(--cat-color);
+}
+
+.ont-cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ont-cat-count {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 0.62rem;
+}
+
+.ont-search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ont-search {
+  width: 160px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #e2e8f0;
+  outline: none;
+}
+
+.ont-search:focus {
+  border-color: #3b82f6;
+}
+
+.ont-reset-btn,
+.ont-fit-btn {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.ont-reset-btn {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.ont-fit-btn {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.ont-reset-btn:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+.ont-fit-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* Ontology legend */
+.ont-legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  color: #94a3b8;
   pointer-events: none;
+}
+
+.ont-legend-title {
+  font-weight: 600;
+  color: #fff;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+.ont-legend-version {
+  opacity: 0.4;
+  font-weight: 400;
+}
+
+.ont-legend-stat {
+  opacity: 0.5;
+}
+
+/* Ontology detail panel */
+.ont-detail-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  overflow-y: auto;
+  transition: transform 0.25s ease;
+}
+
+.ont-detail-panel.hidden {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.ont-detail {
+  padding: 1.5rem;
+}
+
+.ont-detail-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.ont-detail-close:hover {
+  color: #fff;
+}
+
+.ont-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.ont-connection:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 #agents-container {
