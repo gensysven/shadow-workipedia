@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import type { GraphData, GraphNode, GraphEdge, IssueCategory, IssueUrgency, CommunityInfo, PrincipleInfo, DataFlowInfo, PrimitiveName, IssueEvent } from '../src/types';
 import { parseSystemWalkTracker, getSystemWalkData } from './parse-system-walks';
 import { loadWikiContent, getWikiArticle, type WikiArticle } from './parse-wiki';
+import { loadRealCountries, syncRealGeography } from './sync-real-geography';
 
 const PARENT_REPO = join(process.cwd(), '..');
 const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');
@@ -13,8 +14,6 @@ const AGENT_VOCAB_INPUT_PATH = join(PARENT_REPO, 'data/agent-generation/v1/vocab
 const AGENT_VOCAB_OUTPUT_PATH = join(process.cwd(), 'public', 'agent-vocab.v1.json');
 const AGENT_PRIORS_INPUT_PATH = join(PARENT_REPO, 'data/generated/agent-priors/v1/agent-priors.v1.json');
 const AGENT_PRIORS_OUTPUT_PATH = join(process.cwd(), 'public', 'agent-priors.v1.json');
-const SHADOW_COUNTRY_MAP_INPUT_PATH = join(PARENT_REPO, 'data', 'country-shadow-map.json');
-const SHADOW_COUNTRY_MAP_OUTPUT_PATH = join(process.cwd(), 'public', 'shadow-country-map.json');
 const YAML_DATA_DIR = join(PARENT_REPO, 'data/issues');
 const COMMUNITIES_DATA_FILE = join(PARENT_REPO, 'data/generated/analysis/communities-with-mechanics.json');
 const PRINCIPLES_INDEX_FILE = join(process.cwd(), 'data/principles-index.json');
@@ -121,48 +120,6 @@ function copyAgentPriors() {
   }
 }
 
-function copyShadowCountryMap() {
-  if (!existsSync(SHADOW_COUNTRY_MAP_INPUT_PATH)) {
-    console.warn('⚠️  Shadow country map not found:', SHADOW_COUNTRY_MAP_INPUT_PATH);
-    return;
-  }
-  try {
-    const sourceRaw = readFileSync(SHADOW_COUNTRY_MAP_INPUT_PATH, 'utf-8');
-    const sourceEntries = JSON.parse(sourceRaw) as Array<Record<string, unknown>>;
-
-    // If local file exists with descriptions, preserve them
-    if (existsSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH)) {
-      const localRaw = readFileSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH, 'utf-8');
-      const localEntries = JSON.parse(localRaw) as Array<Record<string, unknown>>;
-      const descriptionsByIso3 = new Map<string, string>();
-
-      for (const entry of localEntries) {
-        const iso3 = String(entry.iso3 || '').trim();
-        const description = typeof entry.description === 'string' ? entry.description : '';
-        if (iso3 && description) {
-          descriptionsByIso3.set(iso3, description);
-        }
-      }
-
-      // Merge descriptions into source entries
-      for (const entry of sourceEntries) {
-        const iso3 = String(entry.iso3 || '').trim();
-        const existingDesc = descriptionsByIso3.get(iso3);
-        if (existingDesc) {
-          entry.description = existingDesc;
-        }
-      }
-
-      console.log(`🌍 Merged ${descriptionsByIso3.size} descriptions into shadow country map`);
-    }
-
-    writeFileSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH, JSON.stringify(sourceEntries, null, 2) + '\n');
-    console.log('🌍 Updated shadow country map →', SHADOW_COUNTRY_MAP_OUTPUT_PATH);
-  } catch (err) {
-    console.warn('⚠️  Failed to copy shadow country map:', err);
-  }
-}
-
 function normalizeAffectedSystems(rawSystems: unknown): CanonicalSystem[] {
   const list = Array.isArray(rawSystems) ? rawSystems : (rawSystems ? [rawSystems] : []);
   const out: CanonicalSystem[] = [];
@@ -260,11 +217,7 @@ function collectStringLists(root: unknown): StringListVocab[] {
 }
 
 function generateCountryWikiArticles(): Record<string, WikiArticle> {
-  // Read from local output path (which has descriptions) if it exists, otherwise fall back to parent repo
-  const countryMapPath = existsSync(SHADOW_COUNTRY_MAP_OUTPUT_PATH) ? SHADOW_COUNTRY_MAP_OUTPUT_PATH : SHADOW_COUNTRY_MAP_INPUT_PATH;
-  if (!existsSync(countryMapPath)) return {};
-  const raw = readFileSync(countryMapPath, 'utf-8');
-  const entries = JSON.parse(raw) as Array<{ real: string; shadow: string; iso3: string; continent?: string; population?: number; description?: string }>;
+  const entries = loadRealCountries();
 
   const byContinent = new Map<string, Array<(typeof entries)[number]>>();
   for (const entry of entries) {
@@ -275,7 +228,7 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
   }
 
   for (const bucket of byContinent.values()) {
-    bucket.sort((a, b) => (a.shadow || '').localeCompare(b.shadow || '') || (a.iso3 || '').localeCompare(b.iso3 || ''));
+    bucket.sort((a, b) => (a.real || '').localeCompare(b.real || '') || (a.iso3 || '').localeCompare(b.iso3 || ''));
   }
 
   const continents = Array.from(byContinent.keys()).sort((a, b) => a.localeCompare(b));
@@ -283,7 +236,7 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
   const countryIndexMd = [
     `This is a generated reference view of Shadow Work countries.`,
     ``,
-    `- Source: \`data/country-shadow-map.json\``,
+    `- Source: \`data/country-map.json\``,
     ``,
     `## Continents`,
     ...continents.flatMap(continent => {
@@ -294,8 +247,8 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
         ...bucket.map(entry => {
           const iso3 = String(entry.iso3 || '').trim();
           const id = `country-${slugify(iso3)}`;
-          const shadow = String(entry.shadow || '').trim() || iso3;
-          return `- [${shadow} (${iso3})](#/wiki/${id})`;
+          const real = String(entry.real || '').trim() || iso3;
+          return `- [${real} (${iso3})](#/wiki/${id})`;
         }),
       ];
     }),
@@ -313,7 +266,7 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
       title: 'Countries',
       generated: true,
       sourceRepo: 'vibeguider/shadow-work',
-      sourcePath: 'data/country-shadow-map.json',
+      sourcePath: 'data/country-map.json',
       lastUpdated: new Date().toISOString().split('T')[0],
     },
     contentMd: countryIndexMd,
@@ -324,8 +277,7 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
     if (!iso3) continue;
 
     const id = `country-${slugify(iso3)}`;
-    const shadow = String(entry.shadow || '').trim() || iso3;
-    const real = String(entry.real || '').trim() || '';
+    const real = String(entry.real || '').trim() || iso3;
     const continent = typeof entry.continent === 'string' ? entry.continent.trim() : '';
     const population = typeof entry.population === 'number' && Number.isFinite(entry.population) ? entry.population : null;
     const description = typeof entry.description === 'string' ? entry.description.trim() : '';
@@ -335,19 +287,18 @@ function generateCountryWikiArticles(): Record<string, WikiArticle> {
 
     articles[id] = buildGeneratedWikiArticle({
       id,
-      title: shadow,
+      title: real,
       type: 'country',
       frontmatter: {
         id,
-        title: shadow,
+        title: real,
         generated: true,
         iso3,
-        shadow,
         real,
         continent: continent || undefined,
         population: population ?? undefined,
         sourceRepo: 'vibeguider/shadow-work',
-        sourcePath: 'data/country-shadow-map.json',
+        sourcePath: 'data/country-map.json',
         lastUpdated: new Date().toISOString().split('T')[0],
       },
       contentMd: md,
@@ -1875,7 +1826,7 @@ async function main() {
 
   copyAgentVocab();
   copyAgentPriors();
-  copyShadowCountryMap();
+  syncRealGeography();
 
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
