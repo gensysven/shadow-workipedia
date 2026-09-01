@@ -197,7 +197,11 @@ function runTests(): { passed: number; failed: number; failures: TestFailure[] }
       // Check against banned patterns
       let hasFailure = false;
       for (const pattern of BANNED_PATTERNS) {
-        const match = fullText.match(pattern.regex);
+        const textUnderTest = pattern.name === 'triple-and'
+          ? [originLabel, citizenshipLabel, currentLabel]
+              .reduce((text, label) => text.replaceAll(label, 'COUNTRY'), fullText)
+          : fullText;
+        const match = textUnderTest.match(pattern.regex);
         if (match) {
           hasFailure = true;
           // Extract context around match
