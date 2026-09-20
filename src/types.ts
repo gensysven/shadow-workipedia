@@ -42,7 +42,8 @@ export interface GraphNode {
   publicConcern?: number;
   economicImpact?: number;
   socialImpact?: number;
-  affectedSystems?: string[]; // System tags from curated mappings
+  affectedSystems?: string[]; // Canonical systems, authored in data/issues/*.yaml
+  tags?: string[]; // Free-form tags, authored in data/issues/*.yaml
   primitives?: PrimitiveName[]; // Simulation primitives from mapping
   triggerConditions?: string;
   peakYears?: string;

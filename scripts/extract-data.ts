@@ -61,6 +61,8 @@ const CANONICAL_SYSTEMS = [
 type CanonicalSystem = typeof CANONICAL_SYSTEMS[number];
 
 const SYSTEM_ALIASES: Record<string, CanonicalSystem> = {
+  // The YAML corpus says 'Health' where the connectivity index says 'Healthcare'.
+  'health': 'Healthcare',
   // Common abbreviation in legacy content
   'international orgs': 'International Organizations',
   'international org': 'International Organizations',
@@ -1230,6 +1232,107 @@ function extractIssueEdges(
   return edges;
 }
 
+/**
+ * The issue fields that data/issues/*.yaml owns outright.
+ *
+ * YAML is the game's source of truth, but the extractor used to reach for
+ * sidecars instead: categories came from multi-category-all-issues.json and
+ * affectedSystems from issue-system-mappings.json. Measured 2026-09-20, those
+ * sidecars covered 234 and 164 of 353 issues and disagreed with YAML on 98%
+ * and 20% of what they did cover, while 1,273 authored tags never shipped at
+ * all. These three fields are read here and imposed by applyYamlAuthority().
+ */
+type YamlIssueFacts = {
+  categories: IssueCategory[];
+  affectedSystems: CanonicalSystem[];
+  tags: string[];
+};
+
+const VALID_ISSUE_CATEGORIES: readonly IssueCategory[] = [
+  'Existential', 'Economic', 'Social', 'Political', 'Environmental',
+  'Security', 'Technological', 'Cultural', 'Infrastructure',
+];
+
+/** Raw system names YAML uses that no canonical system matches. */
+const unmappedYamlSystems = new Map<string, number>();
+
+function loadYamlIssueFacts(): Map<string, YamlIssueFacts> {
+  const facts = new Map<string, YamlIssueFacts>();
+
+  if (!existsSync(YAML_DATA_DIR)) {
+    throw new Error(`YAML issue data not found at ${YAML_DATA_DIR} — refusing to publish sidecar data as if it were authored truth`);
+  }
+
+  const yamlFiles = readdirSync(YAML_DATA_DIR).filter(f => f.endsWith('.yaml') && !f.startsWith('_'));
+
+  for (const file of yamlFiles) {
+    try {
+      const data = yaml.parse(readFileSync(join(YAML_DATA_DIR, file), 'utf-8'));
+      const id = typeof data?.id === 'string' ? data.id.trim() : '';
+      if (!id) continue;
+
+      const categories = (Array.isArray(data.categories) ? data.categories : [])
+        .filter((c: unknown): c is IssueCategory =>
+          typeof c === 'string' && (VALID_ISSUE_CATEGORIES as readonly string[]).includes(c));
+
+      // Count what we cannot place rather than dropping it silently — the
+      // remainder is a real vocabulary gap between the corpus and the
+      // connectivity index, and it needs a ruling, not a guess.
+      const rawSystems = Array.isArray(data.affectedSystems) ? data.affectedSystems : [];
+      for (const raw of rawSystems) {
+        if (typeof raw === 'string' && !canonicalizeSystemLabel(raw)) {
+          unmappedYamlSystems.set(raw, (unmappedYamlSystems.get(raw) ?? 0) + 1);
+        }
+      }
+      const affectedSystems = normalizeAffectedSystems(rawSystems);
+
+      const tags = (Array.isArray(data.tags) ? data.tags : [])
+        .filter((t: unknown): t is string => typeof t === 'string' && t.trim().length > 0)
+        .map((t: string) => t.trim());
+
+      facts.set(id, { categories, affectedSystems, tags: Array.from(new Set(tags)) });
+    } catch (err) {
+      console.warn(`\u26a0\ufe0f  Error parsing ${file}:`, err);
+    }
+  }
+
+  return facts;
+}
+
+/**
+ * Impose the YAML facts on already-built issue nodes.
+ *
+ * Runs after both node constructors and before edge construction, so the
+ * issue-system edges are built from the authored links. A field is only
+ * overwritten when YAML actually has a value; YAML silence leaves whatever
+ * the legacy path derived.
+ */
+function applyYamlAuthority(issueNodes: GraphNode[], facts: Map<string, YamlIssueFacts>) {
+  let categoriesSet = 0, systemsSet = 0, tagsSet = 0, missing = 0;
+
+  for (const node of issueNodes) {
+    const f = facts.get(node.id);
+    if (!f) { missing++; continue; }
+
+    if (f.categories.length > 0) {
+      node.categories = f.categories;
+      // Colour is derived from the primary category, so it has to follow.
+      node.color = CATEGORY_COLORS[f.categories[0]];
+      categoriesSet++;
+    }
+    if (f.affectedSystems.length > 0) {
+      node.affectedSystems = f.affectedSystems;
+      systemsSet++;
+    }
+    if (f.tags.length > 0) {
+      node.tags = f.tags;
+      tagsSet++;
+    }
+  }
+
+  return { categoriesSet, systemsSet, tagsSet, missing };
+}
+
 function loadCuratedMappings(): Map<string, string[]> {
   const mappingsPath = join(process.cwd(), 'issue-system-mappings.json');
 
@@ -1933,6 +2036,24 @@ async function main() {
     );
     nodes.push(...wikiOnlyNodes);
     issueNodes.push(...wikiOnlyNodes); // Also add to issueNodes for edge processing
+  }
+
+  // YAML is the source of truth for categories, affectedSystems and tags.
+  // This must run before edge construction so issue-system edges are built
+  // from the authored links rather than the legacy sidecar.
+  const yamlFacts = loadYamlIssueFacts();
+  const applied = applyYamlAuthority(issueNodes, yamlFacts);
+  console.log(`\u2705 YAML authority applied over ${yamlFacts.size} issues: ${applied.categoriesSet} categories, ${applied.systemsSet} system sets, ${applied.tagsSet} tag sets`);
+  if (applied.missing > 0) {
+    console.warn(`\u26a0\ufe0f  ${applied.missing} issue node(s) have no YAML entry \u2014 still on legacy-derived fields`);
+  }
+  if (unmappedYamlSystems.size > 0) {
+    const total = Array.from(unmappedYamlSystems.values()).reduce((a, b) => a + b, 0);
+    const detail = Array.from(unmappedYamlSystems.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, count]) => `${name} (${count})`)
+      .join(', ');
+    console.warn(`\u26a0\ufe0f  ${total} authored issue-system link(s) dropped: no canonical system for ${detail}`);
   }
 
   // Extract systems as nodes
