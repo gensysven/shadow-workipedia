@@ -493,17 +493,11 @@ async function main() {
     attachDetailPanelHandlers,
   });
 
-  // Re-trigger initial route handling now that all functions are defined
-	  const currentRoute = router.getCurrentRoute();
-	  if (currentRoute?.kind === 'article' && currentRoute.type === 'issue') {
-	    renderWikiList();
-	  } else if (currentRoute?.kind === 'view' && currentRoute.view === 'wiki') {
-	    renderWikiList();
-	  } else if (currentRoute?.kind === 'community') {
-	    renderWikiList();
-	  } else if (currentRoute?.kind === 'view' && currentRoute.view === 'communities') {
-	    renderWikiList();
-	  }
+  // Every renderer is wired, so run the initial route. The router was built
+  // with deferInitialRoute, so this is the first time it fires — which is why
+  // a deep link like #/wiki/<slug> or #/table now reaches a live renderer
+  // instead of throwing past the rest of main().
+  router.start();
 }
 
 main().catch(console.error);

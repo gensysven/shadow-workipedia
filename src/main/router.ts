@@ -22,7 +22,12 @@ export function createRouter({
   setWikiSection,
   routerFactory,
 }: RouterDeps) {
-  const factory = routerFactory ?? ((onRouteChange: (route: RouteType) => void) => new ArticleRouter(onRouteChange));
+  const factory =
+    routerFactory ??
+    ((onRouteChange: (route: RouteType) => void) =>
+      // Deferred: main() wires its renderers after this call and then
+      // calls router.start(). Routing here would run against undefined.
+      new ArticleRouter(onRouteChange, { deferInitialRoute: true }));
 
   const router = factory((route: RouteType) => {
     const tooltipEl = document.getElementById('tooltip');
@@ -69,7 +74,7 @@ export function createRouter({
       setSelectedCommunity(null);
       setWikiSection('articles');
       showView('wiki');
-      if (renderWikiList) renderWikiList();
+      renderWikiList();
       return;
     }
 
@@ -78,7 +83,7 @@ export function createRouter({
       setSelectedWikiArticle(null);
       setWikiSection('communities');
       showView('communities');
-      if (renderWikiList) renderWikiList();
+      renderWikiList();
     }
   });
 

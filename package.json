@@ -17,6 +17,7 @@
     "backfill:issue-mechanics": "node --import tsx scripts/backfill-issue-mechanics.ts",
     "typecheck": "tsc --noEmit",
     "test:narration": "node --import tsx scripts/test-narration.ts",
+    "test:router": "node --import tsx scripts/test-router-deferred-init.ts && node --import tsx scripts/test-router-wasm.ts && node --import tsx scripts/test-main-router.ts",
     "prepare": "husky || true"
   },
   "devDependencies": {

@@ -484,14 +484,30 @@ export type RouteType =
  */
 export class ArticleRouter {
   private currentRoute: RouteType = null;
+  private started = false;
 
   constructor(
-    private onRouteChange: (route: RouteType) => void
+    private onRouteChange: (route: RouteType) => void,
+    options: { deferInitialRoute?: boolean } = {}
   ) {
     // Listen for hash changes
     window.addEventListener('hashchange', () => this.handleRouteChange());
 
-    // Handle initial route
+    // Handle initial route. A caller that wires its renderers *after*
+    // constructing the router must pass deferInitialRoute and call start()
+    // once they exist, or the first route fires against half-built state.
+    if (!options.deferInitialRoute) {
+      this.start();
+    }
+  }
+
+  /**
+   * Fire the initial route. Idempotent, so a stray second call is a no-op
+   * rather than a duplicate render.
+   */
+  start() {
+    if (this.started) return;
+    this.started = true;
     this.handleRouteChange();
   }
 
