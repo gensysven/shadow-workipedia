@@ -1,0 +1,46 @@
+{
+  "id": "fd-qanat-waterworks",
+  "kind": "base",
+  "parents": [],
+  "domain": "Qanat waterworks — Persian and Central Asian underground aqueduct practice: muqanni tunnelling from the outlet inward, the mother well and its trial yield, gradient held between scour and silt, access shafts and the alignment of two working faces, the harim protective zone, the lay-rubi desilting obligation, and mirab-administered rotation of timed water shares",
+  "axioms": [
+    "A conveyance yields nothing until it is complete end to end; partial progress on a long channel is not partial delivery, it is zero delivery, and any stage that reaches no reader is dry tunnel however well it was cut.",
+    "Measure the source's yield before scheduling work against it: a beautifully cut tunnel into a dry stratum is worth nothing, and no amount of craft downstream recovers a stratum that was never probed.",
+    "Work from the outlet inward, so that every stage drains and the design is proved against something already delivered rather than against a survey; building from the source end leaves the whole line unverifiable until the last metre.",
+    "The working face admits one digger. Parallelism is bought only by sinking another shaft — which costs that shaft's own excavation and introduces the risk that the two faces miss each other. Declaring two tracks concurrent does not create a second face.",
+    "Two works drawing on one aquifer are never independent however far apart the diggings sit; independence must be established by the resource consumed, not by the distance between the workings — which is why the protected zone is drawn around the water, not around the shaft.",
+    "There is one narrow correct rate, and the terrain sets it, not the digger's ambition: too steep and the channel scours and collapses, too flat and it silts.",
+    "A channel that nobody is obliged, by name and by date, to clean will close quietly and be discovered dead; maintenance is a recurring turn in a rotation, not a phase that follows construction.",
+    "Line only where collapse is expected; reinforcing the whole length is how a work is abandoned half-dug.",
+    "Commitments cut to a fixed level are bets on the future state of the source — a bore cannot be deepened after the water table falls below it, so every irreversible step needs a stated condition and a demonstrated replacement yield before it is taken."
+  ],
+  "primitives": [
+    "The mother well and its trial yield — the source proven and measured before a metre is cut",
+    "The outlet — the only point at which the work becomes water, and therefore the end work starts from",
+    "The working face — the single place where progress happens, admitting one digger",
+    "The access shaft — spoil, air, an alignment check, and the price of opening a second face",
+    "The gradient — the narrow band between scouring and silting, set by terrain",
+    "The alignment protocol (plumb line and lamp) by which two faces are made to meet",
+    "The harim — the protected zone drawn by the aquifer tapped, inside which no second work may be sunk",
+    "The lay-rubi — the recurring desilting turn, assigned by name and by date",
+    "The lining hoop — reinforcement placed only where collapse is expected",
+    "The timed share and the water clock — a scarce, uncontrollable flow apportioned by measured turns",
+    "The mirab — the named arbiter who rules allocation disputes before they become diversions",
+    "The static water table — the level of the source, which no work controls and every commitment bets on",
+    "The cistern — storage that decouples an uncontrollable supply from irregular demand"
+  ],
+  "failure_mode": [
+    "Appearance and first impression: typography, colour, composition and the product's identity as something arresting are invisible to it — the ground on which ruling 1 was made.",
+    "Meaning: relation semantics, inverses, symmetry, domain and range, and whether a taxonomy discriminates are outside it entirely; it takes the data model as given and asks only what it costs to fill.",
+    "Comprehension in the moment: it reasons about supply, sequence and delivery, never about whether what was delivered is understood by the reader who received it.",
+    "Statistical and model-evaluation validity: sampling, lift over baseline, grounding guards and inter-rater agreement fall outside it; it can only count judgments as workload.",
+    "Reversibility: digging is irreversible and software edits mostly are not, so it systematically over-prices a wrong turn and will over-recommend serialization — every sequencing recommendation it makes needs an independent cheapness check it cannot perform.",
+    "Novelty and experiment: the craft optimises the maintenance of a known-good form, so it under-values work whose whole value is in being tried, and will read a speculative surface as unfunded obligation.",
+    "Accessibility, mobile breakpoints, browser behaviour and anything about the machine rather than the crew.",
+    "Proportionality toward governance: it reaches for named arbiters, assigned turns and protective zones, which can be heavier ceremony than a single-maintainer static site can carry."
+  ],
+  "findings": [
+    "f-018",
+    "f-019"
+  ]
+}

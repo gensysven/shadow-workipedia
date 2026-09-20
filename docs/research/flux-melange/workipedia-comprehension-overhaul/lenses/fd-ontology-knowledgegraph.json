@@ -1,0 +1,40 @@
+{
+  "id": "fd-ontology-knowledgegraph",
+  "kind": "base",
+  "parents": [],
+  "domain": "Ontology & knowledge-graph data modeling",
+  "axioms": [
+    "A relation type is only real if it carries a checkable inverse/symmetry/domain-range definition; anything else is a label, not an ontology.",
+    "Contradiction detection is a property of declared axioms, not of the specific data seen so far — a validator that isn't derived from stated inverse/symmetry rules cannot generalize past the cases it was built against.",
+    "A classification scheme is only meaningful if it can express 'no good fit'; forced classification into the nearest bucket is silent data corruption, not coverage.",
+    "Two authoritative sources describing the same edge set require one explicit, stated tie-break rule; anything less is an unversioned race condition waiting on whoever edits next.",
+    "Derived structure (e.g. cycles, feedback loops) must be reproducible from a stated definition over a stated subgraph, not asserted as a bare count.",
+    "A schema must be able to grow (new types, new relations) without invalidating data already classified under the prior version, or the ontology cannot mature alongside its content."
+  ],
+  "primitives": [
+    "entity type",
+    "relation type",
+    "domain/range constraint",
+    "inverse relation",
+    "symmetry / transitivity constraint",
+    "validator / invariant",
+    "classification fit or confidence",
+    "authority precedence rule",
+    "derived subgraph",
+    "schema version"
+  ],
+  "failure_mode": [
+    "Visual and perceptual legibility of the resulting graph (color, layout, label placement, density at render time) — this lens reasons about data correctness, not about how the data is drawn.",
+    "Runtime or performance cost of validation and derivation at scale.",
+    "Narrative, tone, or prose quality of descriptions and mechanics text.",
+    "User-facing workflow, interaction design, and information architecture of the surfaces that consume the data.",
+    "Organizational or scheduling feasibility of running two work tracks in parallel — it only catches structural collisions in the data model itself, not people/calendar collisions."
+  ],
+  "findings": [
+    "f-001",
+    "f-002",
+    "f-003",
+    "f-004",
+    "f-005"
+  ]
+}

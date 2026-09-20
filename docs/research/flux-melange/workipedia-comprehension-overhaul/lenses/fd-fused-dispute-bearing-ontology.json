@@ -1,0 +1,49 @@
+{
+  "id": "fd-fused-dispute-bearing-ontology",
+  "kind": "fusion",
+  "parents": [
+    "fd-ontology-knowledgegraph",
+    "fd-talmudic-apparatus"
+  ],
+  "domain": "Dispute-bearing data modeling — where a declared, machine-checkable ontology (inverse, symmetry, domain/range, schema version) and a commentary apparatus (citable address, attributed layer, preserved machloket, first-class teiku) are required of the same field",
+  "tension": "Parent A treats contradiction as a defect the declared axioms exist to make impossible: a validator's job is to refuse a disputed edge until one value survives. Parent B treats contradiction as content the corpus exists to preserve: resolving a machloket without retaining both claims, both sources and the deciding authority destroys information the resolved state cannot recover. Satisfy A by writing one winner per pair and B's record is gone; satisfy B by committing both claims and A's inverse/symmetry invariant is violated by design. This lens does not choose. It investigates every place in the plan where the same byte is asked to be both a checkable invariant and a durable record of a ruling, and reports what breaks there.",
+  "fused_primitive": "The dispute-bearing assertion: a relation or type assignment that is at once axiomatically typed (inverse, symmetry, domain/range, schema version) and citably addressed, layer-marked, attributed, and markable as permanently unresolved.",
+  "axioms": [
+    "A contradiction that has been ruled is a different object from a contradiction that was never asserted; a schema that cannot tell them apart has not reconciled anything, it has deleted.",
+    "An invariant can only be enforced against an assertion it can name, and an authority can only be attached to an assertion that can be cited — the identity-less edge fails both at once, and it is the same missing field.",
+    "'Stands undecided' must be a declared member of the type system rather than the absence of a value; a gate demanding one value per edge before that member exists manufactures a consensus no axiom derived and no authority signed.",
+    "Classification is two records, not one: the label a validator checks and the derivation a reader audits. A scheme carrying only the label can neither express 'no good fit' nor prove it still discriminates.",
+    "An authority precedence rule is real only when it is versioned and cited per edge; a tie-break stated in prose resolves nothing that either a validator or a later reader can act on.",
+    "Derived structure must be reproducible from a stated definition over a frozen, citable edition; a count quoted from an unnamed snapshot is neither checkable nor returnable-to, and it will be quoted again after the data under it changes.",
+    "A schema version must carry forward which assignments were forced, so growth in the type system reopens exactly the rulings it invalidates and no others.",
+    "Merging sources into one file is a provenance operation before it is a correctness one: unless each generation's additions stay layer-marked, no invariant can constrain a machine gloss differently from a received claim."
+  ],
+  "primitives": [
+    "the ruled edge — a relation carrying its winning claim, its losing claim, its deciding authority and its rationale, all machine-readable",
+    "the sanctioned contradiction — an axiom-level exemption that distinguishes a preserved dispute from an invariant violation",
+    "the teiku type — 'unresolved' as a declared member of the relation/type enum: legal to commit, legal to gate, legal to render",
+    "the edge address — a stable id an invariant can name and a decision record can cite",
+    "the derivation-bearing classification — issue_type plus the stated resemblance argument plus an explicit 'no good fit' member",
+    "the versioned precedence rule — engine-vs-catalog authority stated per edge, with the schema version it was ruled under",
+    "the layer marker — which generation and which producer (human author, scraper, Jev, regeneration pass) wrote this field",
+    "the citable edition — a frozen graph state over which derived structure such as the 94 reinforcing loops is defined and reproducible",
+    "the forced-assignment ledger — the record of which rulings a schema-version bump must reopen"
+  ],
+  "failure_mode": [
+    "Single-parent defects: by construction it drops any finding either parent could reach alone, so it under-reports real and severe but structurally simple problems. It supplements fd-ontology-knowledgegraph and fd-talmudic-apparatus; it never replaces them.",
+    "Visual and perceptual legibility — layout seeding, labels, legend, edge styling, density, mobile, accessibility — belongs wholly to fd-netviz-legibility and is invisible here.",
+    "Machine-side cost: payload size, build time, render cost and the runtime price of validating or deriving at scale.",
+    "Prose quality and whether a description reads as a definition or a crisis headline — it judges what a field records, not how it reads.",
+    "Statistical validity of the Jev pass — sampling, lift over a baseline, dual-rater agreement, grounding-guard design — except where it leaves a schema or provenance residue.",
+    "Proportionality and staffing: it will propose provenance structure without checking that one maintainer can author and carry it, so its recommendations need a cost check it cannot perform.",
+    "The first-time visitor's comprehension, which is the brainstorm's actual purpose: this lens judges the record, not the reader's experience of it."
+  ],
+  "intersection_rule": "A finding is in scope only if both parents are load-bearing. Every finding must carry an intersection_justification naming what the ontology parent contributes, what the apparatus parent contributes, and why either alone would miss or misdiagnose it.",
+  "spec_file": ".claude/flux-gen-specs/workipedia-comprehension-overhaul-fusion-0.json",
+  "agent_file": ".claude/agents/fd-fused-dispute-bearing-ontology.md",
+  "round": 1,
+  "findings": [
+    "f-016",
+    "f-017"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "fd-netviz-legibility",
+  "kind": "base",
+  "parents": [],
+  "domain": "Network / information-visualization legibility",
+  "axioms": [
+    "Legibility is a property of the rendered result under real data density, not of the list of techniques applied to produce it.",
+    "Visual channels (color, line weight, position) have finite discriminable capacity; asking them to carry more relation types or categories than that capacity holds guarantees perceptual collision regardless of intent.",
+    "A layout is 'stable' only if its coordinates are decoupled from the live data it visualizes; otherwise every data edit is a layout regression by another name.",
+    "Density reduction requires fewer visible edges or nodes by default, or a filter users actually reach for — encoding alone (color, style) aids discrimination but does not reduce count.",
+    "Canvas-rendered graphics carry no semantic DOM; accessibility for a canvas view requires a parallel representation, not attributes bolted onto a <canvas> element.",
+    "Any surface promoted as the primary or home view inherits the burden of working at full data scale on first load, not only in a drilled-down or filtered state."
+  ],
+  "primitives": [
+    "node",
+    "edge",
+    "edge type",
+    "visual channel (color / weight / style / position)",
+    "layout seed or coordinate snapshot",
+    "degree / hub node",
+    "ego-focus radius",
+    "default view-state",
+    "discriminability threshold",
+    "accessible DOM-parallel representation",
+    "viewport / breakpoint"
+  ],
+  "failure_mode": [
+    "Whether the underlying relation types and their semantics (inverse, symmetry, domain/range) are well-defined at all — this lens takes the data model as given and reasons only about how it renders.",
+    "Data correctness or contradiction issues in the source YAML — a beautifully rendered graph of wrong edges still reads as correct to this lens.",
+    "Engine/simulation-side authority questions such as cascade_edges vs. authored edges — those are data-model precedence questions, not rendering ones.",
+    "Content-authoring feasibility, such as writing 117 dated and far-future issues — orthogonal to whether the resulting graph, once authored, renders legibly.",
+    "Backend or pipeline architecture (build-time vs. runtime graph, validator implementation) beyond whatever data structure it hands to the renderer."
+  ],
+  "findings": [
+    "f-006",
+    "f-007",
+    "f-008",
+    "f-009",
+    "f-010"
+  ]
+}

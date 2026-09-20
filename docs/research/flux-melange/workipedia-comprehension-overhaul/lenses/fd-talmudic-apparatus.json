@@ -1,0 +1,41 @@
+{
+  "id": "fd-talmudic-apparatus",
+  "kind": "base",
+  "parents": [],
+  "domain": "Rabbinic textual scholarship — the Talmudic page and its commentary apparatus (Vilna Shas layout, Mikraot Gedolot), machloket and teiku dispute preservation, and halakhic derivation by avot and toladot",
+  "axioms": [
+    "A corpus is usable only to the extent that any claim in it has a stable, citable address that survives regeneration; improvements to the encoding of an unaddressable corpus do not accumulate, because no reader can return to what was improved.",
+    "Contradiction between sources is evidence, not noise: it records where the corpus is genuinely uncertain, so resolving a dispute without retaining both claims, their sources and the deciding authority destroys information that cannot be recovered from the resolved state.",
+    "Some disputes must be markable as permanently unresolved; a corpus with no representation for 'stands undecided' will manufacture false consensus wherever a gate demands a single value.",
+    "A small fixed taxonomy can absorb an unbounded case load if and only if each case records the derivation that attaches it to its primary category — the argued resemblance is the content, and the bare label is not.",
+    "Density is survived by layered apparatus plus spatial constancy, not by subtraction — but only when each layer is structurally distinct and every layer is attributed to a named author and generation.",
+    "Legibility is a property of the whole page — body, margin, index, cross-reference — and asking any single surface to carry all of those roles is the mechanism by which a dense corpus becomes illegible.",
+    "A corpus intended to outlive its current authors must keep each generation's additions separable from the received text, or later readers cannot distinguish claim from gloss from editorial note."
+  ],
+  "primitives": [
+    "The citable address (daf/amud) — a permanent, reproducible identity for a claim, independent of the surface that renders it",
+    "The layer — received text vs. gloss vs. later commentary vs. editorial/build note, each structurally distinguishable",
+    "The attribution — who asserted this, in what generation, on whose authority",
+    "The machloket — a named pair of incompatible claims with both positions and both sources retained",
+    "The teiku marker — an explicit, first-class 'unresolved' state for a dispute that should not be forced",
+    "The av (primary category) and the toladah (derived case) joined by a stated resemblance argument",
+    "The sugya — a bounded unit of argument small enough for one reader to hold at once",
+    "The apparatus slot — margin, index, cross-reference key: fixed positions that carry the roles the body cannot",
+    "The edition — a frozen, reproducible state of the corpus that everyone can cite in common"
+  ],
+  "failure_mode": [
+    "Aesthetics and first-impression pull: it treats the product as a corpus to be argued with, and will under-value the graph's identity as an artifact people find beautiful or arresting — precisely the ground on which ruling 1 was made.",
+    "Machine-side concerns: performance, payload size, render cost, build time and anything about the computer rather than the reader are invisible to it.",
+    "The untrained first-time visitor: this tradition assumes a reader with a teacher and years of acclimatization, so it systematically over-estimates how much apparatus a newcomer will learn and under-weights onboarding.",
+    "Labor and schedule realism: it reasons about structure, not about effort, so it will not detect that two parallel tracks collide because one maintainer cannot staff both.",
+    "Statistical and model-evaluation validity: sampling, lift over baseline, inter-rater agreement and grounding-guard design fall entirely outside it.",
+    "Proportionality: it over-values preservation and provenance, and will propose apparatus heavier than a single-maintainer static site can sustain — its recommendations need a cost check it cannot perform itself."
+  ],
+  "findings": [
+    "f-011",
+    "f-012",
+    "f-013",
+    "f-014",
+    "f-015"
+  ]
+}
