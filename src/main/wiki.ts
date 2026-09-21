@@ -11,6 +11,8 @@ type WikiDeps = {
   getSelectedWikiArticle: () => string | null;
   getSelectedCommunity: () => string | null;
   getWikiSection: () => 'articles' | 'communities';
+  /** True while articles.json is still in flight. */
+  getArticlesPending?: () => boolean;
   getCommunityColor: (id: number) => string;
   wikiSidebarContent: HTMLElement;
   wikiArticleContent: HTMLElement;
@@ -38,6 +40,7 @@ export function createWikiRenderer({
   getSelectedWikiArticle,
   getSelectedCommunity,
   getWikiSection,
+  getArticlesPending,
   getCommunityColor,
   wikiSidebarContent,
   wikiArticleContent,
@@ -81,8 +84,21 @@ export function createWikiRenderer({
     const selectedCommunity = getSelectedCommunity();
     const wikiSection = getWikiSection();
 	    if (!data.articles || Object.keys(data.articles).length === 0) {
-      wikiSidebarContent.innerHTML = `<div class="wiki-empty-sidebar">No articles yet</div>`;
-      wikiArticleContent.innerHTML = `
+      // Articles load after the graph, so an empty map usually means "not here
+      // yet", not "none exist". Saying the wrong one of those is worse than
+      // saying nothing.
+      const pending = getArticlesPending?.() ?? false;
+      wikiSidebarContent.innerHTML = pending
+        ? `<div class="wiki-empty-sidebar">Loading articles…</div>`
+        : `<div class="wiki-empty-sidebar">No articles yet</div>`;
+      wikiArticleContent.innerHTML = pending
+        ? `
+        <div class="wiki-welcome">
+          <h2>Loading the wiki…</h2>
+          <p>The graph is ready. Article text is still downloading and will appear here shortly.</p>
+        </div>
+      `
+        : `
         <div class="wiki-welcome">
           <h2>Welcome to the Wiki</h2>
           <p>Wiki articles will appear here as they are created.</p>

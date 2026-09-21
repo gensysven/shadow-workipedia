@@ -43,6 +43,10 @@ async function main() {
 
   // Load data
   const { data, dataLoadError, articlesReady } = await loadGraphData();
+  let articlesPending = true;
+  void articlesReady.finally(() => {
+    articlesPending = false;
+  });
 
   console.log(`📊 Loaded ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems`);
   if (data.metadata.articleCount) {
@@ -480,6 +484,7 @@ async function main() {
     getSelectedWikiArticle: () => selectedWikiArticle,
     getSelectedCommunity: () => selectedCommunity,
     getWikiSection: () => wikiSection,
+    getArticlesPending: () => articlesPending,
     getCommunityColor,
     wikiSidebarContent,
     wikiArticleContent,
