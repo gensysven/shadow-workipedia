@@ -19,5 +19,25 @@
       "source": "/wasm/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(graph|articles|agent-priors.v1|agent-vocab.v1).json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/agent-data.pack",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=604800"
+        }
+      ]
+    }
   ]
 }

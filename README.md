@@ -39,7 +39,7 @@ pnpm build
 git subtree push --prefix dist origin gh-pages
 ```
 
-**Note**: Ensure `data.json` is regenerated before deployment by running `pnpm extract-data` to pull latest issues from parent repo.
+**Note**: Ensure `graph.json` and `articles.json` are regenerated before deployment by running `pnpm extract-data` to pull latest issues from parent repo.
 
 ### Social Preview Image
 

@@ -42,7 +42,7 @@ async function main() {
   console.log('🚀 Shadow Workipedia initializing...');
 
   // Load data
-  const { data, dataLoadError } = await loadGraphData();
+  const { data, dataLoadError, articlesReady } = await loadGraphData();
 
   console.log(`📊 Loaded ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems`);
   if (data.metadata.articleCount) {
@@ -92,8 +92,10 @@ async function main() {
 	  let renderTable: () => void;
 	  let renderWikiList: () => void;
 
-	  // Initialize Agents view (independent of extracted data)
-	  initializeAgentsView(agentsContainer as HTMLElement);
+	  // The agents view is initialised on first activation, not at startup: it
+	  // pulls agent-priors.v1.json (~5 MB) and agent-data.pack, which the graph
+	  // landing view never uses. Same lazy pattern as the ontology view below.
+	  let agentsInitialized = false;
 
   // Store router reference for navigation
   let router: ArticleRouter;
@@ -129,6 +131,10 @@ async function main() {
       currentView = view;
       if (view === 'table') {
         renderTable();
+      }
+      if (view === 'agents' && !agentsInitialized) {
+        agentsInitialized = true;
+        initializeAgentsView(agentsContainer as HTMLElement);
       }
     },
   });
@@ -498,6 +504,21 @@ async function main() {
   // a deep link like #/wiki/<slug> or #/table now reaches a live renderer
   // instead of throwing past the rest of main().
   router.start();
+
+  // The graph renders from graph.json alone; article prose arrives separately.
+  // A deep link into the wiki can therefore land before the articles do, so
+  // redraw those views once they are here. Graph, table, agents and ontology
+  // read none of it and are left alone.
+  void articlesReady.then(() => {
+    const route = router.getCurrentRoute();
+    const needsArticles =
+      route?.kind === 'article' ||
+      route?.kind === 'community' ||
+      (route?.kind === 'view' && (route.view === 'wiki' || route.view === 'communities'));
+    if (needsArticles) {
+      renderWikiList();
+    }
+  });
 }
 
 main().catch(console.error);

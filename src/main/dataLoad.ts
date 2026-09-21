@@ -3,6 +3,11 @@ import type { GraphData } from '../types';
 type DataLoadResult = {
   data: GraphData;
   dataLoadError: string | null;
+  /**
+   * Resolves once `data.articles` has been populated. The graph renders without
+   * it; anything that reads article prose should wait on this first.
+   */
+  articlesReady: Promise<void>;
 };
 
 type WarningOptions = {
@@ -12,19 +17,27 @@ type WarningOptions = {
   protocol?: string;
 };
 
+/**
+ * Load the graph first, then the articles.
+ *
+ * These used to be one 18 MB `data.json`, of which `articles` was ~84%. The
+ * graph is the landing view and does not draw a single character of that
+ * prose, so it blocked the first paint for nothing. `graph.json` is ~143 KB
+ * over the wire; `articles.json` follows without blocking.
+ */
 export async function loadGraphData(fetcher: typeof fetch = fetch): Promise<DataLoadResult> {
   let data: GraphData;
   let dataLoadError: string | null = null;
 
   try {
-    const response = await fetcher('/data.json');
+    const response = await fetcher('/graph.json');
     if (!response.ok) {
       throw new Error(`HTTP ${response.status} ${response.statusText}`.trim());
     }
     data = (await response.json()) as GraphData;
   } catch (err) {
     dataLoadError = (err instanceof Error ? err.message : String(err)) || 'Unknown error';
-    console.warn(`[Shadow Workipedia] Failed to load /data.json: ${dataLoadError}`);
+    console.warn(`[Shadow Workipedia] Failed to load /graph.json: ${dataLoadError}`);
     const now = new Date().toISOString();
     data = {
       nodes: [],
@@ -36,9 +49,27 @@ export async function loadGraphData(fetcher: typeof fetch = fetch): Promise<Data
         edgeCount: 0,
       },
     };
+    // No graph means no article view worth waiting for.
+    return { data, dataLoadError, articlesReady: Promise.resolve() };
   }
 
-  return { data, dataLoadError };
+  // Deliberately not awaited: every article consumer already guards on
+  // `data.articles` being absent, so the app stays correct while this is in
+  // flight and simply gains content when it lands.
+  const articlesReady = (async () => {
+    try {
+      const response = await fetcher('/articles.json');
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`.trim());
+      }
+      data.articles = (await response.json()) as GraphData['articles'];
+    } catch (err) {
+      const message = (err instanceof Error ? err.message : String(err)) || 'Unknown error';
+      console.warn(`[Shadow Workipedia] Failed to load /articles.json: ${message}`);
+    }
+  })();
+
+  return { data, dataLoadError, articlesReady };
 }
 
 export function createIssueIdResolver(data: GraphData) {

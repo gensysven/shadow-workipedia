@@ -47,26 +47,36 @@ pnpm install --frozen-lockfile
 pnpm typecheck
 pnpm test:router
 
-# public/data.json is a committed artifact on purpose: scripts/extract-data.ts
-# reads ../docs and ../data from the parent shadow-work repository, which a
-# single-repo guest does not have. `build` (not `build:full`) is therefore the
-# correct command here, and it is the same one the deployed build runs.
+# public/graph.json and public/articles.json are committed artifacts on purpose:
+# scripts/extract-data.ts reads ../docs and ../data from the parent shadow-work
+# repository, which a single-repo guest does not have. `build` (not
+# `build:full`) is therefore the correct command here, and it is the same one
+# the deployed build runs.
 pnpm build
 
 # A green build that produced no deployable output is not a green build.
 test -f dist/index.html
-test -f dist/data.json
-test -s dist/data.json
+test -s dist/graph.json
+test -s dist/articles.json
 
 # shellcheck disable=SC2016  # the node script must not be shell-expanded
 node -e '
-const d = JSON.parse(require("fs").readFileSync("dist/data.json", "utf8"));
+const fs = require("fs");
+const d = JSON.parse(fs.readFileSync("dist/graph.json", "utf8"));
+const a = JSON.parse(fs.readFileSync("dist/articles.json", "utf8"));
 const issues = d.nodes.filter(n => n.type === "issue").length;
 const systems = d.nodes.filter(n => n.type === "system").length;
 if (issues < 300) throw new Error(`expected 300+ issue nodes, got ${issues}`);
 if (systems < 20) throw new Error(`expected 20+ system nodes, got ${systems}`);
 if (!d.edges.some(e => e.type === "issue-system")) throw new Error("no issue-system edges");
-console.log(`data.json: ${issues} issues, ${systems} systems, ${d.edges.length} edges`);
+if (d.articles) throw new Error("graph.json must not carry articles — that split is the point");
+const articleCount = Object.keys(a).length;
+if (articleCount < 1000) throw new Error(`expected 1000+ articles, got ${articleCount}`);
+// The graph is what blocks the first paint, so hold the line on its size.
+const graphBytes = fs.statSync("dist/graph.json").size;
+if (graphBytes > 4e6) throw new Error(`graph.json grew to ${graphBytes} bytes; keep the prose in articles.json`);
+console.log(`graph.json: ${issues} issues, ${systems} systems, ${d.edges.length} edges, ${(graphBytes/1e6).toFixed(2)} MB`);
+console.log(`articles.json: ${articleCount} articles`);
 '
 
 echo "shadow-workipedia baseline checks: ok"

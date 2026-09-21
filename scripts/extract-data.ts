@@ -9,7 +9,11 @@ import { loadWikiContent, getWikiArticle, type WikiArticle } from './parse-wiki'
 import { loadRealCountries, syncRealGeography } from './sync-real-geography';
 
 const PARENT_REPO = join(process.cwd(), '..');
-const OUTPUT_PATH = join(process.cwd(), 'public', 'data.json');
+// The graph is the landing view and needs only nodes/edges/metadata, but
+// `articles` is ~84% of the payload. They ship separately so the first paint
+// does not wait on 15 MB of prose it will not draw.
+const GRAPH_OUTPUT_PATH = join(process.cwd(), 'public', 'graph.json');
+const ARTICLES_OUTPUT_PATH = join(process.cwd(), 'public', 'articles.json');
 const AGENT_VOCAB_INPUT_PATH = join(PARENT_REPO, 'data/agent-generation/v1/vocab.json');
 const AGENT_VOCAB_OUTPUT_PATH = join(process.cwd(), 'public', 'agent-vocab.v1.json');
 const AGENT_PRIORS_INPUT_PATH = join(PARENT_REPO, 'data/generated/agent-priors/v1/agent-priors.v1.json');
@@ -2328,7 +2332,11 @@ async function main() {
     },
   };
 
-  writeFileSync(OUTPUT_PATH, JSON.stringify(data, null, 2));
+  // Not pretty-printed: these are generated artifacts, and the indentation
+  // was pure parse cost in the browser.
+  const { articles: extractedArticles, ...graphOnly } = data;
+  writeFileSync(GRAPH_OUTPUT_PATH, JSON.stringify(graphOnly));
+  writeFileSync(ARTICLES_OUTPUT_PATH, JSON.stringify(extractedArticles ?? {}));
 
   let summary = `✅ Extracted ${data.metadata.issueCount} issues, ${data.metadata.systemCount} systems, ${data.metadata.edgeCount} edges, ${data.metadata.articleCount} articles, ${data.metadata.communityCount} communities`;
   if (principleCount > 0) {
@@ -2338,7 +2346,8 @@ async function main() {
     summary += `, ${dataFlows.length} data flows`;
   }
   console.log(summary);
-  console.log(`📦 Wrote to ${OUTPUT_PATH}`);
+  console.log(`\u{1F4E6} Wrote ${GRAPH_OUTPUT_PATH}`);
+  console.log(`\u{1F4E6} Wrote ${ARTICLES_OUTPUT_PATH}`);
 }
 
 main().catch(console.error);

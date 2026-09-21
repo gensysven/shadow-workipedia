@@ -42,7 +42,7 @@ When making CSS or code changes, use `pnpm dev` to see changes instantly without
 Parent Repo                          Shadow Workipedia
 ├─ data/issues/*.yaml        →      ├─ scripts/extract-data.ts
 │  (structured game data)           │  (reads YAML + wiki articles)
-├─ CONNECTIVITY-INDEX.json   →      ├─ public/data.json (generated)
+├─ CONNECTIVITY-INDEX.json   →      ├─ public/graph.json + articles.json (generated)
 └─ wiki/issues/*.md          →      └─ src/main.ts (loads data)
    (generated from YAML)
 ```
@@ -50,8 +50,8 @@ Parent Repo                          Shadow Workipedia
 **Data Flow:**
 1. **Source of truth**: `../data/issues/*.yaml` - structured issue data
 2. **Wiki generation**: `pnpm data:generate-wiki` (in parent repo) → `wiki/issues/*.md`
-3. **Graph extraction**: `pnpm extract-data` reads wiki + catalog → `public/data.json`
-4. **Visualization**: Web app loads `data.json` at runtime
+3. **Graph extraction**: `pnpm extract-data` reads wiki + catalog → `public/graph.json` (nodes/edges) + `public/articles.json` (wiki prose)
+4. **Visualization**: Web app loads `graph.json` at runtime, then `articles.json` in the background
 
 **Commands:**
 ```bash
@@ -61,7 +61,7 @@ pnpm data:generate-wiki   # Generate wiki from YAML (after editing YAML)
 pnpm data:validate        # Validate YAML against schema
 
 # In this repo (shadow-workipedia/)
-pnpm extract-data         # Generate data.json from wiki articles
+pnpm extract-data         # Generate graph.json + articles.json from wiki articles
 ```
 
 **Key Points:**
@@ -190,7 +190,8 @@ pnpm build           # Build static site
 **Build Output:**
 - `dist/index.html` - Single HTML file with meta tags
 - `dist/assets/` - Bundled JS/CSS (cache-friendly hashes)
-- `dist/data.json` - Graph data (loaded at runtime)
+- `dist/graph.json` - Graph data, blocks first paint (loaded at runtime)
+- `dist/articles.json` - Wiki prose, ~84% of the old payload (loaded lazily)
 - `dist/og-image.svg` - Social media preview image
 
 ## Common Issues
